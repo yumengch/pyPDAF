@@ -134,3 +134,4 @@ dmypy.json
 *.pyc
 *.npz
 *.a
+*.c
