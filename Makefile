@@ -19,22 +19,18 @@ BASEDIR=../PDAF-D_V1.16/
 PWD=$(shell pwd)
 # fortran source code directory
 FORTRAN_DIR=$(PWD)/pyPDAF/fortran
-CythonDIR=$(PWD)/pyPDAF
-LibDir=$(PWD)/lib
+pyPDAF_DIR=$(PWD)/pyPDAF
 # Include machine-specific definitions
 # For available include files see directory make.arch
 # To choose a file, set PDAF_ARCH either here or by an
 # environment variable.
-include $(PWD)/linux_gfortran_openmpi.h
-
-# EXT_SUFFIX := $(shell python3-config --extension-suffix)
 
 # End of user specifications
 ######################################################
 
 ######################################################
 
-all: libpdaf-d.a libPDAFc # pybinding
+all: libpdaf-d.a
 
 info:
 	@echo "Makefile to build PDAF tutorial online implementation";
@@ -53,6 +49,7 @@ libpdaf-d.a:
 	@cd $(BASEDIR)/src; make;
 
 clean :
-	@cd $(FORTRAN_DIR); $(MAKE) clean
-	rm -rf $(CythonDIR)/PDAF/*.so $(CythonDIR)/PDAF/*.c $(CythonDIR)/Cython/*.so $(CythonDIR)/Cython/*.c build/
+	rm -rf build/ pyPDAF.egg-info/
+	rm -rf $(pyPDAF_DIR)/PDAF/*.so $(pyPDAF_DIR)/PDAF/*.c \
+			$(pyPDAF_DIR)/Cython/*.so $(pyPDAF_DIR)/Cython/*.c
 
