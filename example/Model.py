@@ -39,7 +39,7 @@ class Model:
         do_print = do_print or \
             (pe.task_id == 1 and pe.mype_model == 0 and not USE_PDAF) 
         if do_print:
-            print('MODEL-side: INITIALIZE PARALLELIZED Lorenz 96' 
+            print('MODEL-side: INITIALIZE PARALLELIZED Shifting model' 
                 ' MODEL')
             print('Grid size:', self.nx)
             print('Time steps', self.total_steps)

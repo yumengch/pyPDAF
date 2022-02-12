@@ -1,4 +1,7 @@
 """Implementation file for the user-defined routines in PDAF
+
+The main goal of this file is to convert PDAF given Fortran
+array/pointers to numpy arrays
 """
 import numpy as np
 
@@ -14,9 +17,14 @@ def py__init_ens_pdaf(filtertype, state_p, uinv, ens_p):
         1D state vector on local PE
     uinv : ndarray
         2D left eigenvector with shape (dim_ens - 1,dim_ens - 1)
-    ens_p : TYPE
-        Description
+    ens_p : ndarray
+        ensemble state vector on local PE (dim_ens, dim_p)
     
+    Returns
+    -------
+        status_pdaf : int
+    
+
     Raises
     ------
     RuntimeError
@@ -25,12 +33,12 @@ def py__init_ens_pdaf(filtertype, state_p, uinv, ens_p):
     raise RuntimeError('...Wrong init_ens_pdaf is called!!!...')
 
 def py__distribute_state_pdaf(state_p):
-    """Summary
+    """Distribute state vector to model field
     
     Parameters
     ----------
-    state_p : TYPE
-        Description
+    state_p : ndarray
+        1D state vector on local PE
     
     Raises
     ------
@@ -40,12 +48,12 @@ def py__distribute_state_pdaf(state_p):
     raise RuntimeError('...Wrong distribute_state_pdaf is called!!!...')
 
 def py__collect_state_pdaf(state_p):
-    """Summary
+    """Collect state vector in PDAF from model
     
     Parameters
     ----------
-    state_p : TYPE
-        Description
+    state_p : ndarray
+        1D state vector on local PE
     
     Raises
     ------
@@ -55,19 +63,28 @@ def py__collect_state_pdaf(state_p):
     raise RuntimeError('...Wrong collect_state_pdaf is called!!!...')
 
 def py__next_observation_pdaf(stepnow, nsteps, doexit, time):
-    """Summary
+    """The time for the next observation
     
     Parameters
     ----------
-    stepnow : TYPE
-        Description
-    nsteps : TYPE
-        Description
-    doexit : TYPE
-        Description
-    time : TYPE
-        Description
-    
+    stepnow : int
+        Current time step
+    nsteps : int
+        steps between assimilation
+    doexit : int
+        Whether exit PDAF assimilation
+    time : double
+        Current model time
+
+    Returns
+    -------
+        nsteps : int
+            steps between assimilation
+        doexit : int
+            Whether exit PDAF assimilation
+        time : double
+            Current model time
+
     Raises
     ------
     RuntimeError
@@ -76,18 +93,18 @@ def py__next_observation_pdaf(stepnow, nsteps, doexit, time):
     raise RuntimeError('...Wrong next_observation_pdaf is called!!!...')
 
 def py__prepoststep_ens_pdaf(step, state_p, uinv, ens_p):
-    """Summary
+    """Preprocess and post-process of forecast and ensemble.
     
     Parameters
     ----------
-    step : TYPE
-        Description
-    state_p : TYPE
-        Description
-    uinv : TYPE
-        Description
-    ens_p : TYPE
-        Description
+    step : int
+        Current time step
+    state_p : ndarray
+        1D state vector on local PE
+    uinv : ndarray
+        2D left eigenvector with shape (dim_ens - 1,dim_ens - 1)
+    ens_p : ndarray
+        ensemble state vector on local PE (dim_ens, dim_p)
     
     Raises
     ------

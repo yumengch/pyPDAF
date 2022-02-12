@@ -14,9 +14,6 @@ pwd = os.getcwd()
 # assuming the directory of PDAF directory
 PDAFdir=f'{pwd}/../PDAF-D_V1.16'
 
-# mpi linker requierments
-mpi_lib_opnempi = ['mpi_usempif08', 'mpi_mpifh', 'mpi']
-mpi_lib_mpich = ['mpifort', 'mpi']
 # compiler 
 os.environ["CC"] = "gcc-7"
 compilier_options = ['-fPIC']
@@ -24,7 +21,10 @@ compilier_options = ['-fPIC']
 inc_dirs = [numpy.get_include(), f'{pwd}/pyPDAF/PDAF/', f'{pwd}/build/']
 # linking options
 lib_dirs = [f'{PDAFdir}/lib', '/lib/x86_64-linux-gnu/']
-libs = ['pdaf-d', ':libgfortran.so.4', 'm', 'lapack', 'blas'] + mpi_lib_opnempi
+# mpi linker requierments
+lib_opnempi = ['mpi_usempif08', 'mpi_mpifh', 'mpi']
+lib_mpich = ['mpifort', 'mpi']
+libs = ['pdaf-d', ':libgfortran.so.4', 'm', 'lapack', 'blas'] + lib_opnempi
 extra_link_args = []
 objs = []
 f90_files = glob.glob(os.path.join('pyPDAF', 'fortran', '*.F90'))
