@@ -58,7 +58,9 @@ class OBS:
         # lie within the process sub-domain
         pe_start = nx_p[-1]*mype_filter
         pe_end = nx_p[-1]*(mype_filter+1)
-        obs_field_p = obs_field[pe_start:pe_end]
+        obs_field_p = obs_field[:, pe_start:pe_end]
+        assert tuple(nx_p) == obs_field_p.shape, \
+                'observation decomposition should be the same as the model decomposition'
         cnt_p = np.count_nonzero(obs_field_p > -999.0)
         self.dim_obs_p = cnt_p
 
@@ -68,7 +70,7 @@ class OBS:
         if self.dim_obs_p > 0:
             self.set_obs_p(nx_p, obs_field_p)
             self.set_id_obs_p(nx_p, obs_field_p)
-            self.set_ocoord_p(obs_field_p)
+            self.set_ocoord_p(obs_field_p, pe_start)
             self.set_ivar_obs_p()
         else:
             self.obs_p = np.zeros(1)
@@ -79,21 +81,21 @@ class OBS:
         self.set_PDAFomi(local_range)
 
     def set_obs_p(self, nx_p, obs_field_p):
-        obs_field_tmp = obs_field_p.reshape(np.prod(obs_field_p.shape), order='F')
+        obs_field_tmp = obs_field_p.reshape(np.prod(nx_p), order='F')
         self.obs_p = np.zeros(self.dim_obs_p)
         self.obs_p[:self.dim_obs_p] = obs_field_tmp[obs_field_tmp > -999]
 
     def set_id_obs_p(self, nx_p, obs_field_p):
         self.id_obs_p = np.zeros((self.nrows, self.dim_obs_p))
-        obs_field_tmp = obs_field_p.reshape(np.prod(obs_field_p.shape), order='F')
+        obs_field_tmp = obs_field_p.reshape(np.prod(nx_p), order='F')
         cnt0_p = np.where(obs_field_tmp > -999)[0] + 1
         assert len(cnt0_p) == self.dim_obs_p, 'dim_obs_p should equal cnt0_p'
         self.id_obs_p[0, :self.dim_obs_p] = cnt0_p
 
-    def set_ocoord_p(self, obs_field_p):
+    def set_ocoord_p(self, obs_field_p, offset):
         self.ocoord_p = np.zeros((self.ncoord, self.dim_obs_p))
-        self.ocoord_p[0, :self.dim_obs_p] = np.where(obs_field_p.T > -999)[0] + 1
-        self.ocoord_p[1, :self.dim_obs_p] = np.where(obs_field_p.T > -999)[1] + 1
+        self.ocoord_p[0, :self.dim_obs_p] = np.where(obs_field_p.T > -999)[0] + 1 + offset
+        self.ocoord_p[1, :self.dim_obs_p] = np.where(obs_field_p.T > -999)[1] + 1 + offset
 
     def set_ivar_obs_p(self):
         self.ivar_obs_p = np.ones(

@@ -2,15 +2,13 @@ from parallelization import parallelization
 import Model
 import OBS
 import DAS
-
-
 from model import shift
+
 import numpy as np
 from mpi4py import MPI
 
 USE_PDAF = True
 nt = 100
-# obs = np.load('lib/trajectory.npz')['obs']
 
 if USE_PDAF:
     pe = parallelization(dim_ens=4, n_modeltasks=4, screen=0)
