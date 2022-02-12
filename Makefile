@@ -17,8 +17,6 @@
 BASEDIR=../PDAF-D_V1.16/
 # current directory
 PWD=$(shell pwd)
-# fortran source code directory
-FORTRAN_DIR=$(PWD)/pyPDAF/fortran
 pyPDAF_DIR=$(PWD)/pyPDAF
 # Include machine-specific definitions
 # For available include files see directory make.arch
@@ -30,16 +28,13 @@ pyPDAF_DIR=$(PWD)/pyPDAF
 
 ######################################################
 
-all: libpdaf-d.a
+all: libpdaf-d.a pyPDAF
 
 info:
 	@echo "Makefile to build PDAF tutorial online implementation";
 	@echo "Example: 2D serial model (without parallelization)";
 
-libPDAFc: 
-	@cd $(FORTRAN_DIR); $(MAKE) libPDAFc
-
-pybinding:
+pyPDAF:
 	python setup.py build_ext --inplace
 
 ######################################################
@@ -47,6 +42,9 @@ pybinding:
 libpdaf-d.a: 
 	@echo "++++++ Generate Filter library ++++++"
 	@cd $(BASEDIR)/src; make;
+
+clean_PDAF :
+	@cd $(BASEDIR)/src; make clean;
 
 clean :
 	rm -rf build/ pyPDAF.egg-info/
