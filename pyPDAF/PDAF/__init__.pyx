@@ -8,40 +8,31 @@ cimport pyPDAF.Cython.c__PDAFomi as c__PDAFomi
 
 import numpy as np
 
-def init(filtertype, subtype, filter_param_i,   
-              filter_param_r, COMM_model, COMM_filter, 
-              COMM_couple, task_id, n_modeltasks, filterpe, 
-              py__init_ens_pdaf, screen):
-    cdef int c__filtertype = filtertype
-    cdef int c__subtype = subtype
+def init(int filtertype, int subtype, 
+         filter_param_i,  filter_param_r, 
+         int COMM_model, int COMM_filter, 
+         int COMM_couple, int task_id, 
+         int n_modeltasks, bint filterpe, 
+         py__init_ens_pdaf, int screen):
     cdef int[::1] filter_param_i_view = np.array(
                                     filter_param_i, 
                                     dtype=np.intc)
-    cdef int c__dim_pint = len(filter_param_i)
+    cdef int dim_pint = len(filter_param_i)
     cdef double[::1] filter_param_r_view = filter_param_r
-    cdef int c__dim_preal = len(filter_param_r)
-
-    cdef int c__COMM_model_f = COMM_model
-    cdef int c__COMM_filter_f = COMM_filter
-    cdef int c__COMM_couple_f = COMM_couple
-
-    cdef int c__task_id = task_id
-    cdef int c__n_modeltasks = n_modeltasks
-    cdef bint c__filterpe = filterpe
-    cdef int c__screen = screen
+    cdef int dim_preal = len(filter_param_r)
 
     cdef int status_pdaf
 
     PDAFcython.py__init_ens_pdaf = py__init_ens_pdaf
 
-    c__pdaf_init(&c__filtertype, &c__subtype,
-        &filter_param_i_view[0], &c__dim_pint,
-        &filter_param_r_view[0], &c__dim_preal,
-        &c__COMM_model_f, &c__COMM_filter_f,
-        &c__COMM_couple_f,
-        &c__task_id, &c__n_modeltasks,
-        &c__filterpe, c__PDAFcython.c__init_ens_pdaf,
-        &c__screen,
+    c__pdaf_init(&filtertype, &subtype,
+        &filter_param_i_view[0], &dim_pint,
+        &filter_param_r_view[0], &dim_preal,
+        &COMM_model, &COMM_filter,
+        &COMM_couple,
+        &task_id, &n_modeltasks,
+        &filterpe, c__PDAFcython.c__init_ens_pdaf,
+        &screen,
         &status_pdaf)
 
     return status_pdaf

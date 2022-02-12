@@ -54,18 +54,18 @@ def py__init_n_domains_pdaf(step, n_domains_p):
     raise RuntimeError('...Wrong init_n_domains_pdaf is called!!!...')
 
 def py__g2l_state_pdaf(step, domain_p, state_p, state_l):
-    """Summary
+    """Convert from global state vector to local
     
     Parameters
     ----------
-    step : TYPE
-        Description
-    domain_p : TYPE
-        Description
-    state_p : TYPE
-        Description
-    state_l : TYPE
-        Description
+    step : int
+        current time step
+    domain_p : int
+        current local analysis domain
+    state_p : ndarray
+        pe-local full state vector (shape: (dim_p))
+    state_l : ndarray
+        state vector on local analysis domain (shape: (dim_l))
     
     Raises
     ------
@@ -75,18 +75,18 @@ def py__g2l_state_pdaf(step, domain_p, state_p, state_l):
     raise RuntimeError('...Wrong distribute_state_pdaf is called!!!...')
 
 def py__l2g_state_pdaf(step, domain_p, state_l, state_p):
-    """Summary
+    """Convert from local state vector to global
     
     Parameters
     ----------
-    step : TYPE
-        Description
-    domain_p : TYPE
-        Description
-    state_l : TYPE
-        Description
-    state_p : TYPE
-        Description
+    step : int
+        current time step
+    domain_p : int
+        current local analysis domain
+    state_l : ndarray
+        state vector on local analysis domain (shape: (dim_l))
+    state_p : ndarray
+        pe-local full state vector (shape: (dim_p))
     
     Raises
     ------
