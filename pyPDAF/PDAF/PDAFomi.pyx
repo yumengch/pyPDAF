@@ -41,10 +41,8 @@ def set_use_global_obs(i_obs, use_global_obs):
     cdef int c__use_global_obs = use_global_obs
     c__set_pdafomi_use_global_obs(&c__i_obs, &c__use_global_obs)
 
-def gather_obs(i_obs, obs_p, ivar_obs_p, 
+def gather_obs(i_obs, int dim_obs_p, int nrows, obs_p, ivar_obs_p, 
                 ocoord_p, local_range):
-    cdef int nrows, dim_obs_p
-    nrows, dim_obs_p = ocoord_p.shape
     cdef int c__i_obs = i_obs
     cdef double c__local_range = local_range
     cdef double[::1, ::] ocoord_p_view = np.array(ocoord_p, order='F')

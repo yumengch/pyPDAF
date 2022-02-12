@@ -170,15 +170,16 @@ class parallelization:
 
     def isCPUConsistent(self):
         """Check consistency of number of parallel ensemble tasks"""
-        try:
-            assert self.n_modeltasks == self.npes_world
-            # parallel tasks is not identical to available PEs
-            # This needs to hold for a model without parallelization
-        except AssertionError:
-            if (self.mype_world == 0):
-                print((f'!!! ERROR: dim_ens {self.n_modeltasks} '
-                        f'must equal number of processes {self.npes_world}!'))
-            self.abort_parallel()
+        pass
+        # try:
+        #     assert self.n_modeltasks == self.npes_world
+        #     # parallel tasks is not identical to available PEs
+        #     # This needs to hold for a model without parallelization
+        # except AssertionError:
+        #     if (self.mype_world == 0):
+        #         print((f'!!! ERROR: dim_ens {self.n_modeltasks} '
+        #                 f'must equal number of processes {self.npes_world}!'))
+        #     self.abort_parallel()
 
     def isTaskConsistent(self, dim_ens):
         """Check consistency of number of model tasks"""

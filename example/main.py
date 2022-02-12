@@ -13,7 +13,7 @@ nt = 100
 # obs = np.load('lib/trajectory.npz')['obs']
 
 if USE_PDAF:
-    pe = parallelization(dim_ens=9, n_modeltasks=9, screen=0)
+    pe = parallelization(dim_ens=4, n_modeltasks=4, screen=0)
 
 # Initial Screen output
 if (pe.mype_world==0):

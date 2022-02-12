@@ -79,13 +79,13 @@ class OBS:
         self.set_PDAFomi(local_range)
 
     def set_obs_p(self, nx_p, obs_field_p):
-        obs_field_tmp = obs_field_p.reshape(np.prod(nx_p), order='F')
+        obs_field_tmp = obs_field_p.reshape(np.prod(obs_field_p.shape), order='F')
         self.obs_p = np.zeros(self.dim_obs_p)
         self.obs_p[:self.dim_obs_p] = obs_field_tmp[obs_field_tmp > -999]
 
     def set_id_obs_p(self, nx_p, obs_field_p):
         self.id_obs_p = np.zeros((self.nrows, self.dim_obs_p))
-        obs_field_tmp = obs_field_p.reshape(np.prod(nx_p), order='F')
+        obs_field_tmp = obs_field_p.reshape(np.prod(obs_field_p.shape), order='F')
         cnt0_p = np.where(obs_field_tmp > -999)[0] + 1
         assert len(cnt0_p) == self.dim_obs_p, 'dim_obs_p should equal cnt0_p'
         self.id_obs_p[0, :self.dim_obs_p] = cnt0_p
@@ -132,6 +132,8 @@ class OBS:
         if self.icoeff_p is not None:
             PDAFomi.set_icoeff_p(self.i_obs, self.icoeff_p)
         self.dim_obs = PDAFomi.gather_obs(self.i_obs, 
+                                          self.dim_obs_p,
+                                          self.nrows,
                                           self.obs_p, 
                                           self.ivar_obs_p, 
                                           self.ocoord_p, 

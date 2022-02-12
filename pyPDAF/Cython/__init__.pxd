@@ -1,3 +1,8 @@
+"""Declaration file of pyPDAF.
+
+The declaration file declares the user-defined PDAF subroutines
+in C language format. 
+"""
 cdef void c__init_ens_pdaf(int* filtertype, int* dim_p, int* dim_ens, 
 	                       double* state_p, double* uinv, 
                            double* ens_p, int* flag)

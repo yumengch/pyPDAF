@@ -154,7 +154,7 @@ class assimilate_pdaf:
                                               U_next_observation_pdaf)
 
         if status != 0:
-            print(('ERROR ', status_pdaf, 
+            print(('ERROR ', status, 
                     ' in PDAF_put_state - stopping! (PE ', 
                         pe.mype_world,')'))
             pe.abort_parallel()

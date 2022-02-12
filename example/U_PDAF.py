@@ -83,10 +83,12 @@ def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
             pe.COMM_filter.Send(ens_p[:], 0, pe.mype_filter)
         else:
             ens[:, :dim_p] = ens_p
+            ens_tmp = np.zeros(ens_p.shape)
             for i in range(1, pe.npes_filter):
                 pe.COMM_filter.Recv(
-                                ens[:, i*dim_p:(i+1)*dim_p], i, i)
-
+                                ens_tmp, i, i)
+                print(np.isfortran(ens))
+                ens[:, i*dim_p:(i+1)*dim_p] = ens_tmp[:, :]
             print('--- write ensemble and state estimate')
 
             stepstr = step if step >= 0 else -step
@@ -96,17 +98,18 @@ def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
                 filename = f'ens_{i}_step{stepstr}_{anastr}.txt'
                 np.savetxt(filename, field, delimiter=';')
 
-            if pe.mype_filter != 0:
-                pass
-                pe.COMM_filter.Send(state_p, 0, pe.mype_filter)
-            else:
-                state[:dim_p] = state_p[:]
-                for i in range(1, pe.npes_filter):
-                    pe.COMM_filter.Recv(
-                                state[i*dim_p:(i+1)*dim_p], i, i)
-                filename = f'state_step{stepstr}_{anastr}.txt'
-                np.savetxt(filename, state_p.reshape(*model.nx, order='F')
-                                                    , delimiter=';')
+        if pe.mype_filter != 0:
+            pe.COMM_filter.Send(state_p, 0, pe.mype_filter)
+        else:
+            state[:dim_p] = state_p[:]
+            state_p_tmp = np.zeros(state_p.shape, order='F')
+            for i in range(1, pe.npes_filter):
+                pe.COMM_filter.Recv(
+                            state_p_tmp, i, i)
+                state[i*dim_p:(i+1)*dim_p] = state_p_tmp
+            filename = f'state_step{stepstr}_{anastr}.txt'
+            np.savetxt(filename, state.reshape(*model.nx, order='F')
+                                                , delimiter=';')
 
     U_PDAFomi.deallocate_obs_pdafomi(obs, step)
 

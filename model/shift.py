@@ -7,7 +7,7 @@ def step(model, pe, istep):
 
     model.field_p = np.roll(model.field_p, 1, axis=0)
 
-    field = np.zeros(model.nx)
+    field = np.zeros(model.nx, order='F')
 
 
     pe.COMM_model.Gather(model.field_p, field, 0)

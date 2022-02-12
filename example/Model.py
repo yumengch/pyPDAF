@@ -25,7 +25,7 @@ class Model:
             
     def init_field(self, filename, mype_model):
         # model field
-        self.field_p = np.zeros(self.nx_p)
+        self.field_p = np.zeros(self.nx_p, order='F')
         offset = self.nx_p[-1]*mype_model
         self.field_p[:] = np.loadtxt(
                                     filename
