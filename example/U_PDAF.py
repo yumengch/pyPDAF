@@ -43,7 +43,6 @@ def next_observation_pdaf(model, pe, delt_obs,
 def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
                             step, state_p, uinv, ens_p):
     global firsttime
-    print(('prepoststep_ens_pdaf:', firsttime))
     if (firsttime):
         print( 'Analyze initial state ensemble')
         anastr = 'ini'
@@ -69,7 +68,6 @@ def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
             pe.COMM_filter.Recv(
                               variance[i*dim_p:(i+1)*dim_p], i, i)
 
-    truth = np.random.random(dim_ens)
     rmserror_est = np.sqrt(np.sum(
                             variance
                                  )/assim_dim.dim_state)
@@ -87,7 +85,6 @@ def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
             for i in range(1, pe.npes_filter):
                 pe.COMM_filter.Recv(
                                 ens_tmp, i, i)
-                print(np.isfortran(ens))
                 ens[:, i*dim_p:(i+1)*dim_p] = ens_tmp[:, :]
             print('--- write ensemble and state estimate')
 
@@ -102,7 +99,7 @@ def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
             pe.COMM_filter.Send(state_p, 0, pe.mype_filter)
         else:
             state[:dim_p] = state_p[:]
-            state_p_tmp = np.zeros(state_p.shape, order='F')
+            state_p_tmp = np.zeros(state_p.shape)
             for i in range(1, pe.npes_filter):
                 pe.COMM_filter.Recv(
                             state_p_tmp, i, i)

@@ -110,7 +110,6 @@ class assimilate_pdaf:
                                         U_PDAFomi.obs_op_pdafomi, 
                                         obs)
 
-
         if (localfilter==1):
             U_init_n_domains_pdaf = functools.partial(
                                         localization.init_n_domains_pdaf,

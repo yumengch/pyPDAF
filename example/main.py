@@ -11,7 +11,7 @@ USE_PDAF = True
 nt = 100
 
 if USE_PDAF:
-    pe = parallelization(dim_ens=4, n_modeltasks=4, screen=0)
+    pe = parallelization(dim_ens=4, n_modeltasks=4, screen=2)
 
 # Initial Screen output
 if (pe.mype_world==0):
@@ -26,10 +26,10 @@ for typename in ['A', 'B']:
     obs.append(OBS.OBS(typename, pe.mype_filter, 
                         model.nx, 1, 2, 0.5))
 
-das = DAS.DAS(pe, model, obs)
+das = DAS.DAS(pe, model, obs, screen=2)
 das.init()
 
 for it in range(2):
-    das.forward(it)
+    das.forward(it, USE_PDAF)
 
 pe.finalize_parallel()

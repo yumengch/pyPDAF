@@ -25,14 +25,14 @@ class Model:
             
     def init_field(self, filename, mype_model):
         # model field
-        self.field_p = np.zeros(self.nx_p, order='F')
+        self.field_p = np.zeros(self.nx_p)
         offset = self.nx_p[-1]*mype_model
         self.field_p[:] = np.loadtxt(
                                     filename
                                     )[:, offset:self.nx_p[-1] + offset]
 
-    def step(self, pe, istep):
-        model.shift.step(self, pe, istep)
+    def step(self, pe, istep, USE_PDAF):
+        model.shift.step(self, pe, istep, USE_PDAF)
 
     def printInfo(self, USE_PDAF, pe):
         do_print = USE_PDAF and pe.mype_model == 0

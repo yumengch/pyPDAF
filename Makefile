@@ -48,6 +48,7 @@ clean_PDAF :
 
 clean :
 	rm -rf build/ pyPDAF.egg-info/
+	rm -rf *.mod *.o
 	rm -rf $(pyPDAF_DIR)/PDAF/*.so $(pyPDAF_DIR)/PDAF/*.c \
 			$(pyPDAF_DIR)/Cython/*.so $(pyPDAF_DIR)/Cython/*.c
 

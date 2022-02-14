@@ -14,7 +14,6 @@ def obs_op_pdafomi(list_of_obs, step, state_p, ostate):
     for obs in list_of_obs:
         obs.obs_op(step, state_p, ostate)
 
-
 def init_dim_obs_l_pdafomi(list_of_obs, localization, 
                                 domain_p, step, dim_obs, dim_obs_l):
     for obs in list_of_obs:

@@ -18,45 +18,48 @@ PDAFdir=f'{pwd}/../PDAF-D_V1.16'
 os.environ["CC"] = "gcc-7"
 compilier_options = ['-fPIC']
 # include directory
-inc_dirs = [numpy.get_include(), f'{pwd}/pyPDAF/PDAF/', f'{pwd}/build/']
+inc_dirs = [numpy.get_include(), f'{pwd}/pyPDAF/PDAF/']
 # linking options
-lib_dirs = [f'{PDAFdir}/lib', '/lib/x86_64-linux-gnu/']
-# mpi linker requierments
-lib_opnempi = ['mpi_usempif08', 'mpi_mpifh', 'mpi']
-lib_mpich = ['mpifort', 'mpi']
-libs = ['pdaf-d', ':libgfortran.so.4', 'm', 'lapack', 'blas'] + lib_opnempi
+lib_dirs = ['lib']
+# Cython set-up will automatically add -l as a prefix to the following libs options
+# For example, 'PDAFc' becomes -lPDAFc in final compilation
+libs = ['PDAFc']
 extra_link_args = []
 objs = []
-f90_files = glob.glob(os.path.join('pyPDAF', 'fortran', '*.F90'))
-for f in f90_files:
-    objs.append(f'build/{os.path.basename(f[:-4])}.o')
-
-
-# fortran compiler options
-FC = 'mpif90'
-# compiler options
-OPT = '-O3 -fdefault-real-8 -fPIC -Jbuild/'
-# include directory
-INC = f'-I/{PDAFdir}/include'
-# CPP
-CPP_DEFS = '-DUSE_PDAF'
 
 class PreDevelopCommand(develop):
     """Pre-installation for development mode.
         compiling PDAF iso_c_binding interface
     """
     def run(self):
-        os.makedirs('build', exist_ok=True)
-        for src, obj in zip(f90_files, objs):
-            cmd = f'{FC} {OPT} {CPP_DEFS} -I{PDAFdir}/include -c {src} -o {obj}'
+        # fortran compiler options for 
+        FC = 'mpif90'
+        # compiler options
+        OPT = '-O3 -fdefault-real-8 -fPIC'
+        # include directory
+        INC = f'-I/{PDAFdir}/include'
+        LINK_LIBS='-llapack -lblas'
+        # CPP
+        CPP_DEFS = '-DUSE_PDAF'
+
+        f90_files = glob.glob(os.path.join('pyPDAF', 'fortran', '*.F90'))
+        objs = []
+        for src in f90_files:
+            objs.append(f'{os.path.basename(src[:-4])}.o')
+            cmd = f'{FC} {OPT} {CPP_DEFS} -I{PDAFdir}/include -c {src} -o {objs[-1]}'
+            print(cmd)
             os.system(cmd)
+        objs = ' '.join(objs)
+        cmd = f'{FC} {objs} -shared -L{PDAFdir}/lib -lpdaf-d {LINK_LIBS} -o lib/libPDAFc.so'
+        print(cmd)
+        os.system(cmd)
         develop.run(self)
 
 
 ext_modules = [Extension('*',
                          [f'{pwd}/pyPDAF/PDAF/*.pyx'],
                          extra_compile_args=compilier_options,
-                         library_dirs = lib_dirs,
+                         library_dirs=lib_dirs,
                          libraries=libs,
                          extra_objects=objs,
                          extra_link_args=extra_link_args

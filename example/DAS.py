@@ -50,10 +50,11 @@ class AssimilationDimensions:
 
 
 class DAS:
-    def __init__(self, pe, model, obs):
+    def __init__(self, pe, model, obs, screen):
         self.pe = pe
         self.model = model
         self.obs = obs
+        self.screen = screen
 
     def init(self):
         # init model
@@ -79,11 +80,12 @@ class DAS:
                                         self.filter_options, 
                                         self.localization,
                                         self.model, self.pe, 
-                                        self.obs, 0)
+                                        self.obs, self.screen)
 
-    def forward(self, istep):
-        self.model.step(self.pe, istep)
-        PDAF_caller.assimilate_pdaf(self.model, self.obs, self.pe, 
-                        self.assim_dim, self.localization, 
-                        self.filter_options.filtertype)
+    def forward(self, istep, USE_PDAF):
+        self.model.step(self.pe, istep, USE_PDAF)
+        if USE_PDAF:
+            PDAF_caller.assimilate_pdaf(self.model, self.obs, self.pe, 
+                            self.assim_dim, self.localization, 
+                            self.filter_options.filtertype)
 

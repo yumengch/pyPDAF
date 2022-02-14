@@ -7,7 +7,6 @@ A (incomplete) Python interface to the Fortran based data assimilation package -
 ## Installation:
 - Setup conda environment:
 ```bash conda env create -f environment.yml```
-- Compile the Fortran-C interface: ```make```
 - Install Python package: ```pip install -e .```
 
 ## Run example:

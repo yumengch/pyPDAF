@@ -36,7 +36,7 @@ class OBS:
 
         # Size of domain for periodicity for disttype=1 
         # (<0 for no periodicity)
-        self.domainsize = np.zeros(self.ncoord, order='F')
+        self.domainsize = np.zeros(self.ncoord)
         self.domainsize[0] = nx[1]
         self.domainsize[1] = nx[0]
 
@@ -58,7 +58,7 @@ class OBS:
         # lie within the process sub-domain
         pe_start = nx_p[-1]*mype_filter
         pe_end = nx_p[-1]*(mype_filter+1)
-        obs_field_p = np.array(obs_field[:, pe_start:pe_end], order='F')
+        obs_field_p = obs_field[:, pe_start:pe_end]
         assert tuple(nx_p) == obs_field_p.shape, \
                 'observation decomposition should be the same as the model decomposition'
         cnt_p = np.count_nonzero(obs_field_p > -999.0)
@@ -73,29 +73,30 @@ class OBS:
             self.set_ocoord_p(obs_field_p, pe_start)
             self.set_ivar_obs_p()
         else:
-            self.obs_p = np.zeros(1, order='F')
-            self.ivar_obs_p = np.zeros(1, order='F')
-            self.ocoord_p = np.zeros((self.ncoord, 1), order='F')
-            self.id_obs_p = np.zeros((self.nrows, 1), order='F')
+            self.obs_p = np.zeros(1)
+            self.ivar_obs_p = np.zeros(1)
+            self.ocoord_p = np.zeros((self.ncoord, 1))
+            self.id_obs_p = np.zeros((self.nrows, 1))
 
         self.set_PDAFomi(local_range)
 
     def set_obs_p(self, nx_p, obs_field_p):
         obs_field_tmp = obs_field_p.reshape(np.prod(nx_p), order='F')
-        self.obs_p = np.zeros(self.dim_obs_p, order='F')
+        self.obs_p = np.zeros(self.dim_obs_p)
         self.obs_p[:self.dim_obs_p] = obs_field_tmp[obs_field_tmp > -999]
 
     def set_id_obs_p(self, nx_p, obs_field_p):
-        self.id_obs_p = np.zeros((self.nrows, self.dim_obs_p), order='F')
+        self.id_obs_p = np.zeros((self.nrows, self.dim_obs_p))
         obs_field_tmp = obs_field_p.reshape(np.prod(nx_p), order='F')
         cnt0_p = np.where(obs_field_tmp > -999)[0] + 1
         assert len(cnt0_p) == self.dim_obs_p, 'dim_obs_p should equal cnt0_p'
         self.id_obs_p[0, :self.dim_obs_p] = cnt0_p
 
     def set_ocoord_p(self, obs_field_p, offset):
-        self.ocoord_p = np.zeros((self.ncoord, self.dim_obs_p), order='F')
-        self.ocoord_p[0, :self.dim_obs_p] = np.where(obs_field_p.T > -999)[0] + 1 + offset
-        self.ocoord_p[1, :self.dim_obs_p] = np.where(obs_field_p.T > -999)[1] + 1 + offset
+        self.ocoord_p = np.zeros((self.ncoord, self.dim_obs_p))
+        ix, iy = np.where(obs_field_p.T > -999)
+        self.ocoord_p[0, :self.dim_obs_p] = ix + 1 + offset
+        self.ocoord_p[1, :self.dim_obs_p] = iy + 1
 
     def set_ivar_obs_p(self):
         self.ivar_obs_p = np.ones(
@@ -103,7 +104,7 @@ class OBS:
                                 )/(self.rms_obs*self.rms_obs)
 
     def get_obs_field(self, step, nx):
-        obs_field = np.zeros(nx, order='F')
+        obs_field = np.zeros(nx)
         obs_field[:] = np.loadtxt(f'inputs_online/obs_step{step}.txt')
         if self.i_obs == 1:
             # Make the observations at (8,5), (12,15) and (4,30) invalid
