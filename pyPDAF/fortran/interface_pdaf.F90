@@ -1,8 +1,44 @@
+! pyPDAF
+! Copyright (C) 2022 University of Reading and National Centre for Earth Observation
+
+! This program is free software: you can redistribute it and/or modify
+! it under the terms of the GNU General Public License as published by
+! the Free Software Foundation, either version 3 of the License, or
+! (at your option) any later version.
+
+! This program is distributed in the hope that it will be useful,
+! but WITHOUT ANY WARRANTY; without even the implied warranty of
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+! GNU General Public License for more details.
+
+! You should have received a copy of the GNU General Public License
+! along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+!BOP
+!
+! !ROUTINE: interface_pdaf --- C binding wrapping for PDAF subroutines
+!
+! !INTERFACE:
 module interface_pdaf
+! !DESCRIPTION:
+! Module providing C binding subroutine wrapping of the PDAF routines that
+! are called from the model code.
+!
+! For detailed description of each subroutine in this module, consulting
+! https://pdaf.awi.de/trac/wiki/RoutineOverviews
+!
+!
+! !REVISION HISTORY:
+! 2022-02 - Yumeng Chen - Initial code
+!EOP
 use pdafomi, only: obs_f, obs_l
 implicit none
 
 abstract interface
+   ! !DESCRIPTION:
+   ! Explicit interface routine for PDAF user-supplied routines.
+   ! See PDAF wiki for detailed description:
+   ! https://pdaf.awi.de/trac/wiki/OverviewOfUserRoutinesWithDefaultNames
    subroutine c__init_ens_pdaf(filtertype, dim_p, dim_ens, &
          state_p, uinv, ens_p, flag) bind(c)
       use iso_c_binding, only: c_double, c_int
@@ -199,6 +235,7 @@ abstract interface
    end subroutine c__l2g_state_pdaf
 end interface
 
+! PDAFomi objects
 type(obs_f), allocatable, target :: thisobs(:)
 type(obs_l), allocatable, target :: thisobs_l(:)
 
@@ -540,6 +577,14 @@ contains
    end subroutine c__pdafomi_assimilate_lenkf
 
    subroutine c__init_pdafomi(n_obs) bind(c)
+   ! !DESCRIPTION:
+   ! initialise PDAFomi objects based on the total number
+   ! of types of observations available
+   !
+   !
+   ! !REVISION HISTORY:
+   ! 2006-09 - Lars Nerger - Initial code
+   ! Later revisions - see svn log
       use iso_c_binding, only: c_int
       implicit none
       integer(c_int), intent(in) :: n_obs
