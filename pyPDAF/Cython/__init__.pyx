@@ -36,7 +36,7 @@ def py__init_ens_pdaf(filtertype, state_p, uinv, ens_p):
     
     Returns
     -------
-        status_pdaf : int
+    status_pdaf : int
     
 
     Raises
@@ -95,12 +95,12 @@ def py__next_observation_pdaf(stepnow, nsteps, doexit, time):
 
     Returns
     -------
-        nsteps : int
-            steps between assimilation
-        doexit : int
-            Whether exit PDAF assimilation
-        time : double
-            Current model time
+    nsteps : int
+        steps between assimilation
+    doexit : int
+        Whether exit PDAF assimilation
+    time : double
+        Current model time
 
     Raises
     ------

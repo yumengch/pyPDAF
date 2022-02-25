@@ -182,7 +182,6 @@ def obs_op_gridpoint(int i_obs, state_p, ostate):
             PE-local state vector
         ostate : ndarray
             state vector transformed by identity matrix
-            
     """
     cdef int dim_p, dim_obs
     dim_p = len(state_p) 

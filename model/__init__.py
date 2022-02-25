@@ -1,6 +1,7 @@
 """This file is part of pyPDAF
 
-Copyright (C) 2022 University of Reading and National Centre for Earth Observation
+Copyright (C) 2022 University of Reading and
+National Centre for Earth Observation
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

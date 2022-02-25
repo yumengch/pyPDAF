@@ -19,11 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import pyPDAF.PDAF.PDAFomi as PDAFomi
 import PDAF_caller
 
-from Localization import Localization
-from AssimilationDimensions import AssimilationDimensions
-from FilterOptions import FilterOptions
-from Inflation import Inflation
-
 
 class DAS:
 
@@ -68,8 +63,19 @@ class DAS:
         self.obs = obs
         self.screen = screen
 
-    def init(self):
+    def init(self, assim_dim, filter_options, infl, localization):
         """initialise DA system
+
+        Parameters
+        ----------
+        assim_dim : `AssimilationDimensions.AssimilationDimensions`
+            an object of AssimilationDimensions
+        filter_options : `FilterOptions.FilterOptions`
+            filtering options
+        infl : `Inflation.Inflation`
+            inflation object
+        localization : `Localization.Localization`
+            a localization info obejct
         """
         # init model
         self.model.init_field('inputs_online/true_initial.txt',
@@ -79,17 +85,10 @@ class DAS:
         PDAFomi.init(len(self.obs))
 
         # Initialize PDAF
-        self.assim_dim = AssimilationDimensions(self.model,
-                                                dim_ens=self.pe.n_modeltasks)
-        self.filter_options = FilterOptions(filtertype=6, subtype=0)
-        self.filter_options.setTransformTypes(type_trans=0,
-                                              type_sqrt=0,
-                                              incremental=0,
-                                              covartype=1,
-                                              rank_analysis_enkf=0)
-        self.infl = Inflation(type_forget=0, forget=1.)
-        self.localization = Localization(loc_weight=0, local_range=0,
-                                         srange=0)
+        self.assim_dim = assim_dim
+        self.filter_options = filter_options
+        self.infl = infl
+        self.localization = localization
         PDAF_caller.init_pdaf(self.assim_dim, self.infl,
                               self.filter_options,
                               self.localization,
@@ -108,6 +107,6 @@ class DAS:
         """
         self.model.step(self.pe, step, USE_PDAF)
         if USE_PDAF:
-            PDAF_caller.assimilate_pdaf(self.model, self.obs, self.pe,
-                                        self.assim_dim, self.localization,
-                                        self.filter_options.filtertype)
+            _ = PDAF_caller.assimilate_pdaf(self.model, self.obs, self.pe,
+                                            self.assim_dim, self.localization,
+                                            self.filter_options.filtertype)

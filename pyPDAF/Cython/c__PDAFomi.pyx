@@ -78,14 +78,14 @@ def py__obs_op_PDAFomi(step, state_p, ostate):
     """
     raise RuntimeError('...Wrong obs_op_PDAFomi is called!!!...')
 
-def py__localize_covar_PDAFomi(hp_p, hph):
+def py__localize_covar_PDAFomi(HP_p, HPH):
     """Summary
     
     Parameters
     ----------
-    hp_p_numpy : ndarray
+    HP_p : ndarray
         matrix HP
-    hph_numpy : ndarray
+    HPH : ndarray
         matrix HPH
     
     Raises
