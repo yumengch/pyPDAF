@@ -12,5 +12,11 @@ jobs:
             tar -zxvf PDAF-D_V1.16.tar.gz
         env:
           PDAF_LINK: ${{ secrets.PDAF116_LINK }}
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+
       - name: install pyPDAF
-        run: pip install .
+        run: |
+          $CONDA/bin/conda install python
+          pip install -e .
