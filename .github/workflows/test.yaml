@@ -1,0 +1,16 @@
+name: test
+on: [push]
+jobs:
+  check_installation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: sudo apt install -y liblapack-dev libblas-dev libopenmpi-dev
+      - name: get PDAF
+        run: |
+            wget -O PDAF-D_V1.16.tar.gz "${{ env.PDAF_LINK }}"
+            tar -zxvf PDAF-D_V1.16.tar.gz
+        env:
+          PDAF_LINK: ${{ secrets.PDAF116_LINK }}
+      - name: install pyPDAF
+        run: pip install .
