@@ -69,18 +69,25 @@ def compile_interface():
             else:
                 the_file.write(f'{key}={options[key]}\n')
     
+    pwd = os.getcwd()
+    os.chdir(f'{PDAFdir}/src')
+    status = os.system('make clean PDAF_ARCH=pyPDAF')
+    if status:
+        raise RuntimeError('failed to clean old PDAF installation')
+    status = os.system('make PDAF_ARCH=pyPDAF')
+    if status:
+        raise RuntimeError('failed to install PDAF')
+    os.chdir(pwd)
 
-    os.system(f'cd {PDAFdir}/src && make clean && make PDAF_ARCH=pyPDAF')
-    os.system(f'cd {pwd}')
     f90_files = glob.glob(os.path.join('pyPDAF', 'fortran', '*.F90'))
     objs = []
     for src in f90_files:
-        objs.append(f'include/{os.path.basename(src[:-4])}.o')
+        objs.append(f'{os.path.basename(src[:-4])}.o')
         cmd = f'{options["FC"]} {options["OPT"]} {options["CPP_DEFS"]} {options["INC"]} -c {src} -o {objs[-1]}'
         print(cmd)
         os.system(cmd)
     objs = ' '.join(objs)
-    cmd = f'{options["FC"]} {objs} -shared -L{PDAFdir}/lib -lpdaf-d'\
+    cmd = f'{options["FC"]} {objs} -shared -L{PDAFdir}/lib -lpdaf-d '\
           f'{options["LINK_LIBS"]} -o lib/libPDAFc.so'
     print(cmd)
     os.makedirs('lib', exist_ok=True)
@@ -108,7 +115,8 @@ ext_modules = [Extension('*',
                ]
 
 setup(
-    ext_modules=cythonize(ext_modules),
+    ext_modules=cythonize(ext_modules,
+                          compiler_directives={'language_level': "3"}),
     include_dirs=inc_dirs,
     cmdclass={
         'develop': PreDevelopCommand,
