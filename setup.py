@@ -50,34 +50,37 @@ def compile_interface():
     dist.parse_config_files()
     dist.parse_command_line()
 
+    os.system('rm -rf pyPDAF.egg-info lib/*')
+
     # Get prefix from either config file or command line
     PDAFdir = dist.get_option_dict('PDAF')['directory'][1]
-    # fortran compiler options for
-    FC = dist.get_option_dict('PDAF')['FC'][1]
-    # compiler options
-    OPT = dist.get_option_dict('PDAF')['OPT'][1]
-    # include directory
-    INC = dist.get_option_dict('PDAF')['INC'][1]
-    LINK_LIBS = dist.get_option_dict('PDAF')['LINK_LIBS'][1]
-    # CPP
-    CPP_DEFS = dist.get_option_dict('PDAF')['CPP_DEFS'][1]
+    options = {}
 
-    PDAFsrc = os.path.join(PDAFdir, 'src')
-    cmd = f'rm -f {PDAFsrc}/*.o {PDAFsrc}/*.mod {PDAFdir}/lib/libpdaf-d.a {PDAFdir}/include/*.mod'
-    os.system(cmd)
-    f90_files = glob.glob(os.path.join(PDAFdir, 'src', '*.F90'))
-    f90_files += glob.glob(os.path.join('pyPDAF', 'fortran', '*.F90'))
+    # Get compiler options
+    for key in dist.get_option_dict('PDAF'):
+        options[key] = dist.get_option_dict('PDAF')[key][1]
 
+    with open(f'{PDAFdir}/make.arch/pyPDAF.h', 'w') as the_file:
+        for key in options:
+            if key == 'directory':
+                continue
+            else:
+                the_file.write(f'{key}={options[key]}\n')
+
+    os.system(f'cd {PDAFdir}/src && make clean && make PDAF_ARCH=pyPDAF')
+    os.system(f'cd {pwd}')
+    f90_files = glob.glob(os.path.join('pyPDAF', 'fortran', '*.F90'))
     objs = []
     for src in f90_files:
-        objs.append(f'{os.path.basename(src[:-4])}.o')
-        cmd = f'{FC} {OPT} {CPP_DEFS} {INC} -c {src} -o {objs[-1]}'
+        objs.append(f'include/{os.path.basename(src[:-4])}.o')
+        cmd = f'{options["FC"]} {options["OPT"]} {options["CPP_DEFS"]} {options["INC"]} -c {src} -o {objs[-1]}'
         print(cmd)
         os.system(cmd)
     objs = ' '.join(objs)
-    cmd = f'{FC} {objs} -shared {LINK_LIBS} -o lib/libPDAFc.so'
+    cmd = f'{options["FC"]} {objs} -shared -L{PDAFdir}/lib -lpdaf-d'\
+          f'{options["LINK_LIBS"]} -o lib/libPDAFc.so'
     print(cmd)
-    os.makedirs(name, exist_ok=True)
+    os.makedirs('lib', exist_ok=True)
     os.system(cmd)
 
 
@@ -88,15 +91,6 @@ class PreDevelopCommand(develop):
     def run(self):
         compile_interface()
         develop.run(self)
-
-
-class PreInstallCommand(install):
-    """Pre-installation for development mode.
-        compiling PDAF iso_c_binding interface
-    """
-    def run(self):
-        compile_interface()
-        install.run(self)
 
 
 ext_modules = [Extension('*',
@@ -115,6 +109,5 @@ setup(
     include_dirs=inc_dirs,
     cmdclass={
         'develop': PreDevelopCommand,
-        'install': PreInstallCommand
     },
 )
