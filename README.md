@@ -17,7 +17,7 @@ A (incomplete) Python interface to the Fortran-written data assimilation library
 ```mpiexec -n 8 python -u example/main.py```
 
 ## Note:
-Currently, it only interfaces with limited subroutines of ```PDAF-V1.16``` with an example for online coupling with PDAF using a simple model based on the [tutorial](http://pdaf.awi.de/trac/wiki/FirstSteps) from PDAF. Some interface in Python changes slightly due to different ways to handling return values in Python from Fortran. It is possible to check Python interface [here](https://yumengch.github.io/pyPDAF/index.html)  More subroutines will be supported in future release. 
+Currently, it only interfaces with limited subroutines of ```PDAF-V1.16``` with an example for online coupling with PDAF using a simple model based on the [tutorial](http://pdaf.awi.de/trac/wiki/FirstSteps) from PDAF. Some interface in Python changes slightly due to different ways to handling return values in Python from Fortran. It is possible to check Python interface [here](https://yumengch.github.io/pyPDAF/index.html). More subroutines will be supported in future release. 
 
 ## Development
 The interface between Fortran and Python relies on [Cython](https://cython.readthedocs.io/en/stable/index.html) and the feature of [iso_c_binding](https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fC_005fBINDING.html) in Fortran. 
