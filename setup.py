@@ -77,6 +77,7 @@ def compile_interface():
     objs = ' '.join(objs)
     cmd = f'{FC} {objs} -shared {LINK_LIBS} -o lib/libPDAFc.so'
     print(cmd)
+    os.makedirs(name, exist_ok=True)
     os.system(cmd)
 
 
