@@ -19,4 +19,4 @@ jobs:
       - name: install pyPDAF
         run: |
           $CONDA/bin/conda install python
-          pip install -e .
+          pip install -v -e .
