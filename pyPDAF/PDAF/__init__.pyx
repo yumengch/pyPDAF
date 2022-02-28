@@ -19,13 +19,13 @@ This module calls PDAF iso_C_binding wrappers.
 
 Function calls convert Python objects for Fortran routines.
 """
-import pyPDAF.Cython as PDAFcython
-import pyPDAF.Cython.c__localization as localization
-import pyPDAF.Cython.c__PDAFomi as cPDAFomi
+import pyPDAF.UserFunc as PDAFcython
+import pyPDAF.UserFunc.c__localization as localization
+import pyPDAF.UserFunc.c__PDAFomi as cPDAFomi
 
-cimport pyPDAF.Cython as c__PDAFcython
-cimport pyPDAF.Cython.c__localization as c__localization
-cimport pyPDAF.Cython.c__PDAFomi as c__PDAFomi
+cimport pyPDAF.UserFunc as c__PDAFcython
+cimport pyPDAF.UserFunc.c__localization as c__localization
+cimport pyPDAF.UserFunc.c__PDAFomi as c__PDAFomi
 
 import numpy as np
 
