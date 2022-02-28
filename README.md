@@ -16,7 +16,9 @@ A (incomplete) Python interface to the Fortran-written data assimilation library
 - Install Python package: ```pip install -e .```
 
 ## Run example:
-```mpiexec -n 8 python -u example/main.py```
+```bash
+mpiexec -n 8 python -u example/main.py```
+Will run the model with 4 ensemble members where each member uses 2 processes. 
 
 ## Note:
 Currently, it only interfaces with limited subroutines of ```PDAF-V1.16``` with an example for online coupling with PDAF using a simple model based on the [tutorial](http://pdaf.awi.de/trac/wiki/FirstSteps) from PDAF. Some interface in Python changes slightly due to different ways to handling return values in Python from Fortran. It is possible to check Python interface [here](https://yumengch.github.io/pyPDAF/index.html). More subroutines will be supported in future release. 
