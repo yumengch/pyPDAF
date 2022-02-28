@@ -1,7 +1,6 @@
 # pyPDAF
-A (incomplete) Python interface to the Fortran-written data assimilation library - PDAF
+A (incomplete) Python interface to the Fortran-written data assimilation library - [PDAF](http://pdaf.awi.de/trac/wiki)
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/yumengch/pyPDAF/test_build)
 
 ## Prerequisite:
 - `PDAF-V1.16`
@@ -20,10 +19,13 @@ A (incomplete) Python interface to the Fortran-written data assimilation library
 ## Note:
 Currently, it only interfaces with limited subroutines of ```PDAF-V1.16``` with an example for online coupling with PDAF using a simple model based on the [tutorial](http://pdaf.awi.de/trac/wiki/FirstSteps) from PDAF. More subroutines will be supported in future release.
 
+## Development
+The interface between Fortran and Python relies on [Cython](https://cython.readthedocs.io/en/stable/index.html) and the feature of [iso_c_binding](https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fC_005fBINDING.html) in Fortran. 
+
+
 ## Contributors:
 Yumeng Chen, Lars Nerger
 
 pyPDAF is mainly developed and maintainde by National Centre for Earth Observation and University of Reading.
 
-<img src="https://github.com/nansencenter/DAPPER/blob/master/docs/imgs/UoR-logo.png?raw=true" height="140" />
-<img src="https://github.com/nansencenter/DAPPER/blob/master/docs/imgs/nceologo1000.png?raw=true" width="400">
+<img src="https://github.com/nansencenter/DAPPER/blob/master/docs/imgs/UoR-logo.png?raw=true" height="50" /> <img src="https://github.com/nansencenter/DAPPER/blob/master/docs/imgs/nceologo1000.png?raw=true" height="50">
