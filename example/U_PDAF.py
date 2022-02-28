@@ -219,7 +219,7 @@ def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
             field = np.zeros(model.nx)
             for i in range(dim_ens):
                 field = ens[i].reshape(*model.nx, order='F')
-                filename = f'ens_{i}_step{stepstr}_{anastr}.txt'
+                filename = f'ens_{i+1}_step{stepstr}_{anastr}.txt'
                 np.savetxt(filename, field, delimiter=';')
 
         if pe.mype_filter != 0:

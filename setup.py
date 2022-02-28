@@ -17,21 +17,21 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 from setuptools import setup, Extension
+from setuptools.dist import Distribution
 from setuptools.command.develop import develop
 from setuptools.command.install import install
 
 from Cython.Build import cythonize
+
+import configparser
 
 import numpy
 import glob
 import os
 
 pwd = os.getcwd()
-# assuming the directory of PDAF directory
-PDAFdir = f'{pwd}/../PDAF-D_V1.16'
-
 # compiler
-os.environ["CC"] = "gcc-7"
+os.environ["CC"] = "gcc"
 compilier_options = ['-fPIC']
 # include directory
 inc_dirs = [numpy.get_include(), f'{pwd}/pyPDAF/PDAF/']
@@ -40,22 +40,34 @@ lib_dirs = ['lib']
 # Cython set-up will automatically add -l as a prefix
 # For example, 'PDAFc' becomes -lPDAFc in final compilation
 libs = ['PDAFc']
-extra_link_args = []
+extra_link_args = ['-Llib', '-Wl,-rpath=lib']
 objs = []
 
 
 def compile_interface():
-    # fortran compiler options for
-    FC = 'mpif90'
-    # compiler options
-    OPT = '-O3 -fdefault-real-8 -fPIC'
-    # include directory
-    INC = f'-I/{PDAFdir}/include'
-    LINK_LIBS = '-llapack -lblas'
-    # CPP
-    CPP_DEFS = '-DUSE_PDAF'
+    # Get our own instance of Distribution
+    dist = Distribution()
+    dist.parse_config_files()
+    dist.parse_command_line()
 
-    f90_files = glob.glob(os.path.join('pyPDAF', 'fortran', '*.F90'))
+    # Get prefix from either config file or command line
+    PDAFdir = dist.get_option_dict('PDAF')['directory'][1]
+    # fortran compiler options for
+    FC = dist.get_option_dict('PDAF')['FC'][1]
+    # compiler options
+    OPT = dist.get_option_dict('PDAF')['OPT'][1]
+    # include directory
+    INC = dist.get_option_dict('PDAF')['INC'][1]
+    LINK_LIBS = dist.get_option_dict('PDAF')['LINK_LIBS'][1]
+    # CPP
+    CPP_DEFS = dist.get_option_dict('PDAF')['CPP_DEFS'][1]
+
+    PDAFsrc = os.path.join(PDAFdir, 'src')
+    cmd = f'rm -f {PDAFsrc}/*.o {PDAFsrc}/*.mod {PDAFdir}/lib/libpdaf-d.a {PDAFdir}/include/*.mod'
+    os.system(cmd)
+    f90_files = glob.glob(os.path.join(PDAFdir, 'src', '*.F90'))
+    f90_files += glob.glob(os.path.join('pyPDAF', 'fortran', '*.F90'))
+
     objs = []
     for src in f90_files:
         objs.append(f'{os.path.basename(src[:-4])}.o')
@@ -63,8 +75,7 @@ def compile_interface():
         print(cmd)
         os.system(cmd)
     objs = ' '.join(objs)
-    cmd = f'{FC} {objs} -shared -L{PDAFdir}/lib -lpdaf-d' \
-          f' {LINK_LIBS} -o lib/libPDAFc.so'
+    cmd = f'{FC} {objs} -shared {LINK_LIBS} -o lib/libPDAFc.so'
     print(cmd)
     os.system(cmd)
 
@@ -95,12 +106,10 @@ ext_modules = [Extension('*',
                          extra_objects=objs,
                          extra_link_args=extra_link_args),
                Extension('*',
-                         [f'{pwd}/pyPDAF/Cython/*.pyx'])
+                         [f'{pwd}/pyPDAF/UserFunc/*.pyx'])
                ]
 
 setup(
-    name='pyPDAF',
-    version='0.0.1',
     ext_modules=cythonize(ext_modules),
     include_dirs=inc_dirs,
     cmdclass={

@@ -31,7 +31,7 @@ from Inflation import Inflation
 
 def main():
     USE_PDAF = True
-    nt = 100
+    nt = 18
 
     if USE_PDAF:
         pe = parallelization(dim_ens=4, n_modeltasks=4, screen=2)
@@ -39,10 +39,10 @@ def main():
     # Initial Screen output
     if (pe.mype_world == 0):
         print('+++++ PDAF online mode +++++')
-        print('2D model without parallelization')
+        print('2D model with parallelization')
 
     # Initialize model
-    model = Model.Model((18, 36), nt=18, pe=pe)
+    model = Model.Model((18, 36), nt=nt, pe=pe)
     obs = []
     for typename in ['A', 'B']:
         obs.append(OBS.OBS(typename, pe.mype_filter,

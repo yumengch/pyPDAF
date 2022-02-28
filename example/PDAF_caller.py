@@ -95,9 +95,9 @@ class init_pdaf:
             functools.partial(U_PDAF.prepoststep_ens_pdaf,
                               assim_dim, model, pe, obs)
 
-        PDAF.get_state(U_next_observation_pdaf,
-                       U_distribute_state_pdaf,
-                       U_prepoststep_ens_pdaf)
+        _, _, _, status = PDAF.get_state(U_next_observation_pdaf,
+                                         U_distribute_state_pdaf,
+                                         U_prepoststep_ens_pdaf)
 
         localization.set_lim_coords(model.nx_p, pe)
 
