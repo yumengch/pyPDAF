@@ -17,7 +17,8 @@ A (incomplete) Python interface to the Fortran-written data assimilation library
 
 ## Run example:
 ```bash
-mpiexec -n 8 python -u example/main.py```
+mpiexec -n 8 python -u example/main.py
+```
 Will run the model with 4 ensemble members where each member uses 2 processes. 
 
 ## Note:
