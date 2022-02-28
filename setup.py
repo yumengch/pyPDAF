@@ -60,8 +60,6 @@ def compile_interface():
     for key in dist.get_option_dict('PDAF'):
         options[key] = dist.get_option_dict('PDAF')[key][1]
 
-    print(PDAFdir)
-    print(os.listdir())
     with open(f'{PDAFdir}/make.arch/pyPDAF.h', 'w') as the_file:
         for key in options:
             if key == 'directory':
