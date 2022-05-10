@@ -107,6 +107,6 @@ class DAS:
         """
         self.model.step(self.pe, step, USE_PDAF)
         if USE_PDAF:
-            _ = PDAF_caller.assimilate_pdaf(self.model, self.obs, self.pe,
+            PDAF_caller.assimilate_pdaf(self.model, self.obs, self.pe,
                                             self.assim_dim, self.localization,
                                             self.filter_options.filtertype)

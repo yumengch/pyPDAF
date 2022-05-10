@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import numpy as np
 import pyPDAF.PDAF as PDAF
+import pyPDAF.PDAF.PDAFomi as PDAFomi
 import functools
 import U_PDAF
 import U_PDAFomi
@@ -68,8 +69,11 @@ class init_pdaf:
         U_init_ens_pdaf = functools.partial(U_PDAF.init_ens_pdaf,
                                             model, pe, assim_dim)
 
+        self.filter_param_i, \
+        self.filter_param_r, \
         status = PDAF.init(filter_options.filtertype,
                            filter_options.subtype,
+                           0,
                            self.filter_param_i,
                            self.filter_param_r,
                            pe.COMM_model.py2f(),
@@ -95,9 +99,11 @@ class init_pdaf:
             functools.partial(U_PDAF.prepoststep_ens_pdaf,
                               assim_dim, model, pe, obs)
 
-        _, _, _, status = PDAF.get_state(U_next_observation_pdaf,
+        steps, time, doexit, status = PDAF.get_state(0, 0,
+                                         U_next_observation_pdaf,
                                          U_distribute_state_pdaf,
-                                         U_prepoststep_ens_pdaf)
+                                         U_prepoststep_ens_pdaf,
+                                         status)
 
         localization.set_lim_coords(model.nx_p, pe)
 
@@ -219,7 +225,7 @@ class assimilate_pdaf:
                 functools.partial(U_PDAFomi.init_dim_obs_l_pdafomi,
                                   obs, localization)
             status = \
-                PDAF.PDAFomi_assimilate_local(U_collect_state_pdaf,
+                PDAFomi.assimilate_local(U_collect_state_pdaf,
                                               U_distribute_state_pdaf,
                                               U_init_dim_obs_PDAFomi,
                                               U_obs_op_PDAFomi,
@@ -233,7 +239,7 @@ class assimilate_pdaf:
         else:
             if filtertype != 8:
                 status = \
-                    PDAF.PDAFomi_assimilate_global(U_collect_state_pdaf,
+                    PDAFomi.assimilate_global(U_collect_state_pdaf,
                                                    U_distribute_state_pdaf,
                                                    U_init_dim_obs_PDAFomi,
                                                    U_obs_op_PDAFomi,
@@ -245,7 +251,7 @@ class assimilate_pdaf:
                                       obs, localization,
                                       pe.mype_filter, model.nx_p)
                 status = \
-                    PDAF.PDAFomi_assimilate_lenkf(U_collect_state_pdaf,
+                    PDAFomi.assimilate_lenkf(U_collect_state_pdaf,
                                                   U_distribute_state_pdaf,
                                                   U_init_dim_obs_PDAFomi,
                                                   U_obs_op_PDAFomi,

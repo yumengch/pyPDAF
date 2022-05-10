@@ -72,7 +72,10 @@ def compile_interface():
     status = os.system('make clean PDAF_ARCH=pyPDAF')
     if status:
         raise RuntimeError('failed to clean old PDAF installation')
-    status = os.system('make PDAF_ARCH=pyPDAF')
+    status = os.system('sed \'s/$(FC) -O3 -o/$(FC) -O3 -fPIC -o/g\' Makefile > Makefile.tmp')
+    status = os.system('mv -v Makefile.tmp  Makefile')
+    status = os.system('rm -vf Makefile.tmp')
+    status = os.system('make pdaf-var PDAF_ARCH=pyPDAF')
     if status:
         raise RuntimeError('failed to install PDAF')
     os.chdir(pwd)
@@ -85,12 +88,15 @@ def compile_interface():
         print(cmd)
         os.system(cmd)
     objs = ' '.join(objs)
-    cmd = f'{options["FC"]} {objs} -shared -L{PDAFdir}/lib -lpdaf-d '\
+    cmd = f'{options["FC"]} {objs} -shared -L{PDAFdir}/lib -lpdaf-var '\
           f'{options["LINK_LIBS"]} -o lib/libPDAFc.so'
     print(cmd)
     os.makedirs('lib', exist_ok=True)
     os.system(cmd)
 
+    status = os.system('sed \'s/$(FC) -O3 -fPIC -o/$(FC) -O3 -o/g\' Makefile > Makefile.tmp')
+    status = os.system('mv -v Makefile.tmp  Makefile')
+    status = os.system('rm -vf Makefile.tmp')
 
 class PreDevelopCommand(develop):
     """Pre-installation for development mode.

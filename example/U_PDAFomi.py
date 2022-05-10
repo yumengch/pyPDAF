@@ -45,16 +45,17 @@ def init_dim_obs_pdafomi(list_of_obs, local_range,
     TYPE
         Description
     """
-    dim_obs = 0
+    d_obs = 0
     for obs in list_of_obs:
         if(obs.doassim):
             obs.init_dim_obs(step, dim_obs, local_range,
                              mype_filter, nx, nx_p)
-            dim_obs += obs.dim_obs
+            d_obs += obs.dim_obs
+    dim_obs = d_obs
     return dim_obs
 
 
-def obs_op_pdafomi(list_of_obs, step, state_p, ostate):
+def obs_op_pdafomi(list_of_obs, step, dim_p, dim_obs_p, state_p, ostate):
     """turn state vector to observation space
 
     Parameters
@@ -68,8 +69,10 @@ def obs_op_pdafomi(list_of_obs, step, state_p, ostate):
     ostate : ndarray
         state vector in obs space
     """
+
     for obs in list_of_obs:
-        obs.obs_op(step, state_p, ostate)
+        ostate = obs.obs_op(step, state_p, ostate)
+    return ostate
 
 
 def init_dim_obs_l_pdafomi(list_of_obs, localization,
@@ -126,7 +129,7 @@ def localize_covar_pdafomi(list_of_obs, localization,
         i_obs_f.localize_covar(localization, HP_p, HPH, coords_p)
 
 
-def deallocate_obs_pdafomi(list_of_obs, step):
+def deallocate_obs_pdafomi(list_of_obs):
     """deallocate PDAFomi object
 
     Parameters
@@ -137,4 +140,4 @@ def deallocate_obs_pdafomi(list_of_obs, step):
         current time step
     """
     for obs in list_of_obs:
-        obs.deallocate_obs(step)
+        obs.deallocate_obs()

@@ -1,272 +1,1979 @@
-"""This file is part of pyPDAF
+import pyPDAF.UserFunc as PDAFcython
+cimport pyPDAF.UserFunc as c__PDAFcython
 
-Copyright (C) 2022 University of Reading and National Centre for Earth Observation
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-This module calls PDAFomi iso_C_binding wrappers.
-
-Function calls convert Python objects for Fortran routines.
-Detailed information on the PDAFomi properties or subroutines can be
-found at https://pdaf.awi.de/trac/wiki/OverviewOfOMIRoutines and 
-http://pdaf.awi.de/trac/wiki/ImplementFilterAnalysisOverview 
-"""
 import numpy as np
 
 
-def init(int n_obs):
-    """Python wrapper for PDAFomi init.
+def init (int n_obs
+         ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
 
-        Parameters
-        ----------
-        n_obs : int
-            number of observation types
+    Parameters
+    ----------
+    n_obs : int
+        number of observations
     """
-    c__init_pdafomi(&n_obs)
 
+    c__init (&n_obs
+            )
 
-def setOMIessential(int i_obs, int doassim, 
-                    int disttype, int ncoord, id_obs_p):
-    """Python wrapper for setting PDAFomi objects.
+def set_doassim (int i_obs,
+                 int doassim
+                ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
 
-        Parameters
-        ----------
-        i_obs : int
-            index of observation types
-        doassim : int
-            whether the observation is assimilated
-        disttype : int
-            type of distance measure for localisation
-        ncoord : int
-            number of coordinate dimension
-        id_obs_p : ndarray
-            indices of process-local observed field in state vector
+    Parameters
+    ----------
+    i_obs : int
+        index of observations
+    doassim : int
+        setter value
     """
-    c__set_pdafomi_doassim(&i_obs, &doassim)
-    c__set_pdafomi_disttype(&i_obs, &disttype)
-    c__set_pdafomi_ncoord(&i_obs, &ncoord)
-    shape = id_obs_p.shape
-    cdef int nrows = shape[0]
-    cdef int dim_obs_p = shape[1]
-    cdef int[::1, ::] id_obs_p_view = np.array(id_obs_p, order='F', dtype=np.intc)
-    c__set_pdafomi_id_obs_p(&i_obs, &nrows, &dim_obs_p, &id_obs_p_view[0][0])
 
+    c__pdafomi_set_doassim (&i_obs,
+                            &doassim
+                           )
 
-def set_icoeff_p(int i_obs, icoeff_p):
-    """Python wrapper for setting PDAFomi icoeff_p.
+def set_disttype (int i_obs,
+                  int disttype
+                 ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
 
-        Parameters
-        ----------
-        i_obs : int
-            index of observation types
-        icoeff_p : ndarray
-            2d array for interpolation coefficients for obs. operator
+    Parameters
+    ----------
+    i_obs : int
+        index of observations
+    disttype : int
+        setter value
     """
-    cdef int nrows = icoeff_p.shape[0]
-    cdef int dim_obs_p = icoeff_p.shape[1]
-    cdef double[::1, ::] icoeff_p_view = np.array(icoeff_p, order='F')
-    c__set_pdafomi_icoeff_p(&i_obs, &nrows, &dim_obs_p, &icoeff_p_view[0][0])
 
+    c__pdafomi_set_disttype (&i_obs,
+                             &disttype
+                            )
 
-def set_domainsize(int i_obs, domainsize):
-    """Python wrapper for setting PDAFomi domainsize.
+def set_ncoord (int i_obs,
+                int ncoord
+               ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
 
-        Parameters
-        ----------
-        i_obs : int
-            index of observation types
-        domainsize : ndarray
-            1d array for size of domain for periodicity (<=0 for no periodicity)
+    Parameters
+    ----------
+    i_obs : int
+        index of observations
+    ncoord : int
+        setter value
     """
-    cdef double[::1] domainsize_view = domainsize
-    cdef int ncoord = len(domainsize)
-    c__set_pdafomi_domainsize(&i_obs, &ncoord, &domainsize_view[0])
 
+    c__pdafomi_set_ncoord (&i_obs,
+                           &ncoord
+                          )
 
-def set_obs_err_type(int i_obs, int obs_err_type):
-    """Python wrapper for setting PDAFomi obs_err_type.
+def set_id_obs_p (int i_obs,
+                  id_obs_p
+                 ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
 
-        Parameters
-        ----------
-        i_obs : int
-            index of observation types
-        obs_err_type : int
-            type of observation error
+    Parameters
+    ----------
+    i_obs : int
+        index of observations
+    nrows : int
+        number of values to be averaged
+    dim_obs_p : int
+        dimension of pe local obs
+    id_obs_p : ndarray[int]
+        setter value
     """
-    c__set_pdafomi_obs_err_type(&i_obs, &obs_err_type)
+    cdef int[::1] id_obs_p_view = np.array(id_obs_p, dtype=np.intc).ravel(order='F')
+    cdef int nrows, dim_obs_p
+    nrows, dim_obs_p,  = id_obs_p.shape
 
 
-def set_use_global_obs(int i_obs, int use_global_obs):
-    """Python wrapper for setting PDAFomi use_global_obs.
+    c__pdafomi_set_id_obs_p (&i_obs,
+                             &nrows,
+                             &dim_obs_p,
+                             &id_obs_p_view[0]
+                            )
 
-        Parameters
-        ----------
-        i_obs : int
-            index of observation types
-        use_global_obs : int
-           Whether to use (1) global full obs. or 
-           (0) obs. restricted to those relevant for a process domain
+def set_icoeff_p (int i_obs,
+                  icoeff_p
+                 ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    i_obs : int
+        index of observations
+    nrows : int
+        number of values to be averaged
+    dim_obs_p : int
+        dimension of pe local obs
+    icoeff_p : ndarray[float]
+        setter value
     """
-    c__set_pdafomi_use_global_obs(&i_obs, &use_global_obs)
+    cdef double[::1] icoeff_p_view = np.array(icoeff_p).ravel(order='F')
+    cdef int nrows, dim_obs_p
+    nrows, dim_obs_p,  = icoeff_p.shape
 
 
-def gather_obs(int i_obs, int dim_obs_p, int nrows, obs_p, ivar_obs_p, 
-                ocoord_p, double local_range):
-    """Python wrapper for calling PDAFomi_gather_obs.
+    c__pdafomi_set_icoeff_p (&i_obs,
+                             &nrows,
+                             &dim_obs_p,
+                             &icoeff_p_view[0]
+                            )
 
-        Parameters
-        ----------
-        i_obs : int
-            index of observation types
-        dim_obs_p : int
-            PE_local observation dimension
-        nrows : int
-            number of rows in ocoord_p
-        obs_p : ndarray
-            vector of process-local observations
-        ivar_obs_p : ndarray
-            vector of process-local inverse observation error variance
-        ocoord_p : ndarray
-            2d array of process-local observation coordinates
-        local_range : double
-            lcalization radius (the maximum radius used in this process domain) 
+def set_domainsize (int i_obs,
+                    domainsize
+                   ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
 
-        Returns
-        -------
-        dim_obs : int
-            dimension of the entire observation vector
+    Parameters
+    ----------
+    i_obs : int
+        index of observations
+    ncoord : int
+        state dimension
+    domainsize : ndarray[float]
+        setter value
     """
-    cdef double[::1, ::] ocoord_p_view = np.array(ocoord_p, order='F')
-    cdef double[::1] obs_p_view = obs_p
-    cdef double[::1] ivar_obs_p_view = ivar_obs_p
+    cdef double[::1] domainsize_view = np.array(domainsize).ravel(order='F')
+    cdef int ncoord
+    ncoord,  = domainsize.shape
+
+
+    c__pdafomi_set_domainsize (&i_obs,
+                               &ncoord,
+                               &domainsize_view[0]
+                              )
+
+def set_obs_err_type (int i_obs,
+                      int obs_err_type
+                     ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    i_obs : int
+        index of observations
+    obs_err_type : int
+        setter value
+    """
+
+    c__pdafomi_set_obs_err_type (&i_obs,
+                                 &obs_err_type
+                                )
+
+def set_use_global_obs (int i_obs,
+                        int use_global_obs
+                       ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    i_obs : int
+        index of observations
+    use_global_obs : int
+        setter value
+    """
+
+    c__pdafomi_set_use_global_obs (&i_obs,
+                                   &use_global_obs
+                                  )
+
+def gather_obs (int i_obs,
+                obs_p,
+                ivar_obs_p,
+                ocoord_p,
+                double local_range
+               ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    i_obs : int
+        index of observations
+    dim_obs_p : int
+        state dimension
+    obs_p : ndarray[float]
+        pe-local observation vector
+    ivar_obs_p : ndarray[float]
+        pe-local inverse observation error variance
+    ocoord_p : ndarray[float]
+        pe-local observation coordinates
+    local_range : float
+        localization radius
+
+    Returns
+    -------
+    dim_obs : int
+        full number of observations
+    """
+    cdef double[::1] obs_p_view = np.array(obs_p).ravel(order='F')
+    cdef double[::1] ivar_obs_p_view = np.array(ivar_obs_p).ravel(order='F')
+    cdef double[::1] ocoord_p_view = np.array(ocoord_p).ravel(order='F')
+    cdef int dim_obs_p
+    _, dim_obs_p,  = ocoord_p.shape
+
+
     cdef int dim_obs
-    c__pdafomi_gather_obs(&i_obs, &nrows, &dim_obs_p,
-                           &obs_p_view[0], &ivar_obs_p_view[0], 
-                           &ocoord_p_view[0][0], &local_range, &dim_obs)
+
+    c__pdafomi_gather_obs (&i_obs,
+                           &dim_obs_p,
+                           &obs_p_view[0],
+                           &ivar_obs_p_view[0],
+                           &ocoord_p_view[0],
+                           &local_range,
+                           &dim_obs
+                          )
+
     return dim_obs
 
+def gather_obsstate (int i_obs,
+                     obsstate_p,
+                     obsstate_f
+                    ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
 
-def set_domain_limits(lim_coords):
-    """Python wrapper for calling PDAFomi_set_domain_limits.
+    Parameters
+    ----------
+    i_obs : int
+        index of observations
+    obsstate_p : ndarray[float]
+        vector of process-local observed state
+    obsstate_f : ndarray[float]
+        full observed vector for all types
+    nobs_f_all : int
+        dimension of the observation
 
-        Parameters
-        ----------
-        lim_coords : ndarray
-            sets the limiting coordinates of a process domain
-            
+    Returns
+    -------
+    obsstate_f : ndarray[float]
+        full observed vector for all types
     """
-    cdef double[::1, ::] lim_coords_view = np.array(
-                                            lim_coords, order='F')
-    c__pdafomi_set_domain_limits(&lim_coords_view[0][0])
+    cdef double[::1] obsstate_p_view = np.array(obsstate_p).ravel(order='F')
+    cdef double[::1] obsstate_f_view = np.array(obsstate_f).ravel(order='F')
+    cdef int nobs_f_all
+    nobs_f_all,  = obsstate_f.shape
 
 
-def obs_op_gridpoint(int i_obs, state_p, ostate):
-    """Python wrapper for calling PDAFomi_obs_op_gridpoint.
+    c__pdafomi_gather_obsstate (&i_obs,
+                                &obsstate_p_view[0],
+                                &obsstate_f_view[0],
+                                &nobs_f_all
+                               )
 
-        Parameters
-        ----------
-        i_obs : int
-            index of observation types
-        state_p : ndarray
-            PE-local state vector
-        ostate : ndarray
-            state vector transformed by identity matrix
+    return np.asarray(obsstate_f_view).reshape((nobs_f_all), order='F')
+
+def localize_covar (int i_obs,
+                    int locweight,
+                    double local_range,
+                    double srange,
+                    coords_p,
+                    hp_p,
+                    hph
+                   ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    i_obs : int
+        index of observations
+    dim_p : int
+        state dimension
+    dim_obs : int
+        obs dimension
+    dim_coords : int
+        number of coords
+    locweight : int
+        localization weight type
+    local_range : float
+        localization radius
+    srange : float
+        support radius for weight functions
+    coords_p : ndarray[float]
+        coordinates of state vector elements
+    hp_p : ndarray[float]
+        matrix hp, dimension (nobs, dim)
+    hph : ndarray[float]
+        matrix hph, dimension (nobs, nobs)
+
+    Returns
+    -------
+    hp_p : ndarray[float]
+        matrix hp, dimension (nobs, dim)
+    hph : ndarray[float]
+        matrix hph, dimension (nobs, nobs)
     """
-    cdef int dim_p, dim_obs
-    dim_p = len(state_p) 
-    dim_obs = len(ostate)
-    cdef double[::1] state_p_view = state_p
-    cdef double[::1] ostate_view = ostate
-    c__pdafomi_obs_op_gridpoint(&i_obs, &dim_p, &dim_obs, 
-                                &state_p_view[0], &ostate_view[0])
+    cdef double[::1] coords_p_view = np.array(coords_p).ravel(order='F')
+    cdef double[::1] hp_p_view = np.array(hp_p).ravel(order='F')
+    cdef double[::1] hph_view = np.array(hph).ravel(order='F')
+    cdef int dim_obs, dim_p, dim_coords
+    dim_coords, dim_p,  = coords_p.shape
+    dim_obs, _,  = hp_p.shape
 
 
-def init_dim_obs_l(int i_obs, coords_l, int loc_weight, 
-                    double local_range, double srange):
-    """Python wrapper for calling PDAFomi_init_dim_obs_l.
+    c__pdafomi_localize_covar (&i_obs,
+                               &dim_p,
+                               &dim_obs,
+                               &dim_coords,
+                               &locweight,
+                               &local_range,
+                               &srange,
+                               &coords_p_view[0],
+                               &hp_p_view[0],
+                               &hph_view[0]
+                              )
 
-        Parameters
-        ----------
-        i_obs : int
-            index of observation types
-        coords_l : ndarray
-            coordinates of local domain
-        loc_weight : int
-            type of localizing weighting of observations
-        local_range : float
-            range for local observation domain
-        srange : float
-            support range for 5th order polynomial
-            or radius for 1/e for exponential weighting
+    return np.asarray(hp_p_view).reshape((dim_obs,dim_p), order='F'), np.asarray(hph_view).reshape((dim_obs,dim_obs), order='F')
 
-        Returns
-        -------
-        dim_obs_l : int
-            dimension of local observations
-            
+def set_domain_limits (lim_coords
+                      ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    lim_coords : ndarray[float]
+        geographic coordinate array (1: longitude, 2: latitude)
     """
-    cdef double[::1, ::] coords_l_view = np.array(coords_l, order='F')
-    cdef int dim_obs_l
-    c__pdafomi_init_dim_obs_l(&i_obs, &coords_l_view[0][0], &loc_weight, 
-                              &local_range, &srange, &dim_obs_l)
+    cdef double[::1] lim_coords_view = np.array(lim_coords).ravel(order='F')
+
+    c__pdafomi_set_domain_limits (&lim_coords_view[0]
+                                 )
+
+def set_debug_flag (int debugval
+                   ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    debugval : int
+        value for debugging flag
+    """
+
+    c__pdafomi_set_debug_flag (&debugval
+                              )
+
+def deallocate_obs (int i_obs
+                   ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    i_obs : int
+        index of observations
+    """
+
+    c__pdafomi_deallocate_obs (&i_obs
+                              )
+
+def init_dim_obs_l (int i_obs,
+                    coords_l,
+                    int locweight,
+                    double local_range,
+                    double srange,
+                    int dim_obs_l
+                   ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    i_obs : int
+        index of observations
+    coords_l : ndarray[float]
+        coordinates of current local analysis domain
+    locweight : int
+        type of localization function
+    local_range : float
+        localization radius
+    srange : float
+        support radius of localization function
+    dim_obs_l : int
+        local dimension of current observation vector
+
+    Returns
+    -------
+    dim_obs_l : int
+        local dimension of current observation vector
+    """
+    cdef double[::1] coords_l_view = np.array(coords_l).ravel(order='F')
+
+    c__pdafomi_init_dim_obs_l (&i_obs,
+                               &coords_l_view[0],
+                               &locweight,
+                               &local_range,
+                               &srange,
+                               &dim_obs_l
+                              )
+
     return dim_obs_l
 
+def obs_op_gridpoint (int i_obs,
+                      state_p,
+                      obs_f_all
+                     ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
 
-def localize_covar(int i_obs, int loc_weight, 
-                   double local_range, double srange, 
-                   coords_p, hp_p, hph):
-    """Python wrapper for calling PDAFomi_localize_covar.
+    Parameters
+    ----------
+    i_obs : int
+        index of observations
+    state_p : ndarray[float]
+        pe-local model state (dim_p)
+    dim_p : int
+        dimension of model state
+    obs_f_all : ndarray[float]
+        full observed state for all observation types (nobs_f_all)
+    nobs_f_all : int
+        dimension of the observation
 
-        Parameters
-        ----------
-        i_obs : int
-            index of observation types
-        loc_weight : int
-            type of localizing weighting of observations
-        local_range : float
-            range for local observation domain
-        srange : float
-            support range for 5th order polynomial
-            or radius for 1/e for exponential weighting
-        coords_p : ndarray
-            coordinates of state vector elements
-        hp_p : ndarray
-            matrix HPH
-        hph : ndarray
-            PE local part of matrix HP
+    Returns
+    -------
+    obs_f_all : ndarray[float]
+        full observed state for all observation types (nobs_f_all)
     """
-    cdef double[::1, ::] coords_p_view = np.array(coords_p, order='F')
-    cdef int dim_coords, dim_p, dim_obs
-    dim_coords, dim_p = coords_p.shape
-    dim_obs = hp_p.shape[0]
-    cdef double[::1, ::] hp_p_view = np.array(hp_p, order='F')
-    cdef double[::1, ::] hph_view = np.array(hph, order='F')
-    c__pdafomi_localize_covar(&i_obs, &dim_p, &dim_obs, &dim_coords,
-                              &loc_weight, &local_range, &srange, 
-                              &coords_p_view[0][0], 
-                              &hp_p_view[0][0], 
-                              &hph_view[0][0]);
+    cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
+    cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
+    cdef int dim_p, nobs_f_all
+    dim_p,  = state_p.shape
+    nobs_f_all,  = obs_f_all.shape
 
 
-def deallocate_obs(int i_obs, int step):
-    """Python wrapper for calling PDAFomi_deallocate_obs.
+    c__pdafomi_obs_op_gridpoint (&i_obs,
+                                 &state_p_view[0],
+                                 &dim_p,
+                                 &obs_f_all_view[0],
+                                 &nobs_f_all
+                                )
 
-        Parameters
-        ----------
-        i_obs : int
-            index of observation types
-        step : int
-            current time step
+    return np.asarray(obs_f_all_view).reshape((nobs_f_all), order='F')
+
+def obs_op_gridavg (int i_obs,
+                    int nrows,
+                    state_p,
+                    obs_f_all
+                   ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    i_obs : int
+        index of observations
+    nrows : int
+        number of values to be averaged
+    state_p : ndarray[float]
+        pe-local model state (dim_p)
+    dim_p : int
+        dimension of model state
+    obs_f_all : ndarray[float]
+        full observed state for all observation types (nobs_f_all)
+    nobs_f_all : int
+        dimension of the observation
+
+    Returns
+    -------
+    obs_f_all : ndarray[float]
+        full observed state for all observation types (nobs_f_all)
     """
-    c__pdafomi_deallocate_obs(&i_obs, &step);
+    cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
+    cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
+    cdef int dim_p, nobs_f_all
+    dim_p,  = state_p.shape
+    nobs_f_all,  = obs_f_all.shape
+
+
+    c__pdafomi_obs_op_gridavg (&i_obs,
+                               &nrows,
+                               &state_p_view[0],
+                               &dim_p,
+                               &obs_f_all_view[0],
+                               &nobs_f_all
+                              )
+
+    return np.asarray(obs_f_all_view).reshape((nobs_f_all), order='F')
+
+def obs_op_interp_lin (int i_obs,
+                       int nrows,
+                       state_p,
+                       obs_f_all
+                      ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    i_obs : int
+        index of observations
+    nrows : int
+        number of values to be averaged
+    state_p : ndarray[float]
+        pe-local model state (dim_p)
+    dim_p : int
+        dimension of model state
+    obs_f_all : ndarray[float]
+        full observed state for all observation types (nobs_f_all)
+    nobs_f_all : int
+        dimension of the observation
+
+    Returns
+    -------
+    obs_f_all : ndarray[float]
+        full observed state for all observation types (nobs_f_all)
+    """
+    cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
+    cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
+    cdef int dim_p, nobs_f_all
+    dim_p,  = state_p.shape
+    nobs_f_all,  = obs_f_all.shape
+
+
+    c__pdafomi_obs_op_interp_lin (&i_obs,
+                                  &nrows,
+                                  &state_p_view[0],
+                                  &dim_p,
+                                  &obs_f_all_view[0],
+                                  &nobs_f_all
+                                 )
+
+    return np.asarray(obs_f_all_view).reshape((nobs_f_all), order='F')
+
+def obs_op_adj_gridavg (int i_obs,
+                        int nrows,
+                        state_p,
+                        obs_f_all
+                       ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    i_obs : int
+        index of observations
+    nrows : int
+        number of values to be averaged
+    state_p : ndarray[float]
+        pe-local model state (dim_p)
+    dim_p : int
+        dimension of model state
+    obs_f_all : ndarray[float]
+        full observed state for all observation types (nobs_f_all)
+    nobs_f_all : int
+        dimension of the observation
+
+    Returns
+    -------
+    state_p : ndarray[float]
+        pe-local model state (dim_p)
+    """
+    cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
+    cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
+    cdef int dim_p, nobs_f_all
+    dim_p,  = state_p.shape
+    nobs_f_all,  = obs_f_all.shape
+
+
+    c__pdafomi_obs_op_adj_gridavg (&i_obs,
+                                   &nrows,
+                                   &state_p_view[0],
+                                   &dim_p,
+                                   &obs_f_all_view[0],
+                                   &nobs_f_all
+                                  )
+
+    return np.asarray(state_p_view).reshape((dim_p), order='F')
+
+def obs_op_adj_gridpoint (int i_obs,
+                          state_p,
+                          obs_f_all
+                         ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    i_obs : int
+        index of observations
+    state_p : ndarray[float]
+        pe-local model state (dim_p)
+    dim_p : int
+        dimension of model state
+    obs_f_all : ndarray[float]
+        full observed state for all observation types (nobs_f_all)
+    nobs_f_all : int
+        dimension of the observation
+
+    Returns
+    -------
+    state_p : ndarray[float]
+        pe-local model state (dim_p)
+    """
+    cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
+    cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
+    cdef int dim_p, nobs_f_all
+    dim_p,  = state_p.shape
+    nobs_f_all,  = obs_f_all.shape
+
+
+    c__pdafomi_obs_op_adj_gridpoint (&i_obs,
+                                     &state_p_view[0],
+                                     &dim_p,
+                                     &obs_f_all_view[0],
+                                     &nobs_f_all
+                                    )
+
+    return np.asarray(state_p_view).reshape((dim_p), order='F')
+
+def obs_op_adj_interp_lin (int i_obs,
+                           int nrows,
+                           state_p,
+                           obs_f_all
+                          ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    i_obs : int
+        index of observations
+    nrows : int
+        number of values to be averaged
+    state_p : ndarray[float]
+        pe-local model state (dim_p)
+    dim_p : int
+        dimension of model state
+    obs_f_all : ndarray[float]
+        full observed state for all observation types (nobs_f_all)
+    nobs_f_all : int
+        dimension of the observation
+
+    Returns
+    -------
+    state_p : ndarray[float]
+        pe-local model state (dim_p)
+    """
+    cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
+    cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
+    cdef int dim_p, nobs_f_all
+    dim_p,  = state_p.shape
+    nobs_f_all,  = obs_f_all.shape
+
+
+    c__pdafomi_obs_op_adj_interp_lin (&i_obs,
+                                      &nrows,
+                                      &state_p_view[0],
+                                      &dim_p,
+                                      &obs_f_all_view[0],
+                                      &nobs_f_all
+                                     )
+
+    return np.asarray(state_p_view).reshape((dim_p), order='F')
+
+def get_interp_coeff_tri (gpc,
+                          oc,
+                          icoeff
+                         ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    gpc : ndarray[float]
+        coordinates of grid points; dim(3,2)
+    oc : ndarray[float]
+        3 rows; each containing lon and lat coordinates
+         coordinates of observation; dim(2)
+    icoeff : ndarray[float]
+        interpolation coefficients; dim(3)
+
+    Returns
+    -------
+    icoeff : ndarray[float]
+        interpolation coefficients; dim(3)
+    """
+    cdef double[::1] gpc_view = np.array(gpc).ravel(order='F')
+    cdef double[::1] oc_view = np.array(oc).ravel(order='F')
+    cdef double[::1] icoeff_view = np.array(icoeff).ravel(order='F')
+
+    c__pdafomi_get_interp_coeff_tri (&gpc_view[0],
+                                     &oc_view[0],
+                                     &icoeff_view[0]
+                                    )
+
+    return np.asarray(icoeff_view).reshape((3), order='F')
+
+def get_interp_coeff_lin1d (gpc,
+                            double oc,
+                            icoeff
+                           ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    gpc : ndarray[float]
+        coordinates of grid points (dim=2)
+    oc : float
+        coordinates of observation
+    icoeff : ndarray[float]
+        interpolation coefficients (dim=2)
+
+    Returns
+    -------
+    icoeff : ndarray[float]
+        interpolation coefficients (dim=2)
+    """
+    cdef double[::1] gpc_view = np.array(gpc).ravel(order='F')
+    cdef double[::1] icoeff_view = np.array(icoeff).ravel(order='F')
+
+    c__pdafomi_get_interp_coeff_lin1d (&gpc_view[0],
+                                       &oc,
+                                       &icoeff_view[0]
+                                      )
+
+    return np.asarray(icoeff_view).reshape((2), order='F')
+
+def get_interp_coeff_lin (gpc,
+                          oc,
+                          icoeff
+                         ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    num_gp : int
+        length of icoeff
+    n_dim : int
+        number of dimensions in interpolation
+    gpc : ndarray[float]
+        coordinates of grid points
+    oc : ndarray[float]
+        coordinates of observation
+    icoeff : ndarray[float]
+        interpolation coefficients (num_gp)
+
+    Returns
+    -------
+    icoeff : ndarray[float]
+        interpolation coefficients (num_gp)
+    """
+    cdef double[::1] gpc_view = np.array(gpc).ravel(order='F')
+    cdef double[::1] oc_view = np.array(oc).ravel(order='F')
+    cdef double[::1] icoeff_view = np.array(icoeff).ravel(order='F')
+    cdef int n_dim, num_gp
+    num_gp, n_dim,  = gpc.shape
+
+
+    c__pdafomi_get_interp_coeff_lin (&num_gp,
+                                     &n_dim,
+                                     &gpc_view[0],
+                                     &oc_view[0],
+                                     &icoeff_view[0]
+                                    )
+
+    return np.asarray(icoeff_view).reshape((num_gp), order='F')
+
+def assimilate_3dvar (py__collect_state_pdaf,
+                      py__distribute_state_pdaf,
+                      py__init_dim_obs_pdaf,
+                      py__obs_op_pdaf,
+                      py__cvt_pdaf,
+                      py__cvt_adj_pdaf,
+                      py__obs_op_lin_pdaf,
+                      py__obs_op_adj_pdaf,
+                      py__prepoststep_pdaf,
+                      py__next_observation_pdaf,
+                      int outflag
+                     ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__distribute_state_pdaf : func
+        routine to distribute a state vector
+    py__init_dim_obs_pdaf : func
+        initialize dimension of observation vector
+    py__obs_op_pdaf : func
+        observation operator
+    py__cvt_pdaf : func
+        apply control vector transform matrix to control vector
+    py__cvt_adj_pdaf : func
+        apply adjoint control vector transform matrix
+    py__obs_op_lin_pdaf : func
+        linearized observation operator
+    py__obs_op_adj_pdaf : func
+        adjoint observation operator
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+    py__next_observation_pdaf : func
+        provide time step, time and dimension of next observation
+    outflag : int
+        status flag
+
+    Returns
+    -------
+    outflag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
+    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
+    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
+    PDAFcython.py__cvt_pdaf = py__cvt_pdaf
+    PDAFcython.py__cvt_adj_pdaf = py__cvt_adj_pdaf
+    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
+    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+
+    c__pdafomi_assimilate_3dvar (c__PDAFcython.c__collect_state_pdaf,
+                                 c__PDAFcython.c__distribute_state_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_pdaf,
+                                 c__PDAFcython.c__obs_op_pdaf,
+                                 c__PDAFcython.c__cvt_pdaf,
+                                 c__PDAFcython.c__cvt_adj_pdaf,
+                                 c__PDAFcython.c__obs_op_lin_pdaf,
+                                 c__PDAFcython.c__obs_op_adj_pdaf,
+                                 c__PDAFcython.c__prepoststep_pdaf,
+                                 c__PDAFcython.c__next_observation_pdaf,
+                                 &outflag
+                                )
+
+    return outflag
+
+def assimilate_en3dvar_estkf (py__collect_state_pdaf,
+                              py__distribute_state_pdaf,
+                              py__init_dim_obs_pdaf,
+                              py__obs_op_pdaf,
+                              py__cvt_ens_pdaf,
+                              py__cvt_adj_ens_pdaf,
+                              py__obs_op_lin_pdaf,
+                              py__obs_op_adj_pdaf,
+                              py__prepoststep_pdaf,
+                              py__next_observation_pdaf,
+                              int outflag
+                             ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__distribute_state_pdaf : func
+        routine to distribute a state vector
+    py__init_dim_obs_pdaf : func
+        initialize dimension of observation vector
+    py__obs_op_pdaf : func
+        observation operator
+    py__cvt_ens_pdaf : func
+        apply control vector transform matrix to control vector
+    py__cvt_adj_ens_pdaf : func
+        apply adjoint control vector transform matrix
+    py__obs_op_lin_pdaf : func
+        linearized observation operator
+    py__obs_op_adj_pdaf : func
+        adjoint observation operator
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+    py__next_observation_pdaf : func
+        provide time step, time and dimension of next observation
+    outflag : int
+        status flag
+
+    Returns
+    -------
+    outflag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
+    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
+    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
+    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
+    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
+    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
+    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+
+    c__pdafomi_assimilate_en3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
+                                         c__PDAFcython.c__distribute_state_pdaf,
+                                         c__PDAFcython.c__init_dim_obs_pdaf,
+                                         c__PDAFcython.c__obs_op_pdaf,
+                                         c__PDAFcython.c__cvt_ens_pdaf,
+                                         c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                         c__PDAFcython.c__obs_op_lin_pdaf,
+                                         c__PDAFcython.c__obs_op_adj_pdaf,
+                                         c__PDAFcython.c__prepoststep_pdaf,
+                                         c__PDAFcython.c__next_observation_pdaf,
+                                         &outflag
+                                        )
+
+    return outflag
+
+def assimilate_en3dvar_lestkf (py__collect_state_pdaf,
+                               py__distribute_state_pdaf,
+                               py__init_dim_obs_f_pdaf,
+                               py__obs_op_f_pdaf,
+                               py__cvt_ens_pdaf,
+                               py__cvt_adj_ens_pdaf,
+                               py__obs_op_lin_pdaf,
+                               py__obs_op_adj_pdaf,
+                               py__init_n_domains_p_pdaf,
+                               py__init_dim_l_pdaf,
+                               py__init_dim_obs_l_pdaf,
+                               py__g2l_state_pdaf,
+                               py__l2g_state_pdaf,
+                               py__prepoststep_pdaf,
+                               py__next_observation_pdaf,
+                               int outflag
+                              ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__distribute_state_pdaf : func
+        routine to distribute a state vector
+    py__init_dim_obs_f_pdaf : func
+        initialize dimension of full observation vector
+    py__obs_op_f_pdaf : func
+        full observation operator
+    py__cvt_ens_pdaf : func
+        apply control vector transform matrix to control vector
+    py__cvt_adj_ens_pdaf : func
+        apply adjoint control vector transform matrix
+    py__obs_op_lin_pdaf : func
+        linearized observation operator
+    py__obs_op_adj_pdaf : func
+        adjoint observation operator
+    py__init_n_domains_p_pdaf : func
+        provide number of local analysis domains
+    py__init_dim_l_pdaf : func
+        init state dimension for local ana. domain
+    py__init_dim_obs_l_pdaf : func
+        initialize local dimimension of obs. vector
+    py__g2l_state_pdaf : func
+        get state on local ana. domain from full state
+    py__l2g_state_pdaf : func
+        init full state from local state
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+    py__next_observation_pdaf : func
+        provide time step, time and dimension of next observation
+    outflag : int
+        status flag
+
+    Returns
+    -------
+    outflag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
+    PDAFcython.py__init_dim_obs_f_pdaf = py__init_dim_obs_f_pdaf
+    PDAFcython.py__obs_op_f_pdaf = py__obs_op_f_pdaf
+    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
+    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
+    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
+    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
+    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
+    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
+    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
+    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
+    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+
+    c__pdafomi_assimilate_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                          c__PDAFcython.c__distribute_state_pdaf,
+                                          c__PDAFcython.c__init_dim_obs_f_pdaf,
+                                          c__PDAFcython.c__obs_op_f_pdaf,
+                                          c__PDAFcython.c__cvt_ens_pdaf,
+                                          c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                          c__PDAFcython.c__obs_op_lin_pdaf,
+                                          c__PDAFcython.c__obs_op_adj_pdaf,
+                                          c__PDAFcython.c__init_n_domains_p_pdaf,
+                                          c__PDAFcython.c__init_dim_l_pdaf,
+                                          c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                          c__PDAFcython.c__g2l_state_pdaf,
+                                          c__PDAFcython.c__l2g_state_pdaf,
+                                          c__PDAFcython.c__prepoststep_pdaf,
+                                          c__PDAFcython.c__next_observation_pdaf,
+                                          &outflag
+                                         )
+
+    return outflag
+
+def assimilate_global (py__collect_state_pdaf,
+                       py__distribute_state_pdaf,
+                       py__init_dim_obs_pdaf,
+                       py__obs_op_pdaf,
+                       py__prepoststep_pdaf,
+                       py__next_observation_pdaf
+                      ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__distribute_state_pdaf : func
+        routine to distribute a state vector
+    py__init_dim_obs_pdaf : func
+        initialize dimension of observation vector
+    py__obs_op_pdaf : func
+        observation operator
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+    py__next_observation_pdaf : func
+        provide time step and time of next observation
+
+    Returns
+    -------
+    flag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
+    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
+    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+
+    cdef int flag
+
+    c__pdafomi_assimilate_global (c__PDAFcython.c__collect_state_pdaf,
+                                  c__PDAFcython.c__distribute_state_pdaf,
+                                  c__PDAFcython.c__init_dim_obs_pdaf,
+                                  c__PDAFcython.c__obs_op_pdaf,
+                                  c__PDAFcython.c__prepoststep_pdaf,
+                                  c__PDAFcython.c__next_observation_pdaf,
+                                  &flag
+                                 )
+
+    return flag
+
+def assimilate_hyb3dvar_estkf (py__collect_state_pdaf,
+                               py__distribute_state_pdaf,
+                               py__init_dim_obs_pdaf,
+                               py__obs_op_pdaf,
+                               py__cvt_ens_pdaf,
+                               py__cvt_adj_ens_pdaf,
+                               py__cvt_pdaf,
+                               py__cvt_adj_pdaf,
+                               py__obs_op_lin_pdaf,
+                               py__obs_op_adj_pdaf,
+                               py__prepoststep_pdaf,
+                               py__next_observation_pdaf,
+                               int outflag
+                              ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__distribute_state_pdaf : func
+        routine to distribute a state vector
+    py__init_dim_obs_pdaf : func
+        initialize dimension of observation vector
+    py__obs_op_pdaf : func
+        observation operator
+    py__cvt_ens_pdaf : func
+        apply ensemble control vector transform matrix to control vector
+    py__cvt_adj_ens_pdaf : func
+        apply adjoint ensemble control vector transform matrix
+    py__cvt_pdaf : func
+        apply control vector transform matrix to control vector
+    py__cvt_adj_pdaf : func
+        apply adjoint control vector transform matrix
+    py__obs_op_lin_pdaf : func
+        linearized observation operator
+    py__obs_op_adj_pdaf : func
+        adjoint observation operator
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+    py__next_observation_pdaf : func
+        provide time step, time and dimension of next observation
+    outflag : int
+        status flag
+
+    Returns
+    -------
+    outflag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
+    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
+    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
+    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
+    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
+    PDAFcython.py__cvt_pdaf = py__cvt_pdaf
+    PDAFcython.py__cvt_adj_pdaf = py__cvt_adj_pdaf
+    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
+    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+
+    c__pdafomi_assimilate_hyb3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
+                                          c__PDAFcython.c__distribute_state_pdaf,
+                                          c__PDAFcython.c__init_dim_obs_pdaf,
+                                          c__PDAFcython.c__obs_op_pdaf,
+                                          c__PDAFcython.c__cvt_ens_pdaf,
+                                          c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                          c__PDAFcython.c__cvt_pdaf,
+                                          c__PDAFcython.c__cvt_adj_pdaf,
+                                          c__PDAFcython.c__obs_op_lin_pdaf,
+                                          c__PDAFcython.c__obs_op_adj_pdaf,
+                                          c__PDAFcython.c__prepoststep_pdaf,
+                                          c__PDAFcython.c__next_observation_pdaf,
+                                          &outflag
+                                         )
+
+    return outflag
+
+def assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
+                                py__distribute_state_pdaf,
+                                py__init_dim_obs_f_pdaf,
+                                py__obs_op_f_pdaf,
+                                py__cvt_ens_pdaf,
+                                py__cvt_adj_ens_pdaf,
+                                py__cvt_pdaf,
+                                py__cvt_adj_pdaf,
+                                py__obs_op_lin_pdaf,
+                                py__obs_op_adj_pdaf,
+                                py__init_n_domains_p_pdaf,
+                                py__init_dim_l_pdaf,
+                                py__init_dim_obs_l_pdaf,
+                                py__g2l_state_pdaf,
+                                py__l2g_state_pdaf,
+                                py__prepoststep_pdaf,
+                                py__next_observation_pdaf,
+                                int outflag
+                               ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__distribute_state_pdaf : func
+        routine to distribute a state vector
+    py__init_dim_obs_f_pdaf : func
+        initialize dimension of full observation vector
+    py__obs_op_f_pdaf : func
+        full observation operator
+    py__cvt_ens_pdaf : func
+        apply control vector transform matrix to control vector
+    py__cvt_adj_ens_pdaf : func
+        apply adjoint control vector transform matrix
+    py__cvt_pdaf : func
+        apply control vector transform matrix to control vector
+    py__cvt_adj_pdaf : func
+        apply adjoint control vector transform matrix
+    py__obs_op_lin_pdaf : func
+        linearized observation operator
+    py__obs_op_adj_pdaf : func
+        adjoint observation operator
+    py__init_n_domains_p_pdaf : func
+        provide number of local analysis domains
+    py__init_dim_l_pdaf : func
+        init state dimension for local ana. domain
+    py__init_dim_obs_l_pdaf : func
+        initialize local dimimension of obs. vector
+    py__g2l_state_pdaf : func
+        get state on local ana. domain from full state
+    py__l2g_state_pdaf : func
+        init full state from local state
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+    py__next_observation_pdaf : func
+        provide time step, time and dimension of next observation
+    outflag : int
+        status flag
+
+    Returns
+    -------
+    outflag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
+    PDAFcython.py__init_dim_obs_f_pdaf = py__init_dim_obs_f_pdaf
+    PDAFcython.py__obs_op_f_pdaf = py__obs_op_f_pdaf
+    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
+    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
+    PDAFcython.py__cvt_pdaf = py__cvt_pdaf
+    PDAFcython.py__cvt_adj_pdaf = py__cvt_adj_pdaf
+    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
+    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
+    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
+    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
+    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
+    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
+    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+
+    c__pdafomi_assimilate_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                           c__PDAFcython.c__distribute_state_pdaf,
+                                           c__PDAFcython.c__init_dim_obs_f_pdaf,
+                                           c__PDAFcython.c__obs_op_f_pdaf,
+                                           c__PDAFcython.c__cvt_ens_pdaf,
+                                           c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                           c__PDAFcython.c__cvt_pdaf,
+                                           c__PDAFcython.c__cvt_adj_pdaf,
+                                           c__PDAFcython.c__obs_op_lin_pdaf,
+                                           c__PDAFcython.c__obs_op_adj_pdaf,
+                                           c__PDAFcython.c__init_n_domains_p_pdaf,
+                                           c__PDAFcython.c__init_dim_l_pdaf,
+                                           c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                           c__PDAFcython.c__g2l_state_pdaf,
+                                           c__PDAFcython.c__l2g_state_pdaf,
+                                           c__PDAFcython.c__prepoststep_pdaf,
+                                           c__PDAFcython.c__next_observation_pdaf,
+                                           &outflag
+                                          )
+
+    return outflag
+
+def assimilate_lenkf (py__collect_state_pdaf,
+                      py__distribute_state_pdaf,
+                      py__init_dim_obs_pdaf,
+                      py__obs_op_pdaf,
+                      py__prepoststep_pdaf,
+                      py__localize_covar_pdaf,
+                      py__next_observation_pdaf
+                     ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__distribute_state_pdaf : func
+        routine to distribute a state vector
+    py__init_dim_obs_pdaf : func
+        initialize dimension of observation vector
+    py__obs_op_pdaf : func
+        observation operator
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+    py__localize_covar_pdaf : func
+        apply localization to hp and hph^t
+    py__next_observation_pdaf : func
+        provide time step and time of next observation
+
+    Returns
+    -------
+    flag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
+    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
+    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    PDAFcython.py__localize_covar_pdaf = py__localize_covar_pdaf
+    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+
+    cdef int flag
+
+    c__pdafomi_assimilate_lenkf (c__PDAFcython.c__collect_state_pdaf,
+                                 c__PDAFcython.c__distribute_state_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_pdaf,
+                                 c__PDAFcython.c__obs_op_pdaf,
+                                 c__PDAFcython.c__prepoststep_pdaf,
+                                 c__PDAFcython.c__localize_covar_pdaf,
+                                 c__PDAFcython.c__next_observation_pdaf,
+                                 &flag
+                                )
+
+    return flag
+
+def assimilate_local (py__collect_state_pdaf,
+                      py__distribute_state_pdaf,
+                      py__init_dim_obs_pdaf,
+                      py__obs_op_pdaf,
+                      py__prepoststep_pdaf,
+                      py__init_n_domains_p_pdaf,
+                      py__init_dim_l_pdaf,
+                      py__init_dim_obs_l_pdaf,
+                      py__g2l_state_pdaf,
+                      py__l2g_state_pdaf,
+                      py__next_observation_pdaf
+                     ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__distribute_state_pdaf : func
+        routine to distribute a state vector
+    py__init_dim_obs_pdaf : func
+        initialize dimension of observation vector
+    py__obs_op_pdaf : func
+        observation operator
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+    py__init_n_domains_p_pdaf : func
+        provide number of local analysis domains
+    py__init_dim_l_pdaf : func
+        init state dimension for local ana. domain
+    py__init_dim_obs_l_pdaf : func
+        initialize dim. of obs. vector for local ana. domain
+    py__g2l_state_pdaf : func
+        get state on local ana. domain from full state
+    py__l2g_state_pdaf : func
+        init full state from state on local analysis domain
+    py__next_observation_pdaf : func
+        provide time step and time of next observation
+
+    Returns
+    -------
+    flag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
+    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
+    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
+    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
+    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
+    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
+    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
+    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+
+    cdef int flag
+
+    c__pdafomi_assimilate_local (c__PDAFcython.c__collect_state_pdaf,
+                                 c__PDAFcython.c__distribute_state_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_pdaf,
+                                 c__PDAFcython.c__obs_op_pdaf,
+                                 c__PDAFcython.c__prepoststep_pdaf,
+                                 c__PDAFcython.c__init_n_domains_p_pdaf,
+                                 c__PDAFcython.c__init_dim_l_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                 c__PDAFcython.c__g2l_state_pdaf,
+                                 c__PDAFcython.c__l2g_state_pdaf,
+                                 c__PDAFcython.c__next_observation_pdaf,
+                                 &flag
+                                )
+
+    return flag
+
+def generate_obs (py__collect_state_pdaf,
+                  py__distribute_state_pdaf,
+                  py__init_dim_obs_f_pdaf,
+                  py__obs_op_f_pdaf,
+                  py__get_obs_f_pdaf,
+                  py__prepoststep_pdaf,
+                  py__next_observation_pdaf
+                 ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__distribute_state_pdaf : func
+        routine to distribute a state vector
+    py__init_dim_obs_f_pdaf : func
+        initialize dimension of observation vector
+    py__obs_op_f_pdaf : func
+        observation operator
+    py__get_obs_f_pdaf : func
+        provide observation vector to user
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+    py__next_observation_pdaf : func
+        provide time step and time of next observation
+
+    Returns
+    -------
+    flag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
+    PDAFcython.py__init_dim_obs_f_pdaf = py__init_dim_obs_f_pdaf
+    PDAFcython.py__obs_op_f_pdaf = py__obs_op_f_pdaf
+    PDAFcython.py__get_obs_f_pdaf = py__get_obs_f_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+
+    cdef int flag
+
+    c__pdafomi_generate_obs (c__PDAFcython.c__collect_state_pdaf,
+                             c__PDAFcython.c__distribute_state_pdaf,
+                             c__PDAFcython.c__init_dim_obs_f_pdaf,
+                             c__PDAFcython.c__obs_op_f_pdaf,
+                             c__PDAFcython.c__get_obs_f_pdaf,
+                             c__PDAFcython.c__prepoststep_pdaf,
+                             c__PDAFcython.c__next_observation_pdaf,
+                             &flag
+                            )
+
+    return flag
+
+def put_state_3dvar (py__collect_state_pdaf,
+                     py__init_dim_obs_pdaf,
+                     py__obs_op_pdaf,
+                     py__cvt_pdaf,
+                     py__cvt_adj_pdaf,
+                     py__obs_op_lin_pdaf,
+                     py__obs_op_adj_pdaf,
+                     py__prepoststep_pdaf,
+                     int outflag
+                    ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__init_dim_obs_pdaf : func
+        initialize dimension of observation vector
+    py__obs_op_pdaf : func
+        observation operator
+    py__cvt_pdaf : func
+        apply control vector transform matrix to control vector
+    py__cvt_adj_pdaf : func
+        apply adjoint control vector transform matrix
+    py__obs_op_lin_pdaf : func
+        linearized observation operator
+    py__obs_op_adj_pdaf : func
+        adjoint observation operator
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+    outflag : int
+        status flag
+
+    Returns
+    -------
+    outflag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
+    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
+    PDAFcython.py__cvt_pdaf = py__cvt_pdaf
+    PDAFcython.py__cvt_adj_pdaf = py__cvt_adj_pdaf
+    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
+    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+
+    c__pdafomi_put_state_3dvar (c__PDAFcython.c__collect_state_pdaf,
+                                c__PDAFcython.c__init_dim_obs_pdaf,
+                                c__PDAFcython.c__obs_op_pdaf,
+                                c__PDAFcython.c__cvt_pdaf,
+                                c__PDAFcython.c__cvt_adj_pdaf,
+                                c__PDAFcython.c__obs_op_lin_pdaf,
+                                c__PDAFcython.c__obs_op_adj_pdaf,
+                                c__PDAFcython.c__prepoststep_pdaf,
+                                &outflag
+                               )
+
+    return outflag
+
+def put_state_en3dvar_estkf (py__collect_state_pdaf,
+                             py__init_dim_obs_pdaf,
+                             py__obs_op_pdaf,
+                             py__cvt_ens_pdaf,
+                             py__cvt_adj_ens_pdaf,
+                             py__obs_op_lin_pdaf,
+                             py__obs_op_adj_pdaf,
+                             py__prepoststep_pdaf,
+                             int outflag
+                            ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__init_dim_obs_pdaf : func
+        initialize dimension of observation vector
+    py__obs_op_pdaf : func
+        observation operator
+    py__cvt_ens_pdaf : func
+        apply control vector transform matrix to control vector
+    py__cvt_adj_ens_pdaf : func
+        apply adjoint control vector transform matrix
+    py__obs_op_lin_pdaf : func
+        linearized observation operator
+    py__obs_op_adj_pdaf : func
+        adjoint observation operator
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+    outflag : int
+        status flag
+
+    Returns
+    -------
+    outflag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
+    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
+    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
+    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
+    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
+    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+
+    c__pdafomi_put_state_en3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
+                                        c__PDAFcython.c__init_dim_obs_pdaf,
+                                        c__PDAFcython.c__obs_op_pdaf,
+                                        c__PDAFcython.c__cvt_ens_pdaf,
+                                        c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                        c__PDAFcython.c__obs_op_lin_pdaf,
+                                        c__PDAFcython.c__obs_op_adj_pdaf,
+                                        c__PDAFcython.c__prepoststep_pdaf,
+                                        &outflag
+                                       )
+
+    return outflag
+
+def put_state_en3dvar_lestkf (py__collect_state_pdaf,
+                              py__init_dim_obs_f_pdaf,
+                              py__obs_op_f_pdaf,
+                              py__cvt_ens_pdaf,
+                              py__cvt_adj_ens_pdaf,
+                              py__obs_op_lin_pdaf,
+                              py__obs_op_adj_pdaf,
+                              py__init_n_domains_p_pdaf,
+                              py__init_dim_l_pdaf,
+                              py__init_dim_obs_l_pdaf,
+                              py__g2l_state_pdaf,
+                              py__l2g_state_pdaf,
+                              py__prepoststep_pdaf,
+                              int outflag
+                             ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__init_dim_obs_f_pdaf : func
+        initialize dimension of full observation vector
+    py__obs_op_f_pdaf : func
+        full observation operator
+    py__cvt_ens_pdaf : func
+        apply control vector transform matrix to control vector
+    py__cvt_adj_ens_pdaf : func
+        apply adjoint control vector transform matrix
+    py__obs_op_lin_pdaf : func
+        linearized observation operator
+    py__obs_op_adj_pdaf : func
+        adjoint observation operator
+    py__init_n_domains_p_pdaf : func
+        provide number of local analysis domains
+    py__init_dim_l_pdaf : func
+        init state dimension for local ana. domain
+    py__init_dim_obs_l_pdaf : func
+        initialize local dimimension of obs. vector
+    py__g2l_state_pdaf : func
+        get state on local ana. domain from full state
+    py__l2g_state_pdaf : func
+        init full state from local state
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+    outflag : int
+        status flag
+
+    Returns
+    -------
+    outflag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__init_dim_obs_f_pdaf = py__init_dim_obs_f_pdaf
+    PDAFcython.py__obs_op_f_pdaf = py__obs_op_f_pdaf
+    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
+    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
+    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
+    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
+    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
+    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
+    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
+    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
+    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+
+    c__pdafomi_put_state_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                         c__PDAFcython.c__init_dim_obs_f_pdaf,
+                                         c__PDAFcython.c__obs_op_f_pdaf,
+                                         c__PDAFcython.c__cvt_ens_pdaf,
+                                         c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                         c__PDAFcython.c__obs_op_lin_pdaf,
+                                         c__PDAFcython.c__obs_op_adj_pdaf,
+                                         c__PDAFcython.c__init_n_domains_p_pdaf,
+                                         c__PDAFcython.c__init_dim_l_pdaf,
+                                         c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                         c__PDAFcython.c__g2l_state_pdaf,
+                                         c__PDAFcython.c__l2g_state_pdaf,
+                                         c__PDAFcython.c__prepoststep_pdaf,
+                                         &outflag
+                                        )
+
+    return outflag
+
+def put_state_generate_obs (py__collect_state_pdaf,
+                            py__init_dim_obs_f_pdaf,
+                            py__obs_op_f_pdaf,
+                            py__get_obs_f_pdaf,
+                            py__prepoststep_pdaf
+                           ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__init_dim_obs_f_pdaf : func
+        initialize dimension of observation vector
+    py__obs_op_f_pdaf : func
+        observation operator
+    py__get_obs_f_pdaf : func
+        provide observation vector to user
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+
+    Returns
+    -------
+    flag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__init_dim_obs_f_pdaf = py__init_dim_obs_f_pdaf
+    PDAFcython.py__obs_op_f_pdaf = py__obs_op_f_pdaf
+    PDAFcython.py__get_obs_f_pdaf = py__get_obs_f_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+
+    cdef int flag
+
+    c__pdafomi_put_state_generate_obs (c__PDAFcython.c__collect_state_pdaf,
+                                       c__PDAFcython.c__init_dim_obs_f_pdaf,
+                                       c__PDAFcython.c__obs_op_f_pdaf,
+                                       c__PDAFcython.c__get_obs_f_pdaf,
+                                       c__PDAFcython.c__prepoststep_pdaf,
+                                       &flag
+                                      )
+
+    return flag
+
+def put_state_global (py__collect_state_pdaf,
+                      py__init_dim_obs_pdaf,
+                      py__obs_op_pdaf,
+                      py__prepoststep_pdaf
+                     ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__init_dim_obs_pdaf : func
+        initialize dimension of observation vector
+    py__obs_op_pdaf : func
+        observation operator
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+
+    Returns
+    -------
+    flag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
+    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+
+    cdef int flag
+
+    c__pdafomi_put_state_global (c__PDAFcython.c__collect_state_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_pdaf,
+                                 c__PDAFcython.c__obs_op_pdaf,
+                                 c__PDAFcython.c__prepoststep_pdaf,
+                                 &flag
+                                )
+
+    return flag
+
+def put_state_hyb3dvar_estkf (py__collect_state_pdaf,
+                              py__init_dim_obs_pdaf,
+                              py__obs_op_pdaf,
+                              py__cvt_ens_pdaf,
+                              py__cvt_adj_ens_pdaf,
+                              py__cvt_pdaf,
+                              py__cvt_adj_pdaf,
+                              py__obs_op_lin_pdaf,
+                              py__obs_op_adj_pdaf,
+                              py__prepoststep_pdaf,
+                              int outflag
+                             ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__init_dim_obs_pdaf : func
+        initialize dimension of observation vector
+    py__obs_op_pdaf : func
+        observation operator
+    py__cvt_ens_pdaf : func
+        apply ensemble control vector transform matrix to control vector
+    py__cvt_adj_ens_pdaf : func
+        apply adjoint ensemble control vector transform matrix
+    py__cvt_pdaf : func
+        apply control vector transform matrix to control vector
+    py__cvt_adj_pdaf : func
+        apply adjoint control vector transform matrix
+    py__obs_op_lin_pdaf : func
+        linearized observation operator
+    py__obs_op_adj_pdaf : func
+        adjoint observation operator
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+    outflag : int
+        status flag
+
+    Returns
+    -------
+    outflag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
+    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
+    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
+    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
+    PDAFcython.py__cvt_pdaf = py__cvt_pdaf
+    PDAFcython.py__cvt_adj_pdaf = py__cvt_adj_pdaf
+    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
+    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+
+    c__pdafomi_put_state_hyb3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
+                                         c__PDAFcython.c__init_dim_obs_pdaf,
+                                         c__PDAFcython.c__obs_op_pdaf,
+                                         c__PDAFcython.c__cvt_ens_pdaf,
+                                         c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                         c__PDAFcython.c__cvt_pdaf,
+                                         c__PDAFcython.c__cvt_adj_pdaf,
+                                         c__PDAFcython.c__obs_op_lin_pdaf,
+                                         c__PDAFcython.c__obs_op_adj_pdaf,
+                                         c__PDAFcython.c__prepoststep_pdaf,
+                                         &outflag
+                                        )
+
+    return outflag
+
+def put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
+                               py__init_dim_obs_f_pdaf,
+                               py__obs_op_f_pdaf,
+                               py__cvt_ens_pdaf,
+                               py__cvt_adj_ens_pdaf,
+                               py__cvt_pdaf,
+                               py__cvt_adj_pdaf,
+                               py__obs_op_lin_pdaf,
+                               py__obs_op_adj_pdaf,
+                               py__init_n_domains_p_pdaf,
+                               py__init_dim_l_pdaf,
+                               py__init_dim_obs_l_pdaf,
+                               py__g2l_state_pdaf,
+                               py__l2g_state_pdaf,
+                               py__prepoststep_pdaf,
+                               int outflag
+                              ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__init_dim_obs_f_pdaf : func
+        initialize dimension of full observation vector
+    py__obs_op_f_pdaf : func
+        full observation operator
+    py__cvt_ens_pdaf : func
+        apply control vector transform matrix to control vector
+    py__cvt_adj_ens_pdaf : func
+        apply adjoint control vector transform matrix
+    py__cvt_pdaf : func
+        apply control vector transform matrix to control vector
+    py__cvt_adj_pdaf : func
+        apply adjoint control vector transform matrix
+    py__obs_op_lin_pdaf : func
+        linearized observation operator
+    py__obs_op_adj_pdaf : func
+        adjoint observation operator
+    py__init_n_domains_p_pdaf : func
+        provide number of local analysis domains
+    py__init_dim_l_pdaf : func
+        init state dimension for local ana. domain
+    py__init_dim_obs_l_pdaf : func
+        initialize local dimimension of obs. vector
+    py__g2l_state_pdaf : func
+        get state on local ana. domain from full state
+    py__l2g_state_pdaf : func
+        init full state from local state
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+    outflag : int
+        status flag
+
+    Returns
+    -------
+    outflag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__init_dim_obs_f_pdaf = py__init_dim_obs_f_pdaf
+    PDAFcython.py__obs_op_f_pdaf = py__obs_op_f_pdaf
+    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
+    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
+    PDAFcython.py__cvt_pdaf = py__cvt_pdaf
+    PDAFcython.py__cvt_adj_pdaf = py__cvt_adj_pdaf
+    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
+    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
+    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
+    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
+    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
+    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
+    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+
+    c__pdafomi_put_state_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                          c__PDAFcython.c__init_dim_obs_f_pdaf,
+                                          c__PDAFcython.c__obs_op_f_pdaf,
+                                          c__PDAFcython.c__cvt_ens_pdaf,
+                                          c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                          c__PDAFcython.c__cvt_pdaf,
+                                          c__PDAFcython.c__cvt_adj_pdaf,
+                                          c__PDAFcython.c__obs_op_lin_pdaf,
+                                          c__PDAFcython.c__obs_op_adj_pdaf,
+                                          c__PDAFcython.c__init_n_domains_p_pdaf,
+                                          c__PDAFcython.c__init_dim_l_pdaf,
+                                          c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                          c__PDAFcython.c__g2l_state_pdaf,
+                                          c__PDAFcython.c__l2g_state_pdaf,
+                                          c__PDAFcython.c__prepoststep_pdaf,
+                                          &outflag
+                                         )
+
+    return outflag
+
+def put_state_lenkf (py__collect_state_pdaf,
+                     py__init_dim_obs_pdaf,
+                     py__obs_op_pdaf,
+                     py__prepoststep_pdaf,
+                     py__localize_covar_pdaf
+                    ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__init_dim_obs_pdaf : func
+        initialize dimension of observation vector
+    py__obs_op_pdaf : func
+        observation operator
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+    py__localize_covar_pdaf : func
+        apply localization to hp and hph^t
+
+    Returns
+    -------
+    flag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
+    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    PDAFcython.py__localize_covar_pdaf = py__localize_covar_pdaf
+
+    cdef int flag
+
+    c__pdafomi_put_state_lenkf (c__PDAFcython.c__collect_state_pdaf,
+                                c__PDAFcython.c__init_dim_obs_pdaf,
+                                c__PDAFcython.c__obs_op_pdaf,
+                                c__PDAFcython.c__prepoststep_pdaf,
+                                c__PDAFcython.c__localize_covar_pdaf,
+                                &flag
+                               )
+
+    return flag
+
+def put_state_local (py__collect_state_pdaf,
+                     py__init_dim_obs_pdaf,
+                     py__obs_op_pdaf,
+                     py__prepoststep_pdaf,
+                     py__init_n_domains_p_pdaf,
+                     py__init_dim_l_pdaf,
+                     py__init_dim_obs_l_pdaf,
+                     py__g2l_state_pdaf,
+                     py__l2g_state_pdaf
+                    ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__init_dim_obs_pdaf : func
+        initialize dimension of observation vector
+    py__obs_op_pdaf : func
+        observation operator
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+    py__init_n_domains_p_pdaf : func
+        provide number of local analysis domains
+    py__init_dim_l_pdaf : func
+        init state dimension for local ana. domain
+    py__init_dim_obs_l_pdaf : func
+        initialize dim. of obs. vector for local ana. domain
+    py__g2l_state_pdaf : func
+        get state on local ana. domain from full state
+    py__l2g_state_pdaf : func
+        init full state from state on local analysis domain
+
+    Returns
+    -------
+    flag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
+    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
+    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
+    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
+    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
+    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
+
+    cdef int flag
+
+    c__pdafomi_put_state_local (c__PDAFcython.c__collect_state_pdaf,
+                                c__PDAFcython.c__init_dim_obs_pdaf,
+                                c__PDAFcython.c__obs_op_pdaf,
+                                c__PDAFcython.c__prepoststep_pdaf,
+                                c__PDAFcython.c__init_n_domains_p_pdaf,
+                                c__PDAFcython.c__init_dim_l_pdaf,
+                                c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                c__PDAFcython.c__g2l_state_pdaf,
+                                c__PDAFcython.c__l2g_state_pdaf,
+                                &flag
+                               )
+
+    return flag
+

@@ -31,7 +31,7 @@ from Inflation import Inflation
 
 def main():
     USE_PDAF = True
-    nt = 18
+    nt = 2
 
     if USE_PDAF:
         pe = parallelization(dim_ens=4, n_modeltasks=4, screen=2)

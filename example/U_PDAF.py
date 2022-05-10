@@ -27,7 +27,8 @@ import U_PDAFomi
 
 
 def init_ens_pdaf(model, pe, assim_dim,
-                  filtertype, state_p,
+                  filtertype, dim_p,
+                  dim_ens, state_p, 
                   uinv, ens_p, status_pdaf):
     """user-defined init_ens_pdaf function
 
@@ -55,18 +56,17 @@ def init_ens_pdaf(model, pe, assim_dim,
     status_pdaf : int
         status of PDAF
     """
-    dim_ens, dim_p = ens_p.shape
     filename = 'inputs_online/ens_{i}.txt'
     off_nx = model.nx_p[-1]*pe.mype_model
     for i_ens in range(dim_ens):
         field_p = np.loadtxt(
                         filename.format(i=i_ens+1)
                             )[:, off_nx:off_nx+model.nx_p[-1]]
-        ens_p[i_ens] = field_p.reshape(assim_dim.dim_state_p, order='F')
-    return status_pdaf
+        ens_p[:, i_ens] = field_p.reshape(assim_dim.dim_state_p, order='F')
+    return state_p, uinv, ens_p, status_pdaf
 
 
-def collect_state_pdaf(model, assim_dim, state_p):
+def collect_state_pdaf(model, assim_dim, dim_p, state_p):
     """Collect state vector in PDAF from model
 
     rely on Python's pass by reference
@@ -80,10 +80,10 @@ def collect_state_pdaf(model, assim_dim, state_p):
     state_p : ndarray
         1D state vector on local PE
     """
-    state_p[:] = model.field_p.reshape(assim_dim.dim_state_p, order='F')
+    state_p = model.field_p.reshape(assim_dim.dim_state_p, order='F')
+    return state_p
 
-
-def distribute_state_pdaf(model, state_p):
+def distribute_state_pdaf(model, dim_p, state_p):
     """Distribute state vector to model field
 
     rely on Python's pass by reference
@@ -95,8 +95,8 @@ def distribute_state_pdaf(model, state_p):
     state_p : ndarray
         1D state vector on local PE
     """
-    model.field_p[:] = state_p.reshape(*model.nx_p, order='F')
-
+    model.field_p = state_p.reshape(*model.nx_p, order='F')
+    return state_p
 
 def next_observation_pdaf(model, pe, delt_obs,
                           stepnow, nsteps, doexit, time):
@@ -147,28 +147,50 @@ firsttime = True
 
 
 def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
-                         step, state_p, uinv, ens_p):
+                         step, dim_p, dim_ens, dim_ens_p,
+                         dim_obs_p, state_p, uinv, ens_p, flag):
     """pre- and post-processing of ensemble
 
     Parameters
     ----------
-    assim_dim : `AssimilationDimensions.AssimilationDimensions`
-        an object of AssimilationDimensions
-    model : `Model.Model`
-        model object
-    pe : `parallelization.parallelization`
-        parallelization object
-    obs : `OBS.OBS`
-        observation object
     step : int
-        Current time step
-    state_p : ndarray
-        1D state vector on local PE
-    uinv : ndarray
-        2D left eigenvector with shape (dim_ens - 1,dim_ens - 1)
-    ens_p : ndarray
-        ensemble state vector on local PE (dim_ens, dim_p)
+        current time step (negative for call after forecast)
+    dim_p : int
+        pe-local state dimension
+    dim_ens : int
+        size of state ensemble
+    dim_ens_p : int
+        pe-local size of ensemble
+    dim_obs_p : int
+        pe-local dimension of observation vector
+    state_p : ndarray[float]
+        pe-local forecast/analysis state
+         (the array 'state_p' is not generally not
+         initialized in the case of seik.
+         it can be used freely here.)
+        shape is (dim_p)
+    uinv : ndarray[float]
+        inverse of matrix u
+        shape is (dim_ens-1,dim_ens-1)
+    ens_p : ndarray[float]
+        pe-local state ensemble
+        shape is (dim_p,dim_ens)
+    flag : int
+        pdaf status flag
+
+    Returns
+    -------
+    state_p : ndarray[float]
+        pe-local forecast/analysis state
+         (the array 'state_p' is not generally not
+         initialized in the case of seik.
+         it can be used freely here.)
+    uinv : ndarray[float]
+        inverse of matrix u
+    ens_p : ndarray[float]
+        pe-local state ensemble
     """
+
     global firsttime
     if (firsttime):
         print('Analyze initial state ensemble')
@@ -181,15 +203,15 @@ def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
             print('Analyze and write assimilated state ensemble')
             anastr = 'ana'
 
-    dim_ens, dim_p = ens_p.shape
     variance = np.zeros(assim_dim.dim_state)
 
-    state_p[:] = np.mean(ens_p, axis=0)[:]
-    variance_p = np.var(ens_p, axis=0, ddof=1)
+    state_p = np.mean(ens_p, axis=1)
+    variance_p = np.var(ens_p, axis=-1, ddof=1)
+
     if pe.mype_filter != 0:
         pe.COMM_filter.Send(variance_p, 0, pe.mype_filter)
     else:
-        variance[:dim_p] = variance_p[:]
+        variance[:dim_p] = variance_p
         for i in range(1, pe.npes_filter):
             pe.COMM_filter.Recv(
                               variance[i*dim_p:(i+1)*dim_p], i, i)
@@ -202,30 +224,30 @@ def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
         print('RMS error: ', rmserror_est)
 
     if (not firsttime):
-        ens = np.zeros((assim_dim.dim_ens, assim_dim.dim_state))
+        ens = np.zeros((assim_dim.dim_state, assim_dim.dim_ens))
         state = np.zeros(assim_dim.dim_state)
         if pe.mype_filter != 0:
-            pe.COMM_filter.Send(ens_p[:], 0, pe.mype_filter)
+            pe.COMM_filter.Send(ens_p, 0, pe.mype_filter)
         else:
             ens[:, :dim_p] = ens_p
             ens_tmp = np.zeros(ens_p.shape)
             for i in range(1, pe.npes_filter):
                 pe.COMM_filter.Recv(
                                 ens_tmp, i, i)
-                ens[:, i*dim_p:(i+1)*dim_p] = ens_tmp[:, :]
+                ens[i*dim_p:(i+1)*dim_p] = ens_tmp[:, :]
             print('--- write ensemble and state estimate')
 
             stepstr = step if step >= 0 else -step
             field = np.zeros(model.nx)
             for i in range(dim_ens):
-                field = ens[i].reshape(*model.nx, order='F')
+                field = ens[:, i].reshape(*model.nx, order='F')
                 filename = f'ens_{i+1}_step{stepstr}_{anastr}.txt'
                 np.savetxt(filename, field, delimiter=';')
 
         if pe.mype_filter != 0:
             pe.COMM_filter.Send(state_p, 0, pe.mype_filter)
         else:
-            state[:dim_p] = state_p[:]
+            state[:dim_p] = state_p
             state_p_tmp = np.zeros(state_p.shape)
             for i in range(1, pe.npes_filter):
                 pe.COMM_filter.Recv(
@@ -235,6 +257,8 @@ def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
             np.savetxt(filename,
                        state.reshape(*model.nx, order='F'), delimiter=';')
 
-    U_PDAFomi.deallocate_obs_pdafomi(obs, step)
+    U_PDAFomi.deallocate_obs_pdafomi(obs)
 
     firsttime = False
+
+    return state_p, uinv, ens_p

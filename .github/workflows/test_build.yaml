@@ -8,10 +8,11 @@ jobs:
       - run: sudo apt install -y liblapack-dev libblas-dev libopenmpi-dev
       - name: get PDAF
         run: |
-            wget -O PDAF-D_V1.16.tar.gz "${{ env.PDAF_LINK }}"
-            tar -zxvf PDAF-D_V1.16.tar.gz
+            wget -O PDAF_V2.0.tar.gz "${{ env.PDAF_LINK }}"
+            gzip -d PDAF_V2.0.tar.gz
+            tar -xvf PDAF_V2.0.tar
         env:
-          PDAF_LINK: ${{ secrets.PDAF116_LINK }}
+          PDAF_LINK: ${{ secrets.PDAF_V2 }}
 
       - name: Set up Python 3.8
         uses: actions/setup-python@v2

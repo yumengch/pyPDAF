@@ -116,9 +116,12 @@ class OBS:
 
         # Size of domain for periodicity for disttype=1
         # (<0 for no periodicity)
-        self.domainsize = np.zeros(self.ncoord)
-        self.domainsize[0] = nx[1]
-        self.domainsize[1] = nx[0]
+        if self.i_obs == 1:
+            self.domainsize = np.zeros(self.ncoord)
+            self.domainsize[0] = nx[1]
+            self.domainsize[1] = nx[0]
+        else:
+            self.domainsize = None
 
         # Type of observation error: (0) Gauss, (1) Laplace
         self.obs_err_type = None
@@ -245,22 +248,10 @@ class OBS:
             observation field
         """
         obs_field = np.zeros(nx)
-        obs_field[:] = np.loadtxt(f'inputs_online/obs_step{step}.txt')
         if self.i_obs == 1:
-            # Make the observations at (8,5), (12,15) and (4,30) invalid
-            # They will be used in observation type B
-            obs_field[7, 4] = -1000.0
-            obs_field[11, 14] = -1000.0
-            obs_field[3, 29] = -1000.0
+            obs_field = np.loadtxt(f'inputs_online/obs_step{step}.txt')
         else:
-            # Make the observations at (8,5), (12,15) and (4,30) invalid
-            # They will be used in observation type B
-            obs_tmp = [obs_field[7, 4], obs_field[11, 14], obs_field[3, 29]]
-            obs_field[:] = -1000.
-            obs_field[7, 4] = obs_tmp[0]
-            obs_field[11, 14] = obs_tmp[1]
-            obs_field[3, 29] = obs_tmp[2]
-
+            obs_field = np.loadtxt(f'inputs_online/obsB_step{step}.txt')
         return obs_field
 
     def set_PDAFomi(self, local_range):
@@ -271,8 +262,11 @@ class OBS:
         local_range : double
             lcalization radius (the maximum radius used in this process domain)
         """
-        PDAFomi.setOMIessential(self.i_obs, self.doassim, self.disttype,
-                                self.ncoord, self.id_obs_p)
+        
+        PDAFomi.set_doassim(self.i_obs, self.doassim)
+        PDAFomi.set_disttype(self.i_obs, self.disttype)
+        PDAFomi.set_ncoord(self.i_obs, self.ncoord)
+        PDAFomi.set_id_obs_p(self.i_obs, self.id_obs_p)
         if self.domainsize is not None:
             PDAFomi.set_domainsize(self.i_obs, self.domainsize)
         if self.obs_err_type is not None:
@@ -281,9 +275,8 @@ class OBS:
             PDAFomi.set_use_global_obs(self.i_obs, self.use_global_obs)
         if self.icoeff_p is not None:
             PDAFomi.set_icoeff_p(self.i_obs, self.icoeff_p)
+
         self.dim_obs = PDAFomi.gather_obs(self.i_obs,
-                                          self.dim_obs_p,
-                                          self.nrows,
                                           self.obs_p,
                                           self.ivar_obs_p,
                                           self.ocoord_p,
@@ -302,7 +295,8 @@ class OBS:
             state vector transformed by identity matrix
         """
         if (self.doassim == 1):
-            PDAFomi.obs_op_gridpoint(self.i_obs, state_p, ostate)
+            ostate = PDAFomi.obs_op_gridpoint(self.i_obs, state_p, ostate)
+        return ostate
 
     def init_dim_obs_l(self, localization, domain_p, step, dim_obs, dim_obs_l):
         """intialise local observation vector
@@ -349,7 +343,7 @@ class OBS:
                                localization.srange,
                                coords_p, HP_p, HPH)
 
-    def deallocate_obs(self, step):
+    def deallocate_obs(self):
         """deallocate PDAFomi object
 
         Parameters
@@ -357,4 +351,4 @@ class OBS:
         step : int
             current time step
         """
-        PDAFomi.deallocate_obs(self.i_obs, step)
+        PDAFomi.deallocate_obs(self.i_obs)

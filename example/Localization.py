@@ -166,7 +166,7 @@ class Localization:
         """
         # generic initialization
         # using id_lstate_in_pstate set in init_dim_l_pdaf
-        state_l[:] = state_p[self.id_lstate_in_pstate]
+        state_l = state_p[self.id_lstate_in_pstate]
 
     def l2g_state_pdaf(self, step, domain_p, state_l, state_p):
         """convert local state vector to PE-local global state vector
@@ -182,4 +182,4 @@ class Localization:
         state_p : ndarray
             PE-local global state vector
         """
-        state_p[self.id_lstate_in_pstate] = state_l[:]
+        state_p[self.id_lstate_in_pstate] = state_l
