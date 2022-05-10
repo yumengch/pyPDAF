@@ -78,13 +78,18 @@ def compile_interface():
     status = os.system('make pdaf-var PDAF_ARCH=pyPDAF')
     if status:
         raise RuntimeError('failed to install PDAF')
+    status = os.system('sed \'s/$(FC) -O3 -fPIC -o/$(FC) -O3 -o/g\' Makefile > Makefile.tmp')
+    status = os.system('mv -v Makefile.tmp  Makefile')
+    status = os.system('rm -vf Makefile.tmp')
     os.chdir(pwd)
 
-    f90_files = glob.glob(os.path.join('pyPDAF', 'fortran', '*.F90'))
+    f90_files = ['pyPDAF/fortran/U_PDAF_interface_c_binding.F90',
+                 'pyPDAF/fortran/PDAF_c_binding.F90',
+                 'pyPDAF/fortran/PDAFomi_obs_c_binding.F90']
     objs = []
     for src in f90_files:
         objs.append(f'{os.path.basename(src[:-4])}.o')
-        cmd = f'{options["FC"]} {options["OPT"]} {options["CPP_DEFS"]} {options["INC"]} -c {src} -o {objs[-1]}'
+        cmd = f'{options["FC"]} {options["OPT"]} {options["CPP_DEFS"]} {options["INC"]} -I. -c {src} -o {objs[-1]}'
         print(cmd)
         os.system(cmd)
     objs = ' '.join(objs)
@@ -94,9 +99,6 @@ def compile_interface():
     os.makedirs('lib', exist_ok=True)
     os.system(cmd)
 
-    status = os.system('sed \'s/$(FC) -O3 -fPIC -o/$(FC) -O3 -o/g\' Makefile > Makefile.tmp')
-    status = os.system('mv -v Makefile.tmp  Makefile')
-    status = os.system('rm -vf Makefile.tmp')
 
 class PreDevelopCommand(develop):
     """Pre-installation for development mode.
