@@ -21,8 +21,10 @@ mpiexec -n 4 python -u example/main.py
 ```
 Will run the model with 4 ensemble members where each member uses 1 process. 
 
-## Note:
-Currently, it interfaces with subroutines of ```PDAF-V2.0``` with an example for online coupling with PDAF using a simple model based on the [tutorial](http://pdaf.awi.de/trac/wiki/FirstSteps) from PDAF. Some interface in Python changes slightly due to different ways to handling return values in Python from Fortran. Visit [here](https://yumengch.github.io/pyPDAF/index.html) to check more detailed documentation on installation, Python interface, and implementation guide on pyPDAF. The simplified interfaces in PDAF are not supported. 
+## Documentation:
+Currently, it interfaces with subroutines of ```PDAF-V2.0``` with an example for online coupling with PDAF using a simple model based on the [tutorial](http://pdaf.awi.de/trac/wiki/FirstSteps) from PDAF. Some interface in Python changes slightly due to different ways to handling return values in Python from Fortran. 
+
+[This documentation](https://yumengch.github.io/pyPDAF/index.html) contains more details on installation, Python interface, and implementation guide on pyPDAF. The simplified interfaces in PDAF are not supported. 
 
 ## Contributors:
 Yumeng Chen, Lars Nerger
