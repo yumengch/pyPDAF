@@ -2,8 +2,6 @@ import pyPDAF.UserFunc as PDAFcython
 cimport pyPDAF.UserFunc as c__PDAFcython
 
 import numpy as np
-
-
 def init (int n_obs
          ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
@@ -77,10 +75,6 @@ def set_id_obs_p (int i_obs,
     ----------
     i_obs : int
         index of observations
-    nrows : int
-        number of values to be averaged
-    dim_obs_p : int
-        dimension of pe local obs
     id_obs_p : ndarray[int]
         setter value
     """
@@ -104,10 +98,6 @@ def set_icoeff_p (int i_obs,
     ----------
     i_obs : int
         index of observations
-    nrows : int
-        number of values to be averaged
-    dim_obs_p : int
-        dimension of pe local obs
     icoeff_p : ndarray[float]
         setter value
     """
@@ -131,8 +121,6 @@ def set_domainsize (int i_obs,
     ----------
     i_obs : int
         index of observations
-    ncoord : int
-        state dimension
     domainsize : ndarray[float]
         setter value
     """
@@ -192,8 +180,6 @@ def gather_obs (int i_obs,
     ----------
     i_obs : int
         index of observations
-    dim_obs_p : int
-        state dimension
     obs_p : ndarray[float]
         pe-local observation vector
     ivar_obs_p : ndarray[float]
@@ -242,8 +228,6 @@ def gather_obsstate (int i_obs,
         vector of process-local observed state
     obsstate_f : ndarray[float]
         full observed vector for all types
-    nobs_f_all : int
-        dimension of the observation
 
     Returns
     -------
@@ -278,12 +262,6 @@ def localize_covar (int i_obs,
     ----------
     i_obs : int
         index of observations
-    dim_p : int
-        state dimension
-    dim_obs : int
-        obs dimension
-    dim_coords : int
-        number of coords
     locweight : int
         localization weight type
     local_range : float
@@ -307,7 +285,7 @@ def localize_covar (int i_obs,
     cdef double[::1] coords_p_view = np.array(coords_p).ravel(order='F')
     cdef double[::1] hp_p_view = np.array(hp_p).ravel(order='F')
     cdef double[::1] hph_view = np.array(hph).ravel(order='F')
-    cdef int dim_obs, dim_p, dim_coords
+    cdef int dim_coords, dim_obs, dim_p
     dim_coords, dim_p,  = coords_p.shape
     dim_obs, _,  = hp_p.shape
 
@@ -419,12 +397,8 @@ def obs_op_gridpoint (int i_obs,
         index of observations
     state_p : ndarray[float]
         pe-local model state (dim_p)
-    dim_p : int
-        dimension of model state
     obs_f_all : ndarray[float]
         full observed state for all observation types (nobs_f_all)
-    nobs_f_all : int
-        dimension of the observation
 
     Returns
     -------
@@ -433,7 +407,7 @@ def obs_op_gridpoint (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int dim_p, nobs_f_all
+    cdef int nobs_f_all, dim_p
     dim_p,  = state_p.shape
     nobs_f_all,  = obs_f_all.shape
 
@@ -462,12 +436,8 @@ def obs_op_gridavg (int i_obs,
         number of values to be averaged
     state_p : ndarray[float]
         pe-local model state (dim_p)
-    dim_p : int
-        dimension of model state
     obs_f_all : ndarray[float]
         full observed state for all observation types (nobs_f_all)
-    nobs_f_all : int
-        dimension of the observation
 
     Returns
     -------
@@ -476,7 +446,7 @@ def obs_op_gridavg (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int dim_p, nobs_f_all
+    cdef int nobs_f_all, dim_p
     dim_p,  = state_p.shape
     nobs_f_all,  = obs_f_all.shape
 
@@ -506,12 +476,8 @@ def obs_op_interp_lin (int i_obs,
         number of values to be averaged
     state_p : ndarray[float]
         pe-local model state (dim_p)
-    dim_p : int
-        dimension of model state
     obs_f_all : ndarray[float]
         full observed state for all observation types (nobs_f_all)
-    nobs_f_all : int
-        dimension of the observation
 
     Returns
     -------
@@ -520,7 +486,7 @@ def obs_op_interp_lin (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int dim_p, nobs_f_all
+    cdef int nobs_f_all, dim_p
     dim_p,  = state_p.shape
     nobs_f_all,  = obs_f_all.shape
 
@@ -550,12 +516,8 @@ def obs_op_adj_gridavg (int i_obs,
         number of values to be averaged
     state_p : ndarray[float]
         pe-local model state (dim_p)
-    dim_p : int
-        dimension of model state
     obs_f_all : ndarray[float]
         full observed state for all observation types (nobs_f_all)
-    nobs_f_all : int
-        dimension of the observation
 
     Returns
     -------
@@ -564,7 +526,7 @@ def obs_op_adj_gridavg (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int dim_p, nobs_f_all
+    cdef int nobs_f_all, dim_p
     dim_p,  = state_p.shape
     nobs_f_all,  = obs_f_all.shape
 
@@ -591,12 +553,8 @@ def obs_op_adj_gridpoint (int i_obs,
         index of observations
     state_p : ndarray[float]
         pe-local model state (dim_p)
-    dim_p : int
-        dimension of model state
     obs_f_all : ndarray[float]
         full observed state for all observation types (nobs_f_all)
-    nobs_f_all : int
-        dimension of the observation
 
     Returns
     -------
@@ -605,7 +563,7 @@ def obs_op_adj_gridpoint (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int dim_p, nobs_f_all
+    cdef int nobs_f_all, dim_p
     dim_p,  = state_p.shape
     nobs_f_all,  = obs_f_all.shape
 
@@ -634,12 +592,8 @@ def obs_op_adj_interp_lin (int i_obs,
         number of values to be averaged
     state_p : ndarray[float]
         pe-local model state (dim_p)
-    dim_p : int
-        dimension of model state
     obs_f_all : ndarray[float]
         full observed state for all observation types (nobs_f_all)
-    nobs_f_all : int
-        dimension of the observation
 
     Returns
     -------
@@ -648,7 +602,7 @@ def obs_op_adj_interp_lin (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int dim_p, nobs_f_all
+    cdef int nobs_f_all, dim_p
     dim_p,  = state_p.shape
     nobs_f_all,  = obs_f_all.shape
 
@@ -733,10 +687,6 @@ def get_interp_coeff_lin (gpc,
 
     Parameters
     ----------
-    num_gp : int
-        length of icoeff
-    n_dim : int
-        number of dimensions in interpolation
     gpc : ndarray[float]
         coordinates of grid points
     oc : ndarray[float]
@@ -752,7 +702,7 @@ def get_interp_coeff_lin (gpc,
     cdef double[::1] gpc_view = np.array(gpc).ravel(order='F')
     cdef double[::1] oc_view = np.array(oc).ravel(order='F')
     cdef double[::1] icoeff_view = np.array(icoeff).ravel(order='F')
-    cdef int n_dim, num_gp
+    cdef int num_gp, n_dim
     num_gp, n_dim,  = gpc.shape
 
 

@@ -222,7 +222,7 @@ def writeFuncDef(f, name, routine, arg_list):
     f.write(s)
 
 
-def writeDocString(f, routine):
+def writeDocString(f, routine, arg_list):
 
     s = '    \"\"\"'
     s += 'See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ \n\n'
@@ -232,7 +232,8 @@ def writeDocString(f, routine):
     s = indent + 'Parameters\n'
     s += indent + '----------\n'
     count = 0
-    for arg, info in routine.items():
+    for arg in arg_list:
+        info = routine[arg]
         if info['intent'] is not None:
             if 'in' not in info['intent']:
                 continue
@@ -424,7 +425,7 @@ def writePDAFcalls(filename, PDAFInfo):
             name = routine.pop('name')
             arg_list, ArrayDims = getPyxArgList(routine)
             writeFuncDef(f, name, routine, arg_list)
-            writeDocString(f, routine)
+            writeDocString(f, routine, arg_list)
             writeMemoryView(f, routine)
             writeDims(f, routine, ArrayDims)
             writeUserCython(f, routine)
@@ -432,6 +433,7 @@ def writePDAFcalls(filename, PDAFInfo):
             writeFuncCall(f, name, routine)
             writeReturns(f, routine)
             routine['name'] = name
+
 
 def writeUserPxdFile(filename, UserFuncInfo):
     with open(filename, 'w') as f:
@@ -636,15 +638,15 @@ def writeUserCalls(filename, UserFuncInfo):
 
 if __name__ == '__main__':
     UserFuncInfo = getFuncInfo('../pyPDAF/fortran/U_PDAF_interface_c_binding.F90')
-    # writeUserPxdFile('U_PDAF_interface_c_binding.pxd', UserFuncInfo)
+    writeUserPxdFile('U_PDAF_interface_c_binding.pxd', UserFuncInfo)
     writeUserCalls('U_PDAF_interface_c_binding.pyx', UserFuncInfo)
 
-    # PDAFInfo = getFuncInfo('../pyPDAF/fortran/PDAF_c_binding.F90')
-    # writePxdFile('PDAF_c_binding.pxd', UserFuncInfo, PDAFInfo)
-    # writePDAFcalls('PDAF_c_binding.pyx', PDAFInfo)
-    # PDAFInfo = getFuncInfo('../pyPDAF/fortran/PDAFomi_obs_c_binding.F90')
-    # writePxdFile('PDAFomi_obs_c_binding.pxd', UserFuncInfo, PDAFInfo)
-    # writePDAFcalls('PDAFomi_obs_c_binding.pyx', PDAFInfo)
+    PDAFInfo = getFuncInfo('../pyPDAF/fortran/PDAF_c_binding.F90')
+    writePxdFile('PDAF_c_binding.pxd', UserFuncInfo, PDAFInfo)
+    writePDAFcalls('PDAF_c_binding.pyx', PDAFInfo)
+    PDAFInfo = getFuncInfo('../pyPDAF/fortran/PDAFomi_obs_c_binding.F90')
+    writePxdFile('PDAFomi_obs_c_binding.pxd', UserFuncInfo, PDAFInfo)
+    writePDAFcalls('PDAFomi_obs_c_binding.pyx', PDAFInfo)
 
 
 

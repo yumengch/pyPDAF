@@ -2,8 +2,6 @@ import pyPDAF.UserFunc as PDAFcython
 cimport pyPDAF.UserFunc as c__PDAFcython
 
 import numpy as np
-
-
 def assimilate_3dvar (py__collect_state_pdaf,
                       py__distribute_state_pdaf,
                       py__init_dim_obs_pdaf,
@@ -1472,10 +1470,6 @@ def diag_crps (int element,
 
     Parameters
     ----------
-    dim : int
-        pe-local state dimension
-    dim_ens : int
-        ensemble size
     element : int
         id of element to be used. if element=0, mean values over all elements are computed
     oens : ndarray[float]
@@ -1528,8 +1522,6 @@ def diag_effsample (weights
 
     Parameters
     ----------
-    dim_sample : int
-        sample size
     weights : ndarray[float]
         weights of the samples
 
@@ -1560,10 +1552,6 @@ def diag_ensstats (int element,
 
     Parameters
     ----------
-    dim : int
-        pe-local state dimension
-    dim_ens : int
-        ensemble size
     element : int
         id of element to be used. if element=0, mean values over all elements are computed
     state : ndarray[float]
@@ -1614,10 +1602,6 @@ def diag_histogram (int ncall,
     ----------
     ncall : int
         number of calls to routine
-    dim : int
-        state dimension
-    dim_ens : int
-        ensemble size
     element : int
         element of vector used for histogram
     state : ndarray[float]
@@ -1672,12 +1656,6 @@ def eofcovar (dim_fields,
 
     Parameters
     ----------
-    dim_state : int
-        dimension of state vector
-    nstates : int
-        number of state vectors
-    nfields : int
-        number of fields in state vector
     dim_fields : ndarray[int]
         size of each field
     offsets : ndarray[int]
@@ -1715,7 +1693,7 @@ def eofcovar (dim_fields,
     cdef int[::1] offsets_view = np.array(offsets, dtype=np.intc).ravel(order='F')
     cdef double[::1] states_view = np.array(states).ravel(order='F')
     cdef double[::1] meanstate_view = np.array(meanstate).ravel(order='F')
-    cdef int dim_state, nfields, nstates
+    cdef int nstates, dim_state, nfields
     dim_state, nstates,  = states.shape
     nfields,  = dim_fields.shape
 
@@ -1781,8 +1759,6 @@ def gather_obs_f (obs_p,
     ----------
     obs_p : ndarray[float]
         pe-local vector
-    dimobs_p : int
-        dimensions of pe local obs
     dimobs_f : int
         dimension of full gathered obs
 
@@ -1821,12 +1797,8 @@ def gather_obs_f2 (coords_p,
     ----------
     coords_p : ndarray[float]
         pe-local array
-    dimobs_p : int
-        dimensions of pe local obs
     dimobs_f : int
         dimension of full gathered obs
-    nrows : int
-        number of rows in array
 
     Returns
     -------
@@ -1838,7 +1810,7 @@ def gather_obs_f2 (coords_p,
          (1) when pdaf_gather dim_obs_f not executed before
     """
     cdef double[::1] coords_p_view = np.array(coords_p).ravel(order='F')
-    cdef int dimobs_p, nrows
+    cdef int nrows, dimobs_p
     nrows, dimobs_p,  = coords_p.shape
 
 
@@ -1862,14 +1834,10 @@ def gather_obs_f2_flex (int dim_obs_f,
 
     Parameters
     ----------
-    dim_obs_p : int
-        pe-local observation dimension
     dim_obs_f : int
         full observation dimension
     coords_p : ndarray[float]
         pe-local array
-    nrows : int
-        number of rows in array
 
     Returns
     -------
@@ -1879,7 +1847,7 @@ def gather_obs_f2_flex (int dim_obs_f,
         status flag: (0) no error
     """
     cdef double[::1] coords_p_view = np.array(coords_p).ravel(order='F')
-    cdef int dim_obs_p, nrows
+    cdef int nrows, dim_obs_p
     nrows, dim_obs_p,  = coords_p.shape
 
 
@@ -1903,8 +1871,6 @@ def gather_obs_f_flex (int dim_obs_f,
 
     Parameters
     ----------
-    dim_obs_p : int
-        pe-local observation dimension
     dim_obs_f : int
         full observation dimension
     obs_p : ndarray[float]
@@ -2176,12 +2142,8 @@ def init (int filtertype,
         initial time step of assimilation
     param_int : ndarray[int]
         integer parameter array
-    dim_pint : int
-        number of integer parameters
     param_real : ndarray[float]
         real parameter array
-    dim_preal : int
-        number of real parameter
     comm_model : int
         model communicator
     comm_filter : int
@@ -2261,10 +2223,6 @@ def local_weight (int wtype,
         support radius
     distance : float
         distance to observation
-    nrows : int
-        number of rows in matrix a
-    ncols : int
-        number of columns in matrix a
     a : ndarray[float]
         input matrix
     var_obs : float
@@ -2318,8 +2276,6 @@ def local_weights (int wtype,
         parameter for cut-off
     sradius : float
         support radius
-    dim : int
-        size of distance and weight arrays
     distance : ndarray[float]
         array holding distances
     verbose : int
@@ -3789,10 +3745,6 @@ def sampleens (modes,
 
     Parameters
     ----------
-    dim : int
-        size of state vector
-    dim_ens : int
-        size of ensemble
     modes : ndarray[float]
         array of eof modes
     svals : ndarray[float]
@@ -3923,10 +3875,6 @@ def seik_ttimesa (a
 
     Parameters
     ----------
-    rank : int
-        rank of initial covariance matrix
-    dim_col : int
-        number of columns in a and b
     a : ndarray[float]
         input matrix
 
@@ -3936,7 +3884,7 @@ def seik_ttimesa (a
         output matrix (ta)
     """
     cdef double[::1] a_view = np.array(a).ravel(order='F')
-    cdef int dim_col, rank
+    cdef int rank, dim_col
     rank, dim_col,  = a.shape
 
 
@@ -3956,10 +3904,6 @@ def etkf_tleft (a
 
     Parameters
     ----------
-    dim_ens : int
-        rank of initial covariance matrix
-    dim : int
-        number of columns in a and b
     a : ndarray[float]
         input/output matrix
 
@@ -3986,10 +3930,6 @@ def estkf_omegaa (a
 
     Parameters
     ----------
-    rank : int
-        rank of initial covariance matrix
-    dim_col : int
-        number of columns in a and b
     a : ndarray[float]
         input matrix
 
@@ -3999,7 +3939,7 @@ def estkf_omegaa (a
         output matrix (ta)
     """
     cdef double[::1] a_view = np.array(a).ravel(order='F')
-    cdef int dim_col, rank
+    cdef int rank, dim_col
     rank, dim_col,  = a.shape
 
 
@@ -4025,10 +3965,6 @@ def enkf_omega (seed,
     ----------
     seed : ndarray[int]
         seed for random number generation
-    r : int
-        approximated rank of covar matrix
-    dim_ens : int
-        ensemble size
     omega : ndarray[float]
         random matrix
     norm : float
@@ -4070,8 +4006,6 @@ def seik_omega (omega,
 
     Parameters
     ----------
-    rank : int
-        approximated rank of covar matrix
     omega : ndarray[float]
         matrix omega
     omegatype : int
@@ -4122,8 +4056,6 @@ def add_increment (state_p
 
     Parameters
     ----------
-    dim_p : int
-        state dimension
     state_p : ndarray[float]
         state vector
 
