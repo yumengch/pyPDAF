@@ -36,11 +36,11 @@ compilier_options = ['-fPIC']
 # include directory
 inc_dirs = [numpy.get_include(), f'{pwd}/pyPDAF/PDAF/']
 # linking options
-lib_dirs = ['lib']
+lib_dirs = [f'{pwd}/lib']
 # Cython set-up will automatically add -l as a prefix
 # For example, 'PDAFc' becomes -lPDAFc in final compilation
 libs = ['PDAFc']
-extra_link_args = ['-Llib', '-Wl,-rpath=lib']
+extra_link_args = [f'-L{pwd}/lib', f'-Wl,-rpath={pwd}/lib']
 objs = []
 
 
@@ -115,7 +115,8 @@ ext_modules = [Extension('*',
                          library_dirs=lib_dirs,
                          libraries=libs,
                          extra_objects=objs,
-                         extra_link_args=extra_link_args),
+                         extra_link_args=extra_link_args,
+                         runtime_library_dirs=lib_dirs),
                Extension('*',
                          [f'{pwd}/pyPDAF/UserFunc/*.pyx'])
                ]
