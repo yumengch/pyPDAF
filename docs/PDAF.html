@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>pyPDAF.PDAF &#8212; pyPDAF  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -12,11 +12,12 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="PDAFomi" href="PDAFomi.html" />
-    <link rel="prev" title="Welcome to pyPDAF’s documentation!" href="index.html" />
+    <link rel="next" title="pyPDAF.PDAFomi" href="PDAFomi.html" />
+    <link rel="prev" title="API reference" href="API.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -34,22 +35,19 @@
           <div class="body" role="main">
             
   <section id="module-pyPDAF.PDAF">
-<span id="pdaf"></span><h1>pyPDAF.PDAF<a class="headerlink" href="#module-pyPDAF.PDAF" title="Permalink to this headline">¶</a></h1>
+<span id="pypdaf-pdaf"></span><h1>pyPDAF.PDAF<a class="headerlink" href="#module-pyPDAF.PDAF" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAF.add_increment">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">add_increment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.add_increment" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dim_p</strong> (<em>int</em>) – state dimension</p></li>
-<li><p><strong>state_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – state vector</p></li>
-</ul>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>state_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – state vector</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>state_p</strong> – state vector</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
 </dl>
@@ -60,7 +58,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_3dvar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_3dvar" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
@@ -76,10 +74,10 @@
 <li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – routine to provide time step, time and dimension of next observation</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>outflag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -90,7 +88,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_en3dvar_estkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_en3dvar_estkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
@@ -107,10 +105,10 @@
 <li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – routine to provide time step, time and dimension of next observation</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>outflag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -121,7 +119,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_en3dvar_lestkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_en3dvar_lestkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
@@ -151,10 +149,10 @@
 <li><p><strong>outflag</strong> (<em>int</em>) – status flag</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>outflag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -165,7 +163,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_enkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_enkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
@@ -178,10 +176,10 @@
 <li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – provide time step and time of next observation</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -192,7 +190,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_estkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_estkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
@@ -205,10 +203,10 @@
 <li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – provide time step and time of next observation</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -219,7 +217,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_etkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_etkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
@@ -232,10 +230,10 @@
 <li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – provide time step and time of next observation</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -246,7 +244,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_hyb3dvar_estkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_hyb3dvar_estkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
@@ -265,10 +263,10 @@
 <li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – routine to provide time step, time and dimension of next observation</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>outflag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -279,7 +277,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_hyb3dvar_lestkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_hyb3dvar_lestkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
@@ -310,10 +308,10 @@
 <li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – routine to provide time step, time and dimension of next observation</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>outflag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -324,7 +322,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_lenkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_lenkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
@@ -338,10 +336,10 @@
 <li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – provide time step and time of next observation</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -352,7 +350,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_lestkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_lestkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
@@ -373,10 +371,10 @@
 <li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – provide time step and time of next observation</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -387,7 +385,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_letkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_letkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
@@ -408,10 +406,10 @@
 <li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – provide time step and time of next observation</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -422,7 +420,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_lnetf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_lnetf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
@@ -440,10 +438,10 @@
 <li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – provide time step and time of next observation</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -454,7 +452,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_lseik</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_lseik" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
@@ -475,10 +473,10 @@
 <li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – provide time step and time of next observation</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -489,7 +487,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_netf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_netf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
@@ -501,10 +499,10 @@
 <li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – provide time step and time of next observation</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -515,7 +513,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_pf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_pf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
@@ -527,10 +525,10 @@
 <li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – provide time step and time of next observation</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -541,7 +539,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_seek</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_seek" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
@@ -553,10 +551,10 @@
 <li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – provide time step and time of next observation</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -567,7 +565,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_seik</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_seik" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
@@ -579,10 +577,10 @@
 <li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – provide time step and time of next observation</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -599,16 +597,14 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">diag_crps</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.diag_crps" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dim</strong> (<em>int</em>) – pe-local state dimension</p></li>
-<li><p><strong>dim_ens</strong> (<em>int</em>) – ensemble size</p></li>
 <li><p><strong>element</strong> (<em>int</em>) – id of element to be used. if element=0, mean values over all elements are computed</p></li>
 <li><p><strong>oens</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – state ensemble</p></li>
 <li><p><strong>obs</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – state ensemble</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>crps</strong> (<em>float</em>) – crps</p></li>
 <li><p><strong>reli</strong> (<em>float</em>) – reliability</p></li>
@@ -626,16 +622,13 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">diag_effsample</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.diag_effsample" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dim_sample</strong> (<em>int</em>) – sample size</p></li>
-<li><p><strong>weights</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – weights of the samples</p></li>
-</ul>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>weights</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – weights of the samples</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>effsample</strong> – effecfive sample size</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
 </dd>
 </dl>
@@ -646,16 +639,14 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">diag_ensstats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.diag_ensstats" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dim</strong> (<em>int</em>) – pe-local state dimension</p></li>
-<li><p><strong>dim_ens</strong> (<em>int</em>) – ensemble size</p></li>
 <li><p><strong>element</strong> (<em>int</em>) – id of element to be used. if element=0, mean values over all elements are computed</p></li>
 <li><p><strong>state</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – state vector</p></li>
 <li><p><strong>ens</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – state ensemble</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>skewness</strong> (<em>float</em>) – skewness of ensemble</p></li>
 <li><p><strong>kurtosis</strong> (<em>float</em>) – kurtosis of ensemble</p></li>
@@ -671,11 +662,9 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">diag_histogram</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.diag_histogram" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ncall</strong> (<em>int</em>) – number of calls to routine</p></li>
-<li><p><strong>dim</strong> (<em>int</em>) – state dimension</p></li>
-<li><p><strong>dim_ens</strong> (<em>int</em>) – ensemble size</p></li>
 <li><p><strong>element</strong> (<em>int</em>) – element of vector used for histogram</p></li>
 <li><p><strong>state</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – <dl class="simple">
 <dt>if element=0, all elements are used</dt><dd><p>state vector</p>
@@ -686,7 +675,7 @@
 <li><p><strong>hist</strong> (<em>ndarray</em><em>[</em><em>int</em><em>]</em>) – histogram about the state</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>hist</strong> (<em>ndarray[int]</em>) – histogram about the state</p></li>
 <li><p><strong>delta</strong> (<em>float</em>) – deviation measure from flat histogram</p></li>
@@ -702,18 +691,16 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">enkf_omega</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.enkf_omega" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>seed</strong> (<em>ndarray</em><em>[</em><em>int</em><em>]</em>) – seed for random number generation</p></li>
-<li><p><strong>r</strong> (<em>int</em>) – approximated rank of covar matrix</p></li>
-<li><p><strong>dim_ens</strong> (<em>int</em>) – ensemble size</p></li>
 <li><p><strong>omega</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – random matrix</p></li>
 <li><p><strong>norm</strong> (<em>float</em>) – norm for ensemble transformation</p></li>
 <li><p><strong>otype</strong> (<em>int</em>) – type of omega</p></li>
 <li><p><strong>screen</strong> (<em>int</em>) – verbosity flag</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>omega</strong> (<em>ndarray[float]</em>) – random matrix</p></li>
 <li><p><strong>norm</strong> (<em>float</em>) – norm for ensemble transformation</p></li>
@@ -728,11 +715,8 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">eofcovar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.eofcovar" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dim_state</strong> (<em>int</em>) – dimension of state vector</p></li>
-<li><p><strong>nstates</strong> (<em>int</em>) – number of state vectors</p></li>
-<li><p><strong>nfields</strong> (<em>int</em>) – number of fields in state vector</p></li>
 <li><p><strong>dim_fields</strong> (<em>ndarray</em><em>[</em><em>int</em><em>]</em>) – size of each field</p></li>
 <li><p><strong>offsets</strong> (<em>ndarray</em><em>[</em><em>int</em><em>]</em>) – start position of each field</p></li>
 <li><p><strong>remove_mstate</strong> (<em>int</em>) – <dl class="simple">
@@ -750,7 +734,7 @@
 <li><p><strong>verbose</strong> (<em>int</em>) – verbosity flag</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul>
 <li><p><strong>states</strong> (<em>ndarray[float]</em>) – state perturbations</p></li>
 <li><p><strong>stddev</strong> (<em>ndarray[float]</em>) –</p>
@@ -774,17 +758,13 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">estkf_omegaa</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.estkf_omegaa" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>rank</strong> (<em>int</em>) – rank of initial covariance matrix</p></li>
-<li><p><strong>dim_col</strong> (<em>int</em>) – number of columns in a and b</p></li>
-<li><p><strong>a</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – input matrix</p></li>
-</ul>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>a</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – input matrix</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>b</strong> – output matrix (ta)</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
 </dl>
@@ -795,17 +775,13 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">etkf_tleft</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.etkf_tleft" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dim_ens</strong> (<em>int</em>) – rank of initial covariance matrix</p></li>
-<li><p><strong>dim</strong> (<em>int</em>) – number of columns in a and b</p></li>
-<li><p><strong>a</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – input/output matrix</p></li>
-</ul>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>a</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – input/output matrix</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>a</strong> – input/output matrix</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
 </dl>
@@ -822,13 +798,13 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">gather_dim_obs_f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.gather_dim_obs_f" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>dim_obs_p</strong> (<em>int</em>) – pe-local observation dimension</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>dim_obs_f</strong> – full observation dimension</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -839,14 +815,13 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">gather_obs_f</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.gather_obs_f" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>obs_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – pe-local vector</p></li>
-<li><p><strong>dimobs_p</strong> (<em>int</em>) – dimensions of pe local obs</p></li>
 <li><p><strong>dimobs_f</strong> (<em>int</em>) – dimension of full gathered obs</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul>
 <li><p><strong>obs_f</strong> (<em>ndarray[float]</em>) – full gathered vector</p></li>
 <li><p><strong>status</strong> (<em>int</em>) –</p>
@@ -869,15 +844,13 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">gather_obs_f2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.gather_obs_f2" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>coords_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – pe-local array</p></li>
-<li><p><strong>dimobs_p</strong> (<em>int</em>) – dimensions of pe local obs</p></li>
 <li><p><strong>dimobs_f</strong> (<em>int</em>) – dimension of full gathered obs</p></li>
-<li><p><strong>nrows</strong> (<em>int</em>) – number of rows in array</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul>
 <li><p><strong>coords_f</strong> (<em>ndarray[float]</em>) – full gathered array</p></li>
 <li><p><strong>status</strong> (<em>int</em>) –</p>
@@ -900,15 +873,13 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">gather_obs_f2_flex</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.gather_obs_f2_flex" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dim_obs_p</strong> (<em>int</em>) – pe-local observation dimension</p></li>
 <li><p><strong>dim_obs_f</strong> (<em>int</em>) – full observation dimension</p></li>
 <li><p><strong>coords_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – pe-local array</p></li>
-<li><p><strong>nrows</strong> (<em>int</em>) – number of rows in array</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>coords_f</strong> (<em>ndarray[float]</em>) – full gathered array</p></li>
 <li><p><strong>status</strong> (<em>int</em>) – status flag: (0) no error</p></li>
@@ -923,14 +894,13 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">gather_obs_f_flex</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.gather_obs_f_flex" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dim_obs_p</strong> (<em>int</em>) – pe-local observation dimension</p></li>
 <li><p><strong>dim_obs_f</strong> (<em>int</em>) – full observation dimension</p></li>
 <li><p><strong>obs_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – pe-local vector</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>obs_f</strong> (<em>ndarray[float]</em>) – full gathered vector</p></li>
 <li><p><strong>status</strong> (<em>int</em>) – status flag: (0) no error</p></li>
@@ -945,7 +915,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">generate_obs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.generate_obs" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
@@ -957,10 +927,10 @@
 <li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – provide time step and time of next observation</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -971,10 +941,10 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">get_assim_flag</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.get_assim_flag" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>did_assim</strong> – flag: (1) for assimilation; (0) else</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>int</p>
 </dd>
 </dl>
@@ -985,10 +955,10 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">get_localfilter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.get_localfilter" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>lfilter</strong> – whether the filter is domain-localized</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>int</p>
 </dd>
 </dl>
@@ -999,13 +969,13 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">get_memberid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.get_memberid" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>memberid</strong> (<em>int</em>) – index in the local ensemble</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>memberid</strong> – index in the local ensemble</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1016,13 +986,13 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">get_obsmemberid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.get_obsmemberid" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>memberid</strong> (<em>int</em>) – index in the local observed ensemble</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>memberid</strong> – index in the local observed ensemble</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1033,7 +1003,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">get_smootherens</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.get_smootherens" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><ul class="simple">
 <li><p><strong>c_sens_point</strong> (<em>ndarray[float]</em>) – pointer to smoother array</p></li>
 <li><p><strong>maxlag</strong> (<em>int</em>) – number of past timesteps processed in sens</p></li>
@@ -1050,7 +1020,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">get_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.get_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>steps</strong> (<em>int</em>) – flag and number of time steps</p></li>
 <li><p><strong>doexit</strong> (<em>int</em>) – whether to exit from forecasts</p></li>
@@ -1060,7 +1030,7 @@
 <li><p><strong>flag</strong> (<em>int</em>) – status flag</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>steps</strong> (<em>int</em>) – flag and number of time steps</p></li>
 <li><p><strong>time</strong> (<em>float</em>) – current model time</p></li>
@@ -1077,7 +1047,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">incremental</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.incremental" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>steps</strong> (<em>int</em>) – time steps over which increment is distributed</p></li>
 <li><p><strong>py__dist_stateinc_pdaf</strong> (<em>func</em>) – add state increment during integration</p></li>
@@ -1091,15 +1061,13 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.init" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filtertype</strong> (<em>int</em>) – type of filter</p></li>
 <li><p><strong>subtype</strong> (<em>int</em>) – sub-type of filter</p></li>
 <li><p><strong>stepnull</strong> (<em>int</em>) – initial time step of assimilation</p></li>
 <li><p><strong>param_int</strong> (<em>ndarray</em><em>[</em><em>int</em><em>]</em>) – integer parameter array</p></li>
-<li><p><strong>dim_pint</strong> (<em>int</em>) – number of integer parameters</p></li>
 <li><p><strong>param_real</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – real parameter array</p></li>
-<li><p><strong>dim_preal</strong> (<em>int</em>) – number of real parameter</p></li>
 <li><p><strong>comm_model</strong> (<em>int</em>) – model communicator</p></li>
 <li><p><strong>comm_filter</strong> (<em>int</em>) – filter communicator</p></li>
 <li><p><strong>comm_couple</strong> (<em>int</em>) – coupling communicator</p></li>
@@ -1110,7 +1078,7 @@
 <li><p><strong>in_screen</strong> (<em>int</em>) – control screen output:</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>param_int</strong> (<em>ndarray[int]</em>) – integer parameter array</p></li>
 <li><p><strong>param_real</strong> (<em>ndarray[float]</em>) – real parameter array</p></li>
@@ -1126,24 +1094,22 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">local_weight</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.local_weight" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>wtype</strong> (<em>int</em>) – type of weight function</p></li>
 <li><p><strong>rtype</strong> (<em>int</em>) – type of regulated weighting</p></li>
 <li><p><strong>cradius</strong> (<em>float</em>) – cut-off radius</p></li>
 <li><p><strong>sradius</strong> (<em>float</em>) – support radius</p></li>
 <li><p><strong>distance</strong> (<em>float</em>) – distance to observation</p></li>
-<li><p><strong>nrows</strong> (<em>int</em>) – number of rows in matrix a</p></li>
-<li><p><strong>ncols</strong> (<em>int</em>) – number of columns in matrix a</p></li>
 <li><p><strong>a</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – input matrix</p></li>
 <li><p><strong>var_obs</strong> (<em>float</em>) – observation variance</p></li>
 <li><p><strong>verbose</strong> (<em>int</em>) – verbosity flag</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>weight</strong> – weights</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
 </dd>
 </dl>
@@ -1154,7 +1120,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">local_weights</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.local_weights" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>wtype</strong> (<em>int</em>) – <dl class="simple">
 <dt>type of weight function</dt><dd><p>(0): unit weight (=1 up to distance=cradius)
@@ -1165,15 +1131,14 @@
 </p></li>
 <li><p><strong>cradius</strong> (<em>float</em>) – parameter for cut-off</p></li>
 <li><p><strong>sradius</strong> (<em>float</em>) – support radius</p></li>
-<li><p><strong>dim</strong> (<em>int</em>) – size of distance and weight arrays</p></li>
 <li><p><strong>distance</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – array holding distances</p></li>
 <li><p><strong>verbose</strong> (<em>int</em>) – verbosity flag</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>weight</strong> – array for weights</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
 </dl>
@@ -1184,7 +1149,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">prepost</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.prepost" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
@@ -1192,10 +1157,10 @@
 <li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – routine to provide time step, time and dimension of next observation</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>outflag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1206,7 +1171,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">print_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.print_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>printtype</strong> (<em>int</em>) – type of screen output</p>
 </dd>
 </dl>
@@ -1217,7 +1182,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_3dvar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_3dvar" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__init_dim_obs_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
@@ -1231,10 +1196,10 @@
 <li><p><strong>py__prepoststep_pdaf</strong> (<em>func</em>) – user supplied pre/poststep routine</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>outflag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1245,7 +1210,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_en3dvar_estkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_en3dvar_estkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__init_dim_obs_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
@@ -1260,10 +1225,10 @@
 <li><p><strong>py__prepoststep_pdaf</strong> (<em>func</em>) – user supplied pre/poststep routine</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>outflag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1274,7 +1239,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_en3dvar_lestkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_en3dvar_lestkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__init_dim_obs_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
@@ -1301,10 +1266,10 @@
 <li><p><strong>py__prepoststep_pdaf</strong> (<em>func</em>) – user supplied pre/poststep routine</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>outflag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1315,7 +1280,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_enkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_enkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__init_dim_obs_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
@@ -1326,10 +1291,10 @@
 <li><p><strong>py__init_obs_covar_pdaf</strong> (<em>func</em>) – initialize obs. error cov. matrix r in enkf</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1340,7 +1305,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_estkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_estkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__init_dim_obs_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
@@ -1351,10 +1316,10 @@
 <li><p><strong>py__init_obsvar_pdaf</strong> (<em>func</em>) – initialize mean observation error variance</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1365,7 +1330,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_etkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_etkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__init_dim_obs_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
@@ -1376,10 +1341,10 @@
 <li><p><strong>py__init_obsvar_pdaf</strong> (<em>func</em>) – initialize mean observation error variance</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1390,7 +1355,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_generate_obs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_generate_obs" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__init_dim_obs_f_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
@@ -1400,10 +1365,10 @@
 <li><p><strong>py__prepoststep_pdaf</strong> (<em>func</em>) – user supplied pre/poststep routine</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1414,7 +1379,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_hyb3dvar_estkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_hyb3dvar_estkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__init_dim_obs_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
@@ -1431,10 +1396,10 @@
 <li><p><strong>py__prepoststep_pdaf</strong> (<em>func</em>) – user supplied pre/poststep routine</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>outflag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1445,7 +1410,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_hyb3dvar_lestkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_hyb3dvar_lestkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__init_dim_obs_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
@@ -1474,10 +1439,10 @@
 <li><p><strong>py__prepoststep_pdaf</strong> (<em>func</em>) – user supplied pre/poststep routine</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>outflag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1488,7 +1453,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_lenkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_lenkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__init_dim_obs_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
@@ -1500,10 +1465,10 @@
 <li><p><strong>py__init_obs_covar_pdaf</strong> (<em>func</em>) – initialize obs. error cov. matrix r in enkf</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1514,7 +1479,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_lestkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_lestkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__init_dim_obs_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
@@ -1533,10 +1498,10 @@
 <li><p><strong>py__init_obsvar_l_pdaf</strong> (<em>func</em>) – initialize local mean observation error variance</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1547,7 +1512,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_letkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_letkf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__init_dim_obs_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
@@ -1566,10 +1531,10 @@
 <li><p><strong>py__init_obsvar_l_pdaf</strong> (<em>func</em>) – initialize local mean observation error variance</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1580,7 +1545,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_lnetf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_lnetf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__init_dim_obs_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
@@ -1596,10 +1561,10 @@
 <li><p><strong>py__g2l_obs_pdaf</strong> (<em>func</em>) – restrict full obs. vector to local analysis domain</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>outflag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1610,7 +1575,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_lseik</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_lseik" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__init_dim_obs_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
@@ -1629,10 +1594,10 @@
 <li><p><strong>py__init_obsvar_l_pdaf</strong> (<em>func</em>) – initialize local mean observation error variance</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1643,7 +1608,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_netf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_netf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__init_dim_obs_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
@@ -1653,10 +1618,10 @@
 <li><p><strong>py__likelihood_pdaf</strong> (<em>func</em>) – compute observation likelihood for an ensemble member</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1667,7 +1632,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_pf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_pf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__init_dim_obs_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
@@ -1677,10 +1642,10 @@
 <li><p><strong>py__likelihood_pdaf</strong> (<em>func</em>) – compute observation likelihood for an ensemble member</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1691,16 +1656,16 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_prepost</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_prepost" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__prepoststep_pdaf</strong> (<em>func</em>) – user supplied pre/poststep routine</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1711,7 +1676,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_seek</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_seek" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__init_dim_obs_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
@@ -1721,10 +1686,10 @@
 <li><p><strong>py__prodrinva_pdaf</strong> (<em>func</em>) – provide product r^-1 hv</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1735,7 +1700,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_seik</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_seik" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
 <li><p><strong>py__init_dim_obs_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
@@ -1746,10 +1711,10 @@
 <li><p><strong>py__init_obsvar_pdaf</strong> (<em>func</em>) – initialize mean observation error variance</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>flag</strong> – status flag</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1760,7 +1725,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">reset_forget</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.reset_forget" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>forget_in</strong> (<em>float</em>) – new value of forgetting factor</p>
 </dd>
 </dl>
@@ -1771,10 +1736,8 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">sampleens</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.sampleens" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dim</strong> (<em>int</em>) – size of state vector</p></li>
-<li><p><strong>dim_ens</strong> (<em>int</em>) – size of ensemble</p></li>
 <li><p><strong>modes</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – array of eof modes</p></li>
 <li><p><strong>svals</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – vector of singular values</p></li>
 <li><p><strong>state</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – pe-local model state</p></li>
@@ -1782,7 +1745,7 @@
 <li><p><strong>flag</strong> (<em>int</em>) – status flag</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>modes</strong> (<em>ndarray[float]</em>) – array of eof modes</p></li>
 <li><p><strong>state</strong> (<em>ndarray[float]</em>) – pe-local model state</p></li>
@@ -1799,18 +1762,17 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">seik_omega</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.seik_omega" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>rank</strong> (<em>int</em>) – approximated rank of covar matrix</p></li>
 <li><p><strong>omega</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – matrix omega</p></li>
 <li><p><strong>omegatype</strong> (<em>int</em>) – select type of omega</p></li>
 <li><p><strong>screen</strong> (<em>int</em>) – verbosity flag</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>omega</strong> – matrix omega</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
 </dl>
@@ -1821,17 +1783,13 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">seik_ttimesa</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.seik_ttimesa" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>rank</strong> (<em>int</em>) – rank of initial covariance matrix</p></li>
-<li><p><strong>dim_col</strong> (<em>int</em>) – number of columns in a and b</p></li>
-<li><p><strong>a</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – input matrix</p></li>
-</ul>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>a</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – input matrix</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>b</strong> – output matrix (ta)</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
 </dl>
@@ -1842,7 +1800,7 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">set_ens_pointer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.set_ens_pointer" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><ul class="simple">
 <li><p><strong>c_ens_point</strong> (<em>ndarray[float]</em>) – pointer to smoother array</p></li>
 <li><p><strong>dims</strong> (<em>ndarray[int]</em>) – dimension of the pointer</p></li>
@@ -1858,13 +1816,13 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">set_memberid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.set_memberid" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>memberid</strong> (<em>int</em>) – index in the local ensemble</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>memberid</strong> – index in the local ensemble</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -1875,10 +1833,10 @@
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">set_smootherens</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.set_smootherens" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>maxlag</strong> (<em>int</em>) – number of past timesteps processed in sens</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>c_sens_point</strong> (<em>ndarray[float]</em>) – pointer to smoother array</p></li>
 <li><p><strong>dims</strong> (<em>ndarray[int]</em>) – dimension of the pointer</p></li>
@@ -1908,19 +1866,27 @@
 
 
 <h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">API reference:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">PDAF</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PDAFomi.html">PDAFomi</a></li>
-<li class="toctree-l1"><a class="reference internal" href="UserFunc.html">UserFunc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Manual.html">Userguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="implementation.html">Design Details</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="API.html">API reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pyPDAF.PDAF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PDAFomi.html">pyPDAF.PDAFomi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserFunc.html">pyPDAF.UserFunc</a></li>
+</ul>
+</li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Welcome to pyPDAF’s documentation!</a></li>
-      <li>Next: <a href="PDAFomi.html" title="next chapter">PDAFomi</a></li>
+  <li><a href="API.html">API reference</a><ul>
+      <li>Previous: <a href="API.html" title="previous chapter">API reference</a></li>
+      <li>Next: <a href="PDAFomi.html" title="next chapter">pyPDAF.PDAFomi</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>
@@ -1933,7 +1899,7 @@
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -1950,7 +1916,7 @@
       &copy;2022 University of Reading and National Centre for Earth Observation.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

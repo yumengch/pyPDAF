@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>pyPDAF.UserFunc &#8212; pyPDAF  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -12,6 +12,7 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -33,19 +34,18 @@
           <div class="body" role="main">
             
   <section id="module-pyPDAF.UserFunc">
-<span id="pypdaf-userfunc"></span><h1>pyPDAF.UserFunc<a class="headerlink" href="#module-pyPDAF.UserFunc" title="Permalink to this headline">¶</a></h1>
+<span id="pypdaf-userfunc"></span><h1>pyPDAF.UserFunc<a class="headerlink" href="#module-pyPDAF.UserFunc" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.UserFunc.mpi_excepthook">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">mpi_excepthook</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.mpi_excepthook" title="Permalink to this definition">¶</a></dt>
-<dd><p>Handling assertion with MPI runs</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.UserFunc.py__add_obs_err_pdaf">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__add_obs_err_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__add_obs_err_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_obs_p</strong> (<em>int</em>) – dimension of observation vector</p></li>
@@ -53,13 +53,13 @@
 shape is (dim_obs_p,dim_obs_p)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>c_p</strong> – matrix to that observation covariance r is added</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -70,20 +70,20 @@ shape is (dim_obs_p,dim_obs_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__collect_state_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__collect_state_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dim_p</strong> (<em>int</em>) – pe-local state dimension</p></li>
 <li><p><strong>state_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – local state vector
 shape is (dim_p)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>state_p</strong> – local state vector</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -94,7 +94,7 @@ shape is (dim_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__cvt_adj_ens_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__cvt_adj_ens_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>iter</strong> (<em>int</em>) – iteration of optimization</p></li>
 <li><p><strong>dim_p</strong> (<em>int</em>) – pe-local observation dimension</p></li>
@@ -108,13 +108,13 @@ shape is (dim_p)</p></li>
 shape is (dim_cv_ens_p)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>cv_p</strong> – pe-local result vector</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -125,7 +125,7 @@ shape is (dim_cv_ens_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__cvt_adj_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__cvt_adj_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>iter</strong> (<em>int</em>) – iteration of optimization</p></li>
 <li><p><strong>dim_p</strong> (<em>int</em>) – pe-local observation dimension</p></li>
@@ -136,13 +136,13 @@ shape is (dim_p)</p></li>
 shape is (dim_cvec)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>cv_p</strong> – pe-local control vector</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -153,7 +153,7 @@ shape is (dim_cvec)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__cvt_ens_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__cvt_ens_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>iter</strong> (<em>int</em>) – iteration of optimization</p></li>
 <li><p><strong>dim_p</strong> (<em>int</em>) – pe-local dimension of state</p></li>
@@ -167,13 +167,13 @@ shape is (dim_cvec_ens)</p></li>
 shape is (dim_p)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>vv_p</strong> – pe-local state increment</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -184,7 +184,7 @@ shape is (dim_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__cvt_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__cvt_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>iter</strong> (<em>int</em>) – iteration of optimization</p></li>
 <li><p><strong>dim_p</strong> (<em>int</em>) – pe-local observation dimension</p></li>
@@ -195,13 +195,13 @@ shape is (dim_cvec)</p></li>
 shape is (dim_p)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>vv_p</strong> – pe-local result vector (state vector increment)</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -212,7 +212,7 @@ shape is (dim_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__dist_stateinc_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__dist_stateinc_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dim_p</strong> (<em>int</em>) – dimension of pe-local state</p></li>
 <li><p><strong>state_inc_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – pe-local state vector
@@ -221,7 +221,7 @@ shape is (dim_p)</p></li>
 <li><p><strong>steps</strong> (<em>int</em>) – number of time steps in forecast</p></li>
 </ul>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -232,19 +232,19 @@ shape is (dim_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__distribute_state_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__distribute_state_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dim_p</strong> (<em>int</em>) – </p></li>
 <li><p><strong>state_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – shape is (dim_p)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>state_p</strong></p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -255,7 +255,7 @@ shape is (dim_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__g2l_obs_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__g2l_obs_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>domain_p</strong> (<em>int</em>) – index of current local analysis domain</p></li>
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
@@ -267,13 +267,13 @@ shape is (dim_p)</p></li>
 <li><p><strong>dim_l</strong> (<em>int</em>) – size of observation vector for local analysis domain</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>mstate_l</strong> – observation vector for local analysis domain</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[int]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -284,7 +284,7 @@ shape is (dim_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__g2l_state_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__g2l_state_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>domain_p</strong> (<em>int</em>) – current local analysis domain</p></li>
@@ -294,13 +294,13 @@ shape is (dim_p)</p></li>
 <li><p><strong>dim_l</strong> (<em>int</em>) – local state dimension</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>state_l</strong> – state vector on local analysis domain</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -311,19 +311,19 @@ shape is (dim_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__get_obs_f_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__get_obs_f_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_obs_f</strong> (<em>int</em>) – size of the full observation vector</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>observation_f</strong> – full vector of synthetic observations (process-local)</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -334,19 +334,19 @@ shape is (dim_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__init_dim_l_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__init_dim_l_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>domain_p</strong> (<em>int</em>) – current local analysis domain</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>dim_l</strong> – local state dimension</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -357,16 +357,16 @@ shape is (dim_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__init_dim_obs_f_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__init_dim_obs_f_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>step</strong> (<em>int</em>) – current time step</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>dim_obs_f</strong> – size of the full observation vector</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -377,20 +377,20 @@ shape is (dim_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__init_dim_obs_l_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__init_dim_obs_l_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>domain_p</strong> (<em>int</em>) – index of current local analysis domain</p></li>
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_obs_f</strong> (<em>int</em>) – full dimension of observation vector</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>dim_obs_l</strong> – local dimension of observation vector</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -401,16 +401,16 @@ shape is (dim_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__init_dim_obs_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__init_dim_obs_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>step</strong> (<em>int</em>) – current time step</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>dim_obs_p</strong> – dimension of observation vector</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -421,7 +421,7 @@ shape is (dim_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__init_ens_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__init_ens_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filtertype</strong> (<em>int</em>) – type of filter to initialize</p></li>
 <li><p><strong>dim_p</strong> (<em>int</em>) – pe-local state dimension</p></li>
@@ -435,7 +435,7 @@ shape is (dim_p,dim_ens)</p></li>
 <li><p><strong>flag</strong> (<em>int</em>) – pdaf status flag</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>state_p</strong> (<em>ndarray[float]</em>) – pe-local model state</p></li>
 <li><p><strong>uinv</strong> (<em>ndarray[float]</em>) – array not referenced for ensemble filters</p></li>
@@ -444,7 +444,7 @@ shape is (dim_p,dim_ens)</p></li>
 </ul>
 </p>
 </dd>
-<dt class="field-odd">Raises</dt>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -455,16 +455,16 @@ shape is (dim_p,dim_ens)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__init_n_domains_p_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__init_n_domains_p_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>step</strong> (<em>int</em>) – current time step</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>n_domains_p</strong> – pe-local number of analysis domains</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -475,7 +475,7 @@ shape is (dim_p,dim_ens)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__init_obs_covar_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__init_obs_covar_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_obs</strong> (<em>int</em>) – global size of observation vector</p></li>
@@ -484,14 +484,14 @@ shape is (dim_p,dim_ens)</p></li>
 shape is (dim_obs_p)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>covar</strong> (<em>float</em>) – observation error covariance matrix</p></li>
 <li><p><strong>isdiag</strong> (<em>bool</em>)</p></li>
 </ul>
 </p>
 </dd>
-<dt class="field-odd">Raises</dt>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -502,19 +502,19 @@ shape is (dim_obs_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__init_obs_f_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__init_obs_f_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_obs_f</strong> (<em>int</em>) – size of the full observation vector</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>observation_f</strong> – full vector of observations</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -525,20 +525,20 @@ shape is (dim_obs_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__init_obs_l_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__init_obs_l_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>domain_p</strong> (<em>int</em>) – index of current local analysis domain</p></li>
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_obs_l</strong> (<em>int</em>) – local size of the observation vector</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>observation_l</strong> – local vector of observations</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -549,19 +549,19 @@ shape is (dim_obs_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__init_obs_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__init_obs_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_obs_p</strong> (<em>int</em>) – size of the observation vector</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>observation_p</strong> – vector of observations</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -572,7 +572,7 @@ shape is (dim_obs_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__init_obserr_f_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__init_obserr_f_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_obs_f</strong> (<em>int</em>) – full dimension of observation vector</p></li>
@@ -580,13 +580,13 @@ shape is (dim_obs_p)</p></li>
 shape is (dim_obs_f)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>obserr_f</strong> – full observation error stddev</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -597,7 +597,7 @@ shape is (dim_obs_f)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__init_obsvar_l_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__init_obsvar_l_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>domain_p</strong> (<em>int</em>) – index of current local analysis domain</p></li>
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
@@ -607,13 +607,13 @@ shape is (dim_obs_p)</p></li>
 <li><p><strong>dim_obs_p</strong> (<em>int</em>) – dimension of local observation vector</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>meanvar_l</strong> – mean local observation error variance</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -624,7 +624,7 @@ shape is (dim_obs_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__init_obsvar_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__init_obsvar_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_obs_p</strong> (<em>int</em>) – size of observation vector</p></li>
@@ -632,13 +632,13 @@ shape is (dim_obs_p)</p></li>
 shape is (dim_obs_p)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>meanvar</strong> – mean observation error variance</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -649,7 +649,7 @@ shape is (dim_obs_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__l2g_state_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__l2g_state_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>domain_p</strong> (<em>int</em>) – current local analysis domain</p></li>
@@ -661,13 +661,13 @@ shape is (dim_l)</p></li>
 shape is (dim_p)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>state_p</strong> – pe-local full state vector</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -678,7 +678,7 @@ shape is (dim_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__likelihood_l_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__likelihood_l_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>domain_p</strong> (<em>int</em>) – index of current local analysis domain</p></li>
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
@@ -689,13 +689,13 @@ shape is (dim_obs_l)</p></li>
 shape is (dim_obs_l)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>likely_l</strong> – output value of the local likelihood</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -706,7 +706,7 @@ shape is (dim_obs_l)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__likelihood_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__likelihood_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_obs_p</strong> (<em>int</em>) – number of observations at current time step (i.e. the size of the observation vector)</p></li>
@@ -716,13 +716,13 @@ shape is (dim_obs_p)</p></li>
 shape is (dim_obs_p)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>likely</strong> – output value of the likelihood</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -733,7 +733,7 @@ shape is (dim_obs_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__localize_covar_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__localize_covar_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dim_p</strong> (<em>int</em>) – pe-local state dimension</p></li>
 <li><p><strong>dim_obs</strong> (<em>int</em>) – number of observations</p></li>
@@ -743,14 +743,14 @@ shape is (dim_obs,dim_p)</p></li>
 shape is (dim_obs,dim_obs)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>hp_p</strong> (<em>ndarray[float]</em>) – pe local part of matrix hp</p></li>
 <li><p><strong>hph</strong> (<em>ndarray[float]</em>) – matrix hph</p></li>
 </ul>
 </p>
 </dd>
-<dt class="field-odd">Raises</dt>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -761,10 +761,10 @@ shape is (dim_obs,dim_obs)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__next_observation_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__next_observation_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>stepnow</strong> (<em>int</em>) – number of the current time step</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>nsteps</strong> (<em>int</em>) – number of time steps until next obs</p></li>
 <li><p><strong>doexit</strong> (<em>int</em>) – whether to exit forecasting (1 for exit)</p></li>
@@ -772,7 +772,7 @@ shape is (dim_obs,dim_obs)</p></li>
 </ul>
 </p>
 </dd>
-<dt class="field-odd">Raises</dt>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -783,7 +783,7 @@ shape is (dim_obs,dim_obs)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__obs_op_adj_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__obs_op_adj_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_p</strong> (<em>int</em>) – pe-local dimension of state</p></li>
@@ -792,13 +792,13 @@ shape is (dim_obs,dim_obs)</p></li>
 shape is (dim_obs_p)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>state_p</strong> – pe-local model state</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -809,7 +809,7 @@ shape is (dim_obs_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__obs_op_f_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__obs_op_f_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_p</strong> (<em>int</em>) – size of state vector (local part in case of parallel decomposed state)</p></li>
@@ -818,13 +818,13 @@ shape is (dim_obs_p)</p></li>
 shape is (dim_p)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>m_state_f</strong> – full observed state (i.e. the result after applying the observation operator to state_p)</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -835,7 +835,7 @@ shape is (dim_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__obs_op_lin_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__obs_op_lin_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_p</strong> (<em>int</em>) – pe-local dimension of state</p></li>
@@ -844,13 +844,13 @@ shape is (dim_p)</p></li>
 shape is (dim_p)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>m_state_p</strong> – pe-local observed state</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -861,7 +861,7 @@ shape is (dim_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__obs_op_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__obs_op_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_p</strong> (<em>int</em>) – size of state vector (local part in case of parallel decomposed state)</p></li>
@@ -870,13 +870,13 @@ shape is (dim_p)</p></li>
 shape is (dim_p)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>m_state_p</strong> – observed state vector (i.e. the result after applying the observation operator to state_p)</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -887,7 +887,7 @@ shape is (dim_p)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__prepoststep_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__prepoststep_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step (negative for call after forecast)</p></li>
 <li><p><strong>dim_p</strong> (<em>int</em>) – pe-local state dimension</p></li>
@@ -909,7 +909,7 @@ shape is (dim_p,dim_ens)</p></li>
 <li><p><strong>flag</strong> (<em>int</em>) – pdaf status flag</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul>
 <li><p><strong>state_p</strong> (<em>ndarray[float]</em>) –</p>
 <dl class="simple">
@@ -924,7 +924,7 @@ it can be used freely here.)</p>
 </ul>
 </p>
 </dd>
-<dt class="field-odd">Raises</dt>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -935,7 +935,7 @@ it can be used freely here.)</p>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__prodrinva_l_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__prodrinva_l_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>domain_p</strong> (<em>int</em>) – index of current local analysis domain</p></li>
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
@@ -951,13 +951,13 @@ shape is (dim_obs_l)</p></li>
 shape is (dim_obs_l,rank)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>c_l</strong> – output matrix</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -968,7 +968,7 @@ shape is (dim_obs_l,rank)</p></li>
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__prodrinva_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__prodrinva_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_obs_p</strong> (<em>int</em>) – number of observations at current time step (i.e. the size of the observation vector)</p></li>
@@ -984,13 +984,13 @@ shape is (dim_obs_p)</p></li>
 shape is (dim_obs_p,rank)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>c_p</strong> – output matrix</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
 </dd>
 </dl>
@@ -1047,7 +1047,7 @@ shape is (dim_obs_p,rank)</p></li>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -1064,7 +1064,7 @@ shape is (dim_obs_p,rank)</p></li>
       &copy;2022 University of Reading and National Centre for Earth Observation.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
