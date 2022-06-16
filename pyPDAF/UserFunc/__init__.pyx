@@ -1056,8 +1056,11 @@ cdef void c__add_obs_err_pdaf (int* step, int* dim_obs_p, double* c_p):
 cdef void c__init_ens_pdaf (int* filtertype, int* dim_p, int* dim_ens, double* state_p, double* uinv, double* ens_p, int* flag):
     state_p_np = np.asarray(<double[:np.prod((dim_p[0]))]> 
                             state_p).reshape((dim_p[0]), order='F')
-    uinv_np = np.asarray(<double[:np.prod((dim_ens[0]-1, dim_ens[0]-1))]> 
-                         uinv).reshape((dim_ens[0]-1, dim_ens[0]-1), order='F')
+    if dim_ens[0] > 1:
+        uinv_np = np.asarray(<double[:np.prod((dim_ens[0]-1, dim_ens[0]-1))]> 
+                             uinv).reshape((dim_ens[0]-1, dim_ens[0]-1), order='F')
+    else:
+        uinv_np = None
     ens_p_np = np.asarray(<double[:np.prod((dim_p[0], dim_ens[0]))]> 
                           ens_p).reshape((dim_p[0], dim_ens[0]), order='F')
 
@@ -1066,9 +1069,11 @@ cdef void c__init_ens_pdaf (int* filtertype, int* dim_p, int* dim_ens, double* s
     state_p_np[:] = state_p_np_tmp[:]
     cdef double[::1] state_p_view = state_p_np.ravel(order='F')
     assert state_p == &state_p_view[0], 'reference (memory address) of state_p has changed in c__init_ens_pdaf.'
-    uinv_np[:] = uinv_np_tmp[:]
-    cdef double[::1] uinv_view = uinv_np.ravel(order='F')
-    assert uinv == &uinv_view[0], 'reference (memory address) of uinv has changed in c__init_ens_pdaf.'
+    cdef double[::1] uinv_view
+    if dim_ens[0] > 1:
+        uinv_np[:] = uinv_np_tmp[:]
+        uinv_view = uinv_np.ravel(order='F')
+        assert uinv == &uinv_view[0], 'reference (memory address) of uinv has changed in c__init_ens_pdaf.'
     ens_p_np[:] = ens_p_np_tmp[:]
     cdef double[::1] ens_p_view = ens_p_np.ravel(order='F')
     assert ens_p == &ens_p_view[0], 'reference (memory address) of ens_p has changed in c__init_ens_pdaf.'
@@ -1104,8 +1109,11 @@ cdef void c__distribute_state_pdaf (int* dim_p, double* state_p):
 cdef void c__prepoststep_pdaf (int* step, int* dim_p, int* dim_ens, int* dim_ens_p, int* dim_obs_p, double* state_p, double* uinv, double* ens_p, int* flag):
     state_p_np = np.asarray(<double[:np.prod((dim_p[0]))]> 
                             state_p).reshape((dim_p[0]), order='F')
-    uinv_np = np.asarray(<double[:np.prod((dim_ens[0]-1, dim_ens[0]-1))]> 
-                         uinv).reshape((dim_ens[0]-1, dim_ens[0]-1), order='F')
+    if dim_ens[0] > 1:
+        uinv_np = np.asarray(<double[:np.prod((dim_ens[0]-1, dim_ens[0]-1))]> 
+                             uinv).reshape((dim_ens[0]-1, dim_ens[0]-1), order='F')
+    else:
+        uinv_np = None
     ens_p_np = np.asarray(<double[:np.prod((dim_p[0], dim_ens[0]))]> 
                           ens_p).reshape((dim_p[0], dim_ens[0]), order='F')
 
@@ -1114,9 +1122,11 @@ cdef void c__prepoststep_pdaf (int* step, int* dim_p, int* dim_ens, int* dim_ens
     state_p_np[:] = state_p_np_tmp[:]
     cdef double[::1] state_p_view = state_p_np.ravel(order='F')
     assert state_p == &state_p_view[0], 'reference (memory address) of state_p has changed in c__prepoststep_pdaf.'
-    uinv_np[:] = uinv_np_tmp[:]
-    cdef double[::1] uinv_view = uinv_np.ravel(order='F')
-    assert uinv == &uinv_view[0], 'reference (memory address) of uinv has changed in c__prepoststep_pdaf.'
+    cdef double[::1] uinv_view
+    if dim_ens[0] > 1:
+        uinv_np[:] = uinv_np_tmp[:]
+        uinv_view = uinv_np.ravel(order='F')
+        assert uinv == &uinv_view[0], 'reference (memory address) of uinv has changed in c__prepoststep_pdaf.'
     ens_p_np[:] = ens_p_np_tmp[:]
     cdef double[::1] ens_p_view = ens_p_np.ravel(order='F')
     assert ens_p == &ens_p_view[0], 'reference (memory address) of ens_p has changed in c__prepoststep_pdaf.'
