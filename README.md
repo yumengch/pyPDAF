@@ -13,7 +13,7 @@ A Python interface to the Fortran-written data assimilation library - [PDAF](htt
 
 ## Installation:
 - Currently, Fortran-written PDAF is compiled together with pyPDAF. Hence, the Fortran compiler options need to be specified in the PDAF section of [`setup.cfg`](setup.cfg).
-- Install Python package: ```pip install -e .```
+- Install Python package: ```pip install .```
 
 ## Run example:
 ```bash
