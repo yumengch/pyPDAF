@@ -18,8 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 from setuptools import setup, Extension
 from setuptools.dist import Distribution
-from setuptools.command.develop import develop
-from setuptools.command.install import install
+from setuptools.command.build_ext import build_ext as build_ext_orig
 
 from Cython.Build import cythonize
 
@@ -60,13 +59,14 @@ def compile_interface():
     for key in dist.get_option_dict('PDAF'):
         options[key] = dist.get_option_dict('PDAF')[key][1]
 
+
     with open(f'{PDAFdir}/make.arch/pyPDAF.h', 'w') as the_file:
         for key in options:
             if key == 'directory':
                 continue
             else:
                 the_file.write(f'{key}={options[key]}\n')
-    
+
     pwd = os.getcwd()
     os.chdir(f'{PDAFdir}/src')
     status = os.system('make clean PDAF_ARCH=pyPDAF')
@@ -100,16 +100,24 @@ def compile_interface():
     os.system(cmd)
 
 
-class PreDevelopCommand(develop):
-    """Pre-installation for development mode.
+class PDAFcExtension(Extension):
+
+    def __init__(self, name):
+        # don't invoke the original build_ext for this special extension
+        super().__init__(name, sources=[])
+
+class build_ext(build_ext_orig):
+    """Pre-installation for pre build command.
         compiling PDAF iso_c_binding interface
     """
     def run(self):
-        compile_interface()
-        develop.run(self)
+        for ext in self.extensions:
+            if ext.name == 'PDAFc':
+                compile_interface()
+        super().run()
 
-
-ext_modules = [Extension('*',
+ext_modules = [PDAFcExtension('PDAFc'),
+               Extension('*',
                          [f'{pwd}/pyPDAF/PDAF/*.pyx'],
                          extra_compile_args=compilier_options,
                          library_dirs=lib_dirs,
@@ -126,6 +134,6 @@ setup(
                           compiler_directives={'language_level': "3"}),
     include_dirs=inc_dirs,
     cmdclass={
-        'develop': PreDevelopCommand,
+        'build_ext': build_ext,
     },
 )
