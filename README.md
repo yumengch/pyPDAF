@@ -1,7 +1,7 @@
 # pyPDAF
 A Python interface to the Fortran-written data assimilation library - [PDAF](http://pdaf.awi.de/trac/wiki)
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/yumengch/pyPDAF/test_build)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/yumengch/pyPDAF/test_build?branch=main)
 
 
 ## Prerequisite:
