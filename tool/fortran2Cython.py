@@ -428,22 +428,22 @@ def writePDAFcalls(filename, PDAFInfo):
         s += '    \n'
         s += '    try:\n'
         s += '        \n'
-        s += '        sys.stderr.write("\n*****************************************************\n")\n'
-        s += '        sys.stderr.write("Uncaught exception was detected on rank {}. \n".format(\n'
+        s += '        sys.stderr.write("\\n*****************************************************\\n")\n'
+        s += '        sys.stderr.write("Uncaught exception was detected on rank {}. \\n".format(\n'
         s += '            MPI.COMM_WORLD.Get_rank()))\n'
         s += '        \n'
         s += '        print_exception(exctype, value, traceback)\n'
-        s += '        sys.stderr.write("*****************************************************\n\n\n")\n'
-        s += '        sys.stderr.write("\n")\n'
-        s += '        sys.stderr.write("Calling MPI_Abort() to shut down MPI processes...\n")\n'
+        s += '        sys.stderr.write("*****************************************************\\n\\n\\n")\n'
+        s += '        sys.stderr.write("\\n")\n'
+        s += '        sys.stderr.write("Calling MPI_Abort() to shut down MPI processes...\\n")\n'
         s += '        sys.stderr.flush()\n'
         s += '    finally:\n'
         s += '        try:\n'
         s += '            MPI.COMM_WORLD.Abort(1)\n'
         s += '        except Exception as e:\n'
-        s += '            sys.stderr.write("*****************************************************\n")\n'
-        s += '            sys.stderr.write("Sorry, we failed to stop MPI, this process will hang.\n")\n'
-        s += '            sys.stderr.write("*****************************************************\n")\n'
+        s += '            sys.stderr.write("*****************************************************\\n")\n'
+        s += '            sys.stderr.write("Sorry, we failed to stop MPI, this process will hang.\\n")\n'
+        s += '            sys.stderr.write("*****************************************************\\n")\n'
         s += '            sys.stderr.flush()\n'
         s += '            raise e\n'
         s += '\n'
@@ -575,9 +575,17 @@ def writeArrayConversion(f, routine):
             dims += ', '
         dims = dims[:-2]
         indent = ' '*4
-        arglen = ' '*len(f'{arg}_np = np.asarray(')
-        s = indent + f'{arg}_np = np.asarray(<{conv[info["type"]]}[:np.prod(({dims}))]> \n{arglen+indent}{arg})'
-        s += f'.reshape(({dims}), order=''\'F\''')\n'
+
+        if len(set(dims.replace(" ", "").split(','))) == 1 and dims.replace(" ", "").split(',')[0] == 'dim_ens[0]-1':
+            s = indent + 'if dim_ens[0] > 1:\n'
+            s += indent + ' '*4 + f'{arg}_np = np.asarray(<{conv[info["type"]]}[:np.prod(({dims}))]> \n{arglen+indent}{arg})'
+            s += f'.reshape(({dims}), order=''\'F\''')\n'
+            s += indent + 'else:\n'
+            s += indent + ' '*4 + f'{arg}_np = None\n'
+        else:
+            arglen = ' '*len(f'{arg}_np = np.asarray(')
+            s = indent + f'{arg}_np = np.asarray(<{conv[info["type"]]}[:np.prod(({dims}))]> \n{arglen+indent}{arg})'
+            s += f'.reshape(({dims}), order=''\'F\''')\n'
         f.write(s)
         count += 1
     f.write('\n' if count > 0 else '')
@@ -624,11 +632,20 @@ def convertToArrays(f, name, routine):
             continue
 
         if info['array']:
-            s += indent + f'{arg}_np[:] = {arg}_np_tmp[:]\n'
-            s += indent + f'cdef {conv[info["type"]]}[::1] '
-            s += f'{arg}_view = {arg}_np.ravel(order=''\'F\''')\n'
-            s += indent + f'assert {arg} == &{arg}_view[0], '\
-                           f'\'reference (memory address) of {arg} has changed in {name}.\'\n'
+            if len(set(info['size'].split(','))) == 1 and info['size'].split(',')[0] == 'dim_ens-1':
+                print (arg)
+                s += indent + f'cdef double[::1] {arg}_view\n'
+                s += indent + 'if dim_ens[0] > 1:\n'
+                s += indent + ' '*4 + f'{arg}_np[:] = {arg}_np_tmp[:]\n'
+                s += indent + ' '*4 + f'{arg}_view = {arg}_np.ravel(order=''\'F\''')\n'
+                s += indent + ' '*4 + f'assert {arg} == &{arg}_view[0], '\
+                               f'\'reference (memory address) of {arg} has changed in {name}.\'\n'
+            else:
+                s += indent + f'{arg}_np[:] = {arg}_np_tmp[:]\n'
+                s += indent + f'cdef {conv[info["type"]]}[::1] '
+                s += f'{arg}_view = {arg}_np.ravel(order=''\'F\''')\n'
+                s += indent + f'assert {arg} == &{arg}_view[0], '\
+                               f'\'reference (memory address) of {arg} has changed in {name}.\'\n'
     f.write(s)
 
 
@@ -643,22 +660,22 @@ def writeUserCalls(filename, UserFuncInfo):
         s += '    \n'
         s += '    try:\n'
         s += '        \n'
-        s += '        sys.stderr.write("\n*****************************************************\n")\n'
-        s += '        sys.stderr.write("Uncaught exception was detected on rank {}. \n".format(\n'
+        s += '        sys.stderr.write("\\n*****************************************************\\n")\n'
+        s += '        sys.stderr.write("Uncaught exception was detected on rank {}. \\n".format(\n'
         s += '            MPI.COMM_WORLD.Get_rank()))\n'
         s += '        \n'
         s += '        print_exception(exctype, value, traceback)\n'
-        s += '        sys.stderr.write("*****************************************************\n\n\n")\n'
-        s += '        sys.stderr.write("\n")\n'
-        s += '        sys.stderr.write("Calling MPI_Abort() to shut down MPI processes...\n")\n'
+        s += '        sys.stderr.write("*****************************************************\\n\\n\\n")\n'
+        s += '        sys.stderr.write("\\n")\n'
+        s += '        sys.stderr.write("Calling MPI_Abort() to shut down MPI processes...\\n")\n'
         s += '        sys.stderr.flush()\n'
         s += '    finally:\n'
         s += '        try:\n'
         s += '            MPI.COMM_WORLD.Abort(1)\n'
         s += '        except Exception as e:\n'
-        s += '            sys.stderr.write("*****************************************************\n")\n'
-        s += '            sys.stderr.write("Sorry, we failed to stop MPI, this process will hang.\n")\n'
-        s += '            sys.stderr.write("*****************************************************\n")\n'
+        s += '            sys.stderr.write("*****************************************************\\n")\n'
+        s += '            sys.stderr.write("Sorry, we failed to stop MPI, this process will hang.\\n")\n'
+        s += '            sys.stderr.write("*****************************************************\\n")\n'
         s += '            sys.stderr.flush()\n'
         s += '            raise e\n'
         s += '\n'
