@@ -112,7 +112,7 @@ contains
       procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Provide product R^-1 A
       procedure(c__prodRinvA_pdaf) :: U_prodRinvA
-      ! Routine to provide time step, time and dimension of next observation 
+      ! Routine to provide time step, time and dimension of next observation
       procedure(c__next_observation_pdaf) :: U_next_observation
       ! Routine to distribute a state vector
       procedure(c__distribute_state_pdaf) :: U_distribute_state
@@ -168,21 +168,21 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf) :: U_distribute_state 
+      procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Initialize obs. error cov. matrix R in EnKF
-      procedure(c__init_obs_covar_pdaf) :: U_init_obs_covar 
+      procedure(c__init_obs_covar_pdaf) :: U_init_obs_covar
       ! Initialize observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Add obs error covariance R to HPH in EnKF
-      procedure(c__add_obs_err_pdaf) :: U_add_obs_error 
+      procedure(c__add_obs_err_pdaf) :: U_add_obs_error
       ! Provide time step and time of next observation
       procedure(c__next_observation_pdaf) :: U_next_observation
 
@@ -197,21 +197,21 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf) :: U_distribute_state 
+      procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize mean observation error variance
-      procedure(c__init_obsvar_pdaf) :: U_init_obsvar 
+      procedure(c__init_obsvar_pdaf) :: U_init_obsvar
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Initialize observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Provide product R^-1 HV
-      procedure(c__prodRinvA_pdaf) :: U_prodRinvA 
+      procedure(c__prodRinvA_pdaf) :: U_prodRinvA
       ! Provide time step and time of next observation
       procedure(c__next_observation_pdaf) :: U_next_observation
 
@@ -226,21 +226,21 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf) :: U_distribute_state 
+      procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Initialize mean observation error variance
-      procedure(c__init_obsvar_pdaf) :: U_init_obsvar 
+      procedure(c__init_obsvar_pdaf) :: U_init_obsvar
       ! Initialize observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Provide product R^-1 HV
-      procedure(c__prodRinvA_pdaf) :: U_prodRinvA 
+      procedure(c__prodRinvA_pdaf) :: U_prodRinvA
       ! Provide time step and time of next observation
       procedure(c__next_observation_pdaf) :: U_next_observation
 
@@ -369,23 +369,23 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf) :: U_distribute_state 
+      procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Initialize obs. error cov. matrix R in EnKF
-      procedure(c__init_obs_covar_pdaf) :: U_init_obs_covar 
+      procedure(c__init_obs_covar_pdaf) :: U_init_obs_covar
       ! Initialize observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Apply localization to HP and HPH^T
-      procedure(c__localize_covar_pdaf) :: U_localize 
+      procedure(c__localize_covar_pdaf) :: U_localize
       ! Add obs error covariance R to HPH in EnKF
-      procedure(c__add_obs_err_pdaf) :: U_add_obs_error 
+      procedure(c__add_obs_err_pdaf) :: U_add_obs_error
       ! Provide time step and time of next observation
       procedure(c__next_observation_pdaf) :: U_next_observation
 
@@ -402,37 +402,37 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf) :: U_distribute_state 
+      procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Provide number of local analysis domains
-      procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p 
+      procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
       ! Init state dimension for local ana. domain
-      procedure(c__init_dim_l_pdaf) :: U_init_dim_l 
+      procedure(c__init_dim_l_pdaf) :: U_init_dim_l
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l 
+      procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
       ! Initialize PE-local observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! Init. observation vector on local analysis domain
-      procedure(c__init_obs_l_pdaf) :: U_init_obs_l 
+      procedure(c__init_obs_l_pdaf) :: U_init_obs_l
       ! Initialize mean observation error variance
-      procedure(c__init_obsvar_pdaf) :: U_init_obsvar 
+      procedure(c__init_obsvar_pdaf) :: U_init_obsvar
       ! Initialize local mean observation error variance
-      procedure(c__init_obsvar_l_pdaf) :: U_init_obsvar_l 
+      procedure(c__init_obsvar_l_pdaf) :: U_init_obsvar_l
       ! Get state on local ana. domain from full state
-      procedure(c__g2l_state_pdaf) :: U_g2l_state 
+      procedure(c__g2l_state_pdaf) :: U_g2l_state
       ! Init full state from state on local analysis domain
-      procedure(c__l2g_state_pdaf) :: U_l2g_state 
+      procedure(c__l2g_state_pdaf) :: U_l2g_state
       ! Restrict full obs. vector to local analysis domain
-      procedure(c__g2l_obs_pdaf) :: U_g2l_obs 
+      procedure(c__g2l_obs_pdaf) :: U_g2l_obs
       ! Provide product R^-1 A on local analysis domain
-      procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l 
+      procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Provide time step and time of next observation
       procedure(c__next_observation_pdaf) :: U_next_observation
 
@@ -451,37 +451,37 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf) :: U_distribute_state 
+      procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Provide number of local analysis domains
-      procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p 
+      procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
       ! Init state dimension for local ana. domain
-      procedure(c__init_dim_l_pdaf) :: U_init_dim_l 
+      procedure(c__init_dim_l_pdaf) :: U_init_dim_l
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l 
+      procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
       ! Initialize PE-local observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! Init. observation vector on local analysis domain
-      procedure(c__init_obs_l_pdaf) :: U_init_obs_l 
+      procedure(c__init_obs_l_pdaf) :: U_init_obs_l
       ! Initialize mean observation error variance
-      procedure(c__init_obsvar_pdaf) :: U_init_obsvar 
+      procedure(c__init_obsvar_pdaf) :: U_init_obsvar
       ! Initialize local mean observation error variance
-      procedure(c__init_obsvar_l_pdaf) :: U_init_obsvar_l 
+      procedure(c__init_obsvar_l_pdaf) :: U_init_obsvar_l
       ! Get state on local ana. domain from full state
-      procedure(c__g2l_state_pdaf) :: U_g2l_state 
+      procedure(c__g2l_state_pdaf) :: U_g2l_state
       ! Init full state from state on local analysis domain
-      procedure(c__l2g_state_pdaf) :: U_l2g_state 
+      procedure(c__l2g_state_pdaf) :: U_l2g_state
       ! Restrict full obs. vector to local analysis domain
-      procedure(c__g2l_obs_pdaf) :: U_g2l_obs 
+      procedure(c__g2l_obs_pdaf) :: U_g2l_obs
       ! Provide product R^-1 A on local analysis domain
-      procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l 
+      procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Provide time step and time of next observation
       procedure(c__next_observation_pdaf) :: U_next_observation
 
@@ -499,31 +499,31 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf) :: U_distribute_state 
+      procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Provide number of local analysis domains
-      procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p 
+      procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
       ! Init state dimension for local ana. domain
-      procedure(c__init_dim_l_pdaf) :: U_init_dim_l 
+      procedure(c__init_dim_l_pdaf) :: U_init_dim_l
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l 
+      procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
       ! Init. observation vector on local analysis domain
-      procedure(c__init_obs_l_pdaf) :: U_init_obs_l 
+      procedure(c__init_obs_l_pdaf) :: U_init_obs_l
       ! Get state on local ana. domain from full state
-      procedure(c__g2l_state_pdaf) :: U_g2l_state 
+      procedure(c__g2l_state_pdaf) :: U_g2l_state
       ! Init full state from state on local analysis domain
-      procedure(c__l2g_state_pdaf) :: U_l2g_state 
+      procedure(c__l2g_state_pdaf) :: U_l2g_state
       ! Restrict full obs. vector to local analysis domain
-      procedure(c__g2l_obs_pdaf) :: U_g2l_obs 
+      procedure(c__g2l_obs_pdaf) :: U_g2l_obs
       ! Compute observation likelihood for an ensemble member
-      procedure(c__likelihood_l_pdaf) :: U_likelihood_l 
+      procedure(c__likelihood_l_pdaf) :: U_likelihood_l
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Provide time step and time of next observation
       procedure(c__next_observation_pdaf) :: U_next_observation
 
@@ -541,37 +541,37 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf) :: U_distribute_state 
+      procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Provide number of local analysis domains
-      procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p 
+      procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
       ! Init state dimension for local ana. domain
-      procedure(c__init_dim_l_pdaf) :: U_init_dim_l 
+      procedure(c__init_dim_l_pdaf) :: U_init_dim_l
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l 
+      procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
       ! Initialize PE-local observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! Init. observation vector on local analysis domain
-      procedure(c__init_obs_l_pdaf) :: U_init_obs_l 
+      procedure(c__init_obs_l_pdaf) :: U_init_obs_l
       ! Initialize mean observation error variance
-      procedure(c__init_obsvar_pdaf) :: U_init_obsvar 
+      procedure(c__init_obsvar_pdaf) :: U_init_obsvar
       ! Initialize local mean observation error variance
-      procedure(c__init_obsvar_l_pdaf) :: U_init_obsvar_l 
+      procedure(c__init_obsvar_l_pdaf) :: U_init_obsvar_l
       ! Get state on local ana. domain from full state
-      procedure(c__g2l_state_pdaf) :: U_g2l_state 
+      procedure(c__g2l_state_pdaf) :: U_g2l_state
       ! Init full state from state on local analysis domain
-      procedure(c__l2g_state_pdaf) :: U_l2g_state 
+      procedure(c__l2g_state_pdaf) :: U_l2g_state
       ! Restrict full obs. vector to local analysis domain
-      procedure(c__g2l_obs_pdaf) :: U_g2l_obs 
+      procedure(c__g2l_obs_pdaf) :: U_g2l_obs
       ! Provide product R^-1 A on local analysis domain
-      procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l 
+      procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Provide time step and time of next observation
       procedure(c__next_observation_pdaf) :: U_next_observation
 
@@ -588,19 +588,19 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf) :: U_distribute_state 
+      procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Initialize observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Compute observation likelihood for an ensemble member
-      procedure(c__likelihood_pdaf) :: U_likelihood 
+      procedure(c__likelihood_pdaf) :: U_likelihood
       ! Provide time step and time of next observation
       procedure(c__next_observation_pdaf) :: U_next_observation
 
@@ -615,19 +615,19 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf) :: U_distribute_state 
+      procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Initialize observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Compute observation likelihood for an ensemble member
-      procedure(c__likelihood_pdaf) :: U_likelihood 
+      procedure(c__likelihood_pdaf) :: U_likelihood
       ! Provide time step and time of next observation
       procedure(c__next_observation_pdaf) :: U_next_observation
 
@@ -642,19 +642,19 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf) :: U_distribute_state 
+      procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Initialize observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Provide product R^-1 HV
-      procedure(c__prodRinvA_pdaf) :: U_prodRinvA 
+      procedure(c__prodRinvA_pdaf) :: U_prodRinvA
       ! Provide time step and time of next observation
       procedure(c__next_observation_pdaf) :: U_next_observation
 
@@ -669,19 +669,19 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf) :: U_distribute_state 
+      procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Initialize observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Provide product R^-1 HV
-      procedure(c__prodRinvA_pdaf) :: U_prodRinvA 
+      procedure(c__prodRinvA_pdaf) :: U_prodRinvA
       ! Provide time step and time of next observation
       procedure(c__next_observation_pdaf) :: U_next_observation
 
@@ -911,19 +911,19 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf) :: U_distribute_state 
+      procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: U_init_dim_obs_f 
+      procedure(c__init_dim_obs_f_pdaf) :: U_init_dim_obs_f
       ! Observation operator
-      procedure(c__obs_op_f_pdaf) :: U_obs_op_f 
+      procedure(c__obs_op_f_pdaf) :: U_obs_op_f
       ! Provide observation vector to user
-      procedure(c__get_obs_f_pdaf) :: U_get_obs_f 
+      procedure(c__get_obs_f_pdaf) :: U_get_obs_f
       ! Initialize vector of observation error standard deviations
-      procedure(c__init_obserr_f_pdaf) :: U_init_obserr_f 
+      procedure(c__init_obserr_f_pdaf) :: U_init_obserr_f
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Provide time step and time of next observation
       procedure(c__next_observation_pdaf) :: U_next_observation
 
@@ -963,7 +963,7 @@ contains
 
    SUBROUTINE c__PDAF_get_smootherens(c_sens_point, maxlag, dims, status) bind(c)
       ! Pointer to smoother array
-      type(c_ptr), intent(out) :: c_sens_point      
+      type(c_ptr), intent(out) :: c_sens_point
       ! Number of past timesteps processed in sens
       INTEGER(c_int), INTENT(out) :: maxlag
       ! dimension of pointer
@@ -974,7 +974,7 @@ contains
       REAL, POINTER :: sens_point(:, :, :)
 
       CALL PDAF_get_smootherens(sens_point, maxlag, status)
-            
+
       c_sens_point = c_loc(sens_point(1, 1, 1))
    END SUBROUTINE c__PDAF_get_smootherens
 
@@ -990,9 +990,9 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: flag
       ! Provide time step and time of next observation
-      procedure(c__next_observation_pdaf) :: U_next_observation 
+      procedure(c__next_observation_pdaf) :: U_next_observation
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf) :: U_distribute_state 
+      procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: U_prepoststep
 
@@ -1081,19 +1081,19 @@ contains
       ! (0): unit weight (=1 up to distance=cradius)
       ! (1): exponential decrease (1/e at distance=sradius; 0 for distance>cradius)
       ! (2): 5th order polynomial (Gaspari&Cohn 1999; 0 for distance>cradius)
-      INTEGER(c_int), INTENT(in) :: wtype     
+      INTEGER(c_int), INTENT(in) :: wtype
       ! Parameter for cut-off
-      REAL(c_double), INTENT(in)    :: cradius        
-      ! Support radius 
-      REAL(c_double), INTENT(in)    :: sradius        
+      REAL(c_double), INTENT(in)    :: cradius
+      ! Support radius
+      REAL(c_double), INTENT(in)    :: sradius
       ! Size of distance and weight arrays
-      INTEGER(c_int), INTENT(in) :: dim            
+      INTEGER(c_int), INTENT(in) :: dim
       ! Array holding distances
-      REAL(c_double), INTENT(in)    :: distance(dim)  
+      REAL(c_double), INTENT(in)    :: distance(dim)
       ! Array for weights
-      REAL(c_double), INTENT(out)   :: weight(dim)    
+      REAL(c_double), INTENT(out)   :: weight(dim)
       ! Verbosity flag
-      INTEGER(c_int), INTENT(in) :: verbose       
+      INTEGER(c_int), INTENT(in) :: verbose
       call  PDAF_local_weights(wtype, cradius, sradius, dim, distance, &
                                weight, verbose)
    END SUBROUTINE c__PDAF_local_weights
@@ -1260,17 +1260,17 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Initialize observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Add obs error covariance R to HPH in EnKF
-      procedure(c__add_obs_err_pdaf) :: U_add_obs_err 
+      procedure(c__add_obs_err_pdaf) :: U_add_obs_err
       ! Initialize obs. error cov. matrix R in EnKF
       procedure(c__init_obs_covar_pdaf) :: U_init_obs_covar
 
@@ -1283,17 +1283,17 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Initialize mean observation error variance
-      procedure(c__init_obsvar_pdaf) :: U_init_obsvar 
+      procedure(c__init_obsvar_pdaf) :: U_init_obsvar
       ! Initialize observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Provide product R^-1 A
       procedure(c__prodRinvA_pdaf) :: U_prodRinvA
 
@@ -1306,17 +1306,17 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Initialize mean observation error variance
-      procedure(c__init_obsvar_pdaf) :: U_init_obsvar 
+      procedure(c__init_obsvar_pdaf) :: U_init_obsvar
       ! Initialize observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Provide product R^-1 A
       procedure(c__prodRinvA_pdaf) :: U_prodRinvA
 
@@ -1329,15 +1329,15 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: U_init_dim_obs_f 
+      procedure(c__init_dim_obs_f_pdaf) :: U_init_dim_obs_f
       ! Observation operator
-      procedure(c__obs_op_f_pdaf) :: U_obs_op_f 
+      procedure(c__obs_op_f_pdaf) :: U_obs_op_f
       ! Provide observation vector to user
-      procedure(c__get_obs_f_pdaf) :: U_get_obs_f 
+      procedure(c__get_obs_f_pdaf) :: U_get_obs_f
       ! Initialize vector of observation errors
-      procedure(c__init_obserr_f_pdaf) :: U_init_obserr_f 
+      procedure(c__init_obserr_f_pdaf) :: U_init_obserr_f
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: U_prepoststep
 
@@ -1457,19 +1457,19 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Initialize observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Apply localization to HP and HPH^T
-      procedure(c__localize_covar_pdaf) :: U_localize 
+      procedure(c__localize_covar_pdaf) :: U_localize
       ! Add obs error covariance R to HPH in EnKF
-      procedure(c__add_obs_err_pdaf) :: U_add_obs_err 
+      procedure(c__add_obs_err_pdaf) :: U_add_obs_err
       ! Initialize obs. error cov. matrix R in EnKF
       procedure(c__init_obs_covar_pdaf) :: U_init_obs_covar
 
@@ -1485,33 +1485,33 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Provide number of local analysis domains
-      procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p 
+      procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
       ! Init state dimension for local ana. domain
-      procedure(c__init_dim_l_pdaf) :: U_init_dim_l 
+      procedure(c__init_dim_l_pdaf) :: U_init_dim_l
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l 
+      procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
       ! Initialize PE-local observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! Init. observation vector on local analysis domain
-      procedure(c__init_obs_l_pdaf) :: U_init_obs_l 
+      procedure(c__init_obs_l_pdaf) :: U_init_obs_l
       ! Initialize mean observation error variance
-      procedure(c__init_obsvar_pdaf) :: U_init_obsvar 
+      procedure(c__init_obsvar_pdaf) :: U_init_obsvar
       ! Initialize local mean observation error variance
-      procedure(c__init_obsvar_l_pdaf) :: U_init_obsvar_l 
+      procedure(c__init_obsvar_l_pdaf) :: U_init_obsvar_l
       ! Get state on local ana. domain from full state
-      procedure(c__g2l_state_pdaf) :: U_g2l_state 
+      procedure(c__g2l_state_pdaf) :: U_g2l_state
       ! Init full state from state on local analysis domain
-      procedure(c__l2g_state_pdaf) :: U_l2g_state 
+      procedure(c__l2g_state_pdaf) :: U_l2g_state
       ! Restrict full obs. vector to local analysis domain
-      procedure(c__g2l_obs_pdaf) :: U_g2l_obs 
+      procedure(c__g2l_obs_pdaf) :: U_g2l_obs
       ! Provide product R^-1 A on local analysis domain
-      procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l 
+      procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: U_prepoststep
 
@@ -1529,33 +1529,33 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Provide number of local analysis domains
-      procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p 
+      procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
       ! Init state dimension for local ana. domain
-      procedure(c__init_dim_l_pdaf) :: U_init_dim_l 
+      procedure(c__init_dim_l_pdaf) :: U_init_dim_l
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l 
+      procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
       ! Initialize PE-local observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! Init. observation vector on local analysis domain
-      procedure(c__init_obs_l_pdaf) :: U_init_obs_l 
+      procedure(c__init_obs_l_pdaf) :: U_init_obs_l
       ! Initialize mean observation error variance
-      procedure(c__init_obsvar_pdaf) :: U_init_obsvar 
+      procedure(c__init_obsvar_pdaf) :: U_init_obsvar
       ! Initialize local mean observation error variance
-      procedure(c__init_obsvar_l_pdaf) :: U_init_obsvar_l 
+      procedure(c__init_obsvar_l_pdaf) :: U_init_obsvar_l
       ! Get state on local ana. domain from full state
-      procedure(c__g2l_state_pdaf) :: U_g2l_state 
+      procedure(c__g2l_state_pdaf) :: U_g2l_state
       ! Init full state from state on local analysis domain
-      procedure(c__l2g_state_pdaf) :: U_l2g_state 
+      procedure(c__l2g_state_pdaf) :: U_l2g_state
       ! Restrict full obs. vector to local analysis domain
-      procedure(c__g2l_obs_pdaf) :: U_g2l_obs 
+      procedure(c__g2l_obs_pdaf) :: U_g2l_obs
       ! Provide product R^-1 A on local analysis domain
-      procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l 
+      procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: U_prepoststep
 
@@ -1572,29 +1572,29 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: outflag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Provide number of local analysis domains
-      procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p 
+      procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
       ! Init state dimension for local ana. domain
-      procedure(c__init_dim_l_pdaf) :: U_init_dim_l 
+      procedure(c__init_dim_l_pdaf) :: U_init_dim_l
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l 
+      procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
       ! Initialize PE-local observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! Init. observation vector on local analysis domain
-      procedure(c__init_obs_l_pdaf) :: U_init_obs_l 
+      procedure(c__init_obs_l_pdaf) :: U_init_obs_l
       ! Get state on local ana. domain from full state
-      procedure(c__g2l_state_pdaf) :: U_g2l_state 
+      procedure(c__g2l_state_pdaf) :: U_g2l_state
       ! Init full state from state on local analysis domain
-      procedure(c__l2g_state_pdaf) :: U_l2g_state 
+      procedure(c__l2g_state_pdaf) :: U_l2g_state
       ! Restrict full obs. vector to local analysis domain
-      procedure(c__g2l_obs_pdaf) :: U_g2l_obs 
+      procedure(c__g2l_obs_pdaf) :: U_g2l_obs
       ! Compute observation likelihood for an ensemble member
-      procedure(c__likelihood_l_pdaf) :: U_likelihood_l 
+      procedure(c__likelihood_l_pdaf) :: U_likelihood_l
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: U_prepoststep
 
@@ -1611,33 +1611,33 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Provide number of local analysis domains
-      procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p 
+      procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
       ! Init state dimension for local ana. domain
-      procedure(c__init_dim_l_pdaf) :: U_init_dim_l 
+      procedure(c__init_dim_l_pdaf) :: U_init_dim_l
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l 
+      procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
       ! Initialize PE-local observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! Init. observation vector on local analysis domain
-      procedure(c__init_obs_l_pdaf) :: U_init_obs_l 
+      procedure(c__init_obs_l_pdaf) :: U_init_obs_l
       ! Initialize mean observation error variance
-      procedure(c__init_obsvar_pdaf) :: U_init_obsvar 
+      procedure(c__init_obsvar_pdaf) :: U_init_obsvar
       ! Initialize local mean observation error variance
-      procedure(c__init_obsvar_l_pdaf) :: U_init_obsvar_l 
+      procedure(c__init_obsvar_l_pdaf) :: U_init_obsvar_l
       ! Get state on local ana. domain from full state
-      procedure(c__g2l_state_pdaf) :: U_g2l_state 
+      procedure(c__g2l_state_pdaf) :: U_g2l_state
       ! Init full state from state on local analysis domain
-      procedure(c__l2g_state_pdaf) :: U_l2g_state 
+      procedure(c__l2g_state_pdaf) :: U_l2g_state
       ! Restrict full obs. vector to local analysis domain
-      procedure(c__g2l_obs_pdaf) :: U_g2l_obs 
+      procedure(c__g2l_obs_pdaf) :: U_g2l_obs
       ! Provide product R^-1 A on local analysis domain
-      procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l 
+      procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: U_prepoststep
 
@@ -1652,15 +1652,15 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Initialize observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Compute observation likelihood for an ensemble member
       procedure(c__likelihood_pdaf) :: U_likelihood
 
@@ -1673,15 +1673,15 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Initialize observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Compute observation likelihood for an ensemble member
       procedure(c__likelihood_pdaf) :: U_likelihood
 
@@ -1693,7 +1693,7 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: U_prepoststep
 
@@ -1705,15 +1705,15 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Initialize observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Provide product R^-1 HV
       procedure(c__prodRinvA_pdaf) :: U_prodRinvA
 
@@ -1726,17 +1726,17 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state 
+      procedure(c__collect_state_pdaf) :: U_collect_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs 
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: U_obs_op 
+      procedure(c__obs_op_pdaf) :: U_obs_op
       ! Initialize mean observation error variance
-      procedure(c__init_obsvar_pdaf) :: U_init_obsvar 
+      procedure(c__init_obsvar_pdaf) :: U_init_obsvar
       ! Initialize observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs 
+      procedure(c__init_obs_pdaf) :: U_init_obs
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep 
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Provide product R^-1 A
       procedure(c__prodRinvA_pdaf) :: U_prodRinvA
 

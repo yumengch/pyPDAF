@@ -2,7 +2,6 @@ import pyPDAF.UserFunc as PDAFcython
 cimport pyPDAF.UserFunc as c__PDAFcython
 
 import numpy as np
-
 import sys
 from traceback import print_exception
 import mpi4py.MPI as MPI
@@ -31,6 +30,7 @@ def global_except_hook(exctype, value, traceback):
             raise e
 
 sys.excepthook = global_except_hook
+
 
 def init (int n_obs
          ):
@@ -109,7 +109,7 @@ def set_id_obs_p (int i_obs,
         setter value
     """
     cdef int[::1] id_obs_p_view = np.array(id_obs_p, dtype=np.intc).ravel(order='F')
-    cdef int nrows, dim_obs_p
+    cdef int dim_obs_p, nrows
     nrows, dim_obs_p,  = id_obs_p.shape
 
 
@@ -132,7 +132,7 @@ def set_icoeff_p (int i_obs,
         setter value
     """
     cdef double[::1] icoeff_p_view = np.array(icoeff_p).ravel(order='F')
-    cdef int nrows, dim_obs_p
+    cdef int dim_obs_p, nrows
     nrows, dim_obs_p,  = icoeff_p.shape
 
 
@@ -315,7 +315,7 @@ def localize_covar (int i_obs,
     cdef double[::1] coords_p_view = np.array(coords_p).ravel(order='F')
     cdef double[::1] hp_p_view = np.array(hp_p).ravel(order='F')
     cdef double[::1] hph_view = np.array(hph).ravel(order='F')
-    cdef int dim_coords, dim_obs, dim_p
+    cdef int dim_p, dim_coords, dim_obs
     dim_coords, dim_p,  = coords_p.shape
     dim_obs, _,  = hp_p.shape
 
@@ -437,7 +437,7 @@ def obs_op_gridpoint (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int nobs_f_all, dim_p
+    cdef int dim_p, nobs_f_all
     dim_p,  = state_p.shape
     nobs_f_all,  = obs_f_all.shape
 
@@ -476,7 +476,7 @@ def obs_op_gridavg (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int nobs_f_all, dim_p
+    cdef int dim_p, nobs_f_all
     dim_p,  = state_p.shape
     nobs_f_all,  = obs_f_all.shape
 
@@ -516,7 +516,7 @@ def obs_op_interp_lin (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int nobs_f_all, dim_p
+    cdef int dim_p, nobs_f_all
     dim_p,  = state_p.shape
     nobs_f_all,  = obs_f_all.shape
 
@@ -556,7 +556,7 @@ def obs_op_adj_gridavg (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int nobs_f_all, dim_p
+    cdef int dim_p, nobs_f_all
     dim_p,  = state_p.shape
     nobs_f_all,  = obs_f_all.shape
 
@@ -593,7 +593,7 @@ def obs_op_adj_gridpoint (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int nobs_f_all, dim_p
+    cdef int dim_p, nobs_f_all
     dim_p,  = state_p.shape
     nobs_f_all,  = obs_f_all.shape
 
@@ -632,7 +632,7 @@ def obs_op_adj_interp_lin (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int nobs_f_all, dim_p
+    cdef int dim_p, nobs_f_all
     dim_p,  = state_p.shape
     nobs_f_all,  = obs_f_all.shape
 
@@ -732,7 +732,7 @@ def get_interp_coeff_lin (gpc,
     cdef double[::1] gpc_view = np.array(gpc).ravel(order='F')
     cdef double[::1] oc_view = np.array(oc).ravel(order='F')
     cdef double[::1] icoeff_view = np.array(icoeff).ravel(order='F')
-    cdef int num_gp, n_dim
+    cdef int n_dim, num_gp
     num_gp, n_dim,  = gpc.shape
 
 
@@ -1956,4 +1956,447 @@ def put_state_local (py__collect_state_pdaf,
                                )
 
     return flag
+
+def init_obs_f_cb (int step,
+                   int dim_obs_f,
+                   observation_f
+                  ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    step : int
+        current time step
+    dim_obs_f : int
+        dimension of full observation vector
+    observation_f : ndarray[float]
+        full observation vector
+
+    Returns
+    -------
+    observation_f : ndarray[float]
+        full observation vector
+    """
+    cdef double[::1] observation_f_view = np.array(observation_f).ravel(order='F')
+    c__pdafomi_init_obs_f_cb (&step,
+                              &dim_obs_f,
+                              &observation_f_view[0]
+                             )
+
+    return np.asarray(observation_f_view).reshape((dim_obs_f), order='F')
+
+def init_obsvar_cb (int step,
+                    int dim_obs_p,
+                    obs_p,
+                    double meanvar
+                   ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    step : int
+        current time step
+    dim_obs_p : int
+        pe-local dimension of observation vector
+    obs_p : ndarray[float]
+        pe-local observation vector
+    meanvar : float
+        mean observation error variance
+
+    Returns
+    -------
+    meanvar : float
+        mean observation error variance
+    """
+    cdef double[::1] obs_p_view = np.array(obs_p).ravel(order='F')
+    c__pdafomi_init_obsvar_cb (&step,
+                               &dim_obs_p,
+                               &obs_p_view[0],
+                               &meanvar
+                              )
+
+    return meanvar
+
+def g2l_obs_cb (int domain_p,
+                int step,
+                int dim_obs_f,
+                int dim_obs_l,
+                ostate_f,
+                ostate_l
+               ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    domain_p : int
+        index of current local analysis domain
+    step : int
+        current time step
+    dim_obs_f : int
+        dimension of full pe-local observation vector
+    dim_obs_l : int
+        dimension of local observation vector
+    ostate_f : ndarray[float]
+        full pe-local obs.ervation vector
+    ostate_l : ndarray[float]
+        observation vector on local domain
+
+    Returns
+    -------
+    ostate_l : ndarray[float]
+        observation vector on local domain
+    """
+    cdef double[::1] ostate_f_view = np.array(ostate_f).ravel(order='F')
+    cdef double[::1] ostate_l_view = np.array(ostate_l).ravel(order='F')
+    c__pdafomi_g2l_obs_cb (&domain_p,
+                           &step,
+                           &dim_obs_f,
+                           &dim_obs_l,
+                           &ostate_f_view[0],
+                           &ostate_l_view[0]
+                          )
+
+    return np.asarray(ostate_l_view).reshape((dim_obs_l), order='F')
+
+def init_obs_l_cb (int domain_p,
+                   int step,
+                   int dim_obs_l,
+                   observation_l
+                  ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    domain_p : int
+        index of current local analysis domain index
+    step : int
+        current time step
+    dim_obs_l : int
+        local dimension of observation vector
+    observation_l : ndarray[float]
+        local observation vector
+
+    Returns
+    -------
+    observation_l : ndarray[float]
+        local observation vector
+    """
+    cdef double[::1] observation_l_view = np.array(observation_l).ravel(order='F')
+    c__pdafomi_init_obs_l_cb (&domain_p,
+                              &step,
+                              &dim_obs_l,
+                              &observation_l_view[0]
+                             )
+
+    return np.asarray(observation_l_view).reshape((dim_obs_l), order='F')
+
+def init_obsvar_l_cb (int domain_p,
+                      int step,
+                      int dim_obs_l,
+                      obs_l,
+                      double meanvar_l
+                     ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    domain_p : int
+        index of current local analysis domain
+    step : int
+        current time step
+    dim_obs_l : int
+        local dimension of observation vector
+    obs_l : ndarray[float]
+        local observation vector
+    meanvar_l : float
+        mean local observation error variance
+
+    Returns
+    -------
+    meanvar_l : float
+        mean local observation error variance
+    """
+    cdef double[::1] obs_l_view = np.array(obs_l).ravel(order='F')
+    c__pdafomi_init_obsvar_l_cb (&domain_p,
+                                 &step,
+                                 &dim_obs_l,
+                                 &obs_l_view[0],
+                                 &meanvar_l
+                                )
+
+    return meanvar_l
+
+def prodrinva_l_cb (int domain_p,
+                    int step,
+                    int dim_obs_l,
+                    int rank,
+                    obs_l,
+                    a_l,
+                    c_l
+                   ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    domain_p : int
+        index of current local analysis domain
+    step : int
+        current time step
+    dim_obs_l : int
+        dimension of local observation vector
+    rank : int
+        rank of initial covariance matrix
+    obs_l : ndarray[float]
+        local vector of observations
+    a_l : ndarray[float]
+        input matrix
+    c_l : ndarray[float]
+        output matrix
+
+    Returns
+    -------
+    a_l : ndarray[float]
+        input matrix
+    c_l : ndarray[float]
+        output matrix
+    """
+    cdef double[::1] obs_l_view = np.array(obs_l).ravel(order='F')
+    cdef double[::1] a_l_view = np.array(a_l).ravel(order='F')
+    cdef double[::1] c_l_view = np.array(c_l).ravel(order='F')
+    c__pdafomi_prodrinva_l_cb (&domain_p,
+                               &step,
+                               &dim_obs_l,
+                               &rank,
+                               &obs_l_view[0],
+                               &a_l_view[0],
+                               &c_l_view[0]
+                              )
+
+    return np.asarray(a_l_view).reshape((dim_obs_l,rank), order='F'), np.asarray(c_l_view).reshape((dim_obs_l,rank), order='F')
+
+def likelihood_l_cb (int domain_p,
+                     int step,
+                     int dim_obs_l,
+                     obs_l,
+                     resid_l,
+                     double lhood_l
+                    ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    domain_p : int
+        current local analysis domain
+    step : int
+        current time step
+    dim_obs_l : int
+        pe-local dimension of obs. vector
+    obs_l : ndarray[float]
+        pe-local vector of observations
+    resid_l : ndarray[float]
+        input vector of residuum
+    lhood_l : float
+        output vector - log likelihood
+
+    Returns
+    -------
+    resid_l : ndarray[float]
+        input vector of residuum
+    lhood_l : float
+        output vector - log likelihood
+    """
+    cdef double[::1] obs_l_view = np.array(obs_l).ravel(order='F')
+    cdef double[::1] resid_l_view = np.array(resid_l).ravel(order='F')
+    c__pdafomi_likelihood_l_cb (&domain_p,
+                                &step,
+                                &dim_obs_l,
+                                &obs_l_view[0],
+                                &resid_l_view[0],
+                                &lhood_l
+                               )
+
+    return np.asarray(resid_l_view).reshape((dim_obs_l), order='F'), lhood_l
+
+def prodrinva_cb (int step,
+                  int dim_obs_p,
+                  int ncol,
+                  obs_p,
+                  a_p,
+                  c_p
+                 ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    step : int
+        current time step
+    dim_obs_p : int
+        dimension of pe-local observation vector
+    ncol : int
+        number of columns in a_p and c_p
+    obs_p : ndarray[float]
+        pe-local vector of observations
+    a_p : ndarray[float]
+        input matrix
+    c_p : ndarray[float]
+        output matrix
+
+    Returns
+    -------
+    c_p : ndarray[float]
+        output matrix
+    """
+    cdef double[::1] obs_p_view = np.array(obs_p).ravel(order='F')
+    cdef double[::1] a_p_view = np.array(a_p).ravel(order='F')
+    cdef double[::1] c_p_view = np.array(c_p).ravel(order='F')
+    c__pdafomi_prodrinva_cb (&step,
+                             &dim_obs_p,
+                             &ncol,
+                             &obs_p_view[0],
+                             &a_p_view[0],
+                             &c_p_view[0]
+                            )
+
+    return np.asarray(c_p_view).reshape((dim_obs_p,ncol), order='F')
+
+def likelihood_cb (int step,
+                   int dim_obs,
+                   obs,
+                   resid,
+                   double lhood
+                  ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    step : int
+        current time step
+    dim_obs : int
+        pe-local dimension of obs. vector
+    obs : ndarray[float]
+        pe-local vector of observations
+    resid : ndarray[float]
+        input vector of residuum
+    lhood : float
+        output vector - log likelihood
+
+    Returns
+    -------
+    lhood : float
+        output vector - log likelihood
+    """
+    cdef double[::1] obs_view = np.array(obs).ravel(order='F')
+    cdef double[::1] resid_view = np.array(resid).ravel(order='F')
+    c__pdafomi_likelihood_cb (&step,
+                              &dim_obs,
+                              &obs_view[0],
+                              &resid_view[0],
+                              &lhood
+                             )
+
+    return lhood
+
+def add_obs_error_cb (int step,
+                      int dim_obs_p,
+                      c_p
+                     ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    step : int
+        current time step
+    dim_obs_p : int
+        dimension of pe-local observation vector
+    c_p : ndarray[float]
+        matrix to which r is added
+
+    Returns
+    -------
+    c_p : ndarray[float]
+        matrix to which r is added
+    """
+    cdef double[::1] c_p_view = np.array(c_p).ravel(order='F')
+    c__pdafomi_add_obs_error_cb (&step,
+                                 &dim_obs_p,
+                                 &c_p_view[0]
+                                )
+
+    return np.asarray(c_p_view).reshape((dim_obs_p,dim_obs_p), order='F')
+
+def init_obscovar_cb (int step,
+                      int dim_obs,
+                      int dim_obs_p,
+                      covar,
+                      m_state_p,
+                      bint isdiag
+                     ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    step : int
+        current time step
+    dim_obs : int
+        dimension of observation vector
+    dim_obs_p : int
+        pe-local dimension of obs. vector
+    covar : ndarray[float]
+        observation error covar. matrix
+    m_state_p : ndarray[float]
+        observation vector
+    isdiag : bool
+        whether matrix r is diagonal
+
+    Returns
+    -------
+    covar : ndarray[float]
+        observation error covar. matrix
+    isdiag : bool
+        whether matrix r is diagonal
+    """
+    cdef double[::1] covar_view = np.array(covar).ravel(order='F')
+    cdef double[::1] m_state_p_view = np.array(m_state_p).ravel(order='F')
+    c__pdafomi_init_obscovar_cb (&step,
+                                 &dim_obs,
+                                 &dim_obs_p,
+                                 &covar_view[0],
+                                 &m_state_p_view[0],
+                                 &isdiag
+                                )
+
+    return np.asarray(covar_view).reshape((dim_obs,dim_obs), order='F'), isdiag
+
+def init_obserr_f_cb (int step,
+                      int dim_obs_f,
+                      obs_f,
+                      obserr_f
+                     ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    step : int
+        current time step
+    dim_obs_f : int
+        full dimension of observation vector
+    obs_f : ndarray[float]
+        full observation vector
+    obserr_f : ndarray[float]
+        full observation error stddev
+
+    Returns
+    -------
+    obserr_f : ndarray[float]
+        full observation error stddev
+    """
+    cdef double[::1] obs_f_view = np.array(obs_f).ravel(order='F')
+    cdef double[::1] obserr_f_view = np.array(obserr_f).ravel(order='F')
+    c__pdafomi_init_obserr_f_cb (&step,
+                                 &dim_obs_f,
+                                 &obs_f_view[0],
+                                 &obserr_f_view[0]
+                                )
+
+    return np.asarray(obserr_f_view).reshape((dim_obs_f), order='F')
 
