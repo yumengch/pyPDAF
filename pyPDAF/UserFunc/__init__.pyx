@@ -105,6 +105,12 @@ def py__next_observation_pdaf(stepnow, nsteps, doexit, time):
     ----------
     stepnow : int
         number of the current time step
+    nsteps : int
+        number of time steps until next obs
+    doexit : int
+        whether to exit forecasting (1 for exit)
+    time : float
+        current model (physical) time
 
     Returns
     -------
@@ -228,6 +234,8 @@ def py__init_dim_obs_pdaf(step, dim_obs_p):
     ----------
     step : int
         current time step
+    dim_obs_p : int
+        dimension of observation vector
 
     Returns
     -------
@@ -251,6 +259,9 @@ def py__init_obs_pdaf(step, dim_obs_p, observation_p):
         current time step
     dim_obs_p : int
         size of the observation vector
+    observation_p : ndarray[float]
+        vector of observations
+        shape is (dim_obs_p)
 
     Returns
     -------
@@ -276,9 +287,13 @@ def py__init_obs_covar_pdaf(step, dim_obs, dim_obs_p, covar, obs_p, isdiag):
         global size of observation vector
     dim_obs_p : int
         size of process-local observation vector
+    covar : float
+        observation error covariance matrix
     obs_p : ndarray[float]
         process-local vector of observations
         shape is (dim_obs_p)
+    isdiag : bool
+        
 
     Returns
     -------
@@ -307,6 +322,8 @@ def py__init_obsvar_pdaf(step, dim_obs_p, obs_p, meanvar):
     obs_p : ndarray[float]
         vector of observations
         shape is (dim_obs_p)
+    meanvar : float
+        mean observation error variance
 
     Returns
     -------
@@ -340,6 +357,9 @@ def py__prodrinva_pdaf(step, dim_obs_p, rank, obs_p, a_p, c_p):
     a_p : ndarray[float]
         input matrix provided by pdaf
         shape is (dim_obs_p,rank)
+    c_p : ndarray[float]
+        output matrix
+        shape is (dim_obs_p,rank)
 
     Returns
     -------
@@ -368,6 +388,9 @@ def py__obs_op_pdaf(step, dim_p, dim_obs_p, state_p, m_state_p):
     state_p : ndarray[float]
         model state vector
         shape is (dim_p)
+    m_state_p : ndarray[float]
+        observed state vector (i.e. the result after applying the observation operator to state_p)
+        shape is (dim_obs_p)
 
     Returns
     -------
@@ -400,6 +423,9 @@ def py__g2l_obs_pdaf(domain_p, step, dim_obs_f, dim_obs_l, mstate_f, dim_p, msta
         shape is (dim_p)
     dim_p : int
         size of full observation vector for model sub-domain
+    mstate_l : ndarray[int]
+        observation vector for local analysis domain
+        shape is (dim_l)
     dim_l : int
         size of observation vector for local analysis domain
 
@@ -432,6 +458,9 @@ def py__g2l_state_pdaf(step, domain_p, dim_p, state_p, dim_l, state_l):
         shape is (dim_p)
     dim_l : int
         local state dimension
+    state_l : ndarray[float]
+        state vector on local analysis domain
+        shape is (dim_l)
 
     Returns
     -------
@@ -455,6 +484,8 @@ def py__init_dim_l_pdaf(step, domain_p, dim_l):
         current time step
     domain_p : int
         current local analysis domain
+    dim_l : int
+        local state dimension
 
     Returns
     -------
@@ -476,6 +507,8 @@ def py__init_dim_obs_f_pdaf(step, dim_obs_f):
     ----------
     step : int
         current time step
+    dim_obs_f : int
+        size of the full observation vector
 
     Returns
     -------
@@ -501,6 +534,8 @@ def py__init_dim_obs_l_pdaf(domain_p, step, dim_obs_f, dim_obs_l):
         current time step
     dim_obs_f : int
         full dimension of observation vector
+    dim_obs_l : int
+        local dimension of observation vector
 
     Returns
     -------
@@ -522,6 +557,8 @@ def py__init_n_domains_p_pdaf(step, n_domains_p):
     ----------
     step : int
         current time step
+    n_domains_p : int
+        pe-local number of analysis domains
 
     Returns
     -------
@@ -545,6 +582,9 @@ def py__init_obs_f_pdaf(step, dim_obs_f, observation_f):
         current time step
     dim_obs_f : int
         size of the full observation vector
+    observation_f : ndarray[float]
+        full vector of observations
+        shape is (dim_obs_f)
 
     Returns
     -------
@@ -570,6 +610,9 @@ def py__init_obs_l_pdaf(domain_p, step, dim_obs_l, observation_l):
         current time step
     dim_obs_l : int
         local size of the observation vector
+    observation_l : ndarray[float]
+        local vector of observations
+        shape is (dim_obs_l)
 
     Returns
     -------
@@ -600,6 +643,8 @@ def py__init_obsvar_l_pdaf(domain_p, step, dim_obs_l, obs_l, dim_obs_p, meanvar_
         shape is (dim_obs_p)
     dim_obs_p : int
         dimension of local observation vector
+    meanvar_l : float
+        mean local observation error variance
 
     Returns
     -------
@@ -625,6 +670,9 @@ def py__init_obserr_f_pdaf(step, dim_obs_f, obs_f, obserr_f):
         full dimension of observation vector
     obs_f : ndarray[float]
         full observation vector
+        shape is (dim_obs_f)
+    obserr_f : ndarray[float]
+        full observation error stddev
         shape is (dim_obs_f)
 
     Returns
@@ -687,6 +735,9 @@ def py__obs_op_f_pdaf(step, dim_p, dim_obs_f, state_p, m_state_f):
     state_p : ndarray[float]
         model state vector
         shape is (dim_p)
+    m_state_f : ndarray[float]
+        full observed state (i.e. the result after applying the observation operator to state_p)
+        shape is (dim_obs_f)
 
     Returns
     -------
@@ -720,6 +771,9 @@ def py__prodrinva_l_pdaf(domain_p, step, dim_obs_l, rank, obs_l, a_l, c_l):
         shape is (dim_obs_l)
     a_l : ndarray[float]
         input matrix provided by pdaf
+        shape is (dim_obs_l,rank)
+    c_l : ndarray[float]
+        output matrix
         shape is (dim_obs_l,rank)
 
     Returns
@@ -781,6 +835,8 @@ def py__likelihood_pdaf(step, dim_obs_p, obs_p, resid, likely):
     resid : ndarray[float]
         input vector holding the residual
         shape is (dim_obs_p)
+    likely : float
+        output value of the likelihood
 
     Returns
     -------
@@ -812,6 +868,8 @@ def py__likelihood_l_pdaf(domain_p, step, dim_obs_l, obs_l, resid_l, likely_l):
     resid_l : ndarray[float]
         nput vector holding the local residual
         shape is (dim_obs_l)
+    likely_l : float
+        output value of the local likelihood
 
     Returns
     -------
@@ -835,6 +893,9 @@ def py__get_obs_f_pdaf(step, dim_obs_f, observation_f):
         current time step
     dim_obs_f : int
         size of the full observation vector
+    observation_f : ndarray[float]
+        full vector of synthetic observations (process-local)
+        shape is (dim_obs_f)
 
     Returns
     -------
@@ -994,6 +1055,9 @@ def py__obs_op_adj_pdaf(step, dim_p, dim_obs_p, state_p, m_state_p):
         pe-local dimension of state
     dim_obs_p : int
         dimension of observed state
+    state_p : ndarray[float]
+        pe-local model state
+        shape is (dim_p)
     m_state_p : ndarray[float]
         pe-local observed state
         shape is (dim_obs_p)
@@ -1025,6 +1089,9 @@ def py__obs_op_lin_pdaf(step, dim_p, dim_obs_p, state_p, m_state_p):
     state_p : ndarray[float]
         pe-local model state
         shape is (dim_p)
+    m_state_p : ndarray[float]
+        pe-local observed state
+        shape is (dim_obs_p)
 
     Returns
     -------
@@ -1077,7 +1144,7 @@ cdef void c__init_ens_pdaf (int* filtertype, int* dim_p, int* dim_ens, double* s
                             state_p).reshape((dim_p[0]), order='F')
     if dim_ens[0] > 1:
         uinv_np = np.asarray(<double[:np.prod((dim_ens[0]-1, dim_ens[0]-1))]> 
-                             uinv).reshape((dim_ens[0]-1, dim_ens[0]-1), order='F')
+                            uinv).reshape((dim_ens[0]-1, dim_ens[0]-1), order='F')
     else:
         uinv_np = None
     ens_p_np = np.asarray(<double[:np.prod((dim_p[0], dim_ens[0]))]> 
@@ -1130,7 +1197,7 @@ cdef void c__prepoststep_pdaf (int* step, int* dim_p, int* dim_ens, int* dim_ens
                             state_p).reshape((dim_p[0]), order='F')
     if dim_ens[0] > 1:
         uinv_np = np.asarray(<double[:np.prod((dim_ens[0]-1, dim_ens[0]-1))]> 
-                             uinv).reshape((dim_ens[0]-1, dim_ens[0]-1), order='F')
+                            uinv).reshape((dim_ens[0]-1, dim_ens[0]-1), order='F')
     else:
         uinv_np = None
     ens_p_np = np.asarray(<double[:np.prod((dim_p[0], dim_ens[0]))]> 
@@ -1475,4 +1542,6 @@ cdef void c__dist_stateinc_pdaf (int* dim_p, double* state_inc_p, int* first, in
                                 state_inc_p).reshape((dim_p[0]), order='F')
 
     py__dist_stateinc_pdaf(dim_p[0], state_inc_p_np, first[0], steps[0])
+
+
 

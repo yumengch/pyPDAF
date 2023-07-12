@@ -1,5 +1,5 @@
-"""This is a simple script for converting C binding 
-fortran routines in pyPDAF/fortran to Cython definition and 
+"""This is a simple script for converting C binding
+fortran routines in pyPDAF/fortran to Cython definition and
 implementation files.
 """
 
@@ -14,7 +14,9 @@ def mergeLine(f, line):
     # remove all white lines
     skip_condition = line.isspace()
     line = line.strip().replace('\n', '')
+    # ignore lines starting with use as they are module import
     skip_condition = skip_condition or line[:3] == 'use'
+    # ignore implicit none lines
     skip_condition = skip_condition or line.replace(' ', '') == 'implicitnone'
     if skip_condition:
         return ' '
@@ -158,13 +160,14 @@ def writePxdFile(filename, UserFuncInfo, PDAFInfo):
             routine['name'] = name
 
 
-def getPyxArgList(routine):
+def getPyxArgList(name, routine):
     ArrayDims = []
     for arg, info in routine.items():
         if arg == 'name':
             continue
         if info['intent'] is not None:
-            if 'in' not in info['intent']:
+            if ('in' not in info['intent']) \
+                and ('_cb' not in name):
                 continue
         if info['array']:
             dims = info['size'].split(',')
@@ -179,9 +182,11 @@ def getPyxArgList(routine):
         if arg == 'name':
             continue
         if info['intent'] is not None:
-            if 'in' not in info['intent']:
+            if ('in' not in info['intent']) \
+                and ('_cb' not in name):
                 continue
-        if arg not in ArrayDims:
+        if arg not in ArrayDims \
+            or ('_cb' in name):
             arg_list.append(arg)
 
     return arg_list, ArrayDims
@@ -196,14 +201,16 @@ def writeFuncDef(f, name, routine, arg_list):
     else:
         funcname = name[3:]
 
-    s = f'def {funcname} (' 
+    s = f'def {funcname} ('
     indent = ' '*len(s)
     count = 0
     for arg in arg_list:
         info = routine[arg]
         if info['intent'] is not None:
-            if 'in' not in info['intent']:
+            if ('in' not in info['intent']) \
+                and ('_cb' not in funcname):
                 continue
+
         if info['type'] == 'procedure':
             s += f'py{info["kind"][1:]}'
         elif info['array']:
@@ -222,8 +229,7 @@ def writeFuncDef(f, name, routine, arg_list):
     f.write(s)
 
 
-def writeDocString(f, routine, arg_list):
-
+def writeDocString(f, name, routine, arg_list):
     s = '    \"\"\"'
     s += 'See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ \n\n'
     f.write(s)
@@ -235,7 +241,8 @@ def writeDocString(f, routine, arg_list):
     for arg in arg_list:
         info = routine[arg]
         if info['intent'] is not None:
-            if 'in' not in info['intent']:
+            if 'in' not in info['intent'] \
+                and ('_cb' not in name):
                 continue
         if info['type'] == 'procedure':
             s += indent + f'py{info["kind"][1:]} : func\n'
@@ -273,12 +280,13 @@ def writeDocString(f, routine, arg_list):
     f.write(s)
 
 
-def writeMemoryView(f, routine):
+def writeMemoryView(f, name, routine):
     # convert np arrays to memoryview
     for arg, info in routine.items():
         if not info['array']:
             continue
-        if 'in' not in info['intent']:
+        if ('in' not in info['intent']) \
+            and ('_cb' not in name):
             continue
         s = ' '*4 + f'cdef {conv[info["type"]]}[::1] '
         s += f'{arg}_view = np.array({arg}'
@@ -289,6 +297,7 @@ def writeMemoryView(f, routine):
 
 
 def writeDims(f, routine, ArrayDims):
+
     s = '    cdef int '
     count = 0
     for dim in ArrayDims:
@@ -415,6 +424,21 @@ def writeReturns(f, routine):
         f.write(s + '\n\n')
 
 
+def writeCallBackDef(f, name, routine):
+    # define function
+    if name[3:11] == 'pdafomi_':
+        funcname = name[11:]
+    elif name[3:8] == 'pdaf_':
+        funcname = name[8:]
+    else:
+        funcname = name[3:]
+
+    s = f'def {funcname} ():\n'
+    indent = ' '*4
+    s += indent + f'return {name}\n'
+    f.write(s+'\n\n')
+
+
 def writePDAFcalls(filename, PDAFInfo):
     with open(filename, 'w') as f:
         s = 'import pyPDAF.UserFunc as PDAFcython\n'
@@ -452,13 +476,14 @@ def writePDAFcalls(filename, PDAFInfo):
         f.write(s)
         for routine in PDAFInfo:
             name = routine.pop('name')
-            arg_list, ArrayDims = getPyxArgList(routine)
+            arg_list, ArrayDims = getPyxArgList(name, routine)
             writeFuncDef(f, name, routine, arg_list)
-            writeDocString(f, routine, arg_list)
-            writeMemoryView(f, routine)
-            writeDims(f, routine, ArrayDims)
-            writeUserCython(f, routine)
-            writeReturnDef(f, routine)
+            writeDocString(f, name, routine, arg_list)
+            writeMemoryView(f, name, routine)
+            if '_cb' not in name:
+                writeDims(f, routine, ArrayDims)
+                writeUserCython(f, routine)
+                writeReturnDef(f, routine)
             writeFuncCall(f, name, routine)
             writeReturns(f, routine)
             routine['name'] = name
@@ -499,9 +524,9 @@ def writeUserDocString(f, routine):
     s += indent + '----------\n'
     count = 0
     for arg, info in routine.items():
-        if info['intent'] is not None:
-            if 'in' not in info['intent']:
-                continue
+        # if info['intent'] is not None:
+        #     if 'in' not in info['intent']:
+        #         continue
         if info['array']:
             s += indent+arg +f' : ndarray[{pyconv[info["type"]]}]\n'
         else:
@@ -633,7 +658,6 @@ def convertToArrays(f, name, routine):
 
         if info['array']:
             if len(set(info['size'].split(','))) == 1 and info['size'].split(',')[0] == 'dim_ens-1':
-                print (arg)
                 s += indent + f'cdef double[::1] {arg}_view\n'
                 s += indent + 'if dim_ens[0] > 1:\n'
                 s += indent + ' '*4 + f'{arg}_np[:] = {arg}_np_tmp[:]\n'

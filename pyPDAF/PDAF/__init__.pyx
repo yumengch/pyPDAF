@@ -2,7 +2,6 @@ import pyPDAF.UserFunc as PDAFcython
 cimport pyPDAF.UserFunc as c__PDAFcython
 
 import numpy as np
-
 import sys
 from traceback import print_exception
 import mpi4py.MPI as MPI
@@ -31,6 +30,7 @@ def global_except_hook(exctype, value, traceback):
             raise e
 
 sys.excepthook = global_except_hook
+
 
 def assimilate_3dvar (py__collect_state_pdaf,
                       py__distribute_state_pdaf,
@@ -1522,7 +1522,7 @@ def diag_crps (int element,
     """
     cdef double[::1] oens_view = np.array(oens).ravel(order='F')
     cdef double[::1] obs_view = np.array(obs).ravel(order='F')
-    cdef int dim, dim_ens
+    cdef int dim_ens, dim
     dim, dim_ens,  = oens.shape
 
 
@@ -1600,7 +1600,7 @@ def diag_ensstats (int element,
     """
     cdef double[::1] state_view = np.array(state).ravel(order='F')
     cdef double[::1] ens_view = np.array(ens).ravel(order='F')
-    cdef int dim, dim_ens
+    cdef int dim_ens, dim
     dim, dim_ens,  = ens.shape
 
 
@@ -1654,7 +1654,7 @@ def diag_histogram (int ncall,
     cdef double[::1] state_view = np.array(state).ravel(order='F')
     cdef double[::1] ens_view = np.array(ens).ravel(order='F')
     cdef int[::1] hist_view = np.array(hist, dtype=np.intc).ravel(order='F')
-    cdef int dim, dim_ens
+    cdef int dim_ens, dim
     dim, dim_ens,  = ens.shape
 
 
@@ -1723,7 +1723,7 @@ def eofcovar (dim_fields,
     cdef int[::1] offsets_view = np.array(offsets, dtype=np.intc).ravel(order='F')
     cdef double[::1] states_view = np.array(states).ravel(order='F')
     cdef double[::1] meanstate_view = np.array(meanstate).ravel(order='F')
-    cdef int nstates, dim_state, nfields
+    cdef int nfields, nstates, dim_state
     dim_state, nstates,  = states.shape
     nfields,  = dim_fields.shape
 
@@ -1877,7 +1877,7 @@ def gather_obs_f2_flex (int dim_obs_f,
         status flag: (0) no error
     """
     cdef double[::1] coords_p_view = np.array(coords_p).ravel(order='F')
-    cdef int nrows, dim_obs_p
+    cdef int dim_obs_p, nrows
     nrows, dim_obs_p,  = coords_p.shape
 
 
@@ -3800,7 +3800,7 @@ def sampleens (modes,
     cdef double[::1] modes_view = np.array(modes).ravel(order='F')
     cdef double[::1] svals_view = np.array(svals).ravel(order='F')
     cdef double[::1] state_view = np.array(state).ravel(order='F')
-    cdef int dim, dim_ens
+    cdef int dim_ens, dim
     dim, dim_ens,  = modes.shape
     dim_ens = dim_ens + 1
 
@@ -3943,7 +3943,7 @@ def etkf_tleft (a
         input/output matrix
     """
     cdef double[::1] a_view = np.array(a).ravel(order='F')
-    cdef int dim, dim_ens
+    cdef int dim_ens, dim
     dim_ens, dim,  = a.shape
 
 
@@ -4013,7 +4013,7 @@ def enkf_omega (seed,
     """
     cdef int[::1] seed_view = np.array(seed, dtype=np.intc).ravel(order='F')
     cdef double[::1] omega_view = np.array(omega).ravel(order='F')
-    cdef int r, dim_ens
+    cdef int dim_ens, r
     dim_ens, r,  = omega.shape
 
 

@@ -1118,3 +1118,74 @@ cdef extern void c__pdafomi_put_state_local (void (*c__collect_state_pdaf)(int*,
                                                                       ),
                                              int* flag
                                             );
+cdef extern void c__pdafomi_init_obs_f_cb (int* step,
+                                           int* dim_obs_f,
+                                           double* observation_f
+                                          );
+cdef extern void c__pdafomi_init_obsvar_cb (int* step,
+                                            int* dim_obs_p,
+                                            double* obs_p,
+                                            double* meanvar
+                                           );
+cdef extern void c__pdafomi_g2l_obs_cb (int* domain_p,
+                                        int* step,
+                                        int* dim_obs_f,
+                                        int* dim_obs_l,
+                                        double* ostate_f,
+                                        double* ostate_l
+                                       );
+cdef extern void c__pdafomi_init_obs_l_cb (int* domain_p,
+                                           int* step,
+                                           int* dim_obs_l,
+                                           double* observation_l
+                                          );
+cdef extern void c__pdafomi_init_obsvar_l_cb (int* domain_p,
+                                              int* step,
+                                              int* dim_obs_l,
+                                              double* obs_l,
+                                              double* meanvar_l
+                                             );
+cdef extern void c__pdafomi_prodrinva_l_cb (int* domain_p,
+                                            int* step,
+                                            int* dim_obs_l,
+                                            int* rank,
+                                            double* obs_l,
+                                            double* a_l,
+                                            double* c_l
+                                           );
+cdef extern void c__pdafomi_likelihood_l_cb (int* domain_p,
+                                             int* step,
+                                             int* dim_obs_l,
+                                             double* obs_l,
+                                             double* resid_l,
+                                             double* lhood_l
+                                            );
+cdef extern void c__pdafomi_prodrinva_cb (int* step,
+                                          int* dim_obs_p,
+                                          int* ncol,
+                                          double* obs_p,
+                                          double* a_p,
+                                          double* c_p
+                                         );
+cdef extern void c__pdafomi_likelihood_cb (int* step,
+                                           int* dim_obs,
+                                           double* obs,
+                                           double* resid,
+                                           double* lhood
+                                          );
+cdef extern void c__pdafomi_add_obs_error_cb (int* step,
+                                              int* dim_obs_p,
+                                              double* c_p
+                                             );
+cdef extern void c__pdafomi_init_obscovar_cb (int* step,
+                                              int* dim_obs,
+                                              int* dim_obs_p,
+                                              double* covar,
+                                              double* m_state_p,
+                                              bint* isdiag
+                                             );
+cdef extern void c__pdafomi_init_obserr_f_cb (int* step,
+                                              int* dim_obs_f,
+                                              double* obs_f,
+                                              double* obserr_f
+                                             );
