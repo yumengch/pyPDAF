@@ -1146,6 +1146,125 @@ def assimilate_lnetf (py__collect_state_pdaf,
 
     return flag
 
+def assimilate_lknetf (py__collect_state_pdaf,
+                       py__distribute_state_pdaf,
+                       py__init_dim_obs_pdaf,
+                       py__obs_op_pdaf,
+                       py__init_obs_pdaf,
+                       py__init_obs_l_pdaf,
+                       py__prepoststep_pdaf,
+                       py__prodrinva_l_pdaf,
+                       py__prodrinva_hyb_l_pdaf,
+                       py__init_n_domains_p_pdaf,
+                       py__init_dim_l_pdaf,
+                       py__init_dim_obs_l_pdaf,
+                       py__g2l_state_pdaf,
+                       py__l2g_state_pdaf,
+                       py__g2l_obs_pdaf,
+                       py__init_obsvar_pdaf,
+                       py__init_obsvar_l_pdaf,
+                       py__likelihood_l_pdaf,
+                       py__likelihood_hyb_l_pdaf,
+                       py__next_observation_pdaf
+                      ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__distribute_state_pdaf : func
+        routine to distribute a state vector
+    py__init_dim_obs_pdaf : func
+        initialize dimension of observation vector
+    py__obs_op_pdaf : func
+        observation operator
+    py__init_obs_pdaf : func
+        initialize pe-local observation vector
+    py__init_obs_l_pdaf : func
+        init. observation vector on local analysis domain
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+    py__prodrinva_l_pdaf : func
+        provide product r^-1 a on local analysis domain
+    py__prodrinva_hyb_l_pdaf : func
+        provide product r^-1 a on local analysis domain with hybrid weight
+    py__init_n_domains_p_pdaf : func
+        provide number of local analysis domains
+    py__init_dim_l_pdaf : func
+        init state dimension for local ana. domain
+    py__init_dim_obs_l_pdaf : func
+        initialize dim. of obs. vector for local ana. domain
+    py__g2l_state_pdaf : func
+        get state on local ana. domain from full state
+    py__l2g_state_pdaf : func
+        init full state from state on local analysis domain
+    py__g2l_obs_pdaf : func
+        restrict full obs. vector to local analysis domain
+    py__init_obsvar_pdaf : func
+        initialize mean observation error variance
+    py__init_obsvar_l_pdaf : func
+        initialize local mean observation error variance
+    py__likelihood_l_pdaf : func
+        compute likelihood
+    py__likelihood_hyb_l_pdaf : func
+        compute likelihood with hybrid weight
+    py__next_observation_pdaf : func
+        routine to provide time step, time and dimension of next observation
+
+    Returns
+    -------
+    flag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
+    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
+    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
+    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
+    PDAFcython.py__init_obs_l_pdaf = py__init_obs_l_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    PDAFcython.py__prodrinva_l_pdaf = py__prodrinva_l_pdaf
+    PDAFcython.py__prodrinva_hyb_l_pdaf = py__prodrinva_hyb_l_pdaf
+    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
+    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
+    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
+    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
+    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
+    PDAFcython.py__g2l_obs_pdaf = py__g2l_obs_pdaf
+    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
+    PDAFcython.py__init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
+    PDAFcython.py__likelihood_l_pdaf = py__likelihood_l_pdaf
+    PDAFcython.py__likelihood_hyb_l_pdaf = py__likelihood_hyb_l_pdaf
+    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+
+    cdef int flag
+
+    c__pdaf_assimilate_lknetf (c__PDAFcython.c__collect_state_pdaf,
+                               c__PDAFcython.c__distribute_state_pdaf,
+                               c__PDAFcython.c__init_dim_obs_pdaf,
+                               c__PDAFcython.c__obs_op_pdaf,
+                               c__PDAFcython.c__init_obs_pdaf,
+                               c__PDAFcython.c__init_obs_l_pdaf,
+                               c__PDAFcython.c__prepoststep_pdaf,
+                               c__PDAFcython.c__prodrinva_l_pdaf,
+                               c__PDAFcython.c__prodrinva_hyb_l_pdaf,
+                               c__PDAFcython.c__init_n_domains_p_pdaf,
+                               c__PDAFcython.c__init_dim_l_pdaf,
+                               c__PDAFcython.c__init_dim_obs_l_pdaf,
+                               c__PDAFcython.c__g2l_state_pdaf,
+                               c__PDAFcython.c__l2g_state_pdaf,
+                               c__PDAFcython.c__g2l_obs_pdaf,
+                               c__PDAFcython.c__init_obsvar_pdaf,
+                               c__PDAFcython.c__init_obsvar_l_pdaf,
+                               c__PDAFcython.c__likelihood_l_pdaf,
+                               c__PDAFcython.c__likelihood_hyb_l_pdaf,
+                               c__PDAFcython.c__next_observation_pdaf,
+                               &flag
+                              )
+
+    return flag
+
 def assimilate_lseik (py__collect_state_pdaf,
                       py__distribute_state_pdaf,
                       py__init_dim_obs_pdaf,
@@ -1486,6 +1605,45 @@ def assimilate_seik (py__collect_state_pdaf,
 
     return flag
 
+def assimilate_prepost (py__collect_state_pdaf,
+                        py__distribute_state_pdaf,
+                        py__prepoststep_pdaf,
+                        py__next_observation_pdaf
+                       ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__distribute_state_pdaf : func
+        routine to distribute a state vector
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+    py__next_observation_pdaf : func
+        provide time step and time of next observation
+
+    Returns
+    -------
+    flag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+
+    cdef int flag
+
+    c__pdaf_assimilate_prepost (c__PDAFcython.c__collect_state_pdaf,
+                                c__PDAFcython.c__distribute_state_pdaf,
+                                c__PDAFcython.c__prepoststep_pdaf,
+                                c__PDAFcython.c__next_observation_pdaf,
+                                &flag
+                               )
+
+    return flag
+
 def deallocate ():
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
 
@@ -1522,7 +1680,7 @@ def diag_crps (int element,
     """
     cdef double[::1] oens_view = np.array(oens).ravel(order='F')
     cdef double[::1] obs_view = np.array(obs).ravel(order='F')
-    cdef int dim_ens, dim
+    cdef int dim, dim_ens
     dim, dim_ens,  = oens.shape
 
 
@@ -1600,7 +1758,7 @@ def diag_ensstats (int element,
     """
     cdef double[::1] state_view = np.array(state).ravel(order='F')
     cdef double[::1] ens_view = np.array(ens).ravel(order='F')
-    cdef int dim_ens, dim
+    cdef int dim, dim_ens
     dim, dim_ens,  = ens.shape
 
 
@@ -1654,7 +1812,7 @@ def diag_histogram (int ncall,
     cdef double[::1] state_view = np.array(state).ravel(order='F')
     cdef double[::1] ens_view = np.array(ens).ravel(order='F')
     cdef int[::1] hist_view = np.array(hist, dtype=np.intc).ravel(order='F')
-    cdef int dim_ens, dim
+    cdef int dim, dim_ens
     dim, dim_ens,  = ens.shape
 
 
@@ -1723,7 +1881,7 @@ def eofcovar (dim_fields,
     cdef int[::1] offsets_view = np.array(offsets, dtype=np.intc).ravel(order='F')
     cdef double[::1] states_view = np.array(states).ravel(order='F')
     cdef double[::1] meanstate_view = np.array(meanstate).ravel(order='F')
-    cdef int nfields, nstates, dim_state
+    cdef int dim_state, nstates, nfields
     dim_state, nstates,  = states.shape
     nfields,  = dim_fields.shape
 
@@ -1840,7 +1998,7 @@ def gather_obs_f2 (coords_p,
          (1) when pdaf_gather dim_obs_f not executed before
     """
     cdef double[::1] coords_p_view = np.array(coords_p).ravel(order='F')
-    cdef int nrows, dimobs_p
+    cdef int dimobs_p, nrows
     nrows, dimobs_p,  = coords_p.shape
 
 
@@ -2005,6 +2163,38 @@ def get_assim_flag ():
                            )
 
     return did_assim
+
+def get_ensstats ():
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+
+    Returns
+    -------
+    dims : ndarray[int]
+        dimension of pointer
+    c_skew_ptr : ndarray[float]
+        pointer to skewness array
+    c_kurt_ptr : ndarray[float]
+        pointer to kurtosis array
+    status : int
+        status flag
+    """
+
+    cdef int [::1] dims_view = np.zeros((1), dtype=np.intc).ravel()
+    cdef double* c_skew_ptr
+    cdef double* c_kurt_ptr
+    cdef int status
+
+    c__pdaf_get_ensstats (&dims_view[0],
+                          &c_skew_ptr,
+                          &c_kurt_ptr,
+                          &status
+                         )
+
+    dims = np.asarray(dims_view)
+    return np.asarray(<double[:np.prod(dims)]> c_skew_ptr).reshape(dims, order='F'), \
+           np.asarray(<double[:np.prod(dims)]> c_kurt_ptr).reshape(dims, order='F'), \
+           status
 
 def get_localfilter ():
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
@@ -3428,6 +3618,115 @@ def put_state_lnetf (py__collect_state_pdaf,
 
     return outflag
 
+def put_state_lknetf (py__collect_state_pdaf,
+                      py__init_dim_obs_pdaf,
+                      py__obs_op_pdaf,
+                      py__init_obs_pdaf,
+                      py__init_obs_l_pdaf,
+                      py__prepoststep_pdaf,
+                      py__prodrinva_l_pdaf,
+                      py__prodrinva_hyb_l_pdaf,
+                      py__init_n_domains_p_pdaf,
+                      py__init_dim_l_pdaf,
+                      py__init_dim_obs_l_pdaf,
+                      py__g2l_state_pdaf,
+                      py__l2g_state_pdaf,
+                      py__g2l_obs_pdaf,
+                      py__init_obsvar_pdaf,
+                      py__init_obsvar_l_pdaf,
+                      py__likelihood_l_pdaf,
+                      py__likelihood_hyb_l_pdaf
+                     ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : func
+        routine to collect a state vector
+    py__init_dim_obs_pdaf : func
+        initialize dimension of observation vector
+    py__obs_op_pdaf : func
+        observation operator
+    py__init_obs_pdaf : func
+        initialize pe-local observation vector
+    py__init_obs_l_pdaf : func
+        init. observation vector on local analysis domain
+    py__prepoststep_pdaf : func
+        user supplied pre/poststep routine
+    py__prodrinva_l_pdaf : func
+        provide product r^-1 a on local analysis domain
+    py__prodrinva_hyb_l_pdaf : func
+        provide product r^-1 a on local analysis domain with hybrid weight
+    py__init_n_domains_p_pdaf : func
+        provide number of local analysis domains
+    py__init_dim_l_pdaf : func
+        init state dimension for local ana. domain
+    py__init_dim_obs_l_pdaf : func
+        initialize dim. of obs. vector for local ana. domain
+    py__g2l_state_pdaf : func
+        get state on local ana. domain from full state
+    py__l2g_state_pdaf : func
+        init full state from state on local analysis domain
+    py__g2l_obs_pdaf : func
+        restrict full obs. vector to local analysis domain
+    py__init_obsvar_pdaf : func
+        initialize mean observation error variance
+    py__init_obsvar_l_pdaf : func
+        initialize local mean observation error variance
+    py__likelihood_l_pdaf : func
+        compute likelihood
+    py__likelihood_hyb_l_pdaf : func
+        compute likelihood with hybrid weight
+
+    Returns
+    -------
+    outflag : int
+        status flag
+    """
+    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
+    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
+    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
+    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
+    PDAFcython.py__init_obs_l_pdaf = py__init_obs_l_pdaf
+    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    PDAFcython.py__prodrinva_l_pdaf = py__prodrinva_l_pdaf
+    PDAFcython.py__prodrinva_hyb_l_pdaf = py__prodrinva_hyb_l_pdaf
+    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
+    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
+    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
+    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
+    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
+    PDAFcython.py__g2l_obs_pdaf = py__g2l_obs_pdaf
+    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
+    PDAFcython.py__init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
+    PDAFcython.py__likelihood_l_pdaf = py__likelihood_l_pdaf
+    PDAFcython.py__likelihood_hyb_l_pdaf = py__likelihood_hyb_l_pdaf
+
+    cdef int outflag
+
+    c__pdaf_put_state_lknetf (c__PDAFcython.c__collect_state_pdaf,
+                              c__PDAFcython.c__init_dim_obs_pdaf,
+                              c__PDAFcython.c__obs_op_pdaf,
+                              c__PDAFcython.c__init_obs_pdaf,
+                              c__PDAFcython.c__init_obs_l_pdaf,
+                              c__PDAFcython.c__prepoststep_pdaf,
+                              c__PDAFcython.c__prodrinva_l_pdaf,
+                              c__PDAFcython.c__prodrinva_hyb_l_pdaf,
+                              c__PDAFcython.c__init_n_domains_p_pdaf,
+                              c__PDAFcython.c__init_dim_l_pdaf,
+                              c__PDAFcython.c__init_dim_obs_l_pdaf,
+                              c__PDAFcython.c__g2l_state_pdaf,
+                              c__PDAFcython.c__l2g_state_pdaf,
+                              c__PDAFcython.c__g2l_obs_pdaf,
+                              c__PDAFcython.c__init_obsvar_pdaf,
+                              c__PDAFcython.c__init_obsvar_l_pdaf,
+                              c__PDAFcython.c__likelihood_l_pdaf,
+                              c__PDAFcython.c__likelihood_hyb_l_pdaf,
+                              &outflag
+                             )
+
+    return outflag
+
 def put_state_lseik (py__collect_state_pdaf,
                      py__init_dim_obs_pdaf,
                      py__obs_op_pdaf,
@@ -3800,7 +4099,7 @@ def sampleens (modes,
     cdef double[::1] modes_view = np.array(modes).ravel(order='F')
     cdef double[::1] svals_view = np.array(svals).ravel(order='F')
     cdef double[::1] state_view = np.array(state).ravel(order='F')
-    cdef int dim_ens, dim
+    cdef int dim, dim_ens
     dim, dim_ens,  = modes.shape
     dim_ens = dim_ens + 1
 
@@ -3818,6 +4117,19 @@ def sampleens (modes,
                       )
 
     return np.asarray(modes_view).reshape((dim,dim_ens-1), order='F'), np.asarray(state_view).reshape((dim), order='F'), np.asarray(ens_view).reshape((dim,dim_ens), order='F'), flag
+
+def set_debug_flag (int debugval
+                   ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    debugval : int
+        value of debugging flag; print debug information for >0
+    """
+
+    c__pdaf_set_debug_flag (&debugval
+                           )
 
 def set_ens_pointer ():
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
@@ -3914,7 +4226,7 @@ def seik_ttimesa (a
         output matrix (ta)
     """
     cdef double[::1] a_view = np.array(a).ravel(order='F')
-    cdef int rank, dim_col
+    cdef int dim_col, rank
     rank, dim_col,  = a.shape
 
 
@@ -3943,7 +4255,7 @@ def etkf_tleft (a
         input/output matrix
     """
     cdef double[::1] a_view = np.array(a).ravel(order='F')
-    cdef int dim_ens, dim
+    cdef int dim, dim_ens
     dim_ens, dim,  = a.shape
 
 
@@ -3969,7 +4281,7 @@ def estkf_omegaa (a
         output matrix (ta)
     """
     cdef double[::1] a_view = np.array(a).ravel(order='F')
-    cdef int rank, dim_col
+    cdef int dim_col, rank
     rank, dim_col,  = a.shape
 
 

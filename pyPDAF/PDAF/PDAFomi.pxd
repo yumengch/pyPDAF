@@ -1189,3 +1189,20 @@ cdef extern void c__pdafomi_init_obserr_f_cb (int* step,
                                               double* obs_f,
                                               double* obserr_f
                                              );
+cdef extern void c__pdafomi_prodrinva_hyb_l_cb (int* domain_p,
+                                                int* step,
+                                                int* dim_obs_l,
+                                                int* rank,
+                                                double* obs_l,
+                                                double* alpha,
+                                                double* a_l,
+                                                double* c_l
+                                               );
+cdef extern void c__pdafomi_likelihood_hyb_l_cb (int* domain_p,
+                                                 int* step,
+                                                 int* dim_obs_l,
+                                                 double* obs_l,
+                                                 double* resid_l,
+                                                 double* alpha,
+                                                 double* lhood_l
+                                                );

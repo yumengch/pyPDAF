@@ -203,3 +203,20 @@ cdef void c__dist_stateinc_pdaf (int* dim_p,
                                  int* first,
                                  int* steps
                                 );
+cdef void c__prodrinva_hyb_l_pdaf (int* domain_p,
+                                   int* step,
+                                   int* dim_obs_l,
+                                   double* obs_l,
+                                   double* resid_l,
+                                   double* gamma,
+                                   double* likely_l
+                                  );
+cdef void c__likelihood_hyb_l_pdaf (int* domain_p,
+                                    int* step,
+                                    int* dim_obs_l,
+                                    int* rank,
+                                    double* obs_l,
+                                    double* gamma,
+                                    double* a_l,
+                                    double* c_l
+                                   );

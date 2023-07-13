@@ -1071,4 +1071,43 @@ contains
       real(c_double), INTENT(out)   :: obserr_f(dim_obs_f)
       call PDAFomi_init_obserr_f_cb(step, dim_obs_f, obs_f, obserr_f)
    END SUBROUTINE c__PDAFomi_init_obserr_f_cb
+
+   SUBROUTINE c__PDAFomi_prodRinvA_hyb_l_cb(domain_p, step, dim_obs_l, rank, obs_l, alpha, A_l, C_l) bind(c)
+      ! Index of current local analysis domain
+      integer(c_int), INTENT(in) :: domain_p
+      ! Current time step
+      integer(c_int), INTENT(in) :: step
+      ! Dimension of local observation vector
+      integer(c_int), INTENT(in) :: dim_obs_l
+      ! Rank of initial covariance matrix
+      integer(c_int), INTENT(in) :: rank
+      ! Local vector of observations
+      real(c_double),  INTENT(in)    :: obs_l(dim_obs_l)
+      ! Hybrid weight
+      real(c_double),  INTENT(in)    :: alpha
+      ! Input matrix
+      real(c_double),  INTENT(inout) :: A_l(dim_obs_l, rank)
+      ! Output matrix
+      real(c_double),  INTENT(out)   :: C_l(dim_obs_l, rank)
+      call PDAFomi_prodRinvA_hyb_l_cb(domain_p, step, dim_obs_l, rank, obs_l, alpha, A_l, C_l)
+   END SUBROUTINE c__PDAFomi_prodRinvA_hyb_l_cb
+
+   SUBROUTINE c__PDAFomi_likelihood_hyb_l_cb(domain_p, step, dim_obs_l, obs_l, resid_l, alpha, lhood_l) bind(c)
+      ! Current local analysis domain
+      integer(c_int), INTENT(in) :: domain_p
+      ! Current time step
+      integer(c_int), INTENT(in) :: step
+      ! PE-local dimension of obs. vector
+      integer(c_int), INTENT(in) :: dim_obs_l
+      ! PE-local vector of observations
+      real(c_double),  INTENT(in)    :: obs_l(dim_obs_l)
+      ! Input vector of residuum
+      real(c_double),  INTENT(inout) :: resid_l(dim_obs_l)
+      ! Hybrid weight
+      real(c_double),  INTENT(in)    :: alpha
+      ! Output vector - log likelihood
+      real(c_double),  INTENT(out)   :: lhood_l
+      call PDAFomi_likelihood_hyb_l_cb(domain_p, step, dim_obs_l, obs_l, resid_l, alpha, lhood_l)
+   END SUBROUTINE c__PDAFomi_likelihood_hyb_l_cb
+
 end module PDAFomi_obs_c_binding

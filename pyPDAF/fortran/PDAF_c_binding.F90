@@ -533,6 +533,70 @@ contains
          U_g2l_state, U_l2g_state, U_g2l_obs, U_next_observation, flag)
    END SUBROUTINE c__PDAF_assimilate_lnetf
 
+   SUBROUTINE c__PDAF_assimilate_lknetf(U_collect_state, U_distribute_state, &
+                                        U_init_dim_obs, U_obs_op, U_init_obs, &
+                                        U_init_obs_l, U_prepoststep, &
+                                        U_prodRinvA_l, U_prodRinvA_hyb_l, &
+                                        U_init_n_domains_p, U_init_dim_l, &
+                                        U_init_dim_obs_l, &
+                                        U_g2l_state, U_l2g_state, U_g2l_obs, &
+                                        U_init_obsvar, U_init_obsvar_l, &
+                                        U_likelihood_l, U_likelihood_hyb_l, &
+                                        U_next_observation, flag) bind(c)
+      ! Status flag
+      INTEGER(c_int), INTENT(out) :: flag
+      ! Routine to collect a state vector
+      procedure(c__collect_state_pdaf) :: U_collect_state
+      ! Observation operator
+      procedure(c__obs_op_pdaf) :: U_obs_op
+      ! Provide number of local analysis domains
+      procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
+      ! Init state dimension for local ana. domain
+      procedure(c__init_dim_l_pdaf) :: U_init_dim_l
+      ! Initialize dimension of observation vector
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
+      ! Initialize dim. of obs. vector for local ana. domain
+      procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
+      ! Initialize PE-local observation vector
+      procedure(c__init_obs_pdaf) :: U_init_obs
+      ! Init. observation vector on local analysis domain
+      procedure(c__init_obs_l_pdaf) :: U_init_obs_l
+      ! Initialize mean observation error variance
+      procedure(c__init_obsvar_pdaf) :: U_init_obsvar
+      ! Initialize local mean observation error variance
+      procedure(c__init_obsvar_l_pdaf) :: U_init_obsvar_l
+      ! Get state on local ana. domain from full state
+      procedure(c__g2l_state_pdaf) :: U_g2l_state
+      ! Init full state from state on local analysis domain
+      procedure(c__l2g_state_pdaf) :: U_l2g_state
+      ! Restrict full obs. vector to local analysis domain
+      procedure(c__g2l_obs_pdaf) :: U_g2l_obs
+      ! Provide product R^-1 A on local analysis domain
+      procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l
+      ! Provide product R^-1 A on local analysis domain with hybrid weight
+      procedure(c__prodRinvA_hyb_l_pdaf) :: U_prodRinvA_hyb_l
+      ! Compute likelihood
+      procedure(c__likelihood_l_pdaf) :: U_likelihood_l
+      ! Compute likelihood with hybrid weight
+      procedure(c__likelihood_hyb_l_pdaf) :: U_likelihood_hyb_l
+      ! User supplied pre/poststep routine
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
+      ! Routine to provide time step, time and dimension of next observation
+      procedure(c__next_observation_pdaf) :: U_next_observation
+      ! Routine to distribute a state vector
+      procedure(c__distribute_state_pdaf) :: U_distribute_state
+      call PDAF_assimilate_lknetf(U_collect_state, U_distribute_state, &
+                                  U_init_dim_obs, U_obs_op, U_init_obs, &
+                                  U_init_obs_l, U_prepoststep, &
+                                  U_prodRinvA_l, U_prodRinvA_hyb_l, &
+                                  U_init_n_domains_p, U_init_dim_l, &
+                                  U_init_dim_obs_l, &
+                                  U_g2l_state, U_l2g_state, U_g2l_obs, &
+                                  U_init_obsvar, U_init_obsvar_l, &
+                                  U_likelihood_l, U_likelihood_hyb_l, &
+                                  U_next_observation, flag)
+   END SUBROUTINE c__PDAF_assimilate_lknetf
+
    SUBROUTINE c__PDAF_assimilate_lseik(U_collect_state, U_distribute_state, &
          U_init_dim_obs, U_obs_op, U_init_obs, U_init_obs_l, U_prepoststep, &
          U_prodRinvA_l, U_init_n_domains_p, U_init_dim_l, U_init_dim_obs_l, &
@@ -689,6 +753,24 @@ contains
          U_init_dim_obs, U_obs_op, U_init_obs, U_prepoststep, U_prodRinvA, &
          U_next_observation, flag)
    END SUBROUTINE c__PDAF_assimilate_seik
+
+   SUBROUTINE c__PDAF_assimilate_prepost(U_collect_state, U_distribute_state, &
+                                         U_prepoststep, U_next_observation, flag) &
+                                         bind(c)
+      ! Status flag
+      INTEGER(c_int), INTENT(out) :: flag
+      ! Routine to collect a state vector
+      procedure(c__collect_state_pdaf) :: U_collect_state
+      ! Routine to distribute a state vector
+      procedure(c__distribute_state_pdaf) :: U_distribute_state
+      ! User supplied pre/poststep routine
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
+      ! Provide time step and time of next observation
+      procedure(c__next_observation_pdaf) :: U_next_observation
+      call PDAF_assimilate_prepost(U_collect_state, U_distribute_state, &
+                                 U_prepoststep, U_next_observation, flag)
+   END SUBROUTINE c__PDAF_assimilate_prepost
+
 
    SUBROUTINE c__PDAF_deallocate() bind(c)
       CALL PDAF_deallocate()
@@ -940,6 +1022,25 @@ contains
       CALL PDAF_get_assim_flag(did_assim)
    END SUBROUTINE c__PDAF_get_assim_flag
 
+   SUBROUTINE c__PDAF_get_ensstats(dims, c_skew_ptr, c_kurt_ptr, status) bind(c)
+      ! dimension of pointer
+      INTEGER(c_int), intent(out) :: dims(1)
+      ! Pointer to skewness array
+      type(c_ptr), INTENT(out) :: c_skew_ptr
+      ! Pointer to kurtosis array
+      type(c_ptr), INTENT(out) :: c_kurt_ptr
+      ! Status flag
+      INTEGER(c_int), INTENT(out)       :: status
+
+      REAL, POINTER :: skew_ptr(:)
+      REAL, POINTER :: kurt_ptr(:)
+
+      call PDAF_get_ensstats(skew_ptr, kurt_ptr, status)
+      dims = shape(skew_ptr)
+      c_skew_ptr = c_loc(skew_ptr(1))
+      c_kurt_ptr = c_loc(kurt_ptr(1))
+   END SUBROUTINE c__PDAF_get_ensstats
+
    SUBROUTINE c__PDAF_get_localfilter(lfilter) bind(c)
       ! Whether the filter is domain-localized
       INTEGER(c_int), INTENT(out) :: lfilter
@@ -975,8 +1076,10 @@ contains
 
       CALL PDAF_get_smootherens(sens_point, maxlag, status)
 
+      dims = shape(sens_point)
       c_sens_point = c_loc(sens_point(1, 1, 1))
    END SUBROUTINE c__PDAF_get_smootherens
+
 
 
    SUBROUTINE c__PDAF_get_state(steps, time, doexit, U_next_observation, U_distribute_state, &
@@ -1604,6 +1707,64 @@ contains
          outflag)
    END SUBROUTINE c__PDAF_put_state_lnetf
 
+   SUBROUTINE c__PDAF_put_state_lknetf(U_collect_state, U_init_dim_obs, U_obs_op, &
+                                       U_init_obs, U_init_obs_l, U_prepoststep, &
+                                       U_prodRinvA_l, U_prodRinvA_hyb_l, &
+                                       U_init_n_domains_p, &
+                                       U_init_dim_l, U_init_dim_obs_l, &
+                                       U_g2l_state, U_l2g_state, U_g2l_obs, &
+                                       U_init_obsvar, U_init_obsvar_l, &
+                                       U_likelihood_l, &
+                                       U_likelihood_hyb_l, outflag) bind(c)
+            ! Status flag
+            INTEGER(c_int), INTENT(out) :: outflag
+            ! Routine to collect a state vector
+            procedure(c__collect_state_pdaf) :: U_collect_state
+            ! Provide number of local analysis domains
+            procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
+            ! Init state dimension for local ana. domain
+            procedure(c__init_dim_l_pdaf) :: U_init_dim_l
+            ! Observation operator
+            procedure(c__obs_op_pdaf) :: U_obs_op
+            ! Initialize dimension of observation vector
+            procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
+            ! Initialize dim. of obs. vector for local ana. domain
+            procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
+            ! Initialize PE-local observation vector
+            procedure(c__init_obs_pdaf) :: U_init_obs
+            ! Init. observation vector on local analysis domain
+            procedure(c__init_obs_l_pdaf) :: U_init_obs_l
+            ! Initialize mean observation error variance
+            procedure(c__init_obsvar_pdaf) :: U_init_obsvar
+            ! Initialize local mean observation error variance
+            procedure(c__init_obsvar_l_pdaf) :: U_init_obsvar_l
+            ! Get state on local ana. domain from full state
+            procedure(c__g2l_state_pdaf) :: U_g2l_state
+            ! Init full state from state on local analysis domain
+            procedure(c__l2g_state_pdaf) :: U_l2g_state
+            ! Restrict full obs. vector to local analysis domain
+            procedure(c__g2l_obs_pdaf) :: U_g2l_obs
+            ! Provide product R^-1 A on local analysis domain
+            procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l
+            ! Provide product R^-1 A on local analysis domain with hybrid weight
+            procedure(c__prodRinvA_hyb_l_pdaf) :: U_prodRinvA_hyb_l
+            ! Compute likelihood
+            procedure(c__likelihood_l_pdaf) :: U_likelihood_l
+            ! Compute likelihood with hybrid weight
+            procedure(c__likelihood_hyb_l_pdaf) :: U_likelihood_hyb_l
+            ! User supplied pre/poststep routine
+            procedure(c__prepoststep_pdaf) :: U_prepoststep
+            call PDAF_put_state_lknetf(U_collect_state, U_init_dim_obs, U_obs_op, &
+                                       U_init_obs, U_init_obs_l, U_prepoststep, &
+                                       U_prodRinvA_l, U_prodRinvA_hyb_l, &
+                                       U_init_n_domains_p, &
+                                       U_init_dim_l, U_init_dim_obs_l, &
+                                       U_g2l_state, U_l2g_state, U_g2l_obs, &
+                                       U_init_obsvar, U_init_obsvar_l, &
+                                       U_likelihood_l, &
+                                       U_likelihood_hyb_l, outflag)
+   END SUBROUTINE c__PDAF_put_state_lknetf
+
    SUBROUTINE c__PDAF_put_state_lseik(U_collect_state, U_init_dim_obs, U_obs_op, &
          U_init_obs, U_init_obs_l, U_prepoststep, U_prodRinvA_l, U_init_n_domains_p, &
          U_init_dim_l, U_init_dim_obs_l, U_g2l_state, U_l2g_state, U_g2l_obs, &
@@ -1770,6 +1931,12 @@ contains
 
       CALL PDAF_SampleEns(dim, dim_ens, modes, svals, state, ens, verbose, flag)
    END SUBROUTINE c__PDAF_SampleEns
+
+   SUBROUTINE c__PDAF_set_debug_flag(debugval) bind(c)
+      ! Value of debugging flag; print debug information for >0
+      INTEGER(c_int), INTENT(in)        :: debugval
+      call PDAF_set_debug_flag(debugval)
+   END SUBROUTINE c__PDAF_set_debug_flag
 
    SUBROUTINE c__PDAF_set_ens_pointer(c_ens_point, dims, status) bind(c)
       ! Pointer to smoother array

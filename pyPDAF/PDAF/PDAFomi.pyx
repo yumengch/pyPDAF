@@ -109,7 +109,7 @@ def set_id_obs_p (int i_obs,
         setter value
     """
     cdef int[::1] id_obs_p_view = np.array(id_obs_p, dtype=np.intc).ravel(order='F')
-    cdef int dim_obs_p, nrows
+    cdef int nrows, dim_obs_p
     nrows, dim_obs_p,  = id_obs_p.shape
 
 
@@ -132,7 +132,7 @@ def set_icoeff_p (int i_obs,
         setter value
     """
     cdef double[::1] icoeff_p_view = np.array(icoeff_p).ravel(order='F')
-    cdef int dim_obs_p, nrows
+    cdef int nrows, dim_obs_p
     nrows, dim_obs_p,  = icoeff_p.shape
 
 
@@ -315,7 +315,7 @@ def localize_covar (int i_obs,
     cdef double[::1] coords_p_view = np.array(coords_p).ravel(order='F')
     cdef double[::1] hp_p_view = np.array(hp_p).ravel(order='F')
     cdef double[::1] hph_view = np.array(hph).ravel(order='F')
-    cdef int dim_p, dim_coords, dim_obs
+    cdef int dim_obs, dim_p, dim_coords
     dim_coords, dim_p,  = coords_p.shape
     dim_obs, _,  = hp_p.shape
 
@@ -437,7 +437,7 @@ def obs_op_gridpoint (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int dim_p, nobs_f_all
+    cdef int nobs_f_all, dim_p
     dim_p,  = state_p.shape
     nobs_f_all,  = obs_f_all.shape
 
@@ -476,7 +476,7 @@ def obs_op_gridavg (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int dim_p, nobs_f_all
+    cdef int nobs_f_all, dim_p
     dim_p,  = state_p.shape
     nobs_f_all,  = obs_f_all.shape
 
@@ -516,7 +516,7 @@ def obs_op_interp_lin (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int dim_p, nobs_f_all
+    cdef int nobs_f_all, dim_p
     dim_p,  = state_p.shape
     nobs_f_all,  = obs_f_all.shape
 
@@ -556,7 +556,7 @@ def obs_op_adj_gridavg (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int dim_p, nobs_f_all
+    cdef int nobs_f_all, dim_p
     dim_p,  = state_p.shape
     nobs_f_all,  = obs_f_all.shape
 
@@ -593,7 +593,7 @@ def obs_op_adj_gridpoint (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int dim_p, nobs_f_all
+    cdef int nobs_f_all, dim_p
     dim_p,  = state_p.shape
     nobs_f_all,  = obs_f_all.shape
 
@@ -632,7 +632,7 @@ def obs_op_adj_interp_lin (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int dim_p, nobs_f_all
+    cdef int nobs_f_all, dim_p
     dim_p,  = state_p.shape
     nobs_f_all,  = obs_f_all.shape
 
@@ -732,7 +732,7 @@ def get_interp_coeff_lin (gpc,
     cdef double[::1] gpc_view = np.array(gpc).ravel(order='F')
     cdef double[::1] oc_view = np.array(oc).ravel(order='F')
     cdef double[::1] icoeff_view = np.array(icoeff).ravel(order='F')
-    cdef int n_dim, num_gp
+    cdef int num_gp, n_dim
     num_gp, n_dim,  = gpc.shape
 
 
@@ -2399,4 +2399,103 @@ def init_obserr_f_cb (int step,
                                 )
 
     return np.asarray(obserr_f_view).reshape((dim_obs_f), order='F')
+
+def prodrinva_hyb_l_cb (int domain_p,
+                        int step,
+                        int dim_obs_l,
+                        int rank,
+                        obs_l,
+                        double alpha,
+                        a_l,
+                        c_l
+                       ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    domain_p : int
+        index of current local analysis domain
+    step : int
+        current time step
+    dim_obs_l : int
+        dimension of local observation vector
+    rank : int
+        rank of initial covariance matrix
+    obs_l : ndarray[float]
+        local vector of observations
+    alpha : float
+        hybrid weight
+    a_l : ndarray[float]
+        input matrix
+    c_l : ndarray[float]
+        output matrix
+
+    Returns
+    -------
+    a_l : ndarray[float]
+        input matrix
+    c_l : ndarray[float]
+        output matrix
+    """
+    cdef double[::1] obs_l_view = np.array(obs_l).ravel(order='F')
+    cdef double[::1] a_l_view = np.array(a_l).ravel(order='F')
+    cdef double[::1] c_l_view = np.array(c_l).ravel(order='F')
+    c__pdafomi_prodrinva_hyb_l_cb (&domain_p,
+                                   &step,
+                                   &dim_obs_l,
+                                   &rank,
+                                   &obs_l_view[0],
+                                   &alpha,
+                                   &a_l_view[0],
+                                   &c_l_view[0]
+                                  )
+
+    return np.asarray(a_l_view).reshape((dim_obs_l,rank), order='F'), np.asarray(c_l_view).reshape((dim_obs_l,rank), order='F')
+
+def likelihood_hyb_l_cb (int domain_p,
+                         int step,
+                         int dim_obs_l,
+                         obs_l,
+                         resid_l,
+                         double alpha,
+                         double lhood_l
+                        ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    domain_p : int
+        current local analysis domain
+    step : int
+        current time step
+    dim_obs_l : int
+        pe-local dimension of obs. vector
+    obs_l : ndarray[float]
+        pe-local vector of observations
+    resid_l : ndarray[float]
+        input vector of residuum
+    alpha : float
+        hybrid weight
+    lhood_l : float
+        output vector - log likelihood
+
+    Returns
+    -------
+    resid_l : ndarray[float]
+        input vector of residuum
+    lhood_l : float
+        output vector - log likelihood
+    """
+    cdef double[::1] obs_l_view = np.array(obs_l).ravel(order='F')
+    cdef double[::1] resid_l_view = np.array(resid_l).ravel(order='F')
+    c__pdafomi_likelihood_hyb_l_cb (&domain_p,
+                                    &step,
+                                    &dim_obs_l,
+                                    &obs_l_view[0],
+                                    &resid_l_view[0],
+                                    &alpha,
+                                    &lhood_l
+                                   )
+
+    return np.asarray(resid_l_view).reshape((dim_obs_l), order='F'), lhood_l
 
