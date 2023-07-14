@@ -1,6 +1,6 @@
 pyPDAF.PDAF
 ==================================
-.. automodule:: pyPDAF.PDAF
+.. automodule:: pyPDAF.PDAF.PDAF
     :members:
     :special-members:
     :undoc-members:

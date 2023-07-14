@@ -1,6 +1,6 @@
 pyPDAF.UserFunc
 ==================================
-.. automodule:: pyPDAF.UserFunc
+.. automodule:: pyPDAF.UserFunc.UserFunc
     :members:
     :special-members:
     :undoc-members:
