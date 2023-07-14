@@ -1128,6 +1128,79 @@ def py__dist_stateinc_pdaf(dim_p, state_inc_p, first, steps):
     raise RuntimeError('...Wrong py__dist_stateinc_pdaf is called!!!...')
 
 
+def py__prodrinva_hyb_l_pdaf(domain_p, step, dim_obs_l, obs_l, resid_l, gamma, likely_l):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    domain_p : int
+        index of current local analysis domain
+    step : int
+        current time step
+    dim_obs_l : int
+        number of local observations at current time step (i.e. the size of the local observation vector)
+    obs_l : ndarray[float]
+        local vector of observations
+        shape is (dim_obs_l)
+    resid_l : ndarray[float]
+        input vector holding the local residual
+        shape is (dim_obs_l)
+    gamma : float
+        hybrid weight provided by pdaf
+    likely_l : float
+        output value of the local likelihood
+
+    Returns
+    -------
+    likely_l : float
+        output value of the local likelihood
+
+    Raises
+    ------
+    RuntimeError
+        No user-supplied function
+    """
+    raise RuntimeError('...Wrong py__prodrinva_hyb_l_pdaf is called!!!...')
+
+
+def py__likelihood_hyb_l_pdaf(domain_p, step, dim_obs_l, rank, obs_l, gamma, a_l, c_l):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/ 
+
+    Parameters
+    ----------
+    domain_p : int
+        index of current local analysis domain
+    step : int
+        current time step
+    dim_obs_l : int
+        number of local observations at current time step (i.e. the size of the local observation vector)
+    rank : int
+        number of the columns in the matrix processes here. this is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+    obs_l : ndarray[float]
+        local vector of observations
+        shape is (dim_obs_l)
+    gamma : float
+        hybrid weight provided by pdaf
+    a_l : ndarray[float]
+        input matrix provided by pdaf
+        shape is (dim_obs_l,rank)
+    c_l : ndarray[float]
+        output matrix
+        shape is (dim_obs_l,rank)
+
+    Returns
+    -------
+    c_l : ndarray[float]
+        output matrix
+
+    Raises
+    ------
+    RuntimeError
+        No user-supplied function
+    """
+    raise RuntimeError('...Wrong py__likelihood_hyb_l_pdaf is called!!!...')
+
+
 cdef void c__add_obs_err_pdaf (int* step, int* dim_obs_p, double* c_p):
     c_p_np = np.asarray(<double[:np.prod((dim_obs_p[0], dim_obs_p[0]))]> 
                         c_p).reshape((dim_obs_p[0], dim_obs_p[0]), order='F')
@@ -1543,5 +1616,30 @@ cdef void c__dist_stateinc_pdaf (int* dim_p, double* state_inc_p, int* first, in
 
     py__dist_stateinc_pdaf(dim_p[0], state_inc_p_np, first[0], steps[0])
 
+
+
+cdef void c__prodrinva_hyb_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* obs_l, double* resid_l, double* gamma, double* likely_l):
+    obs_l_np = np.asarray(<double[:np.prod((dim_obs_l[0]))]> 
+                          obs_l).reshape((dim_obs_l[0]), order='F')
+    resid_l_np = np.asarray(<double[:np.prod((dim_obs_l[0]))]> 
+                            resid_l).reshape((dim_obs_l[0]), order='F')
+
+    likely_l[0] = py__prodrinva_hyb_l_pdaf(domain_p[0], step[0], dim_obs_l[0], obs_l_np, resid_l_np, gamma[0], likely_l[0])
+
+
+
+cdef void c__likelihood_hyb_l_pdaf (int* domain_p, int* step, int* dim_obs_l, int* rank, double* obs_l, double* gamma, double* a_l, double* c_l):
+    obs_l_np = np.asarray(<double[:np.prod((dim_obs_l[0]))]> 
+                          obs_l).reshape((dim_obs_l[0]), order='F')
+    a_l_np = np.asarray(<double[:np.prod((dim_obs_l[0], rank[0]))]> 
+                        a_l).reshape((dim_obs_l[0], rank[0]), order='F')
+    c_l_np = np.asarray(<double[:np.prod((dim_obs_l[0], rank[0]))]> 
+                        c_l).reshape((dim_obs_l[0], rank[0]), order='F')
+
+    c_l_np_tmp = py__likelihood_hyb_l_pdaf(domain_p[0], step[0], dim_obs_l[0], rank[0], obs_l_np, gamma[0], a_l_np, c_l_np)
+
+    c_l_np[:] = c_l_np_tmp[:]
+    cdef double[::1] c_l_view = c_l_np.ravel(order='F')
+    assert c_l == &c_l_view[0], 'reference (memory address) of c_l has changed in c__likelihood_hyb_l_pdaf.'
 
 
