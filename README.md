@@ -5,7 +5,7 @@ A Python interface to the Fortran-written data assimilation library - [PDAF](htt
 
 
 ## Prerequisite:
-- `PDAF-V2.0`
+- `PDAF-V2.1`
 - `Fortran compiler: e.g.:gfortran/intel fortran`
 - `a message passing interface (MPI) implementation: e.g. openMPI/MPICH`
 - `Python>=3.8`
@@ -22,7 +22,7 @@ mpiexec -n 4 python -u example/main.py
 Will run the model with 4 ensemble members where each member uses 1 process. 
 
 ## Documentation:
-Currently, it interfaces with subroutines of ```PDAF-V2.0``` with an example for online coupling with PDAF using a simple model based on the [tutorial](http://pdaf.awi.de/trac/wiki/FirstSteps) from PDAF. Some interface in Python changes slightly due to different ways to handling return values in Python from Fortran. 
+Currently, it interfaces with subroutines of ```PDAF-V2.1``` with an example for online coupling with PDAF using a simple model based on the [tutorial](http://pdaf.awi.de/trac/wiki/FirstSteps) from PDAF. Some interface in Python changes slightly due to different ways to handling return values in Python from Fortran. 
 
 [This documentation](https://yumengch.github.io/pyPDAF/index.html) contains more details on installation, Python interface, and implementation guide on pyPDAF. The simplified interfaces in PDAF are not supported. 
 
