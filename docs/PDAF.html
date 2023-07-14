@@ -416,6 +416,44 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.assimilate_lknetf">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_lknetf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_lknetf" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
+<li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
+<li><p><strong>py__init_dim_obs_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
+<li><p><strong>py__obs_op_pdaf</strong> (<em>func</em>) – observation operator</p></li>
+<li><p><strong>py__init_obs_pdaf</strong> (<em>func</em>) – initialize pe-local observation vector</p></li>
+<li><p><strong>py__init_obs_l_pdaf</strong> (<em>func</em>) – init. observation vector on local analysis domain</p></li>
+<li><p><strong>py__prepoststep_pdaf</strong> (<em>func</em>) – user supplied pre/poststep routine</p></li>
+<li><p><strong>py__prodrinva_l_pdaf</strong> (<em>func</em>) – provide product r^-1 a on local analysis domain</p></li>
+<li><p><strong>py__prodrinva_hyb_l_pdaf</strong> (<em>func</em>) – provide product r^-1 a on local analysis domain with hybrid weight</p></li>
+<li><p><strong>py__init_n_domains_p_pdaf</strong> (<em>func</em>) – provide number of local analysis domains</p></li>
+<li><p><strong>py__init_dim_l_pdaf</strong> (<em>func</em>) – init state dimension for local ana. domain</p></li>
+<li><p><strong>py__init_dim_obs_l_pdaf</strong> (<em>func</em>) – initialize dim. of obs. vector for local ana. domain</p></li>
+<li><p><strong>py__g2l_state_pdaf</strong> (<em>func</em>) – get state on local ana. domain from full state</p></li>
+<li><p><strong>py__l2g_state_pdaf</strong> (<em>func</em>) – init full state from state on local analysis domain</p></li>
+<li><p><strong>py__g2l_obs_pdaf</strong> (<em>func</em>) – restrict full obs. vector to local analysis domain</p></li>
+<li><p><strong>py__init_obsvar_pdaf</strong> (<em>func</em>) – initialize mean observation error variance</p></li>
+<li><p><strong>py__init_obsvar_l_pdaf</strong> (<em>func</em>) – initialize local mean observation error variance</p></li>
+<li><p><strong>py__likelihood_l_pdaf</strong> (<em>func</em>) – compute likelihood</p></li>
+<li><p><strong>py__likelihood_hyb_l_pdaf</strong> (<em>func</em>) – compute likelihood with hybrid weight</p></li>
+<li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – routine to provide time step, time and dimension of next observation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>flag</strong> – status flag</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAF.assimilate_lnetf">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_lnetf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_lnetf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
@@ -522,6 +560,28 @@
 <li><p><strong>py__init_obs_pdaf</strong> (<em>func</em>) – initialize observation vector</p></li>
 <li><p><strong>py__prepoststep_pdaf</strong> (<em>func</em>) – user supplied pre/poststep routine</p></li>
 <li><p><strong>py__likelihood_pdaf</strong> (<em>func</em>) – compute observation likelihood for an ensemble member</p></li>
+<li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – provide time step and time of next observation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>flag</strong> – status flag</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.assimilate_prepost">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_prepost</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_prepost" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
+<li><p><strong>py__distribute_state_pdaf</strong> (<em>func</em>) – routine to distribute a state vector</p></li>
+<li><p><strong>py__prepoststep_pdaf</strong> (<em>func</em>) – user supplied pre/poststep routine</p></li>
 <li><p><strong>py__next_observation_pdaf</strong> (<em>func</em>) – provide time step and time of next observation</p></li>
 </ul>
 </dd>
@@ -951,6 +1011,23 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.get_ensstats">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">get_ensstats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.get_ensstats" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>dims</strong> (<em>ndarray[int]</em>) – dimension of pointer</p></li>
+<li><p><strong>c_skew_ptr</strong> (<em>ndarray[float]</em>) – pointer to skewness array</p></li>
+<li><p><strong>c_kurt_ptr</strong> (<em>ndarray[float]</em>) – pointer to kurtosis array</p></li>
+<li><p><strong>status</strong> (<em>int</em>) – status flag</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAF.get_localfilter">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">get_localfilter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.get_localfilter" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
@@ -1041,6 +1118,11 @@
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.global_except_hook">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">global_except_hook</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.global_except_hook" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAF.incremental">
@@ -1541,6 +1623,42 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.put_state_lknetf">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_lknetf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_lknetf" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>py__collect_state_pdaf</strong> (<em>func</em>) – routine to collect a state vector</p></li>
+<li><p><strong>py__init_dim_obs_pdaf</strong> (<em>func</em>) – initialize dimension of observation vector</p></li>
+<li><p><strong>py__obs_op_pdaf</strong> (<em>func</em>) – observation operator</p></li>
+<li><p><strong>py__init_obs_pdaf</strong> (<em>func</em>) – initialize pe-local observation vector</p></li>
+<li><p><strong>py__init_obs_l_pdaf</strong> (<em>func</em>) – init. observation vector on local analysis domain</p></li>
+<li><p><strong>py__prepoststep_pdaf</strong> (<em>func</em>) – user supplied pre/poststep routine</p></li>
+<li><p><strong>py__prodrinva_l_pdaf</strong> (<em>func</em>) – provide product r^-1 a on local analysis domain</p></li>
+<li><p><strong>py__prodrinva_hyb_l_pdaf</strong> (<em>func</em>) – provide product r^-1 a on local analysis domain with hybrid weight</p></li>
+<li><p><strong>py__init_n_domains_p_pdaf</strong> (<em>func</em>) – provide number of local analysis domains</p></li>
+<li><p><strong>py__init_dim_l_pdaf</strong> (<em>func</em>) – init state dimension for local ana. domain</p></li>
+<li><p><strong>py__init_dim_obs_l_pdaf</strong> (<em>func</em>) – initialize dim. of obs. vector for local ana. domain</p></li>
+<li><p><strong>py__g2l_state_pdaf</strong> (<em>func</em>) – get state on local ana. domain from full state</p></li>
+<li><p><strong>py__l2g_state_pdaf</strong> (<em>func</em>) – init full state from state on local analysis domain</p></li>
+<li><p><strong>py__g2l_obs_pdaf</strong> (<em>func</em>) – restrict full obs. vector to local analysis domain</p></li>
+<li><p><strong>py__init_obsvar_pdaf</strong> (<em>func</em>) – initialize mean observation error variance</p></li>
+<li><p><strong>py__init_obsvar_l_pdaf</strong> (<em>func</em>) – initialize local mean observation error variance</p></li>
+<li><p><strong>py__likelihood_l_pdaf</strong> (<em>func</em>) – compute likelihood</p></li>
+<li><p><strong>py__likelihood_hyb_l_pdaf</strong> (<em>func</em>) – compute likelihood with hybrid weight</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>outflag</strong> – status flag</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAF.put_state_lnetf">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">put_state_lnetf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.put_state_lnetf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
@@ -1796,6 +1914,17 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.set_debug_flag">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">set_debug_flag</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.set_debug_flag" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>debugval</strong> (<em>int</em>) – value of debugging flag; print debug information for &gt;0</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAF.set_ens_pointer">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">set_ens_pointer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.set_ens_pointer" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
@@ -1916,7 +2045,7 @@
       &copy;2022 University of Reading and National Centre for Earth Observation.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

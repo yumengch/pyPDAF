@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Design Details &#8212; pyPDAF  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -12,6 +12,7 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -34,42 +35,42 @@
           <div class="body" role="main">
             
   <section id="design-details">
-<h1>Design Details<a class="headerlink" href="#design-details" title="Permalink to this headline">¶</a></h1>
+<h1>Design Details<a class="headerlink" href="#design-details" title="Permalink to this heading">¶</a></h1>
 <p>The interface makes use of the <code class="docutils literal notranslate"><span class="pre">iso_c_binding</span></code> introduced in Fortran 2003 standard. This allows interoperability between C and Fortran. Meanwhile, Cython can call C functions based on given C declarations. Hence, the Fortran subroutines can be called as a C function based on its declarations in Cython.</p>
 <p>One of the biggest benefit of using Cython instead of f2py is that C declarations conform to C standard and allow us to avoid undefined behaviors.</p>
 <section id="pypdaf-wrapper-to-fortran-call">
-<h2>pyPDAF wrapper to Fortran call<a class="headerlink" href="#pypdaf-wrapper-to-fortran-call" title="Permalink to this headline">¶</a></h2>
+<h2>pyPDAF wrapper to Fortran call<a class="headerlink" href="#pypdaf-wrapper-to-fortran-call" title="Permalink to this heading">¶</a></h2>
 <p>In <code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAF</span></code>, <code class="docutils literal notranslate"><span class="pre">.pxd</span></code> files define Fortran subroutines as external C functions. For example, the following Fortran subroutine interface:</p>
-<div class="highlight-Fortran notranslate"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">c__PDAF_get_state</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span><span class="w"> </span><span class="nb">time</span><span class="p">,</span><span class="w"> </span><span class="n">doexit</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                             </span><span class="n">U_next_observation</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                             </span><span class="n">U_distribute_state</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                             </span><span class="n">U_prepoststep</span><span class="p">,</span><span class="w"> </span><span class="n">flag</span><span class="p">)</span><span class="w"> </span><span class="k">bind</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="w"></span>
+<div class="highlight-Fortran notranslate"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">c__PDAF_get_state</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span><span class="w"> </span><span class="nb">time</span><span class="p">,</span><span class="w"> </span><span class="n">doexit</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                             </span><span class="n">U_next_observation</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                             </span><span class="n">U_distribute_state</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                             </span><span class="n">U_prepoststep</span><span class="p">,</span><span class="w"> </span><span class="n">flag</span><span class="p">)</span><span class="w"> </span><span class="k">bind</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
 <span class="w">      </span><span class="c">! Flag and number of time steps</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="kt">c_int</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">steps</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="kt">c_int</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">steps</span>
 <span class="w">      </span><span class="c">! current model time</span>
-<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="kt">c_double</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">time</span><span class="w"></span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="kt">c_double</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">time</span>
 <span class="w">      </span><span class="c">! Whether to exit from forecasts</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="kt">c_int</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">doexit</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="kt">c_int</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">doexit</span>
 <span class="w">      </span><span class="c">! Status flag</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="kt">c_int</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">flag</span><span class="w"></span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="kt">c_int</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">flag</span>
 <span class="w">      </span><span class="c">! Provide time step and time of next observation</span>
 <span class="w">      </span><span class="k">procedure</span><span class="p">(</span><span class="n">c__next_observation_pdaf</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">U_next_observation</span><span class="w"> </span>
 <span class="w">      </span><span class="c">! Routine to distribute a state vector</span>
 <span class="w">      </span><span class="k">procedure</span><span class="p">(</span><span class="n">c__distribute_state_pdaf</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">U_distribute_state</span><span class="w"> </span>
 <span class="w">      </span><span class="c">! User supplied pre/poststep routine</span>
-<span class="w">      </span><span class="k">procedure</span><span class="p">(</span><span class="n">c__prepoststep_pdaf</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">U_prepoststep</span><span class="w"></span>
-<span class="k">end subroutine </span><span class="n">c__PDAF_get_state</span><span class="w"></span>
+<span class="w">      </span><span class="k">procedure</span><span class="p">(</span><span class="n">c__prepoststep_pdaf</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">U_prepoststep</span>
+<span class="k">end subroutine </span><span class="n">c__PDAF_get_state</span>
 </pre></div>
 </div>
 <p>can be translated into:</p>
-<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="n">cdef</span><span class="w"> </span><span class="k">extern</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">c__pdaf_get_state</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">steps</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">*</span><span class="w"> </span><span class="n">time</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">doexit</span><span class="p">,</span><span class="w"></span>
-<span class="w">                                    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">c__next_observation_pdaf</span><span class="p">)(</span><span class="kt">int</span><span class="o">*</span><span class="p">,</span><span class="w">   </span><span class="kt">int</span><span class="o">*</span><span class="p">,</span><span class="w"></span>
-<span class="w">                                                                     </span><span class="kt">int</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">*</span><span class="p">),</span><span class="w"></span>
-<span class="w">                                    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">c__distribute_state_pdaf</span><span class="p">)(</span><span class="kt">int</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">*</span><span class="p">),</span><span class="w"></span>
-<span class="w">                                    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">c__prepoststep_pdaf</span><span class="p">)(</span><span class="kt">int</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">*</span><span class="p">,</span><span class="w"></span>
-<span class="w">                                                                </span><span class="kt">int</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">*</span><span class="p">,</span><span class="w"></span>
-<span class="w">                                                                </span><span class="kt">double</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">*</span><span class="p">),</span><span class="w"></span>
-<span class="w">                                    </span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">flag</span><span class="p">);</span><span class="w"></span>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="n">cdef</span><span class="w"> </span><span class="k">extern</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">c__pdaf_get_state</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">steps</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">*</span><span class="w"> </span><span class="n">time</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">doexit</span><span class="p">,</span>
+<span class="w">                                    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">c__next_observation_pdaf</span><span class="p">)(</span><span class="kt">int</span><span class="o">*</span><span class="p">,</span><span class="w">   </span><span class="kt">int</span><span class="o">*</span><span class="p">,</span>
+<span class="w">                                                                     </span><span class="kt">int</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">*</span><span class="p">),</span>
+<span class="w">                                    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">c__distribute_state_pdaf</span><span class="p">)(</span><span class="kt">int</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">*</span><span class="p">),</span>
+<span class="w">                                    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">c__prepoststep_pdaf</span><span class="p">)(</span><span class="kt">int</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">*</span><span class="p">,</span>
+<span class="w">                                                                </span><span class="kt">int</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">*</span><span class="p">,</span>
+<span class="w">                                                                </span><span class="kt">double</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">*</span><span class="p">),</span>
+<span class="w">                                    </span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">flag</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>Here, all arguments in the C declaration are pointers because Fortran is by default pass by reference, and user-defined procedures are provided with explicit interface in the C declaration. This is a good benefits compared to the f2py approach, where more tuning is required in the signature file to enable user-supplied external functions.</p>
@@ -89,26 +90,26 @@
 </div>
 </section>
 <section id="treatment-of-arguments">
-<h2>Treatment of arguments<a class="headerlink" href="#treatment-of-arguments" title="Permalink to this headline">¶</a></h2>
+<h2>Treatment of arguments<a class="headerlink" href="#treatment-of-arguments" title="Permalink to this heading">¶</a></h2>
 <p>There are input and output arguments in Fortran subroutines. In <code class="docutils literal notranslate"><span class="pre">pyPDAF</span></code>, input arguments with <code class="docutils literal notranslate"><span class="pre">intent(in)</span></code> or <code class="docutils literal notranslate"><span class="pre">intent(inout)</span></code> are declared in Python function arguments, and arguments with <code class="docutils literal notranslate"><span class="pre">intent(inout)</span></code> or <code class="docutils literal notranslate"><span class="pre">intent(out)</span></code> are treated as returned values. For example, <code class="docutils literal notranslate"><span class="pre">double*</span> <span class="pre">time</span></code> is not present in the <code class="docutils literal notranslate"><span class="pre">get_state</span></code> Python function argument as it is an <code class="docutils literal notranslate"><span class="pre">intent(out)</span></code> argument. They are defined as <code class="docutils literal notranslate"><span class="pre">cdef</span> <span class="pre">double</span> <span class="pre">time</span></code> before calling <code class="docutils literal notranslate"><span class="pre">c__pdaf_get_state</span></code>.</p>
 <p>For some detailed explanation of the following sections, it is recommended to read Cython documentation for <a class="reference external" href="https://cython.readthedocs.io/en/stable/src/userguide/memoryviews.html"> memory view</a>, and <a class="reference external" href="https://cython.readthedocs.io/en/stable/src/userguide/language_basics.html#differences-between-c-and-cython-expressions">syntax</a>.</p>
 <section id="treatment-of-scalar-arguments">
-<h3>Treatment of scalar arguments<a class="headerlink" href="#treatment-of-scalar-arguments" title="Permalink to this headline">¶</a></h3>
+<h3>Treatment of scalar arguments<a class="headerlink" href="#treatment-of-scalar-arguments" title="Permalink to this heading">¶</a></h3>
 <p>In Cython, <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">steps</span></code> declares the argument as integer value, which can be directly passed to C function calls by accesing its reference using <code class="docutils literal notranslate"><span class="pre">&amp;</span></code>.</p>
 </section>
 <section id="treatment-of-array-arguments">
-<h3>Treatment of array arguments<a class="headerlink" href="#treatment-of-array-arguments" title="Permalink to this headline">¶</a></h3>
+<h3>Treatment of array arguments<a class="headerlink" href="#treatment-of-array-arguments" title="Permalink to this heading">¶</a></h3>
 <p>In <code class="docutils literal notranslate"><span class="pre">pyPDAF</span></code>, all input arrays are numpy arrays. These arrays have to be convert to memoryview in Cython and then passed their reference to Fortran regardless of the shape of the array. To avoid problems with the different treatment of C ordering and Fortran ordering of multidimensional arrays, they’re all raveled using Fortran order, e.g. <code class="docutils literal notranslate"><span class="pre">np.ravel(a,</span> <span class="pre">order='F')</span></code>.</p>
 <p>The same applies to the returned array, where we reshape the memoryview back to its original shape using <code class="docutils literal notranslate"><span class="pre">np.reshape(a,</span> <span class="pre">order='F')</span></code>.</p>
 </section>
 <section id="treatment-of-procedure-arguments-user-supplied-routines">
-<h3>Treatment of procedure arguments (user-supplied routines)<a class="headerlink" href="#treatment-of-procedure-arguments-user-supplied-routines" title="Permalink to this headline">¶</a></h3>
+<h3>Treatment of procedure arguments (user-supplied routines)<a class="headerlink" href="#treatment-of-procedure-arguments-user-supplied-routines" title="Permalink to this heading">¶</a></h3>
 <p>One of the most important aspects of PDAF is the user-supplied routines. This provides the flexibility to different models and observations. In <code class="docutils literal notranslate"><span class="pre">pyPDAF.UserFunc</span></code>, C functions are defined and declared with dummy Python functions. For example,</p>
-<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="n">cdef</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">c__init_ens_pdaf</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">filtertype</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">dim_p</span><span class="p">,</span><span class="w"></span>
-<span class="w">                            </span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">dim_ens</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">*</span><span class="w"> </span><span class="n">state_p</span><span class="p">,</span><span class="w"></span>
-<span class="w">                            </span><span class="kt">double</span><span class="o">*</span><span class="w"> </span><span class="n">uinv</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">*</span><span class="w"> </span><span class="n">ens_p</span><span class="p">,</span><span class="w"></span>
-<span class="w">                            </span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">flag</span><span class="w"></span>
-<span class="w">                           </span><span class="p">);</span><span class="w"></span>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="n">cdef</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">c__init_ens_pdaf</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">filtertype</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">dim_p</span><span class="p">,</span>
+<span class="w">                            </span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">dim_ens</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">*</span><span class="w"> </span><span class="n">state_p</span><span class="p">,</span>
+<span class="w">                            </span><span class="kt">double</span><span class="o">*</span><span class="w"> </span><span class="n">uinv</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">*</span><span class="w"> </span><span class="n">ens_p</span><span class="p">,</span>
+<span class="w">                            </span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">flag</span>
+<span class="w">                           </span><span class="p">);</span>
 </pre></div>
 </div>
 <p>the above C function calls the dummy Python function defined as:</p>
@@ -135,23 +136,23 @@
 </pre></div>
 </div>
 <section id="treatment-of-array-input-in-user-supplied-routines">
-<h4>Treatment of array input in user-supplied routines<a class="headerlink" href="#treatment-of-array-input-in-user-supplied-routines" title="Permalink to this headline">¶</a></h4>
+<h4>Treatment of array input in user-supplied routines<a class="headerlink" href="#treatment-of-array-input-in-user-supplied-routines" title="Permalink to this heading">¶</a></h4>
 <p>Because user-supplied routines are given as C pointers, we need to translate them into numpy array for Python function in a similar manner as <a class="reference internal" href="#treatment-of-array-arguments"><span class="std std-doc">Treatment of array arguments</span></a>, e.g. <code class="docutils literal notranslate"><span class="pre">state_p_np</span> <span class="pre">=</span> <span class="pre">np.asarray(&lt;double[:np.prod((dim_p[0]))]&gt;</span> <span class="pre">state_p).reshape((dim_p[0]),</span> <span class="pre">order='F')</span></code>.</p>
 <section id="caveat">
-<h5>Caveat<a class="headerlink" href="#caveat" title="Permalink to this headline">¶</a></h5>
+<h5>Caveat<a class="headerlink" href="#caveat" title="Permalink to this heading">¶</a></h5>
 <ol class="arabic simple">
 <li><p>Fortran subroutines use pass by reference  by default</p></li>
 <li><p>Python always pass/assignment by reference
 The above two points can lead to undefined behavior. For example, in the user-supplied routines, we have Fortran interface:</p></li>
 </ol>
-<div class="highlight-Fortran notranslate"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">c__collect_state_pdaf</span><span class="p">(</span><span class="n">dim_p</span><span class="p">,</span><span class="w"> </span><span class="n">state_p</span><span class="p">)</span><span class="w"> </span><span class="k">bind</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="w"></span>
+<div class="highlight-Fortran notranslate"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">c__collect_state_pdaf</span><span class="p">(</span><span class="n">dim_p</span><span class="p">,</span><span class="w"> </span><span class="n">state_p</span><span class="p">)</span><span class="w"> </span><span class="k">bind</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
 <span class="w">  </span><span class="k">use </span><span class="nb">iso_c_binding</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="kt">c_double</span><span class="p">,</span><span class="w"> </span><span class="kt">c_int</span>
-<span class="kt">  </span><span class="k">implicit none</span><span class="w"></span>
+<span class="kt">  </span><span class="k">implicit none</span>
 <span class="w">  </span><span class="c">! pe-local state dimension</span>
-<span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="kt">c_int</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dim_p</span><span class="w"></span>
+<span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="kt">c_int</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dim_p</span>
 <span class="w">  </span><span class="c">! local state vector</span>
-<span class="w">  </span><span class="kt">real</span><span class="p">(</span><span class="kt">c_double</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">state_p</span><span class="p">(</span><span class="n">dim_p</span><span class="p">)</span><span class="w"></span>
-<span class="k">end subroutine </span><span class="n">c__collect_state_pdaf</span><span class="w"></span>
+<span class="w">  </span><span class="kt">real</span><span class="p">(</span><span class="kt">c_double</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">state_p</span><span class="p">(</span><span class="n">dim_p</span><span class="p">)</span>
+<span class="k">end subroutine </span><span class="n">c__collect_state_pdaf</span>
 </pre></div>
 </div>
 <p>If we provide the following Python routine:</p>
@@ -172,7 +173,7 @@ The above two points can lead to undefined behavior. For example, in the user-su
 </section>
 </section>
 <section id="note">
-<h2>Note<a class="headerlink" href="#note" title="Permalink to this headline">¶</a></h2>
+<h2>Note<a class="headerlink" href="#note" title="Permalink to this heading">¶</a></h2>
 <p>In <code class="docutils literal notranslate"><span class="pre">pyPDAF/fortran</span></code>, <code class="docutils literal notranslate"><span class="pre">pyPDAF</span></code> provides <code class="docutils literal notranslate"><span class="pre">bind(C)</span></code> wrapper for common PDAF public subroutines with <code class="docutils literal notranslate"><span class="pre">iso_c_binding</span></code> arguments. Some subroutine uses assumed size arrays. The interoperability with C is recently supported in Fortran 2018 standard via <code class="docutils literal notranslate"><span class="pre">ISO_Fortran_binding.h</span></code> in C. To avoid unexpected issues for these new features, the dimension sizes are still given explicitly in the Fortran wrapper.</p>
 <p>The same issue applies to allocatable array in derived types in PDAFomi feature, where <code class="docutils literal notranslate"><span class="pre">obs_f</span></code> and <code class="docutils literal notranslate"><span class="pre">obs_l</span></code> are used. Hence, an array of the derived type are defined in the fortran wrapper with setters for many class members. These can be changed later when Fortran 2018 standard is better supported.</p>
 </section>
@@ -231,7 +232,7 @@ The above two points can lead to undefined behavior. For example, in the user-su
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -248,7 +249,7 @@ The above two points can lead to undefined behavior. For example, in the user-su
       &copy;2022 University of Reading and National Centre for Earth Observation.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

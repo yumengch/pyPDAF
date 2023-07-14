@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Userguide &#8212; pyPDAF  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -12,6 +12,7 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -34,10 +35,10 @@
           <div class="body" role="main">
             
   <section id="userguide">
-<h1>Userguide<a class="headerlink" href="#userguide" title="Permalink to this headline">¶</a></h1>
+<h1>Userguide<a class="headerlink" href="#userguide" title="Permalink to this heading">¶</a></h1>
 <p>Here, only a few conventions and caveats are provided. For more detailed explanation and documentation of each routines, we recommend to <a class="reference external" href="http://pdaf.awi.de/trac/wiki">PDAF documentation</a>.</p>
 <section id="naming-conventions">
-<h2>Naming conventions<a class="headerlink" href="#naming-conventions" title="Permalink to this headline">¶</a></h2>
+<h2>Naming conventions<a class="headerlink" href="#naming-conventions" title="Permalink to this heading">¶</a></h2>
 <p>Since we expect Python users use:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyPDAF.PDAF</span> <span class="k">as</span> <span class="nn">PDAF</span>
 <span class="kn">import</span> <span class="nn">pyPDAF.PDAFomi</span> <span class="k">as</span> <span class="nn">PDAFomi</span>
@@ -46,7 +47,7 @@
 <p>All PDAF subroutines using name starting with <code class="docutils literal notranslate"><span class="pre">PDAF_</span></code> or <code class="docutils literal notranslate"><span class="pre">PDAFomi_</span></code> are removed. For example, we expect <code class="docutils literal notranslate"><span class="pre">PDAF_get_state</span></code> is used as <code class="docutils literal notranslate"><span class="pre">PDAF.get_state</span></code>. Hence, these prefixes in the subroutines are removed in <code class="docutils literal notranslate"><span class="pre">pyPDAF</span></code>.</p>
 </section>
 <section id="arguments-conventions">
-<h2>Arguments conventions<a class="headerlink" href="#arguments-conventions" title="Permalink to this headline">¶</a></h2>
+<h2>Arguments conventions<a class="headerlink" href="#arguments-conventions" title="Permalink to this heading">¶</a></h2>
 <p>The arguments may be slightly different between <code class="docutils literal notranslate"><span class="pre">PDAF</span></code> and <code class="docutils literal notranslate"><span class="pre">pyPDAF</span></code>. We recommend a check at the API reference for more details.</p>
 </section>
 </section>
@@ -98,7 +99,7 @@
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -115,7 +116,7 @@
       &copy;2022 University of Reading and National Centre for Earth Observation.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

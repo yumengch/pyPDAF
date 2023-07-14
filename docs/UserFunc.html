@@ -36,8 +36,8 @@
   <section id="module-pyPDAF.UserFunc">
 <span id="pypdaf-userfunc"></span><h1>pyPDAF.UserFunc<a class="headerlink" href="#module-pyPDAF.UserFunc" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="pyPDAF.UserFunc.mpi_excepthook">
-<span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">mpi_excepthook</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.mpi_excepthook" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyPDAF.UserFunc.global_except_hook">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">global_except_hook</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.global_except_hook" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -264,6 +264,8 @@ shape is (dim_p)</p></li>
 <li><p><strong>mstate_f</strong> (<em>ndarray</em><em>[</em><em>int</em><em>]</em>) – full observation vector for model sub-domain
 shape is (dim_p)</p></li>
 <li><p><strong>dim_p</strong> (<em>int</em>) – size of full observation vector for model sub-domain</p></li>
+<li><p><strong>mstate_l</strong> (<em>ndarray</em><em>[</em><em>int</em><em>]</em>) – observation vector for local analysis domain
+shape is (dim_l)</p></li>
 <li><p><strong>dim_l</strong> (<em>int</em>) – size of observation vector for local analysis domain</p></li>
 </ul>
 </dd>
@@ -292,6 +294,8 @@ shape is (dim_p)</p></li>
 <li><p><strong>state_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – pe-local full state vector
 shape is (dim_p)</p></li>
 <li><p><strong>dim_l</strong> (<em>int</em>) – local state dimension</p></li>
+<li><p><strong>state_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – state vector on local analysis domain
+shape is (dim_l)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -315,6 +319,8 @@ shape is (dim_p)</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_obs_f</strong> (<em>int</em>) – size of the full observation vector</p></li>
+<li><p><strong>observation_f</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – full vector of synthetic observations (process-local)
+shape is (dim_obs_f)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -338,6 +344,7 @@ shape is (dim_p)</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>domain_p</strong> (<em>int</em>) – current local analysis domain</p></li>
+<li><p><strong>dim_l</strong> (<em>int</em>) – local state dimension</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -358,7 +365,10 @@ shape is (dim_p)</p></li>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>step</strong> (<em>int</em>) – current time step</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>dim_obs_f</strong> (<em>int</em>) – size of the full observation vector</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>dim_obs_f</strong> – size of the full observation vector</p>
@@ -382,6 +392,7 @@ shape is (dim_p)</p></li>
 <li><p><strong>domain_p</strong> (<em>int</em>) – index of current local analysis domain</p></li>
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_obs_f</strong> (<em>int</em>) – full dimension of observation vector</p></li>
+<li><p><strong>dim_obs_l</strong> (<em>int</em>) – local dimension of observation vector</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -402,7 +413,10 @@ shape is (dim_p)</p></li>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>step</strong> (<em>int</em>) – current time step</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>dim_obs_p</strong> (<em>int</em>) – dimension of observation vector</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>dim_obs_p</strong> – dimension of observation vector</p>
@@ -456,7 +470,10 @@ shape is (dim_p,dim_ens)</p></li>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>step</strong> (<em>int</em>) – current time step</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>n_domains_p</strong> (<em>int</em>) – pe-local number of analysis domains</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>n_domains_p</strong> – pe-local number of analysis domains</p>
@@ -480,8 +497,10 @@ shape is (dim_p,dim_ens)</p></li>
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_obs</strong> (<em>int</em>) – global size of observation vector</p></li>
 <li><p><strong>dim_obs_p</strong> (<em>int</em>) – size of process-local observation vector</p></li>
+<li><p><strong>covar</strong> (<em>float</em>) – observation error covariance matrix</p></li>
 <li><p><strong>obs_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – process-local vector of observations
 shape is (dim_obs_p)</p></li>
+<li><p><strong>isdiag</strong> (<em>bool</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -506,6 +525,8 @@ shape is (dim_obs_p)</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_obs_f</strong> (<em>int</em>) – size of the full observation vector</p></li>
+<li><p><strong>observation_f</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – full vector of observations
+shape is (dim_obs_f)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -530,6 +551,8 @@ shape is (dim_obs_p)</p></li>
 <li><p><strong>domain_p</strong> (<em>int</em>) – index of current local analysis domain</p></li>
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_obs_l</strong> (<em>int</em>) – local size of the observation vector</p></li>
+<li><p><strong>observation_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – local vector of observations
+shape is (dim_obs_l)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -553,6 +576,8 @@ shape is (dim_obs_p)</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_obs_p</strong> (<em>int</em>) – size of the observation vector</p></li>
+<li><p><strong>observation_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – vector of observations
+shape is (dim_obs_p)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -577,6 +602,8 @@ shape is (dim_obs_p)</p></li>
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_obs_f</strong> (<em>int</em>) – full dimension of observation vector</p></li>
 <li><p><strong>obs_f</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – full observation vector
+shape is (dim_obs_f)</p></li>
+<li><p><strong>obserr_f</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – full observation error stddev
 shape is (dim_obs_f)</p></li>
 </ul>
 </dd>
@@ -605,6 +632,7 @@ shape is (dim_obs_f)</p></li>
 <li><p><strong>obs_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – local observation vector
 shape is (dim_obs_p)</p></li>
 <li><p><strong>dim_obs_p</strong> (<em>int</em>) – dimension of local observation vector</p></li>
+<li><p><strong>meanvar_l</strong> (<em>float</em>) – mean local observation error variance</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -630,6 +658,7 @@ shape is (dim_obs_p)</p></li>
 <li><p><strong>dim_obs_p</strong> (<em>int</em>) – size of observation vector</p></li>
 <li><p><strong>obs_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – vector of observations
 shape is (dim_obs_p)</p></li>
+<li><p><strong>meanvar</strong> (<em>float</em>) – mean observation error variance</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -674,6 +703,38 @@ shape is (dim_p)</p></li>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.UserFunc.py__likelihood_hyb_l_pdaf">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__likelihood_hyb_l_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__likelihood_hyb_l_pdaf" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>domain_p</strong> (<em>int</em>) – index of current local analysis domain</p></li>
+<li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>dim_obs_l</strong> (<em>int</em>) – number of local observations at current time step (i.e. the size of the local observation vector)</p></li>
+<li><p><strong>rank</strong> (<em>int</em>) – number of the columns in the matrix processes here. this is usually the ensemble size minus one (or the rank of the initial covariance matrix)</p></li>
+<li><p><strong>obs_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – local vector of observations
+shape is (dim_obs_l)</p></li>
+<li><p><strong>gamma</strong> (<em>float</em>) – hybrid weight provided by pdaf</p></li>
+<li><p><strong>a_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – input matrix provided by pdaf
+shape is (dim_obs_l,rank)</p></li>
+<li><p><strong>c_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – output matrix
+shape is (dim_obs_l,rank)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>c_l</strong> – output matrix</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray[float]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.UserFunc.py__likelihood_l_pdaf">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__likelihood_l_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__likelihood_l_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
@@ -687,6 +748,7 @@ shape is (dim_p)</p></li>
 shape is (dim_obs_l)</p></li>
 <li><p><strong>resid_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – nput vector holding the local residual
 shape is (dim_obs_l)</p></li>
+<li><p><strong>likely_l</strong> (<em>float</em>) – output value of the local likelihood</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -714,6 +776,7 @@ shape is (dim_obs_l)</p></li>
 shape is (dim_obs_p)</p></li>
 <li><p><strong>resid</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – input vector holding the residual
 shape is (dim_obs_p)</p></li>
+<li><p><strong>likely</strong> (<em>float</em>) – output value of the likelihood</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -762,7 +825,12 @@ shape is (dim_obs,dim_obs)</p></li>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>stepnow</strong> (<em>int</em>) – number of the current time step</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stepnow</strong> (<em>int</em>) – number of the current time step</p></li>
+<li><p><strong>nsteps</strong> (<em>int</em>) – number of time steps until next obs</p></li>
+<li><p><strong>doexit</strong> (<em>int</em>) – whether to exit forecasting (1 for exit)</p></li>
+<li><p><strong>time</strong> (<em>float</em>) – current model (physical) time</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
@@ -788,6 +856,8 @@ shape is (dim_obs,dim_obs)</p></li>
 <li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
 <li><p><strong>dim_p</strong> (<em>int</em>) – pe-local dimension of state</p></li>
 <li><p><strong>dim_obs_p</strong> (<em>int</em>) – dimension of observed state</p></li>
+<li><p><strong>state_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – pe-local model state
+shape is (dim_p)</p></li>
 <li><p><strong>m_state_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – pe-local observed state
 shape is (dim_obs_p)</p></li>
 </ul>
@@ -816,6 +886,8 @@ shape is (dim_obs_p)</p></li>
 <li><p><strong>dim_obs_f</strong> (<em>int</em>) – size of full observation vector</p></li>
 <li><p><strong>state_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – model state vector
 shape is (dim_p)</p></li>
+<li><p><strong>m_state_f</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – full observed state (i.e. the result after applying the observation operator to state_p)
+shape is (dim_obs_f)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -842,6 +914,8 @@ shape is (dim_p)</p></li>
 <li><p><strong>dim_obs_p</strong> (<em>int</em>) – dimension of observed state</p></li>
 <li><p><strong>state_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – pe-local model state
 shape is (dim_p)</p></li>
+<li><p><strong>m_state_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – pe-local observed state
+shape is (dim_obs_p)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -868,6 +942,8 @@ shape is (dim_p)</p></li>
 <li><p><strong>dim_obs_p</strong> (<em>int</em>) – size of observation vector</p></li>
 <li><p><strong>state_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – model state vector
 shape is (dim_p)</p></li>
+<li><p><strong>m_state_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – observed state vector (i.e. the result after applying the observation operator to state_p)
+shape is (dim_obs_p)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -931,6 +1007,36 @@ it can be used freely here.)</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.UserFunc.py__prodrinva_hyb_l_pdaf">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__prodrinva_hyb_l_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__prodrinva_hyb_l_pdaf" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>domain_p</strong> (<em>int</em>) – index of current local analysis domain</p></li>
+<li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>dim_obs_l</strong> (<em>int</em>) – number of local observations at current time step (i.e. the size of the local observation vector)</p></li>
+<li><p><strong>obs_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – local vector of observations
+shape is (dim_obs_l)</p></li>
+<li><p><strong>resid_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – input vector holding the local residual
+shape is (dim_obs_l)</p></li>
+<li><p><strong>gamma</strong> (<em>float</em>) – hybrid weight provided by pdaf</p></li>
+<li><p><strong>likely_l</strong> (<em>float</em>) – output value of the local likelihood</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>likely_l</strong> – output value of the local likelihood</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>RuntimeError</strong> – No user-supplied function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.UserFunc.py__prodrinva_l_pdaf">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.UserFunc.</span></span><span class="sig-name descname"><span class="pre">py__prodrinva_l_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.UserFunc.py__prodrinva_l_pdaf" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
@@ -948,6 +1054,8 @@ it can be used freely here.)</p>
 <li><p><strong>obs_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – local vector of observations
 shape is (dim_obs_l)</p></li>
 <li><p><strong>a_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – input matrix provided by pdaf
+shape is (dim_obs_l,rank)</p></li>
+<li><p><strong>c_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – output matrix
 shape is (dim_obs_l,rank)</p></li>
 </ul>
 </dd>
@@ -981,6 +1089,8 @@ shape is (dim_obs_l,rank)</p></li>
 <li><p><strong>obs_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – vector of observations
 shape is (dim_obs_p)</p></li>
 <li><p><strong>a_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – input matrix provided by pdaf
+shape is (dim_obs_p,rank)</p></li>
+<li><p><strong>c_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – output matrix
 shape is (dim_obs_p,rank)</p></li>
 </ul>
 </dd>
@@ -1064,7 +1174,7 @@ shape is (dim_obs_p,rank)</p></li>
       &copy;2022 University of Reading and National Centre for Earth Observation.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

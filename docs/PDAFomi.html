@@ -37,6 +37,27 @@
   <section id="module-pyPDAF.PDAF.PDAFomi">
 <span id="pypdaf-pdaf-pdafomi"></span><h1>pyPDAF.PDAF.PDAFomi<a class="headerlink" href="#module-pyPDAF.PDAF.PDAFomi" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.PDAFomi.add_obs_error_cb">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">add_obs_error_cb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.PDAFomi.add_obs_error_cb" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>dim_obs_p</strong> (<em>int</em>) – dimension of pe-local observation vector</p></li>
+<li><p><strong>c_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – matrix to which r is added</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>c_p</strong> – matrix to which r is added</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAF.PDAFomi.assimilate_3dvar">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">assimilate_3dvar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.PDAFomi.assimilate_3dvar" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
@@ -285,6 +306,30 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.PDAFomi.g2l_obs_cb">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">g2l_obs_cb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.PDAFomi.g2l_obs_cb" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>domain_p</strong> (<em>int</em>) – index of current local analysis domain</p></li>
+<li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>dim_obs_f</strong> (<em>int</em>) – dimension of full pe-local observation vector</p></li>
+<li><p><strong>dim_obs_l</strong> (<em>int</em>) – dimension of local observation vector</p></li>
+<li><p><strong>ostate_f</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – full pe-local obs.ervation vector</p></li>
+<li><p><strong>ostate_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – observation vector on local domain</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ostate_l</strong> – observation vector on local domain</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAF.PDAFomi.gather_obs">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">gather_obs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.PDAFomi.gather_obs" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
@@ -421,6 +466,11 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.PDAFomi.global_except_hook">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">global_except_hook</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.PDAFomi.global_except_hook" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAF.PDAFomi.init">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.PDAFomi.init" title="Permalink to this definition">¶</a></dt>
 <dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
@@ -451,6 +501,215 @@
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.PDAFomi.init_obs_f_cb">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">init_obs_f_cb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.PDAFomi.init_obs_f_cb" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>dim_obs_f</strong> (<em>int</em>) – dimension of full observation vector</p></li>
+<li><p><strong>observation_f</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – full observation vector</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>observation_f</strong> – full observation vector</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.PDAFomi.init_obs_l_cb">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">init_obs_l_cb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.PDAFomi.init_obs_l_cb" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>domain_p</strong> (<em>int</em>) – index of current local analysis domain index</p></li>
+<li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>dim_obs_l</strong> (<em>int</em>) – local dimension of observation vector</p></li>
+<li><p><strong>observation_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – local observation vector</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>observation_l</strong> – local observation vector</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.PDAFomi.init_obscovar_cb">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">init_obscovar_cb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.PDAFomi.init_obscovar_cb" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>dim_obs</strong> (<em>int</em>) – dimension of observation vector</p></li>
+<li><p><strong>dim_obs_p</strong> (<em>int</em>) – pe-local dimension of obs. vector</p></li>
+<li><p><strong>covar</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – observation error covar. matrix</p></li>
+<li><p><strong>m_state_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – observation vector</p></li>
+<li><p><strong>isdiag</strong> (<em>bool</em>) – whether matrix r is diagonal</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>covar</strong> (<em>ndarray[float]</em>) – observation error covar. matrix</p></li>
+<li><p><strong>isdiag</strong> (<em>bool</em>) – whether matrix r is diagonal</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.PDAFomi.init_obserr_f_cb">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">init_obserr_f_cb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.PDAFomi.init_obserr_f_cb" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>dim_obs_f</strong> (<em>int</em>) – full dimension of observation vector</p></li>
+<li><p><strong>obs_f</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – full observation vector</p></li>
+<li><p><strong>obserr_f</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – full observation error stddev</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>obserr_f</strong> – full observation error stddev</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.PDAFomi.init_obsvar_cb">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">init_obsvar_cb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.PDAFomi.init_obsvar_cb" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>dim_obs_p</strong> (<em>int</em>) – pe-local dimension of observation vector</p></li>
+<li><p><strong>obs_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – pe-local observation vector</p></li>
+<li><p><strong>meanvar</strong> (<em>float</em>) – mean observation error variance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>meanvar</strong> – mean observation error variance</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.PDAFomi.init_obsvar_l_cb">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">init_obsvar_l_cb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.PDAFomi.init_obsvar_l_cb" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>domain_p</strong> (<em>int</em>) – index of current local analysis domain</p></li>
+<li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>dim_obs_l</strong> (<em>int</em>) – local dimension of observation vector</p></li>
+<li><p><strong>obs_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – local observation vector</p></li>
+<li><p><strong>meanvar_l</strong> (<em>float</em>) – mean local observation error variance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>meanvar_l</strong> – mean local observation error variance</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.PDAFomi.likelihood_cb">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">likelihood_cb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.PDAFomi.likelihood_cb" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>dim_obs</strong> (<em>int</em>) – pe-local dimension of obs. vector</p></li>
+<li><p><strong>obs</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – pe-local vector of observations</p></li>
+<li><p><strong>resid</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – input vector of residuum</p></li>
+<li><p><strong>lhood</strong> (<em>float</em>) – output vector - log likelihood</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>lhood</strong> – output vector - log likelihood</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.PDAFomi.likelihood_hyb_l_cb">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">likelihood_hyb_l_cb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.PDAFomi.likelihood_hyb_l_cb" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>domain_p</strong> (<em>int</em>) – current local analysis domain</p></li>
+<li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>dim_obs_l</strong> (<em>int</em>) – pe-local dimension of obs. vector</p></li>
+<li><p><strong>obs_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – pe-local vector of observations</p></li>
+<li><p><strong>resid_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – input vector of residuum</p></li>
+<li><p><strong>alpha</strong> (<em>float</em>) – hybrid weight</p></li>
+<li><p><strong>lhood_l</strong> (<em>float</em>) – output vector - log likelihood</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>resid_l</strong> (<em>ndarray[float]</em>) – input vector of residuum</p></li>
+<li><p><strong>lhood_l</strong> (<em>float</em>) – output vector - log likelihood</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.PDAFomi.likelihood_l_cb">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">likelihood_l_cb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.PDAFomi.likelihood_l_cb" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>domain_p</strong> (<em>int</em>) – current local analysis domain</p></li>
+<li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>dim_obs_l</strong> (<em>int</em>) – pe-local dimension of obs. vector</p></li>
+<li><p><strong>obs_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – pe-local vector of observations</p></li>
+<li><p><strong>resid_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – input vector of residuum</p></li>
+<li><p><strong>lhood_l</strong> (<em>float</em>) – output vector - log likelihood</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>resid_l</strong> (<em>ndarray[float]</em>) – input vector of residuum</p></li>
+<li><p><strong>lhood_l</strong> (<em>float</em>) – output vector - log likelihood</p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -607,6 +866,83 @@
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.PDAFomi.prodrinva_cb">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">prodrinva_cb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.PDAFomi.prodrinva_cb" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>dim_obs_p</strong> (<em>int</em>) – dimension of pe-local observation vector</p></li>
+<li><p><strong>ncol</strong> (<em>int</em>) – number of columns in a_p and c_p</p></li>
+<li><p><strong>obs_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – pe-local vector of observations</p></li>
+<li><p><strong>a_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – input matrix</p></li>
+<li><p><strong>c_p</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – output matrix</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>c_p</strong> – output matrix</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.PDAFomi.prodrinva_hyb_l_cb">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">prodrinva_hyb_l_cb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.PDAFomi.prodrinva_hyb_l_cb" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>domain_p</strong> (<em>int</em>) – index of current local analysis domain</p></li>
+<li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>dim_obs_l</strong> (<em>int</em>) – dimension of local observation vector</p></li>
+<li><p><strong>rank</strong> (<em>int</em>) – rank of initial covariance matrix</p></li>
+<li><p><strong>obs_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – local vector of observations</p></li>
+<li><p><strong>alpha</strong> (<em>float</em>) – hybrid weight</p></li>
+<li><p><strong>a_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – input matrix</p></li>
+<li><p><strong>c_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – output matrix</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>a_l</strong> (<em>ndarray[float]</em>) – input matrix</p></li>
+<li><p><strong>c_l</strong> (<em>ndarray[float]</em>) – output matrix</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.PDAFomi.prodrinva_l_cb">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">prodrinva_l_cb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.PDAFomi.prodrinva_l_cb" title="Permalink to this definition">¶</a></dt>
+<dd><p>See detailed explanation of the routine in <a class="reference external" href="https://pdaf.awi.de/trac/wiki/">https://pdaf.awi.de/trac/wiki/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>domain_p</strong> (<em>int</em>) – index of current local analysis domain</p></li>
+<li><p><strong>step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>dim_obs_l</strong> (<em>int</em>) – dimension of local observation vector</p></li>
+<li><p><strong>rank</strong> (<em>int</em>) – rank of initial covariance matrix</p></li>
+<li><p><strong>obs_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – local vector of observations</p></li>
+<li><p><strong>a_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – input matrix</p></li>
+<li><p><strong>c_l</strong> (<em>ndarray</em><em>[</em><em>float</em><em>]</em>) – output matrix</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>a_l</strong> (<em>ndarray[float]</em>) – input matrix</p></li>
+<li><p><strong>c_l</strong> (<em>ndarray[float]</em>) – output matrix</p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1058,7 +1394,7 @@
       &copy;2022 University of Reading and National Centre for Earth Observation.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

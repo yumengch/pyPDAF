@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Installation &#8212; pyPDAF  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -12,6 +12,7 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -34,9 +35,9 @@
           <div class="body" role="main">
             
   <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h1>
 <section id="prerequisite">
-<h2>Prerequisite:<a class="headerlink" href="#prerequisite" title="Permalink to this headline">¶</a></h2>
+<h2>Prerequisite:<a class="headerlink" href="#prerequisite" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">PDAF-V2.0</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Fortran</span> <span class="pre">compiler:</span> <span class="pre">e.g.:gfortran/intel</span> <span class="pre">fortran</span></code></p></li>
@@ -49,14 +50,14 @@
 <li><p>As a parallel framwork, PDAF makes use of MPI. The MPI is used by pyPDAF as well. To avoid unexpected errors, we recommend using the same MPI implementation (OpenMP/MPICH) for both the PDAF and pyPDAF.</p></li>
 <li><p>pyPDAF uses <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/">MPI4py</a>. To specify the MPI implementation for MPI4py, the following method can be used:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">CC</span><span class="o">=</span>/path/to/mpicc python
-env <span class="nv">MPICC</span><span class="o">=</span>/path/to/mpicc python -m pip install mpi4py
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">CC</span><span class="o">=</span>/path/to/mpicc<span class="w"> </span>python
+env<span class="w"> </span><span class="nv">MPICC</span><span class="o">=</span>/path/to/mpicc<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>mpi4py
 </pre></div>
 </div>
 </section>
 <hr class="docutils" />
 <section id="install-pypdaf">
-<h2>Install pyPDAF:<a class="headerlink" href="#install-pypdaf" title="Permalink to this headline">¶</a></h2>
+<h2>Install pyPDAF:<a class="headerlink" href="#install-pypdaf" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code></p></li>
 </ul>
@@ -110,7 +111,7 @@ env <span class="nv">MPICC</span><span class="o">=</span>/path/to/mpicc python -
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -127,7 +128,7 @@ env <span class="nv">MPICC</span><span class="o">=</span>/path/to/mpicc python -
       &copy;2022 University of Reading and National Centre for Earth Observation.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
