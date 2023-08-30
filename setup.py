@@ -26,12 +26,13 @@ import configparser
 
 import numpy
 import glob
+import sys
 import os
 
 pwd = os.getcwd()
 # compiler
 os.environ["CC"] = "gcc"
-compilier_options = ['-fPIC']
+compilier_options = ['-fPIC', '-Wno-unreachable-code-fallthrough']
 # include directory
 inc_dirs = [numpy.get_include(), f'{pwd}/pyPDAF/PDAF/']
 # linking options
@@ -39,7 +40,12 @@ lib_dirs = [f'{pwd}/lib']
 # Cython set-up will automatically add -l as a prefix
 # For example, 'PDAFc' becomes -lPDAFc in final compilation
 libs = ['PDAFc']
-extra_link_args = [f'-L{pwd}/lib', f'-Wl,-rpath={pwd}/lib']
+extra_link_args = [f'-L{pwd}/lib',]
+if sys.platform == 'darwin':
+    pass
+#    extra_link_args += [f'-rpath {pwd}/lib',]
+else:
+    extra_link_args += [f'-Wl,-rpath={pwd}/lib', ]
 objs = []
 
 
@@ -93,18 +99,16 @@ def compile_interface():
         print(cmd)
         os.system(cmd)
     objs = ' '.join(objs)
-    cmd = f'{options["FC"]} {objs} -shared -L{PDAFdir}/lib -lpdaf-var '\
-          f'{options["LINK_LIBS"]} -o lib/libPDAFc.so'
+    if sys.platform == 'darwin':
+        cmd = f'{options["FC"]} {objs} -shared  -L{PDAFdir}/lib -lpdaf-var '\
+              f'{options["LINK_LIBS"]} -o {pwd}/lib/libPDAFc.dylib'
+    else:
+        cmd = f'{options["FC"]} {objs} -shared -L{PDAFdir}/lib -lpdaf-var '\
+              f'{options["LINK_LIBS"]} -o {pwd}/lib/libPDAFc.so'
     print(cmd)
     os.makedirs('lib', exist_ok=True)
     os.system(cmd)
 
-
-class PDAFcExtension(Extension):
-
-    def __init__(self, name):
-        # don't invoke the original build_ext for this special extension
-        super().__init__(name, sources=[])
 
 class build_ext(build_ext_orig):
     """Pre-installation for pre build command.
@@ -116,20 +120,21 @@ class build_ext(build_ext_orig):
                 compile_interface()
         super().run()
 
-ext_modules = [PDAFcExtension('PDAFc'),
-               Extension('*',
+ext_modules = [ Extension('PDAFc', 
+                          [f'{pwd}/pyPDAF/fortran/PDAFc.pyx']),
+                Extension('*',
                          [f'{pwd}/pyPDAF/PDAF/*.pyx'],
                          extra_compile_args=compilier_options,
                          library_dirs=lib_dirs,
                          libraries=libs,
-                         extra_objects=objs,
+                         #extra_objects=objs,
                          extra_link_args=extra_link_args,
                          runtime_library_dirs=lib_dirs),
                Extension('*',
                          [f'{pwd}/pyPDAF/UserFunc/*.pyx'])
                ]
 
-setup(
+setup(name='pyPDAF',
     ext_modules=cythonize(ext_modules,
                           compiler_directives={'language_level': "3"}),
     include_dirs=inc_dirs,

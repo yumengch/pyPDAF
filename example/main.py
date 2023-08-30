@@ -44,7 +44,7 @@ def main():
     # Initialize model
     model = Model.Model((18, 36), nt=nt, pe=pe)
     obs = []
-    for typename in ['A', 'B']:
+    for typename in ['A',]:
         obs.append(OBS.OBS(typename, pe.mype_filter,
                            model.nx, 1, 2, 0.5))
 
