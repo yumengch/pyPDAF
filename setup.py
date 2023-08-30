@@ -26,6 +26,7 @@ import configparser
 
 import numpy
 import glob
+import sys
 import os
 
 pwd = os.getcwd()
@@ -39,7 +40,11 @@ lib_dirs = [f'{pwd}/lib']
 # Cython set-up will automatically add -l as a prefix
 # For example, 'PDAFc' becomes -lPDAFc in final compilation
 libs = ['PDAFc']
-extra_link_args = [f'-L{pwd}/lib', f'-Wl,-rpath={pwd}/lib']
+extra_link_args = [f'-L{pwd}/lib',]
+if sys.platform == 'darwin':
+    extra_link_args += [f'-Wl,-rpath,{pwd}/lib', ]
+else:
+    extra_link_args += [f'-Wl,-rpath={pwd}/lib', ]
 objs = []
 
 
@@ -93,18 +98,16 @@ def compile_interface():
         print(cmd)
         os.system(cmd)
     objs = ' '.join(objs)
-    cmd = f'{options["FC"]} {objs} -shared -L{PDAFdir}/lib -lpdaf-var '\
-          f'{options["LINK_LIBS"]} -o lib/libPDAFc.so'
+    if sys.platform == 'darwin':
+        cmd = f'{options["FC"]} {objs} -shared -dynamiclib -L{PDAFdir}/lib -lpdaf-var '\
+              f'{options["LINK_LIBS"]} -o lib/libPDAFc.dylib'
+    else:
+        cmd = f'{options["FC"]} {objs} -shared -L{PDAFdir}/lib -lpdaf-var '\
+              f'{options["LINK_LIBS"]} -o lib/libPDAFc.so'
     print(cmd)
     os.makedirs('lib', exist_ok=True)
     os.system(cmd)
 
-
-class PDAFcExtension(Extension):
-
-    def __init__(self, name):
-        # don't invoke the original build_ext for this special extension
-        super().__init__(name, sources=[])
 
 class build_ext(build_ext_orig):
     """Pre-installation for pre build command.
@@ -116,8 +119,9 @@ class build_ext(build_ext_orig):
                 compile_interface()
         super().run()
 
-ext_modules = [PDAFcExtension('PDAFc'),
-               Extension('*',
+ext_modules = [ Extension('PDAFc', 
+                          [f'{pwd}/pyPDAF/fortran/PDAFc.pyx']),
+                Extension('*',
                          [f'{pwd}/pyPDAF/PDAF/*.pyx'],
                          extra_compile_args=compilier_options,
                          library_dirs=lib_dirs,

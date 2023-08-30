@@ -1,7 +1,34 @@
 name: test_build
-on: [push]
+on: [push, workflow_dispatch]
 jobs:
-  check_installation:
+  check_mac_installation:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: brew install openblas lapack open-mpi gcc
+      - name: get PDAF
+        run: |
+            wget -O PDAF_V2.1.tar.gz "${{ env.PDAF_LINK }}"
+            gzip -d PDAF_V2.1.tar.gz
+            tar -xvf PDAF_V2.1.tar
+        env:
+          PDAF_LINK: ${{ secrets.PDAF_V2_1 }}
+
+      - name: Install gfortran
+        run: |
+            brew reinstall gcc
+            echo 'export PATH="/usr/local/opt/gcc/bin:$PATH"' >> $GITHUB_ENV
+            source $GITHUB_ENV
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+
+      - name: install pyPDAF
+        run: |
+          $CONDA/bin/conda install python
+          pip install -v -e .
+
+  check_ubuntu_installation:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -21,3 +48,4 @@ jobs:
         run: |
           $CONDA/bin/conda install python
           pip install -v -e .
+
