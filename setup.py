@@ -42,7 +42,7 @@ lib_dirs = [f'{pwd}/lib']
 libs = ['PDAFc']
 extra_link_args = [f'-L{pwd}/lib',]
 if sys.platform == 'darwin':
-    extra_link_args += [f'-Wl,-rpath,{pwd}/lib', ]
+    extra_link_args += [f'-rpath {pwd}/lib',]
 else:
     extra_link_args += [f'-Wl,-rpath={pwd}/lib', ]
 objs = []
@@ -99,7 +99,7 @@ def compile_interface():
         os.system(cmd)
     objs = ' '.join(objs)
     if sys.platform == 'darwin':
-        cmd = f'{options["FC"]} {objs} -shared -dynamiclib -L{PDAFdir}/lib -lpdaf-var '\
+        cmd = f'{options["FC"]} {objs} -shared -dynamic -dynamiclib -L{PDAFdir}/lib -lpdaf-var '\
               f'{options["LINK_LIBS"]} -o lib/libPDAFc.dylib'
     else:
         cmd = f'{options["FC"]} {objs} -shared -L{PDAFdir}/lib -lpdaf-var '\
