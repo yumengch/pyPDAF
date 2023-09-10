@@ -41,10 +41,11 @@ lib_dirs = [f'{pwd}/lib']
 # For example, 'PDAFc' becomes -lPDAFc in final compilation
 libs = ['PDAFc']
 extra_link_args = [f'-L{pwd}/lib',]
-#if sys.platform == 'darwin':
+if sys.platform == 'darwin':
+    pass
 #    extra_link_args += [f'-rpath {pwd}/lib',]
-#else:
-#extra_link_args += [f'-Wl,-rpath={pwd}/lib', ]
+else:
+    extra_link_args += [f'-Wl,-rpath={pwd}/lib', ]
 objs = []
 
 
