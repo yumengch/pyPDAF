@@ -32,7 +32,7 @@ import os
 pwd = os.getcwd()
 # compiler
 os.environ["CC"] = "gcc"
-compilier_options = ['-fPIC']
+compilier_options = ['-fPIC', '-Wno-unreachable-code-fallthrough']
 # include directory
 inc_dirs = [numpy.get_include(), f'{pwd}/pyPDAF/PDAF/']
 # linking options
@@ -41,10 +41,10 @@ lib_dirs = [f'{pwd}/lib']
 # For example, 'PDAFc' becomes -lPDAFc in final compilation
 libs = ['PDAFc']
 extra_link_args = [f'-L{pwd}/lib',]
-if sys.platform == 'darwin':
-    extra_link_args += [f'-rpath {pwd}/lib',]
-else:
-    extra_link_args += [f'-Wl,-rpath={pwd}/lib', ]
+#if sys.platform == 'darwin':
+#    extra_link_args += [f'-rpath {pwd}/lib',]
+#else:
+#extra_link_args += [f'-Wl,-rpath={pwd}/lib', ]
 objs = []
 
 
@@ -99,11 +99,11 @@ def compile_interface():
         os.system(cmd)
     objs = ' '.join(objs)
     if sys.platform == 'darwin':
-        cmd = f'{options["FC"]} {objs} -shared -dynamic -dynamiclib -L{PDAFdir}/lib -lpdaf-var '\
-              f'{options["LINK_LIBS"]} -o lib/libPDAFc.dylib'
+        cmd = f'{options["FC"]} {objs} -shared  -L{PDAFdir}/lib -lpdaf-var '\
+              f'{options["LINK_LIBS"]} -o {pwd}/lib/libPDAFc.dylib'
     else:
         cmd = f'{options["FC"]} {objs} -shared -L{PDAFdir}/lib -lpdaf-var '\
-              f'{options["LINK_LIBS"]} -o lib/libPDAFc.so'
+              f'{options["LINK_LIBS"]} -o {pwd}/lib/libPDAFc.so'
     print(cmd)
     os.makedirs('lib', exist_ok=True)
     os.system(cmd)
@@ -126,14 +126,14 @@ ext_modules = [ Extension('PDAFc',
                          extra_compile_args=compilier_options,
                          library_dirs=lib_dirs,
                          libraries=libs,
-                         extra_objects=objs,
+                         #extra_objects=objs,
                          extra_link_args=extra_link_args,
                          runtime_library_dirs=lib_dirs),
                Extension('*',
                          [f'{pwd}/pyPDAF/UserFunc/*.pyx'])
                ]
 
-setup(
+setup(name='pyPDAF',
     ext_modules=cythonize(ext_modules,
                           compiler_directives={'language_level': "3"}),
     include_dirs=inc_dirs,
