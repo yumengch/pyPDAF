@@ -26,7 +26,7 @@ jobs:
       - name: install pyPDAF
         run: |
           $CONDA/bin/conda install python
-          pip install -v -e .
+          pip install -v .
 
   check_ubuntu_installation:
     runs-on: ubuntu-latest
@@ -47,5 +47,5 @@ jobs:
       - name: install pyPDAF
         run: |
           $CONDA/bin/conda install python
-          pip install -v -e .
+          pip install -v .
 
