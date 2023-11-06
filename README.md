@@ -13,6 +13,8 @@ A Python interface to the Fortran-written data assimilation library - [PDAF](htt
 
 ## Installation:
 - Currently, Fortran-written PDAF is compiled together with pyPDAF. Hence, the Fortran compiler options need to be specified in the PDAF section of [`setup.cfg`](setup.cfg).
+- Options in pyPDAF section of `setup.cfg` are related to the current pyPDAF directory (`pwd`) and C compiler used by Cython, e.g. (`CC=mpicc` for GNU compiler or `CC=mpiicc` for Intel compiler)
+- It is recommended to use a clean conda environment to install pyPDAF to avoid any package conflicts
 - Install Python package: ```pip install .```
 
 ## Run example:

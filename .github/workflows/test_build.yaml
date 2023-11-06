@@ -26,6 +26,7 @@ jobs:
       - name: install pyPDAF
         run: |
           $CONDA/bin/conda install python
+          mv setup_mac.cfg setup.cfg
           pip install -v .
 
   check_ubuntu_installation:

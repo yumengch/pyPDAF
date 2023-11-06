@@ -28,10 +28,24 @@ import numpy
 import glob
 import sys
 import os
+import subprocess
 
-pwd = os.getcwd()
+
+# Get our own instance of Distribution
+dist = Distribution()
+dist.parse_config_files()
+dist.parse_command_line()
+pwd = dist.get_option_dict('pyPDAF')['pwd'][1]
+print ('pwd', pwd)
 # compiler
-os.environ["CC"] = "gcc"
+os.environ["CC"] = dist.get_option_dict('pyPDAF')['CC'][1]
+result = subprocess.run([os.environ["CC"], '--version'], stdout=subprocess.PIPE)
+if result.stdout[:3] == b'icc':
+    print ('....using Intel compiler....')
+    os.environ["LDSHARED"] = "mpiicc -shared"
+else:
+    print ('....using GNU compiler....')
+
 compilier_options = ['-fPIC', '-Wno-unreachable-code-fallthrough']
 # include directory
 inc_dirs = [numpy.get_include(), f'{pwd}/pyPDAF/PDAF/']
@@ -50,15 +64,14 @@ objs = []
 
 
 def compile_interface():
-    # Get our own instance of Distribution
-    dist = Distribution()
-    dist.parse_config_files()
-    dist.parse_command_line()
-
+    os.chdir(pwd)
     os.system('rm -rf pyPDAF.egg-info lib/*')
 
     # Get prefix from either config file or command line
     PDAFdir = dist.get_option_dict('PDAF')['directory'][1]
+    if not os.path.isabs(PDAFdir):
+        PDAFdir = os.path.join(pwd, PDAFdir)
+        print ('input PDAF directory is not absolute path, changing to: ', PDAFdir)
     options = {}
 
     # Get compiler options
@@ -73,7 +86,6 @@ def compile_interface():
             else:
                 the_file.write(f'{key}={options[key]}\n')
 
-    pwd = os.getcwd()
     os.chdir(f'{PDAFdir}/src')
     status = os.system('make clean PDAF_ARCH=pyPDAF')
     if status:
@@ -120,7 +132,7 @@ class build_ext(build_ext_orig):
                 compile_interface()
         super().run()
 
-ext_modules = [ Extension('PDAFc', 
+ext_modules = [ Extension('PDAFc',
                           [f'{pwd}/pyPDAF/fortran/PDAFc.pyx']),
                 Extension('*',
                          [f'{pwd}/pyPDAF/PDAF/*.pyx'],
