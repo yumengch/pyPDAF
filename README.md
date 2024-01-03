@@ -5,13 +5,14 @@ A Python interface to the Fortran-written data assimilation library - [PDAF](htt
 
 
 ## Prerequisite:
-- `PDAF-V2.1`
 - `Fortran compiler: e.g.:gfortran/intel fortran`
 - `a message passing interface (MPI) implementation: e.g. openMPI/MPICH`
 - `Python>=3.8`
 
 
 ## Installation:
+- pyPDAF uses `[PDAF V2.1](https://github.com/PDAF/PDAF/tree/PDAF_V2.1)` which can be obtained by:
+`git submodule update --init --recursive`
 - Currently, Fortran-written PDAF is compiled together with pyPDAF. Hence, the Fortran compiler options need to be specified in the PDAF section of [`setup.cfg`](setup.cfg).
 - Options in pyPDAF section of `setup.cfg` are related to the current pyPDAF directory (`pwd`) and C compiler used by Cython, e.g. (`CC=mpicc` for GNU compiler or `CC=mpiicc` for Intel compiler)
 - It is recommended to use a clean conda environment to install pyPDAF to avoid any package conflicts
