@@ -257,8 +257,6 @@ def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
             np.savetxt(filename,
                        state.reshape(*model.nx, order='F'), delimiter=';')
 
-    U_PDAFomi.deallocate_obs_pdafomi(obs)
-
     firsttime = False
 
     return state_p, uinv, ens_p

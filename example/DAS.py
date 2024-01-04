@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-import pyPDAF.PDAF.PDAFomi as PDAFomi
+import pyPDAF.PDAF as PDAF
 import PDAF_caller
 
 
@@ -82,7 +82,7 @@ class DAS:
                               self.pe.mype_model)
 
         # init observations
-        PDAFomi.init(len(self.obs))
+        PDAF.omi_init(len(self.obs))
 
         # Initialize PDAF
         self.assim_dim = assim_dim

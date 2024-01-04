@@ -30,14 +30,19 @@ import sys
 import os
 import subprocess
 
-
 # Get our own instance of Distribution
 dist = Distribution()
 dist.parse_config_files()
 dist.parse_command_line()
+# get the path to current directory
 pwd = dist.get_option_dict('pyPDAF')['pwd'][1]
 print ('pwd', pwd)
-# compiler
+# get path to PDAF directory
+PDAFdir = dist.get_option_dict('PDAF')['directory'][1]
+if not os.path.isabs(PDAFdir):
+    PDAFdir = os.path.join(pwd, PDAFdir)
+    print ('input PDAF directory is not absolute path, changing to: ', PDAFdir)
+# set up C compiler for cython and Python
 os.environ["CC"] = dist.get_option_dict('pyPDAF')['CC'][1]
 result = subprocess.run([os.environ["CC"], '--version'], stdout=subprocess.PIPE)
 if result.stdout[:3] == b'icc':
@@ -45,40 +50,39 @@ if result.stdout[:3] == b'icc':
     os.environ["LDSHARED"] = "mpiicc -shared"
 else:
     print ('....using GNU compiler....')
+# compiler options for cython
+extra_compile_args=['-Wno-unreachable-code-fallthrough']
+# linking static PDAF library and interface objects
+extra_objects=['-Wl,--whole-archive', f'{PDAFdir}/lib/libpdaf-var.a',
+               f'lib/libPDAFc.a', '-Wl,--no-whole-archive']
+# PDAF library contains multiple same .o files
+# multiple-definition is thus necessary 
+extra_link_args=['-Wl,--allow-multiple-definition']
+# setup library to MPI-fortran 
+MPI_PATH=dist.get_option_dict('pyPDAF')['MPI_PATH'][1]
+LAPACK_PATH=dist.get_option_dict('pyPDAF')['LAPACK_PATH'][1]
+print ('MPI_PATH', MPI_PATH)
+print ('LAPACK_PATH', LAPACK_PATH)
+library_dirs=['/usr/lib', *MPI_PATH.split(','), *LAPACK_PATH.split(',')]
+print ('library_dirs', library_dirs)
+MPI_Flag=dist.get_option_dict('pyPDAF')['MPI_Flag'][1]
+LAPACK_Flag=dist.get_option_dict('pyPDAF')['LAPACK_Flag'][1]
+print ('MPI_Flag', MPI_Flag)
+print ('LAPACK_Flag', LAPACK_Flag)
+libraries=['gfortran', 'm', *MPI_Flag.split(','), *LAPACK_Flag.split(',')]
+print ('libraries', libraries)
 
-compilier_options = ['-fPIC', '-Wno-unreachable-code-fallthrough']
-# include directory
-inc_dirs = [numpy.get_include(), f'{pwd}/pyPDAF/PDAF/']
-# linking options
-lib_dirs = [f'{pwd}/lib']
-# Cython set-up will automatically add -l as a prefix
-# For example, 'PDAFc' becomes -lPDAFc in final compilation
-libs = ['PDAFc']
-extra_link_args = [f'-L{pwd}/lib',]
-if sys.platform == 'darwin':
-    pass
-#    extra_link_args += [f'-rpath {pwd}/lib',]
-else:
-    extra_link_args += [f'-Wl,-rpath={pwd}/lib', ]
-objs = []
-
-
-def compile_interface():
+def compilePDAFLibraryInterface():
+    """This function is used to compile PDAF library and its C interface
+    """
     os.chdir(pwd)
     os.system('rm -rf pyPDAF.egg-info lib/*')
 
-    # Get prefix from either config file or command line
-    PDAFdir = dist.get_option_dict('PDAF')['directory'][1]
-    if not os.path.isabs(PDAFdir):
-        PDAFdir = os.path.join(pwd, PDAFdir)
-        print ('input PDAF directory is not absolute path, changing to: ', PDAFdir)
     options = {}
-
     # Get compiler options
     for key in dist.get_option_dict('PDAF'):
         options[key] = dist.get_option_dict('PDAF')[key][1]
-
-
+    # generate configuration file for pyPDAF
     with open(f'{PDAFdir}/make.arch/pyPDAF.h', 'w') as the_file:
         for key in options:
             if key == 'directory':
@@ -90,20 +94,25 @@ def compile_interface():
     status = os.system('make clean PDAF_ARCH=pyPDAF')
     if status:
         raise RuntimeError('failed to clean old PDAF installation')
-    status = os.system('sed \'s/$(FC) -O3 -o/$(FC) -O3 -fPIC -o/g\' Makefile > Makefile.tmp')
-    status = os.system('mv -v Makefile.tmp  Makefile')
-    status = os.system('rm -vf Makefile.tmp')
+    # modify the Makefile
+    status = os.system('mv -v Makefile  Makefile.tmp')
+    # remove _si files as they're not part of pyPDAF
+    status = os.system('grep -v "_si.o" Makefile.tmp > Makefile')
+    # this is for the .f files
+    status = os.system('sed -i \'s/$(FC) -O3 -o/$(FC) -O3 -fPIC -o/g\' Makefile')
+    # compile PDAF
     status = os.system('make pdaf-var PDAF_ARCH=pyPDAF')
     if status:
         raise RuntimeError('failed to install PDAF')
-    status = os.system('sed \'s/$(FC) -O3 -fPIC -o/$(FC) -O3 -o/g\' Makefile > Makefile.tmp')
+    # restore the original Makefile
     status = os.system('mv -v Makefile.tmp  Makefile')
-    status = os.system('rm -vf Makefile.tmp')
     os.chdir(pwd)
 
+    # compile the C interface to PDAF
     f90_files = ['pyPDAF/fortran/U_PDAF_interface_c_binding.F90',
                  'pyPDAF/fortran/PDAF_c_binding.F90',
                  'pyPDAF/fortran/PDAFomi_obs_c_binding.F90']
+    # compile
     objs = []
     for src in f90_files:
         objs.append(f'{os.path.basename(src[:-4])}.o')
@@ -111,15 +120,12 @@ def compile_interface():
         print(cmd)
         os.system(cmd)
     objs = ' '.join(objs)
-    if sys.platform == 'darwin':
-        cmd = f'{options["FC"]} {objs} -shared  -L{PDAFdir}/lib -lpdaf-var '\
-              f'{options["LINK_LIBS"]} -o {pwd}/lib/libPDAFc.dylib'
-    else:
-        cmd = f'{options["FC"]} {objs} -shared -L{PDAFdir}/lib -lpdaf-var '\
-              f'{options["LINK_LIBS"]} -o {pwd}/lib/libPDAFc.so'
-    print(cmd)
+    # generate static library
     os.makedirs('lib', exist_ok=True)
-    os.system(cmd)
+    cmd = f'{options["AR"]} rc lib/libPDAFc.a {objs}'
+    status = os.system(cmd)
+    cmd = f'{options["RANLIB"]} lib/libPDAFc.a'
+    status = os.system(cmd)
 
 
 class build_ext(build_ext_orig):
@@ -129,27 +135,28 @@ class build_ext(build_ext_orig):
     def run(self):
         for ext in self.extensions:
             if ext.name == 'PDAFc':
-                compile_interface()
+                compilePDAFLibraryInterface()
         super().run()
 
-ext_modules = [ Extension('PDAFc',
-                          [f'{pwd}/pyPDAF/fortran/PDAFc.pyx']),
-                Extension('*',
-                         [f'{pwd}/pyPDAF/PDAF/*.pyx'],
-                         extra_compile_args=compilier_options,
-                         library_dirs=lib_dirs,
-                         libraries=libs,
-                         #extra_objects=objs,
-                         extra_link_args=extra_link_args,
-                         runtime_library_dirs=lib_dirs),
+
+ext_modules = [Extension('PDAFc',
+                          [f'pyPDAF/fortran/PDAFc.pyx']),
                Extension('*',
-                         [f'{pwd}/pyPDAF/UserFunc/*.pyx'])
+                         [f'pyPDAF/UserFunc.pyx']),
+               Extension('*',
+                         [f'pyPDAF/PDAF.pyx'],
+                         extra_compile_args=extra_compile_args,
+                         extra_objects=extra_objects,
+                         extra_link_args=extra_link_args,
+                         library_dirs=library_dirs,
+                         libraries=libraries
+                         ),
                ]
 
 setup(name='pyPDAF',
     ext_modules=cythonize(ext_modules,
                           compiler_directives={'language_level': "3"}),
-    include_dirs=inc_dirs,
+    include_dirs= [numpy.get_include(),],
     cmdclass={
         'build_ext': build_ext,
     },

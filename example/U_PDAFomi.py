@@ -127,17 +127,3 @@ def localize_covar_pdafomi(list_of_obs, localization,
 
     for i_obs_f in list_of_obs:
         i_obs_f.localize_covar(localization, HP_p, HPH, coords_p)
-
-
-def deallocate_obs_pdafomi(list_of_obs):
-    """deallocate PDAFomi object
-
-    Parameters
-    ----------
-    list_of_obs : list
-        a list of all types of observations
-    step : int
-        current time step
-    """
-    for obs in list_of_obs:
-        obs.deallocate_obs()

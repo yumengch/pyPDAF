@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import numpy as np
-import pyPDAF.PDAF.PDAFomi as PDAFomi
+import pyPDAF.PDAF as PDAF
 
 
 class OBS:
@@ -262,21 +262,21 @@ class OBS:
         local_range : double
             lcalization radius (the maximum radius used in this process domain)
         """
-        
-        PDAFomi.set_doassim(self.i_obs, self.doassim)
-        PDAFomi.set_disttype(self.i_obs, self.disttype)
-        PDAFomi.set_ncoord(self.i_obs, self.ncoord)
-        PDAFomi.set_id_obs_p(self.i_obs, self.id_obs_p)
+        print (self.obs_p)
+        PDAF.omi_set_doassim(self.i_obs, self.doassim)
+        PDAF.omi_set_disttype(self.i_obs, self.disttype)
+        PDAF.omi_set_ncoord(self.i_obs, self.ncoord)
+        PDAF.omi_set_id_obs_p(self.i_obs, self.id_obs_p)
         if self.domainsize is not None:
-            PDAFomi.set_domainsize(self.i_obs, self.domainsize)
+            PDAF.omi_set_domainsize(self.i_obs, self.domainsize)
         if self.obs_err_type is not None:
-            PDAFomi.set_obs_err_type(self.i_obs, self.obs_err_type)
+            PDAF.omi_set_obs_err_type(self.i_obs, self.obs_err_type)
         if self.use_global_obs is not None:
-            PDAFomi.set_use_global_obs(self.i_obs, self.use_global_obs)
+            PDAF.omi_set_use_global_obs(self.i_obs, self.use_global_obs)
         if self.icoeff_p is not None:
-            PDAFomi.set_icoeff_p(self.i_obs, self.icoeff_p)
+            PDAF.omi_set_icoeff_p(self.i_obs, self.icoeff_p)
 
-        self.dim_obs = PDAFomi.gather_obs(self.i_obs,
+        self.dim_obs = PDAF.omi_gather_obs(self.i_obs,
                                           self.obs_p,
                                           self.ivar_obs_p,
                                           self.ocoord_p,
@@ -295,7 +295,7 @@ class OBS:
             state vector transformed by identity matrix
         """
         if (self.doassim == 1):
-            ostate = PDAFomi.obs_op_gridpoint(self.i_obs, state_p, ostate)
+            ostate = PDAF.omi_obs_op_gridpoint(self.i_obs, state_p, ostate)
         return ostate
 
     def init_dim_obs_l(self, localization, domain_p, step, dim_obs, dim_obs_l):
@@ -319,7 +319,7 @@ class OBS:
         dim_obs_l : int
             dimension of local observations
         """
-        return PDAFomi.init_dim_obs_l(self.i_obs, localization.coords_l,
+        return PDAF.omi_init_dim_obs_l(self.i_obs, localization.coords_l,
                                       localization.loc_weight,
                                       localization.local_range,
                                       localization.srange)
@@ -338,7 +338,7 @@ class OBS:
         coords_p : ndarray
             coordinates of state vector elements
         """
-        PDAFomi.localize_covar(self.i_obs, localization.loc_weight,
+        PDAF.omi_localize_covar(self.i_obs, localization.loc_weight,
                                localization.local_range,
                                localization.srange,
                                coords_p, HP_p, HPH)
@@ -351,4 +351,4 @@ class OBS:
         step : int
             current time step
         """
-        PDAFomi.deallocate_obs(self.i_obs)
+        PDAF.omi_deallocate_obs(self.i_obs)
