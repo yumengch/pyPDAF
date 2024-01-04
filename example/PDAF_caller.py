@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import numpy as np
 import pyPDAF.PDAF as PDAF
-import pyPDAF.PDAF.PDAFomi as PDAFomi
 import functools
 import U_PDAF
 import U_PDAFomi
@@ -188,8 +187,6 @@ class assimilate_pdaf:
         filtertype : int
             type of filter
         """
-        localfilter = PDAF.get_localfilter()
-
         U_collect_state_pdaf = \
             functools.partial(U_PDAF.collect_state_pdaf,
                               model, assim_dim)
@@ -214,51 +211,13 @@ class assimilate_pdaf:
             functools.partial(U_PDAFomi.obs_op_pdafomi,
                               obs)
 
-        if (localfilter == 1):
-            U_init_n_domains_pdaf = \
-                functools.partial(localization.init_n_domains_pdaf,
-                                  assim_dim)
-            U_init_dim_l_pdaf = \
-                functools.partial(localization.init_dim_l_pdaf,
-                                  model.nx_p, pe.mype_filter)
-            U_init_dim_obs_l_pdafomi = \
-                functools.partial(U_PDAFomi.init_dim_obs_l_pdafomi,
-                                  obs, localization)
-            status = \
-                PDAFomi.assimilate_local(U_collect_state_pdaf,
-                                              U_distribute_state_pdaf,
-                                              U_init_dim_obs_PDAFomi,
-                                              U_obs_op_PDAFomi,
-                                              U_prepoststep_ens_pdaf,
-                                              U_init_n_domains_pdaf,
-                                              U_init_dim_l_pdaf,
-                                              U_init_dim_obs_l_pdafomi,
-                                              localization.g2l_state_pdaf,
-                                              localization.l2g_state_pdaf,
-                                              U_next_observation_pdaf)
-        else:
-            if filtertype != 8:
-                status = \
-                    PDAFomi.assimilate_global(U_collect_state_pdaf,
-                                                   U_distribute_state_pdaf,
-                                                   U_init_dim_obs_PDAFomi,
-                                                   U_obs_op_PDAFomi,
-                                                   U_prepoststep_ens_pdaf,
-                                                   U_next_observation_pdaf)
-            else:
-                U_localize_covar_pdafomi = \
-                    functools.partial(U_PDAFomi.localize_covar_pdafomi,
-                                      obs, localization,
-                                      pe.mype_filter, model.nx_p)
-                status = \
-                    PDAFomi.assimilate_lenkf(U_collect_state_pdaf,
-                                                  U_distribute_state_pdaf,
-                                                  U_init_dim_obs_PDAFomi,
-                                                  U_obs_op_PDAFomi,
-                                                  U_prepoststep_ens_pdaf,
-                                                  U_localize_covar_pdafomi,
-                                                  U_next_observation_pdaf)
-
+        status = \
+            PDAF.omi_assimilate_global(U_collect_state_pdaf,
+                                           U_distribute_state_pdaf,
+                                           U_init_dim_obs_PDAFomi,
+                                           U_obs_op_PDAFomi,
+                                           U_prepoststep_ens_pdaf,
+                                           U_next_observation_pdaf)
         if status != 0:
             print(('ERROR ', status,
                    ' in PDAF_put_state - stopping! (PE ',

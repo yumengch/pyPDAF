@@ -97,33 +97,33 @@ def getArguments(lines):
     return ArgInfo
 
 
-def getFuncInfo(filename):
-    with open(filename, 'r') as f:
-        line = mergeLine(f, f.readline().lower())
-        lines = []
-        # using start to exclude unwanted content
-        start = False
-        while line:
-            line = mergeLine(f, f.readline().lower())
-
-            if not line.isspace() and start:
-                lines.append(line)
-
-            if line == 'contains' or line == 'abstract interface':
-                start = True
-
-            if line == 'end interface':
-                start = False
-
+def getFuncInfo(filenames):
     FuncInfo = []
-    subroutine = []
-    for line in lines:
-        subroutine.append(line)
+    for filename in filenames:
+        with open(filename, 'r') as f:
+            line = mergeLine(f, f.readline().lower())
+            lines = []
+            # using start to exclude unwanted content
+            start = False
+            while line:
+                line = mergeLine(f, f.readline().lower())
 
-        if 'endsubroutine' in line.replace(' ', ''):
-            assert 'subroutine' in subroutine[0], f'{subroutine[0]}'
-            FuncInfo.append(getArguments(subroutine))
-            subroutine = []
+                if not line.isspace() and start:
+                    lines.append(line)
+
+                if line == 'contains' or line == 'abstract interface':
+                    start = True
+
+                if line == 'end interface':
+                    start = False
+
+        subroutine = []
+        for line in lines:
+            subroutine.append(line)
+            if 'endsubroutine' in line.replace(' ', ''):
+                assert 'subroutine' in subroutine[0], f'{subroutine[0]}'
+                FuncInfo.append(getArguments(subroutine))
+                subroutine = []
 
     return FuncInfo
 
@@ -195,7 +195,7 @@ def getPyxArgList(name, routine):
 def writeFuncDef(f, name, routine, arg_list):
     # define function
     if name[3:11] == 'pdafomi_':
-        funcname = name[11:]
+        funcname = name[7:]
     elif name[3:8] == 'pdaf_':
         funcname = name[8:]
     else:
@@ -501,7 +501,7 @@ def writeUserPxdFile(filename, UserFuncInfo):
                 s += f'\n{indent[:-1]}' if arg == list(routine)[-1] else f',\n{indent}'
                 f.write(s)
 
-            s = ');'
+            s = ') noexcept;'
             f.write(s+'\n')
             routine['name'] = name
 
@@ -577,7 +577,7 @@ def writeCUserDef(f, name, routine):
         s = f'{conv[info["type"]]}* {arg}'
         s += '' if arg == list(routine)[-1] else ', '
         f.write(s)
-    s = '):'
+    s = ') noexcept:'
     f.write(s+'\n')
 
 
@@ -726,16 +726,13 @@ def writeUserCalls(filename, UserFuncInfo):
             routine['name'] = name
 
 if __name__ == '__main__':
-    UserFuncInfo = getFuncInfo('../pyPDAF/fortran/U_PDAF_interface_c_binding.F90')
-    writeUserPxdFile('U_PDAF_interface_c_binding.pxd', UserFuncInfo)
-    writeUserCalls('U_PDAF_interface_c_binding.pyx', UserFuncInfo)
+    UserFuncInfo = getFuncInfo(['../pyPDAF/fortran/U_PDAF_interface_c_binding.F90'])
+    writeUserPxdFile('Userfunc.pxd', UserFuncInfo)
+    writeUserCalls('Userfunc.pyx', UserFuncInfo)
 
-    PDAFInfo = getFuncInfo('../pyPDAF/fortran/PDAF_c_binding.F90')
-    writePxdFile('PDAF_c_binding.pxd', UserFuncInfo, PDAFInfo)
-    writePDAFcalls('PDAF_c_binding.pyx', PDAFInfo)
-    PDAFInfo = getFuncInfo('../pyPDAF/fortran/PDAFomi_obs_c_binding.F90')
-    writePxdFile('PDAFomi_obs_c_binding.pxd', UserFuncInfo, PDAFInfo)
-    writePDAFcalls('PDAFomi_obs_c_binding.pyx', PDAFInfo)
+    # PDAFInfo = getFuncInfo(['../pyPDAF/fortran/PDAF_c_binding.F90', '../pyPDAF/fortran/PDAFomi_obs_c_binding.F90'])
+    # writePxdFile('PDAF.pxd', UserFuncInfo, PDAFInfo)
+    # writePDAFcalls('PDAF.pyx', PDAFInfo)
 
 
 

@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import numpy as np
-import pyPDAF.PDAF.PDAFomi as PDAFomi
+import pyPDAF.PDAF as PDAF
 
 
 class Localization:
@@ -82,7 +82,7 @@ class Localization:
         lim_coords[0, 1] = float(off_nx + nx_p[-1])
         lim_coords[1] = 0
 
-        PDAFomi.set_domain_limits(lim_coords)
+        PDAF.omi_set_domain_limits(lim_coords)
 
     def init_dim_l_pdaf(self, nx_p, mype_filter, step, domain_p, dim_l):
         """initialise the local dimension of PDAF.

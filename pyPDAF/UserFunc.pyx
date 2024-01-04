@@ -1201,7 +1201,7 @@ def py__likelihood_hyb_l_pdaf(domain_p, step, dim_obs_l, rank, obs_l, gamma, a_l
     raise RuntimeError('...Wrong py__likelihood_hyb_l_pdaf is called!!!...')
 
 
-cdef void c__add_obs_err_pdaf (int* step, int* dim_obs_p, double* c_p):
+cdef void c__add_obs_err_pdaf (int* step, int* dim_obs_p, double* c_p) noexcept:
     c_p_np = np.asarray(<double[:np.prod((dim_obs_p[0], dim_obs_p[0]))]> 
                         c_p).reshape((dim_obs_p[0], dim_obs_p[0]), order='F')
 
@@ -1212,7 +1212,7 @@ cdef void c__add_obs_err_pdaf (int* step, int* dim_obs_p, double* c_p):
     assert c_p == &c_p_view[0], 'reference (memory address) of c_p has changed in c__add_obs_err_pdaf.'
 
 
-cdef void c__init_ens_pdaf (int* filtertype, int* dim_p, int* dim_ens, double* state_p, double* uinv, double* ens_p, int* flag):
+cdef void c__init_ens_pdaf (int* filtertype, int* dim_p, int* dim_ens, double* state_p, double* uinv, double* ens_p, int* flag) noexcept:
     state_p_np = np.asarray(<double[:np.prod((dim_p[0]))]> 
                             state_p).reshape((dim_p[0]), order='F')
     if dim_ens[0] > 1:
@@ -1238,12 +1238,12 @@ cdef void c__init_ens_pdaf (int* filtertype, int* dim_p, int* dim_ens, double* s
     assert ens_p == &ens_p_view[0], 'reference (memory address) of ens_p has changed in c__init_ens_pdaf.'
 
 
-cdef void c__next_observation_pdaf (int* stepnow, int* nsteps, int* doexit, double* time):
+cdef void c__next_observation_pdaf (int* stepnow, int* nsteps, int* doexit, double* time) noexcept:
     nsteps[0], doexit[0], time[0] = py__next_observation_pdaf(stepnow[0], nsteps[0], doexit[0], time[0])
 
 
 
-cdef void c__collect_state_pdaf (int* dim_p, double* state_p):
+cdef void c__collect_state_pdaf (int* dim_p, double* state_p) noexcept:
     state_p_np = np.asarray(<double[:np.prod((dim_p[0]))]> 
                             state_p).reshape((dim_p[0]), order='F')
 
@@ -1254,7 +1254,7 @@ cdef void c__collect_state_pdaf (int* dim_p, double* state_p):
     assert state_p == &state_p_view[0], 'reference (memory address) of state_p has changed in c__collect_state_pdaf.'
 
 
-cdef void c__distribute_state_pdaf (int* dim_p, double* state_p):
+cdef void c__distribute_state_pdaf (int* dim_p, double* state_p) noexcept:
     state_p_np = np.asarray(<double[:np.prod((dim_p[0]))]> 
                             state_p).reshape((dim_p[0]), order='F')
 
@@ -1265,7 +1265,7 @@ cdef void c__distribute_state_pdaf (int* dim_p, double* state_p):
     assert state_p == &state_p_view[0], 'reference (memory address) of state_p has changed in c__distribute_state_pdaf.'
 
 
-cdef void c__prepoststep_pdaf (int* step, int* dim_p, int* dim_ens, int* dim_ens_p, int* dim_obs_p, double* state_p, double* uinv, double* ens_p, int* flag):
+cdef void c__prepoststep_pdaf (int* step, int* dim_p, int* dim_ens, int* dim_ens_p, int* dim_obs_p, double* state_p, double* uinv, double* ens_p, int* flag) noexcept:
     state_p_np = np.asarray(<double[:np.prod((dim_p[0]))]> 
                             state_p).reshape((dim_p[0]), order='F')
     if dim_ens[0] > 1:
@@ -1291,12 +1291,12 @@ cdef void c__prepoststep_pdaf (int* step, int* dim_p, int* dim_ens, int* dim_ens
     assert ens_p == &ens_p_view[0], 'reference (memory address) of ens_p has changed in c__prepoststep_pdaf.'
 
 
-cdef void c__init_dim_obs_pdaf (int* step, int* dim_obs_p):
+cdef void c__init_dim_obs_pdaf (int* step, int* dim_obs_p) noexcept:
     dim_obs_p[0] = py__init_dim_obs_pdaf(step[0], dim_obs_p[0])
 
 
 
-cdef void c__init_obs_pdaf (int* step, int* dim_obs_p, double* observation_p):
+cdef void c__init_obs_pdaf (int* step, int* dim_obs_p, double* observation_p) noexcept:
     observation_p_np = np.asarray(<double[:np.prod((dim_obs_p[0]))]> 
                                   observation_p).reshape((dim_obs_p[0]), order='F')
 
@@ -1307,7 +1307,7 @@ cdef void c__init_obs_pdaf (int* step, int* dim_obs_p, double* observation_p):
     assert observation_p == &observation_p_view[0], 'reference (memory address) of observation_p has changed in c__init_obs_pdaf.'
 
 
-cdef void c__init_obs_covar_pdaf (int* step, int* dim_obs, int* dim_obs_p, double* covar, double* obs_p, bint* isdiag):
+cdef void c__init_obs_covar_pdaf (int* step, int* dim_obs, int* dim_obs_p, double* covar, double* obs_p, bint* isdiag) noexcept:
     obs_p_np = np.asarray(<double[:np.prod((dim_obs_p[0]))]> 
                           obs_p).reshape((dim_obs_p[0]), order='F')
 
@@ -1315,7 +1315,7 @@ cdef void c__init_obs_covar_pdaf (int* step, int* dim_obs, int* dim_obs_p, doubl
 
 
 
-cdef void c__init_obsvar_pdaf (int* step, int* dim_obs_p, double* obs_p, double* meanvar):
+cdef void c__init_obsvar_pdaf (int* step, int* dim_obs_p, double* obs_p, double* meanvar) noexcept:
     obs_p_np = np.asarray(<double[:np.prod((dim_obs_p[0]))]> 
                           obs_p).reshape((dim_obs_p[0]), order='F')
 
@@ -1323,7 +1323,7 @@ cdef void c__init_obsvar_pdaf (int* step, int* dim_obs_p, double* obs_p, double*
 
 
 
-cdef void c__prodrinva_pdaf (int* step, int* dim_obs_p, int* rank, double* obs_p, double* a_p, double* c_p):
+cdef void c__prodrinva_pdaf (int* step, int* dim_obs_p, int* rank, double* obs_p, double* a_p, double* c_p) noexcept:
     obs_p_np = np.asarray(<double[:np.prod((dim_obs_p[0]))]> 
                           obs_p).reshape((dim_obs_p[0]), order='F')
     a_p_np = np.asarray(<double[:np.prod((dim_obs_p[0], rank[0]))]> 
@@ -1338,7 +1338,7 @@ cdef void c__prodrinva_pdaf (int* step, int* dim_obs_p, int* rank, double* obs_p
     assert c_p == &c_p_view[0], 'reference (memory address) of c_p has changed in c__prodrinva_pdaf.'
 
 
-cdef void c__obs_op_pdaf (int* step, int* dim_p, int* dim_obs_p, double* state_p, double* m_state_p):
+cdef void c__obs_op_pdaf (int* step, int* dim_p, int* dim_obs_p, double* state_p, double* m_state_p) noexcept:
     state_p_np = np.asarray(<double[:np.prod((dim_p[0]))]> 
                             state_p).reshape((dim_p[0]), order='F')
     m_state_p_np = np.asarray(<double[:np.prod((dim_obs_p[0]))]> 
@@ -1351,7 +1351,7 @@ cdef void c__obs_op_pdaf (int* step, int* dim_p, int* dim_obs_p, double* state_p
     assert m_state_p == &m_state_p_view[0], 'reference (memory address) of m_state_p has changed in c__obs_op_pdaf.'
 
 
-cdef void c__g2l_obs_pdaf (int* domain_p, int* step, int* dim_obs_f, int* dim_obs_l, int* mstate_f, int* dim_p, int* mstate_l, int* dim_l):
+cdef void c__g2l_obs_pdaf (int* domain_p, int* step, int* dim_obs_f, int* dim_obs_l, int* mstate_f, int* dim_p, int* mstate_l, int* dim_l) noexcept:
     mstate_f_np = np.asarray(<int[:np.prod((dim_p[0]))]> 
                              mstate_f).reshape((dim_p[0]), order='F')
     mstate_l_np = np.asarray(<int[:np.prod((dim_l[0]))]> 
@@ -1364,7 +1364,7 @@ cdef void c__g2l_obs_pdaf (int* domain_p, int* step, int* dim_obs_f, int* dim_ob
     assert mstate_l == &mstate_l_view[0], 'reference (memory address) of mstate_l has changed in c__g2l_obs_pdaf.'
 
 
-cdef void c__g2l_state_pdaf (int* step, int* domain_p, int* dim_p, double* state_p, int* dim_l, double* state_l):
+cdef void c__g2l_state_pdaf (int* step, int* domain_p, int* dim_p, double* state_p, int* dim_l, double* state_l) noexcept:
     state_p_np = np.asarray(<double[:np.prod((dim_p[0]))]> 
                             state_p).reshape((dim_p[0]), order='F')
     state_l_np = np.asarray(<double[:np.prod((dim_l[0]))]> 
@@ -1377,27 +1377,27 @@ cdef void c__g2l_state_pdaf (int* step, int* domain_p, int* dim_p, double* state
     assert state_l == &state_l_view[0], 'reference (memory address) of state_l has changed in c__g2l_state_pdaf.'
 
 
-cdef void c__init_dim_l_pdaf (int* step, int* domain_p, int* dim_l):
+cdef void c__init_dim_l_pdaf (int* step, int* domain_p, int* dim_l) noexcept:
     dim_l[0] = py__init_dim_l_pdaf(step[0], domain_p[0], dim_l[0])
 
 
 
-cdef void c__init_dim_obs_f_pdaf (int* step, int* dim_obs_f):
+cdef void c__init_dim_obs_f_pdaf (int* step, int* dim_obs_f) noexcept:
     dim_obs_f[0] = py__init_dim_obs_f_pdaf(step[0], dim_obs_f[0])
 
 
 
-cdef void c__init_dim_obs_l_pdaf (int* domain_p, int* step, int* dim_obs_f, int* dim_obs_l):
+cdef void c__init_dim_obs_l_pdaf (int* domain_p, int* step, int* dim_obs_f, int* dim_obs_l) noexcept:
     dim_obs_l[0] = py__init_dim_obs_l_pdaf(domain_p[0], step[0], dim_obs_f[0], dim_obs_l[0])
 
 
 
-cdef void c__init_n_domains_p_pdaf (int* step, int* n_domains_p):
+cdef void c__init_n_domains_p_pdaf (int* step, int* n_domains_p) noexcept:
     n_domains_p[0] = py__init_n_domains_p_pdaf(step[0], n_domains_p[0])
 
 
 
-cdef void c__init_obs_f_pdaf (int* step, int* dim_obs_f, double* observation_f):
+cdef void c__init_obs_f_pdaf (int* step, int* dim_obs_f, double* observation_f) noexcept:
     observation_f_np = np.asarray(<double[:np.prod((dim_obs_f[0]))]> 
                                   observation_f).reshape((dim_obs_f[0]), order='F')
 
@@ -1408,7 +1408,7 @@ cdef void c__init_obs_f_pdaf (int* step, int* dim_obs_f, double* observation_f):
     assert observation_f == &observation_f_view[0], 'reference (memory address) of observation_f has changed in c__init_obs_f_pdaf.'
 
 
-cdef void c__init_obs_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* observation_l):
+cdef void c__init_obs_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* observation_l) noexcept:
     observation_l_np = np.asarray(<double[:np.prod((dim_obs_l[0]))]> 
                                   observation_l).reshape((dim_obs_l[0]), order='F')
 
@@ -1419,7 +1419,7 @@ cdef void c__init_obs_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* 
     assert observation_l == &observation_l_view[0], 'reference (memory address) of observation_l has changed in c__init_obs_l_pdaf.'
 
 
-cdef void c__init_obsvar_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* obs_l, int* dim_obs_p, double* meanvar_l):
+cdef void c__init_obsvar_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* obs_l, int* dim_obs_p, double* meanvar_l) noexcept:
     obs_l_np = np.asarray(<double[:np.prod((dim_obs_p[0]))]> 
                           obs_l).reshape((dim_obs_p[0]), order='F')
 
@@ -1427,7 +1427,7 @@ cdef void c__init_obsvar_l_pdaf (int* domain_p, int* step, int* dim_obs_l, doubl
 
 
 
-cdef void c__init_obserr_f_pdaf (int* step, int* dim_obs_f, double* obs_f, double* obserr_f):
+cdef void c__init_obserr_f_pdaf (int* step, int* dim_obs_f, double* obs_f, double* obserr_f) noexcept:
     obs_f_np = np.asarray(<double[:np.prod((dim_obs_f[0]))]> 
                           obs_f).reshape((dim_obs_f[0]), order='F')
     obserr_f_np = np.asarray(<double[:np.prod((dim_obs_f[0]))]> 
@@ -1440,7 +1440,7 @@ cdef void c__init_obserr_f_pdaf (int* step, int* dim_obs_f, double* obs_f, doubl
     assert obserr_f == &obserr_f_view[0], 'reference (memory address) of obserr_f has changed in c__init_obserr_f_pdaf.'
 
 
-cdef void c__l2g_state_pdaf (int* step, int* domain_p, int* dim_l, double* state_l, int* dim_p, double* state_p):
+cdef void c__l2g_state_pdaf (int* step, int* domain_p, int* dim_l, double* state_l, int* dim_p, double* state_p) noexcept:
     state_l_np = np.asarray(<double[:np.prod((dim_l[0]))]> 
                             state_l).reshape((dim_l[0]), order='F')
     state_p_np = np.asarray(<double[:np.prod((dim_p[0]))]> 
@@ -1453,7 +1453,7 @@ cdef void c__l2g_state_pdaf (int* step, int* domain_p, int* dim_l, double* state
     assert state_p == &state_p_view[0], 'reference (memory address) of state_p has changed in c__l2g_state_pdaf.'
 
 
-cdef void c__obs_op_f_pdaf (int* step, int* dim_p, int* dim_obs_f, double* state_p, double* m_state_f):
+cdef void c__obs_op_f_pdaf (int* step, int* dim_p, int* dim_obs_f, double* state_p, double* m_state_f) noexcept:
     state_p_np = np.asarray(<double[:np.prod((dim_p[0]))]> 
                             state_p).reshape((dim_p[0]), order='F')
     m_state_f_np = np.asarray(<double[:np.prod((dim_obs_f[0]))]> 
@@ -1466,7 +1466,7 @@ cdef void c__obs_op_f_pdaf (int* step, int* dim_p, int* dim_obs_f, double* state
     assert m_state_f == &m_state_f_view[0], 'reference (memory address) of m_state_f has changed in c__obs_op_f_pdaf.'
 
 
-cdef void c__prodrinva_l_pdaf (int* domain_p, int* step, int* dim_obs_l, int* rank, double* obs_l, double* a_l, double* c_l):
+cdef void c__prodrinva_l_pdaf (int* domain_p, int* step, int* dim_obs_l, int* rank, double* obs_l, double* a_l, double* c_l) noexcept:
     obs_l_np = np.asarray(<double[:np.prod((dim_obs_l[0]))]> 
                           obs_l).reshape((dim_obs_l[0]), order='F')
     a_l_np = np.asarray(<double[:np.prod((dim_obs_l[0], rank[0]))]> 
@@ -1481,7 +1481,7 @@ cdef void c__prodrinva_l_pdaf (int* domain_p, int* step, int* dim_obs_l, int* ra
     assert c_l == &c_l_view[0], 'reference (memory address) of c_l has changed in c__prodrinva_l_pdaf.'
 
 
-cdef void c__localize_covar_pdaf (int* dim_p, int* dim_obs, double* hp_p, double* hph):
+cdef void c__localize_covar_pdaf (int* dim_p, int* dim_obs, double* hp_p, double* hph) noexcept:
     hp_p_np = np.asarray(<double[:np.prod((dim_obs[0], dim_p[0]))]> 
                          hp_p).reshape((dim_obs[0], dim_p[0]), order='F')
     hph_np = np.asarray(<double[:np.prod((dim_obs[0], dim_obs[0]))]> 
@@ -1497,7 +1497,7 @@ cdef void c__localize_covar_pdaf (int* dim_p, int* dim_obs, double* hp_p, double
     assert hph == &hph_view[0], 'reference (memory address) of hph has changed in c__localize_covar_pdaf.'
 
 
-cdef void c__likelihood_pdaf (int* step, int* dim_obs_p, double* obs_p, double* resid, double* likely):
+cdef void c__likelihood_pdaf (int* step, int* dim_obs_p, double* obs_p, double* resid, double* likely) noexcept:
     obs_p_np = np.asarray(<double[:np.prod((dim_obs_p[0]))]> 
                           obs_p).reshape((dim_obs_p[0]), order='F')
     resid_np = np.asarray(<double[:np.prod((dim_obs_p[0]))]> 
@@ -1507,7 +1507,7 @@ cdef void c__likelihood_pdaf (int* step, int* dim_obs_p, double* obs_p, double* 
 
 
 
-cdef void c__likelihood_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* obs_l, double* resid_l, double* likely_l):
+cdef void c__likelihood_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* obs_l, double* resid_l, double* likely_l) noexcept:
     obs_l_np = np.asarray(<double[:np.prod((dim_obs_l[0]))]> 
                           obs_l).reshape((dim_obs_l[0]), order='F')
     resid_l_np = np.asarray(<double[:np.prod((dim_obs_l[0]))]> 
@@ -1517,7 +1517,7 @@ cdef void c__likelihood_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double
 
 
 
-cdef void c__get_obs_f_pdaf (int* step, int* dim_obs_f, double* observation_f):
+cdef void c__get_obs_f_pdaf (int* step, int* dim_obs_f, double* observation_f) noexcept:
     observation_f_np = np.asarray(<double[:np.prod((dim_obs_f[0]))]> 
                                   observation_f).reshape((dim_obs_f[0]), order='F')
 
@@ -1528,7 +1528,7 @@ cdef void c__get_obs_f_pdaf (int* step, int* dim_obs_f, double* observation_f):
     assert observation_f == &observation_f_view[0], 'reference (memory address) of observation_f has changed in c__get_obs_f_pdaf.'
 
 
-cdef void c__cvt_adj_ens_pdaf (int* iter, int* dim_p, int* dim_ens, int* dim_cv_ens_p, double* ens_p, double* vcv_p, double* cv_p):
+cdef void c__cvt_adj_ens_pdaf (int* iter, int* dim_p, int* dim_ens, int* dim_cv_ens_p, double* ens_p, double* vcv_p, double* cv_p) noexcept:
     ens_p_np = np.asarray(<double[:np.prod((dim_p[0], dim_ens[0]))]> 
                           ens_p).reshape((dim_p[0], dim_ens[0]), order='F')
     vcv_p_np = np.asarray(<double[:np.prod((dim_p[0]))]> 
@@ -1543,7 +1543,7 @@ cdef void c__cvt_adj_ens_pdaf (int* iter, int* dim_p, int* dim_ens, int* dim_cv_
     assert cv_p == &cv_p_view[0], 'reference (memory address) of cv_p has changed in c__cvt_adj_ens_pdaf.'
 
 
-cdef void c__cvt_adj_pdaf (int* iter, int* dim_p, int* dim_cvec, double* vcv_p, double* cv_p):
+cdef void c__cvt_adj_pdaf (int* iter, int* dim_p, int* dim_cvec, double* vcv_p, double* cv_p) noexcept:
     vcv_p_np = np.asarray(<double[:np.prod((dim_p[0]))]> 
                           vcv_p).reshape((dim_p[0]), order='F')
     cv_p_np = np.asarray(<double[:np.prod((dim_cvec[0]))]> 
@@ -1556,7 +1556,7 @@ cdef void c__cvt_adj_pdaf (int* iter, int* dim_p, int* dim_cvec, double* vcv_p, 
     assert cv_p == &cv_p_view[0], 'reference (memory address) of cv_p has changed in c__cvt_adj_pdaf.'
 
 
-cdef void c__cvt_pdaf (int* iter, int* dim_p, int* dim_cvec, double* cv_p, double* vv_p):
+cdef void c__cvt_pdaf (int* iter, int* dim_p, int* dim_cvec, double* cv_p, double* vv_p) noexcept:
     cv_p_np = np.asarray(<double[:np.prod((dim_cvec[0]))]> 
                          cv_p).reshape((dim_cvec[0]), order='F')
     vv_p_np = np.asarray(<double[:np.prod((dim_p[0]))]> 
@@ -1569,7 +1569,7 @@ cdef void c__cvt_pdaf (int* iter, int* dim_p, int* dim_cvec, double* cv_p, doubl
     assert vv_p == &vv_p_view[0], 'reference (memory address) of vv_p has changed in c__cvt_pdaf.'
 
 
-cdef void c__cvt_ens_pdaf (int* iter, int* dim_p, int* dim_ens, int* dim_cvec_ens, double* ens_p, double* v_p, double* vv_p):
+cdef void c__cvt_ens_pdaf (int* iter, int* dim_p, int* dim_ens, int* dim_cvec_ens, double* ens_p, double* v_p, double* vv_p) noexcept:
     ens_p_np = np.asarray(<double[:np.prod((dim_p[0], dim_ens[0]))]> 
                           ens_p).reshape((dim_p[0], dim_ens[0]), order='F')
     v_p_np = np.asarray(<double[:np.prod((dim_cvec_ens[0]))]> 
@@ -1584,7 +1584,7 @@ cdef void c__cvt_ens_pdaf (int* iter, int* dim_p, int* dim_ens, int* dim_cvec_en
     assert vv_p == &vv_p_view[0], 'reference (memory address) of vv_p has changed in c__cvt_ens_pdaf.'
 
 
-cdef void c__obs_op_adj_pdaf (int* step, int* dim_p, int* dim_obs_p, double* state_p, double* m_state_p):
+cdef void c__obs_op_adj_pdaf (int* step, int* dim_p, int* dim_obs_p, double* state_p, double* m_state_p) noexcept:
     state_p_np = np.asarray(<double[:np.prod((dim_p[0]))]> 
                             state_p).reshape((dim_p[0]), order='F')
     m_state_p_np = np.asarray(<double[:np.prod((dim_obs_p[0]))]> 
@@ -1597,7 +1597,7 @@ cdef void c__obs_op_adj_pdaf (int* step, int* dim_p, int* dim_obs_p, double* sta
     assert state_p == &state_p_view[0], 'reference (memory address) of state_p has changed in c__obs_op_adj_pdaf.'
 
 
-cdef void c__obs_op_lin_pdaf (int* step, int* dim_p, int* dim_obs_p, double* state_p, double* m_state_p):
+cdef void c__obs_op_lin_pdaf (int* step, int* dim_p, int* dim_obs_p, double* state_p, double* m_state_p) noexcept:
     state_p_np = np.asarray(<double[:np.prod((dim_p[0]))]> 
                             state_p).reshape((dim_p[0]), order='F')
     m_state_p_np = np.asarray(<double[:np.prod((dim_obs_p[0]))]> 
@@ -1610,7 +1610,7 @@ cdef void c__obs_op_lin_pdaf (int* step, int* dim_p, int* dim_obs_p, double* sta
     assert m_state_p == &m_state_p_view[0], 'reference (memory address) of m_state_p has changed in c__obs_op_lin_pdaf.'
 
 
-cdef void c__dist_stateinc_pdaf (int* dim_p, double* state_inc_p, int* first, int* steps):
+cdef void c__dist_stateinc_pdaf (int* dim_p, double* state_inc_p, int* first, int* steps) noexcept:
     state_inc_p_np = np.asarray(<double[:np.prod((dim_p[0]))]> 
                                 state_inc_p).reshape((dim_p[0]), order='F')
 
@@ -1618,7 +1618,7 @@ cdef void c__dist_stateinc_pdaf (int* dim_p, double* state_inc_p, int* first, in
 
 
 
-cdef void c__prodrinva_hyb_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* obs_l, double* resid_l, double* gamma, double* likely_l):
+cdef void c__prodrinva_hyb_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* obs_l, double* resid_l, double* gamma, double* likely_l) noexcept:
     obs_l_np = np.asarray(<double[:np.prod((dim_obs_l[0]))]> 
                           obs_l).reshape((dim_obs_l[0]), order='F')
     resid_l_np = np.asarray(<double[:np.prod((dim_obs_l[0]))]> 
@@ -1628,7 +1628,7 @@ cdef void c__prodrinva_hyb_l_pdaf (int* domain_p, int* step, int* dim_obs_l, dou
 
 
 
-cdef void c__likelihood_hyb_l_pdaf (int* domain_p, int* step, int* dim_obs_l, int* rank, double* obs_l, double* gamma, double* a_l, double* c_l):
+cdef void c__likelihood_hyb_l_pdaf (int* domain_p, int* step, int* dim_obs_l, int* rank, double* obs_l, double* gamma, double* a_l, double* c_l) noexcept:
     obs_l_np = np.asarray(<double[:np.prod((dim_obs_l[0]))]> 
                           obs_l).reshape((dim_obs_l[0]), order='F')
     a_l_np = np.asarray(<double[:np.prod((dim_obs_l[0], rank[0]))]> 
