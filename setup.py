@@ -59,17 +59,20 @@ extra_objects=['-Wl,--whole-archive', f'{PDAFdir}/lib/libpdaf-var.a',
 # multiple-definition is thus necessary 
 extra_link_args=['-Wl,--allow-multiple-definition']
 # setup library to MPI-fortran 
-MPI_PATH=dist.get_option_dict('pyPDAF')['MPI_PATH'][1]
 LAPACK_PATH=dist.get_option_dict('pyPDAF')['LAPACK_PATH'][1]
-print ('MPI_PATH', MPI_PATH)
 print ('LAPACK_PATH', LAPACK_PATH)
-library_dirs=['/usr/lib', *MPI_PATH.split(','), *LAPACK_PATH.split(',')]
+library_dirs=['/usr/lib', ]
+if LAPACK_PATH != '': library_dirs += LAPACK_PATH.split(',')
+result = subprocess.run(['mpifort', '-show'], stdout=subprocess.PIPE)
+result = result.stdout.decode()[:-1].split(' ')
+s = [l[2:] for l in result if l[:2] == '-L']
+if len(s) > 0: library_dirs += s
 print ('library_dirs', library_dirs)
-MPI_Flag=dist.get_option_dict('pyPDAF')['MPI_Flag'][1]
 LAPACK_Flag=dist.get_option_dict('pyPDAF')['LAPACK_Flag'][1]
-print ('MPI_Flag', MPI_Flag)
 print ('LAPACK_Flag', LAPACK_Flag)
-libraries=['gfortran', 'm', *MPI_Flag.split(','), *LAPACK_Flag.split(',')]
+libraries=['gfortran', 'm', *LAPACK_Flag.split(',')]
+s = [l[2:] for l in result if l[:2] == '-l']
+if len(s) > 0: libraries += s
 print ('libraries', libraries)
 
 def compilePDAFLibraryInterface():
@@ -140,11 +143,11 @@ class build_ext(build_ext_orig):
 
 
 ext_modules = [Extension('PDAFc',
-                          [f'pyPDAF/fortran/PDAFc.pyx']),
+                          ['pyPDAF/fortran/PDAFc.pyx']),
                Extension('*',
-                         [f'pyPDAF/UserFunc.pyx']),
+                         ['pyPDAF/UserFunc.pyx']),
                Extension('*',
-                         [f'pyPDAF/PDAF.pyx'],
+                         ['pyPDAF/PDAF.pyx'],
                          extra_compile_args=extra_compile_args,
                          extra_objects=extra_objects,
                          extra_link_args=extra_link_args,

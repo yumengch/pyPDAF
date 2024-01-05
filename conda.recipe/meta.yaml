@@ -1,0 +1,40 @@
+{% set version = "0.02" %}
+
+package:
+  name: pypdaf
+  version: 0.0.2
+
+source:
+  noarch: python
+  path: ..
+
+build:
+  preserve_egg_dir: True
+
+requirements:
+  host:
+    - python {{python}}
+    - cython
+    - pip
+    - setuptools
+    - numpy
+    - blas-devel
+    - liblapack
+    - mpi4py
+  build:
+    - make                       # [not win]
+    - {{ compiler('c') }}
+    - {{ compiler('fortran') }}  # [not win]
+  run:
+    - python
+    - {{ pin_compatible('numpy') }}
+    - mpi4py
+
+about:
+  home: https://github.com/yumengch/pyPDAF
+  summary: A Python interface to PDAF
+  description: |
+    pyPDAF is a python interface to the Fortran-based PDAF library
+  license: GPL
+  doc_url: https://github.com/BoldingBruggeman/eat/wiki
+  dev_url: https://github.com/BoldingBruggeman/eat
