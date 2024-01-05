@@ -1,2 +1,24 @@
 [build-system]
 requires = ["setuptools", "wheel", "cython", "numpy"]
+
+[project]
+name = "pyPDAF"
+authors = [
+    {name = "Yumeng Chen", email = "yumeng.chen@reading.ac.uk"},
+]
+version = "0.0.2"
+description = "A Python interface to PDAF"
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["data assimilation", "PDAF"]
+license = {text = "GPL License"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "numpy",
+]
+
+[tool.setuptools.packages.find]
+where = ["pyPDAF"]
+namespaces = false
