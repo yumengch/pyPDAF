@@ -1,6 +1,5 @@
 MODULE PDAF_c_binding
 use iso_c_binding, only: c_double, c_int, c_bool, c_ptr, c_loc
-use PDAF_interfaces_module
 use U_PDAF_interface_c_binding
 
 implicit none
