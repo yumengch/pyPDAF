@@ -27,6 +27,7 @@ import configparser
 import numpy
 import glob
 import sys
+import sysconfig
 import os
 import subprocess
 
@@ -36,41 +37,93 @@ dist.parse_config_files()
 dist.parse_command_line()
 # get the path to current directory
 pwd = dist.get_option_dict('pyPDAF')['pwd'][1]
-print ('pwd', pwd)
+print ('pwd', pwd, os.getcwd())
 # get path to PDAF directory
 PDAFdir = dist.get_option_dict('PDAF')['directory'][1]
 if not os.path.isabs(PDAFdir):
     PDAFdir = os.path.join(pwd, PDAFdir)
     print ('input PDAF directory is not absolute path, changing to: ', PDAFdir)
 # set up C compiler for cython and Python
+print ('CC', sysconfig.get_config_var('CC'))
 os.environ["CC"] = dist.get_option_dict('pyPDAF')['CC'][1]
 result = subprocess.run([os.environ["CC"], '--version'], stdout=subprocess.PIPE)
-if result.stdout[:3] == b'icc':
+result = result.stdout.decode()
+compiler = 'gnu'
+if 'icc' in result:
+    compiler = 'intel'
+elif 'clang' in result:
+    compiler = 'clang'
+
+if compiler == 'intel':
     print ('....using Intel compiler....')
     os.environ["LDSHARED"] = "mpiicc -shared"
+elif compiler == 'clang':
+    print ('....using Clang compiler....')
 else:
     print ('....using GNU compiler....')
+
+
 # compiler options for cython
-extra_compile_args=['-Wno-unreachable-code-fallthrough']
+extra_compile_args=[]
+if compiler == 'gnu':
+    extra_compile_args+=['-Wno-unreachable-code-fallthrough']
 # linking static PDAF library and interface objects
-extra_objects=['-Wl,--whole-archive', f'{PDAFdir}/lib/libpdaf-var.a',
-               f'lib/libPDAFc.a', '-Wl,--no-whole-archive']
+if sys.platform == 'darwin':
+    extra_objects=['-Wl,-force_load', f'{PDAFdir}/lib/libpdaf-var.a',
+                   '-Wl,-force_load', f'{pwd}/lib/libPDAFc.a',]
+else:
+    extra_objects=['-Wl,--whole-archive', f'{PDAFdir}/lib/libpdaf-var.a',
+                   f'{pwd}/lib/libPDAFc.a', '-Wl,--no-whole-archive']
+if compiler == 'intel':
+    MKLROOT=dist.get_option_dict('pyPDAF')['MKLROOT'][1]
+    extra_objects+=['-Wl,--start-group', 
+                    f'{MKLROOT}/lib/intel64/libmkl_intel_lp64.a',
+                    f'{MKLROOT}/lib/intel64/libmkl_sequential.a',
+                    f'{MKLROOT}/lib/intel64/libmkl_core.a',
+                    '-Wl,--end-group']
 # PDAF library contains multiple same .o files
 # multiple-definition is thus necessary 
-extra_link_args=['-Wl,--allow-multiple-definition']
+extra_link_args = []
+# if sys.platform == 'darwin':
+#     extra_link_args=['-Wl,-multiply_defined,suppress', '-Wl,-multiply_defined', '-Wl,suppress']
+# else:
+#     extra_link_args=['-Wl,--allow-multiple-definition']
 # setup library to MPI-fortran 
 LAPACK_PATH=dist.get_option_dict('pyPDAF')['LAPACK_PATH'][1]
 print ('LAPACK_PATH', LAPACK_PATH)
-library_dirs=['/usr/lib', ]
+library_dirs=[]
 if LAPACK_PATH != '': library_dirs += LAPACK_PATH.split(',')
-result = subprocess.run(['mpifort', '-show'], stdout=subprocess.PIPE)
+# add mpi library path
+if compiler == 'intel':
+    result = subprocess.run(['mpiifort', '-show'], stdout=subprocess.PIPE)
+else:
+    result = subprocess.run(['mpifort', '-show'], stdout=subprocess.PIPE)
 result = result.stdout.decode()[:-1].split(' ')
-s = [l[2:] for l in result if l[:2] == '-L']
+s = [l[2:].replace('"', '') for l in result if l[:2] == '-L']
 if len(s) > 0: library_dirs += s
+# add gfortran library path
+if sys.platform == 'darwin':
+    result = subprocess.run(['gfortran', '--print-file', 'libgfortran.dylib'], stdout=subprocess.PIPE)
+    result = result.stdout.decode()[:-18]
+else:
+    result = subprocess.run(['gfortran', '--print-file', 'libgfortran.so'], stdout=subprocess.PIPE)
+    result = result.stdout.decode()[:-15]
+library_dirs+=[result,]
+library_dirs+=['/usr/lib', ]
 print ('library_dirs', library_dirs)
+
 LAPACK_Flag=dist.get_option_dict('pyPDAF')['LAPACK_Flag'][1]
 print ('LAPACK_Flag', LAPACK_Flag)
-libraries=['gfortran', 'm', *LAPACK_Flag.split(',')]
+if compiler == 'intel':
+    # somehow gfortran is always necessary
+    libraries = ['ifcore', 'ifcoremt', 'gfortran', 'm']
+else:
+    libraries=['gfortran', 'm', *LAPACK_Flag.split(',')]
+if compiler == 'intel':
+    result = subprocess.run(['mpiifort', '-show'], stdout=subprocess.PIPE)
+else:
+    result = subprocess.run(['mpifort', '-show'], stdout=subprocess.PIPE)
+result = result.stdout.decode()[:-1].split(' ')
 s = [l[2:] for l in result if l[:2] == '-l']
 if len(s) > 0: libraries += s
 print ('libraries', libraries)
@@ -78,6 +131,7 @@ print ('libraries', libraries)
 def compilePDAFLibraryInterface():
     """This function is used to compile PDAF library and its C interface
     """
+    cwd = os.getcwd()
     os.chdir(pwd)
     os.system('rm -rf pyPDAF.egg-info lib/*')
 
@@ -99,10 +153,13 @@ def compilePDAFLibraryInterface():
         raise RuntimeError('failed to clean old PDAF installation')
     # modify the Makefile
     status = os.system('mv -v Makefile  Makefile.tmp')
-    # remove _si files as they're not part of pyPDAF
-    status = os.system('grep -v "_si.o" Makefile.tmp > Makefile')
-    # this is for the .f files
-    status = os.system('sed -i \'s/$(FC) -O3 -o/$(FC) -O3 -fPIC -o/g\' Makefile')
+    # manual change of the makefile, but this still requires multiple-definition
+    # which is not supported by mac; hence, we use the modified Makefile
+    # # remove _si files as they're not part of pyPDAF
+    # status = os.system('grep -v "_si.o" Makefile.tmp > Makefile')
+    # # this is for the .f files
+    # status = os.system('sed -i \'s/$(FC) -O3 -o/$(FC) -O3 -fPIC -o/g\' Makefile')
+    status = os.system(f'cp -v {pwd}/PDAFBuild/Makefile Makefile')
     # compile PDAF
     status = os.system('make pdaf-var PDAF_ARCH=pyPDAF')
     if status:
@@ -125,10 +182,11 @@ def compilePDAFLibraryInterface():
     objs = ' '.join(objs)
     # generate static library
     os.makedirs('lib', exist_ok=True)
-    cmd = f'{options["AR"]} rc lib/libPDAFc.a {objs}'
+    cmd = f'{options["AR"]} rc {pwd}/lib/libPDAFc.a {objs}'
     status = os.system(cmd)
-    cmd = f'{options["RANLIB"]} lib/libPDAFc.a'
+    cmd = f'{options["RANLIB"]} {pwd}/lib/libPDAFc.a'
     status = os.system(cmd)
+    os.chdir(cwd)
 
 
 class build_ext(build_ext_orig):
@@ -142,7 +200,7 @@ class build_ext(build_ext_orig):
         super().run()
 
 
-ext_modules = [Extension('PDAFc',
+ext_modules = [Extension('*',
                           ['pyPDAF/fortran/PDAFc.pyx']),
                Extension('*',
                          ['pyPDAF/UserFunc.pyx']),
