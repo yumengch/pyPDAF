@@ -130,7 +130,6 @@ dmypy.json
 
 *.o
 *.mod
-*.txt
 *.pyc
 *.npz
 *.a
