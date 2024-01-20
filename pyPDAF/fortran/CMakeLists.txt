@@ -1,12 +1,10 @@
 cmake_minimum_required(VERSION 3.12)
 project(PDAF VERSION 2.1.0 LANGUAGES Fortran)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR})
-find_package(MPI REQUIRED)
-# Add the library target
+# In windows, MPI.mod must be compiled by ourselves
 if(WIN32)
   add_library(mpimod STATIC ${MPI_Fortran_MODULE_DIR}/mpi.f90)
-  set_source_files_properties(${MPI_Fortran_MODULE_DIR}/mpi.f90 PROPERTIES COMPILE_OPTIONS "")
+  set_source_files_properties(${MPI_Fortran_MODULE_DIR}/mpi.f90 PROPERTIES COMPILE_OPTIONS "/Qdiag-disable:10448")
   target_include_directories(mpimod PUBLIC ${MPI_Fortran_INCLUDE_PATH})
 endif()
 
@@ -44,5 +42,6 @@ add_library(pdafc STATIC ${SRC_FILES})
 target_include_directories(pdafc PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(pdafc PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_include_directories(pdafc PUBLIC ${MPI_Fortran_INCLUDE_PATH})
+target_include_directories(pdafc PUBLIC ${MPI_Fortran_MODULE_DIR})
 
 

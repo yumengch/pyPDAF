@@ -67,7 +67,6 @@ else:
     else:
         print ('....using GNU compiler....')
 
-
 # compiler options for cython
 extra_compile_args=[]
 if compiler == 'gnu':
@@ -80,7 +79,6 @@ if sys.platform == 'darwin':
 elif os.name != 'nt':
     extra_objects+=['-Wl,--whole-archive', f'{PDAFdir}/lib/libpdaf-var.a',
                    f'{pwd}/lib/libPDAFc.a', '-Wl,--no-whole-archive']
-
 
 if compiler == 'intel':
     MKLROOT=dist.get_option_dict('pyPDAF')['MKLROOT'][1]
@@ -119,19 +117,15 @@ if os.name != 'nt':
 else:
     library_dirs+=[os.path.join(PDAFdir, 'lib', 'Release'),
                    os.path.join(pwd, 'pyPDAF', 'fortran', 'build', 'Release'),
-                   'C:\\Program Files (x86)\\Microsoft SDKs\\MPI\\Lib\\x64',
-                   '$(IFORT_COMPILER21)\\compile\\lib\\intel64',
-                   'C:\\Users\\cymji\\anaconda3\\envs\\pyPDAF\\Library\\lib']
+                   ]
 print ('library_dirs', library_dirs)
 
-LAPACK_Flag=dist.get_option_dict('pyPDAF')['LAPACK_Flag'][1]
-print ('LAPACK_Flag', LAPACK_Flag)
 if os.name != 'nt':
     if compiler == 'intel':
         # somehow gfortran is always necessary
         libraries = ['ifcore', 'ifcoremt', 'gfortran', 'm']
     else:
-        libraries=['gfortran', 'm', *LAPACK_Flag.split(',')]
+        libraries=['gfortran', 'm']
 
     if compiler == 'intel':
         result = subprocess.run(['mpiifort', '-show'], stdout=subprocess.PIPE)
@@ -142,6 +136,9 @@ if os.name != 'nt':
     if len(s) > 0: libraries += s
 else:
     libraries = ['msmpi', 'msmpifec', 'pdaf-var', 'pdafc', 'mkl_core', 'mkl_sequential', 'mkl_intel_lp64']
+LAPACK_Flag=dist.get_option_dict('pyPDAF')['LAPACK_Flag'][1]
+print ('LAPACK_Flag', LAPACK_Flag)
+if LAPACK_Flag != '': libraries += LAPACK_Flag.split(',')
 print ('libraries', libraries)
 
 def compilePDAFLibraryInterface():
@@ -217,22 +214,24 @@ class build_ext(build_ext_orig):
                 if os.name != 'nt':
                     compilePDAFLibraryInterface()
                 else:
+                    MPI_INC_PATH=dist.get_option_dict('pyPDAF')['MPI_INC_PATH'][1].replace('\\', '/')
+                    print ('MPI_INC_PATH', MPI_INC_PATH)
+                    MPI_MOD_PATH=dist.get_option_dict('pyPDAF')['MPI_MOD_PATH'][1].replace('\\', '/')
+                    print ('MPI_MOD_PATH', MPI_MOD_PATH)
                     cwd = os.getcwd()
                     # compile PDAF
                     os.chdir(PDAFdir)
                     os.makedirs(os.path.join(PDAFdir, 'src', 'build'), exist_ok=True)
                     os.chdir(os.path.join(PDAFdir, 'src', 'build'))
-                    shutil.copyfile(f'{pwd}/PDAFBuild/FindMPI.cmake', '../FindMPI.cmake')
                     shutil.copyfile(f'{pwd}/PDAFBuild/CMakeLists.txt', '../CMakeLists.txt')
-                    os.system('cmake -DCMAKE_CONFIGURATION_TYPES="Release" ..')
+                    os.system(f'cmake -DMPI_Fortran_INCLUDE_PATH="{MPI_INC_PATH}" -DMPI_Fortran_MODULE_DIR="{MPI_MOD_PATH}" -DCMAKE_CONFIGURATION_TYPES="Release" ..')
                     os.system('cmake --build . --config Release')
 
                     # compile PDAFc
                     os.makedirs(os.path.join(pwd, 'pyPDAF', 'fortran', 'build'), exist_ok=True)
                     os.chdir(os.path.join(pwd, 'pyPDAF', 'fortran', 'build'))
-                    shutil.copyfile(f'{pwd}/PDAFBuild/FindMPI.cmake', '../FindMPI.cmake')
                     includedir = os.path.join(PDAFdir, 'include', 'Release')
-                    os.system(f'cmake -DCMAKE_Fortran_FLAGS=/I"{includedir}" -DCMAKE_CONFIGURATION_TYPES="Release" ..')
+                    os.system(f'cmake -DMPI_Fortran_INCLUDE_PATH="{MPI_INC_PATH}" -DMPI_Fortran_MODULE_DIR="{MPI_MOD_PATH}" -DCMAKE_Fortran_FLAGS=/I"{includedir}" -DCMAKE_CONFIGURATION_TYPES="Release" ..')
                     os.system('cmake --build . --config Release')
                     os.chdir(cwd)
         super().run()
