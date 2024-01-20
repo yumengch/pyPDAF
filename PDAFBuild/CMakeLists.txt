@@ -3,28 +3,37 @@ project(PDAF VERSION 2.1.0 LANGUAGES Fortran)
 
 set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
-# Customize compiler flags
-set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -O3")
-if(${CMAKE_Fortran_COMPILER_ID} STREQUAL "GNU")
-   set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -ffree-line-length-none")
-   set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fdefault-real-8")
-elseif(${CMAKE_Fortran_COMPILER_ID} STREQUAL "Cray")
-   set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -N 1023")
-elseif(${CMAKE_Fortran_COMPILER_ID} STREQUAL "Intel")
-   set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -r8")
-   if(WIN32)
-      set(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG} /Od")
-   else()
-      set(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS} -mkl")
-      #KB For newer versions of CMake - this is the way to go
-      enable_language(C)
-      set(BLA_VENDOR Intel10_64lp_seq)
-      #KB https://cmake.org/cmake/help/latest/module/FindBLAS.html
-  endif()
+# Find MPI package
+# use customised FindMPI.cmake
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR})
+find_package(MPI REQUIRED)
+# Add the library target
+if(WIN32)
+  add_library(mpimod STATIC ${MPI_Fortran_MODULE_DIR}/mpi.f90)
+  set_source_files_properties(${MPI_Fortran_MODULE_DIR}/mpi.f90 PROPERTIES COMPILE_OPTIONS "")
+  target_include_directories(mpimod PUBLIC ${MPI_Fortran_INCLUDE_PATH})
 endif()
 
-# Find MPI package
-find_package(MPI REQUIRED)
+# # Customize compiler flags
+# set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -O3")
+# if(${CMAKE_Fortran_COMPILER_ID} STREQUAL "GNU")
+#    set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -ffree-line-length-none")
+#    set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fdefault-real-8")
+# elseif(${CMAKE_Fortran_COMPILER_ID} STREQUAL "Cray")
+#    set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -N 1023")
+# elseif(${CMAKE_Fortran_COMPILER_ID} STREQUAL "Intel")
+#    if(WIN32)
+#       set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} /4R8")
+#       set(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG} /Od")
+#    else()
+#       set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -r8")
+#       set(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS} -mkl")
+#       #KB For newer versions of CMake - this is the way to go
+#       enable_language(C)
+#       set(BLA_VENDOR Intel10_64lp_seq)
+#       #KB https://cmake.org/cmake/help/latest/module/FindBLAS.html
+#   endif()
+# endif()
 
 set(MOD_PDAF 
     PDAF_timer.F90
@@ -402,26 +411,35 @@ set(SRC_FILES
     ${OBJ_OPTIM}
 )
 
-# Add the library target
-add_library(pdaf-d STATIC ${SRC_FILES})
-
-# Set library properties, such as include directories
-target_include_directories(pdaf-d PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(pdaf-d PUBLIC ${MPI_Fortran_INCLUDE_PATH})
-# set_target_properties(my_static_library PROPERTIES
-#     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../lib
-# )
-
-install(TARGETS pdaf-d DESTINATION lib)
+# Customize compiler flags
+if(${CMAKE_Fortran_COMPILER_ID} STREQUAL "GNU")
+    set_source_files_properties (${SRC_FILES} PROPERTIES COMPILE_OPTIONS "-O3;-ffree-line-length-none -fdefault-real-8")
+elseif(${CMAKE_Fortran_COMPILER_ID} STREQUAL "Cray")
+    set_source_files_properties (${SRC_FILES} PROPERTIES COMPILE_OPTIONS "-O3;-N;1023")
+elseif(${CMAKE_Fortran_COMPILER_ID} STREQUAL "Intel")
+   if(WIN32)
+      set_source_files_properties (${SRC_FILES} PROPERTIES COMPILE_OPTIONS "/O3;/4R8;/Qdiag-disable:10448")
+      set(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG} /Od")
+   else()
+      # set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -r8")
+      set_source_files_properties (${SRC_FILES} PROPERTIES COMPILE_OPTIONS "-O3;-r8")
+      set(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS} -mkl")
+      #KB For newer versions of CMake - this is the way to go
+      enable_language(C)
+      set(BLA_VENDOR Intel10_64lp_seq)
+      #KB https://cmake.org/cmake/help/latest/module/FindBLAS.html
+  endif()
+endif()
 
 # Define a target for pdaf-var
 add_library(pdaf-var STATIC ${SRC_FILES})
 
-
 # Set properties for pdaf-var
 target_include_directories(pdaf-var PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(pdaf-var PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_include_directories(pdaf-var PUBLIC ${MPI_Fortran_INCLUDE_PATH})
-# set_target_properties(my_static_library PROPERTIES
-#     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../lib
-# )
-install(TARGETS pdaf-var DESTINATION lib)
+
+set_target_properties(pdaf-var PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../lib
+)
+set_target_properties(pdaf-var PROPERTIES Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../include)
