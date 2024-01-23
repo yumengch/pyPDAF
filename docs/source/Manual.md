@@ -6,9 +6,8 @@ Here, only a few conventions and caveats are provided. For more detailed explana
 Since we expect Python users use:
 ```Python
 import pyPDAF.PDAF as PDAF
-import pyPDAF.PDAFomi as PDAFomi
 ```
-All PDAF subroutines using name starting with `PDAF_` or `PDAFomi_` are removed. For example, we expect `PDAF_get_state` is used as `PDAF.get_state`. Hence, these prefixes in the subroutines are removed in `pyPDAF`.
+For all PDAF subroutines using name starting with `PDAF_` or `PDAFomi_`, the `PDAF` part is removed. For example, we expect `PDAF_get_state` is used as `PDAF.get_state` and `PDAFomi_gather_obs` is used as `PDAF.omi_gather_obs`. Hence, these prefixes in the subroutines are removed in `pyPDAF`.
 
 ## Arguments conventions
 The arguments may be slightly different between `PDAF` and `pyPDAF`. We recommend a check at the API reference for more details.

@@ -51,7 +51,7 @@ get_state (int steps, int doexit,
 ```
 such that the user can have:
 ```Python
-import pyPDAF.PDAF
+import pyPDAF.PDAF as PDAF
 PDAF.get_state(...)
 ```
 
