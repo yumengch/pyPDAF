@@ -18,13 +18,14 @@ requirements:
     - pip
     - setuptools
     - numpy
-    - blas-devel
-    - liblapack
     - mpi4py
+    - {{ mpi }}
+    - mkl-static
   build:
     - make                       # [not win]
     - {{ compiler('c') }}
     - {{ compiler('fortran') }}  # [not win]
+    - cmake
   run:
     - python
     - {{ pin_compatible('numpy') }}
@@ -36,5 +37,5 @@ about:
   description: |
     pyPDAF is a python interface to the Fortran-based PDAF library
   license: GPL
-  doc_url: https://github.com/BoldingBruggeman/eat/wiki
-  dev_url: https://github.com/BoldingBruggeman/eat
+  doc_url: https://yumengch.github.io/pyPDAF/index.html
+  dev_url: https://github.com/yumengch/pyPDAF

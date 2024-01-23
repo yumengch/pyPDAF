@@ -45,6 +45,7 @@ PDAFdir = dist.get_option_dict('PDAF')['directory'][1]
 if not os.path.isabs(PDAFdir):
     PDAFdir = os.path.join(pwd, PDAFdir)
     print ('input PDAF directory is not absolute path, changing to: ', PDAFdir)
+
 # set up C compiler for cython and Python
 if os.name == 'nt':
     compiler = 'msvc'
@@ -67,78 +68,80 @@ else:
     else:
         print ('....using GNU compiler....')
 
-# compiler options for cython
 extra_compile_args=[]
+extra_link_args = []
+extra_objects = []
+library_dirs=[]
+libraries = []
+
+# compiler options for cython
 if compiler == 'gnu':
     extra_compile_args+=['-Wno-unreachable-code-fallthrough']
+
 # linking static PDAF library and interface objects
-extra_objects = []
-if sys.platform == 'darwin':
-    extra_objects+=['-Wl,-force_load', f'{PDAFdir}/lib/libpdaf-var.a',
-                   '-Wl,-force_load', f'{pwd}/lib/libPDAFc.a',]
-elif os.name != 'nt':
-    extra_objects+=['-Wl,--whole-archive', f'{PDAFdir}/lib/libpdaf-var.a',
-                   f'{pwd}/lib/libPDAFc.a', '-Wl,--no-whole-archive']
-
-if compiler == 'intel':
-    MKLROOT=dist.get_option_dict('pyPDAF')['MKLROOT'][1]
-    extra_objects+=['-Wl,--start-group', 
-                    f'{MKLROOT}/lib/intel64/libmkl_intel_lp64.a',
-                    f'{MKLROOT}/lib/intel64/libmkl_sequential.a',
-                    f'{MKLROOT}/lib/intel64/libmkl_core.a',
-                    '-Wl,--end-group']
-
-# PDAF library contains multiple same .o files
-# multiple-definition is thus necessary 
-extra_link_args = []
-# setup library to MPI-fortran 
-LAPACK_PATH=dist.get_option_dict('pyPDAF')['LAPACK_PATH'][1]
-print ('LAPACK_PATH', LAPACK_PATH)
-library_dirs=[]
-if LAPACK_PATH != '': library_dirs += LAPACK_PATH.split(',')
-# add mpi library path
-if os.name != 'nt':
-    if compiler == 'intel':
-        result = subprocess.run(['mpiifort', '-show'], stdout=subprocess.PIPE)
-    else:
-        result = subprocess.run(['mpifort', '-show'], stdout=subprocess.PIPE)
-    result = result.stdout.decode()[:-1].split(' ')
-    s = [l[2:].replace('"', '') for l in result if l[:2] == '-L']
-    if len(s) > 0: library_dirs += s
-    # add gfortran library path
-    if sys.platform == 'darwin':
-        result = subprocess.run(['gfortran', '--print-file', 'libgfortran.dylib'], stdout=subprocess.PIPE)
-        result = result.stdout.decode()[:-18]
-    else:
-        result = subprocess.run(['gfortran', '--print-file', 'libgfortran.so'], stdout=subprocess.PIPE)
-        result = result.stdout.decode()[:-15]
-    library_dirs+=[result,]
-    library_dirs+=['/usr/lib', ]
-else:
+if os.name == 'nt':
     library_dirs+=[os.path.join(PDAFdir, 'lib', 'Release'),
                    os.path.join(pwd, 'pyPDAF', 'fortran', 'build', 'Release'),
                    ]
-print ('library_dirs', library_dirs)
-
-if os.name != 'nt':
-    if compiler == 'intel':
-        # somehow gfortran is always necessary
-        libraries = ['ifcore', 'ifcoremt', 'gfortran', 'm']
+    libraries += ['pdaf-var', 'pdafc']
+else:
+    if sys.platform == 'darwin':
+        extra_objects+=['-Wl,-force_load', f'{PDAFdir}/lib/libpdaf-var.a',
+                       '-Wl,-force_load', f'{pwd}/lib/libPDAFc.a',]
     else:
-        libraries=['gfortran', 'm']
+        extra_objects+=['-Wl,--whole-archive', f'{PDAFdir}/lib/libpdaf-var.a',
+                       f'{pwd}/lib/libPDAFc.a', '-Wl,--no-whole-archive']
 
-    if compiler == 'intel':
-        result = subprocess.run(['mpiifort', '-show'], stdout=subprocess.PIPE)
+# linking BLAS/LAPACK
+use_MKL=dist.get_option_dict('pyPDAF')['use_MKL'][1]
+if use_MKL == 'True':
+    MKLROOT=dist.get_option_dict('pyPDAF')['MKLROOT'][1]
+    if os.name == 'nt':
+        library_dirs+=[MKLROOT,]
+        libraries = ['mkl_core', 'mkl_sequential', 'mkl_intel_lp64']
     else:
-        result = subprocess.run(['mpifort', '-show'], stdout=subprocess.PIPE)
+        extra_objects+=['-Wl,--start-group', 
+                        f'{MKLROOT}/libmkl_intel_lp64.a',
+                        f'{MKLROOT}/libmkl_sequential.a',
+                        f'{MKLROOT}/libmkl_core.a',
+                        '-Wl,--end-group']
+else:
+    # setup library to MPI-fortran 
+    LAPACK_PATH=dist.get_option_dict('pyPDAF')['LAPACK_PATH'][1]
+    if LAPACK_PATH != '': library_dirs += LAPACK_PATH.split(',')
+    LAPACK_Flag=dist.get_option_dict('pyPDAF')['LAPACK_Flag'][1]
+    print ('LAPACK_Flag', LAPACK_Flag)
+    if LAPACK_Flag != '': libraries += LAPACK_Flag.split(',')
+
+# add mpi library path
+if os.name == 'nt':
+    MPI_LIB_PATH=dist.get_option_dict('pyPDAF')['MPI_LIB_PATH'][1]
+    library_dirs+=[MPI_LIB_PATH,]
+    libraries += ['msmpi', 'msmpifec']
+else:
+    mpifortran = 'mpiifort' if compiler == 'intel' else 'mpifort'
+    result = subprocess.run([mpifortran, '-show'], stdout=subprocess.PIPE)
     result = result.stdout.decode()[:-1].split(' ')
+    s = [l[2:].replace('"', '') for l in result if l[:2] == '-L']
+    if len(s) > 0: library_dirs += s
     s = [l[2:] for l in result if l[:2] == '-l']
     if len(s) > 0: libraries += s
-else:
-    libraries = ['msmpi', 'msmpifec', 'pdaf-var', 'pdafc', 'mkl_core', 'mkl_sequential', 'mkl_intel_lp64']
-LAPACK_Flag=dist.get_option_dict('pyPDAF')['LAPACK_Flag'][1]
-print ('LAPACK_Flag', LAPACK_Flag)
-if LAPACK_Flag != '': libraries += LAPACK_Flag.split(',')
+
+# add fortran library to the linking
+if os.name != 'nt':
+    suffix = 'dylib' if sys.platform == 'darwin' else 'so'
+    result = subprocess.run(['gfortran', '--print-file', 'libgfortran.'+suffix], stdout=subprocess.PIPE)
+    result = result.stdout.decode()[:-18] if sys.platform == 'darwin' else result.stdout.decode()[:-15]
+    library_dirs+=[result,]
+    library_dirs+=['/usr/lib', ]
+    # somehow gfortran is always necessary
+    libraries += ['gfortran', 'm']
+    if compiler == 'intel': libraries += ['ifcore', 'ifcoremt']
+
+print ('extra_compile_args', extra_compile_args)
+print ('extra_link_args', extra_link_args)
+print ('extra_objects', extra_objects)
+print ('library_dirs', library_dirs)
 print ('libraries', libraries)
 
 def compilePDAFLibraryInterface():

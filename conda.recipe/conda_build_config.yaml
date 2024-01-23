@@ -3,3 +3,7 @@ python:
     - 3.9
     - 3.10
     - 3.11
+
+mpi:
+    - mpich    # [not win]
+    - msmpi    # [win]
