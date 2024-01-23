@@ -1,19 +1,16 @@
-
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Welcome to pyPDAF’s documentation! &#8212; pyPDAF  documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b3523f8e" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=cb25574f" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Installation" href="install.html" />
@@ -34,10 +31,10 @@
           <div class="body" role="main">
             
   <section id="welcome-to-pypdaf-s-documentation">
-<h1>Welcome to pyPDAF’s documentation!<a class="headerlink" href="#welcome-to-pypdaf-s-documentation" title="Permalink to this heading">¶</a></h1>
+<h1>Welcome to pyPDAF’s documentation!<a class="headerlink" href="#welcome-to-pypdaf-s-documentation" title="Link to this heading">¶</a></h1>
 </section>
 <section id="pypdaf">
-<h1>pyPDAF<a class="headerlink" href="#pypdaf" title="Permalink to this heading">¶</a></h1>
+<h1>pyPDAF<a class="headerlink" href="#pypdaf" title="Link to this heading">¶</a></h1>
 <p>pyPDAF is a Python interface to the <a class="reference external" href="http://pdaf.awi.de/trac/wiki">Parallel Data Assimilation Framwork (PDAF)</a> library written in Fortran. The latest pyPDAF supports PDAF-V2.0.</p>
 <p>With a variety of packages in Python, it allows a simpler coding style for user-supplied functions, such as I/O of observations and post-processing. It can also benefit many Python-based numerical models with parallel and efficient data assimilation capability.</p>
 <div class="toctree-wrapper compound">
@@ -65,9 +62,186 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="PDAF.html">pyPDAF.PDAF</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PDAFomi.html">pyPDAF.PDAF.PDAFomi</a></li>
-<li class="toctree-l2"><a class="reference internal" href="UserFunc.html">pyPDAF.UserFunc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PDAF.html">pyPDAF.PDAF</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.add_increment"><code class="docutils literal notranslate"><span class="pre">add_increment()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.assimilate_3dvar"><code class="docutils literal notranslate"><span class="pre">assimilate_3dvar()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.assimilate_en3dvar_estkf"><code class="docutils literal notranslate"><span class="pre">assimilate_en3dvar_estkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.assimilate_en3dvar_lestkf"><code class="docutils literal notranslate"><span class="pre">assimilate_en3dvar_lestkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.assimilate_enkf"><code class="docutils literal notranslate"><span class="pre">assimilate_enkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.assimilate_estkf"><code class="docutils literal notranslate"><span class="pre">assimilate_estkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.assimilate_etkf"><code class="docutils literal notranslate"><span class="pre">assimilate_etkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.assimilate_hyb3dvar_estkf"><code class="docutils literal notranslate"><span class="pre">assimilate_hyb3dvar_estkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.assimilate_hyb3dvar_lestkf"><code class="docutils literal notranslate"><span class="pre">assimilate_hyb3dvar_lestkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.assimilate_lenkf"><code class="docutils literal notranslate"><span class="pre">assimilate_lenkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.assimilate_lestkf"><code class="docutils literal notranslate"><span class="pre">assimilate_lestkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.assimilate_letkf"><code class="docutils literal notranslate"><span class="pre">assimilate_letkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.assimilate_lknetf"><code class="docutils literal notranslate"><span class="pre">assimilate_lknetf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.assimilate_lnetf"><code class="docutils literal notranslate"><span class="pre">assimilate_lnetf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.assimilate_lseik"><code class="docutils literal notranslate"><span class="pre">assimilate_lseik()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.assimilate_netf"><code class="docutils literal notranslate"><span class="pre">assimilate_netf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.assimilate_pf"><code class="docutils literal notranslate"><span class="pre">assimilate_pf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.assimilate_prepost"><code class="docutils literal notranslate"><span class="pre">assimilate_prepost()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.assimilate_seek"><code class="docutils literal notranslate"><span class="pre">assimilate_seek()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.assimilate_seik"><code class="docutils literal notranslate"><span class="pre">assimilate_seik()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.deallocate"><code class="docutils literal notranslate"><span class="pre">deallocate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.diag_crps"><code class="docutils literal notranslate"><span class="pre">diag_crps()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.diag_effsample"><code class="docutils literal notranslate"><span class="pre">diag_effsample()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.diag_ensstats"><code class="docutils literal notranslate"><span class="pre">diag_ensstats()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.diag_histogram"><code class="docutils literal notranslate"><span class="pre">diag_histogram()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.enkf_omega"><code class="docutils literal notranslate"><span class="pre">enkf_omega()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.eofcovar"><code class="docutils literal notranslate"><span class="pre">eofcovar()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.estkf_omegaa"><code class="docutils literal notranslate"><span class="pre">estkf_omegaa()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.etkf_tleft"><code class="docutils literal notranslate"><span class="pre">etkf_tleft()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.force_analysis"><code class="docutils literal notranslate"><span class="pre">force_analysis()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.gather_dim_obs_f"><code class="docutils literal notranslate"><span class="pre">gather_dim_obs_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.gather_obs_f"><code class="docutils literal notranslate"><span class="pre">gather_obs_f()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.gather_obs_f2"><code class="docutils literal notranslate"><span class="pre">gather_obs_f2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.gather_obs_f2_flex"><code class="docutils literal notranslate"><span class="pre">gather_obs_f2_flex()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.gather_obs_f_flex"><code class="docutils literal notranslate"><span class="pre">gather_obs_f_flex()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.generate_obs"><code class="docutils literal notranslate"><span class="pre">generate_obs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.get_assim_flag"><code class="docutils literal notranslate"><span class="pre">get_assim_flag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.get_ensstats"><code class="docutils literal notranslate"><span class="pre">get_ensstats()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.get_localfilter"><code class="docutils literal notranslate"><span class="pre">get_localfilter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.get_memberid"><code class="docutils literal notranslate"><span class="pre">get_memberid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.get_obsmemberid"><code class="docutils literal notranslate"><span class="pre">get_obsmemberid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.get_smootherens"><code class="docutils literal notranslate"><span class="pre">get_smootherens()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.get_state"><code class="docutils literal notranslate"><span class="pre">get_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.global_except_hook"><code class="docutils literal notranslate"><span class="pre">global_except_hook()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.incremental"><code class="docutils literal notranslate"><span class="pre">incremental()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.init"><code class="docutils literal notranslate"><span class="pre">init()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.local_weight"><code class="docutils literal notranslate"><span class="pre">local_weight()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.local_weights"><code class="docutils literal notranslate"><span class="pre">local_weights()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_add_obs_error_cb"><code class="docutils literal notranslate"><span class="pre">omi_add_obs_error_cb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_assimilate_3dvar"><code class="docutils literal notranslate"><span class="pre">omi_assimilate_3dvar()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_assimilate_en3dvar_estkf"><code class="docutils literal notranslate"><span class="pre">omi_assimilate_en3dvar_estkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf"><code class="docutils literal notranslate"><span class="pre">omi_assimilate_en3dvar_lestkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_assimilate_global"><code class="docutils literal notranslate"><span class="pre">omi_assimilate_global()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf"><code class="docutils literal notranslate"><span class="pre">omi_assimilate_hyb3dvar_estkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf"><code class="docutils literal notranslate"><span class="pre">omi_assimilate_hyb3dvar_lestkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_assimilate_lenkf"><code class="docutils literal notranslate"><span class="pre">omi_assimilate_lenkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_assimilate_local"><code class="docutils literal notranslate"><span class="pre">omi_assimilate_local()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_deallocate_obs"><code class="docutils literal notranslate"><span class="pre">omi_deallocate_obs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_g2l_obs_cb"><code class="docutils literal notranslate"><span class="pre">omi_g2l_obs_cb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_gather_obs"><code class="docutils literal notranslate"><span class="pre">omi_gather_obs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_gather_obsstate"><code class="docutils literal notranslate"><span class="pre">omi_gather_obsstate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_generate_obs"><code class="docutils literal notranslate"><span class="pre">omi_generate_obs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_get_interp_coeff_lin"><code class="docutils literal notranslate"><span class="pre">omi_get_interp_coeff_lin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_get_interp_coeff_lin1d"><code class="docutils literal notranslate"><span class="pre">omi_get_interp_coeff_lin1d()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_get_interp_coeff_tri"><code class="docutils literal notranslate"><span class="pre">omi_get_interp_coeff_tri()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_init"><code class="docutils literal notranslate"><span class="pre">omi_init()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_init_dim_obs_l"><code class="docutils literal notranslate"><span class="pre">omi_init_dim_obs_l()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_init_obs_f_cb"><code class="docutils literal notranslate"><span class="pre">omi_init_obs_f_cb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_init_obs_l_cb"><code class="docutils literal notranslate"><span class="pre">omi_init_obs_l_cb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_init_obscovar_cb"><code class="docutils literal notranslate"><span class="pre">omi_init_obscovar_cb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_init_obserr_f_cb"><code class="docutils literal notranslate"><span class="pre">omi_init_obserr_f_cb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_init_obsvar_cb"><code class="docutils literal notranslate"><span class="pre">omi_init_obsvar_cb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_init_obsvar_l_cb"><code class="docutils literal notranslate"><span class="pre">omi_init_obsvar_l_cb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_likelihood_cb"><code class="docutils literal notranslate"><span class="pre">omi_likelihood_cb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_likelihood_hyb_l_cb"><code class="docutils literal notranslate"><span class="pre">omi_likelihood_hyb_l_cb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_likelihood_l_cb"><code class="docutils literal notranslate"><span class="pre">omi_likelihood_l_cb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_localize_covar"><code class="docutils literal notranslate"><span class="pre">omi_localize_covar()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_obs_op_adj_gridavg"><code class="docutils literal notranslate"><span class="pre">omi_obs_op_adj_gridavg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_obs_op_adj_gridpoint"><code class="docutils literal notranslate"><span class="pre">omi_obs_op_adj_gridpoint()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_obs_op_adj_interp_lin"><code class="docutils literal notranslate"><span class="pre">omi_obs_op_adj_interp_lin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_obs_op_gridavg"><code class="docutils literal notranslate"><span class="pre">omi_obs_op_gridavg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_obs_op_gridpoint"><code class="docutils literal notranslate"><span class="pre">omi_obs_op_gridpoint()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_obs_op_interp_lin"><code class="docutils literal notranslate"><span class="pre">omi_obs_op_interp_lin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_prodrinva_cb"><code class="docutils literal notranslate"><span class="pre">omi_prodrinva_cb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_prodrinva_hyb_l_cb"><code class="docutils literal notranslate"><span class="pre">omi_prodrinva_hyb_l_cb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_prodrinva_l_cb"><code class="docutils literal notranslate"><span class="pre">omi_prodrinva_l_cb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_put_state_3dvar"><code class="docutils literal notranslate"><span class="pre">omi_put_state_3dvar()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_put_state_en3dvar_estkf"><code class="docutils literal notranslate"><span class="pre">omi_put_state_en3dvar_estkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_put_state_en3dvar_lestkf"><code class="docutils literal notranslate"><span class="pre">omi_put_state_en3dvar_lestkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_put_state_generate_obs"><code class="docutils literal notranslate"><span class="pre">omi_put_state_generate_obs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_put_state_global"><code class="docutils literal notranslate"><span class="pre">omi_put_state_global()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf"><code class="docutils literal notranslate"><span class="pre">omi_put_state_hyb3dvar_estkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf"><code class="docutils literal notranslate"><span class="pre">omi_put_state_hyb3dvar_lestkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_put_state_lenkf"><code class="docutils literal notranslate"><span class="pre">omi_put_state_lenkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_put_state_local"><code class="docutils literal notranslate"><span class="pre">omi_put_state_local()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_set_debug_flag"><code class="docutils literal notranslate"><span class="pre">omi_set_debug_flag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_set_disttype"><code class="docutils literal notranslate"><span class="pre">omi_set_disttype()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_set_doassim"><code class="docutils literal notranslate"><span class="pre">omi_set_doassim()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_set_domain_limits"><code class="docutils literal notranslate"><span class="pre">omi_set_domain_limits()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_set_domainsize"><code class="docutils literal notranslate"><span class="pre">omi_set_domainsize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_set_icoeff_p"><code class="docutils literal notranslate"><span class="pre">omi_set_icoeff_p()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_set_id_obs_p"><code class="docutils literal notranslate"><span class="pre">omi_set_id_obs_p()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_set_ncoord"><code class="docutils literal notranslate"><span class="pre">omi_set_ncoord()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_set_obs_err_type"><code class="docutils literal notranslate"><span class="pre">omi_set_obs_err_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.omi_set_use_global_obs"><code class="docutils literal notranslate"><span class="pre">omi_set_use_global_obs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.prepost"><code class="docutils literal notranslate"><span class="pre">prepost()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.print_info"><code class="docutils literal notranslate"><span class="pre">print_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_3dvar"><code class="docutils literal notranslate"><span class="pre">put_state_3dvar()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_en3dvar_estkf"><code class="docutils literal notranslate"><span class="pre">put_state_en3dvar_estkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_en3dvar_lestkf"><code class="docutils literal notranslate"><span class="pre">put_state_en3dvar_lestkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_enkf"><code class="docutils literal notranslate"><span class="pre">put_state_enkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_estkf"><code class="docutils literal notranslate"><span class="pre">put_state_estkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_etkf"><code class="docutils literal notranslate"><span class="pre">put_state_etkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_generate_obs"><code class="docutils literal notranslate"><span class="pre">put_state_generate_obs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_hyb3dvar_estkf"><code class="docutils literal notranslate"><span class="pre">put_state_hyb3dvar_estkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_hyb3dvar_lestkf"><code class="docutils literal notranslate"><span class="pre">put_state_hyb3dvar_lestkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_lenkf"><code class="docutils literal notranslate"><span class="pre">put_state_lenkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_lestkf"><code class="docutils literal notranslate"><span class="pre">put_state_lestkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_letkf"><code class="docutils literal notranslate"><span class="pre">put_state_letkf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_lknetf"><code class="docutils literal notranslate"><span class="pre">put_state_lknetf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_lnetf"><code class="docutils literal notranslate"><span class="pre">put_state_lnetf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_lseik"><code class="docutils literal notranslate"><span class="pre">put_state_lseik()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_netf"><code class="docutils literal notranslate"><span class="pre">put_state_netf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_pf"><code class="docutils literal notranslate"><span class="pre">put_state_pf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_prepost"><code class="docutils literal notranslate"><span class="pre">put_state_prepost()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_seek"><code class="docutils literal notranslate"><span class="pre">put_state_seek()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.put_state_seik"><code class="docutils literal notranslate"><span class="pre">put_state_seik()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.reset_forget"><code class="docutils literal notranslate"><span class="pre">reset_forget()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.sampleens"><code class="docutils literal notranslate"><span class="pre">sampleens()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.seik_omega"><code class="docutils literal notranslate"><span class="pre">seik_omega()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.seik_ttimesa"><code class="docutils literal notranslate"><span class="pre">seik_ttimesa()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.set_debug_flag"><code class="docutils literal notranslate"><span class="pre">set_debug_flag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.set_ens_pointer"><code class="docutils literal notranslate"><span class="pre">set_ens_pointer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.set_memberid"><code class="docutils literal notranslate"><span class="pre">set_memberid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PDAF.html#pyPDAF.PDAF.set_smootherens"><code class="docutils literal notranslate"><span class="pre">set_smootherens()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="UserFunc.html">pyPDAF.UserFunc</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.global_except_hook"><code class="docutils literal notranslate"><span class="pre">global_except_hook()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__add_obs_err_pdaf"><code class="docutils literal notranslate"><span class="pre">py__add_obs_err_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__collect_state_pdaf"><code class="docutils literal notranslate"><span class="pre">py__collect_state_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__cvt_adj_ens_pdaf"><code class="docutils literal notranslate"><span class="pre">py__cvt_adj_ens_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__cvt_adj_pdaf"><code class="docutils literal notranslate"><span class="pre">py__cvt_adj_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__cvt_ens_pdaf"><code class="docutils literal notranslate"><span class="pre">py__cvt_ens_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__cvt_pdaf"><code class="docutils literal notranslate"><span class="pre">py__cvt_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__dist_stateinc_pdaf"><code class="docutils literal notranslate"><span class="pre">py__dist_stateinc_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__distribute_state_pdaf"><code class="docutils literal notranslate"><span class="pre">py__distribute_state_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__g2l_obs_pdaf"><code class="docutils literal notranslate"><span class="pre">py__g2l_obs_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__g2l_state_pdaf"><code class="docutils literal notranslate"><span class="pre">py__g2l_state_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__get_obs_f_pdaf"><code class="docutils literal notranslate"><span class="pre">py__get_obs_f_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__init_dim_l_pdaf"><code class="docutils literal notranslate"><span class="pre">py__init_dim_l_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__init_dim_obs_f_pdaf"><code class="docutils literal notranslate"><span class="pre">py__init_dim_obs_f_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__init_dim_obs_l_pdaf"><code class="docutils literal notranslate"><span class="pre">py__init_dim_obs_l_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__init_dim_obs_pdaf"><code class="docutils literal notranslate"><span class="pre">py__init_dim_obs_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__init_ens_pdaf"><code class="docutils literal notranslate"><span class="pre">py__init_ens_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__init_n_domains_p_pdaf"><code class="docutils literal notranslate"><span class="pre">py__init_n_domains_p_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__init_obs_covar_pdaf"><code class="docutils literal notranslate"><span class="pre">py__init_obs_covar_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__init_obs_f_pdaf"><code class="docutils literal notranslate"><span class="pre">py__init_obs_f_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__init_obs_l_pdaf"><code class="docutils literal notranslate"><span class="pre">py__init_obs_l_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__init_obs_pdaf"><code class="docutils literal notranslate"><span class="pre">py__init_obs_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__init_obserr_f_pdaf"><code class="docutils literal notranslate"><span class="pre">py__init_obserr_f_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__init_obsvar_l_pdaf"><code class="docutils literal notranslate"><span class="pre">py__init_obsvar_l_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__init_obsvar_pdaf"><code class="docutils literal notranslate"><span class="pre">py__init_obsvar_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__l2g_state_pdaf"><code class="docutils literal notranslate"><span class="pre">py__l2g_state_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__likelihood_hyb_l_pdaf"><code class="docutils literal notranslate"><span class="pre">py__likelihood_hyb_l_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__likelihood_l_pdaf"><code class="docutils literal notranslate"><span class="pre">py__likelihood_l_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__likelihood_pdaf"><code class="docutils literal notranslate"><span class="pre">py__likelihood_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__localize_covar_pdaf"><code class="docutils literal notranslate"><span class="pre">py__localize_covar_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__next_observation_pdaf"><code class="docutils literal notranslate"><span class="pre">py__next_observation_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__obs_op_adj_pdaf"><code class="docutils literal notranslate"><span class="pre">py__obs_op_adj_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__obs_op_f_pdaf"><code class="docutils literal notranslate"><span class="pre">py__obs_op_f_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__obs_op_lin_pdaf"><code class="docutils literal notranslate"><span class="pre">py__obs_op_lin_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__obs_op_pdaf"><code class="docutils literal notranslate"><span class="pre">py__obs_op_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__prepoststep_pdaf"><code class="docutils literal notranslate"><span class="pre">py__prepoststep_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__prodrinva_hyb_l_pdaf"><code class="docutils literal notranslate"><span class="pre">py__prodrinva_hyb_l_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__prodrinva_l_pdaf"><code class="docutils literal notranslate"><span class="pre">py__prodrinva_l_pdaf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="UserFunc.html#pyPDAF.UserFunc.py__prodrinva_pdaf"><code class="docutils literal notranslate"><span class="pre">py__prodrinva_pdaf()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -133,7 +307,7 @@
       &copy;2022 University of Reading and National Centre for Earth Observation.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

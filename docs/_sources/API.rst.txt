@@ -5,5 +5,4 @@ API reference
    :caption: API reference:
 
    PDAF
-   PDAFomi
    UserFunc
