@@ -95,11 +95,17 @@ else:
 # linking BLAS/LAPACK
 use_MKL=dist.get_option_dict('pyPDAF')['use_MKL'][1]
 if use_MKL == 'True':
-    MKLROOT=dist.get_option_dict('pyPDAF')['MKLROOT'][1]
+    condaBuild = dist.get_option_dict('pyPDAF')['condaBuild'][1]
+    if condaBuild == 'True':
+        MKLROOT = os.path.join(os.environ['PREFIX'], 'lib')
+    else:
+        MKLROOT = dist.get_option_dict('pyPDAF')['MKLROOT'][1]
+
     if os.name == 'nt':
         library_dirs+=[MKLROOT,]
         libraries = ['mkl_core', 'mkl_sequential', 'mkl_intel_lp64']
     else:
+
         extra_objects+=['-Wl,--start-group', 
                         f'{MKLROOT}/libmkl_intel_lp64.a',
                         f'{MKLROOT}/libmkl_sequential.a',
@@ -130,8 +136,10 @@ else:
 # add fortran library to the linking
 if os.name != 'nt':
     suffix = 'dylib' if sys.platform == 'darwin' else 'so'
-    result = subprocess.run(['gfortran', '--print-file', 'libgfortran.'+suffix], stdout=subprocess.PIPE)
-    result = result.stdout.decode()[:-18] if sys.platform == 'darwin' else result.stdout.decode()[:-15]
+    result = subprocess.run(['gfortran', '--print-file',
+                             'libgfortran.'+suffix], stdout=subprocess.PIPE)
+    result = result.stdout.decode()
+    result = result[:-18] if sys.platform == 'darwin' else result[:-15]
     library_dirs+=[result,]
     library_dirs+=['/usr/lib', ]
     # somehow gfortran is always necessary
