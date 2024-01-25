@@ -1,4 +1,4 @@
-pyPDAF
+pyPDAF - A Python interface to Parallel Data Assimilation Framework
 ======
 
 pyPDAF is a Python interface to the `Parallel Data Assimilation Framwork (PDAF) <http://pdaf.awi.de/trac/wiki>`_ library written in Fortran. The latest pyPDAF supports PDAF-V2.0.
