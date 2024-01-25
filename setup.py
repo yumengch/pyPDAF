@@ -92,20 +92,35 @@ else:
         extra_objects+=['-Wl,--whole-archive', f'{PDAFdir}/lib/libpdaf-var.a',
                        f'{pwd}/lib/libPDAFc.a', '-Wl,--no-whole-archive']
 
+# add mpi library path
+if os.name == 'nt':
+    # always use external msmpi as msmpi from conda cannot be linked
+    MPI_LIB_PATH=dist.get_option_dict('pyPDAF')['MPI_LIB_PATH'][1]
+    if MPI_LIB_PATH != '': library_dirs += MPI_LIB_PATH.split(',')
+    libraries += ['msmpi', 'msmpifec']
+else:
+    mpifortran = 'mpiifort' if compiler == 'intel' else 'mpifort'
+    result = subprocess.run([mpifortran, '-show'], stdout=subprocess.PIPE)
+    result = result.stdout.decode()[:-1].split(' ')
+    s = [l[2:].replace('"', '') for l in result if l[:2] == '-L']
+    if len(s) > 0: library_dirs += s
+    s = [l[2:] for l in result if l[:2] == '-l']
+    if len(s) > 0: libraries += s
+
 # linking BLAS/LAPACK
 use_MKL=dist.get_option_dict('pyPDAF')['use_MKL'][1]
 if use_MKL == 'True':
     condaBuild = dist.get_option_dict('pyPDAF')['condaBuild'][1]
     if condaBuild == 'True':
-        MKLROOT = os.path.join(os.environ['PREFIX'], 'lib')
+        MKLROOT = os.environ['LIBRARY_LIB'] if os.name == 'nt' else \
+                  os.path.join(os.environ['PREFIX'], 'lib')
     else:
         MKLROOT = dist.get_option_dict('pyPDAF')['MKLROOT'][1]
-
+    assert MKLROOT != '', 'MKLROOT must not be empty, check setup.cfg file'
     if os.name == 'nt':
         library_dirs+=[MKLROOT,]
-        libraries = ['mkl_core', 'mkl_sequential', 'mkl_intel_lp64']
+        libraries += ['mkl_core', 'mkl_sequential', 'mkl_intel_lp64']
     else:
-
         extra_objects+=['-Wl,--start-group', 
                         f'{MKLROOT}/libmkl_intel_lp64.a',
                         f'{MKLROOT}/libmkl_sequential.a',
@@ -118,20 +133,6 @@ else:
     LAPACK_Flag=dist.get_option_dict('pyPDAF')['LAPACK_Flag'][1]
     print ('LAPACK_Flag', LAPACK_Flag)
     if LAPACK_Flag != '': libraries += LAPACK_Flag.split(',')
-
-# add mpi library path
-if os.name == 'nt':
-    MPI_LIB_PATH=dist.get_option_dict('pyPDAF')['MPI_LIB_PATH'][1]
-    library_dirs+=[MPI_LIB_PATH,]
-    libraries += ['msmpi', 'msmpifec']
-else:
-    mpifortran = 'mpiifort' if compiler == 'intel' else 'mpifort'
-    result = subprocess.run([mpifortran, '-show'], stdout=subprocess.PIPE)
-    result = result.stdout.decode()[:-1].split(' ')
-    s = [l[2:].replace('"', '') for l in result if l[:2] == '-L']
-    if len(s) > 0: library_dirs += s
-    s = [l[2:] for l in result if l[:2] == '-l']
-    if len(s) > 0: libraries += s
 
 # add fortran library to the linking
 if os.name != 'nt':

@@ -4,6 +4,9 @@ python:
     - 3.10
     - 3.11
 
+c_compiler:
+    - vs2022     # [win]
+
 mpi:
     - mpich    # [not win]
     - msmpi    # [win]
