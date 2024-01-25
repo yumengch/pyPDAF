@@ -68,6 +68,8 @@ else:
     else:
         print ('....using GNU compiler....')
 
+condaBuild = dist.get_option_dict('pyPDAF')['condaBuild'][1]
+
 extra_compile_args=[]
 extra_link_args = []
 extra_objects = []
@@ -110,7 +112,6 @@ else:
 # linking BLAS/LAPACK
 use_MKL=dist.get_option_dict('pyPDAF')['use_MKL'][1]
 if use_MKL == 'True':
-    condaBuild = dist.get_option_dict('pyPDAF')['condaBuild'][1]
     if condaBuild == 'True':
         MKLROOT = os.environ['LIBRARY_LIB'] if os.name == 'nt' else \
                   os.path.join(os.environ['PREFIX'], 'lib')
@@ -137,7 +138,8 @@ else:
 # add fortran library to the linking
 if os.name != 'nt':
     suffix = 'dylib' if sys.platform == 'darwin' else 'so'
-    result = subprocess.run(['gfortran', '--print-file',
+    FC = os.environ['FC'] if condaBuild == 'True' else 'gfortran'
+    result = subprocess.run([FC, '--print-file',
                              'libgfortran.'+suffix], stdout=subprocess.PIPE)
     result = result.stdout.decode()
     result = result[:-18] if sys.platform == 'darwin' else result[:-15]
