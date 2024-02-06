@@ -1,7 +1,7 @@
 # Installation
 
 There are two ways of installing pyPDAF. 
-- The easiest approach is using `conda`. Currently, `pyPDAF` is available from `conda` for `Windows`, `Linux` and `MacOS (arm64)`. The installation can be obtained via:
+- The easiest approach is using `conda`. Currently, `pyPDAF` is available from `conda` for `Windows`, `Linux` and `MacOS`. The installation can be obtained via:
 ```bash
 conda create -n pyPDAF -c yumengch -c conda-forge pyPDAF
 ```
