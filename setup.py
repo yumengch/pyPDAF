@@ -121,12 +121,17 @@ if use_MKL == 'True':
     if os.name == 'nt':
         library_dirs+=[MKLROOT,]
         libraries += ['mkl_core', 'mkl_sequential', 'mkl_intel_lp64']
-    else:
+    elif sys.platform == "linux" or sys.platform == "linux2":
         extra_objects+=['-Wl,--start-group', 
                         f'{MKLROOT}/libmkl_intel_lp64.a',
                         f'{MKLROOT}/libmkl_sequential.a',
                         f'{MKLROOT}/libmkl_core.a',
                         '-Wl,--end-group']
+    else:
+        extra_objects+=[ 
+                        f'{MKLROOT}/libmkl_intel_lp64.a',
+                        f'{MKLROOT}/libmkl_sequential.a',
+                        f'{MKLROOT}/libmkl_core.a']
 else:
     # setup library to MPI-fortran 
     LAPACK_PATH=dist.get_option_dict('pyPDAF')['LAPACK_PATH'][1]

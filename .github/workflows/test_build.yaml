@@ -1,5 +1,5 @@
 name: test_build
-on: [push, workflow_dispatch]
+on: [workflow_dispatch]
 jobs:
   check_mac_installation:
     runs-on: macos-latest
