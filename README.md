@@ -3,6 +3,10 @@ A Python interface to the Fortran-written data assimilation library - [PDAF](htt
 
 ![GitHub Workflow Status](https://github.com/yumengch/pyPDAF/actions/workflows/test_build.yaml/badge.svg)
 
+## Getting Started
+
+A tutorial on using pyPDAF to build a data assimilation system without parallelisation is available here:
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yumengch/pyPDAF/).
 
 ## Installation:
 There are two ways of installing pyPDAF. 
