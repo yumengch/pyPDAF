@@ -20,7 +20,7 @@ import numpy as np
 import pyPDAF.PDAF as PDAF
 
 
-class OBS:
+class OBS_B:
 
     """observation information and user-supplied routines
 
@@ -67,7 +67,7 @@ class OBS:
 
     n_obs = 0
 
-    def __init__(self, typename, mype_filter, task_id,
+    def __init__(self, typename, cnt, mype_filter, task_id,
                  nx, doassim, delt_obs, rms_obs):
         """constructor
 
@@ -86,12 +86,12 @@ class OBS:
         rms_obs : float
             observation error standard deviation (for constant errors)
         """
-        OBS.n_obs += 1
+        OBS_B.n_obs = cnt
 
-        self.i_obs = OBS.n_obs
+        self.i_obs = OBS_B.n_obs
 
-        assert OBS.n_obs >= 1, 'observation count must start from 1'
-
+        assert OBS_B.n_obs >= 1, 'observation count must start from 1'
+        
         if (mype_filter == 0 and task_id==1):
             print('Assimilate observations:', typename)
 
@@ -249,10 +249,10 @@ class OBS:
             observation field
         """
         obs_field = np.zeros(nx)
-        if self.i_obs == 1:
-            obs_field = np.loadtxt(f'inputs_offline/obs.txt')
-        else:
-            obs_field = np.loadtxt(f'inputs_offline/obsB.txt')
+        #if self.i_obs == 1:
+        #    obs_field = np.loadtxt(f'inputs_offline/obs.txt')
+        #else:
+        obs_field = np.loadtxt(f'inputs_offline/obsB.txt')
         return obs_field
 
     def set_PDAFomi(self, local_range):

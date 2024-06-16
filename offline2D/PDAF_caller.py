@@ -228,13 +228,6 @@ class assimilate_pdaf:
                 PDAF.get_localfilter()
 
         if lfilter == 0:
-#             status = \
-#                    PDAF.omi_assimilate_global(U_collect_state_pdaf,
-#                                            U_distribute_state_pdaf,
-#                                            U_init_dim_obs_PDAFomi,
-#                                            U_obs_op_PDAFomi,
-#                                            U_prepoststep_ens_pdaf,
-#                                            U_next_observation_pdaf)
             status = \
                    PDAF.omi_put_state_global(U_collect_state_pdaf,
                                            U_init_dim_obs_PDAFomi,
@@ -242,8 +235,7 @@ class assimilate_pdaf:
                                            U_prepoststep_ens_pdaf)
         else:
             status = \
-                   PDAF.omi_assimilate_local(U_collect_state_pdaf,
-                                           U_distribute_state_pdaf,
+                   PDAF.omi_put_state_local(U_collect_state_pdaf,
                                            U_init_dim_obs_PDAFomi,
                                            U_obs_op_PDAFomi,
                                            U_prepoststep_ens_pdaf,
@@ -251,8 +243,7 @@ class assimilate_pdaf:
                                            U_init_dim_l_pdaf,
                                            U_init_dim_obs_l_PDAFomi,
                                            localization.g2l_state_pdaf,
-                                           localization.l2g_state_pdaf,
-                                           U_next_observation_pdaf)
+                                           localization.l2g_state_pdaf)
             
         if status != 0:
             print(('ERROR ', status,

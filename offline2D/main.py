@@ -19,7 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 from parallelization import parallelization
 import Model
-import OBS
+import OBS_A
+import OBS_B
 import pyPDAF.PDAF as PDAF
 import PDAF_caller
 
@@ -37,16 +38,13 @@ def main():
     # grid dimensions
     nx = 36
     ny = 18
-
-    # Number of time steps to compute
-    nt = 18
     
     ###### PDAF Configuration #######################
 
     # number of ensemble members
     dim_ens = 4
     # using error space transform Kalman filter (4=ETKF, 5=LETKF)
-    filtertype = 4
+    filtertype = 4 
     # standard form
     subtype = 5
     # forgetting factor
@@ -56,6 +54,10 @@ def main():
     dtobs = 1
     # Observation error standard deviation
     rms_obs = 0.5
+    # Assimilate observation type A
+    assim_A = True
+    # Assimilate observation type B
+    assim_B = True
     
     # Type of localization function (0: constant, 1: exponential decay, 2: 5th order polynomial)
     loc_weight = 0
@@ -84,12 +86,19 @@ def main():
             print('Running on ', pe.npes_world, 'PEs')
 
     # Initialize model
-    model = Model.Model((ny, nx), nt=nt, pe=pe)
+    model = Model.Model((ny, nx), pe=pe)
     
     obs = []
-    for typename in ['A',]:
-        obs.append(OBS.OBS(typename, pe.mype_filter, pe.task_id,
+    obscnt = 0
+
+    if assim_A:
+        obscnt += 1
+        obs.append(OBS_A.OBS_A('A', obscnt, pe.mype_filter, pe.task_id,
                            model.nx, 1, dtobs, rms_obs))
+    if assim_B:
+        obscnt += 1
+        obs.append(OBS_B.OBS_B('B', obscnt, pe.mype_filter, pe.task_id,
+                               model.nx, 1, dtobs, rms_obs))
 
     assim_dim = AssimilationDimensions(model, dim_ens=dim_ens)
     filter_options = FilterOptions(filtertype=filtertype, subtype=subtype)

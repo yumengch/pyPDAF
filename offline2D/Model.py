@@ -36,7 +36,7 @@ class Model:
         total number of time steps
     """
 
-    def __init__(self, nx, nt, pe):
+    def __init__(self, nx, pe):
         """constructor
 
         Parameters
@@ -50,10 +50,9 @@ class Model:
         """
         # model size
         self.nx = list(nx)
+
         # model size for each CPU
         self.get_nxp(pe)
-        # model time steps
-        self.total_steps = nt
 
         if pe.mype_world == 0:
             print('')
@@ -115,6 +114,5 @@ class Model:
         if do_print:
             print('MODEL-side: INITIALIZE PARALLELIZED Shifting model MODEL')
             print(f'Grid size: {self.nx}')
-            print(f'Time steps {self.total_steps}')
             print(f'-- Domain decomposition over {pe.npes_model} PEs')
             print(f'-- local domain sizes (nx_p): {self.nx_p}')
