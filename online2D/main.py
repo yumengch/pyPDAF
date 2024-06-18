@@ -71,8 +71,7 @@ def main():
     ###############################
 
 
-    if USE_PDAF:
-        pe = parallelization(dim_ens=dim_ens, n_modeltasks=dim_ens, screen=2)
+    pe = parallelization(dim_ens=dim_ens, n_modeltasks=dim_ens, screen=2)
 
     # Initial Screen output
     if (pe.mype_world == 0):

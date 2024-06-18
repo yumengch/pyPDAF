@@ -44,15 +44,15 @@ def step(model, pe, step, USE_PDAF):
         return
 
     if pe.mype_model == 0:
-        field_gather = np.empty((pe.npes_model,) + tuple(model.nx_p))
+        field_gather = np.empty((pe.npes_model,) + tuple(model.dims_p))
     else:
         field_gather = None
 
     pe.COMM_model.Gather(model.field_p, field_gather, 0)
 
     if pe.task_id == 1 and pe.mype_model == 0:
-        field = np.zeros(model.nx)
+        field = np.zeros(model.dims)
         for i in range(pe.npes_model):
-            offset = model.nx_p[-1]*i
-            field[:, offset:offset+model.nx_p[-1]] = field_gather[i]
+            offset = model.dims_p[-1]*i
+            field[:,offset:offset+model.dims_p[-1]] = field_gather[i]
         np.savetxt(f'true_step{step}.txt', field)
