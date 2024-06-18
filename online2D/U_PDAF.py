@@ -56,7 +56,7 @@ def init_ens_pdaf(model, pe, assim_dim,
     status_pdaf : int
         status of PDAF
     """
-    filename = 'inputs_online/ens_{i}.txt' # Change to '...ensB...' for alternative ensemble
+    filename = 'inputs_online/ens_{i}.txt'
     off_nx = model.dims_p[-1]*pe.mype_model
     for i_ens in range(dim_ens):
         field_p = np.loadtxt(

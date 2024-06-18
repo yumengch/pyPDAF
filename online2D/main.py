@@ -50,7 +50,7 @@ def main():
     # standard form
     subtype = 0
     # forgetting factor
-    forget = 0.5
+    forget = 1.0
 
     # time interval between observations
     dtobs = 2
@@ -108,7 +108,7 @@ def main():
 
     # Set state dimension and ensemble size for PDAF
     assim_dim = AssimilationDimensions(model=model,
-                                       dim_ens=pe.n_modeltasks)
+                                       dim_ens=dim_ens)
     # Set options for PDAF
     filter_options = FilterOptions(filtertype=filtertype,
                                    subtype=subtype,
@@ -117,7 +117,7 @@ def main():
     localization = Localization(loc_weight=loc_weight,
                                 cradius=cradius,
                                 sradius=sradius)
-    
+
     # init PDAF
     PDAF_caller.init_pdaf(assim_dim,
                           filter_options,

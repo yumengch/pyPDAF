@@ -17,8 +17,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import numpy as np
-import pyPDAF.PDAF as PDAF
 import functools
+import pyPDAF.PDAF as PDAF
 import U_PDAF
 import U_PDAFomi
 import Localization
@@ -43,18 +43,16 @@ class init_pdaf:
         ----------
         assim_dim : `AssimilationDimensions.AssimilationDimensions`
             an object of AssimilationDimensions
-        infl : `Inflation.Inflation`
-            inflation object
         filter_options : `FilterOptions.FilterOptions`
             filtering options
         localization : `Localization.Localization`
             localization object
         model : `Model.Model`
             model object
+        obs : `OBS.OBS`
+            observation objects array
         pe : `parallelization.parallelization`
             parallelization object
-        obs : `OBS.OBS`
-            observation object
         screen : int
             verbosity of PDAF screen output
         """
@@ -171,17 +169,17 @@ class assimilate_pdaf:
 
         Parameters
         ----------
+        assim_dim : `AssimilationDimensions.AssimilationDimensions`
+            an object of AssimilationDimensions
+        filter_options : `FilterOptions.FilterOptions`
+            filtering options (only filtertype should be relevant)
+        localization : `Localization.Localization`
         model : `Model.Model`
             model object
         obs : `OBS.OBS`
             observation object
         pe : `parallelization.parallelization`
             parallelization object
-        assim_dim : `AssimilationDimensions.AssimilationDimensions`
-            an object of AssimilationDimensions
-        localization : `Localization.Localization`
-        filter_options : `FilterOptions.FilterOptions`
-            filtering options (only filtertype should be relevant)
         """
         U_collect_state_pdaf = \
             functools.partial(U_PDAF.collect_state_pdaf,

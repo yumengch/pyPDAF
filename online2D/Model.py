@@ -30,9 +30,9 @@ class Model:
     ----------
     field_p : ndarray
         PE-local model field
-    nx : ndarray
+    dims : ndarray
         integer array for grid size
-    nx_p : ndarray
+    dims_p : ndarray
         integer array for PE-local grid size
     total_steps : int
         total number of time steps
@@ -43,7 +43,7 @@ class Model:
 
         Parameters
         ----------
-        nx : ndarray
+        dims : ndarray
             integer array for grid size
         nt : int
             total number of time steps

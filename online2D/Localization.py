@@ -32,12 +32,12 @@ class Localization:
         indices of local state vector in PE-local global state vector
     loc_weight : int
         - (0) constant weight of 1
-        - (1) exponentially decreasing with SRANGE
+        - (1) exponentially decreasing with SRADIUS
         - (2) use 5th-order polynomial
         - (3) regulated localization of R with mean error variance
         - (4) regulated localization of R with single-point error variance
     cradius : float
-        cutt-off radius for local observation domain
+        cut-off radius for local observation domain
     sradius : float
         support radius for 5th order polynomial
         or radius for 1/e for exponential weighting
@@ -69,7 +69,7 @@ class Localization:
 
         Parameters
         ----------
-        nx_p : int
+        dims_p : int
             size of PE-local state vector
         pe : 'parallelization.parallelization'
             parallelization object
@@ -101,7 +101,7 @@ class Localization:
         """
         return assim_dim.dim_state_p
 
-    def init_dim_l_pdaf(self, nx_p, mype_filter, step, domain_p, dim_l):
+    def init_dim_l_pdaf(self, dims_p, mype_filter, step, domain_p, dim_l):
         """initialise the local dimension of PDAF.
 
         The function set coordinates of local analysis domain
@@ -110,7 +110,7 @@ class Localization:
 
         Parameters
         ----------
-        nx_p : int
+        dims_p : int
             size of PE-local state vector
         mype_filter : int
             rank of the process in filter communicator
@@ -132,12 +132,12 @@ class Localization:
         # we use grid point indices as coordinates,
         #  but could e.g. use meters
         self.coords_l = np.zeros(2)
-        offset = mype_filter*np.prod(nx_p)
+        offset = mype_filter*np.prod(dims_p)
         self.coords_l[0] = domain_p + offset
-        self.coords_l[0] = np.ceil(self.coords_l[0]/nx_p[0])
+        self.coords_l[0] = np.ceil(self.coords_l[0]/dims_p[0])
         self.coords_l[1] = domain_p + offset
         self.coords_l[1] = self.coords_l[1] \
-            - (self.coords_l[0] - 1)*nx_p[0]
+            - (self.coords_l[0] - 1)*dims_p[0]
         # initialize array of indices of the local state
         #  vector elements in the global state vector.
 
