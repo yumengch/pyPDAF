@@ -229,7 +229,7 @@ def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
         if pe.mype_filter != 0:
             pe.COMM_filter.Send(ens_p, 0, pe.mype_filter)
         else:
-            ens[:, :dim_p] = ens_p
+            ens[0:dim_p, :] = ens_p
             ens_tmp = np.zeros(ens_p.shape)
             for i in range(1, pe.npes_filter):
                 pe.COMM_filter.Recv(
