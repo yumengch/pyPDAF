@@ -60,6 +60,10 @@ class Model:
             print('    Grid size:   ',nx[1],' x ', nx[0])
             print('    Global model state dimension: ', nx[0]*nx[1])
             print('')
+            if pe.npes_model > 0:
+                print('    Domain decomposition over ', pe.npes_model, ' PEs')
+                print('    local domain sizes (nx_p x ny): ', self.dims_p[1], ' x ', nx[0])
+                print('')
 
     def get_dimsp(self, pe):
         """Compute local-PE domain size/domain decomposition
