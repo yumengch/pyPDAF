@@ -62,7 +62,7 @@ def init_ens_pdaf(model, pe, assim_dim,
         field_p = np.loadtxt(
                         filename.format(i=i_ens+1)
                             )[:, off_nx:off_nx+model.dims_p[-1]]
-        ens_p[:, i_ens] = field_p.reshape(assim_dim.dim_state_p, order='F')
+        ens_p[:, i_ens] = field_p.reshape(dim_p, order='F')
     return state_p, uinv, ens_p, status_pdaf
 
 
@@ -80,7 +80,7 @@ def collect_state_pdaf(model, assim_dim, dim_p, state_p):
     state_p : ndarray
         1D state vector on local PE
     """
-    state_p = model.field_p.reshape(assim_dim.dim_state_p, order='F')
+    state_p = model.field_p.reshape(dim_p, order='F')
     return state_p
 
 def distribute_state_pdaf(model, dim_p, state_p):
@@ -224,7 +224,7 @@ def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
         print('RMS error: ', rmserror_est)
 
     if (not firsttime):
-        ens = np.zeros((assim_dim.dim_state, assim_dim.dim_ens))
+        ens = np.zeros((assim_dim.dim_state, dim_ens))
         state = np.zeros(assim_dim.dim_state)
         if pe.mype_filter != 0:
             pe.COMM_filter.Send(ens_p, 0, pe.mype_filter)
