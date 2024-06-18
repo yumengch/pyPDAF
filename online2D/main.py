@@ -28,7 +28,6 @@ import PDAF_caller
 from Localization import Localization
 from AssimilationDimensions import AssimilationDimensions
 from FilterOptions import FilterOptions
-from Inflation import Inflation
 
 
 def main():
@@ -51,7 +50,7 @@ def main():
     # standard form
     subtype = 0
     # forgetting factor
-    forget = 1.0
+    forget = 0.5
 
     # time interval between observations
     dtobs = 2
@@ -65,15 +64,12 @@ def main():
     # Type of localization function (0: constant, 1: exponential decay, 2: 5th order polynomial)
     loc_weight = 0
     # localization cut-off radius in grid points
-    local_range = 0
+    cradius = 0
     # Support radius for localization function
-    srange = local_range
+    sradius = cradius
     
     ###############################
 
-    # dimension of the state vector
-    # if model is parallelised, this is the dimension of state vector on each process
-    dim_state_p = nx*ny
 
     if USE_PDAF:
         pe = parallelization(dim_ens=dim_ens, n_modeltasks=dim_ens, screen=2)
@@ -90,12 +86,10 @@ def main():
 
     # Initialize model
     model = Model.Model((ny, nx), nt=nt, pe=pe)
+    if not USE_PDAF:
+        model.init_field('inputs_online/true_initial.txt',
+                          pe.mype_model)
     
-    #obs = []
-    #for typename in ['A',]:
-    #    obs.append(OBS.OBS(typename, pe.mype_filter, pe.task_id,
-    #                       model.nx, 1, dtobs, rms_obs))
-
     # Initialize observations
     obs = []
     obscnt = 0
@@ -103,41 +97,42 @@ def main():
     if assim_A:
         obscnt += 1
         obs.append(OBS_A.OBS_A('A', obscnt, pe.mype_filter, pe.task_id,
-                           model.nx, 1, dtobs, rms_obs))
+                           model.dims, 1, dtobs, rms_obs))
     if assim_B:
         obscnt += 1
         obs.append(OBS_B.OBS_B('B', obscnt, pe.mype_filter, pe.task_id,
-                               model.nx, 1, dtobs, rms_obs))
+                               model.dims, 1, dtobs, rms_obs))
 
-    assim_dim = AssimilationDimensions(model, dim_ens=pe.n_modeltasks)
-    filter_options = FilterOptions(filtertype=filtertype, subtype=subtype)
-    filter_options.setTransformTypes(type_trans=0, type_sqrt=0,
-                                     incremental=0, covartype=1,
-                                     rank_analysis_enkf=0)
-    infl = Inflation(type_forget=0, forget=forget)
-    localization = Localization(loc_weight=loc_weight, local_range=local_range,
-                                srange=srange)
-
-    # init model
-    model.init_field('inputs_online/true_initial.txt',
-                          pe.mype_model)
-    # init observations
     PDAF.omi_init(len(obs))
 
+
+    # Set state dimension and ensemble size for PDAF
+    assim_dim = AssimilationDimensions(model=model,
+                                       dim_ens=pe.n_modeltasks)
+    # Set options for PDAF
+    filter_options = FilterOptions(filtertype=filtertype,
+                                   subtype=subtype,
+                                   forget=forget)
+    # Set localization parameters
+    localization = Localization(loc_weight=loc_weight,
+                                cradius=cradius,
+                                sradius=sradius)
+    
     # init PDAF
-    PDAF_caller.init_pdaf(assim_dim, infl,
+    PDAF_caller.init_pdaf(assim_dim,
                           filter_options,
                           localization,
-                          model, pe,
-                          obs, screen=2)
+                          model, obs, pe,
+                          screen=2)
 
     # Run model and assimilate
     for it in range(nt):
         model.step(pe, it, USE_PDAF)
         if USE_PDAF:
-            PDAF_caller.assimilate_pdaf(model, obs, pe,
-                                            assim_dim, localization,
-                                            filtertype)
+            PDAF_caller.assimilate_pdaf(assim_dim,
+                                        filter_options,
+                                        localization,
+                                        model, obs, pe)
 
     pe.finalize_parallel()
 

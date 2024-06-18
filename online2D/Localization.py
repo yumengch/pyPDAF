@@ -36,35 +36,35 @@ class Localization:
         - (2) use 5th-order polynomial
         - (3) regulated localization of R with mean error variance
         - (4) regulated localization of R with single-point error variance
-    local_range : float
-        range for local observation domain
-    srange : float
-        support range for 5th order polynomial
+    cradius : float
+        cutt-off radius for local observation domain
+    sradius : float
+        support radius for 5th order polynomial
         or radius for 1/e for exponential weighting
     """
 
-    def __init__(self, loc_weight, local_range, srange):
+    def __init__(self, loc_weight, cradius, sradius):
         """class constructor
 
         Parameters
         ----------
         loc_weight : int
             - (0) constant weight of 1
-            - (1) exponentially decreasing with SRANGE
+            - (1) exponentially decreasing with SRADIUS
             - (2) use 5th-order polynomial
             - (3) regulated localization of R with mean error variance
             - (4) regulated localization of R with single-point error variance
-        local_range : float
-            range for local observation domain
-        srange : float
-            support range for 5th order polynomial
+        cradius : float
+            cut-off radius for local observation domain
+        sradius : float
+            support radius for 5th order polynomial
             or radius for 1/e for exponential weighting
         """
         self.loc_weight = loc_weight
-        self.local_range = local_range
-        self.srange = srange
+        self.cradius = cradius
+        self.sradius = sradius
 
-    def set_lim_coords(self, nx_p, pe):
+    def set_lim_coords(self, dims_p, pe):
         """set local domain
 
         Parameters
@@ -75,14 +75,31 @@ class Localization:
             parallelization object
         """
         # Get offset of local domain in global domain in x-direction
-        off_nx = nx_p[-1]*pe.mype_filter
+        off_nx = dims_p[-1]*pe.mype_filter
 
         lim_coords = np.zeros((2, 2))
         lim_coords[0, 0] = float(off_nx + 1)
-        lim_coords[0, 1] = float(off_nx + nx_p[-1])
+        lim_coords[0, 1] = float(off_nx + dims_p[-1])
         lim_coords[1] = 0
 
         PDAF.omi_set_domain_limits(lim_coords)
+
+    def init_n_domains_pdaf(self, assim_dim, step, ndomains):
+        """get the number of analysis domains
+
+        Parameters
+        ----------
+        assim_dim : `AssimilationDimension.AssimilationDimension`
+            assim_dim object
+        step : int
+            current time step
+
+        Returns
+        -------
+        n_domains_p : int
+            PE-local number of analysis domains
+        """
+        return assim_dim.dim_state_p
 
     def init_dim_l_pdaf(self, nx_p, mype_filter, step, domain_p, dim_l):
         """initialise the local dimension of PDAF.
@@ -133,23 +150,6 @@ class Localization:
         self.id_lstate_in_pstate[0] = domain_p
 
         return dim_l
-
-    def init_n_domains_pdaf(self, assim_dim, step, ndomains):
-        """get the number of analysis domains
-
-        Parameters
-        ----------
-        assim_dim : `AssimilationDimension.AssimilationDimension`
-            assim_dim object
-        step : int
-            current time step
-
-        Returns
-        -------
-        n_domains_p : int
-            PE-local number of analysis domains
-        """
-        return assim_dim.dim_state_p
 
     def g2l_state_pdaf(self, step, domain_p, dim_p, state_p, dim_l, state_l):
         """convert PE-local global state vector to local state vector

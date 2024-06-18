@@ -57,11 +57,11 @@ def init_ens_pdaf(model, pe, assim_dim,
         status of PDAF
     """
     filename = 'inputs_online/ens_{i}.txt' # Change to '...ensB...' for alternative ensemble
-    off_nx = model.nx_p[-1]*pe.mype_model
+    off_nx = model.dims_p[-1]*pe.mype_model
     for i_ens in range(dim_ens):
         field_p = np.loadtxt(
                         filename.format(i=i_ens+1)
-                            )[:, off_nx:off_nx+model.nx_p[-1]]
+                            )[:, off_nx:off_nx+model.dims_p[-1]]
         ens_p[:, i_ens] = field_p.reshape(assim_dim.dim_state_p, order='F')
     return state_p, uinv, ens_p, status_pdaf
 
@@ -95,7 +95,7 @@ def distribute_state_pdaf(model, dim_p, state_p):
     state_p : ndarray
         1D state vector on local PE
     """
-    model.field_p = state_p.reshape(*model.nx_p, order='F')
+    model.field_p = state_p.reshape(*model.dims_p, order='F')
     return state_p
 
 def next_observation_pdaf(model, pe, delt_obs,
@@ -238,9 +238,9 @@ def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
             print('--- write ensemble and state estimate')
 
             stepstr = step if step >= 0 else -step
-            field = np.zeros(model.nx)
+            field = np.zeros(model.dims)
             for i in range(dim_ens):
-                field = ens[:, i].reshape(*model.nx, order='F')
+                field = ens[:, i].reshape(*model.dims, order='F')
                 filename = f'ens_{i+1}_step{stepstr}_{anastr}.txt'
                 np.savetxt(filename, field, delimiter=';')
 
@@ -255,7 +255,7 @@ def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
                 state[i*dim_p:(i+1)*dim_p] = state_p_tmp
             filename = f'state_step{stepstr}_{anastr}.txt'
             np.savetxt(filename,
-                       state.reshape(*model.nx, order='F'), delimiter=';')
+                       state.reshape(*model.dims, order='F'), delimiter=';')
 
     firsttime = False
 

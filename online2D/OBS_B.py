@@ -68,7 +68,7 @@ class OBS_B:
     n_obs = 0
 
     def __init__(self, typename, cnt, mype_filter, task_id,
-                 nx, doassim, delt_obs, rms_obs):
+                 dims, doassim, delt_obs, rms_obs):
         """constructor
 
         Parameters
@@ -77,7 +77,7 @@ class OBS_B:
             name of the observation type
         mype_filter : int
             rank of the PE in filter communicator
-        nx : ndarray
+        dims : ndarray
             grid size of the model domain
         doassim : int
             whether to assimilate this observation type
@@ -95,7 +95,7 @@ class OBS_B:
         if (mype_filter == 0 and task_id==1):
             print('Assimilate observations:', typename)
 
-        self.doassim = doassim         # This looks like one can only activate all observations at once?
+        self.doassim = doassim
         self.delt_obs = delt_obs
         self.rms_obs = rms_obs
 
@@ -105,7 +105,7 @@ class OBS_B:
 
         # Number of coordinates used for distance computation
         # The distance compution starts from the first row
-        self.ncoord = len(nx)
+        self.ncoord = len(dims)
 
         # Allocate process-local index array
         # This array has as many rows as required
@@ -118,8 +118,8 @@ class OBS_B:
         # (<0 for no periodicity)
         if self.i_obs == 1:
             self.domainsize = np.zeros(self.ncoord)
-            self.domainsize[0] = nx[1]
-            self.domainsize[1] = nx[0]
+            self.domainsize[0] = dims[1]
+            self.domainsize[1] = dims[0]
         else:
             self.domainsize = None
 
@@ -132,8 +132,8 @@ class OBS_B:
 
         self.icoeff_p = None
 
-    def init_dim_obs(self, step, dim_obs, local_range,
-                     mype_filter, nx, nx_p):
+    def init_dim_obs(self, step, dim_obs, cradius,
+                     mype_filter, dims, dims_p):
         """intialise PDAFomi and getting dimension of observation vector
 
         Parameters
@@ -142,23 +142,23 @@ class OBS_B:
             current time step
         dim_obs : int
             dimension size of the observation vector
-        local_range : float
-            range for local observation domain
+        cradius : float
+            cut-off radius for local observation domain
         mype_filter : int
             rank of the PE in filter communicator
-        nx : ndarray
+        dims : ndarray
             integer array for grid size
-        nx_p : ndarray
+        dims_p : ndarray
             integer array for PE-local grid size
         """
-        obs_field = self.get_obs_field(step, nx)
+        obs_field = self.get_obs_field(step, dims)
 
         # Count valid observations that
         # lie within the process sub-domain
-        pe_start = nx_p[-1]*mype_filter
-        pe_end = nx_p[-1]*(mype_filter+1)
+        pe_start = dims_p[-1]*mype_filter
+        pe_end = dims_p[-1]*(mype_filter+1)
         obs_field_p = obs_field[:, pe_start:pe_end]
-        assert tuple(nx_p) == obs_field_p.shape, \
+        assert tuple(dims_p) == obs_field_p.shape, \
                'observation decomposition should be the same as' \
                ' the model decomposition'
         cnt_p = np.count_nonzero(obs_field_p > -999.0)
@@ -168,8 +168,8 @@ class OBS_B:
         # Initialize coordinate array of observations
         # on the process sub-domain
         if self.dim_obs_p > 0:
-            self.set_obs_p(nx_p, obs_field_p)
-            self.set_id_obs_p(nx_p, obs_field_p)
+            self.set_obs_p(dims_p, obs_field_p)
+            self.set_id_obs_p(dims_p, obs_field_p)
             self.set_ocoord_p(obs_field_p, pe_start)
             self.set_ivar_obs_p()
         else:
@@ -178,34 +178,34 @@ class OBS_B:
             self.ocoord_p = np.zeros((self.ncoord, 1))
             self.id_obs_p = np.zeros((self.nrows, 1))
 
-        self.set_PDAFomi(local_range)
+        self.set_PDAFomi(cradius)
 
-    def set_obs_p(self, nx_p, obs_field_p):
+    def set_obs_p(self, dims_p, obs_field_p):
         """set up PE-local observation vector
 
         Parameters
         ----------
-        nx_p : ndarray
+        dims_p : ndarray
             PE-local model domain
         obs_field_p : ndarray
             PE-local observation field
         """
-        obs_field_tmp = obs_field_p.reshape(np.prod(nx_p), order='F')
+        obs_field_tmp = obs_field_p.reshape(np.prod(dims_p), order='F')
         self.obs_p = np.zeros(self.dim_obs_p)
         self.obs_p[:self.dim_obs_p] = obs_field_tmp[obs_field_tmp > -999]
 
-    def set_id_obs_p(self, nx_p, obs_field_p):
+    def set_id_obs_p(self, dims_p, obs_field_p):
         """set id_obs_p
 
         Parameters
         ----------
-        nx_p : ndarray
+        dims_p : ndarray
             PE-local model domain
         obs_field_p : ndarray
             PE-local observation field
         """
         self.id_obs_p = np.zeros((self.nrows, self.dim_obs_p))
-        obs_field_tmp = obs_field_p.reshape(np.prod(nx_p), order='F')
+        obs_field_tmp = obs_field_p.reshape(np.prod(dims_p), order='F')
         cnt0_p = np.where(obs_field_tmp > -999)[0] + 1
         assert len(cnt0_p) == self.dim_obs_p, 'dim_obs_p should equal cnt0_p'
         self.id_obs_p[0, :self.dim_obs_p] = cnt0_p
@@ -232,14 +232,14 @@ class OBS_B:
                                 self.dim_obs_p
                                 )/(self.rms_obs*self.rms_obs)
 
-    def get_obs_field(self, step, nx):
+    def get_obs_field(self, step, dims):
         """retrieve observation field
 
         Parameters
         ----------
         step : int
             current time step
-        nx : ndarray
+        dims : ndarray
             grid size of the model domain
 
         Returns
@@ -247,17 +247,17 @@ class OBS_B:
         obs_field : ndarray
             observation field
         """
-        obs_field = np.zeros(nx)
+        obs_field = np.zeros(dims)
         obs_field = np.loadtxt(f'inputs_online/obsB_step{step}.txt')
         return obs_field
 
-    def set_PDAFomi(self, local_range):
+    def set_PDAFomi(self, cradius):
         """set PDAFomi obs_f object
 
         Parameters
         ----------
-        local_range : double
-            lcalization radius (the maximum radius used in this process domain)
+        cradius : double
+            localization cut-off radius (the maximum radius used in this process domain)
         """
         #print (self.obs_p)
         PDAF.omi_set_doassim(self.i_obs, self.doassim)
@@ -277,7 +277,7 @@ class OBS_B:
                                           self.obs_p,
                                           self.ivar_obs_p,
                                           self.ocoord_p,
-                                          local_range)
+                                          cradius)
 
     def obs_op(self, step, state_p, ostate):
         """convert state vector by observation operator
@@ -291,8 +291,7 @@ class OBS_B:
         ostate : ndarray
             state vector transformed by identity matrix
         """
-        if (self.doassim == 1):
-            ostate = PDAF.omi_obs_op_gridpoint(self.i_obs, state_p, ostate)
+        ostate = PDAF.omi_obs_op_gridpoint(self.i_obs, state_p, ostate)
         return ostate
 
     def init_dim_obs_l(self, localization, domain_p, step, dim_obs, dim_obs_l):
@@ -319,8 +318,8 @@ class OBS_B:
         dim_obs_l = 0
         return PDAF.omi_init_dim_obs_l(self.i_obs, localization.coords_l,
                                       localization.loc_weight,
-                                      localization.local_range,
-                                      localization.srange, dim_obs_l)
+                                      localization.cradius,
+                                      localization.sradius, dim_obs_l)
 
     def localize_covar(self, localization, HP_p, HPH, coords_p):
         """localze covariance matrix
@@ -337,8 +336,8 @@ class OBS_B:
             coordinates of state vector elements
         """
         PDAF.omi_localize_covar(self.i_obs, localization.loc_weight,
-                               localization.local_range,
-                               localization.srange,
+                               localization.cradius,
+                               localization.sradius,
                                coords_p, HP_p, HPH)
 
     def deallocate_obs(self):

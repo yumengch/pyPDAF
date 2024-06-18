@@ -40,7 +40,7 @@ class FilterOptions:
         type of ensemble transformation
     """
 
-    def __init__(self, filtertype, subtype):
+    def __init__(self, filtertype, subtype, forget):
         """Summary
 
         Parameters
@@ -55,10 +55,26 @@ class FilterOptions:
         # Subtype of filter algorithm
         self.subtype = subtype
 
+        # Set forgetting factor
+        self.forget = forget
+
+        # Set other parameters to default values
+        self.type_trans = 0
+        self.type_sqrt = 0
+        self.incremental = 0
+        self.covartype = 1
+        self.type_forget = 0
+
+        self.rank_analysis_enkf = 0
+
+
     def setTransformTypes(self, type_trans, type_sqrt, incremental,
                           covartype, rank_analysis_enkf):
         """Summary
 
+        This script set additional optional parameters for PDAF.
+        The default values are specified in __init__
+        
         Parameters
         ----------
         type_trans : int
@@ -86,3 +102,18 @@ class FilterOptions:
         self.covartype = covartype
 
         self.rank_analysis_enkf = rank_analysis_enkf
+
+
+    def setForgetType(self, type_forget):
+        """Set type of inflation
+
+        Parameters
+        ----------
+        type_forget : int
+            type of forgetting factor
+            - (0) fixed
+            - (1) global adaptive
+            - (2) local adaptive for LSEIK/LETKF/LESTKF
+        """
+
+        self.type_forget = type_forget

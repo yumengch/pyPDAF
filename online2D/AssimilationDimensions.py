@@ -43,6 +43,6 @@ class AssimilationDimensions:
         dim_ens : int
             ensemble size
         """
-        self.dim_state_p = np.prod(model.nx_p)
-        self.dim_state = np.prod(model.nx)
+        self.dim_state_p = np.prod(model.dims_p)
+        self.dim_state = np.prod(model.dims)
         self.dim_ens = dim_ens
