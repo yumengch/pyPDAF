@@ -17,8 +17,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import numpy as np
-import pyPDAF.PDAF as PDAF
 import functools
+import pyPDAF.PDAF as PDAF
 import U_PDAF
 import U_PDAFomi
 import Localization
@@ -35,35 +35,33 @@ class init_pdaf:
         a list of float options for EnKF
     """
 
-    def __init__(self, assim_dim, infl, filter_options,
-                 localization, model, pe, obs, screen):
+    def __init__(self, assim_dim, filter_options,
+                 localization, model, obs, pe, screen):
         """constructor
 
         Parameters
         ----------
         assim_dim : `AssimilationDimensions.AssimilationDimensions`
             an object of AssimilationDimensions
-        infl : `Inflation.Inflation`
-            inflation object
         filter_options : `FilterOptions.FilterOptions`
             filtering options
         localization : `Localization.Localization`
             localization object
         model : `Model.Model`
             model object
+        obs : `OBS.OBS`
+            observation objects array
         pe : `parallelization.parallelization`
             parallelization object
-        obs : `OBS.OBS`
-            observation object
         screen : int
             verbosity of PDAF screen output
         """
         if (filter_options.filtertype == 2):
             # EnKF with Monte Carlo init
-            self.setEnKFOptions(6, 2, assim_dim, infl, filter_options)
+            self.setEnKFOptions(6, 2, assim_dim, filter_options)
         else:
             # All other filters
-            self.setETKFOptions(7, 2, assim_dim, infl, filter_options)
+            self.setETKFOptions(7, 2, assim_dim, filter_options)
 
         U_init_ens_pdaf = functools.partial(U_PDAF.init_ens_pdaf,
                                             model, pe, assim_dim)
@@ -72,7 +70,7 @@ class init_pdaf:
         self.filter_param_r, \
         status = PDAF.init(filter_options.filtertype,
                            filter_options.subtype,
-                           1,
+                           0,
                            self.filter_param_i,
                            self.filter_param_r,
                            pe.COMM_model.py2f(),
@@ -104,10 +102,10 @@ class init_pdaf:
                                          U_prepoststep_ens_pdaf,
                                          status)
 
-        localization.set_lim_coords(model.nx_p, pe)
+        localization.set_lim_coords(model.dims_p, pe)
 
     def setEnKFOptions(self, dim_pint, dim_preal,
-                       assim_dim, infl, filter_options):
+                       assim_dim, filter_options):
         """set ensemble kalman filter options
 
         Parameters
@@ -118,8 +116,6 @@ class init_pdaf:
             size of float filter options
         assim_dim : `AssimilationDimensions.AssimilationDimensions`
             an object of AssimilationDimensions
-        infl : `Inflation.Inflation`
-            inflation object
         filter_options : `FilterOptions.FilterOptions`
             filtering options
         """
@@ -132,10 +128,10 @@ class init_pdaf:
         self.filter_param_i[3] = filter_options.incremental
         self.filter_param_i[4] = 0
 
-        self.filter_param_r[0] = infl.forget
+        self.filter_param_r[0] = filter_options.forget
 
     def setETKFOptions(self, dim_pint, dim_preal,
-                       assim_dim, infl, filter_options):
+                       assim_dim, filter_options):
         """Summary
 
         Parameters
@@ -146,8 +142,6 @@ class init_pdaf:
             size of float filter options
         assim_dim : `AssimilationDimensions.AssimilationDimensions`
             an object of AssimilationDimensions
-        infl : `Inflation.Inflation`
-            inflation object
         filter_options : `FilterOptions.FilterOptions`
             filtering options
         """
@@ -158,11 +152,11 @@ class init_pdaf:
         self.filter_param_i[1] = assim_dim.dim_ens
         self.filter_param_i[2] = 0
         self.filter_param_i[3] = filter_options.incremental
-        self.filter_param_i[4] = infl.type_forget
+        self.filter_param_i[4] = filter_options.type_forget
         self.filter_param_i[5] = filter_options.type_trans
         self.filter_param_i[6] = filter_options.type_sqrt
 
-        self.filter_param_r[0] = infl.forget
+        self.filter_param_r[0] = filter_options.forget
 
 
 class assimilate_pdaf:
@@ -170,42 +164,36 @@ class assimilate_pdaf:
     """assimilation calls
     """
 
-    def __init__(self, model, obs, pe, assim_dim, localization, filtertype):
+    def __init__(self, assim_dim, filter_options, localization, model, obs, pe):
         """constructor
 
         Parameters
         ----------
+        assim_dim : `AssimilationDimensions.AssimilationDimensions`
+            an object of AssimilationDimensions
+        filter_options : `FilterOptions.FilterOptions`
+            filtering options (only filtertype should be relevant)
+        localization : `Localization.Localization`
         model : `Model.Model`
             model object
         obs : `OBS.OBS`
             observation object
         pe : `parallelization.parallelization`
             parallelization object
-        assim_dim : `AssimilationDimensions.AssimilationDimensions`
-            an object of AssimilationDimensions
-        localization : `Localization.Localization`
-        filtertype : int
-            type of filter
         """
         U_collect_state_pdaf = \
             functools.partial(U_PDAF.collect_state_pdaf,
                               model, assim_dim)
-        U_next_observation_pdaf = \
-            functools.partial(U_PDAF.next_observation_pdaf,
-                              model, pe, obs[0].delt_obs)
-        U_distribute_state_pdaf = \
-            functools.partial(U_PDAF.distribute_state_pdaf,
-                              model)
         U_prepoststep_ens_pdaf = \
             functools.partial(U_PDAF.prepoststep_ens_pdaf,
                               assim_dim, model, pe, obs)
         U_init_dim_obs_PDAFomi = \
             functools.partial(U_PDAFomi.init_dim_obs_pdafomi,
                               obs,
-                              localization.local_range,
+                              localization.cradius,
                               pe.mype_filter,
-                              model.nx,
-                              model.nx_p)
+                              model.dims,
+                              model.dims_p)
 
         U_obs_op_PDAFomi = \
             functools.partial(U_PDAFomi.obs_op_pdafomi,
@@ -213,7 +201,7 @@ class assimilate_pdaf:
 
         U_init_dim_l_pdaf = \
             functools.partial(localization.init_dim_l_pdaf,
-                              model.nx_p, pe.mype_filter)
+                              model.dims_p, pe.mype_filter)
 
         U_init_dim_obs_l_PDAFomi = \
             functools.partial(U_PDAFomi.init_dim_obs_l_pdafomi,

@@ -28,9 +28,9 @@ class Model:
     ----------
     field_p : ndarray
         PE-local model field
-    nx : ndarray
+    dims : ndarray
         integer array for grid size
-    nx_p : ndarray
+    dims_p : ndarray
         integer array for PE-local grid size
     total_steps : int
         total number of time steps
@@ -41,7 +41,7 @@ class Model:
 
         Parameters
         ----------
-        nx : ndarray
+        dims : ndarray
             integer array for grid size
         nt : int
             total number of time steps
@@ -49,10 +49,9 @@ class Model:
             parallelization object
         """
         # model size
-        self.nx = list(nx)
-
+        self.dims = list(nx)
         # model size for each CPU
-        self.get_nxp(pe)
+        self.get_dimsp(pe)
 
         if pe.mype_world == 0:
             print('')
@@ -62,7 +61,7 @@ class Model:
             print('    Global model state dimension: ', nx[0]*nx[1])
             print('')
 
-    def get_nxp(self, pe):
+    def get_dimsp(self, pe):
         """Compute local-PE domain size/domain decomposition
 
         Parameters
@@ -70,11 +69,11 @@ class Model:
         pe : `parallelization.parallelization`
             parallelization object
         """
-        self.nx_p = copy.copy(self.nx)
+        self.dims_p = copy.copy(self.dims)
 
         try:
-            assert self.nx[-1] % pe.npes_model == 0
-            self.nx_p[-1] = self.nx[-1]//pe.npes_model
+            assert self.dims[-1] % pe.npes_model == 0
+            self.dims_p[-1] = self.dims[-1]//pe.npes_model
         except AssertionError:
             print((f'...ERROR: Invalid number of'
                    f'processes: {pe.npes_model}...'))
@@ -91,11 +90,11 @@ class Model:
             rank of the process in model communicator
         """
         # model field
-        self.field_p = np.zeros(self.nx_p)
-        offset = self.nx_p[-1]*mype_model
+        self.field_p = np.zeros(self.dims_p)
+        offset = self.dims_p[-1]*mype_model
         self.field_p = np.loadtxt(
                                     filename
-                                    )[:, offset:self.nx_p[-1] + offset]
+                                    )[:, offset:self.dims_p[-1] + offset]
 
 
     def printInfo(self, USE_PDAF, pe):
@@ -113,6 +112,6 @@ class Model:
             (pe.task_id == 1 and pe.mype_model == 0 and not USE_PDAF)
         if do_print:
             print('MODEL-side: INITIALIZE PARALLELIZED Shifting model MODEL')
-            print(f'Grid size: {self.nx}')
+            print(f'Grid size: {self.dims}')
             print(f'-- Domain decomposition over {pe.npes_model} PEs')
-            print(f'-- local domain sizes (nx_p): {self.nx_p}')
+            print(f'-- local domain sizes (dims_p): {self.dims_p}')

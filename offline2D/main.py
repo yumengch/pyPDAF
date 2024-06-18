@@ -28,7 +28,6 @@ import PDAF_caller
 from Localization import Localization
 from AssimilationDimensions import AssimilationDimensions
 from FilterOptions import FilterOptions
-from Inflation import Inflation
 
 
 def main():
@@ -44,14 +43,12 @@ def main():
     # number of ensemble members
     dim_ens = 4
     # using error space transform Kalman filter (4=ETKF, 5=LETKF)
-    filtertype = 4 
+    filtertype = 4
     # standard form
     subtype = 5
     # forgetting factor
     forget = 1.0
 
-    # time interval between observations
-    dtobs = 1
     # Observation error standard deviation
     rms_obs = 0.5
     # Assimilate observation type A
@@ -62,15 +59,12 @@ def main():
     # Type of localization function (0: constant, 1: exponential decay, 2: 5th order polynomial)
     loc_weight = 0
     # localization cut-off radius in grid points
-    local_range = 0
+    cradius = 0
     # Support radius for localization function
-    srange = local_range
+    sradius = cradius
     
     ###############################
 
-    # dimension of the state vector
-    # if model is parallelised, this is the dimension of state vector on each process
-    dim_state_p = nx*ny
 
     if USE_PDAF:
         pe = parallelization(dim_ens=dim_ens, n_modeltasks=1, screen=1)
@@ -87,43 +81,47 @@ def main():
 
     # Initialize model
     model = Model.Model((ny, nx), pe=pe)
-    
+
+    # Initialize observations
     obs = []
     obscnt = 0
 
     if assim_A:
         obscnt += 1
         obs.append(OBS_A.OBS_A('A', obscnt, pe.mype_filter, pe.task_id,
-                           model.nx, 1, dtobs, rms_obs))
+                           model.dims, 1, 1, rms_obs))
     if assim_B:
         obscnt += 1
         obs.append(OBS_B.OBS_B('B', obscnt, pe.mype_filter, pe.task_id,
-                               model.nx, 1, dtobs, rms_obs))
+                               model.dims, 1, 1, rms_obs))
 
-    assim_dim = AssimilationDimensions(model, dim_ens=dim_ens)
-    filter_options = FilterOptions(filtertype=filtertype, subtype=subtype)
-    filter_options.setTransformTypes(type_trans=0, type_sqrt=0,
-                                     incremental=0, covartype=1,
-                                     rank_analysis_enkf=0)
-    infl = Inflation(type_forget=0, forget=forget)
-    localization = Localization(loc_weight=loc_weight, local_range=local_range,
-                                srange=srange)
-
-
-    # init observations
     PDAF.omi_init(len(obs))
 
+    
+    # Set state dimension and ensemble size for PDAF
+    assim_dim = AssimilationDimensions(model=model,
+                                       dim_ens=dim_ens)
+    # Set options for PDAF
+    filter_options = FilterOptions(filtertype=filtertype,
+                                   subtype=subtype,
+                                   forget=forget)
+    # Set localization parameters
+    localization = Localization(loc_weight=loc_weight,
+                                cradius=cradius,
+                                sradius=sradius)
+
     # init PDAF
-    PDAF_caller.init_pdaf(assim_dim, infl,
+    PDAF_caller.init_pdaf(assim_dim,
                           filter_options,
                           localization,
-                          model, pe,
-                          obs, screen=2)
+                          model, obs, pe,
+                          screen=2)
 
     # Assimilate
-    PDAF_caller.assimilate_pdaf(model, obs, pe,
-                                assim_dim, localization,
-                                filtertype)
+    PDAF_caller.assimilate_pdaf(assim_dim,
+                                filter_options,
+                                localization,
+                                model, obs, pe)
 
     pe.finalize_parallel()
 

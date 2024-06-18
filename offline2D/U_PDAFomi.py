@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import numpy as np
 
 
-def init_dim_obs_pdafomi(list_of_obs, local_range,
+def init_dim_obs_pdafomi(list_of_obs, cradius,
                          mype_filter, nx, nx_p, step, dim_obs):
     """initialise observation dimensions
 
@@ -27,8 +27,8 @@ def init_dim_obs_pdafomi(list_of_obs, local_range,
     ----------
     list_of_obs : list
         a list of all types of observations
-    local_range : float
-        range for local observation domain
+    cradius : float
+        cut-off radius for local observation domain
     mype_filter : int
         rank of the PE in filter communicator
     nx : ndarray
@@ -48,7 +48,7 @@ def init_dim_obs_pdafomi(list_of_obs, local_range,
     d_obs = 0
     for obs in list_of_obs:
         if(obs.doassim):
-            obs.init_dim_obs(step, dim_obs, local_range,
+            obs.init_dim_obs(step, dim_obs, cradius,
                              mype_filter, nx, nx_p)
             d_obs += obs.dim_obs
     dim_obs = d_obs
