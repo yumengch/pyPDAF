@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import argparse as ap
 
-def read_and_plot(filename1, filename2):
+def read_and_plot_diff(filename1, filename2):
     field1 = np.loadtxt(filename1, delimiter=';')
     field2 = np.loadtxt(filename2)
     field1 = field1.reshape(18,36)
@@ -33,6 +33,6 @@ if __name__ == "__main__":
     parser.add_argument('filename2')
     args = parser.parse_args()
     try:
-        read_and_plot(args.filename1, args.filename2)
+        read_and_plot_diff(args.filename1, args.filename2)
     except OSError as err:
         print(err)

@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import argparse as ap
 
-def read_and_plot(filename):
+def read_and_plot_input(filename):
     #field = np.loadtxt(filename,delimiter=';')
     field = np.loadtxt(filename)
     field = field.reshape(18,36)
@@ -23,6 +23,6 @@ if __name__ == "__main__":
     parser.add_argument('filename')
     args = parser.parse_args()
     try:
-        read_and_plot(args.filename)
+        read_and_plot_input(args.filename)
     except OSError as err:
         print(err)
