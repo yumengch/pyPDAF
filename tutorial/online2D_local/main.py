@@ -64,7 +64,7 @@ def main():
     # Type of localization function (0: constant, 1: exponential decay, 2: 5th order polynomial)
     loc_weight = 2
     # localization cut-off radius in grid points
-    cradius = 0.0
+    cradius = 40.0
     # Support radius for localization function
     sradius = cradius
     
@@ -108,7 +108,7 @@ def main():
     # Set state dimension and ensemble size for PDAF
     assim_dim = AssimilationDimensions(model=model,
                                        dim_ens=dim_ens,
-                                       experiment=f'out_N{dim_ens}_lw{loc_weight}_r{cradius}')
+                                       experiment=f'out_ensB_N{dim_ens}_lw{loc_weight}_r{cradius}')
 
     # Set options for PDAF
     filter_options = FilterOptions(filtertype=filtertype,

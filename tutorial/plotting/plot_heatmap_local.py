@@ -87,9 +87,6 @@ if __name__ == "__main__":
             rmse_arr[i+1,j] = rmse(f'out_ensB_N4_lw{locweight}_r{forgets[i]}/state_step{nsteps[j]}_ana.txt', f'inputs_online/true_step{nsteps[j]}.txt')
             #rmse_arr[i+1,j] = rmse(f'out_N4_lw{locweight}_r{forgets[i]}/state_step{nsteps[j]}_ana.txt', f'inputs_online/true_step{nsteps[j]}.txt')
 
-#    minval = np.min(rmse_arr)
-#    print ('minval ', minval)
-
     fig, ax1 = plt.subplots(1, 1, figsize=(6, 6),facecolor='.9')
     divnorm = colors.TwoSlopeNorm(vmin=0,vcenter=.5,vmax=1)
     # Replicate the above example with a different font size and colormap.
