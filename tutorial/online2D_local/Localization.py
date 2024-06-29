@@ -84,13 +84,13 @@ class Localization:
 
         PDAF.omi_set_domain_limits(lim_coords)
 
-    def init_n_domains_pdaf(self, assim_dim, step, ndomains):
+    def init_n_domains_pdaf(self, assim_opt, step, ndomains):
         """get the number of analysis domains
 
         Parameters
         ----------
-        assim_dim : `AssimilationDimension.AssimilationDimension`
-            assim_dim object
+        assim_opt : `AssimilationOptions.AssimilationOptions`
+            assim_opt object
         step : int
             current time step
 
@@ -99,7 +99,7 @@ class Localization:
         n_domains_p : int
             PE-local number of analysis domains
         """
-        return assim_dim.dim_state_p
+        return assim_opt.dim_state_p
 
     def init_dim_l_pdaf(self, dims_p, mype_filter, step, domain_p, dim_l):
         """initialise the local dimension of PDAF.

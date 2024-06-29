@@ -35,14 +35,14 @@ class init_pdaf:
         a list of float options for EnKF
     """
 
-    def __init__(self, assim_dim, filter_options,
+    def __init__(self, assim_opt, filter_options,
                  localization, model, obs, pe, screen):
         """constructor
 
         Parameters
         ----------
-        assim_dim : `AssimilationDimensions.AssimilationDimensions`
-            an object of AssimilationDimensions
+        assim_opt : `AssimilationOptions.AssimilationOptions`
+            an object of AssimilationOptions
         filter_options : `FilterOptions.FilterOptions`
             filtering options
         localization : `Localization.Localization`
@@ -58,13 +58,13 @@ class init_pdaf:
         """
         if (filter_options.filtertype == 2):
             # EnKF with Monte Carlo init
-            self.setEnKFOptions(6, 2, assim_dim, filter_options)
+            self.setEnKFOptions(6, 2, assim_opt, filter_options)
         else:
             # All other filters
-            self.setETKFOptions(7, 2, assim_dim, filter_options)
+            self.setETKFOptions(7, 2, assim_opt, filter_options)
 
         U_init_ens_pdaf = functools.partial(U_PDAF.init_ens_pdaf,
-                                            model, pe, assim_dim)
+                                            model, pe, assim_opt)
 
         self.filter_param_i, \
         self.filter_param_r, \
@@ -94,7 +94,7 @@ class init_pdaf:
                               model)
         U_prepoststep_ens_pdaf = \
             functools.partial(U_PDAF.prepoststep_ens_pdaf,
-                              assim_dim, model, pe, obs)
+                              assim_opt, model, pe, obs)
 
         steps, time, doexit, status = PDAF.get_state(0, 0,
                                          U_next_observation_pdaf,
@@ -105,7 +105,7 @@ class init_pdaf:
         localization.set_lim_coords(model.dims_p, pe)
 
     def setEnKFOptions(self, dim_pint, dim_preal,
-                       assim_dim, filter_options):
+                       assim_opt, filter_options):
         """set ensemble kalman filter options
 
         Parameters
@@ -114,16 +114,16 @@ class init_pdaf:
             size of integer filter options
         dim_preal : int
             size of float filter options
-        assim_dim : `AssimilationDimensions.AssimilationDimensions`
-            an object of AssimilationDimensions
+        assim_opt : `AssimilationOptions.AssimilationOptions`
+            an object of AssimilationOptions
         filter_options : `FilterOptions.FilterOptions`
             filtering options
         """
         self.filter_param_i = np.zeros(dim_pint, dtype=int)
         self.filter_param_r = np.zeros(dim_preal)
 
-        self.filter_param_i[0] = assim_dim.dim_state_p
-        self.filter_param_i[1] = assim_dim.dim_ens
+        self.filter_param_i[0] = assim_opt.dim_state_p
+        self.filter_param_i[1] = assim_opt.dim_ens
         self.filter_param_i[2] = filter_options.rank_analysis_enkf
         self.filter_param_i[3] = filter_options.incremental
         self.filter_param_i[4] = 0
@@ -131,7 +131,7 @@ class init_pdaf:
         self.filter_param_r[0] = filter_options.forget
 
     def setETKFOptions(self, dim_pint, dim_preal,
-                       assim_dim, filter_options):
+                       assim_opt, filter_options):
         """Summary
 
         Parameters
@@ -140,16 +140,16 @@ class init_pdaf:
             size of integer filter options
         dim_preal : int
             size of float filter options
-        assim_dim : `AssimilationDimensions.AssimilationDimensions`
-            an object of AssimilationDimensions
+        assim_opt : `AssimilationOptions.AssimilationOptions`
+            an object of AssimilationOptions
         filter_options : `FilterOptions.FilterOptions`
             filtering options
         """
         self.filter_param_i = np.zeros(dim_pint, dtype=int)
         self.filter_param_r = np.zeros(dim_preal)
 
-        self.filter_param_i[0] = assim_dim.dim_state_p
-        self.filter_param_i[1] = assim_dim.dim_ens
+        self.filter_param_i[0] = assim_opt.dim_state_p
+        self.filter_param_i[1] = assim_opt.dim_ens
         self.filter_param_i[2] = 0
         self.filter_param_i[3] = filter_options.incremental
         self.filter_param_i[4] = filter_options.type_forget
@@ -164,13 +164,13 @@ class assimilate_pdaf:
     """assimilation calls
     """
 
-    def __init__(self, assim_dim, filter_options, localization, model, obs, pe):
+    def __init__(self, assim_opt, filter_options, localization, model, obs, pe):
         """constructor
 
         Parameters
         ----------
-        assim_dim : `AssimilationDimensions.AssimilationDimensions`
-            an object of AssimilationDimensions
+        assim_opt : `AssimilationOptions.AssimilationOptions`
+            an object of AssimilationOptions
         filter_options : `FilterOptions.FilterOptions`
             filtering options (only filtertype should be relevant)
         localization : `Localization.Localization`
@@ -183,7 +183,7 @@ class assimilate_pdaf:
         """
         U_collect_state_pdaf = \
             functools.partial(U_PDAF.collect_state_pdaf,
-                              model, assim_dim)
+                              model, assim_opt)
         U_next_observation_pdaf = \
             functools.partial(U_PDAF.next_observation_pdaf,
                               model, pe, obs[0].delt_obs)
@@ -192,7 +192,7 @@ class assimilate_pdaf:
                               model)
         U_prepoststep_ens_pdaf = \
             functools.partial(U_PDAF.prepoststep_ens_pdaf,
-                              assim_dim, model, pe, obs)
+                              assim_opt, model, pe, obs)
         U_init_dim_obs_PDAFomi = \
             functools.partial(U_PDAFomi.init_dim_obs_pdafomi,
                               obs,
@@ -215,7 +215,7 @@ class assimilate_pdaf:
                               localization)
         U_init_n_domains_pdaf = functools.partial(
             localization.init_n_domains_pdaf,
-            assim_dim
+            assim_opt
             )
 
         lfilter = \

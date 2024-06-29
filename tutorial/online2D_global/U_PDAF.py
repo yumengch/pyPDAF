@@ -27,7 +27,7 @@ import os
 import U_PDAFomi
 
 
-def init_ens_pdaf(model, pe, assim_dim,
+def init_ens_pdaf(model, pe, assim_opt,
                   filtertype, dim_p,
                   dim_ens, state_p, 
                   uinv, ens_p, status_pdaf):
@@ -39,8 +39,8 @@ def init_ens_pdaf(model, pe, assim_dim,
         model object
     pe : `parallelization.parallelization`
         parallelization object
-    assim_dim : `AssimilationDimensions.AssimilationDimensions`
-        an object of AssimilationDimensions
+    assim_opt : `AssimilationOptions.AssimilationOptions`
+        an object of AssimilationOptions
     filtertype : int
         type of filter
     state_p : ndarray
@@ -58,12 +58,12 @@ def init_ens_pdaf(model, pe, assim_dim,
         status of PDAF
     """
     if pe.mype_filter==0:
-        print(f'   Read ensemble type {assim_dim.enstype}')
+        print(f'   Read ensemble type {assim_opt.enstype}')
         
-    if assim_dim.enstype=='A':
+    if assim_opt.enstype=='A':
         filename = f'inputs_online/ens_'
     else:
-        filename = f'inputs_online/ens{assim_dim.enstype}_'
+        filename = f'inputs_online/ens{assim_opt.enstype}_'
     filename = filename+'{i}.txt'
 
     off_nx = model.dims_p[-1]*pe.mype_model
@@ -75,7 +75,7 @@ def init_ens_pdaf(model, pe, assim_dim,
     return state_p, uinv, ens_p, status_pdaf
 
 
-def collect_state_pdaf(model, assim_dim, dim_p, state_p):
+def collect_state_pdaf(model, assim_opt, dim_p, state_p):
     """Collect state vector in PDAF from model
 
     rely on Python's pass by reference
@@ -84,8 +84,8 @@ def collect_state_pdaf(model, assim_dim, dim_p, state_p):
     ----------
     model : `Model.Model`
         model object
-    assim_dim : `AssimilationDimensions.AssimilationDimensions`
-        an object of AssimilationDimensions
+    assim_opt : `AssimilationOptions.AssimilationOptions`
+        an object of AssimilationOptions
     state_p : ndarray
         1D state vector on local PE
     """
@@ -155,7 +155,7 @@ def next_observation_pdaf(model, pe, delt_obs,
 firsttime = True
 
 
-def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
+def prepoststep_ens_pdaf(assim_opt, model, pe, obs,
                          step, dim_p, dim_ens, dim_ens_p,
                          dim_obs_p, state_p, uinv, ens_p, flag):
     """pre- and post-processing of ensemble
@@ -212,7 +212,7 @@ def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
             print('   Analyze and write assimilated state ensemble')
             anastr = 'ana'
 
-    variance = np.zeros(assim_dim.dim_state)
+    variance = np.zeros(assim_opt.dim_state)
 
     state_p = np.mean(ens_p, axis=1)
     variance_p = np.var(ens_p, axis=-1, ddof=1)
@@ -227,15 +227,15 @@ def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
 
     rmserror_est = np.sqrt(np.sum(
                             variance
-                                 )/assim_dim.dim_state)
+                                 )/assim_opt.dim_state)
 
     if pe.mype_filter == 0:
         print('   Ensemble spread stddev: ', rmserror_est)
 
     if (not firsttime):
-        expstr = assim_dim.experiment
-        ens = np.zeros((assim_dim.dim_state, dim_ens))
-        state = np.zeros(assim_dim.dim_state)
+        expstr = assim_opt.experiment
+        ens = np.zeros((assim_opt.dim_state, dim_ens))
+        state = np.zeros(assim_opt.dim_state)
         if pe.mype_filter != 0:
             pe.COMM_filter.Send(ens_p, 0, pe.mype_filter)
         else:
@@ -268,7 +268,7 @@ def prepoststep_ens_pdaf(assim_dim, model, pe, obs,
                        state.reshape(*model.dims, order='F'), delimiter=';')
     else:
         # At initial call create the output directory
-        expstr = assim_dim.experiment
+        expstr = assim_opt.experiment
         if not os.path.isdir(expstr):
             print ('   Create directory ', expstr)
             os.mkdir(expstr)
