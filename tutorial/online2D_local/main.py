@@ -69,7 +69,7 @@ def main():
     sradius = cradius
 
     # Set ensemble type (A,B,C,D,E)
-    enstype='A'
+    enstype='E'
     
     ###############################
 

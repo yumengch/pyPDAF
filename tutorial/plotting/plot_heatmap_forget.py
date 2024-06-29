@@ -79,15 +79,17 @@ if __name__ == "__main__":
     nsteps = ["2","4","6","8","10","12","14","16","18"]
     forgets = ["0.1","0.2","0.3","0.4","0.5","0.6","0.7","0.8","0.9","1.0"]
 
-    empty_arr = np.full((len(forgets)+1, len(nsteps)), np.nan)
+    rmse_arr = np.full((len(forgets)+1, len(nsteps)), np.nan)
     for i in range(len(forgets)):
         for j in range(len(nsteps)):
-            empty_arr[i+1,j] = rmse(f'out_N4_f{forgets[i]}/state_step{nsteps[j]}_ana.txt', f'inputs_online/true_step{nsteps[j]}.txt')
+            rmse_arr[i+1,j] = rmse(f'out_ensD_N4_f{forgets[i]}/state_step{nsteps[j]}_ana.txt', f'inputs_online/true_step{nsteps[j]}.txt')
+
+    print('minval ', np.min(rmse_arr[1:,:]))
 
     fig, ax1 = plt.subplots(1, 1, figsize=(6, 6),facecolor='.9')
     divnorm = colors.TwoSlopeNorm(vmin=0,vcenter=.5,vmax=1)
     # Replicate the above example with a different font size and colormap.
-    coefficients = empty_arr[1:].T
+    coefficients = rmse_arr[1:].T
     im1, cbar1 = heatmap(coefficients, nsteps, forgets, norm=divnorm, ax=ax1,cmap='RdYlGn_r')
     ax1.set_xlabel('forgetting factor')
     ax1.set_ylabel('analysis time step')
