@@ -26,7 +26,7 @@ import PDAF_caller
 
 
 from Localization import Localization
-from AssimilationDimensions import AssimilationDimensions
+from AssimilationOptions import AssimilationOptions
 from FilterOptions import FilterOptions
 
 
@@ -62,11 +62,14 @@ def main():
     assim_B = True
     
     # Type of localization function (0: constant, 1: exponential decay, 2: 5th order polynomial)
-    loc_weight = 2
+    loc_weight = 0
     # localization cut-off radius in grid points
-    cradius = 40.0
+    cradius = 0.0
     # Support radius for localization function
     sradius = cradius
+
+    # Set ensemble type (A,B,C,D,E)
+    enstype='A'
     
     ###############################
 
@@ -106,9 +109,10 @@ def main():
 
 
     # Set state dimension and ensemble size for PDAF
-    assim_dim = AssimilationDimensions(model=model,
+    assim_opt = AssimilationOptions(model=model,
                                        dim_ens=dim_ens,
-                                       experiment=f'out_ensB_N{dim_ens}_lw{loc_weight}_r{cradius}')
+                                       enstype=enstype,
+                                       experiment=f'out_ens{enstype}_N{dim_ens}_lw{loc_weight}_r{cradius}')
 
     # Set options for PDAF
     filter_options = FilterOptions(filtertype=filtertype,
@@ -120,7 +124,7 @@ def main():
                                 sradius=sradius)
 
     # init PDAF
-    PDAF_caller.init_pdaf(assim_dim,
+    PDAF_caller.init_pdaf(assim_opt,
                           filter_options,
                           localization,
                           model, obs, pe,
@@ -130,7 +134,7 @@ def main():
     for it in range(nt):
         model.step(pe, it, USE_PDAF)
         if USE_PDAF:
-            PDAF_caller.assimilate_pdaf(assim_dim,
+            PDAF_caller.assimilate_pdaf(assim_opt,
                                         filter_options,
                                         localization,
                                         model, obs, pe)

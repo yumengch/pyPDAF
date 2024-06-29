@@ -57,7 +57,15 @@ def init_ens_pdaf(model, pe, assim_dim,
     status_pdaf : int
         status of PDAF
     """
-    filename = 'inputs_online/ensB_{i}.txt'
+    if pe.mype_filter==0:
+        print(f'   Read ensemble type {assim_dim.enstype}')
+        
+    if assim_dim.enstype=='A':
+        filename = f'inputs_online/ens_'
+    else:
+        filename = f'inputs_online/ens{assim_dim.enstype}_'
+    filename = filename+'{i}.txt'
+
     off_nx = model.dims_p[-1]*pe.mype_model
     for i_ens in range(dim_ens):
         field_p = np.loadtxt(
