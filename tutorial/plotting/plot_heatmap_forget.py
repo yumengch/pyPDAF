@@ -79,12 +79,15 @@ if __name__ == "__main__":
     nsteps = ["2","4","6","8","10","12","14","16","18"]
     forgets = ["0.1","0.2","0.3","0.4","0.5","0.6","0.7","0.8","0.9","1.0"]
 
+    enstype = 'A'
+    dim_ens = 4
+
     rmse_arr = np.full((len(forgets)+1, len(nsteps)), np.nan)
     for i in range(len(forgets)):
         for j in range(len(nsteps)):
-            rmse_arr[i+1,j] = rmse(f'out_ensD_N4_f{forgets[i]}/state_step{nsteps[j]}_ana.txt', f'inputs_online/true_step{nsteps[j]}.txt')
+            rmse_arr[i+1,j] = rmse(f'out_ens{enstype}_N{dim_ens}_f{forgets[i]}/state_step{nsteps[j]}_ana.txt', f'inputs_online/true_step{nsteps[j]}.txt')
 
-    print('minval ', np.min(rmse_arr[1:,:]))
+    print('minval ', np.nanmin(rmse_arr))
 
     fig, ax1 = plt.subplots(1, 1, figsize=(6, 6),facecolor='.9')
     divnorm = colors.TwoSlopeNorm(vmin=0,vcenter=.5,vmax=1)
