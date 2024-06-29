@@ -19,9 +19,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import numpy as np
 
 
-class AssimilationDimensions:
+class AssimilationOptions:
 
     """Dimension of state vector and ensemble size
+    and options for ensemble reading and file outputs
 
     Attributes
     ----------
@@ -31,10 +32,14 @@ class AssimilationDimensions:
         dimension of global state vector
     dim_state_p : int
         dimension of PE-local state vector
+    enstype : char
+        Character specifying the ensemble type
+    experiment : string
+        String specifying the name of the output directory
     """
 
-    def __init__(self, model, dim_ens):
-        """AssimilationDimensions constructor
+    def __init__(self, model, dim_ens, enstype, experiment):
+        """AssimilationOptions constructor
 
         Parameters
         ----------
@@ -42,7 +47,14 @@ class AssimilationDimensions:
             model object
         dim_ens : int
             ensemble size
+        enstype : char
+            Character specifying the ensemble type
+        experiment : string
+            String specifying the name of the output directory
         """
         self.dim_state_p = np.prod(model.dims_p)
         self.dim_state = np.prod(model.dims)
         self.dim_ens = dim_ens
+        
+        self.enstype = enstype
+        self.experiment = experiment

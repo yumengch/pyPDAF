@@ -26,7 +26,7 @@ import PDAF_caller
 
 
 from Localization import Localization
-from AssimilationDimensions import AssimilationDimensions
+from AssimilationOptions import AssimilationOptions
 from FilterOptions import FilterOptions
 
 
@@ -64,9 +64,18 @@ def main():
     # Type of localization function (0: constant, 1: exponential decay, 2: 5th order polynomial)
     loc_weight = 0
     # localization cut-off radius in grid points
-    cradius = 0
+    cradius = 0.0
     # Support radius for localization function
     sradius = cradius
+
+    # Set ensemble type (A,B,C,D,E)
+    enstype='E'
+
+    # Set output directory
+    if filtertype==4:
+        outdir = f'out_ens{enstype}_N{dim_ens}_f{forget}'
+    elif filtertype==5:
+        outdir = f'out_ens{enstype}_N{dim_ens}_lw{loc_weight}_r{cradius}'
     
     ###############################
 
@@ -106,8 +115,11 @@ def main():
 
 
     # Set state dimension and ensemble size for PDAF
-    assim_dim = AssimilationDimensions(model=model,
-                                       dim_ens=dim_ens)
+    assim_opt = AssimilationOptions(model=model,
+                                       dim_ens=dim_ens,
+                                       enstype=enstype,
+                                       experiment=outdir)
+
     # Set options for PDAF
     filter_options = FilterOptions(filtertype=filtertype,
                                    subtype=subtype,
@@ -118,7 +130,7 @@ def main():
                                 sradius=sradius)
 
     # init PDAF
-    PDAF_caller.init_pdaf(assim_dim,
+    PDAF_caller.init_pdaf(assim_opt,
                           filter_options,
                           localization,
                           model, obs, pe,
@@ -128,7 +140,7 @@ def main():
     for it in range(nt):
         model.step(pe, it, USE_PDAF)
         if USE_PDAF:
-            PDAF_caller.assimilate_pdaf(assim_dim,
+            PDAF_caller.assimilate_pdaf(assim_opt,
                                         filter_options,
                                         localization,
                                         model, obs, pe)
