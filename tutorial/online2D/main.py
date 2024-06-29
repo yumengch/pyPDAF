@@ -69,13 +69,13 @@ def main():
     sradius = cradius
 
     # Set ensemble type (A,B,C,D,E)
-    enstype='E'
+    enstype='A'
 
     # Set output directory
     if filtertype==4:
-        outdir = f'out_ens{enstype}_N{dim_ens}_f{forget}'
+        experiment = f'out_ens{enstype}_N{dim_ens}_f{forget}'
     elif filtertype==5:
-        outdir = f'out_ens{enstype}_N{dim_ens}_lw{loc_weight}_r{cradius}'
+        experiment = f'out_ens{enstype}_N{dim_ens}_lw{loc_weight}_r{cradius}'
     
     ###############################
 
@@ -118,7 +118,7 @@ def main():
     assim_opt = AssimilationOptions(model=model,
                                        dim_ens=dim_ens,
                                        enstype=enstype,
-                                       experiment=outdir)
+                                       experiment=experiment)
 
     # Set options for PDAF
     filter_options = FilterOptions(filtertype=filtertype,
