@@ -46,7 +46,7 @@ def main():
     # number of ensemble members
     dim_ens = 4
     # using error space transform Kalman filter (4=ETKF, 5=LETKF)
-    filtertype = 5
+    filtertype = 4
     # standard form
     subtype = 0
     # forgetting factor
@@ -70,6 +70,12 @@ def main():
 
     # Set ensemble type (A,B,C,D,E)
     enstype='E'
+
+    # Set output directory
+    if filtertype==4:
+        outdir = f'out_ens{enstype}_N{dim_ens}_f{forget}'
+    elif filtertype==5:
+        outdir = f'out_ens{enstype}_N{dim_ens}_lw{loc_weight}_r{cradius}'
     
     ###############################
 
@@ -112,7 +118,7 @@ def main():
     assim_opt = AssimilationOptions(model=model,
                                        dim_ens=dim_ens,
                                        enstype=enstype,
-                                       experiment=f'out_ens{enstype}_N{dim_ens}_lw{loc_weight}_r{cradius}')
+                                       experiment=outdir)
 
     # Set options for PDAF
     filter_options = FilterOptions(filtertype=filtertype,
