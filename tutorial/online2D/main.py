@@ -70,12 +70,6 @@ def main():
 
     # Set ensemble type (A,B,C,D,E)
     enstype='A'
-
-    # Set output directory
-    if filtertype==4:
-        experiment = f'out_ens{enstype}_N{dim_ens}_f{forget}'
-    elif filtertype==5:
-        experiment = f'out_ens{enstype}_N{dim_ens}_lw{loc_weight}_r{cradius}'
     
     ###############################
 
@@ -117,8 +111,7 @@ def main():
     # Set state dimension and ensemble size for PDAF
     assim_opt = AssimilationOptions(model=model,
                                        dim_ens=dim_ens,
-                                       enstype=enstype,
-                                       experiment=experiment)
+                                       enstype=enstype)
 
     # Set options for PDAF
     filter_options = FilterOptions(filtertype=filtertype,

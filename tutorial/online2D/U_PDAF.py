@@ -233,7 +233,6 @@ def prepoststep_ens_pdaf(assim_opt, model, pe, obs,
         print('   Ensemble spread stddev: ', rmserror_est)
 
     if (not firsttime):
-        expstr = assim_opt.experiment
         ens = np.zeros((assim_opt.dim_state, dim_ens))
         state = np.zeros(assim_opt.dim_state)
         if pe.mype_filter != 0:
@@ -251,7 +250,7 @@ def prepoststep_ens_pdaf(assim_opt, model, pe, obs,
             field = np.zeros(model.dims)
             for i in range(dim_ens):
                 field = ens[:, i].reshape(*model.dims, order='F')
-                filename = f'{expstr}/ens_{i+1}_step{stepstr}_{anastr}.txt'
+                filename = f'ens_{i+1}_step{stepstr}_{anastr}.txt'
                 np.savetxt(filename, field, delimiter=';')
 
         if pe.mype_filter != 0:
@@ -263,15 +262,9 @@ def prepoststep_ens_pdaf(assim_opt, model, pe, obs,
                 pe.COMM_filter.Recv(
                             state_p_tmp, i, i)
                 state[i*dim_p:(i+1)*dim_p] = state_p_tmp
-            filename = f'{expstr}/state_step{stepstr}_{anastr}.txt'
+            filename = f'state_step{stepstr}_{anastr}.txt'
             np.savetxt(filename,
                        state.reshape(*model.dims, order='F'), delimiter=';')
-    else:
-        # At initial call create the output directory
-        expstr = assim_opt.experiment
-        if not os.path.isdir(expstr):
-            print ('   Create directory ', expstr)
-            os.mkdir(expstr)
 
     firsttime = False
 

@@ -34,11 +34,9 @@ class AssimilationOptions:
         dimension of PE-local state vector
     enstype : char
         Character specifying the ensemble type
-    experiment : string
-        String specifying the name of the output directory
     """
 
-    def __init__(self, model, dim_ens, enstype, experiment):
+    def __init__(self, model, dim_ens, enstype):
         """AssimilationOptions constructor
 
         Parameters
@@ -49,12 +47,9 @@ class AssimilationOptions:
             ensemble size
         enstype : char
             Character specifying the ensemble type
-        experiment : string
-            String specifying the name of the output directory
         """
         self.dim_state_p = np.prod(model.dims_p)
         self.dim_state = np.prod(model.dims)
         self.dim_ens = dim_ens
         
         self.enstype = enstype
-        self.experiment = experiment
