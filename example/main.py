@@ -17,53 +17,37 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-from parallelization import parallelization
-import Model
-import OBS
-import DAS
+import logging
 
-
-from Localization import Localization
-from AssimilationDimensions import AssimilationDimensions
-from FilterOptions import FilterOptions
-from Inflation import Inflation
-
+import config
+import model
+from parallelisation import parallelisation
+from PDAF_system import PDAF_system
 
 def main():
-    USE_PDAF = True
-    nt = 2
-
-    if USE_PDAF:
-        pe = parallelization(dim_ens=4, n_modeltasks=4, screen=2)
+    pe = parallelisation(dim_ens=4, n_modeltasks=4)
 
     # Initial Screen output
-    if (pe.mype_world == 0):
-        print('+++++ PDAF online mode +++++')
-        print('2D model with parallelization')
+    if pe.mype_ens == 0:
+        logging.info('+++++ PDAF online mode +++++')
+        logging.info('2D model with parallelization')
 
-    # Initialize model
-    model = Model.Model((18, 36), nt=nt, pe=pe)
-    obs = []
-    for typename in ['A',]:
-        obs.append(OBS.OBS(typename, pe.mype_filter,
-                           model.nx, 1, 2, 0.5))
+    # Initialise model
+    # throughout this example and PDAF, we must assume that each ensemble member
+    # uses the same domain decomposition.
+    model_ens = [model.model(pe=pe) for i in range(pe.dim_ens_l)]
+    model_ens[0].print_info(pe)
 
-    das = DAS.DAS(pe, model, obs, screen=2)
-    assim_dim = AssimilationDimensions(das.model, dim_ens=das.pe.n_modeltasks)
-    filter_options = FilterOptions(filtertype=6, subtype=0)
-    filter_options.setTransformTypes(type_trans=0, type_sqrt=0,
-                                     incremental=0, covartype=1,
-                                     rank_analysis_enkf=0)
-    infl = Inflation(type_forget=0, forget=1.)
-    localization = Localization(loc_weight=0, local_range=0,
-                                srange=0)
-    das.init(assim_dim, filter_options, infl, localization)
+    if not config.USE_PDAF:
+        for model_t in model_ens:
+            model_t.init_field(pe.mype_model)
 
-    for it in range(nt):
-        das.forward(it, USE_PDAF)
+    das = PDAF_system(pe, model_ens)
+    if config.USE_PDAF:
+        das.init_pdaf(screen=2)
+    das.forward(config.nsteps)
 
     pe.finalize_parallel()
-
 
 if __name__ == '__main__':
     main()
