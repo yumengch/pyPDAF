@@ -45,7 +45,7 @@ dist.parse_command_line()
 pwd = dist.get_option_dict('pyPDAF')['pwd'][1]
 logging.debug(f'pwd: {pwd}; getcwd: {os.getcwd()}')
 # get path to PDAF directory
-PDAFdir = dist.get_option_dict('PDAF')['directory'][1]
+PDAFdir = dist.get_option_dict('pyPDAF')['PDAF_dir'][1]
 if not os.path.isabs(PDAFdir):
     PDAFdir = os.path.join(pwd, PDAFdir)
     logging.info (f'input PDAF directory is not absolute path, changing to: {PDAFdir}')
@@ -89,26 +89,31 @@ if compiler == 'gnu':
     extra_compile_args+=['-Wno-unreachable-code-fallthrough']
 
 # linking static PDAF library and interface objects
-if os.name == 'nt':
-    library_dirs+=[os.path.join(PDAFdir, 'lib', 'Release'),
-                   os.path.join(pwd, 'pyPDAF', 'fortran', 'build', 'Release'),
+if sys.platform == 'darwin':
+    # Linking static library in mac
+    extra_objects+=['-Wl,-force_load', f'{PDAFdir}/lib/libpdaf-var.a',
+                   '-Wl,-force_load', f'{pwd}/lib/libPDAFc.a',]
+elif os.name == 'nt':
+    # linking static library in windows
+    library_dirs+=[os.path.join(PDAFdir, 'lib'),
+                   os.path.join(pwd, 'lib'),
                    ]
     libraries += ['pdaf-var', 'pdafc']
 else:
-    if sys.platform == 'darwin':
-        extra_objects+=['-Wl,-force_load', f'{PDAFdir}/lib/libpdaf-var.a',
-                       '-Wl,-force_load', f'{pwd}/lib/libPDAFc.a',]
-    else:
-        extra_objects+=['-Wl,--whole-archive', f'{PDAFdir}/lib/libpdaf-var.a',
-                       f'{pwd}/lib/libPDAFc.a', '-Wl,--no-whole-archive']
+    # linking static library in linux
+    extra_objects+=['-Wl,--whole-archive', f'{PDAFdir}/lib/libpdaf-var.a',
+                   f'{pwd}/lib/libPDAFc.a', '-Wl,--no-whole-archive']
 
 # add mpi library path
 if os.name == 'nt':
     # always use external msmpi as msmpi from conda cannot be linked
+    # there seems to be no mpi compiler wrapper in windows
     MPI_LIB_PATH=dist.get_option_dict('pyPDAF')['MPI_LIB_PATH'][1]
     if MPI_LIB_PATH != '': library_dirs += MPI_LIB_PATH.split(',')
     libraries += ['msmpi', 'msmpifec']
 else:
+    # using mpi compiler wrapper is easier for linux and mac
+    # we do not consider cray etc. at the moment
     mpifortran = 'mpiifort' if compiler == 'intel' else 'mpifort'
     result = subprocess.run([mpifortran, '-show'], stdout=subprocess.PIPE)
     result = result.stdout.decode()[:-1].split(' ')
@@ -141,14 +146,14 @@ if use_MKL == 'True':
                         f'{MKLROOT}/libmkl_sequential.a',
                         f'{MKLROOT}/libmkl_core.a']
 else:
-    # setup library to MPI-fortran 
+    # setup library to LAPACKA and BLAS
     LAPACK_PATH=dist.get_option_dict('pyPDAF')['LAPACK_PATH'][1]
     if LAPACK_PATH != '': library_dirs += LAPACK_PATH.split(',')
     LAPACK_Flag=dist.get_option_dict('pyPDAF')['LAPACK_Flag'][1]
     logging.info (f'LAPACK_Flag: {LAPACK_Flag}')
     if LAPACK_Flag != '': libraries += LAPACK_Flag.split(',')
 
-# add fortran library to the linking
+# add gfortran library to the linking
 if os.name != 'nt':
     suffix = 'dylib' if sys.platform == 'darwin' else 'so'
     FC = os.environ['FC'] if condaBuild == 'True' else 'gfortran'
@@ -175,21 +180,21 @@ class build_ext(build_ext_orig):
     def run(self):
         for ext in self.extensions:
             if ext.name == 'PDAFc':
-                if sys.platform == 'darwin':
-                    compilePDAFLibraryInterface()
-                else:
-                    cwd = os.getcwd()
-                    # compile PDAF and PDAFc
-                    PDAFc_build_dir = os.path.join(pwd, 'pyPDAF', 'fortran', 'build')
-                    os.makedirs(PDAFc_build_dir, exist_ok=True)
-                    os.chdir(PDAFc_build_dir)
-                    shutil.copyfile(os.path.join(pwd, 'PDAFBuild', 'CMakeLists.txt'),
-                                    os.path.join(PDAFdir, 'src', 'CMakeLists.txt')
-                                    )
-                    logging.info(f'cmake -DConfig_PATH={cmake_config_path} -DPDAF_PATH={PDAFdir} ..')
-                    os.system(f'cmake -DConfig_PATH={cmake_config_path} -DPDAF_PATH={PDAFdir} ..')
-                    os.system('cmake --build . --target install')
-                    os.chdir(pwd)
+                cwd = os.getcwd()
+                # compile PDAF and PDAFc
+                PDAFc_build_dir = os.path.join(pwd, 'pyPDAF', 'fortran', 'build')
+                os.makedirs(PDAFc_build_dir, exist_ok=True)
+                os.chdir(PDAFc_build_dir)
+                shutil.copyfile(os.path.join(pwd, 'PDAFBuild', 'CMakeLists.txt'),
+                                os.path.join(PDAFdir, 'src', 'CMakeLists.txt')
+                                )
+                logging.info(f'cmake -DConfig_PATH={cmake_config_path} -DPDAF_PATH={PDAFdir} ..')
+                os.system(f'cmake -DConfig_PATH={cmake_config_path} -DPDAF_PATH={PDAFdir} ..')
+                # --config Release argument is used for multi-configuration generator, e.g., Visual Studio
+                # This should just be a dummy argument in Linux and Mac where 
+                # CMAKE_BUILD_TYPE should be used to set the DEBUG/RELEASE versions
+                os.system('cmake --build . --verbose --target install --config Release')
+                os.chdir(pwd)
         super().run()
 
 

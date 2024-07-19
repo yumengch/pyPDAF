@@ -1705,7 +1705,7 @@ def diag_ensstats (int element,
     """
     cdef double[::1] state_view = np.array(state).ravel(order='F')
     cdef double[::1] ens_view = np.array(ens).ravel(order='F')
-    cdef int dim, dim_ens
+    cdef int dim_ens, dim
     dim = ens.shape[0]
     dim_ens = ens.shape[1]
 
@@ -1759,7 +1759,7 @@ def diag_histogram (int ncall,
     cdef double[::1] state_view = np.array(state).ravel(order='F')
     cdef double[::1] ens_view = np.array(ens).ravel(order='F')
     cdef int[::1] hist_view = np.array(hist, dtype=np.intc).ravel(order='F')
-    cdef int dim, dim_ens
+    cdef int dim_ens, dim
     dim = ens.shape[0]
     dim_ens = ens.shape[1]
 
@@ -1826,7 +1826,7 @@ def eofcovar (cnp.ndarray[cnp.int32_t, ndim=1] dim_fields,
     cdef int[::1] offsets_view = np.array(offsets, dtype=np.intc).ravel(order='F')
     cdef double[::1] states_view = np.array(states).ravel(order='F')
     cdef double[::1] meanstate_view = np.array(meanstate).ravel(order='F')
-    cdef int nstates, dim_state, nfields
+    cdef int nfields, nstates, dim_state
     dim_state = states.shape[0]
     nstates = states.shape[1]
     nfields = dim_fields.shape[0]
@@ -2256,7 +2256,7 @@ def init (int filtertype,
     """
     cdef int[::1] param_int_view = np.array(param_int, dtype=np.intc).ravel(order='F')
     cdef double[::1] param_real_view = np.array(param_real).ravel(order='F')
-    cdef int dim_pint, dim_preal
+    cdef int dim_preal, dim_pint
     dim_pint = param_int.shape[0]
     dim_preal = param_real.shape[0]
 
@@ -2320,7 +2320,7 @@ def local_weight (int wtype,
         weights
     """
     cdef double[::1] a_view = np.array(a).ravel(order='F')
-    cdef int nrows, ncols
+    cdef int ncols, nrows
     nrows = a.shape[0]
     ncols = a.shape[1]
 
@@ -3878,7 +3878,7 @@ def sampleens (cnp.ndarray[cnp.float64_t, ndim=2] modes,
     cdef double[::1] modes_view = np.array(modes).ravel(order='F')
     cdef double[::1] svals_view = np.array(svals).ravel(order='F')
     cdef double[::1] state_view = np.array(state).ravel(order='F')
-    cdef int dim, dim_ens
+    cdef int dim_ens, dim
     dim = modes.shape[0]
     dim_ens = modes.shape[1]
     dim_ens = dim_ens + 1
@@ -3986,7 +3986,7 @@ def seik_ttimesa (cnp.ndarray[cnp.float64_t, ndim=2] a
         output matrix (ta); Dimension: rank+1,dim_col
     """
     cdef double[::1] a_view = np.array(a).ravel(order='F')
-    cdef int dim_col, rank
+    cdef int rank, dim_col
     rank = a.shape[0]
     dim_col = a.shape[1]
 
@@ -4016,7 +4016,7 @@ def etkf_tleft (cnp.ndarray[cnp.float64_t, ndim=2] a
         input/output matrix; Dimension: dim_ens,dim
     """
     cdef double[::1] a_view = np.array(a).ravel(order='F')
-    cdef int dim, dim_ens
+    cdef int dim_ens, dim
     dim_ens = a.shape[0]
     dim = a.shape[1]
 
@@ -4043,7 +4043,7 @@ def estkf_omegaa (cnp.ndarray[cnp.float64_t, ndim=2] a
         output matrix (ta); Dimension: rank+1,dim_col
     """
     cdef double[::1] a_view = np.array(a).ravel(order='F')
-    cdef int dim_col, rank
+    cdef int rank, dim_col
     rank = a.shape[0]
     dim_col = a.shape[1]
 
@@ -4088,7 +4088,7 @@ def enkf_omega (cnp.ndarray[cnp.int32_t, ndim=1] seed,
     """
     cdef int[::1] seed_view = np.array(seed, dtype=np.intc).ravel(order='F')
     cdef double[::1] omega_view = np.array(omega).ravel(order='F')
-    cdef int r, dim_ens
+    cdef int dim_ens, r
     dim_ens = omega.shape[0]
     r = omega.shape[1]
 
@@ -4256,7 +4256,7 @@ def diag_crps (int element,
     """
     cdef double[::1] oens_view = np.array(oens).ravel(order='F')
     cdef double[::1] obs_view = np.array(obs).ravel(order='F')
-    cdef int dim, dim_ens
+    cdef int dim_ens, dim
     dim = oens.shape[0]
     dim_ens = oens.shape[1]
 
@@ -4307,7 +4307,7 @@ def gather_obs_f2_flex (int dim_obs_f,
         status flag: (0) no error
     """
     cdef double[::1] coords_p_view = np.array(coords_p).ravel(order='F')
-    cdef int nrows, dim_obs_p
+    cdef int dim_obs_p, nrows
     nrows = coords_p.shape[0]
     dim_obs_p = coords_p.shape[1]
 
@@ -4538,7 +4538,7 @@ def omit_obs_omi (cnp.ndarray[cnp.float64_t, ndim=1] state_p,
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] ens_p_view = np.array(ens_p).ravel(order='F')
     cdef double[::1] obs_p_view = np.array(obs_p).ravel(order='F')
-    cdef int dim_obs_p, dim_p, dim_ens
+    cdef int dim_ens, dim_p, dim_obs_p
     dim_p = ens_p.shape[0]
     dim_ens = ens_p.shape[1]
     dim_obs_p = obs_p.shape[0]
@@ -4637,7 +4637,7 @@ def omi_set_id_obs_p (int i_obs,
         setter value; Dimension: nrows,dim_obs_p
     """
     cdef int[::1] id_obs_p_view = np.array(id_obs_p, dtype=np.intc).ravel(order='F')
-    cdef int nrows, dim_obs_p
+    cdef int dim_obs_p, nrows
     nrows = id_obs_p.shape[0]
     dim_obs_p = id_obs_p.shape[1]
 
@@ -4661,7 +4661,7 @@ def omi_set_icoeff_p (int i_obs,
         setter value; Dimension: nrows,dim_obs_p
     """
     cdef double[::1] icoeff_p_view = np.array(icoeff_p).ravel(order='F')
-    cdef int nrows, dim_obs_p
+    cdef int dim_obs_p, nrows
     nrows = icoeff_p.shape[0]
     dim_obs_p = icoeff_p.shape[1]
 
@@ -4905,7 +4905,7 @@ def omi_obs_op_gridpoint (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int nobs_f_all, dim_p
+    cdef int dim_p, nobs_f_all
     dim_p = state_p.shape[0]
     nobs_f_all = obs_f_all.shape[0]
 
@@ -4944,7 +4944,7 @@ def omi_obs_op_gridavg (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int nobs_f_all, dim_p
+    cdef int dim_p, nobs_f_all
     dim_p = state_p.shape[0]
     nobs_f_all = obs_f_all.shape[0]
 
@@ -4984,7 +4984,7 @@ def omi_obs_op_interp_lin (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int nobs_f_all, dim_p
+    cdef int dim_p, nobs_f_all
     dim_p = state_p.shape[0]
     nobs_f_all = obs_f_all.shape[0]
 
@@ -5024,7 +5024,7 @@ def omi_obs_op_adj_gridavg (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int nobs_f_all, dim_p
+    cdef int dim_p, nobs_f_all
     dim_p = state_p.shape[0]
     nobs_f_all = obs_f_all.shape[0]
 
@@ -5061,7 +5061,7 @@ def omi_obs_op_adj_gridpoint (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int nobs_f_all, dim_p
+    cdef int dim_p, nobs_f_all
     dim_p = state_p.shape[0]
     nobs_f_all = obs_f_all.shape[0]
 
@@ -5100,7 +5100,7 @@ def omi_obs_op_adj_interp_lin (int i_obs,
     """
     cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
-    cdef int nobs_f_all, dim_p
+    cdef int dim_p, nobs_f_all
     dim_p = state_p.shape[0]
     nobs_f_all = obs_f_all.shape[0]
 
@@ -7310,7 +7310,7 @@ def omi_localize_covar_iso (int i_obs,
     cdef double[::1] coords_view = np.array(coords).ravel(order='F')
     cdef double[::1] hp_view = np.array(hp).ravel(order='F')
     cdef double[::1] hph_view = np.array(hph).ravel(order='F')
-    cdef int ncoord, dim_obs, dim_p
+    cdef int dim_p, dim_obs, ncoord
     ncoord = coords.shape[0]
     dim_p = coords.shape[1]
     dim_obs = hp.shape[0]
@@ -7328,6 +7328,66 @@ def omi_localize_covar_iso (int i_obs,
                                    &hp_view[0],
                                    &hph_view[0]
                                   )
+
+    return np.asarray(hp_view).reshape((dim_obs, dim_p), order='F'), np.asarray(hph_view).reshape((dim_obs, dim_obs), order='F')
+
+def omi_localize_covar_noniso (int i_obs,
+                               int locweight,
+                               cnp.ndarray[cnp.float64_t, ndim=1] cradius,
+                               cnp.ndarray[cnp.float64_t, ndim=1] sradius,
+                               cnp.ndarray[cnp.float64_t, ndim=2] coords,
+                               cnp.ndarray[cnp.float64_t, ndim=2] hp,
+                               cnp.ndarray[cnp.float64_t, ndim=2] hph
+                              ):
+    """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_localize_covar_noniso or PDAF source files 
+
+    Parameters
+    ----------
+    i_obs : int
+        < data type with full observation
+    locweight : int
+        < localization weight type
+    cradius : ndarray[float]
+        < vector of localization cut-off radii; Dimension: ncoord
+    sradius : ndarray[float]
+        < vector of support radii of localization function; Dimension: ncoord
+    coords : ndarray[float]
+        < coordinates of state vector elements; Dimension: ncoord,dim_p
+    hp : ndarray[float]
+        < matrix hp, dimension (nobs, dim); Dimension: dim_obs,dim_p
+    hph : ndarray[float]
+        < matrix hph, dimension (nobs, nobs); Dimension: dim_obs,dim_obs
+
+    Returns
+    -------
+    hp : ndarray[float]
+        < matrix hp, dimension (nobs, dim); Dimension: dim_obs,dim_p
+    hph : ndarray[float]
+        < matrix hph, dimension (nobs, nobs); Dimension: dim_obs,dim_obs
+    """
+    cdef double[::1] cradius_view = np.array(cradius).ravel(order='F')
+    cdef double[::1] sradius_view = np.array(sradius).ravel(order='F')
+    cdef double[::1] coords_view = np.array(coords).ravel(order='F')
+    cdef double[::1] hp_view = np.array(hp).ravel(order='F')
+    cdef double[::1] hph_view = np.array(hph).ravel(order='F')
+    cdef int dim_p, dim_obs, ncoord
+    ncoord = coords.shape[0]
+    dim_p = coords.shape[1]
+    dim_obs = hp.shape[0]
+    _ = hp.shape[1]
+
+
+    c__pdafomi_localize_covar_noniso (&i_obs,
+                                      &dim_p,
+                                      &dim_obs,
+                                      &ncoord,
+                                      &locweight,
+                                      &cradius_view[0],
+                                      &sradius_view[0],
+                                      &coords_view[0],
+                                      &hp_view[0],
+                                      &hph_view[0]
+                                     )
 
     return np.asarray(hp_view).reshape((dim_obs, dim_p), order='F'), np.asarray(hph_view).reshape((dim_obs, dim_obs), order='F')
 
@@ -7371,7 +7431,7 @@ def omi_localize_covar_noniso_locweights (int i_obs,
     cdef double[::1] coords_view = np.array(coords).ravel(order='F')
     cdef double[::1] hp_view = np.array(hp).ravel(order='F')
     cdef double[::1] hph_view = np.array(hph).ravel(order='F')
-    cdef int ncoord, dim_obs, dim_p
+    cdef int dim_p, dim_obs, ncoord
     ncoord = coords.shape[0]
     dim_p = coords.shape[1]
     dim_obs = hp.shape[0]

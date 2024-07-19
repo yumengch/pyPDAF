@@ -1,0 +1,81 @@
+name: test_win_build
+on: [workflow_dispatch]
+
+env:
+  WINDOWS_BASEKIT_URL: https://registrationcenter-download.intel.com/akdlm/IRC_NAS/e83a8e64-04fc-45df-85c6-c2208d03bdb5/w_BaseKit_p_2024.2.0.635_offline.exe
+  WINDOWS_HPCKIT_URL: https://registrationcenter-download.intel.com/akdlm/IRC_NAS/0d500705-397e-41b3-8b2b-2a3da1753fc2/w_HPCKit_p_2024.2.0.633_offline.exe
+  WINDOWS_FORTRAN_COMPONENTS: intel.oneapi.win.ifort-compiler
+  WINDOWS_DPCPP_COMPONENTS: intel.oneapi.win.mkl.devel:intel.oneapi.win.tbb.devel
+  CACHE_NUMBER: 5
+  COMPILER_VERSION: 2024.2.0
+  TBB_VERSION: 2021.13.0
+  VS_VER: vs2022
+
+jobs:
+  test_windows_build:
+    runs-on: windows-latest
+    steps:
+      - name: check out oneAPI code
+        uses: actions/checkout@v4
+        with:
+          repository: oneapi-src/oneapi-ci
+ 
+      - name: cache install fortran
+        id: cache-install-fortran
+        uses: actions/cache@v2
+        with:
+          path: |
+              C:\Program Files (x86)\Intel\oneAPI\setvars-vcvarsall.bat
+              C:\Program Files (x86)\Intel\oneAPI\compiler
+          key: install-${{ env.CACHE_NUMBER }}-${{ env.WINDOWS_HPCKIT_URL }}-${{ env.WINDOWS_FORTRAN_COMPONENTS }}-compiler-${{ hashFiles('**/scripts/cache_exclude_windows.sh') }}
+
+      - name: install fortran
+        if: steps.cache-install.outputs.cache-hit != 'true'
+        shell: bash
+        run: scripts/install_windows.bat $WINDOWS_HPCKIT_URL $WINDOWS_FORTRAN_COMPONENTS
+
+      - name: cache install mkl
+        id: cache-install-mkl
+        uses: actions/cache@v2
+        with:
+          path: |
+            C:\Program Files (x86)\Intel\oneAPI\setvars-vcvarsall.bat
+            C:\Program Files (x86)\Intel\oneAPI\compiler
+            C:\Program Files (x86)\Intel\oneAPI\tbb
+            C:\Windows\System32\OpenCL.dll
+          key: install-${{ env.CACHE_NUMBER }}-${{ env.WINDOWS_BASEKIT_URL }}-${{ env.WINDOWS_DPCPP_COMPONENTS }}-compiler-tbb-opencl-${{ hashFiles('**/scripts/cache_exclude_windows.sh') }}
+
+      - name: install mkl
+        if: steps.cache-install.outputs.cache-hit != 'true'
+        shell: bash
+        run: scripts/install_windows.bat $WINDOWS_BASEKIT_URL $WINDOWS_DPCPP_COMPONENTS
+
+      - name: restore registry on cache hit
+        if: steps.cache-install.outputs.cache-hit == 'true'
+        shell: bash
+        run: scripts/restore_registry.bat $COMPILER_VERSION $TBB_VERSION
+
+      - name: check out pyPDAF code
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+          ref: upgrade2.2.1
+
+      - name: install pyPDAF
+        run: |
+          cmd.exe /k "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
+          cmd.exe /k "C:\Program Files (x86)\Intel\oneAPI\compiler\latest\env\vars.bat"
+          cmd.exe /k '"C:\Program Files (x86)\Intel\oneAPI\mkl\latest\env\vars.bat" && powershell'
+          cd D:\a\pyPDAF\pyPDAF
+          Move-Item -Path setup_win.cfg -Destination setup.cfg -Force
+          pip install -v .
+
+      - name: run example
+        run: |
+          Move-Item -Path example/config_win.py -Destination example/config.py -Force
+          Move-Item -Path example/config_obsA_win.py -Destination example/config_obsA.py -Force
+          mpiexec --oversubscribe -n 4 python -u example/main.py
+
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3

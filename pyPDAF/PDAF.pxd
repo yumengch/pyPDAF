@@ -4279,6 +4279,17 @@ cdef extern void c__pdafomi_localize_covar_iso (int* i_obs,
                                                 double* hp,
                                                 double* hph
                                                ) noexcept;
+cdef extern void c__pdafomi_localize_covar_noniso (int* i_obs,
+                                                   int* dim_p,
+                                                   int* dim_obs,
+                                                   int* ncoord,
+                                                   int* locweight,
+                                                   double* cradius,
+                                                   double* sradius,
+                                                   double* coords,
+                                                   double* hp,
+                                                   double* hph
+                                                  ) noexcept;
 cdef extern void c__pdafomi_localize_covar_noniso_locweights (int* i_obs,
                                                               int* dim_p,
                                                               int* dim_obs,

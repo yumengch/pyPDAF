@@ -399,27 +399,28 @@ if (${PDAF_NAME} STREQUAL "pdaf-var")
    set(SRC_FILES ${SRC_FILES} ${OBJ_3DVAR} ${OBJ_OPTIM})
 endif()
 
-# Check if the build type is not explicitly set and default to Release
-if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Release)
+if (WIN32)
+    # This will just compile the MPI library modules
+    # This is necessary for MS-MPI on windows and cannot be included in the os-dependent config file
+    add_library(mpimod OBJECT ${MPI_Fortran_MODULE_SRC_FILE})
+    target_include_directories(mpimod PUBLIC ${MPI_Fortran_MODULE_INCLUDE_PATH})
+    set_target_properties(mpimod PROPERTIES
+        Fortran_MODULE_DIRECTORY ${MPI_Fortran_MODULE_DIR})
 endif()
-
-# extra option for specific files
-# set_source_files_properties (${SRC_FILES} PROPERTIES COMPILE_OPTIONS "${RELEASE_COMPILE_OPTIONS}")
 
 # Define a target for pdaf library
 add_library(${PDAF_NAME} STATIC ${SRC_FILES})
 
-# Set properties for pdaf library
-target_include_directories(${PDAF_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(${PDAF_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
-
 # Set include directory for MPI
 target_include_directories(${PDAF_NAME} PUBLIC ${MPI_Fortran_INCLUDE_PATH})
+target_include_directories(${PDAF_NAME} PUBLIC ${MPI_Fortran_MODULE_INCLUDE_PATH})
 target_include_directories(${PDAF_NAME} PUBLIC ${MPI_Fortran_MODULE_DIR})
+set_target_properties(${PDAF_NAME} PROPERTIES
+    Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../include)
 
 # Move the static library and include files to given directories.
-set_target_properties(${PDAF_NAME} PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../lib
+install(TARGETS ${PDAF_NAME}
+    LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../lib
+    ARCHIVE DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../lib
+    RUNTIME DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../bin  # For Windows DLLs
 )
-set_target_properties(${PDAF_NAME} PROPERTIES Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../include)

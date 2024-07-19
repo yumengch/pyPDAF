@@ -24,7 +24,6 @@ requirements:
     - blas-devel                 # [not x86]
     - liblapack                  # [not x86]
   build:
-    - make                       # [not win]
     - {{ compiler('c') }}
     - {{ compiler('fortran') }}  # [not win]
     - cmake
@@ -32,6 +31,8 @@ requirements:
     - python
     - {{ pin_compatible('numpy') }}
     - mpi4py
+    - intel-fortran-rt # [win]
+    - {{ mpi }}
 
 about:
   home: https://github.com/yumengch/pyPDAF

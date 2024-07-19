@@ -1231,6 +1231,33 @@ contains
       call PDAFomi_localize_covar_iso(thisobs(i_obs), dim_p, locweight, cradius, sradius, coords, HP, HPH)
    End SUBROUTINE c__PDAFomi_localize_covar_iso
 
+   SUBROUTINE c__PDAFomi_localize_covar_noniso(i_obs, dim_p, dim_obs, ncoord, locweight, cradius, sradius, &
+       coords, HP, HPH) bind(c)
+      !< Data type with full observation
+      INTEGER(c_int), INTENT(in) :: i_obs    
+      !< number of coordinate dimension
+      INTEGER(c_int), INTENT(IN) :: ncoord
+      !< State dimension
+      INTEGER(c_int), INTENT(in) :: dim_p
+      !< Observation dimension
+      INTEGER(c_int), INTENT(in) :: dim_obs
+      !< Localization weight type
+      INTEGER(c_int), INTENT(in) :: locweight      
+      !< Vector of localization cut-off radii
+      REAL(c_double), INTENT(in) :: cradius(ncoord)        
+      !< Vector of support radii of localization function
+      REAL(c_double), INTENT(in) :: sradius(ncoord)        
+      !< Coordinates of state vector elements
+      REAL(c_double), INTENT(in)    :: coords(ncoord,dim_p)    
+      !< Matrix HP, dimension (nobs, dim)
+      REAL(c_double), INTENT(inout) :: HP(dim_obs, dim_p)       
+      !< Matrix HPH, dimension (nobs, nobs)
+      REAL(c_double), INTENT(inout) :: HPH(dim_obs, dim_obs)   
+
+      call PDAFomi_localize_covar_noniso(thisobs(i_obs), dim_p, locweight, cradius, sradius, &
+       coords, HP, HPH)
+   END SUBROUTINE c__PDAFomi_localize_covar_noniso
+
    SUBROUTINE c__PDAFomi_localize_covar_noniso_locweights(i_obs, dim_p, dim_obs, ncoord, locweights, cradius, sradius, &
       coords, HP, HPH) bind(c)
       !< index of observation type

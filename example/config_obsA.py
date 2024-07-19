@@ -27,13 +27,13 @@ import os
 # name of the observation
 obs_name = 'A'
 # path to the observation files
-obs_path:str = os.path.join('/home/ia923171/software/PDAF_V2.2.1/tutorial/inputs_online', 'obs_step{i}.txt')
+obs_path:str = os.path.join('/home/runner/work/pyPDAF/pyPDAF/inputs_online', 'obs_step{i}.txt')
 # time steps between observations / assimilation frequency
 dtobs:int = 2
 # Observation error standard deviation
 rms_obs:float = 0.5
 # Switch for assimilating observation type A
-assim:bool = False
+assim:bool = True
 # Type of distance computation to use for localization
 # It is mandatory for OMI even if we don't use localisation
 # 0=Cartesian 1=Cartesian periodic

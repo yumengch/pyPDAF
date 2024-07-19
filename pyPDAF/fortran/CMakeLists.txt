@@ -30,23 +30,20 @@ endif()
 
 # Add the library target
 add_library(PDAFc STATIC ${SRC_FILES})
-install(TARGETS PDAFc
-    LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../../lib
-    ARCHIVE DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../../lib
-    RUNTIME DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../../bin  # For Windows DLLs
-)
 
 # Add include directory for PDAFc
 target_link_libraries(PDAFc PRIVATE ${PDAF_NAME})
 target_include_directories(PDAFc PUBLIC ${PDAF_PATH}/include)
 target_link_directories(PDAFc PUBLIC ${PDAF_PATH}/lib)
 
-# Set current directory to include path
-target_include_directories(PDAFc PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(PDAFc PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 # Set MPI include directory
 target_include_directories(PDAFc PUBLIC ${MPI_Fortran_INCLUDE_PATH})
 target_include_directories(PDAFc PUBLIC ${MPI_Fortran_MODULE_DIR})
 # Set PDAF include directory
-target_include_directories(PDAFc PUBLIC ${PDAF_INCLUDE_PATH})
+target_include_directories(PDAFc PUBLIC ${PDAF_PATH}/include)
 
+install(TARGETS PDAFc
+    LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../../lib
+    ARCHIVE DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../../lib
+    RUNTIME DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../../bin  # For Windows DLLs
+)
