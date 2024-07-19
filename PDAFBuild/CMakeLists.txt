@@ -1,14 +1,10 @@
 cmake_minimum_required(VERSION 3.12)
-project(PDAF VERSION 2.1.0 LANGUAGES Fortran)
+project(PDAF VERSION 2.2.1 LANGUAGES Fortran)
+
+# Set the PDAF library version
+set(PDAF_VERSION "2.2.1")
 
 set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/..)
-
-# In windows, MPI.mod must be compiled by ourselves
-if(WIN32)
-  add_library(mpimod STATIC ${MPI_Fortran_MODULE_DIR}/mpi.f90)
-  set_source_files_properties(${MPI_Fortran_MODULE_DIR}/mpi.f90 PROPERTIES COMPILE_OPTIONS "/Qdiag-disable:10448")
-  target_include_directories(mpimod PUBLIC ${MPI_Fortran_INCLUDE_PATH})
-endif()
 
 set(MOD_PDAF 
     PDAF_timer.F90
@@ -74,6 +70,9 @@ set(OBJ_PDAF_GEN
     PDAF_reset_forget.F90
     PDAF_get_ensstats.F90
     PDAF_set_debug_flag.F90
+    PDAF_analysis_utils.F90
+    PDAF_reset_dim_p.F90
+    PDAF_set_offline_mode.F90
 )
 
 # Specific PDAF-routines for SEIK
@@ -238,6 +237,7 @@ set(OBJ_LNETF
     PDAF_lnetf_update.F90
     PDAF_lnetf_analysis.F90
     PDAF_lnetf_smootherT.F90
+    PDAF_mod_lnetf.F90
     PDAF_smoother_lnetf.F90
 )
 
@@ -291,11 +291,11 @@ set(OBJ_3DVAR_INI
     PDAF_3dvar_init.F90
     PDAF_3dvar_alloc.F90
     PDAF_3dvar_options.F90
+   PDAF_3dvar_memtime.F90
 )
 
 # Specific PDAF-routines for 3DVAR
-set(OBJ_3DVAR 
-    PDAF_3dvar_memtime.F90
+set(OBJ_3DVAR
     PDAF_put_state_3dvar.F90
     PDAF_assimilate_3dvar.F90
     PDAF_3dvar_update.F90
@@ -361,6 +361,9 @@ set(OBJ_OPTIM
     ../external/LBFGS/timer.f
 )
 
+set (OBJ_INTERFACE
+    PDAF_interfaces_module.F90
+)
 # List all source files
 set(SRC_FILES
     ${MOD_PDAF}
@@ -379,43 +382,44 @@ set(SRC_FILES
     ${OBJ_PF}
     ${OBJ_LKNETF}
     ${OBJ_OBSGEN}
-    ${OBJ_3DVAR_INI}
-    ${OBJ_3DVAR}
     ${OBJ_PDAFOMI}
-    ${OBJ_OPTIM}
-    ${OBJ_OPTIM}
+    ${OBJ_INTERFACE}
+    ${OBJ_3DVAR_INI}
 )
 
-# Customize compiler flags
-if(${CMAKE_Fortran_COMPILER_ID} STREQUAL "GNU")
-    set_source_files_properties (${SRC_FILES} PROPERTIES COMPILE_OPTIONS "-O3;-ffree-line-length-none -fdefault-real-8")
-elseif(${CMAKE_Fortran_COMPILER_ID} STREQUAL "Cray")
-    set_source_files_properties (${SRC_FILES} PROPERTIES COMPILE_OPTIONS "-O3;-N;1023")
-elseif(${CMAKE_Fortran_COMPILER_ID} STREQUAL "Intel")
-   if(WIN32)
-      set_source_files_properties (${SRC_FILES} PROPERTIES COMPILE_OPTIONS "/O3;/4R8;/Qdiag-disable:10448")
-      set(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG} /Od")
-   else()
-      # set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -r8")
-      set_source_files_properties (${SRC_FILES} PROPERTIES COMPILE_OPTIONS "-O3;-r8")
-      set(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS} -mkl")
-      #KB For newer versions of CMake - this is the way to go
-      enable_language(C)
-      set(BLA_VENDOR Intel10_64lp_seq)
-      #KB https://cmake.org/cmake/help/latest/module/FindBLAS.html
-  endif()
+# check if Config Path is provided
+if(NOT Config_PATH)
+    message(FATAL_ERROR "Config_PATH is not given. Providing a Config_PATH in commandline by specify -DConfig_PATH=PATH_TO_CONFIG_FILE")
 endif()
 
-# Define a target for pdaf-var
-add_library(pdaf-var STATIC ${SRC_FILES})
+# import configuration file
+include(${Config_PATH})
 
-# Set properties for pdaf-var
-target_include_directories(pdaf-var PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(pdaf-var PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
-target_include_directories(pdaf-var PUBLIC ${MPI_Fortran_INCLUDE_PATH})
-target_include_directories(pdaf-var PUBLIC ${MPI_Fortran_MODULE_DIR})
+if (${PDAF_NAME} STREQUAL "pdaf-var")
+   set(SRC_FILES ${SRC_FILES} ${OBJ_3DVAR} ${OBJ_OPTIM})
+endif()
 
-set_target_properties(pdaf-var PROPERTIES
+# Check if the build type is not explicitly set and default to Release
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
+# extra option for specific files
+# set_source_files_properties (${SRC_FILES} PROPERTIES COMPILE_OPTIONS "${RELEASE_COMPILE_OPTIONS}")
+
+# Define a target for pdaf library
+add_library(${PDAF_NAME} STATIC ${SRC_FILES})
+
+# Set properties for pdaf library
+target_include_directories(${PDAF_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${PDAF_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+
+# Set include directory for MPI
+target_include_directories(${PDAF_NAME} PUBLIC ${MPI_Fortran_INCLUDE_PATH})
+target_include_directories(${PDAF_NAME} PUBLIC ${MPI_Fortran_MODULE_DIR})
+
+# Move the static library and include files to given directories.
+set_target_properties(${PDAF_NAME} PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../lib
 )
-set_target_properties(pdaf-var PROPERTIES Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../include)
+set_target_properties(${PDAF_NAME} PROPERTIES Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../include)

@@ -1,5 +1,6 @@
 MODULE PDAF_c_binding
 use iso_c_binding, only: c_double, c_int, c_bool, c_ptr, c_loc, c_char, c_null_char
+use PDAF_analysis_utils
 use U_PDAF_interface_c_binding
 
 implicit none
@@ -2074,7 +2075,7 @@ contains
    END SUBROUTINE c__PDAF_print_domain_stats
 
    SUBROUTINE c__PDAF_init_local_obsstats() bind(c)
-      call init_local_obsstats()
+      call PDAF_init_local_obsstats()
    END SUBROUTINE c__PDAF_init_local_obsstats
 
    SUBROUTINE c__PDAF_incr_local_obsstats(dim_obs_l) bind(c)

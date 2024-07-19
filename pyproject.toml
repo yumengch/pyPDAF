@@ -16,7 +16,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 dependencies = [
-    "numpy",
+    "numpy", "mpi4py"
 ]
 
 [tool.setuptools.packages.find]

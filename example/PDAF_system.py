@@ -128,7 +128,7 @@ class PDAF_system:
         dim_preal : int
             size of float filter options
         """
-        filter_param_i:np.ndarray = np.zeros(dim_pint, dtype=int)
+        filter_param_i:np.ndarray = np.zeros(dim_pint, dtype=np.intc)
         filter_param_r:np.ndarray = np.zeros(dim_preal)
 
         filter_param_i[0] = self.sv.dim_state_p
@@ -151,7 +151,7 @@ class PDAF_system:
         dim_preal : int
             size of float filter options
         """
-        filter_param_i:np.ndarray = np.zeros(dim_pint, dtype=int)
+        filter_param_i:np.ndarray = np.zeros(dim_pint, dtype=np.intc)
         filter_param_r:np.ndarray = np.zeros(dim_preal)
 
         filter_param_i[0] = self.sv.dim_state_p

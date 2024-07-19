@@ -544,9 +544,9 @@ if __name__ == '__main__':
     user_func_info = get_interface_info.get_func_info(['../pyPDAF/fortran/U_PDAF_interface_c_binding.F90'])
     PDAF_func_info = get_interface_info.get_func_info(['../pyPDAF/fortran/PDAF_c_binding.F90', '../pyPDAF/fortran/PDAFomi_obs_c_binding.F90'])
     write_pxd.write_Pxd_file('PDAF.pxd', PDAF_func_info, user_func_info)
-    write_pxd.write_Pxd_file('Userfunc.pxd', user_func_info, user_func_info)
+    write_pxd.write_Pxd_file('UserFunc.pxd', user_func_info, user_func_info)
     write_PDAF_calls('PDAF.pyx', PDAF_func_info)
-    writeUserCalls('Userfunc.pyx', user_func_info)
+    writeUserCalls('UserFunc.pyx', user_func_info)
 
 
 
