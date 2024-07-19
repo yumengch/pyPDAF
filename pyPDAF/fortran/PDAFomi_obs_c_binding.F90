@@ -91,9 +91,26 @@ contains
       thisobs(i_obs)%use_global_obs = use_global_obs
    end subroutine c__PDAFomi_set_use_global_obs
 
+   subroutine c__PDAFomi_set_inno_omit(i_obs, inno_omit) bind(c)
+      ! index of observations
+      integer(c_int), intent(in) :: i_obs
+      ! setter value
+      REAL(c_double), intent(in)  :: inno_omit
+      thisobs(i_obs)%inno_omit = inno_omit
+   end subroutine c__PDAFomi_set_inno_omit
+
+   subroutine c__PDAFomi_set_inno_omit_ivar(i_obs, inno_omit_ivar) bind(c)
+      ! index of observations
+      integer(c_int), intent(in) :: i_obs
+      ! setter value
+      REAL(c_double), intent(in)  :: inno_omit_ivar
+      thisobs(i_obs)%inno_omit_ivar = inno_omit_ivar
+   end subroutine c__PDAFomi_set_inno_omit_ivar
+
+
    subroutine c__pdafomi_gather_obs(i_obs, dim_obs_p, &
                                     obs_p, ivar_obs_p, ocoord_p, &
-                                    local_range, dim_obs) bind(c)
+                                    cradius, dim_obs) bind(c)
       ! index of observations
       integer(c_int), intent(in) :: i_obs
       ! State dimension
@@ -105,15 +122,14 @@ contains
       ! pe-local observation coordinates
       real(c_double), intent(in) :: ocoord_p(thisobs(i_obs)%ncoord, dim_obs_p)
       ! localization radius
-      real(c_double), intent(in) :: local_range
+      real(c_double), intent(in) :: cradius
       ! Full number of observations
       integer(c_int), intent(out) :: dim_obs
 
       call pdafomi_gather_obs(thisobs(i_obs), dim_obs_p, &
          obs_p, ivar_obs_p, ocoord_p, &
-         thisobs(i_obs)%ncoord, local_range, dim_obs)
+         thisobs(i_obs)%ncoord, cradius, dim_obs)
    end subroutine c__pdafomi_gather_obs
-
 
    SUBROUTINE c__PDAFomi_gather_obsstate(i_obs, obsstate_p, obsstate_f, nobs_f_all) bind(c)
       ! index of observations
@@ -127,35 +143,6 @@ contains
 
       call PDAFomi_gather_obsstate(thisobs(i_obs), obsstate_p, obsstate_f)
    END SUBROUTINE c__PDAFomi_gather_obsstate
-
-   subroutine c__PDAFomi_localize_covar(i_obs, dim_p, dim_obs, &
-                                        dim_coords, &
-                                        locweight, local_range, &
-                                        srange, coords_p, hp_p, &
-                                        hph) bind(c)
-      ! index of observations
-      INTEGER(c_int), INTENT(in) :: i_obs
-      ! State dimension
-      INTEGER(c_int), INTENT(in) :: dim_p
-      ! obs dimension
-      INTEGER(c_int), INTENT(in) :: dim_obs
-      ! number of coords
-      INTEGER(c_int), INTENT(in) :: dim_coords
-      ! Localization weight type
-      INTEGER(c_int), INTENT(in) :: locweight
-      ! localization radius
-      REAL(c_double), INTENT(in)    :: local_range
-      ! support radius for weight functions
-      REAL(c_double), INTENT(in)    :: srange
-      ! Coordinates of state vector elements
-      REAL(c_double), INTENT(in)    :: coords_p(dim_coords, dim_p)
-      ! Matrix HP, dimension (nobs, dim)
-      REAL(c_double), INTENT(inout) :: HP_p(dim_obs, dim_p)
-      ! Matrix HPH, dimension (nobs, nobs)
-      REAL(c_double), INTENT(inout) :: HPH(dim_obs, dim_obs)
-      call pdafomi_localize_covar(thisobs(i_obs), dim_p, &
-            locweight, local_range, srange, coords_p, hp_p, hph)
-   end subroutine c__PDAFomi_localize_covar
 
    SUBROUTINE c__PDAFomi_set_domain_limits(lim_coords) bind(c)
       ! geographic coordinate array (1: longitude, 2: latitude)
@@ -176,27 +163,6 @@ contains
 
       call pdafomi_deallocate_obs(thisobs(i_obs))
    end subroutine c__PDAFomi_deallocate_obs
-
-   subroutine c__PDAFomi_init_dim_obs_l(i_obs, coords_l, locweight, &
-                                        local_range, srange, &
-                                        dim_obs_l) bind(c)
-      ! index of observations
-      INTEGER(c_int), intent(in) :: i_obs
-      ! Coordinates of current local analysis domain
-      REAL(c_double), INTENT(in) :: coords_l(2)
-      ! Type of localization function
-      INTEGER(c_int), INTENT(in) :: locweight
-      ! Localization radius
-      REAL(c_double), INTENT(in) :: local_range
-      ! Support radius of localization function
-      REAL(c_double), INTENT(in) :: srange
-      ! Local dimension of current observation vector
-      INTEGER(c_int), INTENT(inout) :: dim_obs_l
-
-      call pdafomi_init_dim_obs_l(thisobs_l(i_obs), thisobs(i_obs), &
-            coords_l, &
-            locweight, local_range, srange, dim_obs_l)
-   end subroutine c__PDAFomi_init_dim_obs_l
 
    SUBROUTINE c__PDAFomi_obs_op_gridpoint(i_obs, state_p, dim_p, obs_f_all, nobs_f_all) bind(c)
       ! index of observations
@@ -294,7 +260,6 @@ contains
       call PDAFomi_obs_op_adj_interp_lin(thisobs(i_obs), nrows, obs_f_all, state_p)
    END SUBROUTINE c__PDAFomi_obs_op_adj_interp_lin
 
-
    SUBROUTINE c__PDAFomi_get_interp_coeff_tri(gpc, oc, icoeff) bind(c)
       ! Coordinates of grid points; dim(3,2)
       REAL(c_double), INTENT(in)    :: gpc(3,2)
@@ -329,7 +294,6 @@ contains
       REAL(c_double), INTENT(inout) :: icoeff(num_gp)
       call PDAFomi_get_interp_coeff_lin(num_gp, n_dim, gpc, oc, icoeff)
    END SUBROUTINE c__PDAFomi_get_interp_coeff_lin
-
 
    SUBROUTINE c__PDAFomi_assimilate_3dvar(collect_state_pdaf, distribute_state_pdaf, &
                                           init_dim_obs_pdaf, obs_op_pdaf, &
@@ -607,7 +571,6 @@ contains
          U_init_dim_obs_l, U_g2l_state, U_l2g_state, U_next_observation, flag)
    END SUBROUTINE c__PDAFomi_assimilate_local
 
-
    SUBROUTINE c__PDAFomi_generate_obs(U_collect_state, U_distribute_state, &
          U_init_dim_obs_f, U_obs_op_f, U_get_obs_f, U_prepoststep, &
          U_next_observation, flag) bind(c)
@@ -632,7 +595,6 @@ contains
          U_init_dim_obs_f, U_obs_op_f, U_get_obs_f, U_prepoststep, &
          U_next_observation, flag)
    END SUBROUTINE c__PDAFomi_generate_obs
-
 
    SUBROUTINE c__PDAFomi_put_state_3dvar(collect_state_pdaf, init_dim_obs_pdaf, obs_op_pdaf, &
       cvt_pdaf, cvt_adj_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, prepoststep_pdaf, outflag) bind(c)
@@ -889,6 +851,7 @@ contains
          U_g2l_state, U_l2g_state, flag)
    END SUBROUTINE c__PDAFomi_put_state_local
 
+   ! Using callback routines from omi for easier handling of implementations without omi
    SUBROUTINE c__PDAFomi_init_obs_f_cb(step, dim_obs_f, observation_f) bind(c)
       external PDAFomi_init_obs_f_cb
       ! Current time step
@@ -1039,7 +1002,6 @@ contains
       call PDAFomi_add_obs_error_cb(step, dim_obs_p, C_p)
    END SUBROUTINE c__PDAFomi_add_obs_error_cb
 
-
    SUBROUTINE c__PDAFomi_init_obscovar_cb(step, dim_obs, dim_obs_p, covar, m_state_p, &
          isdiag) bind(c)
       external PDAFomi_init_obscovar_cb
@@ -1109,5 +1071,212 @@ contains
       real(c_double),  INTENT(out)   :: lhood_l
       call PDAFomi_likelihood_hyb_l_cb(domain_p, step, dim_obs_l, obs_l, resid_l, alpha, lhood_l)
    END SUBROUTINE c__PDAFomi_likelihood_hyb_l_cb
+
+   ! Added from V2.2.1 due to non-isotropic localisation handling
+   SUBROUTINE c__PDAFomi_obsstats_l(screen) bind(c)
+      !< Verbosity flag
+      INTEGER(c_int), INTENT(in) :: screen
+      call PDAFomi_obsstats_l(screen)
+   END SUBROUTINE c__PDAFomi_obsstats_l
+
+   SUBROUTINE c__PDAFomi_weights_l(verbose, nobs_l, ncols, locweight, cradius, sradius, &
+        matA, ivar_obs_l, dist_l, weight_l) bind(c)
+      !< Verbosity flag
+      INTEGER(c_int), INTENT(in) :: verbose
+      !< Number of local observations
+      INTEGER(c_int), INTENT(in) :: nobs_l
+      !<
+      INTEGER(c_int), INTENT(in) :: ncols
+      !< Localization weight type
+      INTEGER(c_int), INTENT(in) :: locweight
+      !< Localization cut-off radius
+      REAL(c_double), INTENT(in)    :: cradius(nobs_l)
+      !< support radius for weight functions
+      REAL(c_double), INTENT(in)    :: sradius(nobs_l)
+      !<
+      REAL(c_double), INTENT(in)    :: matA(nobs_l,ncols)
+      !< Local vector of inverse obs. variances (nobs_l)
+      REAL(c_double), INTENT(in)    :: ivar_obs_l(nobs_l)
+      !< Local vector of obs. distances (nobs_l)
+      REAL(c_double), INTENT(in)    :: dist_l(nobs_l)
+      !< Output: vector of weights
+      REAL(c_double), INTENT(out) :: weight_l(nobs_l)
+
+      call PDAFomi_weights_l(verbose, nobs_l, ncols, locweight, cradius, sradius, &
+        matA, ivar_obs_l, dist_l, weight_l)
+   END SUBROUTINE c__PDAFomi_weights_l
+
+   SUBROUTINE c__PDAFomi_weights_l_sgnl(verbose, nobs_l, ncols, locweight, cradius, sradius, &
+        matA, ivar_obs_l, dist_l, weight_l) bind(c)
+      !< Verbosity flag
+      INTEGER(c_int), INTENT(in) :: verbose
+      !< Number of local observations
+      INTEGER(c_int), INTENT(in) :: nobs_l
+      !<
+      INTEGER(c_int), INTENT(in) :: ncols
+      !< Localization weight type
+      INTEGER(c_int), INTENT(in) :: locweight
+      !< Localization cut-off radius
+      REAL(c_double), INTENT(in)    :: cradius
+      !< support radius for weight functions
+      REAL(c_double), INTENT(in)    :: sradius
+      !<
+      REAL(c_double), INTENT(in)    :: matA(nobs_l,ncols)
+      !< Local vector of inverse obs. variances (nobs_l)
+      REAL(c_double), INTENT(in)    :: ivar_obs_l(nobs_l)
+      !< Local vector of obs. distances (nobs_l)
+      REAL(c_double), INTENT(in)    :: dist_l(nobs_l)
+      !< Output: vector of weights
+      REAL(c_double), INTENT(out) :: weight_l(nobs_l)
+
+      call PDAFomi_weights_l_sgnl(verbose, nobs_l, ncols, locweight, cradius, sradius, &
+        matA, ivar_obs_l, dist_l, weight_l)
+   END SUBROUTINE c__PDAFomi_weights_l_sgnl
+
+   SUBROUTINE c__PDAFomi_check_error(flag) bind(c)
+      !< Error flag
+      INTEGER(c_int), INTENT(inout) :: flag
+      call PDAFomi_check_error(flag)
+   END SUBROUTINE c__PDAFomi_check_error
+
+   SUBROUTINE c__PDAFomi_gather_obsdims() bind(c)
+      call PDAFomi_gather_obsdims()
+   END SUBROUTINE c__PDAFomi_gather_obsdims
+
+   SUBROUTINE c__PDAFomi_obsstats(screen) bind(c)
+      !< Verbosity flag
+      INTEGER(c_int), INTENT(in) :: screen
+      call PDAFomi_obsstats(screen)
+   END SUBROUTINE c__PDAFomi_obsstats
+
+   SUBROUTINE c__PDAFomi_init_dim_obs_l_iso(i_obs, ncoord, coords_l, locweight, cradius, sradius, cnt_obs_l) bind(c)
+      !< index of observation type
+      INTEGER(c_int), INTENT(IN) :: i_obs
+      !< number of coordinate dimension
+      INTEGER(c_int), INTENT(IN) :: ncoord
+      !< Coordinates of current analysis domain
+      REAL(c_double), INTENT(in) :: coords_l(ncoord)
+      !< Type of localization function
+      INTEGER(c_int), INTENT(in) :: locweight
+      !< Localization cut-off radius (single or vector)
+      REAL(c_double), INTENT(in) :: cradius
+      !< Support radius of localization function (single or vector)
+      REAL(c_double), INTENT(in) :: sradius
+      !< Local dimension of current observation vector
+      INTEGER(c_int), INTENT(inout) :: cnt_obs_l
+      call PDAFomi_init_dim_obs_l_iso(thisobs_l(i_obs), thisobs(i_obs), coords_l, locweight, cradius, sradius, cnt_obs_l)
+   END SUBROUTINE c__PDAFomi_init_dim_obs_l_iso
+
+   SUBROUTINE c__PDAFomi_init_dim_obs_l_noniso(i_obs, ncoord, coords_l, locweight, cradius, sradius, cnt_obs_l) bind(c)
+      !< index of observation type
+      INTEGER(c_int), INTENT(IN) :: i_obs
+      !< number of coordinate dimension
+      INTEGER(c_int), INTENT(IN) :: ncoord
+      !< Coordinates of current analysis domain
+      REAL(c_double), INTENT(in) :: coords_l(ncoord)
+      !< Type of localization function
+      INTEGER(c_int), INTENT(in) :: locweight
+      !< Vector of localization cut-off radii
+      REAL(c_double), INTENT(in) :: cradius(ncoord)
+      !< Vector of support radii of localization function
+      REAL(c_double), INTENT(in) :: sradius(ncoord)
+      !< Local dimension of current observation vector
+      INTEGER(c_int), INTENT(inout) :: cnt_obs_l
+
+      call PDAFomi_init_dim_obs_l_noniso(thisobs_l(i_obs), thisobs(i_obs), coords_l, locweight, cradius, sradius, cnt_obs_l)
+   End SUBROUTINE c__PDAFomi_init_dim_obs_l_noniso
+
+   SUBROUTINE c__PDAFomi_init_dim_obs_l_noniso_locweights(i_obs, ncoord, coords_l, locweights, cradius, &
+      sradius, cnt_obs_l) bind(c)
+      !< index of observation type
+      INTEGER(c_int), INTENT(IN) :: i_obs
+      !< number of coordinate dimension
+      INTEGER(c_int), INTENT(IN) :: ncoord
+      !< Coordinates of current analysis domain
+      REAL(c_double), INTENT(in) :: coords_l(ncoord)
+      !< Types of localization function
+      INTEGER(c_int), INTENT(in) :: locweights(2)
+      !< Vector of localization cut-off radii
+      REAL(c_double), INTENT(in) :: cradius(ncoord)
+      !< Vector of support radii of localization function
+      REAL(c_double), INTENT(in) :: sradius(ncoord)
+      !< Local dimension of current observation vector
+      INTEGER(c_int), INTENT(inout) :: cnt_obs_l
+
+      call PDAFomi_init_dim_obs_l_noniso_locweights(thisobs_l(i_obs), thisobs(i_obs), coords_l, locweights, cradius, &
+         sradius, cnt_obs_l)
+   END SUBROUTINE c__PDAFomi_init_dim_obs_l_noniso_locweights
+
+   SUBROUTINE c__PDAFomi_localize_covar_iso(i_obs, dim_p, dim_obs, ncoord, locweight, cradius, sradius, coords, HP, HPH) bind(c)
+      !< index of observation type
+      INTEGER(c_int), INTENT(IN) :: i_obs
+      !< number of coordinate dimension
+      INTEGER(c_int), INTENT(IN) :: ncoord
+      !< State dimension
+      INTEGER(c_int), INTENT(in) :: dim_p
+      !< Observation dimension
+      INTEGER(c_int), INTENT(in) :: dim_obs
+      !< Localization weight type
+      INTEGER(c_int), INTENT(in) :: locweight
+      !< localization radius
+      REAL(c_double), INTENT(in)    :: cradius
+      !< support radius for weight functions
+      REAL(c_double), INTENT(in)    :: sradius
+      !< Coordinates of state vector elements
+      REAL(c_double), INTENT(in)    :: coords(ncoord, dim_p)
+      !< Matrix HP, dimension (nobs, dim)
+      REAL(c_double), INTENT(inout) :: HP(dim_obs, dim_p)
+      !< Matrix HPH, dimension (nobs, nobs)
+      REAL(c_double), INTENT(inout) :: HPH(dim_obs, dim_obs)
+      call PDAFomi_localize_covar_iso(thisobs(i_obs), dim_p, locweight, cradius, sradius, coords, HP, HPH)
+   End SUBROUTINE c__PDAFomi_localize_covar_iso
+
+   SUBROUTINE c__PDAFomi_localize_covar_noniso_locweights(i_obs, dim_p, dim_obs, ncoord, locweights, cradius, sradius, &
+      coords, HP, HPH) bind(c)
+      !< index of observation type
+      INTEGER(c_int), INTENT(IN) :: i_obs
+      !< number of coordinate dimension
+      INTEGER(c_int), INTENT(IN) :: ncoord
+      !< State dimension
+      INTEGER(c_int), INTENT(in) :: dim_p
+      !< Observation dimension
+      INTEGER(c_int), INTENT(in) :: dim_obs
+      !< Types of localization function
+      INTEGER(c_int), INTENT(in) :: locweights(2)
+      !< Vector of localization cut-off radii
+      REAL(c_double), INTENT(in) :: cradius(ncoord)
+      !< Vector of support radii of localization function
+      REAL(c_double), INTENT(in) :: sradius(ncoord)
+      !< Coordinates of state vector elements
+      REAL(c_double), INTENT(in)    :: coords(ncoord,dim_p)
+      !< Matrix HP, dimension (nobs, dim)
+      REAL(c_double), INTENT(inout) :: HP(dim_obs, dim_p)
+      !< Matrix HPH, dimension (nobs, nobs)
+      REAL(c_double), INTENT(inout) :: HPH(dim_obs, dim_obs)
+      call PDAFomi_localize_covar_noniso_locweights(thisobs(i_obs), dim_p, locweights, cradius, sradius, coords, HP, HPH)
+   END SUBROUTINE c__PDAFomi_localize_covar_noniso_locweights
+
+   ! Added callback routines from V2.21
+   SUBROUTINE c__PDAFomi_omit_by_inno_l_cb(domain_p, dim_obs_l, resid_l, obs_l) bind(c)
+      !< Current local analysis domain
+      INTEGER(c_int), INTENT(in) :: domain_p
+      !< PE-local dimension of obs. vector
+      INTEGER(c_int), INTENT(in) :: dim_obs_l
+      !< Input vector of residuum
+      REAL(c_double), INTENT(inout) :: resid_l(dim_obs_l)
+      !< Input vector of local observations
+      REAL(c_double), INTENT(inout) :: obs_l(dim_obs_l)
+      call PDAFomi_omit_by_inno_l_cb(domain_p, dim_obs_l, resid_l, obs_l)
+   END SUBROUTINE c__PDAFomi_omit_by_inno_l_cb
+
+   SUBROUTINE c__PDAFomi_omit_by_inno_cb(dim_obs_f, resid_f, obs_f) bind(c)
+      !< Full dimension of obs. vector
+      INTEGER(c_int), INTENT(in) :: dim_obs_f
+      !< Input vector of residuum
+      REAL(c_double), INTENT(inout) :: resid_f(dim_obs_f)
+      !< Input vector of full observations
+      REAL(c_double), INTENT(inout) :: obs_f(dim_obs_f)
+      call PDAFomi_omit_by_inno_cb(dim_obs_f, resid_f, obs_f)
+   END SUBROUTINE c__PDAFomi_omit_by_inno_cb
 
 end module PDAFomi_obs_c_binding

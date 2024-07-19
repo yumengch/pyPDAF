@@ -1,5 +1,5 @@
 MODULE PDAF_c_binding
-use iso_c_binding, only: c_double, c_int, c_bool, c_ptr, c_loc
+use iso_c_binding, only: c_double, c_int, c_bool, c_ptr, c_loc, c_char, c_null_char
 use U_PDAF_interface_c_binding
 
 implicit none
@@ -770,37 +770,9 @@ contains
                                  U_prepoststep, U_next_observation, flag)
    END SUBROUTINE c__PDAF_assimilate_prepost
 
-
    SUBROUTINE c__PDAF_deallocate() bind(c)
       CALL PDAF_deallocate()
    END SUBROUTINE c__PDAF_deallocate
-
-
-   SUBROUTINE c__PDAF_diag_CRPS(dim, dim_ens, element, oens, obs, &
-      CRPS, reli, resol, uncert, status) bind(c)
-      ! PE-local state dimension
-      INTEGER(c_int), INTENT(in) :: dim
-      ! Ensemble size
-      INTEGER(c_int), INTENT(in) :: dim_ens
-      ! ID of element to be used. If element=0, mean values over all elements are computed
-      INTEGER(c_int), INTENT(in) :: element
-      ! State ensemble
-      REAL(c_double), INTENT(in)    :: oens(dim, dim_ens)
-      ! State ensemble
-      REAL(c_double), INTENT(in)    :: obs(dim)
-      ! CRPS
-      REAL(c_double), INTENT(out)   :: CRPS
-      ! Reliability
-      REAL(c_double), INTENT(out)   :: reli
-      ! resolution
-      REAL(c_double), INTENT(out)   :: resol
-      ! uncertainty
-      REAL(c_double), INTENT(out)   :: uncert
-      ! Status flag (0=success)
-      INTEGER(c_int), INTENT(out) :: status
-      call PDAF_diag_CRPS(dim, dim_ens, element, oens, obs, &
-         CRPS, reli, resol, uncert, status)
-   END SUBROUTINE c__PDAF_diag_CRPS
 
    SUBROUTINE c__PDAF_diag_effsample(dim_sample, weights, effSample) bind(c)
       ! Sample size
@@ -863,7 +835,6 @@ contains
          state, ens, hist, delta, status)
    END SUBROUTINE c__PDAF_diag_histogram
 
-
    SUBROUTINE c__PDAF_eofcovar(dim_state, nstates, nfields, dim_fields, offsets, &
          remove_mstate, do_mv, states, stddev, svals, svec, meanstate, verbose, status) bind(c)
       ! Dimension of state vector
@@ -901,12 +872,6 @@ contains
       CALL PDAF_eofcovar(dim_state, nstates, nfields, dim_fields, offsets, &
          remove_mstate, do_mv, states, stddev, svals, svec, meanstate, verbose, status)
    END SUBROUTINE c__PDAF_eofcovar
-
-   SUBROUTINE c__PDAF_force_analysis() bind(c)
-
-      call PDAF_force_analysis()
-   END SUBROUTINE c__PDAF_force_analysis
-
 
    SUBROUTINE c__PDAF_gather_dim_obs_f(dim_obs_p, dim_obs_f) bind(c)
       ! PE-local observation dimension
@@ -953,39 +918,6 @@ contains
       CALL PDAF_gather_obs_f2(coords_p, coords_f, nrows, status)
    END SUBROUTINE c__PDAF_gather_obs_f2
 
-   SUBROUTINE c__PDAF_gather_obs_f2_flex(dim_obs_p, dim_obs_f, coords_p, coords_f, &
-        nrows, status) bind(c)
-      ! PE-local observation dimension
-      INTEGER(c_int), INTENT(in) :: dim_obs_p
-      ! Full observation dimension
-      INTEGER(c_int), INTENT(in) :: dim_obs_f
-      ! Number of rows in array
-      INTEGER(c_int), INTENT(in) :: nrows
-      ! PE-local array
-      REAL(c_double), INTENT(in)  :: coords_p(nrows, dim_obs_p)
-      ! Full gathered array
-      REAL(c_double), INTENT(out) :: coords_f(nrows, dim_obs_f)
-      ! Status flag: (0) no error
-      INTEGER(c_int), INTENT(out) :: status
-      call PDAF_gather_obs_f2_flex(dim_obs_p, dim_obs_f, coords_p, coords_f, &
-        nrows, status)
-   END SUBROUTINE c__PDAF_gather_obs_f2_flex
-
-   SUBROUTINE c__PDAF_gather_obs_f_flex(dim_obs_p, dim_obs_f, obs_p, obs_f, status) bind(c)
-      ! PE-local observation dimension
-      INTEGER(c_int), INTENT(in) :: dim_obs_p
-      ! Full observation dimension
-      INTEGER(c_int), INTENT(in) :: dim_obs_f
-      ! PE-local vector
-      REAL(c_double), INTENT(in)  :: obs_p(dim_obs_p)
-      ! Full gathered vector
-      REAL(c_double), INTENT(out) :: obs_f(dim_obs_f)
-      ! Status flag: (0) no error
-      INTEGER(c_int), INTENT(out) :: status
-      call PDAF_gather_obs_f_flex(dim_obs_p, dim_obs_f, obs_p, obs_f, status)
-   END SUBROUTINE c__PDAF_gather_obs_f_flex
-
-
    SUBROUTINE c__PDAF_generate_obs(U_collect_state, U_distribute_state, &
          U_init_dim_obs_f, U_obs_op_f, U_get_obs_f, U_init_obserr_f, U_prepoststep, &
          U_next_observation, flag) bind(c)
@@ -1012,7 +944,6 @@ contains
          U_init_dim_obs_f, U_obs_op_f, U_get_obs_f, U_init_obserr_f, U_prepoststep, &
          U_next_observation, flag)
    END SUBROUTINE c__PDAF_generate_obs
-
 
    SUBROUTINE c__PDAF_get_assim_flag(did_assim) bind(c)
       ! Flag: (1) for assimilation; (0) else
@@ -1078,8 +1009,6 @@ contains
       dims = shape(sens_point)
       c_sens_point = c_loc(sens_point(1, 1, 1))
    END SUBROUTINE c__PDAF_get_smootherens
-
-
 
    SUBROUTINE c__PDAF_get_state(steps, time, doexit, U_next_observation, U_distribute_state, &
          U_prepoststep, flag) bind(c)
@@ -1147,7 +1076,6 @@ contains
          flag)
    END SUBROUTINE c__PDAF_init
 
-
    SUBROUTINE c__PDAF_local_weight(wtype, rtype, cradius, sradius, distance, &
          nrows, ncols, A, var_obs, weight, verbose) bind(c)
       ! Type of weight function
@@ -1177,53 +1105,12 @@ contains
          nrows, ncols, A, var_obs, weight, verbose)
    END SUBROUTINE c__PDAF_local_weight
 
-   SUBROUTINE c__PDAF_local_weights(wtype, cradius, sradius, dim, distance, &
-      weight, verbose) bind(c)
-      ! Type of weight function
-      ! (0): unit weight (=1 up to distance=cradius)
-      ! (1): exponential decrease (1/e at distance=sradius; 0 for distance>cradius)
-      ! (2): 5th order polynomial (Gaspari&Cohn 1999; 0 for distance>cradius)
-      INTEGER(c_int), INTENT(in) :: wtype
-      ! Parameter for cut-off
-      REAL(c_double), INTENT(in)    :: cradius
-      ! Support radius
-      REAL(c_double), INTENT(in)    :: sradius
-      ! Size of distance and weight arrays
-      INTEGER(c_int), INTENT(in) :: dim
-      ! Array holding distances
-      REAL(c_double), INTENT(in)    :: distance(dim)
-      ! Array for weights
-      REAL(c_double), INTENT(out)   :: weight(dim)
-      ! Verbosity flag
-      INTEGER(c_int), INTENT(in) :: verbose
-      call  PDAF_local_weights(wtype, cradius, sradius, dim, distance, &
-                               weight, verbose)
-   END SUBROUTINE c__PDAF_local_weights
-
-
-   SUBROUTINE c__PDAF_prepost(U_collect_state, U_distribute_state, &
-      U_prepoststep, U_next_observation, outflag) bind(c)
-      ! Status flag
-      INTEGER(c_int), INTENT(out) :: outflag
-      ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf) :: U_collect_state
-      ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf) :: U_prepoststep
-      ! Routine to provide time step, time and dimension of next observation
-      procedure(c__next_observation_pdaf) :: U_next_observation
-      ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf) :: U_distribute_state
-      call PDAF_prepost(U_collect_state, U_distribute_state, &
-         U_prepoststep, U_next_observation, outflag)
-   END SUBROUTINE c__PDAF_prepost
-
    SUBROUTINE c__PDAF_print_info(printtype) bind(c)
       ! Type of screen output
       INTEGER(c_int), INTENT(in) :: printtype
 
       CALL PDAF_print_info(printtype)
    END SUBROUTINE c__PDAF_print_info
-
 
    SUBROUTINE c__PDAF_put_state_3dvar(U_collect_state, &
       U_init_dim_obs, U_obs_op, U_init_obs, U_prodRinvA, &
@@ -1623,7 +1510,6 @@ contains
          U_init_obsvar, U_init_obsvar_l, flag)
    END SUBROUTINE c__PDAF_put_state_lestkf
 
-
    SUBROUTINE c__PDAF_put_state_letkf(U_collect_state, U_init_dim_obs, U_obs_op, &
          U_init_obs, U_init_obs_l, U_prepoststep, U_prodRinvA_l, U_init_n_domains_p, &
          U_init_dim_l, U_init_dim_obs_l, U_g2l_state, U_l2g_state, U_g2l_obs, &
@@ -1948,13 +1834,8 @@ contains
       REAL, POINTER :: ens_point(:,:)
       CALL PDAF_set_ens_pointer(ens_point, status)
       c_ens_point = c_loc(ens_point(1,1))
+      dims = shape(ens_point)
    END SUBROUTINE c__PDAF_set_ens_pointer
-
-   SUBROUTINE c__PDAF_set_memberid(memberid) bind(c)
-      ! Index in the local ensemble
-      INTEGER(c_int),INTENT(inout) :: memberid
-      call PDAF_set_memberid(memberid)
-   END SUBROUTINE c__PDAF_set_memberid
 
    SUBROUTINE c__PDAF_set_smootherens(c_sens_point, maxlag, dims, status) bind(c)
       ! Pointer to smoother array
@@ -1970,8 +1851,8 @@ contains
 
       CALL PDAF_set_smootherens(sens_point, maxlag, status)
       c_sens_point = c_loc(sens_point(1,1,1))
+      dims = shape(sens_point)
    END SUBROUTINE c__PDAF_set_smootherens
-
 
    SUBROUTINE c__PDAF_seik_TtimesA(rank, dim_col, A, B) bind(c)
       ! Rank of initial covariance matrix
@@ -1986,7 +1867,6 @@ contains
       CALL PDAF_seik_TtimesA(rank, dim_col, A, B)
    END SUBROUTINE c__PDAF_seik_TtimesA
 
-
    SUBROUTINE c__PDAF_etkf_Tleft(dim_ens, dim, A) bind(c)
       ! Rank of initial covariance matrix
       INTEGER(c_int), INTENT(in) :: dim_ens
@@ -1997,7 +1877,6 @@ contains
 
       CALL PDAF_etkf_Tleft(dim_ens, dim, A)
    END SUBROUTINE c__PDAF_etkf_Tleft
-
 
    SUBROUTINE c__PDAF_estkf_OmegaA(rank, dim_col, A, B) bind(c)
       ! Rank of initial covariance matrix
@@ -2011,7 +1890,6 @@ contains
 
       CALL PDAF_estkf_OmegaA(rank, dim_col, A, B)
    END SUBROUTINE c__PDAF_estkf_OmegaA
-
 
    SUBROUTINE c__PDAF_enkf_omega(seed, r, dim_ens, omega, norm, &
          otype, screen) bind(c)
@@ -2034,7 +1912,6 @@ contains
          otype, screen)
    END SUBROUTINE c__PDAF_enkf_omega
 
-
    SUBROUTINE c__PDAF_seik_omega(rank, omega, omegatype, screen) bind(c)
       ! Approximated rank of covar matrix
       INTEGER(c_int), INTENT(in) :: rank
@@ -2048,7 +1925,6 @@ contains
       CALL PDAF_seik_omega(rank, omega, omegatype, screen)
    END SUBROUTINE c__PDAF_seik_omega
 
-
    SUBROUTINE c__PDAF_incremental(steps, U_dist_stateinc) bind(c)
       ! Time steps over which increment is distributed
       INTEGER(c_int), INTENT(in) :: steps
@@ -2058,7 +1934,6 @@ contains
       CALL PDAF_incremental(steps, U_dist_stateinc)
    END SUBROUTINE c__PDAF_incremental
 
-
    SUBROUTINE c__PDAF_add_increment(dim_p, state_p) bind(c)
       ! State dimension
       INTEGER(c_int),INTENT(in) :: dim_p
@@ -2067,4 +1942,179 @@ contains
 
       CALL PDAF_add_increment(dim_p, state_p)
    END SUBROUTINE c__PDAF_add_increment
+
+   ! In documentation but not in the PDAF_interface module
+   SUBROUTINE c__PDAF_local_weights(wtype, cradius, sradius, dim, distance, &
+      weight, verbose) bind(c)
+      ! Type of weight function
+      ! (0): unit weight (=1 up to distance=cradius)
+      ! (1): exponential decrease (1/e at distance=sradius; 0 for distance>cradius)
+      ! (2): 5th order polynomial (Gaspari&Cohn 1999; 0 for distance>cradius)
+      INTEGER(c_int), INTENT(in) :: wtype
+      ! Parameter for cut-off
+      REAL(c_double), INTENT(in)    :: cradius
+      ! Support radius
+      REAL(c_double), INTENT(in)    :: sradius
+      ! Size of distance and weight arrays
+      INTEGER(c_int), INTENT(in) :: dim
+      ! Array holding distances
+      REAL(c_double), INTENT(in)    :: distance(dim)
+      ! Array for weights
+      REAL(c_double), INTENT(out)   :: weight(dim)
+      ! Verbosity flag
+      INTEGER(c_int), INTENT(in) :: verbose
+      call  PDAF_local_weights(wtype, cradius, sradius, dim, distance, &
+                               weight, verbose)
+   END SUBROUTINE c__PDAF_local_weights
+
+   SUBROUTINE c__PDAF_diag_CRPS(dim, dim_ens, element, oens, obs, &
+      CRPS, reli, resol, uncert, status) bind(c)
+      ! PE-local state dimension
+      INTEGER(c_int), INTENT(in) :: dim
+      ! Ensemble size
+      INTEGER(c_int), INTENT(in) :: dim_ens
+      ! ID of element to be used. If element=0, mean values over all elements are computed
+      INTEGER(c_int), INTENT(in) :: element
+      ! State ensemble
+      REAL(c_double), INTENT(in)    :: oens(dim, dim_ens)
+      ! State ensemble
+      REAL(c_double), INTENT(in)    :: obs(dim)
+      ! CRPS
+      REAL(c_double), INTENT(out)   :: CRPS
+      ! Reliability
+      REAL(c_double), INTENT(out)   :: reli
+      ! resolution
+      REAL(c_double), INTENT(out)   :: resol
+      ! uncertainty
+      REAL(c_double), INTENT(out)   :: uncert
+      ! Status flag (0=success)
+      INTEGER(c_int), INTENT(out) :: status
+      call PDAF_diag_CRPS(dim, dim_ens, element, oens, obs, &
+         CRPS, reli, resol, uncert, status)
+   END SUBROUTINE c__PDAF_diag_CRPS
+
+   SUBROUTINE c__PDAF_force_analysis() bind(c)
+
+      call PDAF_force_analysis()
+   END SUBROUTINE c__PDAF_force_analysis
+
+   SUBROUTINE c__PDAF_gather_obs_f2_flex(dim_obs_p, dim_obs_f, coords_p, coords_f, &
+        nrows, status) bind(c)
+      ! PE-local observation dimension
+      INTEGER(c_int), INTENT(in) :: dim_obs_p
+      ! Full observation dimension
+      INTEGER(c_int), INTENT(in) :: dim_obs_f
+      ! Number of rows in array
+      INTEGER(c_int), INTENT(in) :: nrows
+      ! PE-local array
+      REAL(c_double), INTENT(in)  :: coords_p(nrows, dim_obs_p)
+      ! Full gathered array
+      REAL(c_double), INTENT(out) :: coords_f(nrows, dim_obs_f)
+      ! Status flag: (0) no error
+      INTEGER(c_int), INTENT(out) :: status
+      call PDAF_gather_obs_f2_flex(dim_obs_p, dim_obs_f, coords_p, coords_f, &
+        nrows, status)
+   END SUBROUTINE c__PDAF_gather_obs_f2_flex
+
+   SUBROUTINE c__PDAF_gather_obs_f_flex(dim_obs_p, dim_obs_f, obs_p, obs_f, status) bind(c)
+      ! PE-local observation dimension
+      INTEGER(c_int), INTENT(in) :: dim_obs_p
+      ! Full observation dimension
+      INTEGER(c_int), INTENT(in) :: dim_obs_f
+      ! PE-local vector
+      REAL(c_double), INTENT(in)  :: obs_p(dim_obs_p)
+      ! Full gathered vector
+      REAL(c_double), INTENT(out) :: obs_f(dim_obs_f)
+      ! Status flag: (0) no error
+      INTEGER(c_int), INTENT(out) :: status
+      call PDAF_gather_obs_f_flex(dim_obs_p, dim_obs_f, obs_p, obs_f, status)
+   END SUBROUTINE c__PDAF_gather_obs_f_flex
+
+   SUBROUTINE c__PDAF_prepost(U_collect_state, U_distribute_state, &
+      U_prepoststep, U_next_observation, outflag) bind(c)
+      ! Status flag
+      INTEGER(c_int), INTENT(out) :: outflag
+      ! Routine to collect a state vector
+      procedure(c__collect_state_pdaf) :: U_collect_state
+      ! User supplied pre/poststep routine
+      procedure(c__prepoststep_pdaf) :: U_prepoststep
+      ! Routine to provide time step, time and dimension of next observation
+      procedure(c__next_observation_pdaf) :: U_next_observation
+      ! Routine to distribute a state vector
+      procedure(c__distribute_state_pdaf) :: U_distribute_state
+      call PDAF_prepost(U_collect_state, U_distribute_state, &
+         U_prepoststep, U_next_observation, outflag)
+   END SUBROUTINE c__PDAF_prepost
+
+   SUBROUTINE c__PDAF_set_memberid(memberid) bind(c)
+      ! Index in the local ensemble
+      INTEGER(c_int),INTENT(inout) :: memberid
+      call PDAF_set_memberid(memberid)
+   END SUBROUTINE c__PDAF_set_memberid
+
+   SUBROUTINE c__PDAF_set_comm_pdaf(in_COMM_pdaf) bind(c)
+      ! MPI communicator for PDAF
+     INTEGER(c_int),INTENT(in) :: in_COMM_pdaf
+
+     call PDAF_set_comm_pdaf(in_COMM_pdaf)
+   END SUBROUTINE c__PDAF_set_comm_pdaf
+
+   ! added interface in PDAF V2.2.1
+   SUBROUTINE c__PDAF_set_offline_mode(screen) bind(c)
+      ! Verbosity flag
+      INTEGER(c_int), INTENT(in)        :: screen
+      call PDAF_set_offline_mode(screen)
+   END SUBROUTINE c__PDAF_set_offline_mode
+
+   ! in PDAF_analysis_utils.F90 in V2.2.1
+   SUBROUTINE c__PDAF_print_domain_stats(n_domains_p) bind(c)
+      ! Number of PE-local analysis domains
+      INTEGER(c_int), INTENT(in) :: n_domains_p
+      call PDAF_print_domain_stats(n_domains_p)
+   END SUBROUTINE c__PDAF_print_domain_stats
+
+   SUBROUTINE c__PDAF_init_local_obsstats() bind(c)
+      call init_local_obsstats()
+   END SUBROUTINE c__PDAF_init_local_obsstats
+
+   SUBROUTINE c__PDAF_incr_local_obsstats(dim_obs_l) bind(c)
+      ! Number of locally assimilated observations
+      INTEGER(c_int), INTENT(in) :: dim_obs_l
+      call PDAF_incr_local_obsstats(dim_obs_l)
+   END SUBROUTINE c__PDAF_incr_local_obsstats
+
+   SUBROUTINE c__PDAF_print_local_obsstats(screen, n_domains_with_obs) bind(c)
+      ! Verbosity flag
+      INTEGER(c_int), INTENT(in) :: screen
+      ! number of domains with observations
+      INTEGER(c_int), OPTIONAL, INTENT(out) :: n_domains_with_obs
+      call PDAF_print_local_obsstats(screen, n_domains_with_obs)
+   END SUBROUTINE c__PDAF_print_local_obsstats
+
+   SUBROUTINE c__PDAF_omit_obs_omi(dim_p, dim_obs_p, dim_ens, state_p, ens_p, &
+                                   obs_p, U_init_obs, U_obs_op, compute_mean, screen) bind(c)
+      ! Initialize observation vector
+      procedure(c__init_obs_pdaf) :: U_init_obs
+      ! Observation operator
+      procedure(c__obs_op_pdaf) :: U_obs_op
+      ! PE-local dimension of model state
+      INTEGER(c_int), INTENT(in) :: dim_p
+      ! PE-local dimension of observation vector
+      INTEGER(c_int), INTENT(in) :: dim_obs_p
+      ! Size of ensemble
+      INTEGER(c_int), INTENT(in) :: dim_ens
+      ! on exit: PE-local forecast mean state
+      REAL(c_double), INTENT(inout) :: state_p(dim_p)
+      ! PE-local state ensemble
+      REAL(c_double), INTENT(in) :: ens_p(dim_p, dim_ens)
+      ! PE-local observation vector
+      REAL(c_double), INTENT(inout) :: obs_p(dim_obs_p)
+      ! (1) compute mean; (0) state_p holds mean
+      INTEGER(c_int), INTENT(in) :: compute_mean
+      ! Verbosity flag
+      INTEGER(c_int), INTENT(in) :: screen
+
+      call PDAF_omit_obs_omi(dim_p, dim_obs_p, dim_ens, state_p, ens_p, &
+                              obs_p, U_init_obs, U_obs_op, compute_mean, screen)
+   END SUBROUTINE c__PDAF_omit_obs_omi
 END MODULE PDAF_c_binding
