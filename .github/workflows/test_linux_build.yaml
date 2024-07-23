@@ -9,7 +9,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: 'true'
-          ref: upgrade2.2.1
+          ref: main
 
       - name: installing dependent libraries
         run: sudo apt install -y liblapack-dev libblas-dev libopenmpi-dev

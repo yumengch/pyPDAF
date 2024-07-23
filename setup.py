@@ -17,22 +17,18 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 from setuptools import setup, Extension
-from setuptools.dist import Distribution
+from setuptools import Distribution
 from setuptools.command.build_ext import build_ext as build_ext_orig
 
 from Cython.Build import cythonize
 
-import configparser
 import logging
 
 import numpy
-import glob
 import sys
-import sysconfig
 import os
 import subprocess
 import shutil
-import pathlib
 
 # logging 
 logging.getLogger().setLevel(logging.DEBUG)
@@ -42,41 +38,30 @@ dist = Distribution()
 dist.parse_config_files()
 dist.parse_command_line()
 # get the path to current directory
+cwd = os.getcwd()
 pwd = dist.get_option_dict('pyPDAF')['pwd'][1]
-logging.debug(f'pwd: {pwd}; getcwd: {os.getcwd()}')
+logging.info(f'pwd: {pwd}; getcwd: {os.getcwd()}')
 # get path to PDAF directory
 PDAFdir = dist.get_option_dict('pyPDAF')['PDAF_dir'][1]
 if not os.path.isabs(PDAFdir):
     PDAFdir = os.path.join(pwd, PDAFdir)
-    logging.info (f'input PDAF directory is not absolute path, changing to: {PDAFdir}')
-
-# set up C compiler for cython and Python
-if os.name == 'nt':
-    compiler = 'msvc'
-    logging.info ('....using MSVC compiler for C, the only compiler allowed by setuptools in windows....')
-else:
-    os.environ["CC"] = dist.get_option_dict('pyPDAF')['CC'][1]
-    result = subprocess.run([os.environ["CC"], '--version'], stdout=subprocess.PIPE)
-    result = result.stdout.decode()
-    compiler = 'gnu'
-    if 'icc' in result:
-        compiler = 'intel'
-    elif 'clang' in result:
-        compiler = 'clang'
-
-    if compiler == 'intel':
-        logging.info ('....using Intel compiler....')
-        os.environ["LDSHARED"] = "mpiicc -shared"
-    elif compiler == 'clang':
-        logging.info ('....using Clang compiler....')
-    else:
-        logging.info ('....using GNU compiler....')
+    logging.info (f'....input PDAF directory is not absolute path, changing to: {PDAFdir}....')
 
 condaBuild = dist.get_option_dict('pyPDAF')['condaBuild'][1]
 cmake_config_path = dist.get_option_dict('pyPDAF')['cmake_config_path'][1]
-logging.info (f'condaBuild: {condaBuild}')
-logging.info (f'cmake_config_path: {cmake_config_path}')
+logging.info (f'....condaBuild: {condaBuild}....')
+logging.info (f'....cmake_config_path: {cmake_config_path}....')
 
+# set up C compiler for cython and Python
+c_compiler = dist.get_option_dict('pyPDAF')['c_compiler'][1]
+assert c_compiler in ['gcc', 'msvc', 'icc', 'clang'], f'{c_compiler} is not a supported C compiler,'\
+                                                        ' check c_compiler option in setup.cfg'
+logging.info (f'....using {c_compiler} compiler for C language....')
+fortran_compiler = dist.get_option_dict('pyPDAF')['fortran_compiler'][1]
+assert fortran_compiler in ['gfortran', 'ifort'], f'{fortran_compiler} is not a supported C compiler,'\
+                                                   ' check fortran_compiler option in setup.cfg'
+logging.info (f'....using {fortran_compiler} compiler for C language....')
+if c_compiler == 'icc': os.environ["LDSHARED"] = "mpiicc -shared"
 
 extra_compile_args=[]
 extra_link_args = []
@@ -84,25 +69,17 @@ extra_objects = []
 library_dirs=[]
 libraries = []
 
-# compiler options for cython
-if compiler == 'gnu':
-    extra_compile_args+=['-Wno-unreachable-code-fallthrough']
-
 # linking static PDAF library and interface objects
 if sys.platform == 'darwin':
     # Linking static library in mac
-    extra_objects+=['-Wl,-force_load', f'{PDAFdir}/lib/libpdaf-var.a',
-                   '-Wl,-force_load', f'{pwd}/lib/libPDAFc.a',]
+    extra_objects+=['-Wl,-force_load', f'{PDAFdir}/lib/libpdaf-var.a', '-Wl,-force_load', f'{pwd}/lib/libPDAFc.a',]
 elif os.name == 'nt':
     # linking static library in windows
-    library_dirs+=[os.path.join(PDAFdir, 'lib'),
-                   os.path.join(pwd, 'lib'),
-                   ]
+    library_dirs+=[os.path.join(PDAFdir, 'lib'), os.path.join(pwd, 'lib'),]
     libraries += ['pdaf-var', 'pdafc']
 else:
     # linking static library in linux
-    extra_objects+=['-Wl,--whole-archive', f'{PDAFdir}/lib/libpdaf-var.a',
-                   f'{pwd}/lib/libPDAFc.a', '-Wl,--no-whole-archive']
+    extra_objects+=['-Wl,--whole-archive', f'{PDAFdir}/lib/libpdaf-var.a', f'{pwd}/lib/libPDAFc.a', '-Wl,--no-whole-archive']
 
 # add mpi library path
 if os.name == 'nt':
@@ -114,7 +91,7 @@ if os.name == 'nt':
 else:
     # using mpi compiler wrapper is easier for linux and mac
     # we do not consider cray etc. at the moment
-    mpifortran = 'mpiifort' if compiler == 'intel' else 'mpifort'
+    mpifortran = 'mpifort' if fortran_compiler == 'gfortran' else 'mpiifort'
     result = subprocess.run([mpifortran, '-show'], stdout=subprocess.PIPE)
     result = result.stdout.decode()[:-1].split(' ')
     s = [l[2:].replace('"', '') for l in result if l[:2] == '-L']
@@ -122,25 +99,28 @@ else:
     s = [l[2:] for l in result if l[:2] == '-l']
     if len(s) > 0: libraries += s
 
-# linking BLAS/LAPACK
+# linking BLAS/LAPACK/MKL
 use_MKL=dist.get_option_dict('pyPDAF')['use_MKL'][1]
 if use_MKL == 'True':
-    if condaBuild == 'True':
-        MKLROOT = os.environ['LIBRARY_LIB'] if os.name == 'nt' else \
-                  os.path.join(os.environ['PREFIX'], 'lib')
-    else:
-        MKLROOT = dist.get_option_dict('pyPDAF')['MKLROOT'][1]
-    assert MKLROOT != '', 'MKLROOT must not be empty, check setup.cfg file'
+    # if condaBuild == 'True':
+    #     MKLROOT = os.environ['LIBRARY_LIB'] if os.name == 'nt' else \
+    #               os.path.join(os.environ['PREFIX'], 'lib')
+    # else:
+    MKLROOT = dist.get_option_dict('pyPDAF')['MKLROOT'][1]
+    # assert MKLROOT != '', 'MKLROOT must not be empty, check setup.cfg file'
+
     if os.name == 'nt':
-        library_dirs+=[MKLROOT,]
+        if MKLROOT != '': library_dirs+=[MKLROOT,]
         libraries += ['mkl_core', 'mkl_sequential', 'mkl_intel_lp64']
     elif sys.platform == "linux" or sys.platform == "linux2":
+        if condaBuild == 'True': MKLROOT = os.path.join(os.environ['PREFIX'], 'lib')
         extra_objects+=['-Wl,--start-group', 
                         f'{MKLROOT}/libmkl_intel_lp64.a',
                         f'{MKLROOT}/libmkl_sequential.a',
                         f'{MKLROOT}/libmkl_core.a',
                         '-Wl,--end-group']
     else:
+        if condaBuild == 'True': MKLROOT = os.path.join(os.environ['PREFIX'], 'lib')
         extra_objects+=[ 
                         f'{MKLROOT}/libmkl_intel_lp64.a',
                         f'{MKLROOT}/libmkl_sequential.a',
@@ -157,15 +137,14 @@ else:
 if os.name != 'nt':
     suffix = 'dylib' if sys.platform == 'darwin' else 'so'
     FC = os.environ['FC'] if condaBuild == 'True' else 'gfortran'
-    result = subprocess.run([FC, '--print-file',
-                             'libgfortran.'+suffix], stdout=subprocess.PIPE)
+    result = subprocess.run([FC, '--print-file', 'libgfortran.'+suffix], stdout=subprocess.PIPE)
     result = result.stdout.decode()
     result = result[:-18] if sys.platform == 'darwin' else result[:-15]
     library_dirs+=[result,]
     library_dirs+=['/usr/lib', ]
     # somehow gfortran is always necessary
     libraries += ['gfortran', 'm']
-    if compiler == 'intel': libraries += ['ifcore', 'ifcoremt']
+    if fortran_compiler == 'ifort': libraries += ['ifcore', 'ifcoremt']
 
 logging.info (f'extra_compile_args: {extra_compile_args}')
 logging.info (f'extra_link_args: {extra_link_args}')
@@ -179,7 +158,7 @@ class build_ext(build_ext_orig):
     """
     def run(self):
         for ext in self.extensions:
-            if ext.name == 'PDAFc':
+            if ext.name == 'pyPDAF.PDAFc':
                 cwd = os.getcwd()
                 # compile PDAF and PDAFc
                 PDAFc_build_dir = os.path.join(pwd, 'pyPDAF', 'fortran', 'build')
@@ -194,15 +173,15 @@ class build_ext(build_ext_orig):
                 # This should just be a dummy argument in Linux and Mac where 
                 # CMAKE_BUILD_TYPE should be used to set the DEBUG/RELEASE versions
                 os.system('cmake --build . --verbose --target install --config Release')
-                os.chdir(pwd)
+                os.chdir(cwd)
         super().run()
 
 
-ext_modules = [Extension('*',
+ext_modules = [Extension('pyPDAF.PDAFc',
                           ['pyPDAF/fortran/PDAFc.pyx']),
-               Extension('*',
+               Extension('pyPDAF.UserFunc',
                          ['pyPDAF/UserFunc.pyx']),
-               Extension('*',
+               Extension('pyPDAF.PDAF',
                          ['pyPDAF/PDAF.pyx'],
                          extra_compile_args=extra_compile_args,
                          extra_objects=extra_objects,
@@ -219,4 +198,5 @@ setup(name='pyPDAF',
     cmdclass={
         'build_ext': build_ext,
     },
+    packages=["pyPDAF"]
 )

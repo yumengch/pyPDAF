@@ -64,7 +64,7 @@ jobs:
       - name: install pyPDAF
         run: |
           cmd.exe /k "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
-          cmd.exe /k "C:\Program Files (x86)\Intel\oneAPI\compiler\latest\env\vars.bat"
+          cmd.exe /k "C:\Program Files (x86)\Intel\oneAPI\compiler\2024.2\env\vars.bat"
           cmd.exe /k '"C:\Program Files (x86)\Intel\oneAPI\mkl\latest\env\vars.bat" && powershell'
           cd D:\a\pyPDAF\pyPDAF
           Move-Item -Path setup_win.cfg -Destination setup.cfg -Force
