@@ -88,10 +88,12 @@ if __name__ == "__main__":
         for j in range(len(nsteps)):
             rmse_arr[i+1,j] = rmse(f'out_ens{enstype}_N{dim_ens}_lw{locweight}_r{cradius[i]}/state_step{nsteps[j]}_ana.txt', f'inputs_online/true_step{nsteps[j]}.txt')
 
-    print('minval ', np.nanmin(rmse_arr))
+    print(f'Plot for enstype={enstype}; dim_ens={dim_ens}; locweight={locweight}')
+    print('minimum RMSE ', np.nanmin(rmse_arr))
 
     fig, ax1 = plt.subplots(1, 1, figsize=(6, 6),facecolor='.9')
-    divnorm = colors.TwoSlopeNorm(vmin=0.0,vcenter=.5,vmax=1)
+    #divnorm = colors.TwoSlopeNorm(vmin=0.0,vcenter=.5,vmax=1)
+    divnorm = colors.TwoSlopeNorm(vmin=0.5,vcenter=.75,vmax=1)
     # Replicate the above example with a different font size and colormap.
     coefficients = rmse_arr[1:].T
     im1, cbar1 = heatmap(coefficients, nsteps, cradius, norm=divnorm, ax=ax1,cmap='RdYlGn_r')

@@ -87,7 +87,8 @@ if __name__ == "__main__":
         for j in range(len(nsteps)):
             rmse_arr[i+1,j] = rmse(f'out_ens{enstype}_N{dim_ens}_f{forgets[i]}/state_step{nsteps[j]}_ana.txt', f'inputs_online/true_step{nsteps[j]}.txt')
 
-    print('minval ', np.nanmin(rmse_arr))
+    print(f'Plot for enstype={enstype}; dim_ens={dim_ens}')
+    print('minimum RMSE ', np.nanmin(rmse_arr))
 
     fig, ax1 = plt.subplots(1, 1, figsize=(6, 6),facecolor='.9')
     divnorm = colors.TwoSlopeNorm(vmin=0,vcenter=.5,vmax=1)
