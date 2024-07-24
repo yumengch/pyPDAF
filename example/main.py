@@ -21,6 +21,7 @@ import logging
 
 import config
 import model
+import model_integrator
 from parallelisation import parallelisation
 from PDAF_system import PDAF_system
 
@@ -39,13 +40,17 @@ def main():
     model_ens[0].print_info(pe)
 
     if not config.USE_PDAF:
-        for model_t in model_ens:
-            model_t.init_field(pe.mype_model)
+        model_ens.init_field(pe.mype_model)
 
+    # Initialise model integrator
+    integrator = model_integrator.model_integrator(model_ens)
+
+    # Initialise PDAF system
     das = PDAF_system(pe, model_ens)
     if config.USE_PDAF:
         das.init_pdaf(screen=2)
-    das.forward(config.nsteps)
+
+    integrator.forward(config.nsteps, das)
 
     pe.finalize_parallel()
 

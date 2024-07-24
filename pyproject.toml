@@ -1,12 +1,12 @@
 [build-system]
-requires = ["setuptools", "wheel", "cython", "numpy"]
+requires = ["setuptools", "wheel", "cython", "numpy", "mpi4py"]
 
 [project]
 name = "pyPDAF"
 authors = [
     {name = "Yumeng Chen", email = "yumeng.chen@reading.ac.uk"},
 ]
-version = "0.0.2"
+version = "0.0.3"
 description = "A Python interface to PDAF"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -16,7 +16,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 dependencies = [
-    "numpy",
+    "numpy", "mpi4py"
 ]
 
 [tool.setuptools.packages.find]

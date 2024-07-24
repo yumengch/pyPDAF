@@ -28,7 +28,6 @@ import obs_factory
 import parallelisation
 import prepost_processing
 import state_vector
-import step.shift
 
 import pyPDAF.PDAF as PDAF
 
@@ -128,7 +127,7 @@ class PDAF_system:
         dim_preal : int
             size of float filter options
         """
-        filter_param_i:np.ndarray = np.zeros(dim_pint, dtype=int)
+        filter_param_i:np.ndarray = np.zeros(dim_pint, dtype=np.intc)
         filter_param_r:np.ndarray = np.zeros(dim_preal)
 
         filter_param_i[0] = self.sv.dim_state_p
@@ -151,7 +150,7 @@ class PDAF_system:
         dim_preal : int
             size of float filter options
         """
-        filter_param_i:np.ndarray = np.zeros(dim_pint, dtype=int)
+        filter_param_i:np.ndarray = np.zeros(dim_pint, dtype=np.intc)
         filter_param_r:np.ndarray = np.zeros(dim_preal)
 
         filter_param_i[0] = self.sv.dim_state_p
@@ -186,40 +185,6 @@ class PDAF_system:
         for i in range(dim_ens):
             ens_p[:, i] = np.loadtxt(self.initial_ensemble_filename.format(i=i+1))[:, offset:offset+nx_p].ravel()
         return state_p, uinv, ens_p, status_pdaf
-
-    def forward(self, nsteps:int) -> None:
-        # When each model task runs one ensemble member,
-        # i.e. no need to run each ensemble member sequentially,
-        # we call this full parallel implementation
-        if self.pe.dim_ens_l == 1:
-            self.forward_full_parallel(nsteps)
-        else:
-            self.forward_flexible(nsteps)
-
-    def forward_full_parallel(self, nsteps:int) -> None:
-        for i in range(nsteps):
-            self.model_ens[0].field_p = step.shift.step(self.model_ens[0].field_p, self.pe, i+1, config.USE_PDAF)
-            if config.USE_PDAF:
-                self.assimilate_full_parallel()
-
-    def forward_flexible(self, nsteps:int) -> None:
-        # create directory to
-        current_step = 0
-        # full DA system integration loop
-        while current_step < nsteps:
-            if config.USE_PDAF:
-                # model integration
-                for _ in range(self.steps_for):
-                    for i in range(self.pe.dim_ens_l):
-                        self.model_ens[i].field_p = step.shift.step(self.model_ens[i].field_p, self.pe, current_step + 1, config.USE_PDAF)
-                    current_step += 1
-
-                self.assimilate_flexible()
-            else:
-                for i in range(self.pe.dim_ens_l):
-                    self.model_ens[i].field_p = step.shift.step(self.model_ens[i].field_p, self.pe, current_step + 1, config.USE_PDAF)
-            current_step += 1
-
 
     def assimilate_full_parallel(self) -> None:
         """Assimilation function for the full parallel implementation

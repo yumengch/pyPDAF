@@ -160,7 +160,7 @@ class obsB:
         ocoord_p = ocoord_p + 1
 
 
-        id_obs_p:np.ndarray = np.zeros((self.nrows, len(obs_p)))
+        id_obs_p:np.ndarray = np.zeros((self.nrows, len(obs_p)), dtype=np.intc)
         if self.nrows == 1:
             # The relationship between observation and state vector
             # id_obs_p gives the indices of observed field in state vector
@@ -168,7 +168,7 @@ class obsB:
             # The index is based on the full state vector instead of the index in the local domain
             # The following code is used because in our example, observations are masked and 
             # have the same shape as the model grid 
-            state_vector_index_p:np.ndarray = np.arange(1, self.model.nx_p*self.model.ny_p + 1, dtype=int)
+            state_vector_index_p:np.ndarray = np.arange(1, self.model.nx_p*self.model.ny_p + 1, dtype=np.intc)
             id_obs_p[0] = state_vector_index_p[condition]
         else:
             # If interpolation is required for a 2D domain
@@ -251,7 +251,7 @@ class obsB:
         coords_l[1] = np.repeat(np.arange(self.model.ny_p), self.model.nx_p)[domain_p - 1]
         coords_l = coords_l + 1
 
-        return PDAF.omi_init_dim_obs_l(self.i_obs, coords_l,
+        return PDAF.omi_init_dim_obs_l_iso(self.i_obs, coords_l,
                                       self.local.loc_weight,
                                       self.local.cradius,
                                       self.local.sradius, dim_obs_l)

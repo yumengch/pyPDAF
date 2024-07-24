@@ -40,13 +40,12 @@ def py__add_obs_err_pdaf(step, dim_obs_p, c_p):
     dim_obs_p : int
         dimension of observation vector
     c_p : ndarray[float]
-        matrix to that observation covariance r is added
-        shape is (dim_obs_p,dim_obs_p)
+        matrix to that observation covariance r is added; Dimension: dim_obs_p,dim_obs_p
 
     Returns
     -------
     c_p : ndarray[float]
-        matrix to that observation covariance r is added
+        matrix to that observation covariance r is added; Dimension: dim_obs_p,dim_obs_p
 
     Raises
     ------
@@ -68,25 +67,22 @@ def py__init_ens_pdaf(filtertype, dim_p, dim_ens, state_p, uinv, ens_p, flag):
     dim_ens : int
         size of ensemble
     state_p : ndarray[float]
-        pe-local model state
-        shape is (dim_p)
+        pe-local model state; Dimension: dim_p
     uinv : ndarray[float]
-        array not referenced for ensemble filters
-        shape is (dim_ens-1,dim_ens-1)
+        array not referenced for ensemble filters; Dimension: dim_ens-1,dim_ens-1
     ens_p : ndarray[float]
-        pe-local state ensemble
-        shape is (dim_p,dim_ens)
+        pe-local state ensemble; Dimension: dim_p,dim_ens
     flag : int
         pdaf status flag
 
     Returns
     -------
     state_p : ndarray[float]
-        pe-local model state
+        pe-local model state; Dimension: dim_p
     uinv : ndarray[float]
-        array not referenced for ensemble filters
+        array not referenced for ensemble filters; Dimension: dim_ens-1,dim_ens-1
     ens_p : ndarray[float]
-        pe-local state ensemble
+        pe-local state ensemble; Dimension: dim_p,dim_ens
     flag : int
         pdaf status flag
 
@@ -137,13 +133,12 @@ def py__collect_state_pdaf(dim_p, state_p):
     dim_p : int
         pe-local state dimension
     state_p : ndarray[float]
-        local state vector
-        shape is (dim_p)
+        local state vector; Dimension: dim_p
 
     Returns
     -------
     state_p : ndarray[float]
-        local state vector
+        local state vector; Dimension: dim_p
 
     Raises
     ------
@@ -161,13 +156,12 @@ def py__distribute_state_pdaf(dim_p, state_p):
     dim_p : int
         
     state_p : ndarray[float]
-        
-        shape is (dim_p)
+        ; Dimension: dim_p
 
     Returns
     -------
     state_p : ndarray[float]
-        
+        ; Dimension: dim_p
 
     Raises
     ------
@@ -193,31 +187,22 @@ def py__prepoststep_pdaf(step, dim_p, dim_ens, dim_ens_p, dim_obs_p, state_p, ui
     dim_obs_p : int
         pe-local dimension of observation vector
     state_p : ndarray[float]
-        pe-local forecast/analysis state
-         (the array 'state_p' is not generally not
-         initialized in the case of seik.
-         it can be used freely here.)
-        shape is (dim_p)
+        pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.); Dimension: dim_p
     uinv : ndarray[float]
-        inverse of matrix u
-        shape is (dim_ens-1,dim_ens-1)
+        inverse of matrix u; Dimension: dim_ens-1,dim_ens-1
     ens_p : ndarray[float]
-        pe-local state ensemble
-        shape is (dim_p,dim_ens)
+        pe-local state ensemble; Dimension: dim_p,dim_ens
     flag : int
         pdaf status flag
 
     Returns
     -------
     state_p : ndarray[float]
-        pe-local forecast/analysis state
-         (the array 'state_p' is not generally not
-         initialized in the case of seik.
-         it can be used freely here.)
+        pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.); Dimension: dim_p
     uinv : ndarray[float]
-        inverse of matrix u
+        inverse of matrix u; Dimension: dim_ens-1,dim_ens-1
     ens_p : ndarray[float]
-        pe-local state ensemble
+        pe-local state ensemble; Dimension: dim_p,dim_ens
 
     Raises
     ------
@@ -260,13 +245,12 @@ def py__init_obs_pdaf(step, dim_obs_p, observation_p):
     dim_obs_p : int
         size of the observation vector
     observation_p : ndarray[float]
-        vector of observations
-        shape is (dim_obs_p)
+        vector of observations; Dimension: dim_obs_p
 
     Returns
     -------
     observation_p : ndarray[float]
-        vector of observations
+        vector of observations; Dimension: dim_obs_p
 
     Raises
     ------
@@ -290,8 +274,7 @@ def py__init_obs_covar_pdaf(step, dim_obs, dim_obs_p, covar, obs_p, isdiag):
     covar : float
         observation error covariance matrix
     obs_p : ndarray[float]
-        process-local vector of observations
-        shape is (dim_obs_p)
+        process-local vector of observations; Dimension: dim_obs_p
     isdiag : bool
         
 
@@ -320,8 +303,7 @@ def py__init_obsvar_pdaf(step, dim_obs_p, obs_p, meanvar):
     dim_obs_p : int
         size of observation vector
     obs_p : ndarray[float]
-        vector of observations
-        shape is (dim_obs_p)
+        vector of observations; Dimension: dim_obs_p
     meanvar : float
         mean observation error variance
 
@@ -348,30 +330,25 @@ def py__prodrinva_pdaf(step, dim_obs_p, rank, obs_p, a_p, c_p):
     dim_obs_p : int
         number of observations at current time step (i.e. the size of the observation vector)
     rank : int
-        number of the columns in the matrix processes here.
-         this is usually the ensemble size minus one
-         (or the rank of the initial covariance matrix)
+        number of the columns in the matrix processes here.this is usually the ensemble size minus one(or the rank of the initial covariance matrix)
     obs_p : ndarray[float]
-        vector of observations
-        shape is (dim_obs_p)
+        vector of observations; Dimension: dim_obs_p
     a_p : ndarray[float]
-        input matrix provided by pdaf
-        shape is (dim_obs_p,rank)
+        input matrix provided by pdaf; Dimension: dim_obs_p,rank
     c_p : ndarray[float]
-        output matrix
-        shape is (dim_obs_p,rank)
+        output matrix; Dimension: dim_obs_p,rank
 
     Returns
     -------
     c_p : ndarray[float]
-        output matrix
+        output matrix; Dimension: dim_obs_p,rank
 
     Raises
     ------
     RuntimeError
         No user-supplied function
     """
-    raise RuntimeError('...Wrong py__prodrinva_pdaf is called!!!...')
+    raise RuntimeError('...Wrong py__prodRinvA_pdaf is called!!!...')
 
 
 def py__obs_op_pdaf(step, dim_p, dim_obs_p, state_p, m_state_p):
@@ -386,16 +363,14 @@ def py__obs_op_pdaf(step, dim_p, dim_obs_p, state_p, m_state_p):
     dim_obs_p : int
         size of observation vector
     state_p : ndarray[float]
-        model state vector
-        shape is (dim_p)
+        model state vector; Dimension: dim_p
     m_state_p : ndarray[float]
-        observed state vector (i.e. the result after applying the observation operator to state_p)
-        shape is (dim_obs_p)
+        observed state vector (i.e. the result after applying the observation operator to state_p); Dimension: dim_obs_p
 
     Returns
     -------
     m_state_p : ndarray[float]
-        observed state vector (i.e. the result after applying the observation operator to state_p)
+        observed state vector (i.e. the result after applying the observation operator to state_p); Dimension: dim_obs_p
 
     Raises
     ------
@@ -419,20 +394,18 @@ def py__g2l_obs_pdaf(domain_p, step, dim_obs_f, dim_obs_l, mstate_f, dim_p, msta
     dim_obs_l : int
         size of observation vector for local analysis domain
     mstate_f : ndarray[int]
-        full observation vector for model sub-domain
-        shape is (dim_p)
+        full observation vector for model sub-domain; Dimension: dim_p
     dim_p : int
         size of full observation vector for model sub-domain
     mstate_l : ndarray[int]
-        observation vector for local analysis domain
-        shape is (dim_l)
+        observation vector for local analysis domain; Dimension: dim_l
     dim_l : int
         size of observation vector for local analysis domain
 
     Returns
     -------
     mstate_l : ndarray[int]
-        observation vector for local analysis domain
+        observation vector for local analysis domain; Dimension: dim_l
 
     Raises
     ------
@@ -454,18 +427,16 @@ def py__g2l_state_pdaf(step, domain_p, dim_p, state_p, dim_l, state_l):
     dim_p : int
         pe-local full state dimension
     state_p : ndarray[float]
-        pe-local full state vector
-        shape is (dim_p)
+        pe-local full state vector; Dimension: dim_p
     dim_l : int
         local state dimension
     state_l : ndarray[float]
-        state vector on local analysis domain
-        shape is (dim_l)
+        state vector on local analysis domain; Dimension: dim_l
 
     Returns
     -------
     state_l : ndarray[float]
-        state vector on local analysis domain
+        state vector on local analysis domain; Dimension: dim_l
 
     Raises
     ------
@@ -583,13 +554,12 @@ def py__init_obs_f_pdaf(step, dim_obs_f, observation_f):
     dim_obs_f : int
         size of the full observation vector
     observation_f : ndarray[float]
-        full vector of observations
-        shape is (dim_obs_f)
+        full vector of observations; Dimension: dim_obs_f
 
     Returns
     -------
     observation_f : ndarray[float]
-        full vector of observations
+        full vector of observations; Dimension: dim_obs_f
 
     Raises
     ------
@@ -611,13 +581,12 @@ def py__init_obs_l_pdaf(domain_p, step, dim_obs_l, observation_l):
     dim_obs_l : int
         local size of the observation vector
     observation_l : ndarray[float]
-        local vector of observations
-        shape is (dim_obs_l)
+        local vector of observations; Dimension: dim_obs_l
 
     Returns
     -------
     observation_l : ndarray[float]
-        local vector of observations
+        local vector of observations; Dimension: dim_obs_l
 
     Raises
     ------
@@ -639,8 +608,7 @@ def py__init_obsvar_l_pdaf(domain_p, step, dim_obs_l, obs_l, dim_obs_p, meanvar_
     dim_obs_l : int
         local dimension of observation vector
     obs_l : ndarray[float]
-        local observation vector
-        shape is (dim_obs_p)
+        local observation vector; Dimension: dim_obs_p
     dim_obs_p : int
         dimension of local observation vector
     meanvar_l : float
@@ -669,16 +637,14 @@ def py__init_obserr_f_pdaf(step, dim_obs_f, obs_f, obserr_f):
     dim_obs_f : int
         full dimension of observation vector
     obs_f : ndarray[float]
-        full observation vector
-        shape is (dim_obs_f)
+        full observation vector; Dimension: dim_obs_f
     obserr_f : ndarray[float]
-        full observation error stddev
-        shape is (dim_obs_f)
+        full observation error stddev; Dimension: dim_obs_f
 
     Returns
     -------
     obserr_f : ndarray[float]
-        full observation error stddev
+        full observation error stddev; Dimension: dim_obs_f
 
     Raises
     ------
@@ -700,18 +666,16 @@ def py__l2g_state_pdaf(step, domain_p, dim_l, state_l, dim_p, state_p):
     dim_l : int
         local state dimension
     state_l : ndarray[float]
-        state vector on local analysis domain
-        shape is (dim_l)
+        state vector on local analysis domain; Dimension: dim_l
     dim_p : int
         pe-local full state dimension
     state_p : ndarray[float]
-        pe-local full state vector
-        shape is (dim_p)
+        pe-local full state vector; Dimension: dim_p
 
     Returns
     -------
     state_p : ndarray[float]
-        pe-local full state vector
+        pe-local full state vector; Dimension: dim_p
 
     Raises
     ------
@@ -733,16 +697,14 @@ def py__obs_op_f_pdaf(step, dim_p, dim_obs_f, state_p, m_state_f):
     dim_obs_f : int
         size of full observation vector
     state_p : ndarray[float]
-        model state vector
-        shape is (dim_p)
+        model state vector; Dimension: dim_p
     m_state_f : ndarray[float]
-        full observed state (i.e. the result after applying the observation operator to state_p)
-        shape is (dim_obs_f)
+        full observed state (i.e. the result after applying the observation operator to state_p); Dimension: dim_obs_f
 
     Returns
     -------
     m_state_f : ndarray[float]
-        full observed state (i.e. the result after applying the observation operator to state_p)
+        full observed state (i.e. the result after applying the observation operator to state_p); Dimension: dim_obs_f
 
     Raises
     ------
@@ -764,29 +726,25 @@ def py__prodrinva_l_pdaf(domain_p, step, dim_obs_l, rank, obs_l, a_l, c_l):
     dim_obs_l : int
         number of local observations at current time step (i.e. the size of the local observation vector)
     rank : int
-        number of the columns in the matrix processes here.
-         this is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+        number of the columns in the matrix processes here.this is usually the ensemble size minus one (or the rank of the initial covariance matrix)
     obs_l : ndarray[float]
-        local vector of observations
-        shape is (dim_obs_l)
+        local vector of observations; Dimension: dim_obs_l
     a_l : ndarray[float]
-        input matrix provided by pdaf
-        shape is (dim_obs_l,rank)
+        input matrix provided by pdaf; Dimension: dim_obs_l,rank
     c_l : ndarray[float]
-        output matrix
-        shape is (dim_obs_l,rank)
+        output matrix; Dimension: dim_obs_l,rank
 
     Returns
     -------
     c_l : ndarray[float]
-        output matrix
+        output matrix; Dimension: dim_obs_l,rank
 
     Raises
     ------
     RuntimeError
         No user-supplied function
     """
-    raise RuntimeError('...Wrong py__prodrinva_l_pdaf is called!!!...')
+    raise RuntimeError('...Wrong py__prodRinvA_l_pdaf is called!!!...')
 
 
 def py__localize_covar_pdaf(dim_p, dim_obs, hp_p, hph):
@@ -799,18 +757,16 @@ def py__localize_covar_pdaf(dim_p, dim_obs, hp_p, hph):
     dim_obs : int
         number of observations
     hp_p : ndarray[float]
-        pe local part of matrix hp
-        shape is (dim_obs,dim_p)
+        pe local part of matrix hp; Dimension: dim_obs,dim_p
     hph : ndarray[float]
-        matrix hph
-        shape is (dim_obs,dim_obs)
+        matrix hph; Dimension: dim_obs,dim_obs
 
     Returns
     -------
     hp_p : ndarray[float]
-        pe local part of matrix hp
+        pe local part of matrix hp; Dimension: dim_obs,dim_p
     hph : ndarray[float]
-        matrix hph
+        matrix hph; Dimension: dim_obs,dim_obs
 
     Raises
     ------
@@ -830,11 +786,9 @@ def py__likelihood_pdaf(step, dim_obs_p, obs_p, resid, likely):
     dim_obs_p : int
         number of observations at current time step (i.e. the size of the observation vector)
     obs_p : ndarray[float]
-        vector of observations
-        shape is (dim_obs_p)
+        vector of observations; Dimension: dim_obs_p
     resid : ndarray[float]
-        input vector holding the residual
-        shape is (dim_obs_p)
+        input vector holding the residual; Dimension: dim_obs_p
     likely : float
         output value of the likelihood
 
@@ -863,11 +817,9 @@ def py__likelihood_l_pdaf(domain_p, step, dim_obs_l, obs_l, resid_l, likely_l):
     dim_obs_l : int
         number of local observations at current time step (i.e. the size of the local observation vector)
     obs_l : ndarray[float]
-        local vector of observations
-        shape is (dim_obs_l)
+        local vector of observations; Dimension: dim_obs_l
     resid_l : ndarray[float]
-        nput vector holding the local residual
-        shape is (dim_obs_l)
+        nput vector holding the local residual; Dimension: dim_obs_l
     likely_l : float
         output value of the local likelihood
 
@@ -894,13 +846,12 @@ def py__get_obs_f_pdaf(step, dim_obs_f, observation_f):
     dim_obs_f : int
         size of the full observation vector
     observation_f : ndarray[float]
-        full vector of synthetic observations (process-local)
-        shape is (dim_obs_f)
+        full vector of synthetic observations (process-local); Dimension: dim_obs_f
 
     Returns
     -------
     observation_f : ndarray[float]
-        full vector of synthetic observations (process-local)
+        full vector of synthetic observations (process-local); Dimension: dim_obs_f
 
     Raises
     ------
@@ -924,19 +875,16 @@ def py__cvt_adj_ens_pdaf(iter, dim_p, dim_ens, dim_cv_ens_p, ens_p, vcv_p, cv_p)
     dim_cv_ens_p : int
         pe-local dimension of control vector
     ens_p : ndarray[float]
-        pe-local ensemble
-        shape is (dim_p,dim_ens)
+        pe-local ensemble; Dimension: dim_p,dim_ens
     vcv_p : ndarray[float]
-        pe-local input vector
-        shape is (dim_p)
+        pe-local input vector; Dimension: dim_p
     cv_p : ndarray[float]
-        pe-local result vector
-        shape is (dim_cv_ens_p)
+        pe-local result vector; Dimension: dim_cv_ens_p
 
     Returns
     -------
     cv_p : ndarray[float]
-        pe-local result vector
+        pe-local result vector; Dimension: dim_cv_ens_p
 
     Raises
     ------
@@ -958,16 +906,14 @@ def py__cvt_adj_pdaf(iter, dim_p, dim_cvec, vcv_p, cv_p):
     dim_cvec : int
         dimension of control vector
     vcv_p : ndarray[float]
-        pe-local result vector (state vector increment)
-        shape is (dim_p)
+        pe-local result vector (state vector increment); Dimension: dim_p
     cv_p : ndarray[float]
-        pe-local control vector
-        shape is (dim_cvec)
+        pe-local control vector; Dimension: dim_cvec
 
     Returns
     -------
     cv_p : ndarray[float]
-        pe-local control vector
+        pe-local control vector; Dimension: dim_cvec
 
     Raises
     ------
@@ -989,16 +935,14 @@ def py__cvt_pdaf(iter, dim_p, dim_cvec, cv_p, vv_p):
     dim_cvec : int
         dimension of control vector
     cv_p : ndarray[float]
-        pe-local control vector
-        shape is (dim_cvec)
+        pe-local control vector; Dimension: dim_cvec
     vv_p : ndarray[float]
-        pe-local result vector (state vector increment)
-        shape is (dim_p)
+        pe-local result vector (state vector increment); Dimension: dim_p
 
     Returns
     -------
     vv_p : ndarray[float]
-        pe-local result vector (state vector increment)
+        pe-local result vector (state vector increment); Dimension: dim_p
 
     Raises
     ------
@@ -1022,19 +966,16 @@ def py__cvt_ens_pdaf(iter, dim_p, dim_ens, dim_cvec_ens, ens_p, v_p, vv_p):
     dim_cvec_ens : int
         dimension of control vector
     ens_p : ndarray[float]
-        pe-local ensemble
-        shape is (dim_p,dim_ens)
+        pe-local ensemble; Dimension: dim_p,dim_ens
     v_p : ndarray[float]
-        pe-local control vector
-        shape is (dim_cvec_ens)
+        pe-local control vector; Dimension: dim_cvec_ens
     vv_p : ndarray[float]
-        pe-local state increment
-        shape is (dim_p)
+        pe-local state increment; Dimension: dim_p
 
     Returns
     -------
     vv_p : ndarray[float]
-        pe-local state increment
+        pe-local state increment; Dimension: dim_p
 
     Raises
     ------
@@ -1056,16 +997,14 @@ def py__obs_op_adj_pdaf(step, dim_p, dim_obs_p, state_p, m_state_p):
     dim_obs_p : int
         dimension of observed state
     state_p : ndarray[float]
-        pe-local model state
-        shape is (dim_p)
+        pe-local model state; Dimension: dim_p
     m_state_p : ndarray[float]
-        pe-local observed state
-        shape is (dim_obs_p)
+        pe-local observed state; Dimension: dim_obs_p
 
     Returns
     -------
     state_p : ndarray[float]
-        pe-local model state
+        pe-local model state; Dimension: dim_p
 
     Raises
     ------
@@ -1087,16 +1026,14 @@ def py__obs_op_lin_pdaf(step, dim_p, dim_obs_p, state_p, m_state_p):
     dim_obs_p : int
         dimension of observed state
     state_p : ndarray[float]
-        pe-local model state
-        shape is (dim_p)
+        pe-local model state; Dimension: dim_p
     m_state_p : ndarray[float]
-        pe-local observed state
-        shape is (dim_obs_p)
+        pe-local observed state; Dimension: dim_obs_p
 
     Returns
     -------
     m_state_p : ndarray[float]
-        pe-local observed state
+        pe-local observed state; Dimension: dim_obs_p
 
     Raises
     ------
@@ -1114,8 +1051,7 @@ def py__dist_stateinc_pdaf(dim_p, state_inc_p, first, steps):
     dim_p : int
         dimension of pe-local state
     state_inc_p : ndarray[float]
-        pe-local state vector
-        shape is (dim_p)
+        pe-local state vector; Dimension: dim_p
     first : int
         flag for first call of each forecast
     steps : int
@@ -1140,11 +1076,9 @@ def py__prodrinva_hyb_l_pdaf(domain_p, step, dim_obs_l, obs_l, resid_l, gamma, l
     dim_obs_l : int
         number of local observations at current time step (i.e. the size of the local observation vector)
     obs_l : ndarray[float]
-        local vector of observations
-        shape is (dim_obs_l)
+        local vector of observations; Dimension: dim_obs_l
     resid_l : ndarray[float]
-        input vector holding the local residual
-        shape is (dim_obs_l)
+        input vector holding the local residual; Dimension: dim_obs_l
     gamma : float
         hybrid weight provided by pdaf
     likely_l : float
@@ -1160,7 +1094,7 @@ def py__prodrinva_hyb_l_pdaf(domain_p, step, dim_obs_l, obs_l, resid_l, gamma, l
     RuntimeError
         No user-supplied function
     """
-    raise RuntimeError('...Wrong py__prodrinva_hyb_l_pdaf is called!!!...')
+    raise RuntimeError('...Wrong py__prodRinvA_hyb_l_pdaf is called!!!...')
 
 
 def py__likelihood_hyb_l_pdaf(domain_p, step, dim_obs_l, rank, obs_l, gamma, a_l, c_l):
@@ -1177,21 +1111,18 @@ def py__likelihood_hyb_l_pdaf(domain_p, step, dim_obs_l, rank, obs_l, gamma, a_l
     rank : int
         number of the columns in the matrix processes here. this is usually the ensemble size minus one (or the rank of the initial covariance matrix)
     obs_l : ndarray[float]
-        local vector of observations
-        shape is (dim_obs_l)
+        local vector of observations; Dimension: dim_obs_l
     gamma : float
         hybrid weight provided by pdaf
     a_l : ndarray[float]
-        input matrix provided by pdaf
-        shape is (dim_obs_l,rank)
+        input matrix provided by pdaf; Dimension: dim_obs_l,rank
     c_l : ndarray[float]
-        output matrix
-        shape is (dim_obs_l,rank)
+        output matrix; Dimension: dim_obs_l,rank
 
     Returns
     -------
     c_l : ndarray[float]
-        output matrix
+        output matrix; Dimension: dim_obs_l,rank
 
     Raises
     ------

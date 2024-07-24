@@ -50,15 +50,18 @@ class prepost:
         # collect the length of state vector on each processor (local domain)
         all_dim_p:np.ndarray = np.array(self.pe.comm_filter.gather(dim_p, root=0))
 
+        displacements : np.ndarray | None
+        send_counts : np.ndarray | None
+        ens : np.ndarray | None
         if self.pe.mype_filter == 0:
             # number of elements of the array on each processor 
-            send_counts:np.ndarray = all_dim_p*dim_ens
+            send_counts = all_dim_p*dim_ens
             # get the length of the full state vector
             dim:int = np.sum(all_dim_p)
             # declare the full ensemble
-            ens:np.ndarray = np.zeros(dim*dim_ens)
+            ens = np.zeros(dim*dim_ens)
             # displacement of each of the full ensemble
-            displacements:np.ndarray = np.insert(np.cumsum(send_counts), 0, 0)[0:-1]
+            displacements = np.insert(np.cumsum(send_counts), 0, 0)[0:-1]
         else:
             displacements = None
             ens = None
@@ -74,6 +77,7 @@ class prepost:
                                 send_counts, displacements, MPI.DOUBLE],
                                 root=0)
         if self.pe.mype_filter == 0:
+            assert isinstance(ens, np.ndarray), 'ens should be a numpy array'
             ens = ens.reshape(dim, dim_ens)
             # As a consequence of domain decomposition in nx instead of ny
             # (following the PDAF tutorial)
@@ -96,6 +100,7 @@ class prepost:
         """
         ens = self.get_full_ens(dim_p, dim_ens, ens_p)
         if self.pe.mype_filter == 0:
+            assert isinstance(ens, np.ndarray), 'ens should be a numpy array'
             logging.info (f'RMS error according to sampled variance: {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}')
         return state_p, uinv, ens_p
 
@@ -104,6 +109,7 @@ class prepost:
         """
         ens = self.get_full_ens(dim_p, dim_ens, ens_p)
         if self.pe.mype_filter == 0:
+            assert isinstance(ens, np.ndarray), 'ens should be a numpy array'
             logging.info (f'Forecast RMS error according to sampled variance: {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}')
             os.makedirs('outputs', exist_ok=True)
             for i in range(dim_ens):
@@ -114,6 +120,7 @@ class prepost:
         """
         ens = self.get_full_ens(dim_p, dim_ens, ens_p)
         if self.pe.mype_filter == 0:
+            assert isinstance(ens, np.ndarray), 'ens should be a numpy array'
             logging.info (f'Analysis RMS error according to sampled variance: {np.sqrt(np.mean(np.var(ens_p, axis=1, ddof=1)))}')
             os.makedirs('outputs', exist_ok=True)
             for i in range(dim_ens):
