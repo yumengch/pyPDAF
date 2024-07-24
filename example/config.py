@@ -34,9 +34,10 @@ USE_PDAF:bool = True
 
 ### Filepath ###
 # path to initial ensemble, the filename is formatted for different time step
-init_ens_path:str = os.path.join('/home/runner/work/pyPDAF/pyPDAF/inputs_online', 'ens_{i}.txt')
+# here a relative path is given
+init_ens_path:str = os.path.join('inputs_online', 'ens_{i}.txt')
 # path to initial truth
-init_truth_path:str = os.path.join('/home/runner/work/pyPDAF/pyPDAF/inputs_online', 'true_initial.txt')
+init_truth_path:str = os.path.join('inputs_online', 'true_initial.txt')
 
 
 #### Model configurations ####
@@ -52,6 +53,8 @@ nsteps:int = 19
 #### filter options ####
 # number of ensemble members
 dim_ens:int = 4
+# number of parallel tasks run simultanously
+n_modeltasks:int = 4
 # the type of filter used
 # 1=SEIK, 2=EnKF, 3=LSEIK, 4=ETKF, 5=LETKF, 6=ESTKF, 7=LESTKF
 # 8=LEnKF, 9=NETF, 10=LNETF, 11=LKNETF, 12=PF, 100=GENOBS,

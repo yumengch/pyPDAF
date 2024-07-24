@@ -7,7 +7,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: 'true'
-          ref: upgrade2.2.1
 
       - uses: conda-incubator/setup-miniconda@v3
         with:
@@ -28,8 +27,6 @@ jobs:
         shell: bash -el {0}
         run: |
           conda install -y -c conda-forge --use-local pypdaf
-          mv example/config_mac.py example/config.py
-          mv example/config_obsA_mac.py example/config_obsA.py
           mpiexec -n 4 python -u example/main.py 
 
       - name: Setup tmate session

@@ -16,8 +16,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-import logging
+import log
 import os
+import typing
 
 from mpi4py import MPI
 import numpy as np
@@ -41,7 +42,7 @@ class prepost:
         self.pe:parallelisation.parallelisation = pe
         os.makedirs('outputs', exist_ok=True)
 
-    def get_full_ens(self, dim_p:int, dim_ens:int, ens_p:np.ndarray) -> np.ndarray | None:
+    def get_full_ens(self, dim_p:int, dim_ens:int, ens_p:np.ndarray) -> typing.Union[np.ndarray, None]:
         """Gather total ensemble from each local processors
         """
         # get total dim
@@ -83,7 +84,6 @@ class prepost:
             # (following the PDAF tutorial)
             # we need to reorder the array after merging from different processors
             displ = np.insert(np.cumsum(all_dim_p), 0, 0)[1:]
-            print (displ)
             ens_tmp = ens[:displ[0]].reshape(self.model.ny, self.model.nx_p, dim_ens)
             if len(displ) > 0:
                 for c0, c1 in zip(displ[:-1], displ[1:]):
@@ -101,7 +101,7 @@ class prepost:
         ens = self.get_full_ens(dim_p, dim_ens, ens_p)
         if self.pe.mype_filter == 0:
             assert isinstance(ens, np.ndarray), 'ens should be a numpy array'
-            logging.info (f'RMS error according to sampled variance: {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}')
+            log.logger.info (f'RMS error according to sampled variance: {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}')
         return state_p, uinv, ens_p
 
     def preprocess(self, step:int, dim_p:int, dim_ens:int, ens_p:np.ndarray) -> None:
@@ -110,7 +110,7 @@ class prepost:
         ens = self.get_full_ens(dim_p, dim_ens, ens_p)
         if self.pe.mype_filter == 0:
             assert isinstance(ens, np.ndarray), 'ens should be a numpy array'
-            logging.info (f'Forecast RMS error according to sampled variance: {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}')
+            log.logger.info (f'Forecast RMS error according to sampled variance: {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}')
             os.makedirs('outputs', exist_ok=True)
             for i in range(dim_ens):
                 np.savetxt(os.path.join('outputs', f'ens_{i+1}_step{-step}_for.txt') , ens[:, i].reshape(self.model.ny, self.model.nx) )
@@ -121,7 +121,7 @@ class prepost:
         ens = self.get_full_ens(dim_p, dim_ens, ens_p)
         if self.pe.mype_filter == 0:
             assert isinstance(ens, np.ndarray), 'ens should be a numpy array'
-            logging.info (f'Analysis RMS error according to sampled variance: {np.sqrt(np.mean(np.var(ens_p, axis=1, ddof=1)))}')
+            log.logger.info (f'Analysis RMS error according to sampled variance: {np.sqrt(np.mean(np.var(ens_p, axis=1, ddof=1)))}')
             os.makedirs('outputs', exist_ok=True)
             for i in range(dim_ens):
                 np.savetxt(os.path.join('outputs', f'ens_{i+1}_step{step}_ana.txt') , ens[:, i].reshape(self.model.ny, self.model.nx) )

@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-import logging
+import log
 import numpy as np
 
 import config
@@ -105,8 +105,8 @@ class model:
             parallelization object
         """
         if pe.task_id == 1 and pe.mype_model == 0:
-            logging.info('MODEL-side: INITIALIZE PARALLELIZED Shifting model MODEL')
-            logging.info(f'Grid size: {self.nx} x {self.ny}')
-            logging.info(f'Time steps {self.total_steps}')
-            logging.info(f'-- Domain decomposition over {pe.npes_model} PEs')
-            logging.info(f'-- local domain sizes: {self.nx_p} x {self.ny_p}')
+            log.logger.info('MODEL-side: INITIALIZE PARALLELIZED Shifting model MODEL')
+            log.logger.info(f'Grid size: {self.nx} x {self.ny}')
+            log.logger.info(f'Time steps {self.total_steps}')
+            log.logger.info(f'-- Domain decomposition over {pe.npes_model} PEs')
+            log.logger.info(f'-- local domain sizes: {self.nx_p} x {self.ny_p}')

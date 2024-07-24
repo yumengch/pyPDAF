@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-import logging
+import log
 
 import numpy as np
 import pyPDAF.PDAF as PDAF
@@ -61,7 +61,7 @@ class obs_factory:
             self.nobs += 1
             self.obs_list.append(obsB.obsB(self.nobs, self.pe, self.model, self.local)
             )
-        logging.info (f'total number of observation types: {self.nobs}')
+        log.logger.info (f'total number of observation types: {self.nobs}')
         PDAF.omi_init(self.nobs)
 
     def init_dim_obs_pdafomi(self, step:int, dim_obs:int) -> int:

@@ -14,13 +14,15 @@ build:
 requirements:
   host:
     - python {{python}}
+    - intel-fortran-rt=2024.2.0=h2466b09_978 # [win]
     - setuptools
     - pip
     - cython
-    - numpy
-    - mpi4py
+    - numpy {{ numpy }}
+    - mpi4py {{ mpi4py }}
     - {{ mpi }}
-    - mkl-static                 # [not osx]
+    - mkl-static=2024.2.0=h66d3029_663 # [win]
+    - mkl-static=2024.2.0=ha770c72_665 # [linux]
     - blas-devel=*=*netlib*      # [osx]
     - liblapack=*=*netlib*       # [osx]
   build:
@@ -29,11 +31,11 @@ requirements:
     - cmake   # [not win]
     - make    # [not win]
   run:
-    - python
-    - {{ pin_compatible('numpy') }}
-    - mpi4py
-    - intel-fortran-rt=2024.2.0 # [win]
+    - python {{python}}
+    - numpy {{ numpy }}
+    - mpi4py {{ mpi4py }}
     - {{ mpi }}
+    - intel-fortran-rt==2024.2.0=h2466b09_978 # [win]
     - blas-devel=*=*netlib* # [osx]
     - liblapack=*=*netlib* # [osx]
 

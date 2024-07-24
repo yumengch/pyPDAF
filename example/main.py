@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-import logging
+import log
 
 import config
 import model
@@ -26,12 +26,12 @@ from parallelisation import parallelisation
 from PDAF_system import PDAF_system
 
 def main():
-    pe = parallelisation(dim_ens=4, n_modeltasks=4)
+    pe = parallelisation(dim_ens=config.dim_ens, n_modeltasks=config.n_modeltasks)
 
     # Initial Screen output
     if pe.mype_ens == 0:
-        logging.info('+++++ PDAF online mode +++++')
-        logging.info('2D model with parallelization')
+        log.logger.info('+++++ PDAF online mode +++++')
+        log.logger.info('2D model with parallelization')
 
     # Initialise model
     # throughout this example and PDAF, we must assume that each ensemble member
@@ -48,9 +48,12 @@ def main():
     # Initialise PDAF system
     das = PDAF_system(pe, model_ens)
     if config.USE_PDAF:
-        das.init_pdaf(screen=2)
+        das.init_pdaf(screen=config.screen)
 
     integrator.forward(config.nsteps, das)
+
+    if config.USE_PDAF:
+        das.finalise()
 
     pe.finalize_parallel()
 

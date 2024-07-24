@@ -1,4 +1,4 @@
-import logging
+import log
 from mpi4py import MPI
 import numpy as np
 
@@ -58,7 +58,7 @@ class model_integrator:
             whether PDAF is performed
         """
         if pe.task_id == 1 and pe.mype_model == 0:
-            logging.info(f'model step: {step}')
+            log.logger.info(f'model step: {step}')
 
         field_p = np.roll(field_p, 1, axis=0)
 

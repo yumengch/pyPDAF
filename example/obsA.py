@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-import logging
+import log
 
 import numpy as np
 import pyPDAF.PDAF as PDAF
@@ -123,7 +123,7 @@ class obsA:
             dimension of observation vector
         """
         if self.pe.mype_filter == 0:
-            logging.info(f'Assimilate observations: {self.obs_name}')
+            log.logger.info(f'Assimilate observations: {self.obs_name}')
 
         # switch for assimilation of the observation
         PDAF.omi_set_doassim(self.i_obs, self.doassim)
