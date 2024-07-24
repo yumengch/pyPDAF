@@ -17,6 +17,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import logging
+import sys
 
-
-logging.basicConfig(level=logging.DEBUG, format='%(levelname)s: %(message)s')
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+ch = logging.StreamHandler()
+formatter = logging.Formatter('%(levelname)s: %(message)s')
+ch.setFormatter(formatter)
+logger.addHandler(ch)

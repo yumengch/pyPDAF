@@ -27,7 +27,8 @@ import os
 # name of the observation
 obs_name = 'A'
 # path to the observation files
-obs_path:str = os.path.join('/home/runner/work/pyPDAF/pyPDAF/inputs_online', 'obs_step{i}.txt')
+# here a relative path is given
+obs_path:str = os.path.join('inputs_online', 'obs_step{i}.txt')
 # time steps between observations / assimilation frequency
 dtobs:int = 2
 # Observation error standard deviation

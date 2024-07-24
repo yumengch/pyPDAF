@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-import logging
+import log
 
 import numpy as np
 import pyPDAF.PDAF as PDAF
@@ -89,7 +89,7 @@ class localisation:
         n_domains_p : int
             PE-local number of analysis domains
         """
-        logging.info(f'ndomains: ndomains {self.sv.dim_state_p}')
+        log.logger.info(f'ndomains: ndomains {self.sv.dim_state_p}')
         return self.sv.dim_state_p
 
     def set_lim_coords(self, nx_p:int, ny_p:int, pe:parallelisation.parallelisation) -> None:

@@ -53,7 +53,6 @@ class PDAF_system:
     def __init__(self, pe:parallelisation.parallelisation, model_ens:list[model.model]) -> None:
         self.pe:parallelisation.parallelisation = pe
         self.model_ens:list[model.model] = model_ens
-        self.initial_ensemble_filename:str = config.init_ens_path
         
         self.filter_options = filter_options.filter_options()
         self.sv = state_vector.state_vector(model_ens[0], dim_ens=pe.dim_ens)
@@ -84,6 +83,7 @@ class PDAF_system:
             filter_param_i, filter_param_r = self.setETKFOptions(7, 2)
 
         status:int = 0
+        cltor:collector.collector = collector.collector(self.model_ens[0], self.pe)
         # initialise PDAF filters, communicators, ensemble
         _, _, status = PDAF.init(self.filter_options.filtertype,
                                  self.filter_options.subtype,
@@ -94,7 +94,7 @@ class PDAF_system:
                                  self.pe.comm_filter.py2f(),
                                  self.pe.comm_couple.py2f(), self.pe.task_id,
                                  self.pe.n_modeltasks, self.pe.filter_pe,
-                                 self.init_ens_pdaf, screen)
+                                 cltor.init_ens_pdaf, screen)
 
         assert status == 0, f'ERROR {status} \
                 in initialization of PDAF - stopping! \
@@ -117,7 +117,7 @@ class PDAF_system:
         if self.local.local_filter:
             self.local.set_lim_coords(self.model_ens[i].nx_p, self.model_ens[i].ny_p, self.pe)
 
-    def setEnKFOptions(self, dim_pint:int, dim_preal:int) -> tuple[np.ndarray[int], np.ndarray[float]]:
+    def setEnKFOptions(self, dim_pint:int, dim_preal:int) -> tuple[np.ndarray, np.ndarray]:
         """set ensemble kalman filter options
 
         Parameters
@@ -140,7 +140,7 @@ class PDAF_system:
 
         return filter_param_i, filter_param_r
 
-    def setETKFOptions(self, dim_pint:int, dim_preal:int) -> tuple[np.ndarray[int], np.ndarray[float]]:
+    def setETKFOptions(self, dim_pint:int, dim_preal:int) -> tuple[np.ndarray, np.ndarray]:
         """Summary
 
         Parameters
@@ -165,33 +165,12 @@ class PDAF_system:
 
         return filter_param_i, filter_param_r
 
-    def init_ens_pdaf(self, filtertype:int, dim_p:int, dim_ens:int,
-                      state_p:np.ndarray, uinv:np.ndarray, ens_p:np.ndarray,
-                      status_pdaf:int) -> tuple[np.ndarray, np.ndarray, np.ndarray, int]:
-        """Here, only ens_p variable matters while dim_p and dim_ens defines the
-        size of the variables. uinv, state_p are not used in this example.
-
-        status_pdaf is used to handle errors which we will not do it in this example.
-        """
-        # The initial ensemble is read here and will be distributed to 
-        # the model in the PDAF.get_state functtion by a distributor.
-
-        # If your ensemble is read from a restart file, you can simply set this
-        # function as a dummy function without doing anything
-        # However, you still need to set a distributor to call PDAF.get_state, which
-        # does nothing as well. 
-        nx_p:int = self.model_ens[0].nx_p
-        offset:int = self.pe.mype_filter*nx_p
-        for i in range(dim_ens):
-            ens_p[:, i] = np.loadtxt(self.initial_ensemble_filename.format(i=i+1))[:, offset:offset+nx_p].ravel()
-        return state_p, uinv, ens_p, status_pdaf
-
     def assimilate_full_parallel(self) -> None:
         """Assimilation function for the full parallel implementation
         """
         doexit:int = 0
         status:int = 0
-        cltor:collector.collector = collector.collector(self.model_ens[0])
+        cltor:collector.collector = collector.collector(self.model_ens[0], self.pe)
         prepost:prepost_processing.prepost = prepost_processing.prepost(self.model_ens[0], self.pe)
         dist = distributor.distributor(self.model_ens[0])
         if self.local.local_filter:
@@ -241,7 +220,7 @@ class PDAF_system:
         prepost:prepost_processing.prepost = prepost_processing.prepost(self.model_ens[0], self.pe)
         if self.local.local_filter:
             for i in range(self.pe.dim_ens_l):
-                cltor = collector.collector(self.model_ens[i])
+                cltor = collector.collector(self.model_ens[i], self.pe)
                 status = PDAF.omi_put_state_local(cltor.collect_state,
                     self.obs.init_dim_obs_pdafomi,
                     self.obs.obs_op_pdafomi,
@@ -254,14 +233,14 @@ class PDAF_system:
         else:
             if self.filter_options.filtertype == 8:
                 for i in range(self.pe.dim_ens_l):
-                    cltor = collector.collector(self.model_ens[i])
+                    cltor = collector.collector(self.model_ens[i], self.pe)
                     status = PDAF.omi_put_state_lenkf(cltor.collect_state,
                                   self.obs.init_dim_obs_pdafomi, self.obs.obs_op_pdafomi,
                                   prepost.prepostprocess,
                                   self.obs.localize_covar_pdafomi)
             else:
                 for i in range(self.pe.dim_ens_l):
-                    cltor = collector.collector(self.model_ens[i])
+                    cltor = collector.collector(self.model_ens[i], self.pe)
                     status = PDAF.omi_put_state_global(cltor.collect_state,
                                   self.obs.init_dim_obs_pdafomi, self.obs.obs_op_pdafomi,
                                   prepost.prepostprocess)
@@ -276,3 +255,10 @@ class PDAF_system:
                                               status)
 
         assert status == 0, f'ERROR {status} in PDAF_put_state - stopping! (PE {self.pe.mype_ens})'
+
+
+    def finalise(self) -> None:
+        PDAF.print_info(11)
+        if (self.pe.mype_ens == 0): PDAF.print_info(3)
+        PDAF.deallocate()
+

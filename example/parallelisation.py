@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-import logging
+import log
 
 from mpi4py import MPI
 import numpy as np
@@ -87,7 +87,6 @@ class parallelisation:
         # number of parallel model tasks where the 'flexible' implementation 
         # is used
         self.dim_ens:int = dim_ens
-        self.is_task_consistent()
 
         # Initialize model communicator, its size and the process rank
         # Here the same as for MPI_COMM_WORLD
@@ -95,11 +94,13 @@ class parallelisation:
         self.npes_ens:int
         self.mype_ens:int
         self.comm_ens, self.npes_ens, self.mype_ens = self.init_parallel()
+
+        self.is_task_consistent()
         self.is_CPU_consistent()
 
         # Initialize communicators for ensemble evaluations
         if self.mype_ens == 0:
-            logging.info('Initialize communicators for assimilation with PDAF')
+            log.logger.info('Initialize communicators for assimilation with PDAF')
         
         # get the number of processors used by each model task
         self.local_npes_model:np.ndarray = self.get_processor_per_model()
@@ -120,7 +121,7 @@ class parallelisation:
         self.all_dim_ens_l:np.ndarray
         self.dim_ens_l, self.all_dim_ens_l = self.get_dim_ens_l()
 
-        logging.info(f'MODEL: mype(w)= {self.mype_ens};'
+        log.logger.info(f'MODEL: mype(w)= {self.mype_ens};'
                      f'; model task: {self.task_id}'
                      f'; mype(m)= {self.mype_model}'
                      f'; npes(m)= {self.npes_model}')
@@ -206,7 +207,7 @@ class parallelisation:
         # number of tasks on local PE
         dim_ens_l = all_dim_ens_l[self.task_id - 1]
         if self.mype_ens == 0:
-            logging.debug (f'number of Ens per PE {all_dim_ens_l}')
+            log.logger.debug (f'number of Ens per PE {all_dim_ens_l}')
         return dim_ens_l, all_dim_ens_l
 
     def get_filter_communicator(self) -> tuple[bool, MPI.Comm]:
@@ -235,7 +236,7 @@ class parallelisation:
             # number of parallel tasks is set larger than available PEs ***
             self.n_modeltasks = self.npes_ens
             if self.mype_ens == 0:
-                logging.warning('!!! Resetting number of parallel ensemble'
+                log.logger.warning('!!! Resetting number of parallel ensemble'
                                 ' tasks to total number of PEs!')
 
     def is_task_consistent(self) -> None:
@@ -249,7 +250,7 @@ class parallelisation:
             self.n_modeltasks = self.dim_ens
 
             if self.mype_ens == 0:
-                logging.warning('!!! Resetting number of parallel'
+                log.logger.warning('!!! Resetting number of parallel'
                        'ensemble tasks to number of ensemble states!')
 
     def print_info(self) -> None:
@@ -262,23 +263,23 @@ class parallelisation:
         color_couple = self.mype_model + 1
 
         if (self.mype_ens == 0):
-            logging.info('PE configuration:')
-            logging.info('ens     filter       model        couple   filterPE')
-            logging.info('rank    rank  task   rank task       rank       T/F')
-            logging.info('-----------------------------------------------------')
+            log.logger.info('PE configuration:')
+            log.logger.info('ens     filter       model        couple   filterPE')
+            log.logger.info('rank    rank  task   rank task       rank       T/F')
+            log.logger.info('-----------------------------------------------------')
         MPI.COMM_WORLD.Barrier()
         if (self.task_id == 1):
-            logging.info(f'{self.mype_ens},      {self.mype_filter},'
+            log.logger.info(f'{self.mype_ens},      {self.mype_filter},'
                    f'    {self.task_id}      {self.mype_model},'
                    f'   {color_couple},         {mype_couple},       {self.filter_pe}')
         MPI.COMM_WORLD.Barrier()
         if (self.task_id > 1):
-            logging.info(f'{self.mype_ens},      {self.mype_filter},'
+            log.logger.info(f'{self.mype_ens},      {self.mype_filter},'
                    f'    {self.task_id}      {self.mype_model},'
                    f'   {color_couple},         {mype_couple},       {self.filter_pe}')
         MPI.COMM_WORLD.Barrier()
         if (self.mype_ens == 0):
-            logging.info('')
+            log.logger.info('')
 
     def finalize_parallel(self) -> None:
         """Finalize MPI
