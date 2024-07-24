@@ -34,9 +34,9 @@ USE_PDAF:bool = True
 
 ### Filepath ###
 # path to initial ensemble, the filename is formatted for different time step
-init_ens_path:str = os.path.join('/home/runner/work/pyPDAF/pyPDAF/inputs_online', 'ens_{i}.txt')
+init_ens_path:str = os.path.join('/Users/runner/work/pyPDAF/pyPDAF/inputs_online', 'ens_{i}.txt')
 # path to initial truth
-init_truth_path:str = os.path.join('/home/runner/work/pyPDAF/pyPDAF/inputs_online', 'true_initial.txt')
+init_truth_path:str = os.path.join('/Users/runner/work/pyPDAF/pyPDAF/inputs_online', 'true_initial.txt')
 
 
 #### Model configurations ####

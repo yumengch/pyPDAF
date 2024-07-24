@@ -25,15 +25,15 @@ import os
 
 
 # name of the observation
-obs_name = 'B'
+obs_name = 'A'
 # path to the observation files
-obs_path:str = os.path.join('/home/runner/work/pyPDAF/pyPDAF/inputs_online', 'obsB_step{i}.txt')
+obs_path:str = os.path.join('D:\\a\\pyPDAF\\pyPDAF\\inputs_online', 'obs_step{i}.txt')
 # time steps between observations / assimilation frequency
 dtobs:int = 2
 # Observation error standard deviation
 rms_obs:float = 0.5
 # Switch for assimilating observation type A
-assim:bool = False
+assim:bool = True
 # Type of distance computation to use for localization
 # It is mandatory for OMI even if we don't use localisation
 # 0=Cartesian 1=Cartesian periodic
@@ -51,7 +51,7 @@ ncoord:int = 2
 # when interpolation is required, 
 # this is the number of grid points required for interpolation.
 # For example, nrows = 4 for bi-linear interpolation in 2D,
-# and 8 for 3D linear interpolation.
+# and nrows = 8 for 3D linear interpolation.
 # https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsid_obs_p
 # More information about interpolation is available at
 # https://pdaf.awi.de/trac/wiki/OMI_observation_operators#PDAFomi_get_interp_coeff_lin

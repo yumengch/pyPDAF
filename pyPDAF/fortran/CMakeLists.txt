@@ -1,12 +1,11 @@
 cmake_minimum_required(VERSION 3.12)
-project(PDAF VERSION 2.1.0 LANGUAGES Fortran)
+project(PDAF VERSION 2.2.1 LANGUAGES Fortran)
 
-# In windows, MPI.mod must be compiled by ourselves
-if(WIN32)
-  add_library(mpimod STATIC ${MPI_Fortran_MODULE_DIR}/mpi.f90)
-  set_source_files_properties(${MPI_Fortran_MODULE_DIR}/mpi.f90 PROPERTIES COMPILE_OPTIONS "/Qdiag-disable:10448")
-  target_include_directories(mpimod PUBLIC ${MPI_Fortran_INCLUDE_PATH})
+if(NOT PDAF_PATH)
+    message(FATAL_ERROR "PDAF_PATH is not given. Providing a PDAF_PATH in commandline by specifying -DPDAF_PATH=PATH_TO_PDAF_DIRECTORY")
 endif()
+
+add_subdirectory(${PDAF_PATH}/src ${PDAF_PATH}/src/build)
 
 # List all source files
 set(SRC_FILES
@@ -15,33 +14,36 @@ set(SRC_FILES
     PDAFomi_obs_c_binding.F90
 )
 
-# Customize compiler flags
-if(${CMAKE_Fortran_COMPILER_ID} STREQUAL "GNU")
-    set_source_files_properties (${SRC_FILES} PROPERTIES COMPILE_OPTIONS "-O3;-ffree-line-length-none")
-elseif(${CMAKE_Fortran_COMPILER_ID} STREQUAL "Cray")
-    set_source_files_properties (${SRC_FILES} PROPERTIES COMPILE_OPTIONS "-O3;-N 1023")
-elseif(${CMAKE_Fortran_COMPILER_ID} STREQUAL "Intel")
-   if(WIN32)
-      set_source_files_properties (${SRC_FILES} PROPERTIES COMPILE_OPTIONS "/O3;/Qdiag-disable:10448")
-      set(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG} /Od")
-   else()
-      # set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -r8")
-      set_source_files_properties (${SRC_FILES} PROPERTIES COMPILE_OPTIONS "-O3")
-      set(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS} -mkl")
-      #KB For newer versions of CMake - this is the way to go
-      enable_language(C)
-      set(BLA_VENDOR Intel10_64lp_seq)
-      #KB https://cmake.org/cmake/help/latest/module/FindBLAS.html
-  endif()
+# check if Config Path is provided
+message(STATUS ${Config_PATH})
+if(NOT Config_PATH)
+    message(FATAL_ERROR "Config_PATH is not given. Providing a Config_PATH in commandline by specifying -DConfig_PATH=PATH_TO_CONFIG_FILE")
+endif()
+
+# import configuration file
+include(${Config_PATH})
+
+# Check if the build type is not explicitly set and default to Release
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
 endif()
 
 # Add the library target
-add_library(pdafc STATIC ${SRC_FILES})
+add_library(PDAFc STATIC ${SRC_FILES})
 
-# Set library properties, such as include directories
-target_include_directories(pdafc PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(pdafc PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
-target_include_directories(pdafc PUBLIC ${MPI_Fortran_INCLUDE_PATH})
-target_include_directories(pdafc PUBLIC ${MPI_Fortran_MODULE_DIR})
+# Add include directory for PDAFc
+target_link_libraries(PDAFc PRIVATE ${PDAF_NAME})
+target_include_directories(PDAFc PUBLIC ${PDAF_PATH}/include)
+target_link_directories(PDAFc PUBLIC ${PDAF_PATH}/lib)
 
+# Set MPI include directory
+target_include_directories(PDAFc PUBLIC ${MPI_Fortran_INCLUDE_PATH})
+target_include_directories(PDAFc PUBLIC ${MPI_Fortran_MODULE_DIR})
+# Set PDAF include directory
+target_include_directories(PDAFc PUBLIC ${PDAF_PATH}/include)
 
+install(TARGETS PDAFc
+    LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../../lib
+    ARCHIVE DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../../lib
+    RUNTIME DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../../bin  # For Windows DLLs
+)
