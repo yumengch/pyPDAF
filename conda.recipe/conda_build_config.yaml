@@ -15,7 +15,7 @@ mpi4py:
     - 3.1.6=py310h9c05390_1 # [win]
     - 3.1.6=py311hab2a8a2_1 # [win]
     - 3.1.6=py312ha74b32c_1 # [win]
-    - 3.1.6=py39hd1fe357_ # [osx and arm64]
+    - 3.1.6=py39hcfe1006_1 # [osx and arm64]
     - 3.1.6=py310h779c158_1 # [osx and arm64]
     - 3.1.6=py311h71a66b3_1 # [osx and arm64]
     - 3.1.6=py312h66645bf_1 # [osx and arm64]
