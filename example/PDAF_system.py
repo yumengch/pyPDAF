@@ -115,7 +115,7 @@ class PDAF_system:
                                              status)
         # set local domain on each model process
         if self.local.local_filter:
-            self.local.set_lim_coords(self.model_ens[i].nx_p, self.model_ens[i].ny_p, self.pe)
+            self.local.set_lim_coords(self.model_ens[0].nx_p, self.model_ens[0].ny_p, self.pe)
 
     def setEnKFOptions(self, dim_pint:int, dim_preal:int) -> tuple[np.ndarray, np.ndarray]:
         """set ensemble kalman filter options
