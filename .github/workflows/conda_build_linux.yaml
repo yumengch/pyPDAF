@@ -1,23 +1,30 @@
-name: condaBuild
+name: conda_build_linux
 on: [workflow_dispatch]
 jobs:
-  check_mac_installation:
-    runs-on: macos-latest
+  upload_conda_linux:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: 'true'
-          ref: intelMacConda
 
       - uses: conda-incubator/setup-miniconda@v3
         with:
           auto-activate-base: true
           auto-update-conda: true
+          activate-environment: ""
 
       - name: install pyPDAF
         shell: bash -el {0}
         run: |
+          cp PDAFBuild/setup_conda_linux.cfg setup.cfg
           conda install python anaconda-client conda-build conda-verify
           anaconda login --username yumengch --password ${{ secrets.ANACONDA }}
           conda  config --set anaconda_upload yes
-          conda-build -c conda-forge -c intel conda.recipe/
+          conda-build -c conda-forge conda.recipe/
+          conda install -y -c conda-forge --use-local pypdaf
+          mpiexec -n 4 python -u example/main.py 
+
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3

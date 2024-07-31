@@ -1,0 +1,28 @@
+name: test_linux_build
+on: [workflow_dispatch]
+
+jobs:
+  test_ubuntu_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check out code
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+          ref: main
+
+      - name: installing dependent libraries
+        run: sudo apt install -y liblapack-dev libblas-dev libopenmpi-dev
+
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v5
+
+      - name: install pyPDAF
+        run: pip install -v .
+
+      - name: run example
+        run: mpiexec --oversubscribe -n 4 python -u example/main.py
+
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
