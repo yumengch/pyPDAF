@@ -74,6 +74,6 @@ class collector:
         state_p: np.ndarray
             state vector filled with model field
         """
-        # The [:] treatment ensures that we only change values of state_p not the memory address
-        state_p[:] = self.model.field_p.ravel()
+
+        # Nothing to be done in offline mode
         return state_p
