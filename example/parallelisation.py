@@ -286,8 +286,3 @@ class parallelisation:
         """
         MPI.COMM_WORLD.Barrier()
         MPI.Finalize()
-
-    def abort_parallel(self) -> None:
-        """Abort MPI
-        """
-        MPI.COMM_WORLD.Abort(1)

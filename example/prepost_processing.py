@@ -45,6 +45,7 @@ class prepost:
     def get_full_ens(self, dim_p:int, dim_ens:int, ens_p:np.ndarray) -> typing.Union[np.ndarray, None]:
         """Gather total ensemble from each local processors
         """
+        if pe.npes_filter == 1: return ens_p
         # get total dim
         
         ## collect full ensemble from domain decomposed ensemble
