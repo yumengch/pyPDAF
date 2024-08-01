@@ -1,34 +1,41 @@
+import sys
+
 import pyPDAF.UserFunc as PDAFcython
 cimport pyPDAF.UserFunc as c__PDAFcython
 
 import numpy as np
 cimport numpy as cnp
-import sys
-from traceback import print_exception
-import mpi4py.MPI as MPI
+
+try:
+    import mpi4py
+    mpi4py.rc.initialize = False
+except ImportError:
+    pass
+
 # Global error handler
 def global_except_hook(exctype, value, traceback):
-    
+    from traceback import print_exception
     try:
-        
-        sys.stderr.write("\n*****************************************************\n")
-        sys.stderr.write("Uncaught exception was detected on rank {}. \n".format(
-            MPI.COMM_WORLD.Get_rank()))
-        
-        print_exception(exctype, value, traceback)
-        sys.stderr.write("*****************************************************\n\n\n")
-        sys.stderr.write("\n")
-        sys.stderr.write("Calling MPI_Abort() to shut down MPI processes...\n")
-        sys.stderr.flush()
-    finally:
-        try:
-            MPI.COMM_WORLD.Abort(1)
-        except Exception as e:
-            sys.stderr.write("*****************************************************\n")
-            sys.stderr.write("Sorry, we failed to stop MPI, this process will hang.\n")
-            sys.stderr.write("*****************************************************\n")
-            sys.stderr.flush()
-            raise e
+        import mpi4py.MPI
+
+        if mpi4py.MPI.Is_initialized():
+            try:
+                sys.stderr.write("Uncaught exception was detected on rank {}. \n".format(
+                    mpi4py.MPI.COMM_WORLD.Get_rank()))
+                
+                print_exception(exctype, value, traceback)
+                sys.stderr.flush()
+            finally:
+                try:
+                    mpi4py.MPI.COMM_WORLD.Abort(1)
+                except Exception as e:
+                    sys.stderr.write("MPI Abort failed, this process will hang.\n")
+                    sys.stderr.flush()
+                    raise e
+        else:
+            sys.__excepthook__(exctype, value, traceback)
+    except ImportError:
+        sys.__excepthook__(exctype, value, traceback)
 
 sys.excepthook = global_except_hook
 
