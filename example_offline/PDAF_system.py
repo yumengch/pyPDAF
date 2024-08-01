@@ -64,6 +64,7 @@ class PDAF_system:
         self.obs = obs_factory.obs_factory(self.pe, self.model_ens[0], self.local)
         # initial time step
         self.steps_for = config.init_step
+        self.offline_mode = config.offline_mode
 
     def init_pdaf(self, screen:int) -> None:
         """constructor
@@ -103,13 +104,20 @@ class PDAF_system:
         lfilter = PDAF.get_localfilter()
         self.local.local_filter = lfilter == 1
 
-        # PDAF distribute the initial ensemble to model field
-        doexit:int = 0
-        prepost:prepost_processing.prepost = prepost_processing.prepost(self.model_ens[0], self.pe)
-
-        # Activate offline mode
-        PDAF.set_offline_mode(1)
-
+        if self.offline_mode:
+            # Activate offline mode
+            PDAF.set_offline_mode(1)
+        else:
+            # PDAF distribute the initial ensemble to model field
+            doexit:int = 0
+            prepost:prepost_processing.prepost = prepost_processing.prepost(self.model_ens[0], self.pe)
+            for i in range(self.pe.dim_ens_l):
+                dist = distributor.distributor(self.model_ens[i])
+                self.steps_for, time, doexit, status = PDAF.get_state(self.steps_for, doexit,
+                                                                      dist.next_observation,
+                                                                      dist.distribute_state,
+                                                                      prepost.initial_process,
+                                                                      status)
         # set local domain on each model process
         if self.local.local_filter:
             self.local.set_lim_coords(self.model_ens[0].nx_p, self.model_ens[0].ny_p, self.pe)
@@ -250,6 +258,43 @@ class PDAF_system:
                                               dist.distribute_state,
                                               prepost.prepostprocess,
                                               status)
+
+        assert status == 0, f'ERROR {status} in PDAF_put_state - stopping! (PE {self.pe.mype_ens})'
+
+    def assimilate_offline(self) -> None:
+        """This function implement the assimilation in flexibble implementation.
+
+        The put_state_XXX functions put model fields into PDAF state vectors using
+        i.e. PDAF will collect state vectors from models (from a user-supplied functions p.o.v.).
+        When all ensemble members are collected, the PDAF distribute each model fields 
+        """
+        doexit:int = 0
+        status:int = 0
+        cltor: collector.collector
+        prepost:prepost_processing.prepost = prepost_processing.prepost(self.model_ens[0], self.pe)
+        if self.local.local_filter:
+                cltor = collector.collector(self.model_ens[0], self.pe)
+                status = PDAF.omi_put_state_local(cltor.collect_state,
+                    self.obs.init_dim_obs_pdafomi,
+                    self.obs.obs_op_pdafomi,
+                    prepost.prepostprocess,
+                    self.local.init_n_domains_pdaf,
+                    self.local.init_dim_l_pdaf,
+                    self.obs.init_dim_obs_l_pdafomi,
+                    self.local.g2l_state_pdaf,
+                    self.local.l2g_state_pdaf)
+        else:
+            if self.filter_options.filtertype == 8:
+                    cltor = collector.collector(self.model_ens[0], self.pe)
+                    status = PDAF.omi_put_state_lenkf(cltor.collect_state,
+                                  self.obs.init_dim_obs_pdafomi, self.obs.obs_op_pdafomi,
+                                  prepost.prepostprocess,
+                                  self.obs.localize_covar_pdafomi)
+            else:
+                    cltor = collector.collector(self.model_ens[0], self.pe)
+                    status = PDAF.omi_put_state_global(cltor.collect_state,
+                                  self.obs.init_dim_obs_pdafomi, self.obs.obs_op_pdafomi,
+                                  prepost.prepostprocess)
 
         assert status == 0, f'ERROR {status} in PDAF_put_state - stopping! (PE {self.pe.mype_ens})'
 

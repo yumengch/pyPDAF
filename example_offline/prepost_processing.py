@@ -113,10 +113,11 @@ class prepost:
             log.logger.info (f'Forecast RMS error according to sampled variance: {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}')
             os.makedirs('outputs', exist_ok=True)
             for i in range(dim_ens):
-                np.savetxt(os.path.join('outputs', f'ens_{i+1}_step{-step}_for.txt') , ens[:, i].reshape(self.model.ny, self.model.nx) )
+                np.savetxt(os.path.join('outputs', f'ens_{i+1}_for.txt') , ens[:, i].reshape(self.model.ny, self.model.nx) )
 
             state = np.mean(ens, axis=1)
-            np.savetxt(os.path.join('outputs', f'state_for.txt') , ens[:, i].reshape(self.model.ny, self.model.nx) )
+            np.savetxt(os.path.join('outputs', f'state_for.txt') , state.reshape(self.model.ny, self.model.nx) )
+
 
     def postprocess(self, step:int, dim_p:int, dim_ens:int, ens_p:np.ndarray) -> None:
         """initial processing of the ensemble before it is distributed to model fields
@@ -124,10 +125,10 @@ class prepost:
         ens = self.get_full_ens(dim_p, dim_ens, ens_p)
         if self.pe.mype_filter == 0:
             assert isinstance(ens, np.ndarray), 'ens should be a numpy array'
-            log.logger.info (f'Analysis RMS error according to sampled variance: {np.sqrt(np.mean(np.var(ens_p, axis=1, ddof=1)))}')
+            log.logger.info (f'Analysis RMS error according to sampled variance: {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}')
             os.makedirs('outputs', exist_ok=True)
             for i in range(dim_ens):
-                np.savetxt(os.path.join('outputs', f'ens_{i+1}_step{step}_ana.txt') , ens[:, i].reshape(self.model.ny, self.model.nx) )
+                np.savetxt(os.path.join('outputs', f'ens_{i+1}_ana.txt') , ens[:, i].reshape(self.model.ny, self.model.nx) )
 
             state = np.mean(ens, axis=1)
             np.savetxt(os.path.join('outputs', f'state_ana.txt') , state.reshape(self.model.ny, self.model.nx) )

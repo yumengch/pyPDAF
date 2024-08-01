@@ -21,7 +21,6 @@ import log
 
 import config
 import model
-#import model_integrator
 from parallelisation import parallelisation
 from PDAF_system import PDAF_system
 
@@ -42,18 +41,14 @@ def main():
     if not config.USE_PDAF:
         model_ens.init_field(pe.mype_model)
 
-    # Initialise model integrator
-    #integrator = model_integrator.model_integrator(model_ens)
-
     # Initialise PDAF system
     das = PDAF_system(pe, model_ens)
     if config.USE_PDAF:
         das.init_pdaf(screen=config.screen)
 
-    #integrator.forward(config.nsteps, das)
-
-    das.assimilate_flexible()
-
+    # Perform analysis step
+    das.assimilate_offline()
+    
     if config.USE_PDAF:
         das.finalise()
 

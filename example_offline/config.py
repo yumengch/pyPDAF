@@ -30,6 +30,8 @@ import os
 screen:int = 2
 # When USE_PDAF is False, the truth model trajectory is generated without DA
 USE_PDAF:bool = True
+# Select whether offline mode of PDAF is used
+offline_mode:bool = True
 
 
 ### Filepath ###
@@ -48,13 +50,13 @@ ny = 18
 # initial time step
 init_step = 0
 # total number of time steps
-nsteps:int = 19
+nsteps:int = 2 #19
 
 #### filter options ####
 # number of ensemble members
 dim_ens:int = 4
 # number of parallel tasks run simultanously
-n_modeltasks:int = 4
+n_modeltasks:int = 1
 # the type of filter used
 # 1=SEIK, 2=EnKF, 3=LSEIK, 4=ETKF, 5=LETKF, 6=ESTKF, 7=LESTKF
 # 8=LEnKF, 9=NETF, 10=LNETF, 11=LKNETF, 12=PF, 100=GENOBS,

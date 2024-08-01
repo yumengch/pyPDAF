@@ -134,7 +134,7 @@ class obsA:
         PDAF.omi_set_ncoord(self.i_obs, self.ncoord)
 
         # read observations
-        filename = self.filename #.format(i=step)
+        filename = self.filename.format(i=step)
         obs_field:np.ndarray = np.loadtxt(filename)
         # when domain decomposition is used, we only need observations
         # within the local model domain
