@@ -75,5 +75,6 @@ class collector:
             state vector filled with model field
         """
         # The [:] treatment ensures that we only change values of state_p not the memory address
-        state_p[:] = self.model.field_p.ravel()
+        if not config.offline_mode:
+            state_p[:] = self.model.field_p.ravel()
         return state_p
