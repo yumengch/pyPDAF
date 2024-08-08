@@ -45,7 +45,7 @@ class prepost:
     def get_full_ens(self, dim_p:int, dim_ens:int, ens_p:np.ndarray) -> typing.Union[np.ndarray, None]:
         """Gather total ensemble from each local processors
         """
-        if pe.npes_filter == 1: return ens_p
+        if self.pe.npes_filter == 1: return ens_p
         # get total dim
         
         ## collect full ensemble from domain decomposed ensemble
@@ -122,7 +122,7 @@ class prepost:
         ens = self.get_full_ens(dim_p, dim_ens, ens_p)
         if self.pe.mype_filter == 0:
             assert isinstance(ens, np.ndarray), 'ens should be a numpy array'
-            log.logger.info (f'Analysis RMS error according to sampled variance: {np.sqrt(np.mean(np.var(ens_p, axis=1, ddof=1)))}')
+            log.logger.info (f'Analysis RMS error according to sampled variance: {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}')
             os.makedirs('outputs', exist_ok=True)
             for i in range(dim_ens):
                 np.savetxt(os.path.join('outputs', f'ens_{i+1}_step{step}_ana.txt') , ens[:, i].reshape(self.model.ny, self.model.nx) )
