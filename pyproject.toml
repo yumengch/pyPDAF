@@ -1,5 +1,6 @@
 [build-system]
 requires = ["setuptools", "wheel", "cython", "numpy"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyPDAF"
@@ -7,7 +8,7 @@ authors = [
     {name = "Yumeng Chen", email = "yumeng.chen@reading.ac.uk"},
 ]
 version = "0.0.3"
-description = "A Python interface to PDAF"
+description = "A Python interface to Parallel Data Assimilation Framework (PDAF)"
 readme = "README.md"
 requires-python = ">=3.8"
 keywords = ["data assimilation", "PDAF"]
@@ -19,6 +20,10 @@ dependencies = [
     "numpy", "mpi4py"
 ]
 
+[tool.setuptools]
+package-dir = {"" = "."}
+
 [tool.setuptools.packages.find]
-where = ["pyPDAF"]
+where = ["."]
+exclude = ["*.c"]
 namespaces = false

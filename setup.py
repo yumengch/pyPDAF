@@ -16,11 +16,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-from setuptools import setup, Extension
-from setuptools import Distribution
-from setuptools.command.build_ext import build_ext as build_ext_orig
+from setuptools import setup, Extension # type: ignore
+from setuptools import Distribution # type: ignore
+from setuptools.command.build_ext import build_ext as build_ext_orig # type: ignore
 
-from Cython.Build import cythonize
+from Cython.Build import cythonize # type: ignore
 
 import logging
 
@@ -30,7 +30,7 @@ import os
 import subprocess
 import shutil
 
-# logging 
+# logging
 logging.getLogger().setLevel(logging.DEBUG)
 
 # Get our own instance of Distribution
@@ -63,11 +63,11 @@ assert fortran_compiler in ['gfortran', 'ifort'], f'{fortran_compiler} is not a 
 logging.info (f'....using {fortran_compiler} compiler for C language....')
 if c_compiler == 'icc': os.environ["LDSHARED"] = "mpiicc -shared"
 
-extra_compile_args=[]
-extra_link_args = []
-extra_objects = []
-library_dirs=[]
-libraries = []
+extra_compile_args : list[str] =[]
+extra_link_args : list[str] = []
+extra_objects : list[str] = []
+library_dirs : list[str]=[]
+libraries : list[str] = []
 
 # linking static PDAF library and interface objects
 if sys.platform == 'darwin':
@@ -92,8 +92,7 @@ else:
     # using mpi compiler wrapper is easier for linux and mac
     # we do not consider cray etc. at the moment
     mpifortran = 'mpifort' if fortran_compiler == 'gfortran' else 'mpiifort'
-    result = subprocess.run([mpifortran, '-show'], stdout=subprocess.PIPE)
-    result = result.stdout.decode()[:-1].split(' ')
+    result = subprocess.run([mpifortran, '-show'], stdout=subprocess.PIPE).stdout.decode()[:-1].split(' ')
     s = [l[2:].replace('"', '') for l in result if l[:2] == '-L']
     if len(s) > 0: library_dirs += s
     s = [l[2:] for l in result if l[:2] == '-l']
@@ -114,14 +113,14 @@ if use_MKL == 'True':
         libraries += ['mkl_core', 'mkl_sequential', 'mkl_intel_lp64']
     elif sys.platform == "linux" or sys.platform == "linux2":
         if condaBuild == 'True': MKLROOT = os.path.join(os.environ['PREFIX'], 'lib')
-        extra_objects+=['-Wl,--start-group', 
+        extra_objects+=['-Wl,--start-group',
                         f'{MKLROOT}/libmkl_intel_lp64.a',
                         f'{MKLROOT}/libmkl_sequential.a',
                         f'{MKLROOT}/libmkl_core.a',
                         '-Wl,--end-group']
     else:
         if condaBuild == 'True': MKLROOT = os.path.join(os.environ['PREFIX'], 'lib')
-        extra_objects+=[ 
+        extra_objects+=[
                         f'{MKLROOT}/libmkl_intel_lp64.a',
                         f'{MKLROOT}/libmkl_sequential.a',
                         f'{MKLROOT}/libmkl_core.a']
@@ -137,10 +136,8 @@ else:
 if os.name != 'nt':
     suffix = 'dylib' if sys.platform == 'darwin' else 'so'
     FC = os.environ['FC'] if condaBuild == 'True' else 'gfortran'
-    result = subprocess.run([FC, '--print-file', 'libgfortran.'+suffix], stdout=subprocess.PIPE)
-    result = result.stdout.decode()
-    result = result[:-18] if sys.platform == 'darwin' else result[:-15]
-    library_dirs+=[result,]
+    libgfortran_path = subprocess.run([FC, '--print-file', 'libgfortran.'+suffix], stdout=subprocess.PIPE).stdout.decode()
+    library_dirs+=[libgfortran_path[:-18] if sys.platform == 'darwin' else libgfortran_path[:-15],]
     library_dirs+=['/usr/lib', ]
     # somehow gfortran is always necessary
     libraries += ['gfortran', 'm']
@@ -170,7 +167,7 @@ class build_ext(build_ext_orig):
                 logging.info(f'cmake -DConfig_PATH={cmake_config_path} -DPDAF_PATH={PDAFdir} ..')
                 os.system(f'cmake -DConfig_PATH={cmake_config_path} -DPDAF_PATH={PDAFdir} ..')
                 # --config Release argument is used for multi-configuration generator, e.g., Visual Studio
-                # This should just be a dummy argument in Linux and Mac where 
+                # This should just be a dummy argument in Linux and Mac where
                 # CMAKE_BUILD_TYPE should be used to set the DEBUG/RELEASE versions
                 os.system('cmake --build . --verbose --target install --config Release')
                 os.chdir(cwd)
@@ -198,5 +195,4 @@ setup(name='pyPDAF',
     cmdclass={
         'build_ext': build_ext,
     },
-    packages=["pyPDAF"]
 )
