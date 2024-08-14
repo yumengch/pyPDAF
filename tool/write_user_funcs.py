@@ -168,27 +168,24 @@ def write_array_conversion(f:typing.TextIO, arg_info:dict[str, dict[str, str|boo
         else:
             arg_dims[argname] = dims
 
-        # for multi-dimensional arrays, we need to define the array size
-        if len(info['dimension']) > 1 and '_USE_ARG_' not in arg_dims[argname][0]:
-            assert type(info["type"]) is str, f'Unknown arg_info variable type: {info["type"]}'
-            s = '\n' + indent + f'cdef int {argname}_dim = {"*".join(dims)}\n'
-            f.write(s)
-
         # remove brackets from dims
         dims = [d.replace('(', '') for d in dims]
         dims = [d.replace(')', '') for d in dims]
         # convert the C pointer to numpy array
         assert type(info["type"]) is str, f'Unknown arg_info variable type: {info["type"]}'
         if len(info['dimension']) == 1:
-            s = indent + f'{argname}_np = np.asarray(<{conv[info["type"]]}[:{dims[0]}]> {argname})\n'
+            s = indent + f'cdef {conv[info["type"]]}[::1] {argname}_np = np.asarray(<{conv[info["type"]]}[:{dims[0]}]> {argname})\n'
             f.write(s)
         else:
-            if '_USE_ARG_' not in arg_dims[argname][0]:
-                s = indent + f'{argname}_np = np.asarray(<{conv[info["type"]]}[:{argname}_dim]> {argname})'
-            else:
-                argname_exist = arg_dims[argname][0].replace('__USE_ARG_', '')
-                s = indent + f'{argname}_np = np.asarray(<{conv[info["type"]]}[:{argname_exist}_dim]> {argname})'
-            s += f'.reshape({','.join(dims)}, order=''\'F\''')\n'
+            s = indent + f'cdef {conv[info["type"]]}[::1'
+            for i in range(len(info['dimension']) - 1):
+                s += ',:'
+            s += f'] {argname}_np = np.asarray(<{conv[info["type"]]}['
+            for dim in dims:
+                s += f':{dim},'
+            s = s[:-1]
+            s += f']> {argname}, order=''\'F\''')\n'
+
             f.write(s)
         count += 1
     f.write('\n' if count > 0 else '')
@@ -233,7 +230,7 @@ def write_C_U_calls(f:typing.TextIO, subroutine_name:str, arg_info:dict[str, dic
     # write the input function arguments
     for arg, info in arg_info.items():
         if info['array']:
-            s += arg +'_np, '
+            s += arg +'_np.base, '
         else:
             s += f'{arg}[0], '
         count += 1
@@ -271,30 +268,37 @@ def check_output_array_memory(f:typing.TextIO, subroutine_name:str,
 
         assert type(info["type"]) is str, f'Unknown arg_info variable type: {info["type"]}'
         s = '\n'
-        # get the memory of the numpy array
-        s += indent + f'cdef {conv[info["type"]]}[::1] '
-        s += f'{argname}_view = {argname}_np'
         if len(info['dimension']) > 1:
-            s += '.ravel(order=''\'F\''')\n'
-        else:
-            s += '\n'
+            # get the memory of the numpy array
+            s += indent + f'cdef {conv[info["type"]]}[::1] '
+            s += f'{argname}_view = {argname}_np.base.ravel(order=''\'F\''')\n'
+
+        s += indent + f'cdef {conv[info["type"]]}[::1'
+        for i in range(len(info['dimension']) - 1):
+            s += ',:'
+        s += f'] {argname}_new\n' 
+
         # check if the memory address of the numpy array is different from the input C pointer
-        s += indent + f'if {argname} != &{argname}_view[0]:\n'
+        if len(info['dimension']) > 1:
+            s += indent + f'if {argname} != &{argname}_view[0]:\n'
+        else:
+            s += indent + f'if {argname} != &{argname}_np[0]:\n'
+
         assert type(info["dimension"]) is list, f'Unknown dimension info type: {info["dimension"]}'
         # if it is not, we assign values of the output array to the input C pointer and raise a warning
         if len(info['dimension']) == 1:
             s += indent*2 + f'{argname}_new = np.asarray(<{conv[info["type"]]}[:{info["dimension"][0]}[0]]> {argname})\n'
         else:
-            if '_USE_ARG_' not in arg_dims[argname][0]:
-                argname_exist = argname
-                s += indent*2 + f'{argname}_new = np.asarray(<{conv[info["type"]]}[:{argname}_dim]> {argname})'
-            else:
-                argname_exist = arg_dims[argname][0].replace('__USE_ARG_', '')
-                s += indent*2 + f'{argname}_new = np.asarray(<{conv[info["type"]]}[:{argname_exist}_dim]> {argname})'
-            s += f'.reshape({','.join(arg_dims[argname_exist])}, order=''\'F\''')\n'
-        s += indent*2 + f'{argname}_new[:] = {argname}_np[:]\n'
-        s += indent*2 + f'warnings.RuntimeWarning("The memory address of {argname} is changed in {subroutine_name}." \n '
-        s += indent*2 + '"The values are copied to the original Fortran array, and can slow-down the system.")\n'
+            s += indent*2 + f'{argname}_new = np.asarray(<{conv[info["type"]]}['
+            argname_exist = argname if '_USE_ARG_' not in arg_dims[argname][0] else arg_dims[argname][0].replace('__USE_ARG_', '')
+            for dim in arg_dims[argname_exist]:
+                s += f':{dim},'
+            s = s[:-1]
+            s += f']> {argname}, order=''\'F\''')\n'
+
+        s += indent*2 + f'{argname}_new = {argname}_np.copy_fortran()\n'
+        s += indent*2 + f'warnings.warn("The memory address of {argname} is changed in {subroutine_name}." \n '
+        s += indent*2 + '"The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)\n'
         f.write(s)
 
 
