@@ -35,7 +35,7 @@ cdef void c__init_ens_pdaf (int* filtertype, int* dim_p, int* dim_ens, double* s
     state_p_np, uinv_np, ens_p_np, flag[0] = (<object>init_ens_pdaf)(filtertype[0], dim_p[0], dim_ens[0], state_p_np, uinv_np, ens_p_np, flag[0])
 
 
-    cdef double[::1] state_p_view = state_p_np.ravel(order='F')
+    cdef double[::1] state_p_view = state_p_np
     if state_p != &state_p_view[0]:
         state_p_new = np.asarray(<double[:dim_p[0]]> state_p)
         state_p_new[:] = state_p_np[:]
@@ -70,7 +70,7 @@ cdef void c__init_ens_pdaf_single_member (int* filtertype, int* dim_p, int* dim_
     state_p_np, uinv_np, ens_p_np, flag[0] = (<object>init_ens_pdaf_single_member)(filtertype[0], dim_p[0], dim_ens[0], state_p_np, uinv_np, ens_p_np, flag[0])
 
 
-    cdef double[::1] state_p_view = state_p_np.ravel(order='F')
+    cdef double[::1] state_p_view = state_p_np
     if state_p != &state_p_view[0]:
         state_p_new = np.asarray(<double[:dim_p[0]]> state_p)
         state_p_new[:] = state_p_np[:]
@@ -105,7 +105,7 @@ cdef void c__collect_state_pdaf (int* dim_p, double* state_p) noexcept:
     state_p_np = (<object>collect_state_pdaf)(dim_p[0], state_p_np)
 
 
-    cdef double[::1] state_p_view = state_p_np.ravel(order='F')
+    cdef double[::1] state_p_view = state_p_np
     if state_p != &state_p_view[0]:
         state_p_new = np.asarray(<double[:dim_p[0]]> state_p)
         state_p_new[:] = state_p_np[:]
@@ -120,7 +120,7 @@ cdef void c__distribute_state_pdaf (int* dim_p, double* state_p) noexcept:
     state_p_np = (<object>distribute_state_pdaf)(dim_p[0], state_p_np)
 
 
-    cdef double[::1] state_p_view = state_p_np.ravel(order='F')
+    cdef double[::1] state_p_view = state_p_np
     if state_p != &state_p_view[0]:
         state_p_new = np.asarray(<double[:dim_p[0]]> state_p)
         state_p_new[:] = state_p_np[:]
@@ -144,7 +144,7 @@ cdef void c__prepoststep_pdaf (int* step, int* dim_p, int* dim_ens, int* dim_ens
     state_p_np, uinv_np, ens_p_np = (<object>prepoststep_pdaf)(step[0], dim_p[0], dim_ens[0], dim_ens_p[0], dim_obs_p[0], state_p_np, uinv_np, ens_p_np, flag[0])
 
 
-    cdef double[::1] state_p_view = state_p_np.ravel(order='F')
+    cdef double[::1] state_p_view = state_p_np
     if state_p != &state_p_view[0]:
         state_p_new = np.asarray(<double[:dim_p[0]]> state_p)
         state_p_new[:] = state_p_np[:]
@@ -179,7 +179,7 @@ cdef void c__init_obs_pdaf (int* step, int* dim_obs_p, double* observation_p) no
     observation_p_np = (<object>init_obs_pdaf)(step[0], dim_obs_p[0], observation_p_np)
 
 
-    cdef double[::1] observation_p_view = observation_p_np.ravel(order='F')
+    cdef double[::1] observation_p_view = observation_p_np
     if observation_p != &observation_p_view[0]:
         observation_p_new = np.asarray(<double[:dim_obs_p[0]]> observation_p)
         observation_p_new[:] = observation_p_np[:]
@@ -230,7 +230,7 @@ cdef void c__obs_op_pdaf (int* step, int* dim_p, int* dim_obs_p, double* state_p
     m_state_p_np = (<object>obs_op_pdaf)(step[0], dim_p[0], dim_obs_p[0], state_p_np, m_state_p_np)
 
 
-    cdef double[::1] m_state_p_view = m_state_p_np.ravel(order='F')
+    cdef double[::1] m_state_p_view = m_state_p_np
     if m_state_p != &m_state_p_view[0]:
         m_state_p_new = np.asarray(<double[:dim_obs_p[0]]> m_state_p)
         m_state_p_new[:] = m_state_p_np[:]
@@ -246,7 +246,7 @@ cdef void c__g2l_obs_pdaf (int* domain_p, int* step, int* dim_obs_f, int* dim_ob
     mstate_l_np = (<object>g2l_obs_pdaf)(domain_p[0], step[0], dim_obs_f[0], dim_obs_l[0], mstate_f_np, dim_p[0], mstate_l_np, dim_l[0])
 
 
-    cdef int[::1] mstate_l_view = mstate_l_np.ravel(order='F')
+    cdef int[::1] mstate_l_view = mstate_l_np
     if mstate_l != &mstate_l_view[0]:
         mstate_l_new = np.asarray(<int[:dim_l[0]]> mstate_l)
         mstate_l_new[:] = mstate_l_np[:]
@@ -262,7 +262,7 @@ cdef void c__g2l_state_pdaf (int* step, int* domain_p, int* dim_p, double* state
     state_l_np = (<object>g2l_state_pdaf)(step[0], domain_p[0], dim_p[0], state_p_np, dim_l[0], state_l_np)
 
 
-    cdef double[::1] state_l_view = state_l_np.ravel(order='F')
+    cdef double[::1] state_l_view = state_l_np
     if state_l != &state_l_view[0]:
         state_l_new = np.asarray(<double[:dim_l[0]]> state_l)
         state_l_new[:] = state_l_np[:]
@@ -301,7 +301,7 @@ cdef void c__init_obs_f_pdaf (int* step, int* dim_obs_f, double* observation_f) 
     observation_f_np = (<object>init_obs_f_pdaf)(step[0], dim_obs_f[0], observation_f_np)
 
 
-    cdef double[::1] observation_f_view = observation_f_np.ravel(order='F')
+    cdef double[::1] observation_f_view = observation_f_np
     if observation_f != &observation_f_view[0]:
         observation_f_new = np.asarray(<double[:dim_obs_f[0]]> observation_f)
         observation_f_new[:] = observation_f_np[:]
@@ -316,7 +316,7 @@ cdef void c__init_obs_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* 
     observation_l_np = (<object>init_obs_l_pdaf)(domain_p[0], step[0], dim_obs_l[0], observation_l_np)
 
 
-    cdef double[::1] observation_l_view = observation_l_np.ravel(order='F')
+    cdef double[::1] observation_l_view = observation_l_np
     if observation_l != &observation_l_view[0]:
         observation_l_new = np.asarray(<double[:dim_obs_l[0]]> observation_l)
         observation_l_new[:] = observation_l_np[:]
@@ -340,7 +340,7 @@ cdef void c__init_obserr_f_pdaf (int* step, int* dim_obs_f, double* obs_f, doubl
     obserr_f_np = (<object>init_obserr_f_pdaf)(step[0], dim_obs_f[0], obs_f_np, obserr_f_np)
 
 
-    cdef double[::1] obserr_f_view = obserr_f_np.ravel(order='F')
+    cdef double[::1] obserr_f_view = obserr_f_np
     if obserr_f != &obserr_f_view[0]:
         obserr_f_new = np.asarray(<double[:dim_obs_f[0]]> obserr_f)
         obserr_f_new[:] = obserr_f_np[:]
@@ -356,7 +356,7 @@ cdef void c__l2g_state_pdaf (int* step, int* domain_p, int* dim_l, double* state
     state_p_np = (<object>l2g_state_pdaf)(step[0], domain_p[0], dim_l[0], state_l_np, dim_p[0], state_p_np)
 
 
-    cdef double[::1] state_p_view = state_p_np.ravel(order='F')
+    cdef double[::1] state_p_view = state_p_np
     if state_p != &state_p_view[0]:
         state_p_new = np.asarray(<double[:dim_p[0]]> state_p)
         state_p_new[:] = state_p_np[:]
@@ -372,7 +372,7 @@ cdef void c__obs_op_f_pdaf (int* step, int* dim_p, int* dim_obs_f, double* state
     m_state_f_np = (<object>obs_op_f_pdaf)(step[0], dim_p[0], dim_obs_f[0], state_p_np, m_state_f_np)
 
 
-    cdef double[::1] m_state_f_view = m_state_f_np.ravel(order='F')
+    cdef double[::1] m_state_f_view = m_state_f_np
     if m_state_f != &m_state_f_view[0]:
         m_state_f_new = np.asarray(<double[:dim_obs_f[0]]> m_state_f)
         m_state_f_new[:] = m_state_f_np[:]
@@ -451,7 +451,7 @@ cdef void c__get_obs_f_pdaf (int* step, int* dim_obs_f, double* observation_f) n
     observation_f_np = (<object>get_obs_f_pdaf)(step[0], dim_obs_f[0], observation_f_np)
 
 
-    cdef double[::1] observation_f_view = observation_f_np.ravel(order='F')
+    cdef double[::1] observation_f_view = observation_f_np
     if observation_f != &observation_f_view[0]:
         observation_f_new = np.asarray(<double[:dim_obs_f[0]]> observation_f)
         observation_f_new[:] = observation_f_np[:]
@@ -470,7 +470,7 @@ cdef void c__cvt_adj_ens_pdaf (int* iter, int* dim_p, int* dim_ens, int* dim_cv_
     cv_p_np = (<object>cvt_adj_ens_pdaf)(iter[0], dim_p[0], dim_ens[0], dim_cv_ens_p[0], ens_p_np, vcv_p_np, cv_p_np)
 
 
-    cdef double[::1] cv_p_view = cv_p_np.ravel(order='F')
+    cdef double[::1] cv_p_view = cv_p_np
     if cv_p != &cv_p_view[0]:
         cv_p_new = np.asarray(<double[:dim_cv_ens_p[0]]> cv_p)
         cv_p_new[:] = cv_p_np[:]
@@ -486,7 +486,7 @@ cdef void c__cvt_adj_pdaf (int* iter, int* dim_p, int* dim_cvec, double* vcv_p, 
     cv_p_np = (<object>cvt_adj_pdaf)(iter[0], dim_p[0], dim_cvec[0], vcv_p_np, cv_p_np)
 
 
-    cdef double[::1] cv_p_view = cv_p_np.ravel(order='F')
+    cdef double[::1] cv_p_view = cv_p_np
     if cv_p != &cv_p_view[0]:
         cv_p_new = np.asarray(<double[:dim_cvec[0]]> cv_p)
         cv_p_new[:] = cv_p_np[:]
@@ -502,7 +502,7 @@ cdef void c__cvt_pdaf (int* iter, int* dim_p, int* dim_cvec, double* cv_p, doubl
     vv_p_np = (<object>cvt_pdaf)(iter[0], dim_p[0], dim_cvec[0], cv_p_np, vv_p_np)
 
 
-    cdef double[::1] vv_p_view = vv_p_np.ravel(order='F')
+    cdef double[::1] vv_p_view = vv_p_np
     if vv_p != &vv_p_view[0]:
         vv_p_new = np.asarray(<double[:dim_p[0]]> vv_p)
         vv_p_new[:] = vv_p_np[:]
@@ -521,7 +521,7 @@ cdef void c__cvt_ens_pdaf (int* iter, int* dim_p, int* dim_ens, int* dim_cvec_en
     vv_p_np = (<object>cvt_ens_pdaf)(iter[0], dim_p[0], dim_ens[0], dim_cvec_ens[0], ens_p_np, v_p_np, vv_p_np)
 
 
-    cdef double[::1] vv_p_view = vv_p_np.ravel(order='F')
+    cdef double[::1] vv_p_view = vv_p_np
     if vv_p != &vv_p_view[0]:
         vv_p_new = np.asarray(<double[:dim_p[0]]> vv_p)
         vv_p_new[:] = vv_p_np[:]
@@ -537,7 +537,7 @@ cdef void c__obs_op_adj_pdaf (int* step, int* dim_p, int* dim_obs_p, double* sta
     state_p_np = (<object>obs_op_adj_pdaf)(step[0], dim_p[0], dim_obs_p[0], state_p_np, m_state_p_np)
 
 
-    cdef double[::1] state_p_view = state_p_np.ravel(order='F')
+    cdef double[::1] state_p_view = state_p_np
     if state_p != &state_p_view[0]:
         state_p_new = np.asarray(<double[:dim_p[0]]> state_p)
         state_p_new[:] = state_p_np[:]
@@ -553,7 +553,7 @@ cdef void c__obs_op_lin_pdaf (int* step, int* dim_p, int* dim_obs_p, double* sta
     m_state_p_np = (<object>obs_op_lin_pdaf)(step[0], dim_p[0], dim_obs_p[0], state_p_np, m_state_p_np)
 
 
-    cdef double[::1] m_state_p_view = m_state_p_np.ravel(order='F')
+    cdef double[::1] m_state_p_view = m_state_p_np
     if m_state_p != &m_state_p_view[0]:
         m_state_p_new = np.asarray(<double[:dim_obs_p[0]]> m_state_p)
         m_state_p_new[:] = m_state_p_np[:]

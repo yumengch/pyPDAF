@@ -273,7 +273,11 @@ def check_output_array_memory(f:typing.TextIO, subroutine_name:str,
         s = '\n'
         # get the memory of the numpy array
         s += indent + f'cdef {conv[info["type"]]}[::1] '
-        s += f'{argname}_view = {argname}_np.ravel(order=''\'F\''')\n'
+        s += f'{argname}_view = {argname}_np'
+        if len(info['dimension']) > 1:
+            s += '.ravel(order=''\'F\''')\n'
+        else:
+            s += '\n'
         # check if the memory address of the numpy array is different from the input C pointer
         s += indent + f'if {argname} != &{argname}_view[0]:\n'
         assert type(info["dimension"]) is list, f'Unknown dimension info type: {info["dimension"]}'
