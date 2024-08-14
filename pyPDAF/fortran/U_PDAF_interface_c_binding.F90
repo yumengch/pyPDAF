@@ -32,6 +32,25 @@ abstract interface
       integer(c_int), intent(inout) :: flag
    end subroutine c__init_ens_pdaf
 
+   SUBROUTINE c__init_ens_pdaf_single_member(filtertype, dim_p, dim_ens, state_p, uinv, ens_p, flag) bind(c)
+      use iso_c_binding, only: c_double, c_int
+      implicit none
+      ! type of filter to initialize
+      integer(c_int), intent(in) :: filtertype
+      ! pe-local state dimension
+      integer(c_int), intent(in) :: dim_p
+      ! size of ensemble
+      integer(c_int), intent(in) :: dim_ens
+      ! pe-local model state
+      real(c_double), intent(inout) :: state_p(dim_p)
+      ! array not referenced for ensemble filters
+      real(c_double), intent(inout) :: uinv(dim_ens,dim_ens)
+      ! pe-local state ensemble
+      real(c_double), intent(inout) :: ens_p(dim_p, dim_ens)
+      ! pdaf status flag
+      integer(c_int), intent(inout) :: flag
+   end subroutine c__init_ens_pdaf_single_member
+
    subroutine c__next_observation_pdaf(stepnow, nsteps, doexit, time) bind(c)
       use iso_c_binding, only: c_double, c_int
       implicit none

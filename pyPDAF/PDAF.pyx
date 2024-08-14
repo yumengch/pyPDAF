@@ -22,8 +22,9 @@ def global_except_hook(exctype, value, traceback):
             try:
                 sys.stderr.write("Uncaught exception was detected on rank {}. \n".format(
                     mpi4py.MPI.COMM_WORLD.Get_rank()))
-                
+
                 print_exception(exctype, value, traceback)
+                sys.stderr.write("\n")
                 sys.stderr.flush()
             finally:
                 try:
@@ -87,18 +88,18 @@ def assimilate_3dvar (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prodrinva_pdaf = py__prodrinva_pdaf
-    PDAFcython.py__cvt_pdaf = py__cvt_pdaf
-    PDAFcython.py__cvt_adj_pdaf = py__cvt_adj_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prodrinva_pdaf = <void*>py__prodrinva_pdaf
+    c__PDAFcython.cvt_pdaf = <void*>py__cvt_pdaf
+    c__PDAFcython.cvt_adj_pdaf = <void*>py__cvt_adj_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int outflag
 
@@ -169,19 +170,19 @@ def assimilate_en3dvar_estkf (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prodrinva_pdaf = py__prodrinva_pdaf
-    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
-    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prodrinva_pdaf = <void*>py__prodrinva_pdaf
+    c__PDAFcython.cvt_ens_pdaf = <void*>py__cvt_ens_pdaf
+    c__PDAFcython.cvt_adj_ens_pdaf = <void*>py__cvt_adj_ens_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int outflag
 
@@ -292,31 +293,31 @@ def assimilate_en3dvar_lestkf (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prodrinva_pdaf = py__prodrinva_pdaf
-    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
-    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__init_dim_obs_f_pdaf = py__init_dim_obs_f_pdaf
-    PDAFcython.py__obs_op_f_pdaf = py__obs_op_f_pdaf
-    PDAFcython.py__init_obs_f_pdaf = py__init_obs_f_pdaf
-    PDAFcython.py__init_obs_l_pdaf = py__init_obs_l_pdaf
-    PDAFcython.py__prodrinva_l_pdaf = py__prodrinva_l_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
-    PDAFcython.py__g2l_obs_pdaf = py__g2l_obs_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
-    PDAFcython.py__init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prodrinva_pdaf = <void*>py__prodrinva_pdaf
+    c__PDAFcython.cvt_ens_pdaf = <void*>py__cvt_ens_pdaf
+    c__PDAFcython.cvt_adj_ens_pdaf = <void*>py__cvt_adj_ens_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.init_dim_obs_f_pdaf = <void*>py__init_dim_obs_f_pdaf
+    c__PDAFcython.obs_op_f_pdaf = <void*>py__obs_op_f_pdaf
+    c__PDAFcython.init_obs_f_pdaf = <void*>py__init_obs_f_pdaf
+    c__PDAFcython.init_obs_l_pdaf = <void*>py__init_obs_l_pdaf
+    c__PDAFcython.prodrinva_l_pdaf = <void*>py__prodrinva_l_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
+    c__PDAFcython.g2l_obs_pdaf = <void*>py__g2l_obs_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
+    c__PDAFcython.init_obsvar_l_pdaf = <void*>py__init_obsvar_l_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     c__pdaf_assimilate_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
                                        c__PDAFcython.c__distribute_state_pdaf,
@@ -386,15 +387,15 @@ def assimilate_enkf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__add_obs_err_pdaf = py__add_obs_err_pdaf
-    PDAFcython.py__init_obs_covar_pdaf = py__init_obs_covar_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.add_obs_err_pdaf = <void*>py__add_obs_err_pdaf
+    c__PDAFcython.init_obs_covar_pdaf = <void*>py__init_obs_covar_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int flag
 
@@ -450,15 +451,15 @@ def assimilate_estkf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__prodrinva_pdaf = py__prodrinva_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.prodrinva_pdaf = <void*>py__prodrinva_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int flag
 
@@ -514,15 +515,15 @@ def assimilate_etkf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__prodrinva_pdaf = py__prodrinva_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.prodrinva_pdaf = <void*>py__prodrinva_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int flag
 
@@ -596,21 +597,21 @@ def assimilate_hyb3dvar_estkf (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prodrinva_pdaf = py__prodrinva_pdaf
-    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
-    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
-    PDAFcython.py__cvt_pdaf = py__cvt_pdaf
-    PDAFcython.py__cvt_adj_pdaf = py__cvt_adj_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prodrinva_pdaf = <void*>py__prodrinva_pdaf
+    c__PDAFcython.cvt_ens_pdaf = <void*>py__cvt_ens_pdaf
+    c__PDAFcython.cvt_adj_ens_pdaf = <void*>py__cvt_adj_ens_pdaf
+    c__PDAFcython.cvt_pdaf = <void*>py__cvt_pdaf
+    c__PDAFcython.cvt_adj_pdaf = <void*>py__cvt_adj_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int outflag
 
@@ -726,33 +727,33 @@ def assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prodrinva_pdaf = py__prodrinva_pdaf
-    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
-    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
-    PDAFcython.py__cvt_pdaf = py__cvt_pdaf
-    PDAFcython.py__cvt_adj_pdaf = py__cvt_adj_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__init_dim_obs_f_pdaf = py__init_dim_obs_f_pdaf
-    PDAFcython.py__obs_op_f_pdaf = py__obs_op_f_pdaf
-    PDAFcython.py__init_obs_f_pdaf = py__init_obs_f_pdaf
-    PDAFcython.py__init_obs_l_pdaf = py__init_obs_l_pdaf
-    PDAFcython.py__prodrinva_l_pdaf = py__prodrinva_l_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
-    PDAFcython.py__g2l_obs_pdaf = py__g2l_obs_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
-    PDAFcython.py__init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prodrinva_pdaf = <void*>py__prodrinva_pdaf
+    c__PDAFcython.cvt_ens_pdaf = <void*>py__cvt_ens_pdaf
+    c__PDAFcython.cvt_adj_ens_pdaf = <void*>py__cvt_adj_ens_pdaf
+    c__PDAFcython.cvt_pdaf = <void*>py__cvt_pdaf
+    c__PDAFcython.cvt_adj_pdaf = <void*>py__cvt_adj_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.init_dim_obs_f_pdaf = <void*>py__init_dim_obs_f_pdaf
+    c__PDAFcython.obs_op_f_pdaf = <void*>py__obs_op_f_pdaf
+    c__PDAFcython.init_obs_f_pdaf = <void*>py__init_obs_f_pdaf
+    c__PDAFcython.init_obs_l_pdaf = <void*>py__init_obs_l_pdaf
+    c__PDAFcython.prodrinva_l_pdaf = <void*>py__prodrinva_l_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
+    c__PDAFcython.g2l_obs_pdaf = <void*>py__g2l_obs_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
+    c__PDAFcython.init_obsvar_l_pdaf = <void*>py__init_obsvar_l_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int outflag
 
@@ -829,16 +830,16 @@ def assimilate_lenkf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__localize_covar_pdaf = py__localize_covar_pdaf
-    PDAFcython.py__add_obs_err_pdaf = py__add_obs_err_pdaf
-    PDAFcython.py__init_obs_covar_pdaf = py__init_obs_covar_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.localize_covar_pdaf = <void*>py__localize_covar_pdaf
+    c__PDAFcython.add_obs_err_pdaf = <void*>py__add_obs_err_pdaf
+    c__PDAFcython.init_obs_covar_pdaf = <void*>py__init_obs_covar_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int flag
 
@@ -919,23 +920,23 @@ def assimilate_lestkf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__init_obs_l_pdaf = py__init_obs_l_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__prodrinva_l_pdaf = py__prodrinva_l_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
-    PDAFcython.py__g2l_obs_pdaf = py__g2l_obs_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
-    PDAFcython.py__init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.init_obs_l_pdaf = <void*>py__init_obs_l_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.prodrinva_l_pdaf = <void*>py__prodrinva_l_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
+    c__PDAFcython.g2l_obs_pdaf = <void*>py__g2l_obs_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
+    c__PDAFcython.init_obsvar_l_pdaf = <void*>py__init_obsvar_l_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int flag
 
@@ -1023,23 +1024,23 @@ def assimilate_letkf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__init_obs_l_pdaf = py__init_obs_l_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__prodrinva_l_pdaf = py__prodrinva_l_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
-    PDAFcython.py__g2l_obs_pdaf = py__g2l_obs_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
-    PDAFcython.py__init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.init_obs_l_pdaf = <void*>py__init_obs_l_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.prodrinva_l_pdaf = <void*>py__prodrinva_l_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
+    c__PDAFcython.g2l_obs_pdaf = <void*>py__g2l_obs_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
+    c__PDAFcython.init_obsvar_l_pdaf = <void*>py__init_obsvar_l_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int flag
 
@@ -1118,20 +1119,20 @@ def assimilate_lnetf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_l_pdaf = py__init_obs_l_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__likelihood_l_pdaf = py__likelihood_l_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
-    PDAFcython.py__g2l_obs_pdaf = py__g2l_obs_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_l_pdaf = <void*>py__init_obs_l_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.likelihood_l_pdaf = <void*>py__likelihood_l_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
+    c__PDAFcython.g2l_obs_pdaf = <void*>py__g2l_obs_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int flag
 
@@ -1225,26 +1226,26 @@ def assimilate_lknetf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__init_obs_l_pdaf = py__init_obs_l_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__prodrinva_l_pdaf = py__prodrinva_l_pdaf
-    PDAFcython.py__prodrinva_hyb_l_pdaf = py__prodrinva_hyb_l_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
-    PDAFcython.py__g2l_obs_pdaf = py__g2l_obs_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
-    PDAFcython.py__init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
-    PDAFcython.py__likelihood_l_pdaf = py__likelihood_l_pdaf
-    PDAFcython.py__likelihood_hyb_l_pdaf = py__likelihood_hyb_l_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.init_obs_l_pdaf = <void*>py__init_obs_l_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.prodrinva_l_pdaf = <void*>py__prodrinva_l_pdaf
+    c__PDAFcython.prodrinva_hyb_l_pdaf = <void*>py__prodrinva_hyb_l_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
+    c__PDAFcython.g2l_obs_pdaf = <void*>py__g2l_obs_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
+    c__PDAFcython.init_obsvar_l_pdaf = <void*>py__init_obsvar_l_pdaf
+    c__PDAFcython.likelihood_l_pdaf = <void*>py__likelihood_l_pdaf
+    c__PDAFcython.likelihood_hyb_l_pdaf = <void*>py__likelihood_hyb_l_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int flag
 
@@ -1335,23 +1336,23 @@ def assimilate_lseik (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__init_obs_l_pdaf = py__init_obs_l_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__prodrinva_l_pdaf = py__prodrinva_l_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
-    PDAFcython.py__g2l_obs_pdaf = py__g2l_obs_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
-    PDAFcython.py__init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.init_obs_l_pdaf = <void*>py__init_obs_l_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.prodrinva_l_pdaf = <void*>py__prodrinva_l_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
+    c__PDAFcython.g2l_obs_pdaf = <void*>py__g2l_obs_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
+    c__PDAFcython.init_obsvar_l_pdaf = <void*>py__init_obsvar_l_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int flag
 
@@ -1412,14 +1413,14 @@ def assimilate_netf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__likelihood_pdaf = py__likelihood_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.likelihood_pdaf = <void*>py__likelihood_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int flag
 
@@ -1471,14 +1472,14 @@ def assimilate_pf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__likelihood_pdaf = py__likelihood_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.likelihood_pdaf = <void*>py__likelihood_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int flag
 
@@ -1530,14 +1531,14 @@ def assimilate_seek (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__prodrinva_pdaf = py__prodrinva_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.prodrinva_pdaf = <void*>py__prodrinva_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int flag
 
@@ -1589,14 +1590,14 @@ def assimilate_seik (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__prodrinva_pdaf = py__prodrinva_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.prodrinva_pdaf = <void*>py__prodrinva_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int flag
 
@@ -1636,10 +1637,10 @@ def assimilate_prepost (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int flag
 
@@ -1658,7 +1659,7 @@ def deallocate ():
     """
     c__pdaf_deallocate ()
 
-def diag_effsample (cnp.ndarray[cnp.float64_t, ndim=1] weights
+def diag_effsample (double[::1] weights
                    ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAF_diag_effsample or PDAF source files 
 
@@ -1672,7 +1673,6 @@ def diag_effsample (cnp.ndarray[cnp.float64_t, ndim=1] weights
     effsample : float
         effecfive sample size
     """
-    cdef double[::1] weights_view = np.array(weights).ravel(order='F')
     cdef int dim_sample
     dim_sample = weights.shape[0]
 
@@ -1680,15 +1680,15 @@ def diag_effsample (cnp.ndarray[cnp.float64_t, ndim=1] weights
     cdef double effsample
 
     c__pdaf_diag_effsample (&dim_sample,
-                            &weights_view[0],
+                            &weights[0],
                             &effsample
                            )
 
     return effsample
 
 def diag_ensstats (int element,
-                   cnp.ndarray[cnp.float64_t, ndim=1] state,
-                   cnp.ndarray[cnp.float64_t, ndim=2] ens
+                   double[::1] state,
+                   double[:,:] ens
                   ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAF_diag_ensstats or PDAF source files 
 
@@ -1710,9 +1710,8 @@ def diag_ensstats (int element,
     status : int
         status flag (0=success)
     """
-    cdef double[::1] state_view = np.array(state).ravel(order='F')
-    cdef double[::1] ens_view = np.array(ens).ravel(order='F')
-    cdef int dim_ens, dim
+    cdef double[::1] ens_f = np.asfortranarray(ens).ravel(order="F")
+    cdef int dim, dim_ens
     dim = ens.shape[0]
     dim_ens = ens.shape[1]
 
@@ -1724,8 +1723,8 @@ def diag_ensstats (int element,
     c__pdaf_diag_ensstats (&dim,
                            &dim_ens,
                            &element,
-                           &state_view[0],
-                           &ens_view[0],
+                           &state[0],
+                           &ens_f[0],
                            &skewness,
                            &kurtosis,
                            &status
@@ -1735,9 +1734,9 @@ def diag_ensstats (int element,
 
 def diag_histogram (int ncall,
                     int element,
-                    cnp.ndarray[cnp.float64_t, ndim=1] state,
-                    cnp.ndarray[cnp.float64_t, ndim=2] ens,
-                    cnp.ndarray[cnp.int32_t, ndim=1] hist
+                    double[::1] state,
+                    double[:,:] ens,
+                    int[::1] hist
                    ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAF_diag_histogram or PDAF source files 
 
@@ -1763,10 +1762,8 @@ def diag_histogram (int ncall,
     status : int
         status flag (0=success)
     """
-    cdef double[::1] state_view = np.array(state).ravel(order='F')
-    cdef double[::1] ens_view = np.array(ens).ravel(order='F')
-    cdef int[::1] hist_view = np.array(hist, dtype=np.intc).ravel(order='F')
-    cdef int dim_ens, dim
+    cdef double[::1] ens_f = np.asfortranarray(ens).ravel(order="F")
+    cdef int dim, dim_ens
     dim = ens.shape[0]
     dim_ens = ens.shape[1]
 
@@ -1778,21 +1775,21 @@ def diag_histogram (int ncall,
                             &dim,
                             &dim_ens,
                             &element,
-                            &state_view[0],
-                            &ens_view[0],
-                            &hist_view[0],
+                            &state[0],
+                            &ens_f[0],
+                            &hist[0],
                             &delta,
                             &status
                            )
 
-    return np.asarray(hist_view).reshape((dim_ens+1), order='F'), delta, status
+    return np.asarray(hist).reshape((dim_ens+1), order='F'), delta, status
 
-def eofcovar (cnp.ndarray[cnp.int32_t, ndim=1] dim_fields,
-              cnp.ndarray[cnp.int32_t, ndim=1] offsets,
+def eofcovar (int[::1] dim_fields,
+              int[::1] offsets,
               int remove_mstate,
               int do_mv,
-              cnp.ndarray[cnp.float64_t, ndim=2] states,
-              cnp.ndarray[cnp.float64_t, ndim=1] meanstate,
+              double[:,:] states,
+              double[::1] meanstate,
               int verbose
              ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAF_eofcovar or PDAF source files 
@@ -1829,38 +1826,35 @@ def eofcovar (cnp.ndarray[cnp.int32_t, ndim=1] dim_fields,
     status : int
         status flag
     """
-    cdef int[::1] dim_fields_view = np.array(dim_fields, dtype=np.intc).ravel(order='F')
-    cdef int[::1] offsets_view = np.array(offsets, dtype=np.intc).ravel(order='F')
-    cdef double[::1] states_view = np.array(states).ravel(order='F')
-    cdef double[::1] meanstate_view = np.array(meanstate).ravel(order='F')
-    cdef int nfields, nstates, dim_state
+    cdef double[::1] states_f = np.asfortranarray(states).ravel(order="F")
+    cdef int nfields, dim_state, nstates
     dim_state = states.shape[0]
     nstates = states.shape[1]
     nfields = dim_fields.shape[0]
 
 
-    cdef double [::1] stddev_view = np.zeros((nfields), dtype=np.float64).ravel()
-    cdef double [::1] svals_view = np.zeros((nstates), dtype=np.float64).ravel()
-    cdef double [::1] svec_view = np.zeros((dim_state, nstates), dtype=np.float64).ravel()
+    cdef double [::1] stddev = np.zeros((nfields), dtype=np.float64).ravel()
+    cdef double [::1] svals = np.zeros((nstates), dtype=np.float64).ravel()
+    cdef double [::1] svec = np.zeros((dim_state, nstates), dtype=np.float64).ravel()
     cdef int status
 
     c__pdaf_eofcovar (&dim_state,
                       &nstates,
                       &nfields,
-                      &dim_fields_view[0],
-                      &offsets_view[0],
+                      &dim_fields[0],
+                      &offsets[0],
                       &remove_mstate,
                       &do_mv,
-                      &states_view[0],
-                      &stddev_view[0],
-                      &svals_view[0],
-                      &svec_view[0],
-                      &meanstate_view[0],
+                      &states_f[0],
+                      &stddev[0],
+                      &svals[0],
+                      &svec[0],
+                      &meanstate[0],
                       &verbose,
                       &status
                      )
 
-    return np.asarray(states_view).reshape((dim_state, nstates), order='F'), np.asarray(stddev_view).reshape((nfields), order='F'), np.asarray(svals_view).reshape((nstates), order='F'), np.asarray(svec_view).reshape((dim_state, nstates), order='F'), np.asarray(meanstate_view).reshape((dim_state), order='F'), status
+    return np.asarray(states).reshape((dim_state, nstates), order='F'), np.asarray(stddev).reshape((nfields), order='F'), np.asarray(svals).reshape((nstates), order='F'), np.asarray(svec).reshape((dim_state, nstates), order='F'), np.asarray(meanstate).reshape((dim_state), order='F'), status
 
 def gather_dim_obs_f (int dim_obs_p
                      ):
@@ -1885,7 +1879,7 @@ def gather_dim_obs_f (int dim_obs_p
 
     return dim_obs_f
 
-def gather_obs_f (cnp.ndarray[cnp.float64_t, ndim=1] obs_p,
+def gather_obs_f (double[::1] obs_p,
                   int dimobs_f
                  ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAF_gather_obs_f or PDAF source files 
@@ -1904,24 +1898,23 @@ def gather_obs_f (cnp.ndarray[cnp.float64_t, ndim=1] obs_p,
     status : int
         status flag:(0) no error(1) when pdaf_gather_dim_obs_f not executed before
     """
-    cdef double[::1] obs_p_view = np.array(obs_p).ravel(order='F')
     cdef int dimobs_p
     dimobs_p = obs_p.shape[0]
 
 
-    cdef double [::1] obs_f_view = np.zeros((dimobs_f), dtype=np.float64).ravel()
+    cdef double [::1] obs_f = np.zeros((dimobs_f), dtype=np.float64).ravel()
     cdef int status
 
-    c__pdaf_gather_obs_f (&obs_p_view[0],
+    c__pdaf_gather_obs_f (&obs_p[0],
                           &dimobs_p,
-                          &obs_f_view[0],
+                          &obs_f[0],
                           &dimobs_f,
                           &status
                          )
 
-    return np.asarray(obs_f_view).reshape((dimobs_f), order='F'), status
+    return np.asarray(obs_f).reshape((dimobs_f), order='F'), status
 
-def gather_obs_f2 (cnp.ndarray[cnp.float64_t, ndim=2] coords_p,
+def gather_obs_f2 (double[:,:] coords_p,
                    int dimobs_f
                   ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAF_gather_obs_f2 or PDAF source files 
@@ -1940,24 +1933,24 @@ def gather_obs_f2 (cnp.ndarray[cnp.float64_t, ndim=2] coords_p,
     status : int
         status flag:(0) no error(1) when pdaf_gather dim_obs_f not executed before
     """
-    cdef double[::1] coords_p_view = np.array(coords_p).ravel(order='F')
+    cdef double[::1] coords_p_f = np.asfortranarray(coords_p).ravel(order="F")
     cdef int nrows, dimobs_p
     nrows = coords_p.shape[0]
     dimobs_p = coords_p.shape[1]
 
 
-    cdef double [::1] coords_f_view = np.zeros((nrows, dimobs_f), dtype=np.float64).ravel()
+    cdef double [::1] coords_f = np.zeros((nrows, dimobs_f), dtype=np.float64).ravel()
     cdef int status
 
-    c__pdaf_gather_obs_f2 (&coords_p_view[0],
+    c__pdaf_gather_obs_f2 (&coords_p_f[0],
                            &dimobs_p,
-                           &coords_f_view[0],
+                           &coords_f[0],
                            &dimobs_f,
                            &nrows,
                            &status
                           )
 
-    return np.asarray(coords_f_view).reshape((nrows, dimobs_f), order='F'), status
+    return np.asarray(coords_f).reshape((nrows, dimobs_f), order='F'), status
 
 def generate_obs (py__collect_state_pdaf,
                   py__distribute_state_pdaf,
@@ -1994,14 +1987,14 @@ def generate_obs (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_f_pdaf = py__init_dim_obs_f_pdaf
-    PDAFcython.py__obs_op_f_pdaf = py__obs_op_f_pdaf
-    PDAFcython.py__get_obs_f_pdaf = py__get_obs_f_pdaf
-    PDAFcython.py__init_obserr_f_pdaf = py__init_obserr_f_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_f_pdaf = <void*>py__init_dim_obs_f_pdaf
+    c__PDAFcython.obs_op_f_pdaf = <void*>py__obs_op_f_pdaf
+    c__PDAFcython.get_obs_f_pdaf = <void*>py__get_obs_f_pdaf
+    c__PDAFcython.init_obserr_f_pdaf = <void*>py__init_obserr_f_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int flag
 
@@ -2051,18 +2044,18 @@ def get_ensstats ():
         status flag
     """
 
-    cdef int [::1] dims_view = np.zeros((1), dtype=np.intc).ravel()
+    cdef int [::1] dims = np.zeros((1), dtype=np.intc).ravel()
     cdef double* c_skew_ptr
     cdef double* c_kurt_ptr
     cdef int status
 
-    c__pdaf_get_ensstats (&dims_view[0],
+    c__pdaf_get_ensstats (&dims[0],
                           &c_skew_ptr,
                           &c_kurt_ptr,
                           &status
                          )
 
-    dims = np.asarray(dims_view)
+    dims = np.asarray(dims)
     return np.asarray(<double[:np.prod(dims)]> c_skew_ptr).reshape(dims, order='F'), \
            np.asarray(<double[:np.prod(dims)]> c_kurt_ptr).reshape(dims, order='F'), \
            status
@@ -2142,16 +2135,16 @@ def get_smootherens ():
 
     cdef double* c_sens_point
     cdef int maxlag
-    cdef int [::1] dims_view = np.zeros((3), dtype=np.intc).ravel()
+    cdef int [::1] dims = np.zeros((3), dtype=np.intc).ravel()
     cdef int status
 
     c__pdaf_get_smootherens (&c_sens_point,
                              &maxlag,
-                             &dims_view[0],
+                             &dims[0],
                              &status
                             )
 
-    dims = np.asarray(dims_view)
+    dims = np.asarray(dims)
     return np.asarray(<double[:np.prod(dims)]> c_sens_point).reshape(dims, order='F'), \
            maxlag, status
 
@@ -2190,9 +2183,9 @@ def get_state (int steps,
     flag : int
         status flag
     """
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
     cdef double time
 
@@ -2210,8 +2203,8 @@ def get_state (int steps,
 def init (int filtertype,
           int subtype,
           int stepnull,
-          cnp.ndarray[cnp.int32_t, ndim=1] param_int,
-          cnp.ndarray[cnp.float64_t, ndim=1] param_real,
+          int[::1] param_int,
+          double[::1] param_real,
           int comm_model,
           int comm_filter,
           int comm_couple,
@@ -2261,42 +2254,49 @@ def init (int filtertype,
     flag : int
         status flag, 0: no error, error codes:
     """
-    cdef int[::1] param_int_view = np.array(param_int, dtype=np.intc).ravel(order='F')
-    cdef double[::1] param_real_view = np.array(param_real).ravel(order='F')
-    cdef int dim_preal, dim_pint
+    cdef int dim_pint, dim_preal
     dim_pint = param_int.shape[0]
     dim_preal = param_real.shape[0]
 
-    PDAFcython.py__init_ens_pdaf = py__init_ens_pdaf
+    c__PDAFcython.init_ens_pdaf = <void*>py__init_ens_pdaf
 
     cdef int flag
 
-    c__pdaf_init (&filtertype,
-                  &subtype,
-                  &stepnull,
-                  &param_int_view[0],
-                  &dim_pint,
-                  &param_real_view[0],
-                  &dim_preal,
-                  &comm_model,
-                  &comm_filter,
-                  &comm_couple,
-                  &task_id,
-                  &n_modeltasks,
-                  &in_filterpe,
-                  c__PDAFcython.c__init_ens_pdaf,
-                  &in_screen,
-                  &flag
-                 )
+    if (filtertype == 0) or (filtertype == 200 and subtype == 0):
+        c__pdaf_init (&filtertype, &subtype, &stepnull,
+                      &param_int[0], &dim_pint,
+                      &param_real[0], &dim_preal,
+                      &comm_model, &comm_filter, &comm_couple,
+                      &task_id, &n_modeltasks, &in_filterpe,
+                      c__PDAFcython.c__init_ens_pdaf_single_member,
+                      &in_screen, &flag)
+    else:
+        c__pdaf_init (&filtertype,
+                      &subtype,
+                      &stepnull,
+                      &param_int[0],
+                      &dim_pint,
+                      &param_real[0],
+                      &dim_preal,
+                      &comm_model,
+                      &comm_filter,
+                      &comm_couple,
+                      &task_id,
+                      &n_modeltasks,
+                      &in_filterpe,
+                      c__PDAFcython.c__init_ens_pdaf,
+                      &in_screen,
+                      &flag
+                     )
 
-    return np.asarray(param_int_view).reshape((dim_pint), order='F'), np.asarray(param_real_view).reshape((dim_preal), order='F'), flag
+    return np.asarray(param_int).reshape((dim_pint), order='F'), np.asarray(param_real).reshape((dim_preal), order='F'), flag
 
 def local_weight (int wtype,
                   int rtype,
                   double cradius,
                   double sradius,
                   double distance,
-                  cnp.ndarray[cnp.float64_t, ndim=2] a,
+                  double[:,:] a,
                   double var_obs,
                   int verbose
                  ):
@@ -2326,8 +2326,8 @@ def local_weight (int wtype,
     weight : float
         weights
     """
-    cdef double[::1] a_view = np.array(a).ravel(order='F')
-    cdef int ncols, nrows
+    cdef double[::1] a_f = np.asfortranarray(a).ravel(order="F")
+    cdef int nrows, ncols
     nrows = a.shape[0]
     ncols = a.shape[1]
 
@@ -2341,7 +2341,7 @@ def local_weight (int wtype,
                           &distance,
                           &nrows,
                           &ncols,
-                          &a_view[0],
+                          &a_f[0],
                           &var_obs,
                           &weight,
                           &verbose
@@ -2403,16 +2403,16 @@ def put_state_3dvar (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prodrinva_pdaf = py__prodrinva_pdaf
-    PDAFcython.py__cvt_pdaf = py__cvt_pdaf
-    PDAFcython.py__cvt_adj_pdaf = py__cvt_adj_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prodrinva_pdaf = <void*>py__prodrinva_pdaf
+    c__PDAFcython.cvt_pdaf = <void*>py__cvt_pdaf
+    c__PDAFcython.cvt_adj_pdaf = <void*>py__cvt_adj_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
     cdef int outflag
 
@@ -2475,17 +2475,17 @@ def put_state_en3dvar_estkf (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prodrinva_pdaf = py__prodrinva_pdaf
-    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
-    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prodrinva_pdaf = <void*>py__prodrinva_pdaf
+    c__PDAFcython.cvt_ens_pdaf = <void*>py__cvt_ens_pdaf
+    c__PDAFcython.cvt_adj_ens_pdaf = <void*>py__cvt_adj_ens_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
     cdef int outflag
 
@@ -2585,29 +2585,29 @@ def put_state_en3dvar_lestkf (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prodrinva_pdaf = py__prodrinva_pdaf
-    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
-    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__init_dim_obs_f_pdaf = py__init_dim_obs_f_pdaf
-    PDAFcython.py__obs_op_f_pdaf = py__obs_op_f_pdaf
-    PDAFcython.py__init_obs_f_pdaf = py__init_obs_f_pdaf
-    PDAFcython.py__init_obs_l_pdaf = py__init_obs_l_pdaf
-    PDAFcython.py__prodrinva_l_pdaf = py__prodrinva_l_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
-    PDAFcython.py__g2l_obs_pdaf = py__g2l_obs_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
-    PDAFcython.py__init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prodrinva_pdaf = <void*>py__prodrinva_pdaf
+    c__PDAFcython.cvt_ens_pdaf = <void*>py__cvt_ens_pdaf
+    c__PDAFcython.cvt_adj_ens_pdaf = <void*>py__cvt_adj_ens_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.init_dim_obs_f_pdaf = <void*>py__init_dim_obs_f_pdaf
+    c__PDAFcython.obs_op_f_pdaf = <void*>py__obs_op_f_pdaf
+    c__PDAFcython.init_obs_f_pdaf = <void*>py__init_obs_f_pdaf
+    c__PDAFcython.init_obs_l_pdaf = <void*>py__init_obs_l_pdaf
+    c__PDAFcython.prodrinva_l_pdaf = <void*>py__prodrinva_l_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
+    c__PDAFcython.g2l_obs_pdaf = <void*>py__g2l_obs_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
+    c__PDAFcython.init_obsvar_l_pdaf = <void*>py__init_obsvar_l_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
     cdef int outflag
 
@@ -2671,13 +2671,13 @@ def put_state_enkf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__add_obs_err_pdaf = py__add_obs_err_pdaf
-    PDAFcython.py__init_obs_covar_pdaf = py__init_obs_covar_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.add_obs_err_pdaf = <void*>py__add_obs_err_pdaf
+    c__PDAFcython.init_obs_covar_pdaf = <void*>py__init_obs_covar_pdaf
 
     cdef int flag
 
@@ -2725,13 +2725,13 @@ def put_state_estkf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__prodrinva_pdaf = py__prodrinva_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.prodrinva_pdaf = <void*>py__prodrinva_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
 
     cdef int flag
 
@@ -2779,13 +2779,13 @@ def put_state_etkf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__prodrinva_pdaf = py__prodrinva_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.prodrinva_pdaf = <void*>py__prodrinva_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
 
     cdef int flag
 
@@ -2830,12 +2830,12 @@ def put_state_generate_obs (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_f_pdaf = py__init_dim_obs_f_pdaf
-    PDAFcython.py__obs_op_f_pdaf = py__obs_op_f_pdaf
-    PDAFcython.py__get_obs_f_pdaf = py__get_obs_f_pdaf
-    PDAFcython.py__init_obserr_f_pdaf = py__init_obserr_f_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_f_pdaf = <void*>py__init_dim_obs_f_pdaf
+    c__PDAFcython.obs_op_f_pdaf = <void*>py__obs_op_f_pdaf
+    c__PDAFcython.get_obs_f_pdaf = <void*>py__get_obs_f_pdaf
+    c__PDAFcython.init_obserr_f_pdaf = <void*>py__init_obserr_f_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
     cdef int flag
 
@@ -2900,19 +2900,19 @@ def put_state_hyb3dvar_estkf (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prodrinva_pdaf = py__prodrinva_pdaf
-    PDAFcython.py__cvt_pdaf = py__cvt_pdaf
-    PDAFcython.py__cvt_adj_pdaf = py__cvt_adj_pdaf
-    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
-    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prodrinva_pdaf = <void*>py__prodrinva_pdaf
+    c__PDAFcython.cvt_pdaf = <void*>py__cvt_pdaf
+    c__PDAFcython.cvt_adj_pdaf = <void*>py__cvt_adj_pdaf
+    c__PDAFcython.cvt_ens_pdaf = <void*>py__cvt_ens_pdaf
+    c__PDAFcython.cvt_adj_ens_pdaf = <void*>py__cvt_adj_ens_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
     cdef int outflag
 
@@ -3020,31 +3020,31 @@ def put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prodrinva_pdaf = py__prodrinva_pdaf
-    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
-    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
-    PDAFcython.py__cvt_pdaf = py__cvt_pdaf
-    PDAFcython.py__cvt_adj_pdaf = py__cvt_adj_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__init_dim_obs_f_pdaf = py__init_dim_obs_f_pdaf
-    PDAFcython.py__obs_op_f_pdaf = py__obs_op_f_pdaf
-    PDAFcython.py__init_obs_f_pdaf = py__init_obs_f_pdaf
-    PDAFcython.py__init_obs_l_pdaf = py__init_obs_l_pdaf
-    PDAFcython.py__prodrinva_l_pdaf = py__prodrinva_l_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
-    PDAFcython.py__g2l_obs_pdaf = py__g2l_obs_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
-    PDAFcython.py__init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prodrinva_pdaf = <void*>py__prodrinva_pdaf
+    c__PDAFcython.cvt_ens_pdaf = <void*>py__cvt_ens_pdaf
+    c__PDAFcython.cvt_adj_ens_pdaf = <void*>py__cvt_adj_ens_pdaf
+    c__PDAFcython.cvt_pdaf = <void*>py__cvt_pdaf
+    c__PDAFcython.cvt_adj_pdaf = <void*>py__cvt_adj_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.init_dim_obs_f_pdaf = <void*>py__init_dim_obs_f_pdaf
+    c__PDAFcython.obs_op_f_pdaf = <void*>py__obs_op_f_pdaf
+    c__PDAFcython.init_obs_f_pdaf = <void*>py__init_obs_f_pdaf
+    c__PDAFcython.init_obs_l_pdaf = <void*>py__init_obs_l_pdaf
+    c__PDAFcython.prodrinva_l_pdaf = <void*>py__prodrinva_l_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
+    c__PDAFcython.g2l_obs_pdaf = <void*>py__g2l_obs_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
+    c__PDAFcython.init_obsvar_l_pdaf = <void*>py__init_obsvar_l_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
     cdef int outflag
 
@@ -3113,14 +3113,14 @@ def put_state_lenkf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__localize_covar_pdaf = py__localize_covar_pdaf
-    PDAFcython.py__add_obs_err_pdaf = py__add_obs_err_pdaf
-    PDAFcython.py__init_obs_covar_pdaf = py__init_obs_covar_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.localize_covar_pdaf = <void*>py__localize_covar_pdaf
+    c__PDAFcython.add_obs_err_pdaf = <void*>py__add_obs_err_pdaf
+    c__PDAFcython.init_obs_covar_pdaf = <void*>py__init_obs_covar_pdaf
 
     cdef int flag
 
@@ -3193,21 +3193,21 @@ def put_state_lestkf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__init_obs_l_pdaf = py__init_obs_l_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__prodrinva_l_pdaf = py__prodrinva_l_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
-    PDAFcython.py__g2l_obs_pdaf = py__g2l_obs_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
-    PDAFcython.py__init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.init_obs_l_pdaf = <void*>py__init_obs_l_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.prodrinva_l_pdaf = <void*>py__prodrinva_l_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
+    c__PDAFcython.g2l_obs_pdaf = <void*>py__g2l_obs_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
+    c__PDAFcython.init_obsvar_l_pdaf = <void*>py__init_obsvar_l_pdaf
 
     cdef int flag
 
@@ -3287,21 +3287,21 @@ def put_state_letkf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__init_obs_l_pdaf = py__init_obs_l_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__prodrinva_l_pdaf = py__prodrinva_l_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
-    PDAFcython.py__g2l_obs_pdaf = py__g2l_obs_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
-    PDAFcython.py__init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.init_obs_l_pdaf = <void*>py__init_obs_l_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.prodrinva_l_pdaf = <void*>py__prodrinva_l_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
+    c__PDAFcython.g2l_obs_pdaf = <void*>py__g2l_obs_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
+    c__PDAFcython.init_obsvar_l_pdaf = <void*>py__init_obsvar_l_pdaf
 
     cdef int flag
 
@@ -3372,18 +3372,18 @@ def put_state_lnetf (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_l_pdaf = py__init_obs_l_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__likelihood_l_pdaf = py__likelihood_l_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
-    PDAFcython.py__g2l_obs_pdaf = py__g2l_obs_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_l_pdaf = <void*>py__init_obs_l_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.likelihood_l_pdaf = <void*>py__likelihood_l_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
+    c__PDAFcython.g2l_obs_pdaf = <void*>py__g2l_obs_pdaf
 
     cdef int outflag
 
@@ -3469,24 +3469,24 @@ def put_state_lknetf (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__init_obs_l_pdaf = py__init_obs_l_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__prodrinva_l_pdaf = py__prodrinva_l_pdaf
-    PDAFcython.py__prodrinva_hyb_l_pdaf = py__prodrinva_hyb_l_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
-    PDAFcython.py__g2l_obs_pdaf = py__g2l_obs_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
-    PDAFcython.py__init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
-    PDAFcython.py__likelihood_l_pdaf = py__likelihood_l_pdaf
-    PDAFcython.py__likelihood_hyb_l_pdaf = py__likelihood_hyb_l_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.init_obs_l_pdaf = <void*>py__init_obs_l_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.prodrinva_l_pdaf = <void*>py__prodrinva_l_pdaf
+    c__PDAFcython.prodrinva_hyb_l_pdaf = <void*>py__prodrinva_hyb_l_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
+    c__PDAFcython.g2l_obs_pdaf = <void*>py__g2l_obs_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
+    c__PDAFcython.init_obsvar_l_pdaf = <void*>py__init_obsvar_l_pdaf
+    c__PDAFcython.likelihood_l_pdaf = <void*>py__likelihood_l_pdaf
+    c__PDAFcython.likelihood_hyb_l_pdaf = <void*>py__likelihood_hyb_l_pdaf
 
     cdef int outflag
 
@@ -3569,21 +3569,21 @@ def put_state_lseik (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__init_obs_l_pdaf = py__init_obs_l_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__prodrinva_l_pdaf = py__prodrinva_l_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
-    PDAFcython.py__g2l_obs_pdaf = py__g2l_obs_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
-    PDAFcython.py__init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.init_obs_l_pdaf = <void*>py__init_obs_l_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.prodrinva_l_pdaf = <void*>py__prodrinva_l_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
+    c__PDAFcython.g2l_obs_pdaf = <void*>py__g2l_obs_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
+    c__PDAFcython.init_obsvar_l_pdaf = <void*>py__init_obsvar_l_pdaf
 
     cdef int flag
 
@@ -3636,12 +3636,12 @@ def put_state_netf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__likelihood_pdaf = py__likelihood_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.likelihood_pdaf = <void*>py__likelihood_pdaf
 
     cdef int flag
 
@@ -3685,12 +3685,12 @@ def put_state_pf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__likelihood_pdaf = py__likelihood_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.likelihood_pdaf = <void*>py__likelihood_pdaf
 
     cdef int flag
 
@@ -3722,8 +3722,8 @@ def put_state_prepost (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
     cdef int flag
 
@@ -3763,12 +3763,12 @@ def put_state_seek (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__prodrinva_pdaf = py__prodrinva_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.prodrinva_pdaf = <void*>py__prodrinva_pdaf
 
     cdef int flag
 
@@ -3815,13 +3815,13 @@ def put_state_seik (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__prodrinva_pdaf = py__prodrinva_pdaf
-    PDAFcython.py__init_obsvar_pdaf = py__init_obsvar_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.prodrinva_pdaf = <void*>py__prodrinva_pdaf
+    c__PDAFcython.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
 
     cdef int flag
 
@@ -3850,9 +3850,9 @@ def reset_forget (double forget_in
     c__pdaf_reset_forget (&forget_in
                          )
 
-def sampleens (cnp.ndarray[cnp.float64_t, ndim=2] modes,
-               cnp.ndarray[cnp.float64_t, ndim=1] svals,
-               cnp.ndarray[cnp.float64_t, ndim=1] state,
+def sampleens (double[:,:] modes,
+               double[::1] svals,
+               double[::1] state,
                int verbose,
                int flag
               ):
@@ -3882,28 +3882,26 @@ def sampleens (cnp.ndarray[cnp.float64_t, ndim=2] modes,
     flag : int
         status flag
     """
-    cdef double[::1] modes_view = np.array(modes).ravel(order='F')
-    cdef double[::1] svals_view = np.array(svals).ravel(order='F')
-    cdef double[::1] state_view = np.array(state).ravel(order='F')
-    cdef int dim_ens, dim
+    cdef double[::1] modes_f = np.asfortranarray(modes).ravel(order="F")
+    cdef int dim, dim_ens
     dim = modes.shape[0]
     dim_ens = modes.shape[1]
     dim_ens = dim_ens + 1
 
 
-    cdef double [::1] ens_view = np.zeros((dim, dim_ens), dtype=np.float64).ravel()
+    cdef double [::1] ens = np.zeros((dim, dim_ens), dtype=np.float64).ravel()
 
     c__pdaf_sampleens (&dim,
                        &dim_ens,
-                       &modes_view[0],
-                       &svals_view[0],
-                       &state_view[0],
-                       &ens_view[0],
+                       &modes_f[0],
+                       &svals[0],
+                       &state[0],
+                       &ens[0],
                        &verbose,
                        &flag
                       )
 
-    return np.asarray(modes_view).reshape((dim, dim_ens-1), order='F'), np.asarray(state_view).reshape((dim), order='F'), np.asarray(ens_view).reshape((dim, dim_ens), order='F'), flag
+    return np.asarray(modes).reshape((dim, dim_ens-1), order='F'), np.asarray(state).reshape((dim), order='F'), np.asarray(ens).reshape((dim, dim_ens), order='F'), flag
 
 def set_debug_flag (int debugval
                    ):
@@ -3933,15 +3931,15 @@ def set_ens_pointer ():
     """
 
     cdef double* c_ens_point
-    cdef int [::1] dims_view = np.zeros((2), dtype=np.intc).ravel()
+    cdef int [::1] dims = np.zeros((2), dtype=np.intc).ravel()
     cdef int status
 
     c__pdaf_set_ens_pointer (&c_ens_point,
-                             &dims_view[0],
+                             &dims[0],
                              &status
                             )
 
-    dims = np.asarray(dims_view)
+    dims = np.asarray(dims)
     return np.asarray(<double[:np.prod(dims)]> c_ens_point).reshape(dims, order='F'), \
            status
 
@@ -3965,20 +3963,20 @@ def set_smootherens (int maxlag
     """
 
     cdef double* c_sens_point
-    cdef int [::1] dims_view = np.zeros((3), dtype=np.intc).ravel()
+    cdef int [::1] dims = np.zeros((3), dtype=np.intc).ravel()
     cdef int status
 
     c__pdaf_set_smootherens (&c_sens_point,
                              &maxlag,
-                             &dims_view[0],
+                             &dims[0],
                              &status
                             )
 
-    dims = np.asarray(dims_view)
+    dims = np.asarray(dims)
     return np.asarray(<double[:np.prod(dims)]> c_sens_point).reshape(dims, order='F'), \
            status
 
-def seik_ttimesa (cnp.ndarray[cnp.float64_t, ndim=2] a
+def seik_ttimesa (double[:,:] a
                  ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAF_seik_TtimesA or PDAF source files 
 
@@ -3992,23 +3990,23 @@ def seik_ttimesa (cnp.ndarray[cnp.float64_t, ndim=2] a
     b : ndarray[float]
         output matrix (ta); Dimension: rank+1,dim_col
     """
-    cdef double[::1] a_view = np.array(a).ravel(order='F')
+    cdef double[::1] a_f = np.asfortranarray(a).ravel(order="F")
     cdef int rank, dim_col
     rank = a.shape[0]
     dim_col = a.shape[1]
 
 
-    cdef double [::1] b_view = np.zeros((rank+1, dim_col), dtype=np.float64).ravel()
+    cdef double [::1] b = np.zeros((rank+1, dim_col), dtype=np.float64).ravel()
 
     c__pdaf_seik_ttimesa (&rank,
                           &dim_col,
-                          &a_view[0],
-                          &b_view[0]
+                          &a_f[0],
+                          &b[0]
                          )
 
-    return np.asarray(b_view).reshape((rank+1, dim_col), order='F')
+    return np.asarray(b).reshape((rank+1, dim_col), order='F')
 
-def etkf_tleft (cnp.ndarray[cnp.float64_t, ndim=2] a
+def etkf_tleft (double[:,:] a
                ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAF_etkf_Tleft or PDAF source files 
 
@@ -4022,7 +4020,7 @@ def etkf_tleft (cnp.ndarray[cnp.float64_t, ndim=2] a
     a : ndarray[float]
         input/output matrix; Dimension: dim_ens,dim
     """
-    cdef double[::1] a_view = np.array(a).ravel(order='F')
+    cdef double[::1] a_f = np.asfortranarray(a).ravel(order="F")
     cdef int dim_ens, dim
     dim_ens = a.shape[0]
     dim = a.shape[1]
@@ -4030,12 +4028,12 @@ def etkf_tleft (cnp.ndarray[cnp.float64_t, ndim=2] a
 
     c__pdaf_etkf_tleft (&dim_ens,
                         &dim,
-                        &a_view[0]
+                        &a_f[0]
                        )
 
-    return np.asarray(a_view).reshape((dim_ens, dim), order='F')
+    return np.asarray(a).reshape((dim_ens, dim), order='F')
 
-def estkf_omegaa (cnp.ndarray[cnp.float64_t, ndim=2] a
+def estkf_omegaa (double[:,:] a
                  ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAF_estkf_OmegaA or PDAF source files 
 
@@ -4049,24 +4047,24 @@ def estkf_omegaa (cnp.ndarray[cnp.float64_t, ndim=2] a
     b : ndarray[float]
         output matrix (ta); Dimension: rank+1,dim_col
     """
-    cdef double[::1] a_view = np.array(a).ravel(order='F')
+    cdef double[::1] a_f = np.asfortranarray(a).ravel(order="F")
     cdef int rank, dim_col
     rank = a.shape[0]
     dim_col = a.shape[1]
 
 
-    cdef double [::1] b_view = np.zeros((rank+1, dim_col), dtype=np.float64).ravel()
+    cdef double [::1] b = np.zeros((rank+1, dim_col), dtype=np.float64).ravel()
 
     c__pdaf_estkf_omegaa (&rank,
                           &dim_col,
-                          &a_view[0],
-                          &b_view[0]
+                          &a_f[0],
+                          &b[0]
                          )
 
-    return np.asarray(b_view).reshape((rank+1, dim_col), order='F')
+    return np.asarray(b).reshape((rank+1, dim_col), order='F')
 
-def enkf_omega (cnp.ndarray[cnp.int32_t, ndim=1] seed,
-                cnp.ndarray[cnp.float64_t, ndim=2] omega,
+def enkf_omega (int[::1] seed,
+                double[:,:] omega,
                 double norm,
                 int otype,
                 int screen
@@ -4093,25 +4091,24 @@ def enkf_omega (cnp.ndarray[cnp.int32_t, ndim=1] seed,
     norm : float
         norm for ensemble transformation
     """
-    cdef int[::1] seed_view = np.array(seed, dtype=np.intc).ravel(order='F')
-    cdef double[::1] omega_view = np.array(omega).ravel(order='F')
+    cdef double[::1] omega_f = np.asfortranarray(omega).ravel(order="F")
     cdef int dim_ens, r
     dim_ens = omega.shape[0]
     r = omega.shape[1]
 
 
-    c__pdaf_enkf_omega (&seed_view[0],
+    c__pdaf_enkf_omega (&seed[0],
                         &r,
                         &dim_ens,
-                        &omega_view[0],
+                        &omega_f[0],
                         &norm,
                         &otype,
                         &screen
                        )
 
-    return np.asarray(omega_view).reshape((dim_ens, r), order='F'), norm
+    return np.asarray(omega).reshape((dim_ens, r), order='F'), norm
 
-def seik_omega (cnp.ndarray[cnp.float64_t, ndim=2] omega,
+def seik_omega (double[:,:] omega,
                 int omegatype,
                 int screen
                ):
@@ -4131,7 +4128,7 @@ def seik_omega (cnp.ndarray[cnp.float64_t, ndim=2] omega,
     omega : ndarray[float]
         matrix omega; Dimension: rank+1,rank
     """
-    cdef double[::1] omega_view = np.array(omega).ravel(order='F')
+    cdef double[::1] omega_f = np.asfortranarray(omega).ravel(order="F")
     cdef int rank
     rank = omega.shape[0]
     _ = omega.shape[1]
@@ -4139,12 +4136,12 @@ def seik_omega (cnp.ndarray[cnp.float64_t, ndim=2] omega,
 
 
     c__pdaf_seik_omega (&rank,
-                        &omega_view[0],
+                        &omega_f[0],
                         &omegatype,
                         &screen
                        )
 
-    return np.asarray(omega_view).reshape((rank+1, rank), order='F')
+    return np.asarray(omega).reshape((rank+1, rank), order='F')
 
 def incremental (int steps,
                  py__dist_stateinc_pdaf
@@ -4158,13 +4155,13 @@ def incremental (int steps,
     py__dist_stateinc_pdaf : func
         add state increment during integration
     """
-    PDAFcython.py__dist_stateinc_pdaf = py__dist_stateinc_pdaf
+    c__PDAFcython.dist_stateinc_pdaf = <void*>py__dist_stateinc_pdaf
 
     c__pdaf_incremental (&steps,
                          c__PDAFcython.c__dist_stateinc_pdaf
                         )
 
-def add_increment (cnp.ndarray[cnp.float64_t, ndim=1] state_p
+def add_increment (double[::1] state_p
                   ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAF_add_increment or PDAF source files 
 
@@ -4178,21 +4175,20 @@ def add_increment (cnp.ndarray[cnp.float64_t, ndim=1] state_p
     state_p : ndarray[float]
         state vector; Dimension: dim_p
     """
-    cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
     cdef int dim_p
     dim_p = state_p.shape[0]
 
 
     c__pdaf_add_increment (&dim_p,
-                           &state_p_view[0]
+                           &state_p[0]
                           )
 
-    return np.asarray(state_p_view).reshape((dim_p), order='F')
+    return np.asarray(state_p).reshape((dim_p), order='F')
 
 def local_weights (int wtype,
                    double cradius,
                    double sradius,
-                   cnp.ndarray[cnp.float64_t, ndim=1] distance,
+                   double[::1] distance,
                    int verbose
                   ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAF_local_weights or PDAF source files 
@@ -4215,27 +4211,26 @@ def local_weights (int wtype,
     weight : ndarray[float]
         array for weights; Dimension: dim
     """
-    cdef double[::1] distance_view = np.array(distance).ravel(order='F')
     cdef int dim
     dim = distance.shape[0]
 
 
-    cdef double [::1] weight_view = np.zeros((dim), dtype=np.float64).ravel()
+    cdef double [::1] weight = np.zeros((dim), dtype=np.float64).ravel()
 
     c__pdaf_local_weights (&wtype,
                            &cradius,
                            &sradius,
                            &dim,
-                           &distance_view[0],
-                           &weight_view[0],
+                           &distance[0],
+                           &weight[0],
                            &verbose
                           )
 
-    return np.asarray(weight_view).reshape((dim), order='F')
+    return np.asarray(weight).reshape((dim), order='F')
 
 def diag_crps (int element,
-               cnp.ndarray[cnp.float64_t, ndim=2] oens,
-               cnp.ndarray[cnp.float64_t, ndim=1] obs
+               double[:,:] oens,
+               double[::1] obs
               ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAF_diag_CRPS or PDAF source files 
 
@@ -4261,9 +4256,8 @@ def diag_crps (int element,
     status : int
         status flag (0=success)
     """
-    cdef double[::1] oens_view = np.array(oens).ravel(order='F')
-    cdef double[::1] obs_view = np.array(obs).ravel(order='F')
-    cdef int dim_ens, dim
+    cdef double[::1] oens_f = np.asfortranarray(oens).ravel(order="F")
+    cdef int dim, dim_ens
     dim = oens.shape[0]
     dim_ens = oens.shape[1]
 
@@ -4277,8 +4271,8 @@ def diag_crps (int element,
     c__pdaf_diag_crps (&dim,
                        &dim_ens,
                        &element,
-                       &oens_view[0],
-                       &obs_view[0],
+                       &oens_f[0],
+                       &obs[0],
                        &crps,
                        &reli,
                        &resol,
@@ -4295,7 +4289,7 @@ def force_analysis ():
     c__pdaf_force_analysis ()
 
 def gather_obs_f2_flex (int dim_obs_f,
-                        cnp.ndarray[cnp.float64_t, ndim=2] coords_p
+                        double[:,:] coords_p
                        ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAF_gather_obs_f2_flex or PDAF source files 
 
@@ -4313,27 +4307,27 @@ def gather_obs_f2_flex (int dim_obs_f,
     status : int
         status flag: (0) no error
     """
-    cdef double[::1] coords_p_view = np.array(coords_p).ravel(order='F')
-    cdef int dim_obs_p, nrows
+    cdef double[::1] coords_p_f = np.asfortranarray(coords_p).ravel(order="F")
+    cdef int nrows, dim_obs_p
     nrows = coords_p.shape[0]
     dim_obs_p = coords_p.shape[1]
 
 
-    cdef double [::1] coords_f_view = np.zeros((nrows, dim_obs_f), dtype=np.float64).ravel()
+    cdef double [::1] coords_f = np.zeros((nrows, dim_obs_f), dtype=np.float64).ravel()
     cdef int status
 
     c__pdaf_gather_obs_f2_flex (&dim_obs_p,
                                 &dim_obs_f,
-                                &coords_p_view[0],
-                                &coords_f_view[0],
+                                &coords_p_f[0],
+                                &coords_f[0],
                                 &nrows,
                                 &status
                                )
 
-    return np.asarray(coords_f_view).reshape((nrows, dim_obs_f), order='F'), status
+    return np.asarray(coords_f).reshape((nrows, dim_obs_f), order='F'), status
 
 def gather_obs_f_flex (int dim_obs_f,
-                       cnp.ndarray[cnp.float64_t, ndim=1] obs_p
+                       double[::1] obs_p
                       ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAF_gather_obs_f_flex or PDAF source files 
 
@@ -4351,22 +4345,21 @@ def gather_obs_f_flex (int dim_obs_f,
     status : int
         status flag: (0) no error
     """
-    cdef double[::1] obs_p_view = np.array(obs_p).ravel(order='F')
     cdef int dim_obs_p
     dim_obs_p = obs_p.shape[0]
 
 
-    cdef double [::1] obs_f_view = np.zeros((dim_obs_f), dtype=np.float64).ravel()
+    cdef double [::1] obs_f = np.zeros((dim_obs_f), dtype=np.float64).ravel()
     cdef int status
 
     c__pdaf_gather_obs_f_flex (&dim_obs_p,
                                &dim_obs_f,
-                               &obs_p_view[0],
-                               &obs_f_view[0],
+                               &obs_p[0],
+                               &obs_f[0],
                                &status
                               )
 
-    return np.asarray(obs_f_view).reshape((dim_obs_f), order='F'), status
+    return np.asarray(obs_f).reshape((dim_obs_f), order='F'), status
 
 def prepost (py__collect_state_pdaf,
              py__distribute_state_pdaf,
@@ -4391,10 +4384,10 @@ def prepost (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int outflag
 
@@ -4508,9 +4501,9 @@ def print_local_obsstats (int screen
 
     return n_domains_with_obs
 
-def omit_obs_omi (cnp.ndarray[cnp.float64_t, ndim=1] state_p,
-                  cnp.ndarray[cnp.float64_t, ndim=2] ens_p,
-                  cnp.ndarray[cnp.float64_t, ndim=1] obs_p,
+def omit_obs_omi (double[::1] state_p,
+                  double[:,:] ens_p,
+                  double[::1] obs_p,
                   py__init_obs_pdaf,
                   py__obs_op_pdaf,
                   int compute_mean,
@@ -4542,30 +4535,28 @@ def omit_obs_omi (cnp.ndarray[cnp.float64_t, ndim=1] state_p,
     obs_p : ndarray[float]
         pe-local observation vector; Dimension: dim_obs_p
     """
-    cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
-    cdef double[::1] ens_p_view = np.array(ens_p).ravel(order='F')
-    cdef double[::1] obs_p_view = np.array(obs_p).ravel(order='F')
-    cdef int dim_ens, dim_p, dim_obs_p
+    cdef double[::1] ens_p_f = np.asfortranarray(ens_p).ravel(order="F")
+    cdef int dim_p, dim_ens, dim_obs_p
     dim_p = ens_p.shape[0]
     dim_ens = ens_p.shape[1]
     dim_obs_p = obs_p.shape[0]
 
-    PDAFcython.py__init_obs_pdaf = py__init_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
+    c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
 
     c__pdaf_omit_obs_omi (&dim_p,
                           &dim_obs_p,
                           &dim_ens,
-                          &state_p_view[0],
-                          &ens_p_view[0],
-                          &obs_p_view[0],
+                          &state_p[0],
+                          &ens_p_f[0],
+                          &obs_p[0],
                           c__PDAFcython.c__init_obs_pdaf,
                           c__PDAFcython.c__obs_op_pdaf,
                           &compute_mean,
                           &screen
                          )
 
-    return np.asarray(state_p_view).reshape((dim_p), order='F'), np.asarray(obs_p_view).reshape((dim_obs_p), order='F')
+    return np.asarray(state_p).reshape((dim_p), order='F'), np.asarray(obs_p).reshape((dim_obs_p), order='F')
 
 def omi_init (int n_obs
              ):
@@ -4632,7 +4623,7 @@ def omi_set_ncoord (int i_obs,
                           )
 
 def omi_set_id_obs_p (int i_obs,
-                      cnp.ndarray[cnp.int32_t, ndim=2] id_obs_p
+                      int[:,:] id_obs_p
                      ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_set_id_obs_p or PDAF source files 
 
@@ -4643,8 +4634,8 @@ def omi_set_id_obs_p (int i_obs,
     id_obs_p : ndarray[int]
         setter value; Dimension: nrows,dim_obs_p
     """
-    cdef int[::1] id_obs_p_view = np.array(id_obs_p, dtype=np.intc).ravel(order='F')
-    cdef int dim_obs_p, nrows
+    cdef int[::1] id_obs_p_f = np.asfortranarray(id_obs_p).ravel(order="F")
+    cdef int nrows, dim_obs_p
     nrows = id_obs_p.shape[0]
     dim_obs_p = id_obs_p.shape[1]
 
@@ -4652,11 +4643,11 @@ def omi_set_id_obs_p (int i_obs,
     c__pdafomi_set_id_obs_p (&i_obs,
                              &nrows,
                              &dim_obs_p,
-                             &id_obs_p_view[0]
+                             &id_obs_p_f[0]
                             )
 
 def omi_set_icoeff_p (int i_obs,
-                      cnp.ndarray[cnp.float64_t, ndim=2] icoeff_p
+                      double[:,:] icoeff_p
                      ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_set_icoeff_p or PDAF source files 
 
@@ -4667,8 +4658,8 @@ def omi_set_icoeff_p (int i_obs,
     icoeff_p : ndarray[float]
         setter value; Dimension: nrows,dim_obs_p
     """
-    cdef double[::1] icoeff_p_view = np.array(icoeff_p).ravel(order='F')
-    cdef int dim_obs_p, nrows
+    cdef double[::1] icoeff_p_f = np.asfortranarray(icoeff_p).ravel(order="F")
+    cdef int nrows, dim_obs_p
     nrows = icoeff_p.shape[0]
     dim_obs_p = icoeff_p.shape[1]
 
@@ -4676,11 +4667,11 @@ def omi_set_icoeff_p (int i_obs,
     c__pdafomi_set_icoeff_p (&i_obs,
                              &nrows,
                              &dim_obs_p,
-                             &icoeff_p_view[0]
+                             &icoeff_p_f[0]
                             )
 
 def omi_set_domainsize (int i_obs,
-                        cnp.ndarray[cnp.float64_t, ndim=1] domainsize
+                        double[::1] domainsize
                        ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_set_domainsize or PDAF source files 
 
@@ -4691,14 +4682,13 @@ def omi_set_domainsize (int i_obs,
     domainsize : ndarray[float]
         setter value; Dimension: ncoord
     """
-    cdef double[::1] domainsize_view = np.array(domainsize).ravel(order='F')
     cdef int ncoord
     ncoord = domainsize.shape[0]
 
 
     c__pdafomi_set_domainsize (&i_obs,
                                &ncoord,
-                               &domainsize_view[0]
+                               &domainsize[0]
                               )
 
 def omi_set_obs_err_type (int i_obs,
@@ -4770,9 +4760,9 @@ def omi_set_inno_omit_ivar (int i_obs,
                                   )
 
 def omi_gather_obs (int i_obs,
-                    cnp.ndarray[cnp.float64_t, ndim=1] obs_p,
-                    cnp.ndarray[cnp.float64_t, ndim=1] ivar_obs_p,
-                    cnp.ndarray[cnp.float64_t, ndim=2] ocoord_p,
+                    double[::1] obs_p,
+                    double[::1] ivar_obs_p,
+                    double[:,:] ocoord_p,
                     double cradius
                    ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/pdafomi_gather_obs or PDAF source files 
@@ -4795,9 +4785,7 @@ def omi_gather_obs (int i_obs,
     dim_obs : int
         full number of observations
     """
-    cdef double[::1] obs_p_view = np.array(obs_p).ravel(order='F')
-    cdef double[::1] ivar_obs_p_view = np.array(ivar_obs_p).ravel(order='F')
-    cdef double[::1] ocoord_p_view = np.array(ocoord_p).ravel(order='F')
+    cdef double[::1] ocoord_p_f = np.asfortranarray(ocoord_p).ravel(order="F")
     cdef int dim_obs_p
     _ = ocoord_p.shape[0]
     dim_obs_p = ocoord_p.shape[1]
@@ -4807,9 +4795,9 @@ def omi_gather_obs (int i_obs,
 
     c__pdafomi_gather_obs (&i_obs,
                            &dim_obs_p,
-                           &obs_p_view[0],
-                           &ivar_obs_p_view[0],
-                           &ocoord_p_view[0],
+                           &obs_p[0],
+                           &ivar_obs_p[0],
+                           &ocoord_p_f[0],
                            &cradius,
                            &dim_obs
                           )
@@ -4817,8 +4805,8 @@ def omi_gather_obs (int i_obs,
     return dim_obs
 
 def omi_gather_obsstate (int i_obs,
-                         cnp.ndarray[cnp.float64_t, ndim=1] obsstate_p,
-                         cnp.ndarray[cnp.float64_t, ndim=1] obsstate_f
+                         double[::1] obsstate_p,
+                         double[::1] obsstate_f
                         ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_gather_obsstate or PDAF source files 
 
@@ -4836,21 +4824,19 @@ def omi_gather_obsstate (int i_obs,
     obsstate_f : ndarray[float]
         full observed vector for all types; Dimension: nobs_f_all
     """
-    cdef double[::1] obsstate_p_view = np.array(obsstate_p).ravel(order='F')
-    cdef double[::1] obsstate_f_view = np.array(obsstate_f).ravel(order='F')
     cdef int nobs_f_all
     nobs_f_all = obsstate_f.shape[0]
 
 
     c__pdafomi_gather_obsstate (&i_obs,
-                                &obsstate_p_view[0],
-                                &obsstate_f_view[0],
+                                &obsstate_p[0],
+                                &obsstate_f[0],
                                 &nobs_f_all
                                )
 
-    return np.asarray(obsstate_f_view).reshape((nobs_f_all), order='F')
+    return np.asarray(obsstate_f).reshape((nobs_f_all), order='F')
 
-def omi_set_domain_limits (cnp.ndarray[cnp.float64_t, ndim=2] lim_coords
+def omi_set_domain_limits (double[:,:] lim_coords
                           ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_set_domain_limits or PDAF source files 
 
@@ -4859,9 +4845,9 @@ def omi_set_domain_limits (cnp.ndarray[cnp.float64_t, ndim=2] lim_coords
     lim_coords : ndarray[float]
         geographic coordinate array (1: longitude, 2: latitude); Dimension: 2,2
     """
-    cdef double[::1] lim_coords_view = np.array(lim_coords).ravel(order='F')
+    cdef double[::1] lim_coords_f = np.asfortranarray(lim_coords).ravel(order="F")
 
-    c__pdafomi_set_domain_limits (&lim_coords_view[0]
+    c__pdafomi_set_domain_limits (&lim_coords_f[0]
                                  )
 
 def omi_set_debug_flag (int debugval
@@ -4891,8 +4877,8 @@ def omi_deallocate_obs (int i_obs
                               )
 
 def omi_obs_op_gridpoint (int i_obs,
-                          cnp.ndarray[cnp.float64_t, ndim=1] state_p,
-                          cnp.ndarray[cnp.float64_t, ndim=1] obs_f_all
+                          double[::1] state_p,
+                          double[::1] obs_f_all
                          ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_obs_op_gridpoint or PDAF source files 
 
@@ -4910,26 +4896,24 @@ def omi_obs_op_gridpoint (int i_obs,
     obs_f_all : ndarray[float]
         full observed state for all observation types (nobs_f_all); Dimension: nobs_f_all
     """
-    cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
-    cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
     cdef int dim_p, nobs_f_all
     dim_p = state_p.shape[0]
     nobs_f_all = obs_f_all.shape[0]
 
 
     c__pdafomi_obs_op_gridpoint (&i_obs,
-                                 &state_p_view[0],
+                                 &state_p[0],
                                  &dim_p,
-                                 &obs_f_all_view[0],
+                                 &obs_f_all[0],
                                  &nobs_f_all
                                 )
 
-    return np.asarray(obs_f_all_view).reshape((nobs_f_all), order='F')
+    return np.asarray(obs_f_all).reshape((nobs_f_all), order='F')
 
 def omi_obs_op_gridavg (int i_obs,
                         int nrows,
-                        cnp.ndarray[cnp.float64_t, ndim=1] state_p,
-                        cnp.ndarray[cnp.float64_t, ndim=1] obs_f_all
+                        double[::1] state_p,
+                        double[::1] obs_f_all
                        ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_obs_op_gridavg or PDAF source files 
 
@@ -4949,8 +4933,6 @@ def omi_obs_op_gridavg (int i_obs,
     obs_f_all : ndarray[float]
         full observed state for all observation types (nobs_f_all); Dimension: nobs_f_all
     """
-    cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
-    cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
     cdef int dim_p, nobs_f_all
     dim_p = state_p.shape[0]
     nobs_f_all = obs_f_all.shape[0]
@@ -4958,18 +4940,18 @@ def omi_obs_op_gridavg (int i_obs,
 
     c__pdafomi_obs_op_gridavg (&i_obs,
                                &nrows,
-                               &state_p_view[0],
+                               &state_p[0],
                                &dim_p,
-                               &obs_f_all_view[0],
+                               &obs_f_all[0],
                                &nobs_f_all
                               )
 
-    return np.asarray(obs_f_all_view).reshape((nobs_f_all), order='F')
+    return np.asarray(obs_f_all).reshape((nobs_f_all), order='F')
 
 def omi_obs_op_interp_lin (int i_obs,
                            int nrows,
-                           cnp.ndarray[cnp.float64_t, ndim=1] state_p,
-                           cnp.ndarray[cnp.float64_t, ndim=1] obs_f_all
+                           double[::1] state_p,
+                           double[::1] obs_f_all
                           ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_obs_op_interp_lin or PDAF source files 
 
@@ -4989,8 +4971,6 @@ def omi_obs_op_interp_lin (int i_obs,
     obs_f_all : ndarray[float]
         full observed state for all observation types (nobs_f_all); Dimension: nobs_f_all
     """
-    cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
-    cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
     cdef int dim_p, nobs_f_all
     dim_p = state_p.shape[0]
     nobs_f_all = obs_f_all.shape[0]
@@ -4998,18 +4978,18 @@ def omi_obs_op_interp_lin (int i_obs,
 
     c__pdafomi_obs_op_interp_lin (&i_obs,
                                   &nrows,
-                                  &state_p_view[0],
+                                  &state_p[0],
                                   &dim_p,
-                                  &obs_f_all_view[0],
+                                  &obs_f_all[0],
                                   &nobs_f_all
                                  )
 
-    return np.asarray(obs_f_all_view).reshape((nobs_f_all), order='F')
+    return np.asarray(obs_f_all).reshape((nobs_f_all), order='F')
 
 def omi_obs_op_adj_gridavg (int i_obs,
                             int nrows,
-                            cnp.ndarray[cnp.float64_t, ndim=1] state_p,
-                            cnp.ndarray[cnp.float64_t, ndim=1] obs_f_all
+                            double[::1] state_p,
+                            double[::1] obs_f_all
                            ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_obs_op_adj_gridavg or PDAF source files 
 
@@ -5029,8 +5009,6 @@ def omi_obs_op_adj_gridavg (int i_obs,
     state_p : ndarray[float]
         pe-local model state (dim_p); Dimension: dim_p
     """
-    cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
-    cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
     cdef int dim_p, nobs_f_all
     dim_p = state_p.shape[0]
     nobs_f_all = obs_f_all.shape[0]
@@ -5038,17 +5016,17 @@ def omi_obs_op_adj_gridavg (int i_obs,
 
     c__pdafomi_obs_op_adj_gridavg (&i_obs,
                                    &nrows,
-                                   &state_p_view[0],
+                                   &state_p[0],
                                    &dim_p,
-                                   &obs_f_all_view[0],
+                                   &obs_f_all[0],
                                    &nobs_f_all
                                   )
 
-    return np.asarray(state_p_view).reshape((dim_p), order='F')
+    return np.asarray(state_p).reshape((dim_p), order='F')
 
 def omi_obs_op_adj_gridpoint (int i_obs,
-                              cnp.ndarray[cnp.float64_t, ndim=1] state_p,
-                              cnp.ndarray[cnp.float64_t, ndim=1] obs_f_all
+                              double[::1] state_p,
+                              double[::1] obs_f_all
                              ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_obs_op_adj_gridpoint or PDAF source files 
 
@@ -5066,26 +5044,24 @@ def omi_obs_op_adj_gridpoint (int i_obs,
     state_p : ndarray[float]
         pe-local model state (dim_p); Dimension: dim_p
     """
-    cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
-    cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
     cdef int dim_p, nobs_f_all
     dim_p = state_p.shape[0]
     nobs_f_all = obs_f_all.shape[0]
 
 
     c__pdafomi_obs_op_adj_gridpoint (&i_obs,
-                                     &state_p_view[0],
+                                     &state_p[0],
                                      &dim_p,
-                                     &obs_f_all_view[0],
+                                     &obs_f_all[0],
                                      &nobs_f_all
                                     )
 
-    return np.asarray(state_p_view).reshape((dim_p), order='F')
+    return np.asarray(state_p).reshape((dim_p), order='F')
 
 def omi_obs_op_adj_interp_lin (int i_obs,
                                int nrows,
-                               cnp.ndarray[cnp.float64_t, ndim=1] state_p,
-                               cnp.ndarray[cnp.float64_t, ndim=1] obs_f_all
+                               double[::1] state_p,
+                               double[::1] obs_f_all
                               ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_obs_op_adj_interp_lin or PDAF source files 
 
@@ -5105,8 +5081,6 @@ def omi_obs_op_adj_interp_lin (int i_obs,
     state_p : ndarray[float]
         pe-local model state (dim_p); Dimension: dim_p
     """
-    cdef double[::1] state_p_view = np.array(state_p).ravel(order='F')
-    cdef double[::1] obs_f_all_view = np.array(obs_f_all).ravel(order='F')
     cdef int dim_p, nobs_f_all
     dim_p = state_p.shape[0]
     nobs_f_all = obs_f_all.shape[0]
@@ -5114,17 +5088,17 @@ def omi_obs_op_adj_interp_lin (int i_obs,
 
     c__pdafomi_obs_op_adj_interp_lin (&i_obs,
                                       &nrows,
-                                      &state_p_view[0],
+                                      &state_p[0],
                                       &dim_p,
-                                      &obs_f_all_view[0],
+                                      &obs_f_all[0],
                                       &nobs_f_all
                                      )
 
-    return np.asarray(state_p_view).reshape((dim_p), order='F')
+    return np.asarray(state_p).reshape((dim_p), order='F')
 
-def omi_get_interp_coeff_tri (cnp.ndarray[cnp.float64_t, ndim=2] gpc,
-                              cnp.ndarray[cnp.float64_t, ndim=1] oc,
-                              cnp.ndarray[cnp.float64_t, ndim=1] icoeff
+def omi_get_interp_coeff_tri (double[:,:] gpc,
+                              double[::1] oc,
+                              double[::1] icoeff
                              ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_get_interp_coeff_tri or PDAF source files 
 
@@ -5142,20 +5116,18 @@ def omi_get_interp_coeff_tri (cnp.ndarray[cnp.float64_t, ndim=2] gpc,
     icoeff : ndarray[float]
         interpolation coefficients; dim(3); Dimension: 3
     """
-    cdef double[::1] gpc_view = np.array(gpc).ravel(order='F')
-    cdef double[::1] oc_view = np.array(oc).ravel(order='F')
-    cdef double[::1] icoeff_view = np.array(icoeff).ravel(order='F')
+    cdef double[::1] gpc_f = np.asfortranarray(gpc).ravel(order="F")
 
-    c__pdafomi_get_interp_coeff_tri (&gpc_view[0],
-                                     &oc_view[0],
-                                     &icoeff_view[0]
+    c__pdafomi_get_interp_coeff_tri (&gpc_f[0],
+                                     &oc[0],
+                                     &icoeff[0]
                                     )
 
-    return np.asarray(icoeff_view).reshape((3), order='F')
+    return np.asarray(icoeff).reshape((3), order='F')
 
-def omi_get_interp_coeff_lin1d (cnp.ndarray[cnp.float64_t, ndim=1] gpc,
+def omi_get_interp_coeff_lin1d (double[::1] gpc,
                                 double oc,
-                                cnp.ndarray[cnp.float64_t, ndim=1] icoeff
+                                double[::1] icoeff
                                ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_get_interp_coeff_lin1D or PDAF source files 
 
@@ -5173,19 +5145,17 @@ def omi_get_interp_coeff_lin1d (cnp.ndarray[cnp.float64_t, ndim=1] gpc,
     icoeff : ndarray[float]
         interpolation coefficients (dim=2); Dimension: 2
     """
-    cdef double[::1] gpc_view = np.array(gpc).ravel(order='F')
-    cdef double[::1] icoeff_view = np.array(icoeff).ravel(order='F')
 
-    c__pdafomi_get_interp_coeff_lin1d (&gpc_view[0],
+    c__pdafomi_get_interp_coeff_lin1d (&gpc[0],
                                        &oc,
-                                       &icoeff_view[0]
+                                       &icoeff[0]
                                       )
 
-    return np.asarray(icoeff_view).reshape((2), order='F')
+    return np.asarray(icoeff).reshape((2), order='F')
 
-def omi_get_interp_coeff_lin (cnp.ndarray[cnp.float64_t, ndim=2] gpc,
-                              cnp.ndarray[cnp.float64_t, ndim=1] oc,
-                              cnp.ndarray[cnp.float64_t, ndim=1] icoeff
+def omi_get_interp_coeff_lin (double[:,:] gpc,
+                              double[::1] oc,
+                              double[::1] icoeff
                              ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_get_interp_coeff_lin or PDAF source files 
 
@@ -5203,22 +5173,20 @@ def omi_get_interp_coeff_lin (cnp.ndarray[cnp.float64_t, ndim=2] gpc,
     icoeff : ndarray[float]
         interpolation coefficients (num_gp); Dimension: num_gp
     """
-    cdef double[::1] gpc_view = np.array(gpc).ravel(order='F')
-    cdef double[::1] oc_view = np.array(oc).ravel(order='F')
-    cdef double[::1] icoeff_view = np.array(icoeff).ravel(order='F')
-    cdef int n_dim, num_gp
+    cdef double[::1] gpc_f = np.asfortranarray(gpc).ravel(order="F")
+    cdef int num_gp, n_dim
     num_gp = gpc.shape[0]
     n_dim = gpc.shape[1]
 
 
     c__pdafomi_get_interp_coeff_lin (&num_gp,
                                      &n_dim,
-                                     &gpc_view[0],
-                                     &oc_view[0],
-                                     &icoeff_view[0]
+                                     &gpc_f[0],
+                                     &oc[0],
+                                     &icoeff[0]
                                     )
 
-    return np.asarray(icoeff_view).reshape((num_gp), order='F')
+    return np.asarray(icoeff).reshape((num_gp), order='F')
 
 def omi_assimilate_3dvar (py__collect_state_pdaf,
                           py__distribute_state_pdaf,
@@ -5264,16 +5232,16 @@ def omi_assimilate_3dvar (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__cvt_pdaf = py__cvt_pdaf
-    PDAFcython.py__cvt_adj_pdaf = py__cvt_adj_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.cvt_pdaf = <void*>py__cvt_pdaf
+    c__PDAFcython.cvt_adj_pdaf = <void*>py__cvt_adj_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     c__pdafomi_assimilate_3dvar (c__PDAFcython.c__collect_state_pdaf,
                                  c__PDAFcython.c__distribute_state_pdaf,
@@ -5334,16 +5302,16 @@ def omi_assimilate_en3dvar_estkf (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
-    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.cvt_ens_pdaf = <void*>py__cvt_ens_pdaf
+    c__PDAFcython.cvt_adj_ens_pdaf = <void*>py__cvt_adj_ens_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     c__pdafomi_assimilate_en3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
                                          c__PDAFcython.c__distribute_state_pdaf,
@@ -5419,21 +5387,21 @@ def omi_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_f_pdaf = py__init_dim_obs_f_pdaf
-    PDAFcython.py__obs_op_f_pdaf = py__obs_op_f_pdaf
-    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
-    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_f_pdaf = <void*>py__init_dim_obs_f_pdaf
+    c__PDAFcython.obs_op_f_pdaf = <void*>py__obs_op_f_pdaf
+    c__PDAFcython.cvt_ens_pdaf = <void*>py__cvt_ens_pdaf
+    c__PDAFcython.cvt_adj_ens_pdaf = <void*>py__cvt_adj_ens_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     c__pdafomi_assimilate_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
                                           c__PDAFcython.c__distribute_state_pdaf,
@@ -5484,12 +5452,12 @@ def omi_assimilate_global (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int flag
 
@@ -5554,18 +5522,18 @@ def omi_assimilate_hyb3dvar_estkf (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
-    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
-    PDAFcython.py__cvt_pdaf = py__cvt_pdaf
-    PDAFcython.py__cvt_adj_pdaf = py__cvt_adj_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.cvt_ens_pdaf = <void*>py__cvt_ens_pdaf
+    c__PDAFcython.cvt_adj_ens_pdaf = <void*>py__cvt_adj_ens_pdaf
+    c__PDAFcython.cvt_pdaf = <void*>py__cvt_pdaf
+    c__PDAFcython.cvt_adj_pdaf = <void*>py__cvt_adj_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     c__pdafomi_assimilate_hyb3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
                                           c__PDAFcython.c__distribute_state_pdaf,
@@ -5649,23 +5617,23 @@ def omi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_f_pdaf = py__init_dim_obs_f_pdaf
-    PDAFcython.py__obs_op_f_pdaf = py__obs_op_f_pdaf
-    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
-    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
-    PDAFcython.py__cvt_pdaf = py__cvt_pdaf
-    PDAFcython.py__cvt_adj_pdaf = py__cvt_adj_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_f_pdaf = <void*>py__init_dim_obs_f_pdaf
+    c__PDAFcython.obs_op_f_pdaf = <void*>py__obs_op_f_pdaf
+    c__PDAFcython.cvt_ens_pdaf = <void*>py__cvt_ens_pdaf
+    c__PDAFcython.cvt_adj_ens_pdaf = <void*>py__cvt_adj_ens_pdaf
+    c__PDAFcython.cvt_pdaf = <void*>py__cvt_pdaf
+    c__PDAFcython.cvt_adj_pdaf = <void*>py__cvt_adj_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     c__pdafomi_assimilate_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
                                            c__PDAFcython.c__distribute_state_pdaf,
@@ -5721,13 +5689,13 @@ def omi_assimilate_lenkf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__localize_covar_pdaf = py__localize_covar_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.localize_covar_pdaf = <void*>py__localize_covar_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int flag
 
@@ -5787,17 +5755,17 @@ def omi_assimilate_local (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int flag
 
@@ -5849,13 +5817,13 @@ def omi_generate_obs (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__distribute_state_pdaf = py__distribute_state_pdaf
-    PDAFcython.py__init_dim_obs_f_pdaf = py__init_dim_obs_f_pdaf
-    PDAFcython.py__obs_op_f_pdaf = py__obs_op_f_pdaf
-    PDAFcython.py__get_obs_f_pdaf = py__get_obs_f_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__next_observation_pdaf = py__next_observation_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.distribute_state_pdaf = <void*>py__distribute_state_pdaf
+    c__PDAFcython.init_dim_obs_f_pdaf = <void*>py__init_dim_obs_f_pdaf
+    c__PDAFcython.obs_op_f_pdaf = <void*>py__obs_op_f_pdaf
+    c__PDAFcython.get_obs_f_pdaf = <void*>py__get_obs_f_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
     cdef int flag
 
@@ -5909,14 +5877,14 @@ def omi_put_state_3dvar (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__cvt_pdaf = py__cvt_pdaf
-    PDAFcython.py__cvt_adj_pdaf = py__cvt_adj_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.cvt_pdaf = <void*>py__cvt_pdaf
+    c__PDAFcython.cvt_adj_pdaf = <void*>py__cvt_adj_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
     c__pdafomi_put_state_3dvar (c__PDAFcython.c__collect_state_pdaf,
                                 c__PDAFcython.c__init_dim_obs_pdaf,
@@ -5969,14 +5937,14 @@ def omi_put_state_en3dvar_estkf (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
-    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.cvt_ens_pdaf = <void*>py__cvt_ens_pdaf
+    c__PDAFcython.cvt_adj_ens_pdaf = <void*>py__cvt_adj_ens_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
     c__pdafomi_put_state_en3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
                                         c__PDAFcython.c__init_dim_obs_pdaf,
@@ -6044,19 +6012,19 @@ def omi_put_state_en3dvar_lestkf (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_f_pdaf = py__init_dim_obs_f_pdaf
-    PDAFcython.py__obs_op_f_pdaf = py__obs_op_f_pdaf
-    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
-    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_f_pdaf = <void*>py__init_dim_obs_f_pdaf
+    c__PDAFcython.obs_op_f_pdaf = <void*>py__obs_op_f_pdaf
+    c__PDAFcython.cvt_ens_pdaf = <void*>py__cvt_ens_pdaf
+    c__PDAFcython.cvt_adj_ens_pdaf = <void*>py__cvt_adj_ens_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
     c__pdafomi_put_state_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
                                          c__PDAFcython.c__init_dim_obs_f_pdaf,
@@ -6102,11 +6070,11 @@ def omi_put_state_generate_obs (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_f_pdaf = py__init_dim_obs_f_pdaf
-    PDAFcython.py__obs_op_f_pdaf = py__obs_op_f_pdaf
-    PDAFcython.py__get_obs_f_pdaf = py__get_obs_f_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_f_pdaf = <void*>py__init_dim_obs_f_pdaf
+    c__PDAFcython.obs_op_f_pdaf = <void*>py__obs_op_f_pdaf
+    c__PDAFcython.get_obs_f_pdaf = <void*>py__get_obs_f_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
     cdef int flag
 
@@ -6143,10 +6111,10 @@ def omi_put_state_global (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
     cdef int flag
 
@@ -6203,16 +6171,16 @@ def omi_put_state_hyb3dvar_estkf (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
-    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
-    PDAFcython.py__cvt_pdaf = py__cvt_pdaf
-    PDAFcython.py__cvt_adj_pdaf = py__cvt_adj_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.cvt_ens_pdaf = <void*>py__cvt_ens_pdaf
+    c__PDAFcython.cvt_adj_ens_pdaf = <void*>py__cvt_adj_ens_pdaf
+    c__PDAFcython.cvt_pdaf = <void*>py__cvt_pdaf
+    c__PDAFcython.cvt_adj_pdaf = <void*>py__cvt_adj_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
     c__pdafomi_put_state_hyb3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
                                          c__PDAFcython.c__init_dim_obs_pdaf,
@@ -6288,21 +6256,21 @@ def omi_put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
     outflag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_f_pdaf = py__init_dim_obs_f_pdaf
-    PDAFcython.py__obs_op_f_pdaf = py__obs_op_f_pdaf
-    PDAFcython.py__cvt_ens_pdaf = py__cvt_ens_pdaf
-    PDAFcython.py__cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
-    PDAFcython.py__cvt_pdaf = py__cvt_pdaf
-    PDAFcython.py__cvt_adj_pdaf = py__cvt_adj_pdaf
-    PDAFcython.py__obs_op_lin_pdaf = py__obs_op_lin_pdaf
-    PDAFcython.py__obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_f_pdaf = <void*>py__init_dim_obs_f_pdaf
+    c__PDAFcython.obs_op_f_pdaf = <void*>py__obs_op_f_pdaf
+    c__PDAFcython.cvt_ens_pdaf = <void*>py__cvt_ens_pdaf
+    c__PDAFcython.cvt_adj_ens_pdaf = <void*>py__cvt_adj_ens_pdaf
+    c__PDAFcython.cvt_pdaf = <void*>py__cvt_pdaf
+    c__PDAFcython.cvt_adj_pdaf = <void*>py__cvt_adj_pdaf
+    c__PDAFcython.obs_op_lin_pdaf = <void*>py__obs_op_lin_pdaf
+    c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
     c__pdafomi_put_state_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
                                           c__PDAFcython.c__init_dim_obs_f_pdaf,
@@ -6350,11 +6318,11 @@ def omi_put_state_lenkf (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__localize_covar_pdaf = py__localize_covar_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.localize_covar_pdaf = <void*>py__localize_covar_pdaf
 
     cdef int flag
 
@@ -6406,15 +6374,15 @@ def omi_put_state_local (py__collect_state_pdaf,
     flag : int
         status flag
     """
-    PDAFcython.py__collect_state_pdaf = py__collect_state_pdaf
-    PDAFcython.py__init_dim_obs_pdaf = py__init_dim_obs_pdaf
-    PDAFcython.py__obs_op_pdaf = py__obs_op_pdaf
-    PDAFcython.py__prepoststep_pdaf = py__prepoststep_pdaf
-    PDAFcython.py__init_n_domains_p_pdaf = py__init_n_domains_p_pdaf
-    PDAFcython.py__init_dim_l_pdaf = py__init_dim_l_pdaf
-    PDAFcython.py__init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
-    PDAFcython.py__g2l_state_pdaf = py__g2l_state_pdaf
-    PDAFcython.py__l2g_state_pdaf = py__l2g_state_pdaf
+    c__PDAFcython.collect_state_pdaf = <void*>py__collect_state_pdaf
+    c__PDAFcython.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
+    c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
+    c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
+    c__PDAFcython.init_n_domains_p_pdaf = <void*>py__init_n_domains_p_pdaf
+    c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
+    c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
+    c__PDAFcython.g2l_state_pdaf = <void*>py__g2l_state_pdaf
+    c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
 
     cdef int flag
 
@@ -6434,7 +6402,7 @@ def omi_put_state_local (py__collect_state_pdaf,
 
 def omi_init_obs_f_cb (int step,
                        int dim_obs_f,
-                       cnp.ndarray[cnp.float64_t, ndim=1] observation_f
+                       double[::1] observation_f
                       ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_init_obs_f_cb or PDAF source files 
 
@@ -6452,17 +6420,16 @@ def omi_init_obs_f_cb (int step,
     observation_f : ndarray[float]
         full observation vector; Dimension: dim_obs_f
     """
-    cdef double[::1] observation_f_view = np.array(observation_f).ravel(order='F')
     c__pdafomi_init_obs_f_cb (&step,
                               &dim_obs_f,
-                              &observation_f_view[0]
+                              &observation_f[0]
                              )
 
-    return np.asarray(observation_f_view).reshape((dim_obs_f), order='F')
+    return np.asarray(observation_f).reshape((dim_obs_f), order='F')
 
 def omi_init_obsvar_cb (int step,
                         int dim_obs_p,
-                        cnp.ndarray[cnp.float64_t, ndim=1] obs_p,
+                        double[::1] obs_p,
                         double meanvar
                        ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_init_obsvar_cb or PDAF source files 
@@ -6483,10 +6450,9 @@ def omi_init_obsvar_cb (int step,
     meanvar : float
         mean observation error variance
     """
-    cdef double[::1] obs_p_view = np.array(obs_p).ravel(order='F')
     c__pdafomi_init_obsvar_cb (&step,
                                &dim_obs_p,
-                               &obs_p_view[0],
+                               &obs_p[0],
                                &meanvar
                               )
 
@@ -6496,8 +6462,8 @@ def omi_g2l_obs_cb (int domain_p,
                     int step,
                     int dim_obs_f,
                     int dim_obs_l,
-                    cnp.ndarray[cnp.float64_t, ndim=1] ostate_f,
-                    cnp.ndarray[cnp.float64_t, ndim=1] ostate_l
+                    double[::1] ostate_f,
+                    double[::1] ostate_l
                    ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_g2l_obs_cb or PDAF source files 
 
@@ -6521,22 +6487,20 @@ def omi_g2l_obs_cb (int domain_p,
     ostate_l : ndarray[float]
         observation vector on local domain; Dimension: dim_obs_l
     """
-    cdef double[::1] ostate_f_view = np.array(ostate_f).ravel(order='F')
-    cdef double[::1] ostate_l_view = np.array(ostate_l).ravel(order='F')
     c__pdafomi_g2l_obs_cb (&domain_p,
                            &step,
                            &dim_obs_f,
                            &dim_obs_l,
-                           &ostate_f_view[0],
-                           &ostate_l_view[0]
+                           &ostate_f[0],
+                           &ostate_l[0]
                           )
 
-    return np.asarray(ostate_l_view).reshape((dim_obs_l), order='F')
+    return np.asarray(ostate_l).reshape((dim_obs_l), order='F')
 
 def omi_init_obs_l_cb (int domain_p,
                        int step,
                        int dim_obs_l,
-                       cnp.ndarray[cnp.float64_t, ndim=1] observation_l
+                       double[::1] observation_l
                       ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_init_obs_l_cb or PDAF source files 
 
@@ -6556,19 +6520,18 @@ def omi_init_obs_l_cb (int domain_p,
     observation_l : ndarray[float]
         local observation vector; Dimension: dim_obs_l
     """
-    cdef double[::1] observation_l_view = np.array(observation_l).ravel(order='F')
     c__pdafomi_init_obs_l_cb (&domain_p,
                               &step,
                               &dim_obs_l,
-                              &observation_l_view[0]
+                              &observation_l[0]
                              )
 
-    return np.asarray(observation_l_view).reshape((dim_obs_l), order='F')
+    return np.asarray(observation_l).reshape((dim_obs_l), order='F')
 
 def omi_init_obsvar_l_cb (int domain_p,
                           int step,
                           int dim_obs_l,
-                          cnp.ndarray[cnp.float64_t, ndim=1] obs_l,
+                          double[::1] obs_l,
                           double meanvar_l
                          ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_init_obsvar_l_cb or PDAF source files 
@@ -6591,11 +6554,10 @@ def omi_init_obsvar_l_cb (int domain_p,
     meanvar_l : float
         mean local observation error variance
     """
-    cdef double[::1] obs_l_view = np.array(obs_l).ravel(order='F')
     c__pdafomi_init_obsvar_l_cb (&domain_p,
                                  &step,
                                  &dim_obs_l,
-                                 &obs_l_view[0],
+                                 &obs_l[0],
                                  &meanvar_l
                                 )
 
@@ -6605,9 +6567,9 @@ def omi_prodrinva_l_cb (int domain_p,
                         int step,
                         int dim_obs_l,
                         int rank,
-                        cnp.ndarray[cnp.float64_t, ndim=1] obs_l,
-                        cnp.ndarray[cnp.float64_t, ndim=2] a_l,
-                        cnp.ndarray[cnp.float64_t, ndim=2] c_l
+                        double[::1] obs_l,
+                        double[::1,:] a_l,
+                        double[::1,:] c_l
                        ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_prodRinvA_l_cb or PDAF source files 
 
@@ -6635,25 +6597,24 @@ def omi_prodrinva_l_cb (int domain_p,
     c_l : ndarray[float]
         output matrix; Dimension: dim_obs_l,rank
     """
-    cdef double[::1] obs_l_view = np.array(obs_l).ravel(order='F')
-    cdef double[::1] a_l_view = np.array(a_l).ravel(order='F')
-    cdef double[::1] c_l_view = np.array(c_l).ravel(order='F')
+    cdef double[::1] a_l_f = np.asfortranarray(a_l).ravel(order="F")
+    cdef double[::1] c_l_f = np.asfortranarray(c_l).ravel(order="F")
     c__pdafomi_prodrinva_l_cb (&domain_p,
                                &step,
                                &dim_obs_l,
                                &rank,
-                               &obs_l_view[0],
-                               &a_l_view[0],
-                               &c_l_view[0]
+                               &obs_l[0],
+                               &a_l_f[0],
+                               &c_l_f[0]
                               )
 
-    return np.asarray(a_l_view).reshape((dim_obs_l, rank), order='F'), np.asarray(c_l_view).reshape((dim_obs_l, rank), order='F')
+    return np.asarray(a_l).reshape((dim_obs_l, rank), order='F'), np.asarray(c_l).reshape((dim_obs_l, rank), order='F')
 
 def omi_likelihood_l_cb (int domain_p,
                          int step,
                          int dim_obs_l,
-                         cnp.ndarray[cnp.float64_t, ndim=1] obs_l,
-                         cnp.ndarray[cnp.float64_t, ndim=1] resid_l,
+                         double[::1] obs_l,
+                         double[::1] resid_l,
                          double lhood_l
                         ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_likelihood_l_cb or PDAF source files 
@@ -6680,24 +6641,22 @@ def omi_likelihood_l_cb (int domain_p,
     lhood_l : float
         output vector - log likelihood
     """
-    cdef double[::1] obs_l_view = np.array(obs_l).ravel(order='F')
-    cdef double[::1] resid_l_view = np.array(resid_l).ravel(order='F')
     c__pdafomi_likelihood_l_cb (&domain_p,
                                 &step,
                                 &dim_obs_l,
-                                &obs_l_view[0],
-                                &resid_l_view[0],
+                                &obs_l[0],
+                                &resid_l[0],
                                 &lhood_l
                                )
 
-    return np.asarray(resid_l_view).reshape((dim_obs_l), order='F'), lhood_l
+    return np.asarray(resid_l).reshape((dim_obs_l), order='F'), lhood_l
 
 def omi_prodrinva_cb (int step,
                       int dim_obs_p,
                       int ncol,
-                      cnp.ndarray[cnp.float64_t, ndim=1] obs_p,
-                      cnp.ndarray[cnp.float64_t, ndim=2] a_p,
-                      cnp.ndarray[cnp.float64_t, ndim=2] c_p
+                      double[::1] obs_p,
+                      double[::1,:] a_p,
+                      double[::1,:] c_p
                      ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_prodRinvA_cb or PDAF source files 
 
@@ -6721,23 +6680,22 @@ def omi_prodrinva_cb (int step,
     c_p : ndarray[float]
         output matrix; Dimension: dim_obs_p,ncol
     """
-    cdef double[::1] obs_p_view = np.array(obs_p).ravel(order='F')
-    cdef double[::1] a_p_view = np.array(a_p).ravel(order='F')
-    cdef double[::1] c_p_view = np.array(c_p).ravel(order='F')
+    cdef double[::1] a_p_f = np.asfortranarray(a_p).ravel(order="F")
+    cdef double[::1] c_p_f = np.asfortranarray(c_p).ravel(order="F")
     c__pdafomi_prodrinva_cb (&step,
                              &dim_obs_p,
                              &ncol,
-                             &obs_p_view[0],
-                             &a_p_view[0],
-                             &c_p_view[0]
+                             &obs_p[0],
+                             &a_p_f[0],
+                             &c_p_f[0]
                             )
 
-    return np.asarray(c_p_view).reshape((dim_obs_p, ncol), order='F')
+    return np.asarray(c_p).reshape((dim_obs_p, ncol), order='F')
 
 def omi_likelihood_cb (int step,
                        int dim_obs,
-                       cnp.ndarray[cnp.float64_t, ndim=1] obs,
-                       cnp.ndarray[cnp.float64_t, ndim=1] resid,
+                       double[::1] obs,
+                       double[::1] resid,
                        double lhood
                       ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_likelihood_cb or PDAF source files 
@@ -6760,12 +6718,10 @@ def omi_likelihood_cb (int step,
     lhood : float
         output vector - log likelihood
     """
-    cdef double[::1] obs_view = np.array(obs).ravel(order='F')
-    cdef double[::1] resid_view = np.array(resid).ravel(order='F')
     c__pdafomi_likelihood_cb (&step,
                               &dim_obs,
-                              &obs_view[0],
-                              &resid_view[0],
+                              &obs[0],
+                              &resid[0],
                               &lhood
                              )
 
@@ -6773,7 +6729,7 @@ def omi_likelihood_cb (int step,
 
 def omi_add_obs_error_cb (int step,
                           int dim_obs_p,
-                          cnp.ndarray[cnp.float64_t, ndim=2] c_p
+                          double[::1,:] c_p
                          ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_add_obs_error_cb or PDAF source files 
 
@@ -6791,19 +6747,19 @@ def omi_add_obs_error_cb (int step,
     c_p : ndarray[float]
         matrix to which r is added; Dimension: dim_obs_p,dim_obs_p
     """
-    cdef double[::1] c_p_view = np.array(c_p).ravel(order='F')
+    cdef double[::1] c_p_f = np.asfortranarray(c_p).ravel(order="F")
     c__pdafomi_add_obs_error_cb (&step,
                                  &dim_obs_p,
-                                 &c_p_view[0]
+                                 &c_p_f[0]
                                 )
 
-    return np.asarray(c_p_view).reshape((dim_obs_p, dim_obs_p), order='F')
+    return np.asarray(c_p).reshape((dim_obs_p, dim_obs_p), order='F')
 
 def omi_init_obscovar_cb (int step,
                           int dim_obs,
                           int dim_obs_p,
-                          cnp.ndarray[cnp.float64_t, ndim=2] covar,
-                          cnp.ndarray[cnp.float64_t, ndim=1] m_state_p,
+                          double[::1,:] covar,
+                          double[::1] m_state_p,
                           bint isdiag
                          ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_init_obscovar_cb or PDAF source files 
@@ -6830,22 +6786,21 @@ def omi_init_obscovar_cb (int step,
     isdiag : bool
         whether matrix r is diagonal
     """
-    cdef double[::1] covar_view = np.array(covar).ravel(order='F')
-    cdef double[::1] m_state_p_view = np.array(m_state_p).ravel(order='F')
+    cdef double[::1] covar_f = np.asfortranarray(covar).ravel(order="F")
     c__pdafomi_init_obscovar_cb (&step,
                                  &dim_obs,
                                  &dim_obs_p,
-                                 &covar_view[0],
-                                 &m_state_p_view[0],
+                                 &covar_f[0],
+                                 &m_state_p[0],
                                  &isdiag
                                 )
 
-    return np.asarray(covar_view).reshape((dim_obs, dim_obs), order='F'), isdiag
+    return np.asarray(covar).reshape((dim_obs, dim_obs), order='F'), isdiag
 
 def omi_init_obserr_f_cb (int step,
                           int dim_obs_f,
-                          cnp.ndarray[cnp.float64_t, ndim=1] obs_f,
-                          cnp.ndarray[cnp.float64_t, ndim=1] obserr_f
+                          double[::1] obs_f,
+                          double[::1] obserr_f
                          ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_init_obserr_f_cb or PDAF source files 
 
@@ -6865,24 +6820,22 @@ def omi_init_obserr_f_cb (int step,
     obserr_f : ndarray[float]
         full observation error stddev; Dimension: dim_obs_f
     """
-    cdef double[::1] obs_f_view = np.array(obs_f).ravel(order='F')
-    cdef double[::1] obserr_f_view = np.array(obserr_f).ravel(order='F')
     c__pdafomi_init_obserr_f_cb (&step,
                                  &dim_obs_f,
-                                 &obs_f_view[0],
-                                 &obserr_f_view[0]
+                                 &obs_f[0],
+                                 &obserr_f[0]
                                 )
 
-    return np.asarray(obserr_f_view).reshape((dim_obs_f), order='F')
+    return np.asarray(obserr_f).reshape((dim_obs_f), order='F')
 
 def omi_prodrinva_hyb_l_cb (int domain_p,
                             int step,
                             int dim_obs_l,
                             int rank,
-                            cnp.ndarray[cnp.float64_t, ndim=1] obs_l,
+                            double[::1] obs_l,
                             double alpha,
-                            cnp.ndarray[cnp.float64_t, ndim=2] a_l,
-                            cnp.ndarray[cnp.float64_t, ndim=2] c_l
+                            double[::1,:] a_l,
+                            double[::1,:] c_l
                            ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_prodRinvA_hyb_l_cb or PDAF source files 
 
@@ -6912,26 +6865,25 @@ def omi_prodrinva_hyb_l_cb (int domain_p,
     c_l : ndarray[float]
         output matrix; Dimension: dim_obs_l,rank
     """
-    cdef double[::1] obs_l_view = np.array(obs_l).ravel(order='F')
-    cdef double[::1] a_l_view = np.array(a_l).ravel(order='F')
-    cdef double[::1] c_l_view = np.array(c_l).ravel(order='F')
+    cdef double[::1] a_l_f = np.asfortranarray(a_l).ravel(order="F")
+    cdef double[::1] c_l_f = np.asfortranarray(c_l).ravel(order="F")
     c__pdafomi_prodrinva_hyb_l_cb (&domain_p,
                                    &step,
                                    &dim_obs_l,
                                    &rank,
-                                   &obs_l_view[0],
+                                   &obs_l[0],
                                    &alpha,
-                                   &a_l_view[0],
-                                   &c_l_view[0]
+                                   &a_l_f[0],
+                                   &c_l_f[0]
                                   )
 
-    return np.asarray(a_l_view).reshape((dim_obs_l, rank), order='F'), np.asarray(c_l_view).reshape((dim_obs_l, rank), order='F')
+    return np.asarray(a_l).reshape((dim_obs_l, rank), order='F'), np.asarray(c_l).reshape((dim_obs_l, rank), order='F')
 
 def omi_likelihood_hyb_l_cb (int domain_p,
                              int step,
                              int dim_obs_l,
-                             cnp.ndarray[cnp.float64_t, ndim=1] obs_l,
-                             cnp.ndarray[cnp.float64_t, ndim=1] resid_l,
+                             double[::1] obs_l,
+                             double[::1] resid_l,
                              double alpha,
                              double lhood_l
                             ):
@@ -6961,18 +6913,16 @@ def omi_likelihood_hyb_l_cb (int domain_p,
     lhood_l : float
         output vector - log likelihood
     """
-    cdef double[::1] obs_l_view = np.array(obs_l).ravel(order='F')
-    cdef double[::1] resid_l_view = np.array(resid_l).ravel(order='F')
     c__pdafomi_likelihood_hyb_l_cb (&domain_p,
                                     &step,
                                     &dim_obs_l,
-                                    &obs_l_view[0],
-                                    &resid_l_view[0],
+                                    &obs_l[0],
+                                    &resid_l[0],
                                     &alpha,
                                     &lhood_l
                                    )
 
-    return np.asarray(resid_l_view).reshape((dim_obs_l), order='F'), lhood_l
+    return np.asarray(resid_l).reshape((dim_obs_l), order='F'), lhood_l
 
 def omi_obsstats_l (int screen
                    ):
@@ -6989,11 +6939,11 @@ def omi_obsstats_l (int screen
 
 def omi_weights_l (int verbose,
                    int locweight,
-                   cnp.ndarray[cnp.float64_t, ndim=1] cradius,
-                   cnp.ndarray[cnp.float64_t, ndim=1] sradius,
-                   cnp.ndarray[cnp.float64_t, ndim=2] mata,
-                   cnp.ndarray[cnp.float64_t, ndim=1] ivar_obs_l,
-                   cnp.ndarray[cnp.float64_t, ndim=1] dist_l
+                   double[::1] cradius,
+                   double[::1] sradius,
+                   double[:,:] mata,
+                   double[::1] ivar_obs_l,
+                   double[::1] dist_l
                   ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_weights_l or PDAF source files 
 
@@ -7019,39 +6969,35 @@ def omi_weights_l (int verbose,
     weight_l : ndarray[float]
         < output: vector of weights; Dimension: nobs_l
     """
-    cdef double[::1] cradius_view = np.array(cradius).ravel(order='F')
-    cdef double[::1] sradius_view = np.array(sradius).ravel(order='F')
-    cdef double[::1] mata_view = np.array(mata).ravel(order='F')
-    cdef double[::1] ivar_obs_l_view = np.array(ivar_obs_l).ravel(order='F')
-    cdef double[::1] dist_l_view = np.array(dist_l).ravel(order='F')
-    cdef int ncols, nobs_l
+    cdef double[::1] mata_f = np.asfortranarray(mata).ravel(order="F")
+    cdef int nobs_l, ncols
     nobs_l = mata.shape[0]
     ncols = mata.shape[1]
 
 
-    cdef double [::1] weight_l_view = np.zeros((nobs_l), dtype=np.float64).ravel()
+    cdef double [::1] weight_l = np.zeros((nobs_l), dtype=np.float64).ravel()
 
     c__pdafomi_weights_l (&verbose,
                           &nobs_l,
                           &ncols,
                           &locweight,
-                          &cradius_view[0],
-                          &sradius_view[0],
-                          &mata_view[0],
-                          &ivar_obs_l_view[0],
-                          &dist_l_view[0],
-                          &weight_l_view[0]
+                          &cradius[0],
+                          &sradius[0],
+                          &mata_f[0],
+                          &ivar_obs_l[0],
+                          &dist_l[0],
+                          &weight_l[0]
                          )
 
-    return np.asarray(weight_l_view).reshape((nobs_l), order='F')
+    return np.asarray(weight_l).reshape((nobs_l), order='F')
 
 def omi_weights_l_sgnl (int verbose,
                         int locweight,
                         double cradius,
                         double sradius,
-                        cnp.ndarray[cnp.float64_t, ndim=2] mata,
-                        cnp.ndarray[cnp.float64_t, ndim=1] ivar_obs_l,
-                        cnp.ndarray[cnp.float64_t, ndim=1] dist_l
+                        double[:,:] mata,
+                        double[::1] ivar_obs_l,
+                        double[::1] dist_l
                        ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_weights_l_sgnl or PDAF source files 
 
@@ -7077,15 +7023,13 @@ def omi_weights_l_sgnl (int verbose,
     weight_l : ndarray[float]
         < output: vector of weights; Dimension: nobs_l
     """
-    cdef double[::1] mata_view = np.array(mata).ravel(order='F')
-    cdef double[::1] ivar_obs_l_view = np.array(ivar_obs_l).ravel(order='F')
-    cdef double[::1] dist_l_view = np.array(dist_l).ravel(order='F')
-    cdef int ncols, nobs_l
+    cdef double[::1] mata_f = np.asfortranarray(mata).ravel(order="F")
+    cdef int nobs_l, ncols
     nobs_l = mata.shape[0]
     ncols = mata.shape[1]
 
 
-    cdef double [::1] weight_l_view = np.zeros((nobs_l), dtype=np.float64).ravel()
+    cdef double [::1] weight_l = np.zeros((nobs_l), dtype=np.float64).ravel()
 
     c__pdafomi_weights_l_sgnl (&verbose,
                                &nobs_l,
@@ -7093,13 +7037,13 @@ def omi_weights_l_sgnl (int verbose,
                                &locweight,
                                &cradius,
                                &sradius,
-                               &mata_view[0],
-                               &ivar_obs_l_view[0],
-                               &dist_l_view[0],
-                               &weight_l_view[0]
+                               &mata_f[0],
+                               &ivar_obs_l[0],
+                               &dist_l[0],
+                               &weight_l[0]
                               )
 
-    return np.asarray(weight_l_view).reshape((nobs_l), order='F')
+    return np.asarray(weight_l).reshape((nobs_l), order='F')
 
 def omi_check_error (int flag
                     ):
@@ -7141,7 +7085,7 @@ def omi_obsstats (int screen
                         )
 
 def omi_init_dim_obs_l_iso (int i_obs,
-                            cnp.ndarray[cnp.float64_t, ndim=1] coords_l,
+                            double[::1] coords_l,
                             int locweight,
                             double cradius,
                             double sradius,
@@ -7169,14 +7113,13 @@ def omi_init_dim_obs_l_iso (int i_obs,
     cnt_obs_l : int
         < local dimension of current observation vector
     """
-    cdef double[::1] coords_l_view = np.array(coords_l).ravel(order='F')
     cdef int ncoord
     ncoord = coords_l.shape[0]
 
 
     c__pdafomi_init_dim_obs_l_iso (&i_obs,
                                    &ncoord,
-                                   &coords_l_view[0],
+                                   &coords_l[0],
                                    &locweight,
                                    &cradius,
                                    &sradius,
@@ -7186,10 +7129,10 @@ def omi_init_dim_obs_l_iso (int i_obs,
     return cnt_obs_l
 
 def omi_init_dim_obs_l_noniso (int i_obs,
-                               cnp.ndarray[cnp.float64_t, ndim=1] coords_l,
+                               double[::1] coords_l,
                                int locweight,
-                               cnp.ndarray[cnp.float64_t, ndim=1] cradius,
-                               cnp.ndarray[cnp.float64_t, ndim=1] sradius,
+                               double[::1] cradius,
+                               double[::1] sradius,
                                int cnt_obs_l
                               ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_init_dim_obs_l_noniso or PDAF source files 
@@ -7214,29 +7157,26 @@ def omi_init_dim_obs_l_noniso (int i_obs,
     cnt_obs_l : int
         < local dimension of current observation vector
     """
-    cdef double[::1] coords_l_view = np.array(coords_l).ravel(order='F')
-    cdef double[::1] cradius_view = np.array(cradius).ravel(order='F')
-    cdef double[::1] sradius_view = np.array(sradius).ravel(order='F')
     cdef int ncoord
     ncoord = coords_l.shape[0]
 
 
     c__pdafomi_init_dim_obs_l_noniso (&i_obs,
                                       &ncoord,
-                                      &coords_l_view[0],
+                                      &coords_l[0],
                                       &locweight,
-                                      &cradius_view[0],
-                                      &sradius_view[0],
+                                      &cradius[0],
+                                      &sradius[0],
                                       &cnt_obs_l
                                      )
 
     return cnt_obs_l
 
 def omi_init_dim_obs_l_noniso_locweights (int i_obs,
-                                          cnp.ndarray[cnp.float64_t, ndim=1] coords_l,
-                                          cnp.ndarray[cnp.int32_t, ndim=1] locweights,
-                                          cnp.ndarray[cnp.float64_t, ndim=1] cradius,
-                                          cnp.ndarray[cnp.float64_t, ndim=1] sradius,
+                                          double[::1] coords_l,
+                                          int[::1] locweights,
+                                          double[::1] cradius,
+                                          double[::1] sradius,
                                           int cnt_obs_l
                                          ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_init_dim_obs_l_noniso_locweights or PDAF source files 
@@ -7261,20 +7201,16 @@ def omi_init_dim_obs_l_noniso_locweights (int i_obs,
     cnt_obs_l : int
         < local dimension of current observation vector
     """
-    cdef double[::1] coords_l_view = np.array(coords_l).ravel(order='F')
-    cdef int[::1] locweights_view = np.array(locweights, dtype=np.intc).ravel(order='F')
-    cdef double[::1] cradius_view = np.array(cradius).ravel(order='F')
-    cdef double[::1] sradius_view = np.array(sradius).ravel(order='F')
     cdef int ncoord
     ncoord = coords_l.shape[0]
 
 
     c__pdafomi_init_dim_obs_l_noniso_locweights (&i_obs,
                                                  &ncoord,
-                                                 &coords_l_view[0],
-                                                 &locweights_view[0],
-                                                 &cradius_view[0],
-                                                 &sradius_view[0],
+                                                 &coords_l[0],
+                                                 &locweights[0],
+                                                 &cradius[0],
+                                                 &sradius[0],
                                                  &cnt_obs_l
                                                 )
 
@@ -7284,9 +7220,9 @@ def omi_localize_covar_iso (int i_obs,
                             int locweight,
                             double cradius,
                             double sradius,
-                            cnp.ndarray[cnp.float64_t, ndim=2] coords,
-                            cnp.ndarray[cnp.float64_t, ndim=2] hp,
-                            cnp.ndarray[cnp.float64_t, ndim=2] hph
+                            double[:,:] coords,
+                            double[:,:] hp,
+                            double[:,:] hph
                            ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_localize_covar_iso or PDAF source files 
 
@@ -7314,10 +7250,10 @@ def omi_localize_covar_iso (int i_obs,
     hph : ndarray[float]
         < matrix hph, dimension (nobs, nobs); Dimension: dim_obs,dim_obs
     """
-    cdef double[::1] coords_view = np.array(coords).ravel(order='F')
-    cdef double[::1] hp_view = np.array(hp).ravel(order='F')
-    cdef double[::1] hph_view = np.array(hph).ravel(order='F')
-    cdef int dim_p, dim_obs, ncoord
+    cdef double[::1] coords_f = np.asfortranarray(coords).ravel(order="F")
+    cdef double[::1] hp_f = np.asfortranarray(hp).ravel(order="F")
+    cdef double[::1] hph_f = np.asfortranarray(hph).ravel(order="F")
+    cdef int ncoord, dim_p, dim_obs
     ncoord = coords.shape[0]
     dim_p = coords.shape[1]
     dim_obs = hp.shape[0]
@@ -7331,20 +7267,20 @@ def omi_localize_covar_iso (int i_obs,
                                    &locweight,
                                    &cradius,
                                    &sradius,
-                                   &coords_view[0],
-                                   &hp_view[0],
-                                   &hph_view[0]
+                                   &coords_f[0],
+                                   &hp_f[0],
+                                   &hph_f[0]
                                   )
 
-    return np.asarray(hp_view).reshape((dim_obs, dim_p), order='F'), np.asarray(hph_view).reshape((dim_obs, dim_obs), order='F')
+    return np.asarray(hp).reshape((dim_obs, dim_p), order='F'), np.asarray(hph).reshape((dim_obs, dim_obs), order='F')
 
 def omi_localize_covar_noniso (int i_obs,
                                int locweight,
-                               cnp.ndarray[cnp.float64_t, ndim=1] cradius,
-                               cnp.ndarray[cnp.float64_t, ndim=1] sradius,
-                               cnp.ndarray[cnp.float64_t, ndim=2] coords,
-                               cnp.ndarray[cnp.float64_t, ndim=2] hp,
-                               cnp.ndarray[cnp.float64_t, ndim=2] hph
+                               double[::1] cradius,
+                               double[::1] sradius,
+                               double[:,:] coords,
+                               double[:,:] hp,
+                               double[:,:] hph
                               ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_localize_covar_noniso or PDAF source files 
 
@@ -7372,12 +7308,10 @@ def omi_localize_covar_noniso (int i_obs,
     hph : ndarray[float]
         < matrix hph, dimension (nobs, nobs); Dimension: dim_obs,dim_obs
     """
-    cdef double[::1] cradius_view = np.array(cradius).ravel(order='F')
-    cdef double[::1] sradius_view = np.array(sradius).ravel(order='F')
-    cdef double[::1] coords_view = np.array(coords).ravel(order='F')
-    cdef double[::1] hp_view = np.array(hp).ravel(order='F')
-    cdef double[::1] hph_view = np.array(hph).ravel(order='F')
-    cdef int dim_p, dim_obs, ncoord
+    cdef double[::1] coords_f = np.asfortranarray(coords).ravel(order="F")
+    cdef double[::1] hp_f = np.asfortranarray(hp).ravel(order="F")
+    cdef double[::1] hph_f = np.asfortranarray(hph).ravel(order="F")
+    cdef int ncoord, dim_p, dim_obs
     ncoord = coords.shape[0]
     dim_p = coords.shape[1]
     dim_obs = hp.shape[0]
@@ -7389,22 +7323,22 @@ def omi_localize_covar_noniso (int i_obs,
                                       &dim_obs,
                                       &ncoord,
                                       &locweight,
-                                      &cradius_view[0],
-                                      &sradius_view[0],
-                                      &coords_view[0],
-                                      &hp_view[0],
-                                      &hph_view[0]
+                                      &cradius[0],
+                                      &sradius[0],
+                                      &coords_f[0],
+                                      &hp_f[0],
+                                      &hph_f[0]
                                      )
 
-    return np.asarray(hp_view).reshape((dim_obs, dim_p), order='F'), np.asarray(hph_view).reshape((dim_obs, dim_obs), order='F')
+    return np.asarray(hp).reshape((dim_obs, dim_p), order='F'), np.asarray(hph).reshape((dim_obs, dim_obs), order='F')
 
 def omi_localize_covar_noniso_locweights (int i_obs,
-                                          cnp.ndarray[cnp.int32_t, ndim=1] locweights,
-                                          cnp.ndarray[cnp.float64_t, ndim=1] cradius,
-                                          cnp.ndarray[cnp.float64_t, ndim=1] sradius,
-                                          cnp.ndarray[cnp.float64_t, ndim=2] coords,
-                                          cnp.ndarray[cnp.float64_t, ndim=2] hp,
-                                          cnp.ndarray[cnp.float64_t, ndim=2] hph
+                                          int[::1] locweights,
+                                          double[::1] cradius,
+                                          double[::1] sradius,
+                                          double[:,:] coords,
+                                          double[:,:] hp,
+                                          double[:,:] hph
                                          ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_localize_covar_noniso_locweights or PDAF source files 
 
@@ -7432,13 +7366,10 @@ def omi_localize_covar_noniso_locweights (int i_obs,
     hph : ndarray[float]
         < matrix hph, dimension (nobs, nobs); Dimension: dim_obs,dim_obs
     """
-    cdef int[::1] locweights_view = np.array(locweights, dtype=np.intc).ravel(order='F')
-    cdef double[::1] cradius_view = np.array(cradius).ravel(order='F')
-    cdef double[::1] sradius_view = np.array(sradius).ravel(order='F')
-    cdef double[::1] coords_view = np.array(coords).ravel(order='F')
-    cdef double[::1] hp_view = np.array(hp).ravel(order='F')
-    cdef double[::1] hph_view = np.array(hph).ravel(order='F')
-    cdef int dim_p, dim_obs, ncoord
+    cdef double[::1] coords_f = np.asfortranarray(coords).ravel(order="F")
+    cdef double[::1] hp_f = np.asfortranarray(hp).ravel(order="F")
+    cdef double[::1] hph_f = np.asfortranarray(hph).ravel(order="F")
+    cdef int ncoord, dim_p, dim_obs
     ncoord = coords.shape[0]
     dim_p = coords.shape[1]
     dim_obs = hp.shape[0]
@@ -7449,20 +7380,20 @@ def omi_localize_covar_noniso_locweights (int i_obs,
                                                  &dim_p,
                                                  &dim_obs,
                                                  &ncoord,
-                                                 &locweights_view[0],
-                                                 &cradius_view[0],
-                                                 &sradius_view[0],
-                                                 &coords_view[0],
-                                                 &hp_view[0],
-                                                 &hph_view[0]
+                                                 &locweights[0],
+                                                 &cradius[0],
+                                                 &sradius[0],
+                                                 &coords_f[0],
+                                                 &hp_f[0],
+                                                 &hph_f[0]
                                                 )
 
-    return np.asarray(hp_view).reshape((dim_obs, dim_p), order='F'), np.asarray(hph_view).reshape((dim_obs, dim_obs), order='F')
+    return np.asarray(hp).reshape((dim_obs, dim_p), order='F'), np.asarray(hph).reshape((dim_obs, dim_obs), order='F')
 
 def omi_omit_by_inno_l_cb (int domain_p,
                            int dim_obs_l,
-                           cnp.ndarray[cnp.float64_t, ndim=1] resid_l,
-                           cnp.ndarray[cnp.float64_t, ndim=1] obs_l
+                           double[::1] resid_l,
+                           double[::1] obs_l
                           ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_omit_by_inno_l_cb or PDAF source files 
 
@@ -7484,19 +7415,17 @@ def omi_omit_by_inno_l_cb (int domain_p,
     obs_l : ndarray[float]
         < input vector of local observations; Dimension: dim_obs_l
     """
-    cdef double[::1] resid_l_view = np.array(resid_l).ravel(order='F')
-    cdef double[::1] obs_l_view = np.array(obs_l).ravel(order='F')
     c__pdafomi_omit_by_inno_l_cb (&domain_p,
                                   &dim_obs_l,
-                                  &resid_l_view[0],
-                                  &obs_l_view[0]
+                                  &resid_l[0],
+                                  &obs_l[0]
                                  )
 
-    return np.asarray(resid_l_view).reshape((dim_obs_l), order='F'), np.asarray(obs_l_view).reshape((dim_obs_l), order='F')
+    return np.asarray(resid_l).reshape((dim_obs_l), order='F'), np.asarray(obs_l).reshape((dim_obs_l), order='F')
 
 def omi_omit_by_inno_cb (int dim_obs_f,
-                         cnp.ndarray[cnp.float64_t, ndim=1] resid_f,
-                         cnp.ndarray[cnp.float64_t, ndim=1] obs_f
+                         double[::1] resid_f,
+                         double[::1] obs_f
                         ):
     """See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/PDAFomi_omit_by_inno_cb or PDAF source files 
 
@@ -7516,12 +7445,10 @@ def omi_omit_by_inno_cb (int dim_obs_f,
     obs_f : ndarray[float]
         < input vector of full observations; Dimension: dim_obs_f
     """
-    cdef double[::1] resid_f_view = np.array(resid_f).ravel(order='F')
-    cdef double[::1] obs_f_view = np.array(obs_f).ravel(order='F')
     c__pdafomi_omit_by_inno_cb (&dim_obs_f,
-                                &resid_f_view[0],
-                                &obs_f_view[0]
+                                &resid_f[0],
+                                &obs_f[0]
                                )
 
-    return np.asarray(resid_f_view).reshape((dim_obs_f), order='F'), np.asarray(obs_f_view).reshape((dim_obs_f), order='F')
+    return np.asarray(resid_f).reshape((dim_obs_f), order='F'), np.asarray(obs_f).reshape((dim_obs_f), order='F')
 
