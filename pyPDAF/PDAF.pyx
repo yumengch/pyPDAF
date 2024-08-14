@@ -2259,6 +2259,7 @@ def init (int filtertype,
     dim_preal = param_real.shape[0]
 
     c__PDAFcython.init_ens_pdaf = <void*>py__init_ens_pdaf
+    c__PDAFcython.init_ens_pdaf_single_member = <void*>py__init_ens_pdaf
 
     cdef int flag
 

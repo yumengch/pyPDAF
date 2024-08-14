@@ -269,7 +269,7 @@ def write_user_Cython(f:typing.TextIO, arg_info: dict[str, dict[str, str|bool|No
         if info['type'] == 'procedure':
             s = ' '*4 + f'c__PDAFcython.{info["kind"][3:]} = <void*>py{info["kind"][1:]}\n'
             f.write(s)
-            if argname == 'py__init_ens_pdaf':
+            if argname == 'u_init_ens':
                 s = ' '*4 + 'c__PDAFcython.init_ens_pdaf_single_member = <void*>py__init_ens_pdaf\n'
                 f.write(s)
         count += 1
