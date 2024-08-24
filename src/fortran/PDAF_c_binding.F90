@@ -19,8 +19,6 @@ contains
       procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
       procedure(c__obs_op_pdaf) :: U_obs_op
-      ! Initialize mean observation error variance
-      procedure(c__init_obsvar_pdaf) :: U_init_obsvar
       ! Initialize observation vector
       procedure(c__init_obs_pdaf) :: U_init_obs
       ! User supplied pre/poststep routine
@@ -74,10 +72,6 @@ contains
       procedure(c__cvt_ens_pdaf) :: U_cvt_ens
       ! Apply adjoint control vector transform matrix (ensemble var)
       procedure(c__cvt_adj_ens_pdaf) :: U_cvt_adj_ens
-      ! Apply control vector transform matrix to control vector
-      procedure(c__cvt_pdaf) :: U_cvt
-      ! Apply adjoint control vector transform matrix
-      procedure(c__cvt_adj_pdaf) :: U_cvt_adj
       ! Linearized observation operator
       procedure(c__obs_op_lin_pdaf) :: U_obs_op_lin
       ! Adjoint observation operator
@@ -120,10 +114,6 @@ contains
       procedure(c__cvt_ens_pdaf) :: U_cvt_ens
       ! Apply adjoint control vector transform matrix (ensemble var)
       procedure(c__cvt_adj_ens_pdaf) :: U_cvt_adj_ens
-      ! Apply control vector transform matrix to control vector
-      procedure(c__cvt_pdaf) :: U_cvt
-      ! Apply adjoint control vector transform matrix
-      procedure(c__cvt_adj_pdaf) :: U_cvt_adj
       ! Linearized observation operator
       procedure(c__obs_op_lin_pdaf) :: U_obs_op_lin
       ! Adjoint observation operator
@@ -781,7 +771,7 @@ contains
       ! weights of the samples
       REAL(c_double), INTENT(in) :: weights(dim_sample)
       ! effecfive sample size
-      REAL(c_double), INTENT(out) :: effsample
+      REAL(c_double), INTENT(out) :: effSample
 
       CALL PDAF_diag_effsample(dim_sample, weights, effSample)
    END SUBROUTINE c__PDAF_diag_effsample
@@ -1125,8 +1115,6 @@ contains
       procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
       procedure(c__obs_op_pdaf) :: U_obs_op
-      ! Initialize mean observation error variance
-      procedure(c__init_obsvar_pdaf) :: U_init_obsvar
       ! Initialize observation vector
       procedure(c__init_obs_pdaf) :: U_init_obs
       ! User supplied pre/poststep routine
@@ -1572,8 +1560,6 @@ contains
       procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize dim. of obs. vector for local ana. domain
       procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
-      ! Initialize PE-local observation vector
-      procedure(c__init_obs_pdaf) :: U_init_obs
       ! Init. observation vector on local analysis domain
       procedure(c__init_obs_l_pdaf) :: U_init_obs_l
       ! Get state on local ana. domain from full state

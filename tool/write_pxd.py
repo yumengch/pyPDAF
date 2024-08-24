@@ -23,12 +23,12 @@ def write_Pxd_file(filename:str,
         for routine_name in func_info:
             # Declare pointer to Python user-supplied callback functions
             if func_info == user_func_info:
-                s = f'cdef void*  {routine_name.lower()[3:]} = NULL;\n'
+                s = f'cdef void*  {routine_name[3:]} = NULL;\n'
                 f.write(s)
 
             if func_info == user_func_info:
                 # Decalre Cython user-supplied callback functions
-                s = f'cdef void {routine_name.lower()} ('
+                s = f'cdef void {routine_name} ('
             else:
                 # Decalre Fortran subroutine interfaces
                 s = f'cdef extern void {routine_name.lower()} ('
@@ -40,7 +40,7 @@ def write_Pxd_file(filename:str,
                 if arginfo["type"] == 'procedure':
                     # write the user-supplied function interface
                     user_arg_info = [user_func_info[user_func_name]
-                            for user_func_name in user_func_info if user_func_name.lower() == arginfo['kind']][0]
+                            for user_func_name in user_func_info if user_func_name == arginfo['kind']][0]
                     s = f'void (*{arginfo['kind']})('
                     indent2 = indent + ' '*len(s)
                     for _, u_info in user_arg_info.items():

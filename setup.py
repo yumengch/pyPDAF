@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-from setuptools import setup, Extension # type: ignore
+from setuptools import setup, Extension, find_packages # type: ignore
 from setuptools import Distribution # type: ignore
 from setuptools.command.build_ext import build_ext as build_ext_orig # type: ignore
 
@@ -158,7 +158,7 @@ class build_ext(build_ext_orig):
             if ext.name == 'pyPDAF.PDAFc':
                 cwd = os.getcwd()
                 # compile PDAF and PDAFc
-                PDAFc_build_dir = os.path.join(pwd, 'pyPDAF', 'fortran', 'build')
+                PDAFc_build_dir = os.path.join(pwd, 'src', 'fortran', 'build')
                 os.makedirs(PDAFc_build_dir, exist_ok=True)
                 os.chdir(PDAFc_build_dir)
                 shutil.copyfile(os.path.join(pwd, 'PDAFBuild', 'CMakeLists.txt'),
@@ -175,13 +175,13 @@ class build_ext(build_ext_orig):
 
 
 ext_modules = [Extension('pyPDAF.PDAFc',
-                          ['pyPDAF/fortran/PDAFc.pyx']),
+                          ['src/fortran/PDAFc.pyx']),
                Extension('pyPDAF.UserFunc',
-                         ['pyPDAF/UserFunc.pyx'],
+                         ['src/pyPDAF/UserFunc.pyx'],
                         extra_compile_args=extra_compile_args
                         ),
                Extension('pyPDAF.PDAF',
-                         ['pyPDAF/PDAF.pyx'],
+                         ['src/pyPDAF/PDAF.pyx'],
                          extra_compile_args=extra_compile_args,
                          extra_objects=extra_objects,
                          extra_link_args=extra_link_args,
@@ -197,6 +197,10 @@ setup(name='pyPDAF',
                           'binding':False, 'initializedcheck':False,
                           }
                           ),
+    package_dir={"": "src"},
+    packages=find_packages(where="src", exclude=["*.c"]),
+    exclude_package_data={
+        '': ['*.c'],},
     include_dirs= [numpy.get_include(),],
     cmdclass={
         'build_ext': build_ext,

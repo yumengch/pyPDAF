@@ -1,7 +1,7 @@
 cdef void*  add_obs_err_pdaf = NULL;
 cdef void c__add_obs_err_pdaf (int* step,
                                int* dim_obs_p,
-                               double* c_p
+                               double* C_p
                               ) noexcept;
 cdef void*  init_ens_pdaf = NULL;
 cdef void c__init_ens_pdaf (int* filtertype,
@@ -69,13 +69,13 @@ cdef void c__init_obsvar_pdaf (int* step,
                                double* obs_p,
                                double* meanvar
                               ) noexcept;
-cdef void*  prodrinva_pdaf = NULL;
-cdef void c__prodrinva_pdaf (int* step,
+cdef void*  prodRinvA_pdaf = NULL;
+cdef void c__prodRinvA_pdaf (int* step,
                              int* dim_obs_p,
                              int* rank,
                              double* obs_p,
-                             double* a_p,
-                             double* c_p
+                             double* A_p,
+                             double* C_p
                             ) noexcept;
 cdef void*  obs_op_pdaf = NULL;
 cdef void c__obs_op_pdaf (int* step,
@@ -161,14 +161,14 @@ cdef void c__obs_op_f_pdaf (int* step,
                             double* state_p,
                             double* m_state_f
                            ) noexcept;
-cdef void*  prodrinva_l_pdaf = NULL;
-cdef void c__prodrinva_l_pdaf (int* domain_p,
+cdef void*  prodRinvA_l_pdaf = NULL;
+cdef void c__prodRinvA_l_pdaf (int* domain_p,
                                int* step,
                                int* dim_obs_l,
                                int* rank,
                                double* obs_l,
-                               double* a_l,
-                               double* c_l
+                               double* A_l,
+                               double* C_l
                               ) noexcept;
 cdef void*  localize_covar_pdaf = NULL;
 cdef void c__localize_covar_pdaf (int* dim_p,
@@ -202,14 +202,14 @@ cdef void c__cvt_adj_ens_pdaf (int* iter,
                                int* dim_ens,
                                int* dim_cv_ens_p,
                                double* ens_p,
-                               double* vcv_p,
+                               double* Vcv_p,
                                double* cv_p
                               ) noexcept;
 cdef void*  cvt_adj_pdaf = NULL;
 cdef void c__cvt_adj_pdaf (int* iter,
                            int* dim_p,
                            int* dim_cvec,
-                           double* vcv_p,
+                           double* Vcv_p,
                            double* cv_p
                           ) noexcept;
 cdef void*  cvt_pdaf = NULL;
@@ -217,7 +217,7 @@ cdef void c__cvt_pdaf (int* iter,
                        int* dim_p,
                        int* dim_cvec,
                        double* cv_p,
-                       double* vv_p
+                       double* Vv_p
                       ) noexcept;
 cdef void*  cvt_ens_pdaf = NULL;
 cdef void c__cvt_ens_pdaf (int* iter,
@@ -226,7 +226,7 @@ cdef void c__cvt_ens_pdaf (int* iter,
                            int* dim_cvec_ens,
                            double* ens_p,
                            double* v_p,
-                           double* vv_p
+                           double* Vv_p
                           ) noexcept;
 cdef void*  obs_op_adj_pdaf = NULL;
 cdef void c__obs_op_adj_pdaf (int* step,
@@ -248,8 +248,8 @@ cdef void c__dist_stateinc_pdaf (int* dim_p,
                                  int* first,
                                  int* steps
                                 ) noexcept;
-cdef void*  prodrinva_hyb_l_pdaf = NULL;
-cdef void c__prodrinva_hyb_l_pdaf (int* domain_p,
+cdef void*  prodRinvA_hyb_l_pdaf = NULL;
+cdef void c__prodRinvA_hyb_l_pdaf (int* domain_p,
                                    int* step,
                                    int* dim_obs_l,
                                    double* obs_l,
@@ -264,6 +264,6 @@ cdef void c__likelihood_hyb_l_pdaf (int* domain_p,
                                     int* rank,
                                     double* obs_l,
                                     double* gamma,
-                                    double* a_l,
-                                    double* c_l
+                                    double* A_l,
+                                    double* C_l
                                    ) noexcept;

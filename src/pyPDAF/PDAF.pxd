@@ -17,7 +17,7 @@ cdef extern void c__pdaf_assimilate_3dvar (void (*c__collect_state_pdaf)(int*,
                                                                     int*,
                                                                     double*
                                                                    ),
-                                           void (*c__prodrinva_pdaf)(int*,
+                                           void (*c__prodRinvA_pdaf)(int*,
                                                                      int*,
                                                                      int*,
                                                                      double*,
@@ -84,7 +84,7 @@ cdef extern void c__pdaf_assimilate_en3dvar_estkf (void (*c__collect_state_pdaf)
                                                                             int*,
                                                                             double*
                                                                            ),
-                                                   void (*c__prodrinva_pdaf)(int*,
+                                                   void (*c__prodRinvA_pdaf)(int*,
                                                                              int*,
                                                                              int*,
                                                                              double*,
@@ -160,7 +160,7 @@ cdef extern void c__pdaf_assimilate_en3dvar_lestkf (void (*c__collect_state_pdaf
                                                                              int*,
                                                                              double*
                                                                             ),
-                                                    void (*c__prodrinva_pdaf)(int*,
+                                                    void (*c__prodRinvA_pdaf)(int*,
                                                                               int*,
                                                                               int*,
                                                                               double*,
@@ -213,7 +213,7 @@ cdef extern void c__pdaf_assimilate_en3dvar_lestkf (void (*c__collect_state_pdaf
                                                                                int*,
                                                                                double*
                                                                               ),
-                                                    void (*c__prodrinva_l_pdaf)(int*,
+                                                    void (*c__prodRinvA_l_pdaf)(int*,
                                                                                 int*,
                                                                                 int*,
                                                                                 int*,
@@ -361,7 +361,7 @@ cdef extern void c__pdaf_assimilate_estkf (void (*c__collect_state_pdaf)(int*,
                                                                        double*,
                                                                        int*
                                                                       ),
-                                           void (*c__prodrinva_pdaf)(int*,
+                                           void (*c__prodRinvA_pdaf)(int*,
                                                                      int*,
                                                                      int*,
                                                                      double*,
@@ -409,7 +409,7 @@ cdef extern void c__pdaf_assimilate_etkf (void (*c__collect_state_pdaf)(int*,
                                                                       double*,
                                                                       int*
                                                                      ),
-                                          void (*c__prodrinva_pdaf)(int*,
+                                          void (*c__prodRinvA_pdaf)(int*,
                                                                     int*,
                                                                     int*,
                                                                     double*,
@@ -447,7 +447,7 @@ cdef extern void c__pdaf_assimilate_hyb3dvar_estkf (void (*c__collect_state_pdaf
                                                                              int*,
                                                                              double*
                                                                             ),
-                                                    void (*c__prodrinva_pdaf)(int*,
+                                                    void (*c__prodRinvA_pdaf)(int*,
                                                                               int*,
                                                                               int*,
                                                                               double*,
@@ -535,7 +535,7 @@ cdef extern void c__pdaf_assimilate_hyb3dvar_lestkf (void (*c__collect_state_pda
                                                                               int*,
                                                                               double*
                                                                              ),
-                                                     void (*c__prodrinva_pdaf)(int*,
+                                                     void (*c__prodRinvA_pdaf)(int*,
                                                                                int*,
                                                                                int*,
                                                                                double*,
@@ -600,7 +600,7 @@ cdef extern void c__pdaf_assimilate_hyb3dvar_lestkf (void (*c__collect_state_pda
                                                                                 int*,
                                                                                 double*
                                                                                ),
-                                                     void (*c__prodrinva_l_pdaf)(int*,
+                                                     void (*c__prodRinvA_l_pdaf)(int*,
                                                                                  int*,
                                                                                  int*,
                                                                                  int*,
@@ -758,7 +758,7 @@ cdef extern void c__pdaf_assimilate_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                         double*,
                                                                         int*
                                                                        ),
-                                            void (*c__prodrinva_l_pdaf)(int*,
+                                            void (*c__prodRinvA_l_pdaf)(int*,
                                                                         int*,
                                                                         int*,
                                                                         int*,
@@ -854,7 +854,7 @@ cdef extern void c__pdaf_assimilate_letkf (void (*c__collect_state_pdaf)(int*,
                                                                        double*,
                                                                        int*
                                                                       ),
-                                           void (*c__prodrinva_l_pdaf)(int*,
+                                           void (*c__prodRinvA_l_pdaf)(int*,
                                                                        int*,
                                                                        int*,
                                                                        int*,
@@ -1029,7 +1029,7 @@ cdef extern void c__pdaf_assimilate_lknetf (void (*c__collect_state_pdaf)(int*,
                                                                         double*,
                                                                         int*
                                                                        ),
-                                            void (*c__prodrinva_l_pdaf)(int*,
+                                            void (*c__prodRinvA_l_pdaf)(int*,
                                                                         int*,
                                                                         int*,
                                                                         int*,
@@ -1037,7 +1037,7 @@ cdef extern void c__pdaf_assimilate_lknetf (void (*c__collect_state_pdaf)(int*,
                                                                         double*,
                                                                         double*
                                                                        ),
-                                            void (*c__prodrinva_hyb_l_pdaf)(int*,
+                                            void (*c__prodRinvA_hyb_l_pdaf)(int*,
                                                                             int*,
                                                                             int*,
                                                                             double*,
@@ -1149,7 +1149,7 @@ cdef extern void c__pdaf_assimilate_lseik (void (*c__collect_state_pdaf)(int*,
                                                                        double*,
                                                                        int*
                                                                       ),
-                                           void (*c__prodrinva_l_pdaf)(int*,
+                                           void (*c__prodRinvA_l_pdaf)(int*,
                                                                        int*,
                                                                        int*,
                                                                        int*,
@@ -1324,7 +1324,7 @@ cdef extern void c__pdaf_assimilate_seek (void (*c__collect_state_pdaf)(int*,
                                                                       double*,
                                                                       int*
                                                                      ),
-                                          void (*c__prodrinva_pdaf)(int*,
+                                          void (*c__prodRinvA_pdaf)(int*,
                                                                     int*,
                                                                     int*,
                                                                     double*,
@@ -1367,7 +1367,7 @@ cdef extern void c__pdaf_assimilate_seik (void (*c__collect_state_pdaf)(int*,
                                                                       double*,
                                                                       int*
                                                                      ),
-                                          void (*c__prodrinva_pdaf)(int*,
+                                          void (*c__prodRinvA_pdaf)(int*,
                                                                     int*,
                                                                     int*,
                                                                     double*,
@@ -1407,7 +1407,7 @@ cdef extern void c__pdaf_assimilate_prepost (void (*c__collect_state_pdaf)(int*,
 cdef extern void c__pdaf_deallocate () noexcept;
 cdef extern void c__pdaf_diag_effsample (int* dim_sample,
                                          double* weights,
-                                         double* effsample
+                                         double* effSample
                                         ) noexcept;
 cdef extern void c__pdaf_diag_ensstats (int* dim,
                                         int* dim_ens,
@@ -1548,9 +1548,9 @@ cdef extern void c__pdaf_init (int* filtertype,
                                int* dim_pint,
                                double* param_real,
                                int* dim_preal,
-                               int* comm_model,
-                               int* comm_filter,
-                               int* comm_couple,
+                               int* COMM_model,
+                               int* COMM_filter,
+                               int* COMM_couple,
                                int* task_id,
                                int* n_modeltasks,
                                bint* in_filterpe,
@@ -1572,7 +1572,7 @@ cdef extern void c__pdaf_local_weight (int* wtype,
                                        double* distance,
                                        int* nrows,
                                        int* ncols,
-                                       double* a,
+                                       double* A,
                                        double* var_obs,
                                        double* weight,
                                        int* verbose
@@ -1595,7 +1595,7 @@ cdef extern void c__pdaf_put_state_3dvar (void (*c__collect_state_pdaf)(int*,
                                                                    int*,
                                                                    double*
                                                                   ),
-                                          void (*c__prodrinva_pdaf)(int*,
+                                          void (*c__prodRinvA_pdaf)(int*,
                                                                     int*,
                                                                     int*,
                                                                     double*,
@@ -1654,7 +1654,7 @@ cdef extern void c__pdaf_put_state_en3dvar_estkf (void (*c__collect_state_pdaf)(
                                                                            int*,
                                                                            double*
                                                                           ),
-                                                  void (*c__prodrinva_pdaf)(int*,
+                                                  void (*c__prodRinvA_pdaf)(int*,
                                                                             int*,
                                                                             int*,
                                                                             double*,
@@ -1722,7 +1722,7 @@ cdef extern void c__pdaf_put_state_en3dvar_lestkf (void (*c__collect_state_pdaf)
                                                                             int*,
                                                                             double*
                                                                            ),
-                                                   void (*c__prodrinva_pdaf)(int*,
+                                                   void (*c__prodRinvA_pdaf)(int*,
                                                                              int*,
                                                                              int*,
                                                                              double*,
@@ -1775,7 +1775,7 @@ cdef extern void c__pdaf_put_state_en3dvar_lestkf (void (*c__collect_state_pdaf)
                                                                               int*,
                                                                               double*
                                                                              ),
-                                                   void (*c__prodrinva_l_pdaf)(int*,
+                                                   void (*c__prodRinvA_l_pdaf)(int*,
                                                                                int*,
                                                                                int*,
                                                                                int*,
@@ -1907,7 +1907,7 @@ cdef extern void c__pdaf_put_state_estkf (void (*c__collect_state_pdaf)(int*,
                                                                       double*,
                                                                       int*
                                                                      ),
-                                          void (*c__prodrinva_pdaf)(int*,
+                                          void (*c__prodRinvA_pdaf)(int*,
                                                                     int*,
                                                                     int*,
                                                                     double*,
@@ -1947,7 +1947,7 @@ cdef extern void c__pdaf_put_state_etkf (void (*c__collect_state_pdaf)(int*,
                                                                      double*,
                                                                      int*
                                                                     ),
-                                         void (*c__prodrinva_pdaf)(int*,
+                                         void (*c__prodRinvA_pdaf)(int*,
                                                                    int*,
                                                                    int*,
                                                                    double*,
@@ -2010,7 +2010,7 @@ cdef extern void c__pdaf_put_state_hyb3dvar_estkf (void (*c__collect_state_pdaf)
                                                                             int*,
                                                                             double*
                                                                            ),
-                                                   void (*c__prodrinva_pdaf)(int*,
+                                                   void (*c__prodRinvA_pdaf)(int*,
                                                                              int*,
                                                                              int*,
                                                                              double*,
@@ -2090,7 +2090,7 @@ cdef extern void c__pdaf_put_state_hyb3dvar_lestkf (void (*c__collect_state_pdaf
                                                                              int*,
                                                                              double*
                                                                             ),
-                                                    void (*c__prodrinva_pdaf)(int*,
+                                                    void (*c__prodRinvA_pdaf)(int*,
                                                                               int*,
                                                                               int*,
                                                                               double*,
@@ -2155,7 +2155,7 @@ cdef extern void c__pdaf_put_state_hyb3dvar_lestkf (void (*c__collect_state_pdaf
                                                                                int*,
                                                                                double*
                                                                               ),
-                                                    void (*c__prodrinva_l_pdaf)(int*,
+                                                    void (*c__prodRinvA_l_pdaf)(int*,
                                                                                 int*,
                                                                                 int*,
                                                                                 int*,
@@ -2297,7 +2297,7 @@ cdef extern void c__pdaf_put_state_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                        double*,
                                                                        int*
                                                                       ),
-                                           void (*c__prodrinva_l_pdaf)(int*,
+                                           void (*c__prodRinvA_l_pdaf)(int*,
                                                                        int*,
                                                                        int*,
                                                                        int*,
@@ -2385,7 +2385,7 @@ cdef extern void c__pdaf_put_state_letkf (void (*c__collect_state_pdaf)(int*,
                                                                       double*,
                                                                       int*
                                                                      ),
-                                          void (*c__prodrinva_l_pdaf)(int*,
+                                          void (*c__prodRinvA_l_pdaf)(int*,
                                                                       int*,
                                                                       int*,
                                                                       int*,
@@ -2544,7 +2544,7 @@ cdef extern void c__pdaf_put_state_lknetf (void (*c__collect_state_pdaf)(int*,
                                                                        double*,
                                                                        int*
                                                                       ),
-                                           void (*c__prodrinva_l_pdaf)(int*,
+                                           void (*c__prodRinvA_l_pdaf)(int*,
                                                                        int*,
                                                                        int*,
                                                                        int*,
@@ -2552,7 +2552,7 @@ cdef extern void c__pdaf_put_state_lknetf (void (*c__collect_state_pdaf)(int*,
                                                                        double*,
                                                                        double*
                                                                       ),
-                                           void (*c__prodrinva_hyb_l_pdaf)(int*,
+                                           void (*c__prodRinvA_hyb_l_pdaf)(int*,
                                                                            int*,
                                                                            int*,
                                                                            double*,
@@ -2656,7 +2656,7 @@ cdef extern void c__pdaf_put_state_lseik (void (*c__collect_state_pdaf)(int*,
                                                                       double*,
                                                                       int*
                                                                      ),
-                                          void (*c__prodrinva_l_pdaf)(int*,
+                                          void (*c__prodRinvA_l_pdaf)(int*,
                                                                       int*,
                                                                       int*,
                                                                       int*,
@@ -2822,7 +2822,7 @@ cdef extern void c__pdaf_put_state_seek (void (*c__collect_state_pdaf)(int*,
                                                                      double*,
                                                                      int*
                                                                     ),
-                                         void (*c__prodrinva_pdaf)(int*,
+                                         void (*c__prodRinvA_pdaf)(int*,
                                                                    int*,
                                                                    int*,
                                                                    double*,
@@ -2857,7 +2857,7 @@ cdef extern void c__pdaf_put_state_seik (void (*c__collect_state_pdaf)(int*,
                                                                      double*,
                                                                      int*
                                                                     ),
-                                         void (*c__prodrinva_pdaf)(int*,
+                                         void (*c__prodRinvA_pdaf)(int*,
                                                                    int*,
                                                                    int*,
                                                                    double*,
@@ -2895,17 +2895,17 @@ cdef extern void c__pdaf_set_smootherens (double** c_sens_point,
                                          ) noexcept;
 cdef extern void c__pdaf_seik_ttimesa (int* rank,
                                        int* dim_col,
-                                       double* a,
-                                       double* b
+                                       double* A,
+                                       double* B
                                       ) noexcept;
 cdef extern void c__pdaf_etkf_tleft (int* dim_ens,
                                      int* dim,
-                                     double* a
+                                     double* A
                                     ) noexcept;
 cdef extern void c__pdaf_estkf_omegaa (int* rank,
                                        int* dim_col,
-                                       double* a,
-                                       double* b
+                                       double* A,
+                                       double* B
                                       ) noexcept;
 cdef extern void c__pdaf_enkf_omega (int* seed,
                                      int* r,
@@ -2943,7 +2943,7 @@ cdef extern void c__pdaf_diag_crps (int* dim,
                                     int* element,
                                     double* oens,
                                     double* obs,
-                                    double* crps,
+                                    double* CRPS,
                                     double* reli,
                                     double* resol,
                                     double* uncert,
@@ -2988,7 +2988,7 @@ cdef extern void c__pdaf_prepost (void (*c__collect_state_pdaf)(int*,
                                  ) noexcept;
 cdef extern void c__pdaf_set_memberid (int* memberid
                                       ) noexcept;
-cdef extern void c__pdaf_set_comm_pdaf (int* in_comm_pdaf
+cdef extern void c__pdaf_set_comm_pdaf (int* in_COMM_pdaf
                                        ) noexcept;
 cdef extern void c__pdaf_set_offline_mode (int* screen
                                           ) noexcept;
@@ -4159,8 +4159,8 @@ cdef extern void c__pdafomi_prodrinva_l_cb (int* domain_p,
                                             int* dim_obs_l,
                                             int* rank,
                                             double* obs_l,
-                                            double* a_l,
-                                            double* c_l
+                                            double* A_l,
+                                            double* C_l
                                            ) noexcept;
 cdef extern void c__pdafomi_likelihood_l_cb (int* domain_p,
                                              int* step,
@@ -4173,8 +4173,8 @@ cdef extern void c__pdafomi_prodrinva_cb (int* step,
                                           int* dim_obs_p,
                                           int* ncol,
                                           double* obs_p,
-                                          double* a_p,
-                                          double* c_p
+                                          double* A_p,
+                                          double* C_p
                                          ) noexcept;
 cdef extern void c__pdafomi_likelihood_cb (int* step,
                                            int* dim_obs,
@@ -4184,7 +4184,7 @@ cdef extern void c__pdafomi_likelihood_cb (int* step,
                                           ) noexcept;
 cdef extern void c__pdafomi_add_obs_error_cb (int* step,
                                               int* dim_obs_p,
-                                              double* c_p
+                                              double* C_p
                                              ) noexcept;
 cdef extern void c__pdafomi_init_obscovar_cb (int* step,
                                               int* dim_obs,
@@ -4204,8 +4204,8 @@ cdef extern void c__pdafomi_prodrinva_hyb_l_cb (int* domain_p,
                                                 int* rank,
                                                 double* obs_l,
                                                 double* alpha,
-                                                double* a_l,
-                                                double* c_l
+                                                double* A_l,
+                                                double* C_l
                                                ) noexcept;
 cdef extern void c__pdafomi_likelihood_hyb_l_cb (int* domain_p,
                                                  int* step,
@@ -4223,7 +4223,7 @@ cdef extern void c__pdafomi_weights_l (int* verbose,
                                        int* locweight,
                                        double* cradius,
                                        double* sradius,
-                                       double* mata,
+                                       double* matA,
                                        double* ivar_obs_l,
                                        double* dist_l,
                                        double* weight_l
@@ -4234,7 +4234,7 @@ cdef extern void c__pdafomi_weights_l_sgnl (int* verbose,
                                             int* locweight,
                                             double* cradius,
                                             double* sradius,
-                                            double* mata,
+                                            double* matA,
                                             double* ivar_obs_l,
                                             double* dist_l,
                                             double* weight_l
@@ -4276,8 +4276,8 @@ cdef extern void c__pdafomi_localize_covar_iso (int* i_obs,
                                                 double* cradius,
                                                 double* sradius,
                                                 double* coords,
-                                                double* hp,
-                                                double* hph
+                                                double* HP,
+                                                double* HPH
                                                ) noexcept;
 cdef extern void c__pdafomi_localize_covar_noniso (int* i_obs,
                                                    int* dim_p,
@@ -4287,8 +4287,8 @@ cdef extern void c__pdafomi_localize_covar_noniso (int* i_obs,
                                                    double* cradius,
                                                    double* sradius,
                                                    double* coords,
-                                                   double* hp,
-                                                   double* hph
+                                                   double* HP,
+                                                   double* HPH
                                                   ) noexcept;
 cdef extern void c__pdafomi_localize_covar_noniso_locweights (int* i_obs,
                                                               int* dim_p,
@@ -4298,8 +4298,8 @@ cdef extern void c__pdafomi_localize_covar_noniso_locweights (int* i_obs,
                                                               double* cradius,
                                                               double* sradius,
                                                               double* coords,
-                                                              double* hp,
-                                                              double* hph
+                                                              double* HP,
+                                                              double* HPH
                                                              ) noexcept;
 cdef extern void c__pdafomi_omit_by_inno_l_cb (int* domain_p,
                                                int* dim_obs_l,

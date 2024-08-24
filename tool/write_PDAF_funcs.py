@@ -10,6 +10,8 @@ import re
 conv = {'integer' : 'int', 'logical': 'bint', 'real': 'double', 'procedure':'void', 'character':'CFI_cdesc_t', 'type':'double*'}
 pyconv = {'integer' : 'int', 'logical': 'bool', 'real': 'float', 'procedure':'void', 'character':'CFI_cdesc_t', 'type':'double*'}
 npyconv = {'integer' : 'np.intc', 'real': 'np.float64'}
+mypy_conv = {'integer' : 'int', 'logical': 'bool', 'real': 'float', 'character':'str',}
+
 
 def extract_dimension_name(s:str) -> str | None:
     """extract dimension names from dimension
@@ -81,9 +83,9 @@ def write_func_def(f:typing.TextIO, subroutine_name:str,
         The list of arguments to be written in the Cython file
     """
     # define function
-    if subroutine_name[3:11] == 'pdafomi_':
+    if subroutine_name[3:11].lower() == 'pdafomi_':
         funcname = subroutine_name[7:]
-    elif subroutine_name[3:8] == 'pdaf_':
+    elif subroutine_name[3:8].lower() == 'pdaf_':
         funcname = subroutine_name[8:]
     else:
         funcname = subroutine_name[3:]
@@ -99,7 +101,7 @@ def write_func_def(f:typing.TextIO, subroutine_name:str,
         # we do not write purely return arguments
         # callback functions are exceptions
         if type(info['intent']) is str:
-            if ('in' not in info['intent']) and ('_cb' not in funcname):
+            if ('in' not in info['intent'].lower()) and ('_cb' not in funcname):
                 continue
 
         # write procedure
@@ -131,7 +133,7 @@ def write_func_def(f:typing.TextIO, subroutine_name:str,
     f.write(s)
 
 
-def write_docstring(f:typing.TextIO, subroutine_name:str,
+def write_docstring(f:typing.TextIO, subroutine_name:str, user_func_info:dict[str, dict[str, dict[str, str|bool|None|list[str]]]],
                     arg_info: dict[str, dict[str, str|bool|None|list[str]]], arg_list:list[str]) -> None:
     """write docstring based on Fortran arguments comments
     """
@@ -144,6 +146,8 @@ def write_docstring(f:typing.TextIO, subroutine_name:str,
     s = indent + 'Parameters\n'
     s += indent + '----------\n'
     count = 0
+    s_dims:str
+    s_dtype: str
     for arg in arg_list:
         info = arg_info[arg]
         assert type(info['kind']) is str, f"kind in info {info['kind']} is not a str"
@@ -154,12 +158,57 @@ def write_docstring(f:typing.TextIO, subroutine_name:str,
                 and ('_cb' not in subroutine_name):
                 continue
         if info['type'] == 'procedure':
-            s += indent + f'py{info["kind"][1:]} : func\n'
+            user_arg_info = user_func_info[f'c{info["kind"][1:]}']
+            s += indent + f'py{info["kind"][1:]} : '
+            s += 'Callable['
+            for i, (u_arg, u_arg_info) in enumerate(user_arg_info.items()):
+                if u_arg_info['array']:
+                    s_dims = ', '.join(u_arg_info['dimension'])
+                    s_dtype = npyconv[u_arg_info['type'].lower()]
+                    s += f'{u_arg} : ndarray[tuple[{s_dims}], {s_dtype}], '
+                else:
+                    s += u_arg + ':' + mypy_conv[u_arg_info['type']] + ', '
+            s = s[:-2]
+            s += ']\n'
+            if len(info['comment']) > 0:
+                s += 2*indent + info['comment'] +'\n'
+            s += '\n'
+            s += 2*indent + 'Parameters\n'
+            s += 2*indent + '----------\n'
+            for i, (u_arg, u_arg_info) in enumerate(user_arg_info.items()):
+                if u_arg_info['array']:
+                    s_dims = ', '.join(u_arg_info['dimension'])
+                    s_dtype = npyconv[u_arg_info['type'].lower()]
+                    s += 2*indent + f'{u_arg} : ndarray[tuple[{s_dims}], {s_dtype}]\n'
+                else:
+                    s += 2*indent + u_arg + ':' + mypy_conv[u_arg_info['type']] + '\n'
+                if len(u_arg_info['comment']) > 0:
+                    s += 3*indent + u_arg_info['comment'] +'\n'
+            s += '\n'
+            s += 2*indent + 'Returns\n'
+            s += 2*indent + '-------\n'
+            for i, (u_arg, u_arg_info) in enumerate(user_arg_info.items()):
+                if 'out' not in u_arg_info['intent'].lower(): continue
+                if u_arg_info['array']:
+                    s_dims = ', '.join(u_arg_info['dimension'])
+                    s_dtype = npyconv[u_arg_info['type'].lower()]
+                    s += 2*indent + f'{u_arg} : ndarray[tuple[{s_dims}], {s_dtype}]\n'
+                else:
+                    s += 2*indent + u_arg + ':' + mypy_conv[u_arg_info['type']] + '\n'
+                if len(u_arg_info['comment']) > 0:
+                    s += 3*indent + u_arg_info['comment'] +'\n'
+            s += '\n'
         elif info['array']:
-            s += indent+arg +f' : ndarray[{pyconv[info["type"]]}]\n'
+            s += indent+arg +f' : '
+            s_dims = ', '.join(info['dimension'])
+            s_dtype = npyconv[info['type'].lower()]
+            s += f'ndarray[tuple[{s_dims}], {s_dtype}]\n'
+            if len(info['comment']) > 0:
+                s += 2*indent + info['comment'] +'\n'
         else:
             s += indent + f'{arg} : {pyconv[info["type"]]}\n'
-        s += 2*indent + info['comment'] +'\n'
+            if len(info['comment']) > 0:
+                s += 2*indent + info['comment'] +'\n'
         count += 1
     if count > 0:
         f.write(s)
@@ -178,12 +227,16 @@ def write_docstring(f:typing.TextIO, subroutine_name:str,
                 continue
 
         if info['array']:
-            s += indent+arg +f' : ndarray[{pyconv[info["type"]]}]\n'
+            s += indent+arg +f' : '
+            s_dims = ', '.join(info['dimension'])
+            s_dtype = npyconv[info['type'].lower()]
+            s += f'ndarray[tuple[{s_dims}], {s_dtype}]\n '
         elif info['type'] == 'type':
             s += indent+arg + f' : ndarray[float]\n'
         else:
             s += indent + f'{arg} : {pyconv[info["type"]]}\n'
-        s += 2*indent + info['comment'] +'\n'
+        if len(info['comment']) > 0:
+            s += 2*indent + info['comment'] +'\n'
         count += 1
     if count > 0:
         f.write(s)
@@ -269,7 +322,7 @@ def write_user_Cython(f:typing.TextIO, arg_info: dict[str, dict[str, str|bool|No
         if info['type'] == 'procedure':
             s = ' '*4 + f'c__PDAFcython.{info["kind"][3:]} = <void*>py{info["kind"][1:]}\n'
             f.write(s)
-            if argname == 'u_init_ens':
+            if argname.lower() == 'u_init_ens':
                 s = ' '*4 + 'c__PDAFcython.init_ens_pdaf_single_member = <void*>py__init_ens_pdaf\n'
                 f.write(s)
         count += 1
@@ -297,20 +350,20 @@ def write_return_def(f, arg_info):
 def write_func_call(f, subroutine_name, arg_info):
     # special treatment for init subroutine
     # because init_ens_pdaf uses a different interface
-    if subroutine_name == 'c__pdaf_init':
+    if subroutine_name.lower() == 'c__pdaf_init':
         s = ' '*4 + f'if (filtertype == 0) or (filtertype == 200 and subtype == 0):\n'
         s += ' '*8 + 'c__pdaf_init (&filtertype, &subtype, &stepnull,\n'
         s += ' '*8 + '              &param_int[0], &dim_pint,\n'
         s += ' '*8 + '              &param_real[0], &dim_preal,\n'
-        s += ' '*8 + '              &comm_model, &comm_filter, &comm_couple,\n'
+        s += ' '*8 + '              &COMM_model, &COMM_filter, &COMM_couple,\n'
         s += ' '*8 + '              &task_id, &n_modeltasks, &in_filterpe,\n'
         s += ' '*8 + '              c__PDAFcython.c__init_ens_pdaf_single_member,\n'
         s += ' '*8 + '              &in_screen, &flag)\n'
         s += ' '*4 + 'else:\n'
         f.write(s)
-    indent = ' '*4 if subroutine_name != 'c__pdaf_init' else ' '*8
+    indent = ' '*4 if subroutine_name.lower() != 'c__pdaf_init' else ' '*8
     # call the actual subroutine
-    s = indent + f'{subroutine_name} ('
+    s = indent + f'{subroutine_name.lower()} ('
     indent = ' '*len(s)
     for argname, info in arg_info.items():
         if info['array']:
@@ -362,9 +415,9 @@ def write_returns(f, arg_info):
 
 def writeCallBackDef(f, name, routine):
     # define function
-    if name[3:11] == 'pdafomi_':
+    if name[3:11].lower() == 'pdafomi_':
         funcname = name[11:]
-    elif name[3:8] == 'pdaf_':
+    elif name[3:8].lower() == 'pdaf_':
         funcname = name[8:]
     else:
         funcname = name[3:]
@@ -375,17 +428,13 @@ def writeCallBackDef(f, name, routine):
     f.write(s+'\n\n')
 
 
-def write_PDAF_calls(filename:str, func_info: dict[str, dict[str, dict[str, str|bool|None|list[str]]]]) -> None:
+def write_PDAF_calls(filename:str, user_func_info, func_info: dict[str, dict[str, dict[str, str|bool|None|list[str]]]]) -> None:
     """write the PDAF interface calls"""
     with open(filename, 'w') as f:
         # MPI exception handling
         s:str  = 'import sys\n'
-        s += '\n'
-        s += 'import pyPDAF.UserFunc as PDAFcython\n'
-        s += 'cimport pyPDAF.UserFunc as c__PDAFcython\n'
-        s += '\n'
         s += 'import numpy as np\n'
-        s += 'cimport numpy as cnp\n'
+        s += 'cimport pyPDAF.UserFunc as c__PDAFcython\n'
         s += '\n'
         s += 'try:\n'
         s += '    import mpi4py\n'
@@ -424,25 +473,25 @@ def write_PDAF_calls(filename:str, func_info: dict[str, dict[str, dict[str, str|
         f.write(s)
 
         for subroutine_name in func_info:
-            arg_list, ArrayDims = get_pyx_arg_list(subroutine_name.lower(), func_info[subroutine_name])
-            write_func_def(f, subroutine_name.lower(), func_info[subroutine_name], arg_list)
-            write_docstring(f, subroutine_name, func_info[subroutine_name], arg_list)
-            write_memory_view(f, subroutine_name.lower(), func_info[subroutine_name])
+            arg_list, ArrayDims = get_pyx_arg_list(subroutine_name, func_info[subroutine_name])
+            write_func_def(f, subroutine_name, func_info[subroutine_name], arg_list)
+            write_docstring(f, subroutine_name, user_func_info, func_info[subroutine_name], arg_list)
+            write_memory_view(f, subroutine_name, func_info[subroutine_name])
             if '_cb' not in subroutine_name:
                 write_dims(f, func_info[subroutine_name], ArrayDims)
                 write_user_Cython(f, func_info[subroutine_name])
                 write_return_def(f, func_info[subroutine_name])
-            write_func_call(f, subroutine_name.lower(), func_info[subroutine_name])
+            write_func_call(f, subroutine_name, func_info[subroutine_name])
             write_returns(f, func_info[subroutine_name])
 
 
 if __name__ == '__main__':
     import get_interface_info
     import write_pxd
-    user_func_info = get_interface_info.get_func_info(['../pyPDAF/fortran/U_PDAF_interface_c_binding.F90'])
-    PDAF_func_info = get_interface_info.get_func_info(['../pyPDAF/fortran/PDAF_c_binding.F90', '../pyPDAF/fortran/PDAFomi_obs_c_binding.F90'])
+    user_func_info = get_interface_info.get_func_info(['../src/pyPDAF/fortran/U_PDAF_interface_c_binding.F90'])
+    PDAF_func_info = get_interface_info.get_func_info(['../src/pyPDAF/fortran/PDAF_c_binding.F90', '../src/pyPDAF/fortran/PDAFomi_obs_c_binding.F90'])
     write_pxd.write_Pxd_file('PDAF.pxd', PDAF_func_info, user_func_info)
-    write_PDAF_calls('PDAF.pyx', PDAF_func_info)
+    write_PDAF_calls('PDAF.pyx', user_func_info, PDAF_func_info)
 
 
 

@@ -312,16 +312,16 @@ def writeUserCalls(filename:str, func_info:dict[str, dict[str, dict[str, str|boo
         #     f.write(s+'\n\n\n')
 
         for subroutine_name in func_info:
-            write_C_user_def(f, subroutine_name.lower(), func_info[subroutine_name])
+            write_C_user_def(f, subroutine_name, func_info[subroutine_name])
             arg_dims = write_array_conversion(f, func_info[subroutine_name])
-            write_C_U_calls(f, subroutine_name.lower(), func_info[subroutine_name])
+            write_C_U_calls(f, subroutine_name, func_info[subroutine_name])
             f.write('\n')
-            check_output_array_memory(f, subroutine_name.lower(), arg_dims, func_info[subroutine_name])
+            check_output_array_memory(f, subroutine_name, arg_dims, func_info[subroutine_name])
             f.write('\n\n')
 
 if __name__ == '__main__':
     import get_interface_info
     import write_pxd
-    user_func_info = get_interface_info.get_func_info(['../pyPDAF/fortran/U_PDAF_interface_c_binding.F90'])
+    user_func_info = get_interface_info.get_func_info(['../src/pyPDAF/fortran/U_PDAF_interface_c_binding.F90'])
     write_pxd.write_Pxd_file('UserFunc.pxd', user_func_info, user_func_info)
     writeUserCalls('UserFunc.pyx', user_func_info)

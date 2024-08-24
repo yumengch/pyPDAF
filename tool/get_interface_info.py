@@ -103,9 +103,9 @@ def merge_line(f: typing.TextIO, line:str) -> str:
 
     # merge all concatenated lines into one string
     # Here we assume no ampersand in the start of the line
-    while '&' in line.split('!')[0].lower():
+    while '&' in line.split('!')[0]:
         line = line.replace('&', '')
-        line = line + f.readline().lower().strip().replace('\n', '')
+        line = line + f.readline().strip().replace('\n', '')
     return line
 
 def get_subroutine_name(line:str) -> str:
@@ -136,7 +136,7 @@ def get_args_attr(args_list:str) -> list[str]:
     # so we need to merge the arrays
     return merge_brackets(args_list.split(','))
 
-def get_arg_info(arg_info:dict[str, dict[str, str|bool|None|list[str]]], line:str, comment:str) -> dict[str, dict[str, str|bool|None|list[str]]]:
+def get_arg_info(subroutine_name: str, arg_info:dict[str, dict[str, str|bool|None|list[str]]], line:str, comment:str) -> dict[str, dict[str, str|bool|None|list[str]]]:
     """get the information of the subroutine arguments from the line
 
     Parameters
@@ -158,24 +158,24 @@ def get_arg_info(arg_info:dict[str, dict[str, str|bool|None|list[str]]], line:st
     # get the names of the variables
     args = get_args_attr(declaration[1])
     # get the attributes of the variables
-    attrs = get_args_attr(declaration[0].lower())
+    attrs = get_args_attr(declaration[0])
 
     for arg in args:
         # get the variable name, the split is to get the array name
         argname = arg.split('(')[0]
-        # skip variables that are not in the argument list
         if argname not in arg_info:
-            warnings.warn(f'{argname} is not in f{list(arg_info.keys())}')
+            # skip variables that are not in the argument list
+            warnings.warn(f'{argname} is not in {list(arg_info.keys())} of {subroutine_name}. If this is a case-sensitivity issue, change the source code in .F90 files!')
             continue
 
         # get the attributes of the variable
-        arg_info[argname]['type'] =  attrs[0].split('(')[0]
+        arg_info[argname]['type'] =  attrs[0].split('(')[0].lower()
         arg_info[argname]['kind'] = attrs[0].split('(')[1].split(')')[0]
         # get the input/output of the variable
-        intent_string = [s for s in attrs if 'intent' in s]
-        arg_info[argname]['intent'] = intent_string[0].replace(' ', '')[7:-1] if len(intent_string) != 0 else None
+        intent_string = [s for s in attrs if 'intent' in s.lower()]
+        arg_info[argname]['intent'] = intent_string[0].replace(' ', '')[7:-1].lower() if len(intent_string) != 0 else None
         # get the dimension of the variable if they are arrays
-        dimension_string : list[str] = [s for s in attrs if 'dimension' in s]
+        dimension_string : list[str] = [s for s in attrs if 'dimension' in s.lower()]
         if len(dimension_string) == 0:
             # if the variable is an array but is not defined in attributes
             # extract the dimension from the argument list
@@ -189,11 +189,9 @@ def get_arg_info(arg_info:dict[str, dict[str, str|bool|None|list[str]]], line:st
         arg_info[argname]['array'] = len(dimension_string) > 0
         arg_info[argname]['dimension'] = merge_brackets(dimension_string[0].split(',')) if arg_info[argname]['array'] else None
         arg_info[argname]['comment'] = comment.strip()
+
         if arg_info[argname]['array']:
-            if arg_info[argname]['comment'] is not None:
-                arg_info[argname]['comment'] =  f'{arg_info[argname]['comment']}; Dimension: {dimension_string[0]}'
-            else:
-                arg_info[argname]['comment'] = f'Dimension: {dimension_string[0]}'
+            arg_info[argname]['dimension'] = [dim.lower() for dim in arg_info[argname]['dimension']]
 
     return arg_info
 
@@ -229,7 +227,7 @@ def get_arguments(subroutine:list[str]) -> dict[str, dict[str, str|bool|None|lis
                                 'it doesn\'t fit the assumption that '\
                                 'comment and arguments declaration are separated.'
 
-        arg_info = get_arg_info(arg_info, line, comment)
+        arg_info = get_arg_info(subroutine[0], arg_info, line, comment)
 
         comment = ''
 
@@ -247,15 +245,15 @@ def get_subroutine_list(filename:str) -> dict[str, list[str]]:
     with open(filename, 'r') as f:
         subroutines:dict[str, list[str]] = {}
         # The first line is either comment or program/module name
-        line:str = merge_line(f, f.readline().lower())
+        line:str = merge_line(f, f.readline())
         # using start to exclude unwanted content
         # when start is true, the following lines are the content we want
         do_append:bool = False
         while line:
             line_orig = merge_line(f, f.readline())
-            line = line_orig.lower()
+            line = line_orig
             # get the line without comments
-            no_comment_line:str = line.split('!')[0].replace(' ', '')
+            no_comment_line:str = line.split('!')[0].replace(' ', '').lower()
             # when one subroutine starts
             start_condition:bool = 'subroutine' in no_comment_line
             start_condition = start_condition and '(' in no_comment_line
@@ -296,6 +294,6 @@ def get_func_info(filenames:list[str]) -> dict[str, dict[str, dict[str, str|bool
 
 
 if __name__ == '__main__':
-    get_func_info(['../pyPDAF/fortran/PDAF_c_binding.F90', ])
-    get_func_info(['../pyPDAF/fortran/PDAFomi_obs_c_binding.F90', ])
-    get_func_info(['../pyPDAF/fortran/U_PDAF_interface_c_binding.F90', ])
+    get_func_info(['../src/pyPDAF/fortran/PDAF_c_binding.F90', ])
+    get_func_info(['../src/pyPDAF/fortran/PDAFomi_obs_c_binding.F90', ])
+    get_func_info(['../src/pyPDAF/fortran/U_PDAF_interface_c_binding.F90', ])
