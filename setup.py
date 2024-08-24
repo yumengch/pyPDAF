@@ -199,8 +199,10 @@ setup(name='pyPDAF',
                           ),
     package_dir={"": "src"},
     packages=find_packages(where="src", exclude=["*.c"]),
-    exclude_package_data={
-        '': ['*.c'],},
+    include_package_data=True,
+    package_data = {
+        'pyPDAF': ['*.pxd'],
+    },
     include_dirs= [numpy.get_include(),],
     cmdclass={
         'build_ext': build_ext,
