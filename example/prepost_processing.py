@@ -47,7 +47,7 @@ class prepost:
         """
         if self.pe.npes_filter == 1: return ens_p
         # get total dim
-        
+
         ## collect full ensemble from domain decomposed ensemble
         # collect the length of state vector on each processor (local domain)
         all_dim_p:np.ndarray = np.array(self.pe.comm_filter.gather(dim_p, root=0))
@@ -56,7 +56,7 @@ class prepost:
         send_counts : np.ndarray | None
         ens : np.ndarray | None
         if self.pe.mype_filter == 0:
-            # number of elements of the array on each processor 
+            # number of elements of the array on each processor
             send_counts = all_dim_p*dim_ens
             # get the length of the full state vector
             dim:int = np.sum(all_dim_p)
@@ -94,7 +94,7 @@ class prepost:
 
         return ens
 
-    def initial_process(self, step:int, dim_p:int, dim_ens:int, dim_ens_p:int, 
+    def initial_process(self, step:int, dim_p:int, dim_ens:int, dim_ens_p:int,
                         dim_obs_p:int, state_p:np.ndarray, uinv:np.ndarray,
                         ens_p:np.ndarray, flag:int) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
         """initial processing of the ensemble before it is distributed to model fields
@@ -127,7 +127,7 @@ class prepost:
             for i in range(dim_ens):
                 np.savetxt(os.path.join('outputs', f'ens_{i+1}_step{step}_ana.txt') , ens[:, i].reshape(self.model.ny, self.model.nx) )
 
-    def prepostprocess(self, step:int, dim_p:int, dim_ens:int, dim_ens_p:int, 
+    def prepostprocess(self, step:int, dim_p:int, dim_ens:int, dim_ens_p:int,
                        dim_obs_p:int, state_p:np.ndarray, uinv:np.ndarray,
                        ens_p:np.ndarray, flag:int) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
         """pre-/post-processing of the ensemble as user-supplied functions

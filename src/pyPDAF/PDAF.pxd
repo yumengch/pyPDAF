@@ -4310,3 +4310,2412 @@ cdef extern void c__pdafomi_omit_by_inno_cb (int* dim_obs_f,
                                              double* resid_f,
                                              double* obs_f
                                             ) noexcept;
+cdef extern void c__pdaflocal_set_indices (int* dim_l,
+                                           int* map
+                                          ) noexcept;
+cdef extern void c__pdaflocal_set_increment_weights (int* dim_l,
+                                                     double* weights
+                                                    ) noexcept;
+cdef extern void c__pdaflocal_clear_increment_weights () noexcept;
+cdef extern void c__pdaflocal_g2l_cb (int* step,
+                                      int* domain_p,
+                                      int* dim_p,
+                                      double* state_p,
+                                      int* dim_l,
+                                      double* state_l
+                                     ) noexcept;
+cdef extern void c__pdaflocal_l2g_cb (int* step,
+                                      int* domain_p,
+                                      int* dim_l,
+                                      double* state_l,
+                                      int* dim_p,
+                                      double* state_p
+                                     ) noexcept;
+cdef extern void c__pdaflocalomi_assimilate (void (*c__collect_state_pdaf)(int*,
+                                                                           double*
+                                                                          ),
+                                             void (*c__distribute_state_pdaf)(int*,
+                                                                              double*
+                                                                             ),
+                                             void (*c__init_dim_obs_f_pdaf)(int*,
+                                                                            int*
+                                                                           ),
+                                             void (*c__obs_op_f_pdaf)(int*,
+                                                                      int*,
+                                                                      int*,
+                                                                      double*,
+                                                                      double*
+                                                                     ),
+                                             void (*c__prepoststep_pdaf)(int*,
+                                                                         int*,
+                                                                         int*,
+                                                                         int*,
+                                                                         int*,
+                                                                         double*,
+                                                                         double*,
+                                                                         double*,
+                                                                         int*
+                                                                        ),
+                                             void (*c__init_n_domains_p_pdaf)(int*,
+                                                                              int*
+                                                                             ),
+                                             void (*c__init_dim_l_pdaf)(int*,
+                                                                        int*,
+                                                                        int*
+                                                                       ),
+                                             void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            int*
+                                                                           ),
+                                             void (*c__next_observation_pdaf)(int*,
+                                                                              int*,
+                                                                              int*,
+                                                                              double*
+                                                                             ),
+                                             int* outflag
+                                            ) noexcept;
+cdef extern void c__pdaflocalomi_assimilate_en3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
+                                                                                          double*
+                                                                                         ),
+                                                            void (*c__distribute_state_pdaf)(int*,
+                                                                                             double*
+                                                                                            ),
+                                                            void (*c__init_dim_obs_f_pdaf)(int*,
+                                                                                           int*
+                                                                                          ),
+                                                            void (*c__obs_op_f_pdaf)(int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     double*,
+                                                                                     double*
+                                                                                    ),
+                                                            void (*c__cvt_ens_pdaf)(int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    double*,
+                                                                                    double*,
+                                                                                    double*
+                                                                                   ),
+                                                            void (*c__cvt_adj_ens_pdaf)(int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        double*,
+                                                                                        double*,
+                                                                                        double*
+                                                                                       ),
+                                                            void (*c__obs_op_lin_pdaf)(int*,
+                                                                                       int*,
+                                                                                       int*,
+                                                                                       double*,
+                                                                                       double*
+                                                                                      ),
+                                                            void (*c__obs_op_adj_pdaf)(int*,
+                                                                                       int*,
+                                                                                       int*,
+                                                                                       double*,
+                                                                                       double*
+                                                                                      ),
+                                                            void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                             int*
+                                                                                            ),
+                                                            void (*c__init_dim_l_pdaf)(int*,
+                                                                                       int*,
+                                                                                       int*
+                                                                                      ),
+                                                            void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                           int*,
+                                                                                           int*,
+                                                                                           int*
+                                                                                          ),
+                                                            void (*c__prepoststep_pdaf)(int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        double*,
+                                                                                        double*,
+                                                                                        double*,
+                                                                                        int*
+                                                                                       ),
+                                                            void (*c__next_observation_pdaf)(int*,
+                                                                                             int*,
+                                                                                             int*,
+                                                                                             double*
+                                                                                            ),
+                                                            int* outflag
+                                                           ) noexcept;
+cdef extern void c__pdaflocalomi_assimilate_en3dvar_lestkf_nondiagr (void (*c__collect_state_pdaf)(int*,
+                                                                                                   double*
+                                                                                                  ),
+                                                                     void (*c__distribute_state_pdaf)(int*,
+                                                                                                      double*
+                                                                                                     ),
+                                                                     void (*c__init_dim_obs_pdaf)(int*,
+                                                                                                  int*
+                                                                                                 ),
+                                                                     void (*c__obs_op_pdaf)(int*,
+                                                                                            int*,
+                                                                                            int*,
+                                                                                            double*,
+                                                                                            double*
+                                                                                           ),
+                                                                     void (*c__prodRinvA_pdaf)(int*,
+                                                                                               int*,
+                                                                                               int*,
+                                                                                               double*,
+                                                                                               double*,
+                                                                                               double*
+                                                                                              ),
+                                                                     void (*c__cvt_ens_pdaf)(int*,
+                                                                                             int*,
+                                                                                             int*,
+                                                                                             int*,
+                                                                                             double*,
+                                                                                             double*,
+                                                                                             double*
+                                                                                            ),
+                                                                     void (*c__cvt_adj_ens_pdaf)(int*,
+                                                                                                 int*,
+                                                                                                 int*,
+                                                                                                 int*,
+                                                                                                 double*,
+                                                                                                 double*,
+                                                                                                 double*
+                                                                                                ),
+                                                                     void (*c__obs_op_lin_pdaf)(int*,
+                                                                                                int*,
+                                                                                                int*,
+                                                                                                double*,
+                                                                                                double*
+                                                                                               ),
+                                                                     void (*c__obs_op_adj_pdaf)(int*,
+                                                                                                int*,
+                                                                                                int*,
+                                                                                                double*,
+                                                                                                double*
+                                                                                               ),
+                                                                     void (*c__prodRinvA_l_pdaf)(int*,
+                                                                                                 int*,
+                                                                                                 int*,
+                                                                                                 int*,
+                                                                                                 double*,
+                                                                                                 double*,
+                                                                                                 double*
+                                                                                                ),
+                                                                     void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                                      int*
+                                                                                                     ),
+                                                                     void (*c__init_dim_l_pdaf)(int*,
+                                                                                                int*,
+                                                                                                int*
+                                                                                               ),
+                                                                     void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                                    int*,
+                                                                                                    int*,
+                                                                                                    int*
+                                                                                                   ),
+                                                                     void (*c__prepoststep_pdaf)(int*,
+                                                                                                 int*,
+                                                                                                 int*,
+                                                                                                 int*,
+                                                                                                 int*,
+                                                                                                 double*,
+                                                                                                 double*,
+                                                                                                 double*,
+                                                                                                 int*
+                                                                                                ),
+                                                                     void (*c__next_observation_pdaf)(int*,
+                                                                                                      int*,
+                                                                                                      int*,
+                                                                                                      double*
+                                                                                                     ),
+                                                                     int* outflag
+                                                                    ) noexcept;
+cdef extern void c__pdaflocalomi_assimilate_hyb3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
+                                                                                           double*
+                                                                                          ),
+                                                             void (*c__distribute_state_pdaf)(int*,
+                                                                                              double*
+                                                                                             ),
+                                                             void (*c__init_dim_obs_f_pdaf)(int*,
+                                                                                            int*
+                                                                                           ),
+                                                             void (*c__obs_op_f_pdaf)(int*,
+                                                                                      int*,
+                                                                                      int*,
+                                                                                      double*,
+                                                                                      double*
+                                                                                     ),
+                                                             void (*c__cvt_ens_pdaf)(int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     double*,
+                                                                                     double*,
+                                                                                     double*
+                                                                                    ),
+                                                             void (*c__cvt_adj_ens_pdaf)(int*,
+                                                                                         int*,
+                                                                                         int*,
+                                                                                         int*,
+                                                                                         double*,
+                                                                                         double*,
+                                                                                         double*
+                                                                                        ),
+                                                             void (*c__cvt_pdaf)(int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 double*,
+                                                                                 double*
+                                                                                ),
+                                                             void (*c__cvt_adj_pdaf)(int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     double*,
+                                                                                     double*
+                                                                                    ),
+                                                             void (*c__obs_op_lin_pdaf)(int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        double*,
+                                                                                        double*
+                                                                                       ),
+                                                             void (*c__obs_op_adj_pdaf)(int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        double*,
+                                                                                        double*
+                                                                                       ),
+                                                             void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                              int*
+                                                                                             ),
+                                                             void (*c__init_dim_l_pdaf)(int*,
+                                                                                        int*,
+                                                                                        int*
+                                                                                       ),
+                                                             void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                            int*,
+                                                                                            int*,
+                                                                                            int*
+                                                                                           ),
+                                                             void (*c__prepoststep_pdaf)(int*,
+                                                                                         int*,
+                                                                                         int*,
+                                                                                         int*,
+                                                                                         int*,
+                                                                                         double*,
+                                                                                         double*,
+                                                                                         double*,
+                                                                                         int*
+                                                                                        ),
+                                                             void (*c__next_observation_pdaf)(int*,
+                                                                                              int*,
+                                                                                              int*,
+                                                                                              double*
+                                                                                             ),
+                                                             int* outflag
+                                                            ) noexcept;
+cdef extern void c__pdaflocalomi_assimilate_hyb3dvar_lestkf_nondiagr (void (*c__collect_state_pdaf)(int*,
+                                                                                                    double*
+                                                                                                   ),
+                                                                      void (*c__distribute_state_pdaf)(int*,
+                                                                                                       double*
+                                                                                                      ),
+                                                                      void (*c__init_dim_obs_pdaf)(int*,
+                                                                                                   int*
+                                                                                                  ),
+                                                                      void (*c__obs_op_pdaf)(int*,
+                                                                                             int*,
+                                                                                             int*,
+                                                                                             double*,
+                                                                                             double*
+                                                                                            ),
+                                                                      void (*c__prodRinvA_pdaf)(int*,
+                                                                                                int*,
+                                                                                                int*,
+                                                                                                double*,
+                                                                                                double*,
+                                                                                                double*
+                                                                                               ),
+                                                                      void (*c__cvt_ens_pdaf)(int*,
+                                                                                              int*,
+                                                                                              int*,
+                                                                                              int*,
+                                                                                              double*,
+                                                                                              double*,
+                                                                                              double*
+                                                                                             ),
+                                                                      void (*c__cvt_adj_ens_pdaf)(int*,
+                                                                                                  int*,
+                                                                                                  int*,
+                                                                                                  int*,
+                                                                                                  double*,
+                                                                                                  double*,
+                                                                                                  double*
+                                                                                                 ),
+                                                                      void (*c__cvt_pdaf)(int*,
+                                                                                          int*,
+                                                                                          int*,
+                                                                                          double*,
+                                                                                          double*
+                                                                                         ),
+                                                                      void (*c__cvt_adj_pdaf)(int*,
+                                                                                              int*,
+                                                                                              int*,
+                                                                                              double*,
+                                                                                              double*
+                                                                                             ),
+                                                                      void (*c__obs_op_lin_pdaf)(int*,
+                                                                                                 int*,
+                                                                                                 int*,
+                                                                                                 double*,
+                                                                                                 double*
+                                                                                                ),
+                                                                      void (*c__obs_op_adj_pdaf)(int*,
+                                                                                                 int*,
+                                                                                                 int*,
+                                                                                                 double*,
+                                                                                                 double*
+                                                                                                ),
+                                                                      void (*c__prodRinvA_l_pdaf)(int*,
+                                                                                                  int*,
+                                                                                                  int*,
+                                                                                                  int*,
+                                                                                                  double*,
+                                                                                                  double*,
+                                                                                                  double*
+                                                                                                 ),
+                                                                      void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                                       int*
+                                                                                                      ),
+                                                                      void (*c__init_dim_l_pdaf)(int*,
+                                                                                                 int*,
+                                                                                                 int*
+                                                                                                ),
+                                                                      void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                                     int*,
+                                                                                                     int*,
+                                                                                                     int*
+                                                                                                    ),
+                                                                      void (*c__prepoststep_pdaf)(int*,
+                                                                                                  int*,
+                                                                                                  int*,
+                                                                                                  int*,
+                                                                                                  int*,
+                                                                                                  double*,
+                                                                                                  double*,
+                                                                                                  double*,
+                                                                                                  int*
+                                                                                                 ),
+                                                                      void (*c__next_observation_pdaf)(int*,
+                                                                                                       int*,
+                                                                                                       int*,
+                                                                                                       double*
+                                                                                                      ),
+                                                                      int* outflag
+                                                                     ) noexcept;
+cdef extern void c__pdaflocalomi_assimilate_lknetf_nondiagr (void (*c__collect_state_pdaf)(int*,
+                                                                                           double*
+                                                                                          ),
+                                                             void (*c__distribute_state_pdaf)(int*,
+                                                                                              double*
+                                                                                             ),
+                                                             void (*c__init_dim_obs_pdaf)(int*,
+                                                                                          int*
+                                                                                         ),
+                                                             void (*c__obs_op_pdaf)(int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    double*,
+                                                                                    double*
+                                                                                   ),
+                                                             void (*c__prepoststep_pdaf)(int*,
+                                                                                         int*,
+                                                                                         int*,
+                                                                                         int*,
+                                                                                         int*,
+                                                                                         double*,
+                                                                                         double*,
+                                                                                         double*,
+                                                                                         int*
+                                                                                        ),
+                                                             void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                              int*
+                                                                                             ),
+                                                             void (*c__init_dim_l_pdaf)(int*,
+                                                                                        int*,
+                                                                                        int*
+                                                                                       ),
+                                                             void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                            int*,
+                                                                                            int*,
+                                                                                            int*
+                                                                                           ),
+                                                             void (*c__prodRinvA_l_pdaf)(int*,
+                                                                                         int*,
+                                                                                         int*,
+                                                                                         int*,
+                                                                                         double*,
+                                                                                         double*,
+                                                                                         double*
+                                                                                        ),
+                                                             void (*c__prodRinvA_hyb_l_pdaf)(int*,
+                                                                                             int*,
+                                                                                             int*,
+                                                                                             double*,
+                                                                                             double*,
+                                                                                             double*,
+                                                                                             double*
+                                                                                            ),
+                                                             void (*c__likelihood_l_pdaf)(int*,
+                                                                                          int*,
+                                                                                          int*,
+                                                                                          double*,
+                                                                                          double*,
+                                                                                          double*
+                                                                                         ),
+                                                             void (*c__likelihood_hyb_l_pdaf)(int*,
+                                                                                              int*,
+                                                                                              int*,
+                                                                                              int*,
+                                                                                              double*,
+                                                                                              double*,
+                                                                                              double*,
+                                                                                              double*
+                                                                                             ),
+                                                             void (*c__next_observation_pdaf)(int*,
+                                                                                              int*,
+                                                                                              int*,
+                                                                                              double*
+                                                                                             ),
+                                                             int* outflag
+                                                            ) noexcept;
+cdef extern void c__pdaflocalomi_assimilate_lnetf_nondiagr (void (*c__collect_state_pdaf)(int*,
+                                                                                          double*
+                                                                                         ),
+                                                            void (*c__distribute_state_pdaf)(int*,
+                                                                                             double*
+                                                                                            ),
+                                                            void (*c__init_dim_obs_pdaf)(int*,
+                                                                                         int*
+                                                                                        ),
+                                                            void (*c__obs_op_pdaf)(int*,
+                                                                                   int*,
+                                                                                   int*,
+                                                                                   double*,
+                                                                                   double*
+                                                                                  ),
+                                                            void (*c__prepoststep_pdaf)(int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        double*,
+                                                                                        double*,
+                                                                                        double*,
+                                                                                        int*
+                                                                                       ),
+                                                            void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                             int*
+                                                                                            ),
+                                                            void (*c__init_dim_l_pdaf)(int*,
+                                                                                       int*,
+                                                                                       int*
+                                                                                      ),
+                                                            void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                           int*,
+                                                                                           int*,
+                                                                                           int*
+                                                                                          ),
+                                                            void (*c__likelihood_l_pdaf)(int*,
+                                                                                         int*,
+                                                                                         int*,
+                                                                                         double*,
+                                                                                         double*,
+                                                                                         double*
+                                                                                        ),
+                                                            void (*c__next_observation_pdaf)(int*,
+                                                                                             int*,
+                                                                                             int*,
+                                                                                             double*
+                                                                                            ),
+                                                            int* outflag
+                                                           ) noexcept;
+cdef extern void c__pdaflocalomi_assimilate_nondiagr (void (*c__collect_state_pdaf)(int*,
+                                                                                    double*
+                                                                                   ),
+                                                      void (*c__distribute_state_pdaf)(int*,
+                                                                                       double*
+                                                                                      ),
+                                                      void (*c__init_dim_obs_pdaf)(int*,
+                                                                                   int*
+                                                                                  ),
+                                                      void (*c__obs_op_pdaf)(int*,
+                                                                             int*,
+                                                                             int*,
+                                                                             double*,
+                                                                             double*
+                                                                            ),
+                                                      void (*c__prepoststep_pdaf)(int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  double*,
+                                                                                  double*,
+                                                                                  double*,
+                                                                                  int*
+                                                                                 ),
+                                                      void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                       int*
+                                                                                      ),
+                                                      void (*c__init_dim_l_pdaf)(int*,
+                                                                                 int*,
+                                                                                 int*
+                                                                                ),
+                                                      void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     int*
+                                                                                    ),
+                                                      void (*c__prodRinvA_l_pdaf)(int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  double*,
+                                                                                  double*,
+                                                                                  double*
+                                                                                 ),
+                                                      void (*c__next_observation_pdaf)(int*,
+                                                                                       int*,
+                                                                                       int*,
+                                                                                       double*
+                                                                                      ),
+                                                      int* outflag
+                                                     ) noexcept;
+cdef extern void c__pdaflocalomi_put_state (void (*c__collect_state_pdaf)(int*,
+                                                                          double*
+                                                                         ),
+                                            void (*c__init_dim_obs_f_pdaf)(int*,
+                                                                           int*
+                                                                          ),
+                                            void (*c__obs_op_f_pdaf)(int*,
+                                                                     int*,
+                                                                     int*,
+                                                                     double*,
+                                                                     double*
+                                                                    ),
+                                            void (*c__prepoststep_pdaf)(int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        double*,
+                                                                        double*,
+                                                                        double*,
+                                                                        int*
+                                                                       ),
+                                            void (*c__init_n_domains_p_pdaf)(int*,
+                                                                             int*
+                                                                            ),
+                                            void (*c__init_dim_l_pdaf)(int*,
+                                                                       int*,
+                                                                       int*
+                                                                      ),
+                                            void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                           int*,
+                                                                           int*,
+                                                                           int*
+                                                                          ),
+                                            int* outflag
+                                           ) noexcept;
+cdef extern void c__pdaflocalomi_put_state_en3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
+                                                                                         double*
+                                                                                        ),
+                                                           void (*c__init_dim_obs_f_pdaf)(int*,
+                                                                                          int*
+                                                                                         ),
+                                                           void (*c__obs_op_f_pdaf)(int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    double*,
+                                                                                    double*
+                                                                                   ),
+                                                           void (*c__cvt_ens_pdaf)(int*,
+                                                                                   int*,
+                                                                                   int*,
+                                                                                   int*,
+                                                                                   double*,
+                                                                                   double*,
+                                                                                   double*
+                                                                                  ),
+                                                           void (*c__cvt_adj_ens_pdaf)(int*,
+                                                                                       int*,
+                                                                                       int*,
+                                                                                       int*,
+                                                                                       double*,
+                                                                                       double*,
+                                                                                       double*
+                                                                                      ),
+                                                           void (*c__obs_op_lin_pdaf)(int*,
+                                                                                      int*,
+                                                                                      int*,
+                                                                                      double*,
+                                                                                      double*
+                                                                                     ),
+                                                           void (*c__obs_op_adj_pdaf)(int*,
+                                                                                      int*,
+                                                                                      int*,
+                                                                                      double*,
+                                                                                      double*
+                                                                                     ),
+                                                           void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                            int*
+                                                                                           ),
+                                                           void (*c__init_dim_l_pdaf)(int*,
+                                                                                      int*,
+                                                                                      int*
+                                                                                     ),
+                                                           void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                          int*,
+                                                                                          int*,
+                                                                                          int*
+                                                                                         ),
+                                                           void (*c__prepoststep_pdaf)(int*,
+                                                                                       int*,
+                                                                                       int*,
+                                                                                       int*,
+                                                                                       int*,
+                                                                                       double*,
+                                                                                       double*,
+                                                                                       double*,
+                                                                                       int*
+                                                                                      ),
+                                                           int* outflag
+                                                          ) noexcept;
+cdef extern void c__pdaflocalomi_put_state_en3dvar_lestkf_nondiagr (void (*c__collect_state_pdaf)(int*,
+                                                                                                  double*
+                                                                                                 ),
+                                                                    void (*c__init_dim_obs_pdaf)(int*,
+                                                                                                 int*
+                                                                                                ),
+                                                                    void (*c__obs_op_pdaf)(int*,
+                                                                                           int*,
+                                                                                           int*,
+                                                                                           double*,
+                                                                                           double*
+                                                                                          ),
+                                                                    void (*c__prodRinvA_pdaf)(int*,
+                                                                                              int*,
+                                                                                              int*,
+                                                                                              double*,
+                                                                                              double*,
+                                                                                              double*
+                                                                                             ),
+                                                                    void (*c__cvt_ens_pdaf)(int*,
+                                                                                            int*,
+                                                                                            int*,
+                                                                                            int*,
+                                                                                            double*,
+                                                                                            double*,
+                                                                                            double*
+                                                                                           ),
+                                                                    void (*c__cvt_adj_ens_pdaf)(int*,
+                                                                                                int*,
+                                                                                                int*,
+                                                                                                int*,
+                                                                                                double*,
+                                                                                                double*,
+                                                                                                double*
+                                                                                               ),
+                                                                    void (*c__obs_op_lin_pdaf)(int*,
+                                                                                               int*,
+                                                                                               int*,
+                                                                                               double*,
+                                                                                               double*
+                                                                                              ),
+                                                                    void (*c__obs_op_adj_pdaf)(int*,
+                                                                                               int*,
+                                                                                               int*,
+                                                                                               double*,
+                                                                                               double*
+                                                                                              ),
+                                                                    void (*c__prodRinvA_l_pdaf)(int*,
+                                                                                                int*,
+                                                                                                int*,
+                                                                                                int*,
+                                                                                                double*,
+                                                                                                double*,
+                                                                                                double*
+                                                                                               ),
+                                                                    void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                                     int*
+                                                                                                    ),
+                                                                    void (*c__init_dim_l_pdaf)(int*,
+                                                                                               int*,
+                                                                                               int*
+                                                                                              ),
+                                                                    void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                                   int*,
+                                                                                                   int*,
+                                                                                                   int*
+                                                                                                  ),
+                                                                    void (*c__prepoststep_pdaf)(int*,
+                                                                                                int*,
+                                                                                                int*,
+                                                                                                int*,
+                                                                                                int*,
+                                                                                                double*,
+                                                                                                double*,
+                                                                                                double*,
+                                                                                                int*
+                                                                                               ),
+                                                                    int* outflag
+                                                                   ) noexcept;
+cdef extern void c__pdaflocalomi_put_state_hyb3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
+                                                                                          double*
+                                                                                         ),
+                                                            void (*c__init_dim_obs_f_pdaf)(int*,
+                                                                                           int*
+                                                                                          ),
+                                                            void (*c__obs_op_f_pdaf)(int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     double*,
+                                                                                     double*
+                                                                                    ),
+                                                            void (*c__cvt_ens_pdaf)(int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    double*,
+                                                                                    double*,
+                                                                                    double*
+                                                                                   ),
+                                                            void (*c__cvt_adj_ens_pdaf)(int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        double*,
+                                                                                        double*,
+                                                                                        double*
+                                                                                       ),
+                                                            void (*c__cvt_pdaf)(int*,
+                                                                                int*,
+                                                                                int*,
+                                                                                double*,
+                                                                                double*
+                                                                               ),
+                                                            void (*c__cvt_adj_pdaf)(int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    double*,
+                                                                                    double*
+                                                                                   ),
+                                                            void (*c__obs_op_lin_pdaf)(int*,
+                                                                                       int*,
+                                                                                       int*,
+                                                                                       double*,
+                                                                                       double*
+                                                                                      ),
+                                                            void (*c__obs_op_adj_pdaf)(int*,
+                                                                                       int*,
+                                                                                       int*,
+                                                                                       double*,
+                                                                                       double*
+                                                                                      ),
+                                                            void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                             int*
+                                                                                            ),
+                                                            void (*c__init_dim_l_pdaf)(int*,
+                                                                                       int*,
+                                                                                       int*
+                                                                                      ),
+                                                            void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                           int*,
+                                                                                           int*,
+                                                                                           int*
+                                                                                          ),
+                                                            void (*c__prepoststep_pdaf)(int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        double*,
+                                                                                        double*,
+                                                                                        double*,
+                                                                                        int*
+                                                                                       ),
+                                                            int* outflag
+                                                           ) noexcept;
+cdef extern void c__pdaflocalomi_put_state_hyb3dvar_lestkf_nondiagr (void (*c__collect_state_pdaf)(int*,
+                                                                                                   double*
+                                                                                                  ),
+                                                                     void (*c__init_dim_obs_pdaf)(int*,
+                                                                                                  int*
+                                                                                                 ),
+                                                                     void (*c__obs_op_pdaf)(int*,
+                                                                                            int*,
+                                                                                            int*,
+                                                                                            double*,
+                                                                                            double*
+                                                                                           ),
+                                                                     void (*c__prodRinvA_pdaf)(int*,
+                                                                                               int*,
+                                                                                               int*,
+                                                                                               double*,
+                                                                                               double*,
+                                                                                               double*
+                                                                                              ),
+                                                                     void (*c__cvt_ens_pdaf)(int*,
+                                                                                             int*,
+                                                                                             int*,
+                                                                                             int*,
+                                                                                             double*,
+                                                                                             double*,
+                                                                                             double*
+                                                                                            ),
+                                                                     void (*c__cvt_adj_ens_pdaf)(int*,
+                                                                                                 int*,
+                                                                                                 int*,
+                                                                                                 int*,
+                                                                                                 double*,
+                                                                                                 double*,
+                                                                                                 double*
+                                                                                                ),
+                                                                     void (*c__cvt_pdaf)(int*,
+                                                                                         int*,
+                                                                                         int*,
+                                                                                         double*,
+                                                                                         double*
+                                                                                        ),
+                                                                     void (*c__cvt_adj_pdaf)(int*,
+                                                                                             int*,
+                                                                                             int*,
+                                                                                             double*,
+                                                                                             double*
+                                                                                            ),
+                                                                     void (*c__obs_op_lin_pdaf)(int*,
+                                                                                                int*,
+                                                                                                int*,
+                                                                                                double*,
+                                                                                                double*
+                                                                                               ),
+                                                                     void (*c__obs_op_adj_pdaf)(int*,
+                                                                                                int*,
+                                                                                                int*,
+                                                                                                double*,
+                                                                                                double*
+                                                                                               ),
+                                                                     void (*c__prodRinvA_l_pdaf)(int*,
+                                                                                                 int*,
+                                                                                                 int*,
+                                                                                                 int*,
+                                                                                                 double*,
+                                                                                                 double*,
+                                                                                                 double*
+                                                                                                ),
+                                                                     void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                                      int*
+                                                                                                     ),
+                                                                     void (*c__init_dim_l_pdaf)(int*,
+                                                                                                int*,
+                                                                                                int*
+                                                                                               ),
+                                                                     void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                                    int*,
+                                                                                                    int*,
+                                                                                                    int*
+                                                                                                   ),
+                                                                     void (*c__prepoststep_pdaf)(int*,
+                                                                                                 int*,
+                                                                                                 int*,
+                                                                                                 int*,
+                                                                                                 int*,
+                                                                                                 double*,
+                                                                                                 double*,
+                                                                                                 double*,
+                                                                                                 int*
+                                                                                                ),
+                                                                     int* outflag
+                                                                    ) noexcept;
+cdef extern void c__pdaflocalomi_put_state_lknetf_nondiagr (void (*c__collect_state_pdaf)(int*,
+                                                                                          double*
+                                                                                         ),
+                                                            void (*c__init_dim_obs_pdaf)(int*,
+                                                                                         int*
+                                                                                        ),
+                                                            void (*c__obs_op_pdaf)(int*,
+                                                                                   int*,
+                                                                                   int*,
+                                                                                   double*,
+                                                                                   double*
+                                                                                  ),
+                                                            void (*c__prepoststep_pdaf)(int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        double*,
+                                                                                        double*,
+                                                                                        double*,
+                                                                                        int*
+                                                                                       ),
+                                                            void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                             int*
+                                                                                            ),
+                                                            void (*c__init_dim_l_pdaf)(int*,
+                                                                                       int*,
+                                                                                       int*
+                                                                                      ),
+                                                            void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                           int*,
+                                                                                           int*,
+                                                                                           int*
+                                                                                          ),
+                                                            void (*c__prodRinvA_l_pdaf)(int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        double*,
+                                                                                        double*,
+                                                                                        double*
+                                                                                       ),
+                                                            void (*c__prodRinvA_hyb_l_pdaf)(int*,
+                                                                                            int*,
+                                                                                            int*,
+                                                                                            double*,
+                                                                                            double*,
+                                                                                            double*,
+                                                                                            double*
+                                                                                           ),
+                                                            void (*c__likelihood_l_pdaf)(int*,
+                                                                                         int*,
+                                                                                         int*,
+                                                                                         double*,
+                                                                                         double*,
+                                                                                         double*
+                                                                                        ),
+                                                            void (*c__likelihood_hyb_l_pdaf)(int*,
+                                                                                             int*,
+                                                                                             int*,
+                                                                                             int*,
+                                                                                             double*,
+                                                                                             double*,
+                                                                                             double*,
+                                                                                             double*
+                                                                                            ),
+                                                            int* outflag
+                                                           ) noexcept;
+cdef extern void c__pdaflocalomi_put_state_lnetf_nondiagr (void (*c__collect_state_pdaf)(int*,
+                                                                                         double*
+                                                                                        ),
+                                                           void (*c__init_dim_obs_pdaf)(int*,
+                                                                                        int*
+                                                                                       ),
+                                                           void (*c__obs_op_pdaf)(int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  double*,
+                                                                                  double*
+                                                                                 ),
+                                                           void (*c__prepoststep_pdaf)(int*,
+                                                                                       int*,
+                                                                                       int*,
+                                                                                       int*,
+                                                                                       int*,
+                                                                                       double*,
+                                                                                       double*,
+                                                                                       double*,
+                                                                                       int*
+                                                                                      ),
+                                                           void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                            int*
+                                                                                           ),
+                                                           void (*c__init_dim_l_pdaf)(int*,
+                                                                                      int*,
+                                                                                      int*
+                                                                                     ),
+                                                           void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                          int*,
+                                                                                          int*,
+                                                                                          int*
+                                                                                         ),
+                                                           void (*c__likelihood_l_pdaf)(int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        double*,
+                                                                                        double*,
+                                                                                        double*
+                                                                                       ),
+                                                           int* outflag
+                                                          ) noexcept;
+cdef extern void c__pdaflocalomi_put_state_nondiagr (void (*c__collect_state_pdaf)(int*,
+                                                                                   double*
+                                                                                  ),
+                                                     void (*c__init_dim_obs_pdaf)(int*,
+                                                                                  int*
+                                                                                 ),
+                                                     void (*c__obs_op_pdaf)(int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            double*,
+                                                                            double*
+                                                                           ),
+                                                     void (*c__prepoststep_pdaf)(int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 double*,
+                                                                                 double*,
+                                                                                 double*,
+                                                                                 int*
+                                                                                ),
+                                                     void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                      int*
+                                                                                     ),
+                                                     void (*c__init_dim_l_pdaf)(int*,
+                                                                                int*,
+                                                                                int*
+                                                                               ),
+                                                     void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    int*
+                                                                                   ),
+                                                     void (*c__prodRinvA_l_pdaf)(int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 double*,
+                                                                                 double*,
+                                                                                 double*
+                                                                                ),
+                                                     int* outflag
+                                                    ) noexcept;
+cdef extern void c__pdaflocal_assimilate_en3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
+                                                                                       double*
+                                                                                      ),
+                                                         void (*c__distribute_state_pdaf)(int*,
+                                                                                          double*
+                                                                                         ),
+                                                         void (*c__init_dim_obs_pdaf)(int*,
+                                                                                      int*
+                                                                                     ),
+                                                         void (*c__obs_op_pdaf)(int*,
+                                                                                int*,
+                                                                                int*,
+                                                                                double*,
+                                                                                double*
+                                                                               ),
+                                                         void (*c__init_obs_pdaf)(int*,
+                                                                                  int*,
+                                                                                  double*
+                                                                                 ),
+                                                         void (*c__prodRinvA_pdaf)(int*,
+                                                                                   int*,
+                                                                                   int*,
+                                                                                   double*,
+                                                                                   double*,
+                                                                                   double*
+                                                                                  ),
+                                                         void (*c__cvt_ens_pdaf)(int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 double*,
+                                                                                 double*,
+                                                                                 double*
+                                                                                ),
+                                                         void (*c__cvt_adj_ens_pdaf)(int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     double*,
+                                                                                     double*,
+                                                                                     double*
+                                                                                    ),
+                                                         void (*c__obs_op_lin_pdaf)(int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    double*,
+                                                                                    double*
+                                                                                   ),
+                                                         void (*c__obs_op_adj_pdaf)(int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    double*,
+                                                                                    double*
+                                                                                   ),
+                                                         void (*c__init_dim_obs_f_pdaf)(int*,
+                                                                                        int*
+                                                                                       ),
+                                                         void (*c__obs_op_f_pdaf)(int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  double*,
+                                                                                  double*
+                                                                                 ),
+                                                         void (*c__init_obs_f_pdaf)(int*,
+                                                                                    int*,
+                                                                                    double*
+                                                                                   ),
+                                                         void (*c__init_obs_l_pdaf)(int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    double*
+                                                                                   ),
+                                                         void (*c__prodRinvA_l_pdaf)(int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     double*,
+                                                                                     double*,
+                                                                                     double*
+                                                                                    ),
+                                                         void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                          int*
+                                                                                         ),
+                                                         void (*c__init_dim_l_pdaf)(int*,
+                                                                                    int*,
+                                                                                    int*
+                                                                                   ),
+                                                         void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        int*
+                                                                                       ),
+                                                         void (*c__g2l_obs_pdaf)(int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 int*
+                                                                                ),
+                                                         void (*c__init_obsvar_pdaf)(int*,
+                                                                                     int*,
+                                                                                     double*,
+                                                                                     double*
+                                                                                    ),
+                                                         void (*c__init_obsvar_l_pdaf)(int*,
+                                                                                       int*,
+                                                                                       int*,
+                                                                                       double*,
+                                                                                       int*,
+                                                                                       double*
+                                                                                      ),
+                                                         void (*c__prepoststep_pdaf)(int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     double*,
+                                                                                     double*,
+                                                                                     double*,
+                                                                                     int*
+                                                                                    ),
+                                                         void (*c__next_observation_pdaf)(int*,
+                                                                                          int*,
+                                                                                          int*,
+                                                                                          double*
+                                                                                         ),
+                                                         int* outflag
+                                                        ) noexcept;
+cdef extern void c__pdaflocal_assimilate_hyb3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
+                                                                                        double*
+                                                                                       ),
+                                                          void (*c__distribute_state_pdaf)(int*,
+                                                                                           double*
+                                                                                          ),
+                                                          void (*c__init_dim_obs_pdaf)(int*,
+                                                                                       int*
+                                                                                      ),
+                                                          void (*c__obs_op_pdaf)(int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 double*,
+                                                                                 double*
+                                                                                ),
+                                                          void (*c__init_obs_pdaf)(int*,
+                                                                                   int*,
+                                                                                   double*
+                                                                                  ),
+                                                          void (*c__prodRinvA_pdaf)(int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    double*,
+                                                                                    double*,
+                                                                                    double*
+                                                                                   ),
+                                                          void (*c__cvt_ens_pdaf)(int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  double*,
+                                                                                  double*,
+                                                                                  double*
+                                                                                 ),
+                                                          void (*c__cvt_adj_ens_pdaf)(int*,
+                                                                                      int*,
+                                                                                      int*,
+                                                                                      int*,
+                                                                                      double*,
+                                                                                      double*,
+                                                                                      double*
+                                                                                     ),
+                                                          void (*c__cvt_pdaf)(int*,
+                                                                              int*,
+                                                                              int*,
+                                                                              double*,
+                                                                              double*
+                                                                             ),
+                                                          void (*c__cvt_adj_pdaf)(int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  double*,
+                                                                                  double*
+                                                                                 ),
+                                                          void (*c__obs_op_lin_pdaf)(int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     double*,
+                                                                                     double*
+                                                                                    ),
+                                                          void (*c__obs_op_adj_pdaf)(int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     double*,
+                                                                                     double*
+                                                                                    ),
+                                                          void (*c__init_dim_obs_f_pdaf)(int*,
+                                                                                         int*
+                                                                                        ),
+                                                          void (*c__obs_op_f_pdaf)(int*,
+                                                                                   int*,
+                                                                                   int*,
+                                                                                   double*,
+                                                                                   double*
+                                                                                  ),
+                                                          void (*c__init_obs_f_pdaf)(int*,
+                                                                                     int*,
+                                                                                     double*
+                                                                                    ),
+                                                          void (*c__init_obs_l_pdaf)(int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     double*
+                                                                                    ),
+                                                          void (*c__prodRinvA_l_pdaf)(int*,
+                                                                                      int*,
+                                                                                      int*,
+                                                                                      int*,
+                                                                                      double*,
+                                                                                      double*,
+                                                                                      double*
+                                                                                     ),
+                                                          void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                           int*
+                                                                                          ),
+                                                          void (*c__init_dim_l_pdaf)(int*,
+                                                                                     int*,
+                                                                                     int*
+                                                                                    ),
+                                                          void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                         int*,
+                                                                                         int*,
+                                                                                         int*
+                                                                                        ),
+                                                          void (*c__g2l_obs_pdaf)(int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  int*
+                                                                                 ),
+                                                          void (*c__init_obsvar_pdaf)(int*,
+                                                                                      int*,
+                                                                                      double*,
+                                                                                      double*
+                                                                                     ),
+                                                          void (*c__init_obsvar_l_pdaf)(int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        double*,
+                                                                                        int*,
+                                                                                        double*
+                                                                                       ),
+                                                          void (*c__prepoststep_pdaf)(int*,
+                                                                                      int*,
+                                                                                      int*,
+                                                                                      int*,
+                                                                                      int*,
+                                                                                      double*,
+                                                                                      double*,
+                                                                                      double*,
+                                                                                      int*
+                                                                                     ),
+                                                          void (*c__next_observation_pdaf)(int*,
+                                                                                           int*,
+                                                                                           int*,
+                                                                                           double*
+                                                                                          ),
+                                                          int* outflag
+                                                         ) noexcept;
+cdef extern void c__pdaflocal_assimilate_lestkf (void (*c__collect_state_pdaf)(int*,
+                                                                               double*
+                                                                              ),
+                                                 void (*c__distribute_state_pdaf)(int*,
+                                                                                  double*
+                                                                                 ),
+                                                 void (*c__init_dim_obs_pdaf)(int*,
+                                                                              int*
+                                                                             ),
+                                                 void (*c__obs_op_pdaf)(int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        double*,
+                                                                        double*
+                                                                       ),
+                                                 void (*c__init_obs_pdaf)(int*,
+                                                                          int*,
+                                                                          double*
+                                                                         ),
+                                                 void (*c__init_obs_l_pdaf)(int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            double*
+                                                                           ),
+                                                 void (*c__prepoststep_pdaf)(int*,
+                                                                             int*,
+                                                                             int*,
+                                                                             int*,
+                                                                             int*,
+                                                                             double*,
+                                                                             double*,
+                                                                             double*,
+                                                                             int*
+                                                                            ),
+                                                 void (*c__prodRinvA_l_pdaf)(int*,
+                                                                             int*,
+                                                                             int*,
+                                                                             int*,
+                                                                             double*,
+                                                                             double*,
+                                                                             double*
+                                                                            ),
+                                                 void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                  int*
+                                                                                 ),
+                                                 void (*c__init_dim_l_pdaf)(int*,
+                                                                            int*,
+                                                                            int*
+                                                                           ),
+                                                 void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                int*,
+                                                                                int*,
+                                                                                int*
+                                                                               ),
+                                                 void (*c__g2l_obs_pdaf)(int*,
+                                                                         int*,
+                                                                         int*,
+                                                                         int*,
+                                                                         int*,
+                                                                         int*,
+                                                                         int*,
+                                                                         int*
+                                                                        ),
+                                                 void (*c__init_obsvar_pdaf)(int*,
+                                                                             int*,
+                                                                             double*,
+                                                                             double*
+                                                                            ),
+                                                 void (*c__init_obsvar_l_pdaf)(int*,
+                                                                               int*,
+                                                                               int*,
+                                                                               double*,
+                                                                               int*,
+                                                                               double*
+                                                                              ),
+                                                 void (*c__next_observation_pdaf)(int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  double*
+                                                                                 ),
+                                                 int* outflag
+                                                ) noexcept;
+cdef extern void c__pdaflocal_assimilate_letkf (void (*c__collect_state_pdaf)(int*,
+                                                                              double*
+                                                                             ),
+                                                void (*c__distribute_state_pdaf)(int*,
+                                                                                 double*
+                                                                                ),
+                                                void (*c__init_dim_obs_pdaf)(int*,
+                                                                             int*
+                                                                            ),
+                                                void (*c__obs_op_pdaf)(int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       double*,
+                                                                       double*
+                                                                      ),
+                                                void (*c__init_obs_pdaf)(int*,
+                                                                         int*,
+                                                                         double*
+                                                                        ),
+                                                void (*c__init_obs_l_pdaf)(int*,
+                                                                           int*,
+                                                                           int*,
+                                                                           double*
+                                                                          ),
+                                                void (*c__prepoststep_pdaf)(int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            double*,
+                                                                            double*,
+                                                                            double*,
+                                                                            int*
+                                                                           ),
+                                                void (*c__prodRinvA_l_pdaf)(int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            double*,
+                                                                            double*,
+                                                                            double*
+                                                                           ),
+                                                void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                 int*
+                                                                                ),
+                                                void (*c__init_dim_l_pdaf)(int*,
+                                                                           int*,
+                                                                           int*
+                                                                          ),
+                                                void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                               int*,
+                                                                               int*,
+                                                                               int*
+                                                                              ),
+                                                void (*c__g2l_obs_pdaf)(int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*
+                                                                       ),
+                                                void (*c__init_obsvar_pdaf)(int*,
+                                                                            int*,
+                                                                            double*,
+                                                                            double*
+                                                                           ),
+                                                void (*c__init_obsvar_l_pdaf)(int*,
+                                                                              int*,
+                                                                              int*,
+                                                                              double*,
+                                                                              int*,
+                                                                              double*
+                                                                             ),
+                                                void (*c__next_observation_pdaf)(int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 double*
+                                                                                ),
+                                                int* outflag
+                                               ) noexcept;
+cdef extern void c__pdaflocal_assimilate_lknetf (void (*c__collect_state_pdaf)(int*,
+                                                                               double*
+                                                                              ),
+                                                 void (*c__distribute_state_pdaf)(int*,
+                                                                                  double*
+                                                                                 ),
+                                                 void (*c__init_dim_obs_pdaf)(int*,
+                                                                              int*
+                                                                             ),
+                                                 void (*c__obs_op_pdaf)(int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        double*,
+                                                                        double*
+                                                                       ),
+                                                 void (*c__init_obs_pdaf)(int*,
+                                                                          int*,
+                                                                          double*
+                                                                         ),
+                                                 void (*c__init_obs_l_pdaf)(int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            double*
+                                                                           ),
+                                                 void (*c__prepoststep_pdaf)(int*,
+                                                                             int*,
+                                                                             int*,
+                                                                             int*,
+                                                                             int*,
+                                                                             double*,
+                                                                             double*,
+                                                                             double*,
+                                                                             int*
+                                                                            ),
+                                                 void (*c__prodRinvA_l_pdaf)(int*,
+                                                                             int*,
+                                                                             int*,
+                                                                             int*,
+                                                                             double*,
+                                                                             double*,
+                                                                             double*
+                                                                            ),
+                                                 void (*c__prodRinvA_hyb_l_pdaf)(int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 double*,
+                                                                                 double*,
+                                                                                 double*,
+                                                                                 double*
+                                                                                ),
+                                                 void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                  int*
+                                                                                 ),
+                                                 void (*c__init_dim_l_pdaf)(int*,
+                                                                            int*,
+                                                                            int*
+                                                                           ),
+                                                 void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                int*,
+                                                                                int*,
+                                                                                int*
+                                                                               ),
+                                                 void (*c__g2l_obs_pdaf)(int*,
+                                                                         int*,
+                                                                         int*,
+                                                                         int*,
+                                                                         int*,
+                                                                         int*,
+                                                                         int*,
+                                                                         int*
+                                                                        ),
+                                                 void (*c__init_obsvar_pdaf)(int*,
+                                                                             int*,
+                                                                             double*,
+                                                                             double*
+                                                                            ),
+                                                 void (*c__init_obsvar_l_pdaf)(int*,
+                                                                               int*,
+                                                                               int*,
+                                                                               double*,
+                                                                               int*,
+                                                                               double*
+                                                                              ),
+                                                 void (*c__likelihood_l_pdaf)(int*,
+                                                                              int*,
+                                                                              int*,
+                                                                              double*,
+                                                                              double*,
+                                                                              double*
+                                                                             ),
+                                                 void (*c__likelihood_hyb_l_pdaf)(int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  double*,
+                                                                                  double*,
+                                                                                  double*,
+                                                                                  double*
+                                                                                 ),
+                                                 void (*c__next_observation_pdaf)(int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  double*
+                                                                                 ),
+                                                 int* outflag
+                                                ) noexcept;
+cdef extern void c__pdaflocal_assimilate_lnetf (void (*c__collect_state_pdaf)(int*,
+                                                                              double*
+                                                                             ),
+                                                void (*c__distribute_state_pdaf)(int*,
+                                                                                 double*
+                                                                                ),
+                                                void (*c__init_dim_obs_pdaf)(int*,
+                                                                             int*
+                                                                            ),
+                                                void (*c__obs_op_pdaf)(int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       double*,
+                                                                       double*
+                                                                      ),
+                                                void (*c__init_obs_l_pdaf)(int*,
+                                                                           int*,
+                                                                           int*,
+                                                                           double*
+                                                                          ),
+                                                void (*c__prepoststep_pdaf)(int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            double*,
+                                                                            double*,
+                                                                            double*,
+                                                                            int*
+                                                                           ),
+                                                void (*c__likelihood_l_pdaf)(int*,
+                                                                             int*,
+                                                                             int*,
+                                                                             double*,
+                                                                             double*,
+                                                                             double*
+                                                                            ),
+                                                void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                 int*
+                                                                                ),
+                                                void (*c__init_dim_l_pdaf)(int*,
+                                                                           int*,
+                                                                           int*
+                                                                          ),
+                                                void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                               int*,
+                                                                               int*,
+                                                                               int*
+                                                                              ),
+                                                void (*c__g2l_obs_pdaf)(int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*
+                                                                       ),
+                                                void (*c__next_observation_pdaf)(int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 double*
+                                                                                ),
+                                                int* outflag
+                                               ) noexcept;
+cdef extern void c__pdaflocal_assimilate_lseik (void (*c__collect_state_pdaf)(int*,
+                                                                              double*
+                                                                             ),
+                                                void (*c__distribute_state_pdaf)(int*,
+                                                                                 double*
+                                                                                ),
+                                                void (*c__init_dim_obs_pdaf)(int*,
+                                                                             int*
+                                                                            ),
+                                                void (*c__obs_op_pdaf)(int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       double*,
+                                                                       double*
+                                                                      ),
+                                                void (*c__init_obs_pdaf)(int*,
+                                                                         int*,
+                                                                         double*
+                                                                        ),
+                                                void (*c__init_obs_l_pdaf)(int*,
+                                                                           int*,
+                                                                           int*,
+                                                                           double*
+                                                                          ),
+                                                void (*c__prepoststep_pdaf)(int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            double*,
+                                                                            double*,
+                                                                            double*,
+                                                                            int*
+                                                                           ),
+                                                void (*c__prodRinvA_l_pdaf)(int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            double*,
+                                                                            double*,
+                                                                            double*
+                                                                           ),
+                                                void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                 int*
+                                                                                ),
+                                                void (*c__init_dim_l_pdaf)(int*,
+                                                                           int*,
+                                                                           int*
+                                                                          ),
+                                                void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                               int*,
+                                                                               int*,
+                                                                               int*
+                                                                              ),
+                                                void (*c__g2l_obs_pdaf)(int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*
+                                                                       ),
+                                                void (*c__init_obsvar_pdaf)(int*,
+                                                                            int*,
+                                                                            double*,
+                                                                            double*
+                                                                           ),
+                                                void (*c__init_obsvar_l_pdaf)(int*,
+                                                                              int*,
+                                                                              int*,
+                                                                              double*,
+                                                                              int*,
+                                                                              double*
+                                                                             ),
+                                                void (*c__next_observation_pdaf)(int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 double*
+                                                                                ),
+                                                int* outflag
+                                               ) noexcept;
+cdef extern void c__pdaflocal_put_state_en3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
+                                                                                      double*
+                                                                                     ),
+                                                        void (*c__init_dim_obs_pdaf)(int*,
+                                                                                     int*
+                                                                                    ),
+                                                        void (*c__obs_op_pdaf)(int*,
+                                                                               int*,
+                                                                               int*,
+                                                                               double*,
+                                                                               double*
+                                                                              ),
+                                                        void (*c__init_obs_pdaf)(int*,
+                                                                                 int*,
+                                                                                 double*
+                                                                                ),
+                                                        void (*c__prodRinvA_pdaf)(int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  double*,
+                                                                                  double*,
+                                                                                  double*
+                                                                                 ),
+                                                        void (*c__cvt_ens_pdaf)(int*,
+                                                                                int*,
+                                                                                int*,
+                                                                                int*,
+                                                                                double*,
+                                                                                double*,
+                                                                                double*
+                                                                               ),
+                                                        void (*c__cvt_adj_ens_pdaf)(int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    double*,
+                                                                                    double*,
+                                                                                    double*
+                                                                                   ),
+                                                        void (*c__obs_op_lin_pdaf)(int*,
+                                                                                   int*,
+                                                                                   int*,
+                                                                                   double*,
+                                                                                   double*
+                                                                                  ),
+                                                        void (*c__obs_op_adj_pdaf)(int*,
+                                                                                   int*,
+                                                                                   int*,
+                                                                                   double*,
+                                                                                   double*
+                                                                                  ),
+                                                        void (*c__init_dim_obs_f_pdaf)(int*,
+                                                                                       int*
+                                                                                      ),
+                                                        void (*c__obs_op_f_pdaf)(int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 double*,
+                                                                                 double*
+                                                                                ),
+                                                        void (*c__init_obs_f_pdaf)(int*,
+                                                                                   int*,
+                                                                                   double*
+                                                                                  ),
+                                                        void (*c__init_obs_l_pdaf)(int*,
+                                                                                   int*,
+                                                                                   int*,
+                                                                                   double*
+                                                                                  ),
+                                                        void (*c__prodRinvA_l_pdaf)(int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    double*,
+                                                                                    double*,
+                                                                                    double*
+                                                                                   ),
+                                                        void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                         int*
+                                                                                        ),
+                                                        void (*c__init_dim_l_pdaf)(int*,
+                                                                                   int*,
+                                                                                   int*
+                                                                                  ),
+                                                        void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                       int*,
+                                                                                       int*,
+                                                                                       int*
+                                                                                      ),
+                                                        void (*c__g2l_obs_pdaf)(int*,
+                                                                                int*,
+                                                                                int*,
+                                                                                int*,
+                                                                                int*,
+                                                                                int*,
+                                                                                int*,
+                                                                                int*
+                                                                               ),
+                                                        void (*c__init_obsvar_pdaf)(int*,
+                                                                                    int*,
+                                                                                    double*,
+                                                                                    double*
+                                                                                   ),
+                                                        void (*c__init_obsvar_l_pdaf)(int*,
+                                                                                      int*,
+                                                                                      int*,
+                                                                                      double*,
+                                                                                      int*,
+                                                                                      double*
+                                                                                     ),
+                                                        void (*c__prepoststep_pdaf)(int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    double*,
+                                                                                    double*,
+                                                                                    double*,
+                                                                                    int*
+                                                                                   ),
+                                                        int* outflag
+                                                       ) noexcept;
+cdef extern void c__pdaflocal_put_state_hyb3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
+                                                                                       double*
+                                                                                      ),
+                                                         void (*c__init_dim_obs_pdaf)(int*,
+                                                                                      int*
+                                                                                     ),
+                                                         void (*c__obs_op_pdaf)(int*,
+                                                                                int*,
+                                                                                int*,
+                                                                                double*,
+                                                                                double*
+                                                                               ),
+                                                         void (*c__init_obs_pdaf)(int*,
+                                                                                  int*,
+                                                                                  double*
+                                                                                 ),
+                                                         void (*c__prodRinvA_pdaf)(int*,
+                                                                                   int*,
+                                                                                   int*,
+                                                                                   double*,
+                                                                                   double*,
+                                                                                   double*
+                                                                                  ),
+                                                         void (*c__cvt_ens_pdaf)(int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 double*,
+                                                                                 double*,
+                                                                                 double*
+                                                                                ),
+                                                         void (*c__cvt_adj_ens_pdaf)(int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     double*,
+                                                                                     double*,
+                                                                                     double*
+                                                                                    ),
+                                                         void (*c__cvt_pdaf)(int*,
+                                                                             int*,
+                                                                             int*,
+                                                                             double*,
+                                                                             double*
+                                                                            ),
+                                                         void (*c__cvt_adj_pdaf)(int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 double*,
+                                                                                 double*
+                                                                                ),
+                                                         void (*c__obs_op_lin_pdaf)(int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    double*,
+                                                                                    double*
+                                                                                   ),
+                                                         void (*c__obs_op_adj_pdaf)(int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    double*,
+                                                                                    double*
+                                                                                   ),
+                                                         void (*c__init_dim_obs_f_pdaf)(int*,
+                                                                                        int*
+                                                                                       ),
+                                                         void (*c__obs_op_f_pdaf)(int*,
+                                                                                  int*,
+                                                                                  int*,
+                                                                                  double*,
+                                                                                  double*
+                                                                                 ),
+                                                         void (*c__init_obs_f_pdaf)(int*,
+                                                                                    int*,
+                                                                                    double*
+                                                                                   ),
+                                                         void (*c__init_obs_l_pdaf)(int*,
+                                                                                    int*,
+                                                                                    int*,
+                                                                                    double*
+                                                                                   ),
+                                                         void (*c__prodRinvA_l_pdaf)(int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     double*,
+                                                                                     double*,
+                                                                                     double*
+                                                                                    ),
+                                                         void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                          int*
+                                                                                         ),
+                                                         void (*c__init_dim_l_pdaf)(int*,
+                                                                                    int*,
+                                                                                    int*
+                                                                                   ),
+                                                         void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                                        int*,
+                                                                                        int*,
+                                                                                        int*
+                                                                                       ),
+                                                         void (*c__g2l_obs_pdaf)(int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 int*
+                                                                                ),
+                                                         void (*c__init_obsvar_pdaf)(int*,
+                                                                                     int*,
+                                                                                     double*,
+                                                                                     double*
+                                                                                    ),
+                                                         void (*c__init_obsvar_l_pdaf)(int*,
+                                                                                       int*,
+                                                                                       int*,
+                                                                                       double*,
+                                                                                       int*,
+                                                                                       double*
+                                                                                      ),
+                                                         void (*c__prepoststep_pdaf)(int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     int*,
+                                                                                     double*,
+                                                                                     double*,
+                                                                                     double*,
+                                                                                     int*
+                                                                                    ),
+                                                         int* outflag
+                                                        ) noexcept;
+cdef extern void c__pdaflocal_put_state_lestkf (void (*c__collect_state_pdaf)(int*,
+                                                                              double*
+                                                                             ),
+                                                void (*c__init_dim_obs_pdaf)(int*,
+                                                                             int*
+                                                                            ),
+                                                void (*c__obs_op_pdaf)(int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       double*,
+                                                                       double*
+                                                                      ),
+                                                void (*c__init_obs_pdaf)(int*,
+                                                                         int*,
+                                                                         double*
+                                                                        ),
+                                                void (*c__init_obs_l_pdaf)(int*,
+                                                                           int*,
+                                                                           int*,
+                                                                           double*
+                                                                          ),
+                                                void (*c__prepoststep_pdaf)(int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            double*,
+                                                                            double*,
+                                                                            double*,
+                                                                            int*
+                                                                           ),
+                                                void (*c__prodRinvA_l_pdaf)(int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            double*,
+                                                                            double*,
+                                                                            double*
+                                                                           ),
+                                                void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                 int*
+                                                                                ),
+                                                void (*c__init_dim_l_pdaf)(int*,
+                                                                           int*,
+                                                                           int*
+                                                                          ),
+                                                void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                               int*,
+                                                                               int*,
+                                                                               int*
+                                                                              ),
+                                                void (*c__g2l_obs_pdaf)(int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*
+                                                                       ),
+                                                void (*c__init_obsvar_pdaf)(int*,
+                                                                            int*,
+                                                                            double*,
+                                                                            double*
+                                                                           ),
+                                                void (*c__init_obsvar_l_pdaf)(int*,
+                                                                              int*,
+                                                                              int*,
+                                                                              double*,
+                                                                              int*,
+                                                                              double*
+                                                                             ),
+                                                int* outflag
+                                               ) noexcept;
+cdef extern void c__pdaflocal_put_state_letkf (void (*c__collect_state_pdaf)(int*,
+                                                                             double*
+                                                                            ),
+                                               void (*c__init_dim_obs_pdaf)(int*,
+                                                                            int*
+                                                                           ),
+                                               void (*c__obs_op_pdaf)(int*,
+                                                                      int*,
+                                                                      int*,
+                                                                      double*,
+                                                                      double*
+                                                                     ),
+                                               void (*c__init_obs_pdaf)(int*,
+                                                                        int*,
+                                                                        double*
+                                                                       ),
+                                               void (*c__init_obs_l_pdaf)(int*,
+                                                                          int*,
+                                                                          int*,
+                                                                          double*
+                                                                         ),
+                                               void (*c__prepoststep_pdaf)(int*,
+                                                                           int*,
+                                                                           int*,
+                                                                           int*,
+                                                                           int*,
+                                                                           double*,
+                                                                           double*,
+                                                                           double*,
+                                                                           int*
+                                                                          ),
+                                               void (*c__prodRinvA_l_pdaf)(int*,
+                                                                           int*,
+                                                                           int*,
+                                                                           int*,
+                                                                           double*,
+                                                                           double*,
+                                                                           double*
+                                                                          ),
+                                               void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                int*
+                                                                               ),
+                                               void (*c__init_dim_l_pdaf)(int*,
+                                                                          int*,
+                                                                          int*
+                                                                         ),
+                                               void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                              int*,
+                                                                              int*,
+                                                                              int*
+                                                                             ),
+                                               void (*c__g2l_obs_pdaf)(int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       int*
+                                                                      ),
+                                               void (*c__init_obsvar_pdaf)(int*,
+                                                                           int*,
+                                                                           double*,
+                                                                           double*
+                                                                          ),
+                                               void (*c__init_obsvar_l_pdaf)(int*,
+                                                                             int*,
+                                                                             int*,
+                                                                             double*,
+                                                                             int*,
+                                                                             double*
+                                                                            ),
+                                               int* outflag
+                                              ) noexcept;
+cdef extern void c__pdaflocal_put_state_lknetf (void (*c__collect_state_pdaf)(int*,
+                                                                              double*
+                                                                             ),
+                                                void (*c__init_dim_obs_pdaf)(int*,
+                                                                             int*
+                                                                            ),
+                                                void (*c__obs_op_pdaf)(int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       double*,
+                                                                       double*
+                                                                      ),
+                                                void (*c__init_obs_pdaf)(int*,
+                                                                         int*,
+                                                                         double*
+                                                                        ),
+                                                void (*c__init_obs_l_pdaf)(int*,
+                                                                           int*,
+                                                                           int*,
+                                                                           double*
+                                                                          ),
+                                                void (*c__prepoststep_pdaf)(int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            double*,
+                                                                            double*,
+                                                                            double*,
+                                                                            int*
+                                                                           ),
+                                                void (*c__prodRinvA_l_pdaf)(int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            double*,
+                                                                            double*,
+                                                                            double*
+                                                                           ),
+                                                void (*c__prodRinvA_hyb_l_pdaf)(int*,
+                                                                                int*,
+                                                                                int*,
+                                                                                double*,
+                                                                                double*,
+                                                                                double*,
+                                                                                double*
+                                                                               ),
+                                                void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                 int*
+                                                                                ),
+                                                void (*c__init_dim_l_pdaf)(int*,
+                                                                           int*,
+                                                                           int*
+                                                                          ),
+                                                void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                               int*,
+                                                                               int*,
+                                                                               int*
+                                                                              ),
+                                                void (*c__g2l_obs_pdaf)(int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*,
+                                                                        int*
+                                                                       ),
+                                                void (*c__init_obsvar_pdaf)(int*,
+                                                                            int*,
+                                                                            double*,
+                                                                            double*
+                                                                           ),
+                                                void (*c__init_obsvar_l_pdaf)(int*,
+                                                                              int*,
+                                                                              int*,
+                                                                              double*,
+                                                                              int*,
+                                                                              double*
+                                                                             ),
+                                                void (*c__likelihood_l_pdaf)(int*,
+                                                                             int*,
+                                                                             int*,
+                                                                             double*,
+                                                                             double*,
+                                                                             double*
+                                                                            ),
+                                                void (*c__likelihood_hyb_l_pdaf)(int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 int*,
+                                                                                 double*,
+                                                                                 double*,
+                                                                                 double*,
+                                                                                 double*
+                                                                                ),
+                                                int* outflag
+                                               ) noexcept;
+cdef extern void c__pdaflocal_put_state_lnetf (void (*c__collect_state_pdaf)(int*,
+                                                                             double*
+                                                                            ),
+                                               void (*c__init_dim_obs_pdaf)(int*,
+                                                                            int*
+                                                                           ),
+                                               void (*c__obs_op_pdaf)(int*,
+                                                                      int*,
+                                                                      int*,
+                                                                      double*,
+                                                                      double*
+                                                                     ),
+                                               void (*c__init_obs_l_pdaf)(int*,
+                                                                          int*,
+                                                                          int*,
+                                                                          double*
+                                                                         ),
+                                               void (*c__prepoststep_pdaf)(int*,
+                                                                           int*,
+                                                                           int*,
+                                                                           int*,
+                                                                           int*,
+                                                                           double*,
+                                                                           double*,
+                                                                           double*,
+                                                                           int*
+                                                                          ),
+                                               void (*c__likelihood_l_pdaf)(int*,
+                                                                            int*,
+                                                                            int*,
+                                                                            double*,
+                                                                            double*,
+                                                                            double*
+                                                                           ),
+                                               void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                int*
+                                                                               ),
+                                               void (*c__init_dim_l_pdaf)(int*,
+                                                                          int*,
+                                                                          int*
+                                                                         ),
+                                               void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                              int*,
+                                                                              int*,
+                                                                              int*
+                                                                             ),
+                                               void (*c__g2l_obs_pdaf)(int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       int*
+                                                                      ),
+                                               int* outflag
+                                              ) noexcept;
+cdef extern void c__pdaflocal_put_state_lseik (void (*c__collect_state_pdaf)(int*,
+                                                                             double*
+                                                                            ),
+                                               void (*c__init_dim_obs_pdaf)(int*,
+                                                                            int*
+                                                                           ),
+                                               void (*c__obs_op_pdaf)(int*,
+                                                                      int*,
+                                                                      int*,
+                                                                      double*,
+                                                                      double*
+                                                                     ),
+                                               void (*c__init_obs_pdaf)(int*,
+                                                                        int*,
+                                                                        double*
+                                                                       ),
+                                               void (*c__init_obs_l_pdaf)(int*,
+                                                                          int*,
+                                                                          int*,
+                                                                          double*
+                                                                         ),
+                                               void (*c__prepoststep_pdaf)(int*,
+                                                                           int*,
+                                                                           int*,
+                                                                           int*,
+                                                                           int*,
+                                                                           double*,
+                                                                           double*,
+                                                                           double*,
+                                                                           int*
+                                                                          ),
+                                               void (*c__prodRinvA_l_pdaf)(int*,
+                                                                           int*,
+                                                                           int*,
+                                                                           int*,
+                                                                           double*,
+                                                                           double*,
+                                                                           double*
+                                                                          ),
+                                               void (*c__init_n_domains_p_pdaf)(int*,
+                                                                                int*
+                                                                               ),
+                                               void (*c__init_dim_l_pdaf)(int*,
+                                                                          int*,
+                                                                          int*
+                                                                         ),
+                                               void (*c__init_dim_obs_l_pdaf)(int*,
+                                                                              int*,
+                                                                              int*,
+                                                                              int*
+                                                                             ),
+                                               void (*c__g2l_obs_pdaf)(int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       int*,
+                                                                       int*
+                                                                      ),
+                                               void (*c__init_obsvar_pdaf)(int*,
+                                                                           int*,
+                                                                           double*,
+                                                                           double*
+                                                                          ),
+                                               void (*c__init_obsvar_l_pdaf)(int*,
+                                                                             int*,
+                                                                             int*,
+                                                                             double*,
+                                                                             int*,
+                                                                             double*
+                                                                            ),
+                                               int* outflag
+                                              ) noexcept;

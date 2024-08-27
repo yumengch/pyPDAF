@@ -61,7 +61,7 @@ n_modeltasks:int = 4
 # 200=3DVar, 0=SEEK
 # For a simplified documentation, see:https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF
 # Different DA scheme requires different user-supplied functions
-# More information can be found in the PDAF documentation 
+# More information can be found in the PDAF documentation
 filtertype:int = 7
 # Variants of each DA scheme check https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF
 subtype:int = 0

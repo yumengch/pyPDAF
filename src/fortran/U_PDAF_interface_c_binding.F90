@@ -77,7 +77,9 @@ abstract interface
    subroutine c__distribute_state_pdaf(dim_p, state_p) bind(c)
       use iso_c_binding, only: c_double, c_int
       implicit none
+      ! pe-local state dimension
       integer(c_int), intent(in) :: dim_p
+      ! local state vector
       real(c_double), intent(inout) :: state_p(dim_p)
    end subroutine c__distribute_state_pdaf
 

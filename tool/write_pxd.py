@@ -1,8 +1,8 @@
 conv:dict[str, str] = {'integer' : 'int', 'logical': 'bint', 'real': 'double', 'procedure':'void', 'character':'CFI_cdesc_t', 'type':'double*'}
 
 def write_Pxd_file(filename:str,
-                   func_info:dict[str, dict[str, dict[str, str|bool|None|list[str]]]],
-                   user_func_info:dict[str, dict[str, dict[str, str|bool|None|list[str]]]]) -> None:
+                   func_info:dict[str, dict[str, dict[str, str|list[str]]]],
+                   user_func_info:dict[str, dict[str, dict[str, str|list[str]]]]) -> None:
     """
     A function that writes the content of the func_info dictionary to a .pxd file with specific formatting.
 
@@ -37,6 +37,7 @@ def write_Pxd_file(filename:str,
 
             # write the function arguments
             for argname, arginfo in func_info[routine_name].items():
+                assert type(arginfo['type']) is str, f"type in info {arginfo['type']} is not a str"
                 if arginfo["type"] == 'procedure':
                     # write the user-supplied function interface
                     user_arg_info = [user_func_info[user_func_name]
@@ -44,7 +45,7 @@ def write_Pxd_file(filename:str,
                     s = f'void (*{arginfo['kind']})('
                     indent2 = indent + ' '*len(s)
                     for _, u_info in user_arg_info.items():
-                        assert type(u_info["type"]) is str, f'Unknown u_info variable type: {u_info["type"]}'
+                        assert type(u_info['type']) is str, f"type in info {u_info['type']} is not a str"
                         s += f'{conv[u_info["type"]]}*'
                         s += f',\n{indent2}'
 
@@ -52,7 +53,6 @@ def write_Pxd_file(filename:str,
                     s = s[:-n] + f'\n{indent2[:-1]})'
                 else:
                     # simply write the argument type and name
-                    assert type(arginfo["type"]) is str, f'Unknown arginfo variable type: {arginfo["type"]}'
                     s = f'{conv[arginfo["type"]]}* {argname}'
 
                 s += f'\n{indent[:-1]}' if argname == list(func_info[routine_name])[-1] else f',\n{indent}'

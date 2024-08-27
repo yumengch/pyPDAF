@@ -53,7 +53,7 @@ class PDAF_system:
     def __init__(self, pe:parallelisation.parallelisation, model_ens:list[model.model]) -> None:
         self.pe:parallelisation.parallelisation = pe
         self.model_ens:list[model.model] = model_ens
-        
+
         self.filter_options = filter_options.filter_options()
         self.sv = state_vector.state_vector(model_ens[0], dim_ens=pe.dim_ens)
         self.local = localisation.localisation(sv=self.sv)
@@ -175,7 +175,7 @@ class PDAF_system:
         dist = distributor.distributor(self.model_ens[0])
         if self.local.local_filter:
             status = \
-                   PDAF.omi_assimilate_local(cltor.collect_state,
+                   PDAF.localomi_assimilate(cltor.collect_state,
                                            dist.distribute_state,
                                            self.obs.init_dim_obs_pdafomi,
                                            self.obs.obs_op_pdafomi,
@@ -183,9 +183,7 @@ class PDAF_system:
                                            self.local.init_n_domains_pdaf,
                                            self.local.init_dim_l_pdaf,
                                            self.obs.init_dim_obs_l_pdafomi,
-                                           self.local.g2l_state_pdaf,
-                                           self.local.l2g_state_pdaf,
-                                           dist.next_observation)
+                                           dist.next_observation, status)
         else:
             if self.filter_options.filtertype == 8:
                 status = \
@@ -212,7 +210,7 @@ class PDAF_system:
 
         The put_state_XXX functions put model fields into PDAF state vectors using
         i.e. PDAF will collect state vectors from models (from a user-supplied functions p.o.v.).
-        When all ensemble members are collected, the PDAF distribute each model fields 
+        When all ensemble members are collected, the PDAF distribute each model fields
         """
         doexit:int = 0
         status:int = 0
@@ -221,15 +219,14 @@ class PDAF_system:
         if self.local.local_filter:
             for i in range(self.pe.dim_ens_l):
                 cltor = collector.collector(self.model_ens[i], self.pe)
-                status = PDAF.omi_put_state_local(cltor.collect_state,
+                status = PDAF.localomi_put_state(cltor.collect_state,
                     self.obs.init_dim_obs_pdafomi,
                     self.obs.obs_op_pdafomi,
                     prepost.prepostprocess,
                     self.local.init_n_domains_pdaf,
                     self.local.init_dim_l_pdaf,
                     self.obs.init_dim_obs_l_pdafomi,
-                    self.local.g2l_state_pdaf,
-                    self.local.l2g_state_pdaf)
+                    status)
         else:
             if self.filter_options.filtertype == 8:
                 for i in range(self.pe.dim_ens_l):

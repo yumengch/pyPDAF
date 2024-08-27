@@ -14,7 +14,7 @@ def extract_dimension_name(s:str) -> str | None:
     return None
 
 
-def write_user_def(f:typing.TextIO, subroutine_name:str, arg_info:dict[str, dict[str, str|bool|None|list[str]]]) -> None:
+def write_user_def(f:typing.TextIO, subroutine_name:str, arg_info:dict[str, dict[str, str|list[str]]]) -> None:
     """write the interface of Python user-defined function to the file
 
     Parameters
@@ -34,7 +34,7 @@ def write_user_def(f:typing.TextIO, subroutine_name:str, arg_info:dict[str, dict
     f.write(s)
 
 
-def write_user_docstring(f:typing.TextIO, arg_info:dict[str, dict[str, str|bool|None|list[str]]]) -> None:
+def write_user_docstring(f:typing.TextIO, arg_info:dict[str, dict[str, str|list[str]]]) -> None:
     """write the docstring of the Python user-defined function to the file
 
     Parameters
@@ -55,13 +55,14 @@ def write_user_docstring(f:typing.TextIO, arg_info:dict[str, dict[str, str|bool|
     count = 0
     for arg, info in arg_info.items():
         assert type(info["type"]) is str, f'Unknown arg_info variable type: {info["type"]}'
-        if info['array']:
+        assert type(info["comment"]) is str, f'Unknown comment variable type: {info["comment"]}'
+        if len(info['dimension']) > 0:
             s += indent+arg +f' : ndarray[{pyconv[info["type"]]}]\n'
         else:
             s += indent + f'{arg} : {pyconv[info["type"]]}\n'
-        assert type(info["comment"]) is str, f'Unknown comment variable type: {info["comment"]}'
         s += 2*indent + info['comment'] +'\n'
         count += 1
+
     if count > 0:
         f.write(s)
 
@@ -70,23 +71,21 @@ def write_user_docstring(f:typing.TextIO, arg_info:dict[str, dict[str, str|bool|
     s += indent + '-------\n'
     count = 0
     for arg, info in arg_info.items():
-        if info['intent'] is None:
-            continue
-        assert type(info['intent']) is str, f'Unknown intent variable type: {info["intent"]}'
         if 'out' not in info['intent']:
             continue
 
         assert type(info["type"]) is str, f'Unknown arg_info variable type: {info["type"]}'
-        if info['array']:
+        assert type(info["comment"]) is str, f'Unknown comment variable type: {info["comment"]}'
+
+        if len(info['dimension']) > 0:
             s += indent+arg +f' : ndarray[{pyconv[info["type"]]}]\n'
         elif info['type'] == 'type':
             s += indent+arg + f' : ndarray[float]\n'
         else:
             s += indent + f'{arg} : {pyconv[info["type"]]}\n'
-
-        assert type(info["comment"]) is str, f'Unknown comment variable type: {info["comment"]}'
         s += 2*indent + info['comment'] +'\n'
         count += 1
+
     if count > 0:
         f.write(s+'\n')
 
@@ -100,7 +99,7 @@ def write_user_docstring(f:typing.TextIO, arg_info:dict[str, dict[str, str|bool|
     f.write(s)
 
 
-def write_C_user_def(f:typing.TextIO, subroutine_name:str, arg_info: dict[str, dict[str, str|bool|None|list[str]]]) -> None:
+def write_C_user_def(f:typing.TextIO, subroutine_name:str, arg_info: dict[str, dict[str, str|list[str]]]) -> None:
     """write the definition of the C user-defined function to the file
 
     Parameters
@@ -123,7 +122,7 @@ def write_C_user_def(f:typing.TextIO, subroutine_name:str, arg_info: dict[str, d
     f.write(s+'\n\n')
 
 
-def write_array_conversion(f:typing.TextIO, arg_info:dict[str, dict[str, str|bool|None|list[str]]]) -> dict[str, list[str]]:
+def write_array_conversion(f:typing.TextIO, arg_info:dict[str, dict[str, str|list[str]]]) -> dict[str, list[str]]:
     """Convert input C pointers to numpy arrays and get the array size for each arguments
 
     Parameters
@@ -138,11 +137,10 @@ def write_array_conversion(f:typing.TextIO, arg_info:dict[str, dict[str, str|boo
     indent:str = ' '*4
     arg_dims: dict[str, list[str]] = {}
     for argname, info in arg_info.items():
-        if not info['array']:
+        if len(info['dimension']) == 0:
             continue
 
         # replace the dimension name by C input arguments
-        assert type(info['dimension']) is list, f'Unknown dimension info type: {info["dimension"]}'
         dims:list[str] = []
         for d in info['dimension']:
             # some dimension delcaration contains calculations
@@ -193,7 +191,7 @@ def write_array_conversion(f:typing.TextIO, arg_info:dict[str, dict[str, str|boo
     return arg_dims
 
 
-def write_C_U_calls(f:typing.TextIO, subroutine_name:str, arg_info:dict[str, dict[str, str|bool|None|list[str]]]) -> None:
+def write_C_U_calls(f:typing.TextIO, subroutine_name:str, arg_info:dict[str, dict[str, str|list[str]]]) -> None:
     """write the Python user-defined function calls to the file
 
     Parameters
@@ -210,17 +208,16 @@ def write_C_U_calls(f:typing.TextIO, subroutine_name:str, arg_info:dict[str, dic
     s: str = indent
     # write the function returns
     for arg, info in arg_info.items():
-        if info['intent'] is None:
-            continue
-        assert type(info['intent']) is str, f'Unknown intent variable type: {info["intent"]}'
         if 'out' not in info['intent']:
             continue
 
-        if info['array']:
+        if len(info['dimension']) > 0:
             s += arg +'_np, '
         else:
             s += f'{arg}[0], '
+
         count += 1
+
     if count > 0:
         s = s[:-2]
         s += ' = '
@@ -229,7 +226,7 @@ def write_C_U_calls(f:typing.TextIO, subroutine_name:str, arg_info:dict[str, dic
     count = 0
     # write the input function arguments
     for arg, info in arg_info.items():
-        if info['array']:
+        if len(info['dimension']) > 0:
             s += arg +'_np.base, '
         else:
             s += f'{arg}[0], '
@@ -240,7 +237,7 @@ def write_C_U_calls(f:typing.TextIO, subroutine_name:str, arg_info:dict[str, dic
 
 
 def check_output_array_memory(f:typing.TextIO, subroutine_name:str,
-                              arg_dims:dict[str, list[str]], arg_info:dict[str, dict[str, str|bool|None|list[str]]]) -> None:
+                              arg_dims:dict[str, list[str]], arg_info:dict[str, dict[str, str|list[str]]]) -> None:
     """Check the user-supplied output arrays does not change the address of the input C pointers
 
     Parameters
@@ -256,30 +253,24 @@ def check_output_array_memory(f:typing.TextIO, subroutine_name:str,
     """
     indent:str = ' '*4
     for argname, info in arg_info.items():
-        if info['intent'] is None:
-            continue
-        assert type(info['intent']) is str, f'Unknown intent variable type: {info["intent"]}'
-
         if 'out' not in info['intent']:
             continue
 
-        if not info['array']:
+        if len(info['dimension']) == 0:
             continue
 
         assert type(info["type"]) is str, f'Unknown arg_info variable type: {info["type"]}'
         s = '\n'
-
         s += indent + f'cdef {conv[info["type"]]}[::1'
         for i in range(len(info['dimension']) - 1):
             s += ',:'
-        s += f'] {argname}_new\n' 
+        s += f'] {argname}_new\n'
 
         # check if the memory address of the numpy array is different from the input C pointer
         dim_0:str = '0,'*len(info['dimension'])
-        dim_0 = dim_0[:-1] 
+        dim_0 = dim_0[:-1]
         s += indent + f'if {argname} != &{argname}_np[{dim_0}]:\n'
 
-        assert type(info["dimension"]) is list, f'Unknown dimension info type: {info["dimension"]}'
         # if it is not, we assign values of the output array to the input C pointer and raise a warning
         if len(info['dimension']) == 1:
             s += indent*2 + f'{argname}_new = np.asarray(<{conv[info["type"]]}[:{info["dimension"][0]}[0]]> {argname})\n'
@@ -298,7 +289,7 @@ def check_output_array_memory(f:typing.TextIO, subroutine_name:str,
         f.write(s)
 
 
-def writeUserCalls(filename:str, func_info:dict[str, dict[str, dict[str, str|bool|None|list[str]]]]) -> None:
+def writeUserCalls(filename:str, func_info:dict[str, dict[str, dict[str, str|list[str]]]]) -> None:
     with open(filename, 'w') as f:
         s = 'import numpy as np\n'
         s += 'import warnings\n'
@@ -322,6 +313,6 @@ def writeUserCalls(filename:str, func_info:dict[str, dict[str, dict[str, str|boo
 if __name__ == '__main__':
     import get_interface_info
     import write_pxd
-    user_func_info = get_interface_info.get_func_info(['../src/pyPDAF/fortran/U_PDAF_interface_c_binding.F90'])
+    user_func_info = get_interface_info.get_func_info(['../src/fortran/U_PDAF_interface_c_binding.F90'])
     write_pxd.write_Pxd_file('UserFunc.pxd', user_func_info, user_func_info)
     writeUserCalls('UserFunc.pyx', user_func_info)

@@ -85,7 +85,7 @@ class obsA:
         # nrows depends on the necessity of interpolating
         # observations onto model grid
         # if nrows = 1, observations are on the model grid points
-        # when interpolation is required, 
+        # when interpolation is required,
         # this is the number of grid points required for interpolation.
         # For example, nrows = 4 for bi-linear interpolation in 2D,
         # and 8 for 3D linear interpolation.
@@ -104,8 +104,8 @@ class obsA:
     def init_dim(self, step:int, dim_obs:int) -> int:
         """In PDAFomi, init_dim takes the responsibility to
         set the obs_f object, gather information on the observations
-        including the observation values, observation error, index of 
-        the state vector of the observation, the model domain and 
+        including the observation values, observation error, index of
+        the state vector of the observation, the model domain and
         observation coordinate for interpolation, and the distance metric
         for localisation.
 
@@ -158,7 +158,7 @@ class obsA:
         ocoord_p:np.ndarray = np.zeros((self.ncoord, len(obs_p)))
         ocoord_p[0] = np.tile(np.arange(self.model.nx_p) + pe_start, self.model.ny_p)[condition]
         ocoord_p[1] = np.repeat(np.arange(self.model.ny_p), self.model.nx_p)[condition]
-        ocoord_p = ocoord_p + 1
+        ocoord_p = ocoord_p + 1.
 
 
         id_obs_p:np.ndarray = np.zeros((self.nrows, len(obs_p)), dtype=np.intc)
@@ -167,8 +167,8 @@ class obsA:
             # id_obs_p gives the indices of observed field in state vector
             # the index starts from 1
             # The index is based on the full state vector instead of the index in the local domain
-            # The following code is used because in our example, observations are masked and 
-            # have the same shape as the model grid 
+            # The following code is used because in our example, observations are masked and
+            # have the same shape as the model grid
             state_vector_index_p:np.ndarray = np.arange(1, self.model.nx_p*self.model.ny_p + 1, dtype=np.intc)
             id_obs_p[0] = state_vector_index_p[condition]
         else:
@@ -177,14 +177,14 @@ class obsA:
             # id_obs_p[0] is the index of the grid point in the state vector at lower left of the observation
             # for more details of the interpolation see:
             # https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsid_obs_p
-            # and 
+            # and
             # https://pdaf.awi.de/trac/wiki/OMI_observation_operators#PDAFomi_get_interp_coeff_lin
             # In this case, we also need to specify the coefficients for linear interpolation
             # using PDAF.omi_get_interp_coeff_lin() function and set icoeff_p to PDAF
             icoeff_p:np.ndarray = np.zeros((self.nrows, len(obs_p)))
             for i in range(dim_obs_p):
                 # here gcoords are set to 0 in this example
-                # in real applications, it must be the actual coordinates 
+                # in real applications, it must be the actual coordinates
                 gcoords:np.ndarray = np.zeros((self.nrows, self.ncoord))
                 icoeff_p[:, i] = PDAF.omi_get_interp_coeff_lin(gcoords, ocoord_p[:, i], icoeff_p[:, i])
             PDAF.omi_set_icoeff_p(self.i_obs, icoeff_p)
@@ -200,7 +200,7 @@ class obsA:
         # Without explicit setting, this is 1 (using all obs.)
         PDAF.omi_set_use_global_obs(self.i_obs, 1)
 
-        # when localisation is used we need to 
+        # when localisation is used we need to
         if self.local.local_filter:
             # Size of domain for periodicity for disttype=1
             # (<0 for no periodicity)
@@ -250,7 +250,7 @@ class obsA:
         offset:int = self.pe.mype_filter*self.model.nx_p
         coords_l[0] = np.tile(np.arange(self.model.nx_p) + offset, self.model.ny_p)[domain_p - 1]
         coords_l[1] = np.repeat(np.arange(self.model.ny_p), self.model.nx_p)[domain_p - 1]
-        coords_l = coords_l + 1
+        coords_l = coords_l + 1.
 
         return PDAF.omi_init_dim_obs_l_iso(self.i_obs, coords_l,
                                       self.local.loc_weight,
@@ -280,13 +280,13 @@ class obsA:
         HPH : ndarray
             matrix HPH
         """
-        return PDAF.omi_localize_covar(self.i_obs, self.local.loc_weight,
+        return PDAF.omi_localize_covar_iso(self.i_obs, self.local.loc_weight,
                                        self.local.cradius,
                                        self.local.sradius,
                                        coords_p, HP_p, HPH)
 
 
-    def obs_op(self, step:int, state_p:int, ostate:np.ndarray) -> np.ndarray:
+    def obs_op(self, step:int, state_p:np.ndarray, ostate:np.ndarray) -> np.ndarray:
         """convert state vector by observation operator
 
         Parameters

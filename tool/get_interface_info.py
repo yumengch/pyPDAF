@@ -136,7 +136,7 @@ def get_args_attr(args_list:str) -> list[str]:
     # so we need to merge the arrays
     return merge_brackets(args_list.split(','))
 
-def get_arg_info(subroutine_name: str, arg_info:dict[str, dict[str, str|bool|None|list[str]]], line:str, comment:str) -> dict[str, dict[str, str|bool|None|list[str]]]:
+def get_arg_info(subroutine_name: str, arg_info:dict[str, dict[str, str|list[str]]], line:str, comment:str) -> dict[str, dict[str, str|list[str]]]:
     """get the information of the subroutine arguments from the line
 
     Parameters
@@ -165,7 +165,8 @@ def get_arg_info(subroutine_name: str, arg_info:dict[str, dict[str, str|bool|Non
         argname = arg.split('(')[0]
         if argname not in arg_info:
             # skip variables that are not in the argument list
-            warnings.warn(f'{argname} is not in {list(arg_info.keys())} of {subroutine_name}. If this is a case-sensitivity issue, change the source code in .F90 files!')
+            warnings.warn(f'{argname} is not in {list(arg_info.keys())} of {subroutine_name}. If this is a case-sensitivity issue, change the source code in .F90 files!',
+                stacklevel=0)
             continue
 
         # get the attributes of the variable
@@ -173,7 +174,7 @@ def get_arg_info(subroutine_name: str, arg_info:dict[str, dict[str, str|bool|Non
         arg_info[argname]['kind'] = attrs[0].split('(')[1].split(')')[0]
         # get the input/output of the variable
         intent_string = [s for s in attrs if 'intent' in s.lower()]
-        arg_info[argname]['intent'] = intent_string[0].replace(' ', '')[7:-1].lower() if len(intent_string) != 0 else None
+        arg_info[argname]['intent'] = intent_string[0].replace(' ', '')[7:-1].lower() if len(intent_string) != 0 else ''
         # get the dimension of the variable if they are arrays
         dimension_string : list[str] = [s for s in attrs if 'dimension' in s.lower()]
         if len(dimension_string) == 0:
@@ -186,16 +187,13 @@ def get_arg_info(subroutine_name: str, arg_info:dict[str, dict[str, str|bool|Non
         else:
             dimension_string =  [d[10:-1] for d in dimension_string]
         # decide whether the variable is an array
-        arg_info[argname]['array'] = len(dimension_string) > 0
-        arg_info[argname]['dimension'] = merge_brackets(dimension_string[0].split(',')) if arg_info[argname]['array'] else None
+        arg_info[argname]['dimension'] = merge_brackets(dimension_string[0].split(',')) if len(dimension_string) > 0 else []
         arg_info[argname]['comment'] = comment.strip()
-
-        if arg_info[argname]['array']:
-            arg_info[argname]['dimension'] = [dim.lower() for dim in arg_info[argname]['dimension']]
+        arg_info[argname]['dimension'] = [dim.lower() for dim in arg_info[argname]['dimension']]
 
     return arg_info
 
-def get_arguments(subroutine:list[str]) -> dict[str, dict[str, str|bool|None|list[str]]]:
+def get_arguments(subroutine:list[str]) -> dict[str, dict[str, str|list[str]]]:
     """get the information of the subroutine arguments from a list of lines of subroutine strings
 
     Parameters
@@ -206,7 +204,7 @@ def get_arguments(subroutine:list[str]) -> dict[str, dict[str, str|bool|None|lis
     # get the arg list and subroutine name
     line:str = subroutine[0]
     arg_list:list[str] = line.replace(' ', '').replace(')', '(').split('(')[1].split(',')
-    arg_info:dict[str, dict[str, str|bool|None|list[str]]] = {}
+    arg_info:dict[str, dict[str, str|list[str]]] = {}
     for arg in arg_list:
         if arg == '':
             continue
@@ -273,7 +271,7 @@ def get_subroutine_list(filename:str) -> dict[str, list[str]]:
                 do_append = False
     return subroutines
 
-def get_func_info(filenames:list[str]) -> dict[str, dict[str, dict[str, str|bool|None|list[str]]]]:
+def get_func_info(filenames:list[str]) -> dict[str, dict[str, dict[str, str|list[str]]]]:
     """get the information of the subroutines from the files
 
     Parameters
@@ -281,7 +279,7 @@ def get_func_info(filenames:list[str]) -> dict[str, dict[str, dict[str, str|bool
     filenames: list[str]
         list of filenames to be read
     """
-    func_info : dict[str, dict[str, dict[str, str|bool|None|list[str]]]] = {}
+    func_info : dict[str, dict[str, dict[str, str|list[str]]]] = {}
     for filename in filenames:
         subroutines = get_subroutine_list(filename)
 
