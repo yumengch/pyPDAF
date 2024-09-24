@@ -406,6 +406,7 @@ set(OBJ_3DVAR
 set(OBJ_PDAFOMI
     PDAFomi_obs_f.F90
     PDAFomi_obs_l.F90
+    PDAFomi_dim_obs_l.F90
     PDAFomi_obs_op.F90
     PDAFomi.F90
     PDAFomi_callback.F90
