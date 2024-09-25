@@ -180,9 +180,9 @@ def write_docstring(f:typing.TextIO, subroutine_name:str, user_func_info:dict[st
                 if len(u_arg_info['dimension']) > 0:
                     s_dims = ', '.join(u_arg_info['dimension'])
                     s_dtype = npyconv[u_arg_info['type']]
-                    s += 2*indent + f'* {u_arg} : ndarray[tuple[{s_dims}], {s_dtype}]\n\n'
+                    s += 2*indent + f'* **{u_arg}** : ndarray[tuple[{s_dims}], {s_dtype}]\n\n'
                 else:
-                    s += 2*indent + f'* {u_arg} : ' + mypy_conv[u_arg_info['type']] + '\n\n'
+                    s += 2*indent + f'* **{u_arg}** : ' + mypy_conv[u_arg_info['type']] + '\n\n'
                 s += 3*indent + '* ' + u_arg_info['comment'] +'\n\n'
 
             s += 2*indent + '**Callback Returns**\n\n'
@@ -193,9 +193,9 @@ def write_docstring(f:typing.TextIO, subroutine_name:str, user_func_info:dict[st
                 if len(u_arg_info['dimension']) > 0:
                     s_dims = ', '.join(u_arg_info['dimension'])
                     s_dtype = npyconv[u_arg_info['type']]
-                    s += 2*indent + f'* {u_arg} : ndarray[tuple[{s_dims}], {s_dtype}]\n\n'
+                    s += 2*indent + f'* **{u_arg}** : ndarray[tuple[{s_dims}], {s_dtype}]\n\n'
                 else:
-                    s += 2*indent + f'* {u_arg} : ' + mypy_conv[u_arg_info['type']] + '\n\n'
+                    s += 2*indent + f'* **{u_arg}** : ' + mypy_conv[u_arg_info['type']] + '\n\n'
                 s += 3*indent + '* ' + u_arg_info['comment'] +'\n\n'
         elif len(info['dimension']) > 0:
             s += indent+arg +f' : '

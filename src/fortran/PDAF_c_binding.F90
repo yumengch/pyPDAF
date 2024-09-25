@@ -782,9 +782,10 @@ contains
       INTEGER(c_int), INTENT(in) :: dim
       ! Ensemble size
       INTEGER(c_int), INTENT(in) :: dim_ens
-      ! ID of element to be used. If element=0, mean values over all elements are computed
+      ! Index of state vector/ensemble element to be used.
+      ! If element=0, mean values over all elements are computed
       INTEGER(c_int), INTENT(in) :: element
-      ! State vector
+      ! State vector (typically ensemble mean)
       REAL(c_double), INTENT(in) :: state(dim)
       ! State ensemble
       REAL(c_double), INTENT(in) :: ens(dim, dim_ens)
@@ -801,23 +802,24 @@ contains
 
    SUBROUTINE c__PDAF_diag_histogram(ncall, dim, dim_ens, element, &
          state, ens, hist, delta, status) bind(c)
-      ! Number of calls to routine
+      ! The number of calls used to increment the histogram and
+      ! is needed to compute the delta-measure that
+      ! describes the deviation from the ideal histogram.
       INTEGER(c_int), INTENT(in) :: ncall
       ! State dimension
       INTEGER(c_int), INTENT(in) :: dim
       ! Ensemble size
       INTEGER(c_int), INTENT(in) :: dim_ens
-      ! Element of vector used for histogram
+      ! Element of vector used for histogram. If element=0, all elements are used
       INTEGER(c_int), INTENT(in) :: element
-         ! If element=0, all elements are used
-
-      ! State vector
+      ! Assumed truth
       REAL(c_double), INTENT(in) :: state(dim)
-      ! State ensemble
+      ! Ensemble
       REAL(c_double), INTENT(in) :: ens(dim, dim_ens)
       ! Histogram about the state
       INTEGER(c_int), INTENT(inout) :: hist(dim_ens+1)
-      ! deviation measure from flat histogram
+      ! deviation measure from flat histogram.
+      ! It must be initialised to be 0
       REAL(c_double), INTENT(out) :: delta
       ! Status flag (0=success)
       INTEGER(c_int), INTENT(out) :: status
@@ -830,23 +832,27 @@ contains
          remove_mstate, do_mv, states, stddev, svals, svec, meanstate, verbose, status) bind(c)
       ! Dimension of state vector
       INTEGER(c_int), INTENT(in) :: dim_state
-      ! Number of state vectors
+      ! Number of state vectors, typically from different time steps
       INTEGER(c_int), INTENT(in) :: nstates
       ! Number of fields in state vector
+      ! For example, if the state vector contains temperature and humidity,
+      ! nfields=2, only used when `do_mv = 1`
       INTEGER(c_int), INTENT(in) :: nfields
-      ! Size of each field
+      ! Size of each field, only used when `do_mv = 1`.
+      ! Each field could be 2D or 3D so can have different sizes
       INTEGER(c_int), INTENT(in) :: dim_fields(nfields)
-      ! Start position of each field
+      ! Start position of each field, only used when `do_mv = 1`
+      ! It starts from 1.
       INTEGER(c_int), INTENT(in) :: offsets(nfields)
       ! 1: Do multivariate scaling; 0: no scaling
       ! nfields, dim_fields and offsets are only used if do_mv=1
       INTEGER(c_int), INTENT(in) :: do_mv
-      ! 1: subtract mean state from states
+      ! 1: subtract mean state from states (average over nstates dimension)
       ! before computing EOFs; 0: don't remove
       INTEGER(c_int), INTENT(in) :: remove_mstate
-      ! State perturbations
+      ! State perturbations or an ensemble of state vectors
       REAL(c_double), INTENT(inout) :: states(dim_state, nstates)
-      ! Standard deviation of field variability
+      ! Standard deviation of field variability.
       ! Without multivariate scaling (do_mv=0), it is stddev = 1.0
       REAL(c_double), INTENT(out) :: stddev(nfields)
       ! Singular values divided by sqrt(nstates-1)
@@ -883,7 +889,7 @@ contains
       ! Full gathered vector
       REAL(c_double), INTENT(out) :: obs_f(dimobs_f)
       ! Status flag:
-      ! (0) no error
+      ! (0) no error;
       ! (1) when PDAF_gather_dim_obs_f not executed before
       INTEGER(c_int), INTENT(out) :: status
 
@@ -902,7 +908,7 @@ contains
       ! Full gathered array
       REAL(c_double), INTENT(out) :: coords_f(nrows, dimobs_f)
       ! Status flag:
-      ! (0) no error
+      ! (0) no error;
       ! (1) when PDAF_gather dim_obs_f not executed before
       INTEGER(c_int), INTENT(out) :: status
 
@@ -946,9 +952,9 @@ contains
    SUBROUTINE c__PDAF_get_ensstats(dims, c_skew_ptr, c_kurt_ptr, status) bind(c)
       ! dimension of pointer
       INTEGER(c_int), intent(out) :: dims(1)
-      ! Pointer to skewness array
+      ! Skewness array
       type(c_ptr), INTENT(out) :: c_skew_ptr
-      ! Pointer to kurtosis array
+      ! kurtosis array
       type(c_ptr), INTENT(out) :: c_kurt_ptr
       ! Status flag
       INTEGER(c_int), INTENT(out)       :: status
@@ -963,7 +969,7 @@ contains
    END SUBROUTINE c__PDAF_get_ensstats
 
    SUBROUTINE c__PDAF_get_localfilter(lfilter) bind(c)
-      ! Whether the filter is domain-localized
+      ! Whether the filter is domain-localized (1) or not (0)
       INTEGER(c_int), INTENT(out) :: lfilter
 
       CALL PDAF_get_localfilter(lfilter)
@@ -984,7 +990,7 @@ contains
    END SUBROUTINE c__PDAF_get_obsmemberid
 
    SUBROUTINE c__PDAF_get_smootherens(c_sens_point, maxlag, dims, status) bind(c)
-      ! Pointer to smoother array
+      ! A smoother array
       type(c_ptr), intent(out) :: c_sens_point
       ! Number of past timesteps processed in sens
       INTEGER(c_int), INTENT(out) :: maxlag
@@ -1073,9 +1079,9 @@ contains
       INTEGER(c_int), INTENT(in) :: wtype
       ! Type of regulated weighting
       INTEGER(c_int), INTENT(in) :: rtype
-      ! Cut-off radius
+      ! Cut-off radius (check https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE)
       REAL(c_double), INTENT(in) :: cradius
-      ! Support radius
+      ! Support radius (check https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE)
       REAL(c_double), INTENT(in) :: sradius
       ! Distance to observation
       REAL(c_double), INTENT(in) :: distance
@@ -2104,4 +2110,32 @@ contains
       call PDAF_omit_obs_omi(dim_p, dim_obs_p, dim_ens, state_p, ens_p, &
                               obs_p, U_init_obs, U_obs_op, compute_mean, screen)
    END SUBROUTINE c__PDAF_omit_obs_omi
+
+   SUBROUTINE c__PDAF_diag_CRPS_nompi(dim, dim_ens, element, oens, obs, &
+                                      CRPS, reli, resol, uncert, status)!
+      ! PE-local state dimension
+      INTEGER, INTENT(in) :: dim
+      ! Ensemble size
+      INTEGER, INTENT(in) :: dim_ens
+      ! ID of element to be used
+      ! If element=0, mean values over all elements are computed
+      INTEGER, INTENT(in) :: element
+      ! State ensemble
+      REAL, INTENT(in)    :: oens(dim, dim_ens)
+      ! State ensemble
+      REAL, INTENT(in)    :: obs(dim)
+      ! CRPS
+      REAL, INTENT(out)   :: CRPS
+      ! Reliability
+      REAL, INTENT(out)   :: reli
+      ! resolution
+      REAL, INTENT(out)   :: resol
+      ! uncertainty
+      REAL, INTENT(out)   :: uncert
+      ! Status flag (0=success)
+      INTEGER, INTENT(out) :: status
+
+      call PDAF_diag_CRPS_nompi(dim, dim_ens, element, oens, obs, &
+                                CRPS, reli, resol, uncert, status)
+   END SUBROUTINE c__PDAF_diag_CRPS_nompi
 END MODULE PDAF_c_binding
