@@ -510,7 +510,8 @@ docstrings['assimilate_seik'] = "This function will use singular evolutive inter
                                  "11. py__distribute_state_pdaf " \
                                  "12. py__next_observation_pdaf "
 docstrings['assimilate_prepost'] = "This function does not perform any DA. " \
-                                   "It is used to perform a preprocess and postprocess of the ensemble. \n" \
+                                   "It is used to perform a preprocess and postprocess of the ensemble. " \
+                                   "Compared to `pyPDAF.PDAF.prepost`, this function sets assimilation flag.\n" \
                                    "The function is a combination of `pyPDAF.PDAF.put_state_prepost` " \
                                    "and `pyPDAF.PDAF.get_state`, and executes the user-supplied function " \
                                    "in the following sequence: \n" \
@@ -1168,32 +1169,119 @@ docstrings['local_weight'] = "The function is used for localisation in the analy
                              "in the `py__localize_covar_pdaf`. \n" \
                              "This function is usually only used in user-codes that do not use PDAF-OMI."
 
-docstrings['print_info'] = None
-docstrings['reset_forget'] = None
-docstrings['SampleEns'] = None
-docstrings['set_debug_flag'] = None
-docstrings['set_ens_pointer'] = None
-docstrings['set_smootherens'] = None
-docstrings['seik_TtimesA'] = None
-docstrings['etkf_Tleft'] = None
-docstrings['estkf_OmegaA'] = None
-docstrings['enkf_omega'] = None
-docstrings['seik_omega'] = None
-docstrings['incremental'] = None
-docstrings['add_increment'] = None
-docstrings['local_weights'] = None
-docstrings['diag_CRPS'] = None
-docstrings['force_analysis'] = None
-docstrings['gather_obs_f2_flex'] = None
-docstrings['gather_obs_f_flex'] = None
-docstrings['prepost'] = None
-docstrings['set_memberid'] = None
-docstrings['set_comm_pdaf'] = None
-docstrings['set_offline_mode'] = None
-docstrings['print_domain_stats'] = None
-docstrings['init_local_obsstats'] = None
-docstrings['incr_local_obsstats'] = None
-docstrings['print_local_obsstats'] = None
+docstrings['print_info'] = "This function prints the wallclock time and memory measured by PDAF. This is called at the end of the DA program. \n" \
+                           "The function displays the following information: \n" \
+                           "- Memory required for the ensemble array, state vector, and transform matrix" \
+                           "- Memory required by the analysis step" \
+                           "- Memory required to perform the ensemble transformation"
+
+docstrings['reset_forget'] = "This function allows a user to reset the forgetting factor manually during the assimilation process. " \
+                             "For the local ensemble Kalman filters the forgetting factor can be set either globally of differently " \
+                             "for each local analysis domain. " \
+                             "For the LNETF and the global filters only a global setting of the forgeting factor is possible. " \
+                             "In addition, the implementation of adaptive choices for the forgetting factor (beyond what is implemented in PDAF) are possible."
+x`
+docstrings['SampleEns'] = "This function generates an ensemble from singular values and their vectors (EOF modes) centred on given mean state. " \
+                          "The singular values and vectors are derived from the ensemble anomalies which can be obtained from a long model trajectory using " \
+                          "`pyPDAF.PDAF.eofcovar`."
+
+docstrings['set_debug_flag'] = "This function activates the debug output of the PDAF. Starting from the use of this function, the debug infomation is " \
+                               "sent to screen output.  The screen output end when the debug flag is set to 0. " \
+                               "We recommend using debugging output for single local domain, e.g. `if domain_p = 1: pyPDAF.PDAF.set_debug_flag(1)`. "
+
+docstrings['set_ens_pointer'] = "This function returns the ensemble array in a numpy array where the internal array data has the same memoery address as PDAF ensemble array."
+
+docstrings['set_smootherens'] = "This function can be used in the offline implementation when a smoother is used. " \
+                                "It is typically called in `py__init_ens_pdaf` in the call to `pyPDAF.PDAF.PDAF_init`. " \
+                                "The function `pyPDAF.PDAF.set_smootherens` is used when the smoother extension of a filter is used. " \
+                                "In this case, the smoothed ensemble states at earlier times are stored in an internal array of PDAF. " \
+                                "To be able to smooth post times, the smoother algorithm must have access to the past ensembles. " \ 
+                                "In the offline mode the user has to manually fill the smoother ensemble array from ensembles read in from files. " \
+                                "In the online mode, the smoother array is filled automatically during the cycles of forecast phases and analysis steps. "
+
+docstrings['seik_TtimesA'] = "This is an internal function in PDAF where it perform matrix calculation of B = TA. This allows for two types of T matrix. " \
+                             "The resulting matrix B is the transformation matrix act on the full forecast ensemble. " \
+                             "Mathematical description of the function is the second term of Eq. (23) and the T matrix is defined in Eq. (13) in " \
+                             "Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). A unification of ensemble square root Kalman filters. Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1."
+docstrings['etkf_Tleft'] = "This is an internal function in PDAF where it perform matrix calculation of B = TA. " \
+                           "This function performs the second term of Eq. (34) in" \
+                           "Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). A unification of ensemble square root Kalman filters. Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1."
+docstrings['estkf_OmegaA'] = "This function is an internal function in PDAF. This function performs the second term of Eq. (29) in" \
+                           "Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). A unification of ensemble square root Kalman filters. Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1."
+docstrings['enkf_omega'] = "Generation of a random matrix with orthogonal basis following SEEK approach for EnKF with given properties."
+docstrings['seik_omega'] = "Generation of a random matrix with orthogonal basis following SEIK approach."
+docstrings['incremental'] = "This is a helper function to apply analysis increment to model state in model forecast phase. It simply calls the user-supplied function. "
+docstrings['add_increment'] = "This function directly adds analysis increment to given state vector without the need for user-supplied functions."
+docstrings['local_weights'] = "This function returns a vector of the localisation weights based on distance and localisation functions and radii. " \
+                              "This function is particularly useful for mannually apply covariance localisations for state or observation errors."
+docstrings['diag_CRPS'] = "Obtain a continuous rank probability score for an ensemble. The implementation is based on " \
+                          "This function follows follows Hersbach, H., 2000: Decomposition of the Continuous Ranked Probability Score for Ensemble Prediction Systems. Wea. Forecasting, 15, 559–570, https://doi.org/10.1175/1520-0434(2000)015<0559:DOTCRP>2.0.CO;2."
+docstrings['force_analysis'] = "This function overwrite member index of the ensemble state by local_dim_ens (number of ensembles for current process, in full parallel setup, this is 1.) and the counter cnt_steps by nsteps-1. " \
+                               "This forces that the analysis step is executed at the next call to PDAF assimilation functions."
+docstrings['gather_obs_f2_flex'] = "In the local filters (LESKTF, LETKF, LSEIK, LNETF) " \
+                             "this function returns the full observation coordinates " \
+                             "from process-local observation coordinates. `pyPDAF.PDAF.gather_obs_f_flex` is used to get corresponding observations. " \
+                             "Unlike `pyPDAF.PDAF.gather_obs_f2`, the function does not use depends on " \
+                             "`pyPDAF.PDAF.gather_dim_obs_f`"
+docstrings['gather_obs_f_flex'] = "In the local filters (LESKTF, LETKF, LSEIK, LNETF) " \
+                             "this function returns the total observation vector " \
+                             "from process-local observations. `pyPDAF.PDAF.gather_obs_f2_flex` is used to get corresponding coordinates. " \
+                             "Unlike `pyPDAF.PDAF.gather_obs_f`, the function does not use depends on " \
+                             "`pyPDAF.PDAF.gather_dim_obs_f`"
+docstrings['prepost'] = "This function does not perform any DA. " \
+                        "It is used to perform a preprocess and postprocess of the ensemble. " \
+                        "Compared to `pyPDAF.PDAF.assimilate_prepost`, this function does not set assimilation flag.\n" \
+                        "The function is a combination of `pyPDAF.PDAF.put_state_prepost` " \
+                        "and `pyPDAF.PDAF.get_state`, and executes the user-supplied function " \
+                        "in the following sequence: \n" \
+                        "1. py__collect_state_pdaf " \
+                        "2. py__prepoststep_state_pdaf " \
+                        "3. py__prepoststep_state_pdaf " \
+                        "4. py__distribute_state_pdaf " \
+                        "5. py__next_observation_pdaf "
+docstrings['set_memberid'] = "This function sets the ensemble member index to given value."
+docstrings['set_comm_pdaf'] = "This function sets the MPI communicator of PDAF. This is by default `MPI_COMM_WORLD`. "
+docstrings['set_offline_mode'] = "This function activates offline mode."
+docstrings['print_domain_stats'] = "This function make screen output of statistics of the local domains on current process."
+docstrings['init_local_obsstats'] = "This function initialise the observation statistics of local domain. " \
+                                    "This statistics can be updated by `pyPDAF.PDAF.incr_local_obsstats`, " \
+                                    "and can be viewed by `pyPDAF.PDAF.print_local_obsstats`."
+docstrings['incr_local_obsstats'] = "This function update the observation statistics of local domain. " \
+                                    "This statistics should be initialised by `pyPDAF.PDAF.init_local_obsstats`, " \
+                                    "and can be viewed by `pyPDAF.PDAF.print_local_obsstats`."
+docstrings['print_local_obsstats'] = "This function print the observation statistics of local domain on screen. " \
+                                    "This statistics should be initialised by `pyPDAF.PDAF.init_local_obsstats`, " \
+                                    "and can be updated by `pyPDAF.PDAF.incr_local_obsstats`."
+
+docstrings['omit_obs_omi'] = "This function computes innovation and omit corresponding observations in assimilation if the innovation is too large. " \
+                             "This function is used by some of the global filters, e.g. EnKF, LEnKF, PF, NETF, with OMI."
+docstrings['diag_CRPS_nompi'] = "Obtain a continuous rank probability score for an ensemble without using MPI parallelisation. The implementation is based on " \
+                          "This function follows follows Hersbach, H., 2000: Decomposition of the Continuous Ranked Probability Score for Ensemble Prediction Systems. Wea. Forecasting, 15, 559–570, https://doi.org/10.1175/1520-0434(2000)015<0559:DOTCRP>2.0.CO;2."
 
 
-docstrings['omit_obs_omi'] = None
+omi_init
+omi_set_doassim
+omi_set_disttype
+omi_set_ncoord
+omi_set_id_obs_p
+omi_set_icoeff_p
+omi_set_domainsize
+omi_set_obs_err_type
+omi_set_use_global_obs
+omi_set_inno_omit
+omi_set_inno_omit_ivar
+omi_gather_obs
+omi_gather_obsstate
+omi_set_domain_limits
+omi_set_debug_flag
+omi_deallocate_obs
+omi_obs_op_gridpoint
+omi_obs_op_gridavg
+omi_obs_op_interp_lin
+omi_obs_op_adj_gridavg
+omi_obs_op_adj_gridpoint
+omi_obs_op_adj_interp_lin
+omi_get_interp_coeff_tri
+omi_get_interp_coeff_lin1D
+omi_get_interp_coeff_lin
+

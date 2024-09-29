@@ -1103,7 +1103,10 @@ contains
    END SUBROUTINE c__PDAF_local_weight
 
    SUBROUTINE c__PDAF_print_info(printtype) bind(c)
-      ! Type of screen output
+      ! - X=1: Basic timers
+      ! - X=3: Timers showing the time spent int he different call-back routines (this variant was added with PDAF 1.15)
+      ! - X=4: More detailed timers about parts of the filter algorithm (before PDAF 1.15, this was timer level 3)
+      ! - X=5: Very detailed timers about various operations in the filter algorithm (before PDAF 1.15, this was timer level 4)
       INTEGER(c_int), INTENT(in) :: printtype
 
       CALL PDAF_print_info(printtype)
@@ -1798,7 +1801,7 @@ contains
       REAL(c_double), INTENT(inout) :: modes(dim, dim_ens-1)
       ! Vector of singular values
       REAL(c_double), INTENT(in) :: svals(dim_ens-1)
-      ! PE-local model state
+      ! PE-local model mean state
       REAL(c_double), INTENT(inout) :: state(dim)
       ! State ensemble
       REAL(c_double), INTENT(out) :: ens(dim, dim_ens)
@@ -1896,7 +1899,14 @@ contains
       REAL(c_double), INTENT(inout) :: omega(dim_ens,r)
       ! Norm for ensemble transformation
       REAL(c_double), INTENT(inout) :: norm
-      ! Type of omega
+      ! Type of Omega:
+      ! (1) Simple Gaussian random matrix
+      ! (2) Columns of unit norm
+      ! (3) Columns of norm dim_ens^(-1/2)
+      ! (4) Projection orthogonal (1,..,1)^T
+      ! (6) Combination of 2 and 4
+      ! (7) Combination of 3 and 4
+      ! (8) Rows of sum 0 and variance 1
       INTEGER(c_int), INTENT(in) :: otype
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: screen
@@ -1910,7 +1920,9 @@ contains
       INTEGER(c_int), INTENT(in) :: rank
       ! Matrix Omega
       REAL(c_double), INTENT(inout) :: omega(rank+1, rank)
-      ! Select type of omega
+      ! Select type of Omega:
+      !   (1) generated from random vectors
+      !   (0) generated from deterministic vectors (Householder)
       INTEGER(c_int), INTENT(in) :: omegatype
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: screen
