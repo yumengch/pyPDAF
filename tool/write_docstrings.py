@@ -1259,29 +1259,29 @@ docstrings['diag_CRPS_nompi'] = "Obtain a continuous rank probability score for 
                           "This function follows follows Hersbach, H., 2000: Decomposition of the Continuous Ranked Probability Score for Ensemble Prediction Systems. Wea. Forecasting, 15, 559–570, https://doi.org/10.1175/1520-0434(2000)015<0559:DOTCRP>2.0.CO;2."
 
 
-omi_init
-omi_set_doassim
-omi_set_disttype
-omi_set_ncoord
-omi_set_id_obs_p
-omi_set_icoeff_p
-omi_set_domainsize
-omi_set_obs_err_type
-omi_set_use_global_obs
-omi_set_inno_omit
-omi_set_inno_omit_ivar
-omi_gather_obs
-omi_gather_obsstate
-omi_set_domain_limits
-omi_set_debug_flag
-omi_deallocate_obs
-omi_obs_op_gridpoint
-omi_obs_op_gridavg
-omi_obs_op_interp_lin
-omi_obs_op_adj_gridavg
-omi_obs_op_adj_gridpoint
-omi_obs_op_adj_interp_lin
-omi_get_interp_coeff_tri
-omi_get_interp_coeff_lin1D
-omi_get_interp_coeff_lin
+docstring['omi_init'] = "This function initialise the number of observation types in OMI by allocating an array of `obs_f` derived types instances. "
+docstring['omi_set_doassim'] = "This function sets the `doassim` attribute of `obs_f`. "
+docstring['omi_set_disttype'] = "This function sets the `disttype` attribute of `obs_f`. "
+docstring['omi_set_ncoord'] = "This function sets the `ncoord` attribute of `obs_f`. "
+docstring['omi_set_id_obs_p'] = "This function sets the `id_obs_p` attribute of `obs_f`. "
+docstring['omi_set_icoeff_p'] = "This function sets the `icoeef_p` attribute of `obs_f`. "
+docstring['omi_set_domainsize'] = "This function sets the `domainsize` attribute of `obs_f`. "
+docstring['omi_set_obs_err_type'] = "This function sets the `obs_err_type` attribute of `obs_f`. "
+docstring['omi_set_use_global_obs'] = "This function sets the `use_global_obs` attribute of `obs_f`. "
+docstring['omi_set_inno_omit'] = "This function sets the `inno_omit` attribute of `obs_f`. "
+docstring['omi_set_inno_omit_ivar'] = "This function sets the `inno_omit_ivar` attribute of `obs_f`. "
+docstring['omi_gather_obs'] = None
+docstring['omi_gather_obsstate'] = None
+docstring['omi_set_domain_limits'] = None
+docstring['omi_set_debug_flag'] = None
+docstring['omi_deallocate_obs'] = None
+docstring['omi_obs_op_gridpoint'] = None
+docstring['omi_obs_op_gridavg'] = None
+docstring['omi_obs_op_interp_lin'] = None
+docstring['omi_obs_op_adj_gridavg'] = None
+docstring['omi_obs_op_adj_gridpoint'] = None
+docstring['omi_obs_op_adj_interp_lin'] = None
+docstring['omi_get_interp_coeff_tri'] = None
+docstring['omi_get_interp_coeff_lin1D'] = None
+docstring['omi_get_interp_coeff_lin'] = None
 
