@@ -8,7 +8,7 @@ contains
    SUBROUTINE c__PDAFlocal_set_indices(dim_l, map) bind(c)
       ! Dimension of local state vector
       integer(c_int), INTENT(in) :: dim_l
-      ! Index array for mapping
+      ! Index array for mapping between local and global state vector
       integer(c_int), INTENT(in) :: map(dim_l)
 
       call PDAFlocal_set_indices(dim_l, map)
