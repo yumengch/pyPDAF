@@ -551,7 +551,7 @@ abstract interface
       INTEGER(c_int), INTENT(in) :: steps
    END SUBROUTINE c__dist_stateinc_pdaf
 
-   SUBROUTINE c__prodRinvA_hyb_l_pdaf(domain_p, step, dim_obs_l, obs_l, resid_l, gamma, likely_l) bind(c)
+   SUBROUTINE c__likelihood_hyb_l_pdaf(domain_p, step, dim_obs_l, obs_l, resid_l, gamma, likely_l) bind(c)
       use iso_c_binding, only: c_double, c_int
       implicit none
       ! Index of current local analysis domain
@@ -568,10 +568,10 @@ abstract interface
       real(c_double), intent(in) :: resid_l(dim_obs_l)
       ! Output value of the local likelihood
       real(c_double), intent(out) :: likely_l
-   END SUBROUTINE c__prodRinvA_hyb_l_pdaf
+   END SUBROUTINE c__likelihood_hyb_l_pdaf
 
 
-   SUBROUTINE c__likelihood_hyb_l_pdaf(domain_p, step, dim_obs_l, rank, obs_l, gamma, A_l, C_l) bind(c)
+   SUBROUTINE c__prodRinvA_hyb_l_pdaf(domain_p, step, dim_obs_l, dim_ens, obs_l, gamma, A_l, C_l) bind(c)
       use iso_c_binding, only: c_double, c_int
       implicit none
       ! Index of current local analysis domain
@@ -581,7 +581,7 @@ abstract interface
       ! Number of local observations at current time step (i.e. the size of the local observation vector)
       integer(c_int), intent(in) :: dim_obs_l
       ! Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
-      integer(c_int), intent(in) :: rank
+      integer(c_int), intent(in) :: dim_ens
       ! Local vector of observations
       real(c_double), intent(in) :: obs_l(dim_obs_l)
       ! Hybrid weight provided by PDAF
@@ -590,7 +590,7 @@ abstract interface
       real(c_double), intent(in) :: A_l(dim_obs_l, rank)
       ! Output matrix
       real(c_double), intent(out) :: C_l(dim_obs_l, rank)
-   END SUBROUTINE c__likelihood_hyb_l_pdaf
+   END SUBROUTINE c__prodRinvA_hyb_l_pdaf
 end interface
 
 end module U_PDAF_interface_c_binding
