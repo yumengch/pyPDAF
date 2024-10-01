@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.print\_info
+=======================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: print_info

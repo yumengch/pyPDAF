@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.set\_ens\_pointer
+=============================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: set_ens_pointer

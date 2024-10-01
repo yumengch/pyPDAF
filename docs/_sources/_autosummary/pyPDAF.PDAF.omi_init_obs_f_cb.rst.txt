@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.omi\_init\_obs\_f\_cb
+=================================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: omi_init_obs_f_cb

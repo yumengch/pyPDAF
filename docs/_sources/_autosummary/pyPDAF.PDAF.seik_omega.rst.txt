@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.seik\_omega
+=======================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: seik_omega

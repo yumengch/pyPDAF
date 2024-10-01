@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.get\_memberid
+=========================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: get_memberid

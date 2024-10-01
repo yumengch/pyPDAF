@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.assimilate\_lnetf
+=============================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: assimilate_lnetf

@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.omi\_prodRinvA\_hyb\_l\_cb
+======================================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: omi_prodRinvA_hyb_l_cb

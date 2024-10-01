@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.omi\_get\_interp\_coeff\_lin1D
+==========================================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: omi_get_interp_coeff_lin1D

@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.print\_local\_obsstats
+==================================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: print_local_obsstats

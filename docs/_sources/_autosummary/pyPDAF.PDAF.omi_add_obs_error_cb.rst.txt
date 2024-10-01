@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.omi\_add\_obs\_error\_cb
+====================================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: omi_add_obs_error_cb

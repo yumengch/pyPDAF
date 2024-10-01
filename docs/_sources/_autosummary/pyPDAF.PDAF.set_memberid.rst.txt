@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.set\_memberid
+=========================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: set_memberid

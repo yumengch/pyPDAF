@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.assimilate\_seek
+============================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: assimilate_seek

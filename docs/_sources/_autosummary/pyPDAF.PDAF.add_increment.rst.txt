@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.add\_increment
+==========================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: add_increment

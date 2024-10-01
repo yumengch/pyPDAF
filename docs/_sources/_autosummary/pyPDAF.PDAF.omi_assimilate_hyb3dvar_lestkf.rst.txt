@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.omi\_assimilate\_hyb3dvar\_lestkf
+=============================================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: omi_assimilate_hyb3dvar_lestkf

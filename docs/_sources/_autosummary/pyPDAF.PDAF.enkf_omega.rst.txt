@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.enkf\_omega
+=======================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: enkf_omega

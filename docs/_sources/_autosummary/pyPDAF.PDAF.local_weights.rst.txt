@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.local\_weights
+==========================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: local_weights

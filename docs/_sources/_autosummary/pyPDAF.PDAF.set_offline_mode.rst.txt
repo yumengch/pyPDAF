@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.set\_offline\_mode
+==============================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: set_offline_mode
