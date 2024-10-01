@@ -50,6 +50,10 @@ cdef void*  init_dim_obs_pdaf = NULL;
 cdef void c__init_dim_obs_pdaf (int* step,
                                 int* dim_obs_p
                                ) noexcept;
+cdef void*  init_dim_obs_f_pdaf = NULL;
+cdef void c__init_dim_obs_f_pdaf (int* step,
+                                  int* dim_obs_p
+                                 ) noexcept;
 cdef void*  init_obs_pdaf = NULL;
 cdef void c__init_obs_pdaf (int* step,
                             int* dim_obs_p,
@@ -84,6 +88,13 @@ cdef void c__obs_op_pdaf (int* step,
                           double* state_p,
                           double* m_state_p
                          ) noexcept;
+cdef void*  obs_op_f_pdaf = NULL;
+cdef void c__obs_op_f_pdaf (int* step,
+                            int* dim_p,
+                            int* dim_obs_p,
+                            double* state_p,
+                            double* m_state_p
+                           ) noexcept;
 cdef void*  g2l_obs_pdaf = NULL;
 cdef void c__g2l_obs_pdaf (int* domain_p,
                            int* step,
@@ -107,10 +118,6 @@ cdef void c__init_dim_l_pdaf (int* step,
                               int* domain_p,
                               int* dim_l
                              ) noexcept;
-cdef void*  init_dim_obs_f_pdaf = NULL;
-cdef void c__init_dim_obs_f_pdaf (int* step,
-                                  int* dim_obs_f
-                                 ) noexcept;
 cdef void*  init_dim_obs_l_pdaf = NULL;
 cdef void c__init_dim_obs_l_pdaf (int* domain_p,
                                   int* step,
@@ -154,13 +161,6 @@ cdef void c__l2g_state_pdaf (int* step,
                              int* dim_p,
                              double* state_p
                             ) noexcept;
-cdef void*  obs_op_f_pdaf = NULL;
-cdef void c__obs_op_f_pdaf (int* step,
-                            int* dim_p,
-                            int* dim_obs_f,
-                            double* state_p,
-                            double* m_state_f
-                           ) noexcept;
 cdef void*  prodRinvA_l_pdaf = NULL;
 cdef void c__prodRinvA_l_pdaf (int* domain_p,
                                int* step,
@@ -248,22 +248,22 @@ cdef void c__dist_stateinc_pdaf (int* dim_p,
                                  int* first,
                                  int* steps
                                 ) noexcept;
-cdef void*  prodRinvA_hyb_l_pdaf = NULL;
-cdef void c__prodRinvA_hyb_l_pdaf (int* domain_p,
-                                   int* step,
-                                   int* dim_obs_l,
-                                   double* obs_l,
-                                   double* resid_l,
-                                   double* gamma,
-                                   double* likely_l
-                                  ) noexcept;
 cdef void*  likelihood_hyb_l_pdaf = NULL;
 cdef void c__likelihood_hyb_l_pdaf (int* domain_p,
                                     int* step,
                                     int* dim_obs_l,
-                                    int* rank,
                                     double* obs_l,
+                                    double* resid_l,
                                     double* gamma,
-                                    double* A_l,
-                                    double* C_l
+                                    double* likely_l
                                    ) noexcept;
+cdef void*  prodRinvA_hyb_l_pdaf = NULL;
+cdef void c__prodRinvA_hyb_l_pdaf (int* domain_p,
+                                   int* step,
+                                   int* dim_obs_l,
+                                   int* dim_ens,
+                                   double* obs_l,
+                                   double* gamma,
+                                   double* A_l,
+                                   double* C_l
+                                  ) noexcept;

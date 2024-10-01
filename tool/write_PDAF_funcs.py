@@ -4,6 +4,7 @@ implementation files.
 """
 import typing
 import re
+import docstrings
 
 # todo: type for pointer should be matching its corresponding fortran pointer type
 # here double* is used because PDAF only uses double
@@ -94,7 +95,6 @@ def write_func_def(f:typing.TextIO, subroutine_name:str,
     else:
         funcname = subroutine_name[3:]
 
-    print (funcname)
     s = f'def {funcname} ('
     indent = ' '*len(s)
     count = 0
@@ -138,9 +138,20 @@ def write_docstring(f:typing.TextIO, subroutine_name:str, user_func_info:dict[st
                     arg_info: dict[str, dict[str, str|list[str]]], arg_list:list[str]) -> None:
     """write docstring based on Fortran arguments comments
     """
+    # define function
+    if subroutine_name[3:11].lower() == 'pdafomi_':
+        funcname = subroutine_name[7:]
+    elif subroutine_name[3:8].lower() == 'pdaf_':
+        funcname = subroutine_name[8:]
+    elif subroutine_name[3:13].lower() == 'pdaflocal_':
+        funcname = subroutine_name[7:]
+    elif subroutine_name[3:16].lower() == 'pdaflocalomi_':
+        funcname = subroutine_name[7:]
+    else:
+        funcname = subroutine_name[3:]
     s = '    \"\"\"'
     # todo: this needs to be done better
-    s += f'See detailed explanation of the routine in https://pdaf.awi.de/trac/wiki/{subroutine_name[3:]} or PDAF source files \n\n'
+    s += docstrings.docstrings[funcname]+'\n\n'
     f.write(s)
 
     indent = ' '*4

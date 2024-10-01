@@ -79,9 +79,9 @@ contains
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
-      procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_f_pdaf
       ! Initialize local dimimension of obs. vector
       procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
       ! Status flag
@@ -119,7 +119,7 @@ contains
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
       procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
       ! Initialize local dimimension of obs. vector
@@ -209,9 +209,9 @@ contains
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
-      procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_f_pdaf
       ! Initialize local dimimension of obs. vector
       procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
       ! Status flag
@@ -388,9 +388,9 @@ contains
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
-      procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_f_pdaf
       ! Initialize local dimimension of obs. vector
       procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
       ! Status flag
@@ -422,9 +422,9 @@ contains
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
-      procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_f_pdaf
       ! Initialize local dimimension of obs. vector
       procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
       ! Status flag
@@ -502,9 +502,9 @@ contains
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
-      procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_f_pdaf
       ! Initialize local dimimension of obs. vector
       procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
       ! Status flag

@@ -105,7 +105,7 @@ def merge_line(f: typing.TextIO, line:str) -> str:
     # Here we assume no ampersand in the start of the line
     while '&' in line.split('!')[0]:
         line = line.replace('&', '')
-        line = line + f.readline().strip().replace('\n', '')
+        line = line + ' ' + f.readline().strip().replace('\n', '')
     return line
 
 def get_subroutine_name(line:str) -> str:

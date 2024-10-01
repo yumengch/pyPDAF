@@ -118,7 +118,7 @@ contains
       procedure(c__obs_op_lin_pdaf) :: U_obs_op_lin
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: U_obs_op_adj
-      ! Observation operator
+      ! Acts as the full observation operator on some state vector
       procedure(c__obs_op_f_pdaf) :: U_obs_op_f
       ! Provide number of local analysis domains
       procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
@@ -144,12 +144,12 @@ contains
       procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l
 
       call PDAF_assimilate_en3dvar_lestkf(U_collect_state, U_distribute_state, &
-                                                U_init_dim_obs, U_obs_op, U_init_obs, U_prodRinvA, &
-                                                U_cvt_ens, U_cvt_adj_ens, U_obs_op_lin, U_obs_op_adj, &
-                                                U_init_dim_obs_f, U_obs_op_f, U_init_obs_f, U_init_obs_l, U_prodRinvA_l, &
-                                                U_init_n_domains_p, U_init_dim_l, U_init_dim_obs_l, U_g2l_state, U_l2g_state, &
-                                                U_g2l_obs, U_init_obsvar, U_init_obsvar_l, &
-                                                U_prepoststep, U_next_observation, outflag)
+                                          U_init_dim_obs, U_obs_op, U_init_obs, U_prodRinvA, &
+                                          U_cvt_ens, U_cvt_adj_ens, U_obs_op_lin, U_obs_op_adj, &
+                                          U_init_dim_obs_f, U_obs_op_f, U_init_obs_f, U_init_obs_l, U_prodRinvA_l, &
+                                          U_init_n_domains_p, U_init_dim_l, U_init_dim_obs_l, U_g2l_state, U_l2g_state, &
+                                          U_g2l_obs, U_init_obsvar, U_init_obsvar_l, &
+                                          U_prepoststep, U_next_observation, outflag)
    END SUBROUTINE c__PDAF_assimilate_en3dvar_lestkf
 
    SUBROUTINE c__PDAF_assimilate_enkf(U_collect_state, U_distribute_state, &
@@ -925,9 +925,9 @@ contains
       ! Routine to distribute a state vector
       procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: U_init_dim_obs_f
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs_f
       ! Observation operator
-      procedure(c__obs_op_f_pdaf) :: U_obs_op_f
+      procedure(c__obs_op_pdaf) :: U_obs_op_f
       ! Provide observation vector to user
       procedure(c__get_obs_f_pdaf) :: U_get_obs_f
       ! Initialize vector of observation error standard deviations
@@ -1318,9 +1318,9 @@ contains
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: U_collect_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: U_init_dim_obs_f
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs_f
       ! Observation operator
-      procedure(c__obs_op_f_pdaf) :: U_obs_op_f
+      procedure(c__obs_op_pdaf) :: U_obs_op_f
       ! Provide observation vector to user
       procedure(c__get_obs_f_pdaf) :: U_get_obs_f
       ! Initialize vector of observation errors
@@ -2124,28 +2124,28 @@ contains
    END SUBROUTINE c__PDAF_omit_obs_omi
 
    SUBROUTINE c__PDAF_diag_CRPS_nompi(dim, dim_ens, element, oens, obs, &
-                                      CRPS, reli, resol, uncert, status)!
+                                      CRPS, reli, resol, uncert, status) bind(c)
       ! PE-local state dimension
-      INTEGER, INTENT(in) :: dim
+      INTEGER(c_int), INTENT(in) :: dim
       ! Ensemble size
-      INTEGER, INTENT(in) :: dim_ens
+      INTEGER(c_int), INTENT(in) :: dim_ens
       ! ID of element to be used
       ! If element=0, mean values over all elements are computed
-      INTEGER, INTENT(in) :: element
+      INTEGER(c_int), INTENT(in) :: element
       ! State ensemble
-      REAL, INTENT(in)    :: oens(dim, dim_ens)
+      REAL(c_double), INTENT(in)    :: oens(dim, dim_ens)
       ! State ensemble
-      REAL, INTENT(in)    :: obs(dim)
+      REAL(c_double), INTENT(in)    :: obs(dim)
       ! CRPS
-      REAL, INTENT(out)   :: CRPS
+      REAL(c_double), INTENT(out)   :: CRPS
       ! Reliability
-      REAL, INTENT(out)   :: reli
+      REAL(c_double), INTENT(out)   :: reli
       ! resolution
-      REAL, INTENT(out)   :: resol
+      REAL(c_double), INTENT(out)   :: resol
       ! uncertainty
-      REAL, INTENT(out)   :: uncert
+      REAL(c_double), INTENT(out)   :: uncert
       ! Status flag (0=success)
-      INTEGER, INTENT(out) :: status
+      INTEGER(c_int), INTENT(out) :: status
 
       call PDAF_diag_CRPS_nompi(dim, dim_ens, element, oens, obs, &
                                 CRPS, reli, resol, uncert, status)

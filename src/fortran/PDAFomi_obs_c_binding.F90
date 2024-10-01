@@ -400,9 +400,9 @@ contains
       ! Init full state from local state
       procedure(c__l2g_state_pdaf) :: l2g_state_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
-      procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_f_pdaf
       ! Initialize local dimimension of obs. vector
       procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
 
@@ -507,9 +507,9 @@ contains
       ! Init full state from local state
       procedure(c__l2g_state_pdaf) :: l2g_state_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
-      procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_f_pdaf
       ! Initialize local dimimension of obs. vector
       procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
 
@@ -588,9 +588,9 @@ contains
       ! Routine to distribute a state vector
       procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: U_init_dim_obs_f
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs_f
       ! Observation operator
-      procedure(c__obs_op_f_pdaf) :: U_obs_op_f
+      procedure(c__obs_op_pdaf) :: U_obs_op_f
       ! Provide observation vector to user
       procedure(c__get_obs_f_pdaf) :: U_get_obs_f
       ! User supplied pre/poststep routine
@@ -684,9 +684,9 @@ contains
       ! Init full state from local state
       procedure(c__l2g_state_pdaf) :: l2g_state_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
-      procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_f_pdaf
       ! Initialize local dimimension of obs. vector
       procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
       call PDAFomi_put_state_en3dvar_lestkf(collect_state_pdaf, &
@@ -703,9 +703,9 @@ contains
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: U_collect_state
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: U_init_dim_obs_f
+      procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs_f
       ! Observation operator
-      procedure(c__obs_op_f_pdaf) :: U_obs_op_f
+      procedure(c__obs_op_pdaf) :: U_obs_op_f
       ! Provide observation vector to user
       procedure(c__get_obs_f_pdaf) :: U_get_obs_f
       ! User supplied pre/poststep routine
@@ -797,9 +797,9 @@ contains
       ! Init full state from local state
       procedure(c__l2g_state_pdaf) :: l2g_state_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
-      procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_f_pdaf
       ! Initialize local dimimension of obs. vector
       procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
 
@@ -1358,7 +1358,7 @@ contains
 
    ! Added in PDAF V2.3
    SUBROUTINE c__PDAFomi_set_localization(i_obs, cradius, sradius, locweight) bind(c)
-      ! Data type index
+      ! Observation type index
       integer(c_int), INTENT(inout) :: i_obs
       ! Vector of localization cut-off radii; observation weight=0 if distance > cradius
       REAL(c_double), INTENT(in) :: cradius
@@ -1454,8 +1454,8 @@ contains
    END SUBROUTINE c__PDAFomi_store_obs_l_index_vdist
 
    SUBROUTINE c__PDAFomi_assimilate_3dvar_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
-      cvt_pdaf, cvt_adj_pdaf, obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
+      init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
+      cvt_pdaf, cvt_adj_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, &
       prepoststep_pdaf, next_observation_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
@@ -1480,17 +1480,17 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! Provide product R^-1 A
-      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdafomi
+      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdaf
 
       call PDAFomi_assimilate_3dvar_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
-      cvt_pdaf, cvt_adj_pdaf, obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
+      init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
+      cvt_pdaf, cvt_adj_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, &
       prepoststep_pdaf, next_observation_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_assimilate_3dvar_nondiagR
 
    SUBROUTINE c__PDAFomi_assimilate_en3dvar_estkf_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
-      cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
+      init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
+      cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, &
       prepoststep_pdaf, next_observation_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
@@ -1515,18 +1515,18 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! Provide product R^-1 A
-      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdafomi
+      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdaf
 
       call PDAFomi_assimilate_en3dvar_estkf_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-         init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
-         cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
+         init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
+         cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, &
          prepoststep_pdaf, next_observation_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_assimilate_en3dvar_estkf_nondiagR
 
    SUBROUTINE c__PDAFomi_assimilate_en3dvar_lestkf_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
-      cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
-      prodRinvA_l_pdafomi, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdafomi, &
+      init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
+      cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, &
+      prodRinvA_l_pdaf, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdaf, &
       g2l_state_pdaf, l2g_state_pdaf, prepoststep_pdaf, next_observation_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
@@ -1555,23 +1555,25 @@ contains
       ! Init full state from local state
       procedure(c__l2g_state_pdaf) :: l2g_state_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdaf
       ! Full observation operator
-      procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_pdaf
       ! Initialize local dimimension of obs. vector
       procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
+      ! Provide product R^-1 A for local analysis domain
+      procedure(c__prodRinvA_l_pdaf) :: prodRinvA_l_pdaf
       ! Provide product R^-1 A
-      procedure(c__prodRinvA_l_pdaf) :: prodRinvA_l_pdafomi
+      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdaf
 
       call PDAFomi_assimilate_en3dvar_lestkf_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
-      cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
-      prodRinvA_l_pdafomi, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdafomi, &
+      init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
+      cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, &
+      prodRinvA_l_pdaf, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdaf, &
       g2l_state_pdaf, l2g_state_pdaf, prepoststep_pdaf, next_observation_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_assimilate_en3dvar_lestkf_nondiagR
 
    SUBROUTINE c__PDAFomi_assimilate_enkf_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-     init_dim_obs_pdafomi, obs_op_pdafomi, add_obs_error_pdafomi, init_obscovar_pdafomi, &
+     init_dim_obs_pdaf, obs_op_pdaf, add_obs_error_pdaf, init_obscovar_pdaf, &
      prepoststep_pdaf, next_observation_pdaf, outflag) bind(c)
       ! Status flag
      INTEGER(c_int), INTENT(out) :: outflag
@@ -1580,28 +1582,27 @@ contains
      ! Routine to distribute a state vector
      procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
      ! Initialize dimension of observation vector
-     procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
+     procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdaf
      ! Observation operator
-     procedure(c__obs_op_pdaf) :: obs_op_pdafomi
+     procedure(c__obs_op_pdaf) :: obs_op_pdaf
      ! User supplied pre/poststep routine
      procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
      ! Provide time step and time of next observation
      procedure(c__next_observation_pdaf) :: next_observation_pdaf
      ! Add obs error covariance R to HPH in EnKF
-     procedure(c__add_obs_err_pdaf) :: add_obs_error_pdafomi
+     procedure(c__add_obs_err_pdaf) :: add_obs_error_pdaf
      ! Initialize obs. error cov. matrix R in EnKF
-     procedure(c__init_obs_covar_pdaf) :: init_obscovar_pdafomi
+     procedure(c__init_obs_covar_pdaf) :: init_obscovar_pdaf
 
-     call c__PDAFomi_assimilate_enkf_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, add_obs_error_pdafomi, init_obscovar_pdafomi, &
+     call PDAFomi_assimilate_enkf_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
+      init_dim_obs_pdaf, obs_op_pdaf, add_obs_error_pdaf, init_obscovar_pdaf, &
       prepoststep_pdaf, next_observation_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_assimilate_enkf_nondiagR
-
 
    SUBROUTINE c__PDAFomi_assimilate_global_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
       init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, prepoststep_pdaf, next_observation_pdaf, outflag) bind(c)
       ! Status flag
-      INTEGER(c_int), INTENT(out) :: flag
+      INTEGER(c_int), INTENT(out) :: outflag
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Routine to distribute a state vector
@@ -1615,16 +1616,16 @@ contains
       ! Provide time step and time of next observation
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
       ! Provide product R^-1 A
-      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdafomi
+      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdaf
 
       call PDAFomi_assimilate_global_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
          init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, prepoststep_pdaf, next_observation_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_assimilate_global_nondiagR
 
    SUBROUTINE c__PDAFomi_assimilate_hyb3dvar_estkf_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
+      init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
       cvt_ens_pdaf, cvt_adj_ens_pdaf, cvt_pdaf, cvt_adj_pdaf, &
-      obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
+      obs_op_lin_pdaf, obs_op_adj_pdaf, &
       prepoststep_pdaf, next_observation_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
@@ -1653,19 +1654,19 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! Provide product R^-1 A
-      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdafomi
+      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdaf
 
       call PDAFomi_assimilate_hyb3dvar_estkf_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
+      init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
       cvt_ens_pdaf, cvt_adj_ens_pdaf, cvt_pdaf, cvt_adj_pdaf, &
-      obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
+      obs_op_lin_pdaf, obs_op_adj_pdaf, &
       prepoststep_pdaf, next_observation_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_assimilate_hyb3dvar_estkf_nondiagR
 
    SUBROUTINE c__PDAFomi_assimilate_hyb3dvar_lestkf_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
-      cvt_ens_pdaf, cvt_adj_ens_pdaf, cvt_pdaf, cvt_adj_pdaf, obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
-      prodRinvA_l_pdafomi, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdafomi, &
+      init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
+      cvt_ens_pdaf, cvt_adj_ens_pdaf, cvt_pdaf, cvt_adj_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, &
+      prodRinvA_l_pdaf, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdaf, &
       g2l_state_pdaf, l2g_state_pdaf, prepoststep_pdaf, next_observation_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
@@ -1698,24 +1699,26 @@ contains
       ! Init full state from local state
       procedure(c__l2g_state_pdaf) :: l2g_state_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdaf
       ! Full observation operator
-      procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_pdaf
       ! Initialize local dimimension of obs. vector
       procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
+      ! Provide product R^-1 A for local analysis domain
+      procedure(c__prodRinvA_l_pdaf) :: prodRinvA_l_pdaf
       ! Provide product R^-1 A
-      procedure(c__prodRinvA_l_pdaf) :: prodRinvA_l_pdafomi
+      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdaf
 
       call PDAFomi_assimilate_hyb3dvar_lestkf_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-         init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
-         cvt_ens_pdaf, cvt_adj_ens_pdaf, cvt_pdaf, cvt_adj_pdaf, obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
-         prodRinvA_l_pdafomi, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdafomi, &
+         init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
+         cvt_ens_pdaf, cvt_adj_ens_pdaf, cvt_pdaf, cvt_adj_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, &
+         prodRinvA_l_pdaf, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdaf, &
          g2l_state_pdaf, l2g_state_pdaf, prepoststep_pdaf, next_observation_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_assimilate_hyb3dvar_lestkf_nondiagR
 
    SUBROUTINE c__PDAFomi_assimilate_lenkf_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, localize_covar_pdafomi, &
-      add_obs_error_pdafomi, init_obscovar_pdafomi, next_observation_pdaf, outflag) bind(c)
+      init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, localize_covar_pdaf, &
+      add_obs_error_pdaf, init_obscovar_pdaf, next_observation_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(out) :: outflag
       ! Routine to collect a state vector
@@ -1723,29 +1726,29 @@ contains
       ! Routine to distribute a state vector
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdaf
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: obs_op_pdafomi
+      procedure(c__obs_op_pdaf) :: obs_op_pdaf
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Apply localization to HP and HPH^T
-      procedure(c__localize_covar_pdaf) :: localize_covar_pdafomi
+      procedure(c__localize_covar_pdaf) :: localize_covar_pdaf
       ! Provide time step and time of next observation
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
       ! Add obs error covariance R to HPH in EnKF
-      procedure(c__add_obs_err_pdaf) :: add_obs_error_pdafomi
+      procedure(c__add_obs_err_pdaf) :: add_obs_error_pdaf
       ! Initialize obs. error cov. matrix R in EnKF
-      procedure(c__init_obs_covar_pdaf) :: init_obscovar_pdafomi
+      procedure(c__init_obs_covar_pdaf) :: init_obscovar_pdaf
 
       call PDAFomi_assimilate_lenkf_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, localize_covar_pdafomi, &
-      add_obs_error_pdafomi, init_obscovar_pdafomi, next_observation_pdaf, outflag)
+      init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, localize_covar_pdaf, &
+      add_obs_error_pdaf, init_obscovar_pdaf, next_observation_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_assimilate_lenkf_nondiagR
 
    SUBROUTINE c__PDAFomi_assimilate_lknetf_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, init_n_domains_pdaf, &
-      init_dim_l_pdaf, init_dim_obs_l_pdafomi, prodRinvA_l_pdafomi, prodRinvA_hyb_l_pdafomi, &
-      likelihood_l_pdafomi, likelihood_hyb_l_pdafomi, g2l_state_pdaf, l2g_state_pdaf, &
+      init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, init_n_domains_pdaf, &
+      init_dim_l_pdaf, init_dim_obs_l_pdaf, prodRinvA_l_pdaf, prodRinvA_hyb_l_pdaf, &
+      likelihood_l_pdaf, likelihood_hyb_l_pdaf, g2l_state_pdaf, l2g_state_pdaf, &
       next_observation_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(out) :: outflag
@@ -1754,15 +1757,15 @@ contains
       ! Routine to distribute a state vector
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: obs_op_pdafomi
+      procedure(c__obs_op_pdaf) :: obs_op_pdaf
       ! Provide number of local analysis domains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdaf
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdafomi
+      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
       ! Get state on local ana. domain from full state
       procedure(c__g2l_state_pdaf) :: g2l_state_pdaf
       ! Init full state from state on local analysis domain
@@ -1772,24 +1775,24 @@ contains
       ! Provide time step and time of next observation
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
       ! Provide product R^-1 A
-      procedure(c__prodRinvA_l_pdaf) :: prodRinvA_l_pdafomi
+      procedure(c__prodRinvA_l_pdaf) :: prodRinvA_l_pdaf
       ! Compute observation likelihood for an ensemble member
-      procedure(c__likelihood_l_pdaf) :: likelihood_l_pdafomi
+      procedure(c__likelihood_l_pdaf) :: likelihood_l_pdaf
       ! Provide product R^-1 A on local analysis domain with hybrid weight
-      procedure(c__prodRinvA_hyb_l_pdaf) :: prodRinvA_hyb_l_pdafomi
+      procedure(c__prodRinvA_hyb_l_pdaf) :: prodRinvA_hyb_l_pdaf
       ! Compute likelihood with hybrid weight
-      procedure(c__likelihood_hyb_l_pdaf) :: likelihood_hyb_l_pdafomi
+      procedure(c__likelihood_hyb_l_pdaf) :: likelihood_hyb_l_pdaf
 
       call PDAFomi_assimilate_lknetf_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-         init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, init_n_domains_pdaf, &
-         init_dim_l_pdaf, init_dim_obs_l_pdafomi, prodRinvA_l_pdafomi, prodRinvA_hyb_l_pdafomi, &
-         likelihood_l_pdafomi, likelihood_hyb_l_pdafomi, g2l_state_pdaf, l2g_state_pdaf, &
+         init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, init_n_domains_pdaf, &
+         init_dim_l_pdaf, init_dim_obs_l_pdaf, prodRinvA_l_pdaf, prodRinvA_hyb_l_pdaf, &
+         likelihood_l_pdaf, likelihood_hyb_l_pdaf, g2l_state_pdaf, l2g_state_pdaf, &
          next_observation_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_assimilate_lknetf_nondiagR
 
    SUBROUTINE c__PDAFomi_assimilate_lnetf_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, init_n_domains_pdaf, &
-      init_dim_l_pdaf, init_dim_obs_l_pdafomi, likelihood_l_pdafomi, g2l_state_pdaf, l2g_state_pdaf, &
+      init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, init_n_domains_pdaf, &
+      init_dim_l_pdaf, init_dim_obs_l_pdaf, likelihood_l_pdaf, g2l_state_pdaf, l2g_state_pdaf, &
       next_observation_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(out) :: outflag
@@ -1798,15 +1801,15 @@ contains
       ! Routine to distribute a state vector
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: obs_op_pdafomi
+      procedure(c__obs_op_pdaf) :: obs_op_pdaf
       ! Provide number of local analysis domains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdaf
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdafomi
+      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
       ! Get state on local ana. domain from full state
       procedure(c__g2l_state_pdaf) :: g2l_state_pdaf
       ! Init full state from state on local analysis domain
@@ -1816,17 +1819,17 @@ contains
       ! Provide time step and time of next observation
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
       ! Compute observation likelihood for an ensemble member
-      procedure(c__likelihood_l_pdaf) :: likelihood_l_pdafomi
+      procedure(c__likelihood_l_pdaf) :: likelihood_l_pdaf
 
       call PDAFomi_assimilate_lnetf_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-         init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, init_n_domains_pdaf, &
-         init_dim_l_pdaf, init_dim_obs_l_pdafomi, likelihood_l_pdafomi, g2l_state_pdaf, l2g_state_pdaf, &
+         init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, init_n_domains_pdaf, &
+         init_dim_l_pdaf, init_dim_obs_l_pdaf, likelihood_l_pdaf, g2l_state_pdaf, l2g_state_pdaf, &
          next_observation_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_assimilate_lnetf_nondiagR
 
    SUBROUTINE c__PDAFomi_assimilate_local_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, init_n_domains_pdaf, &
-      init_dim_l_pdaf, init_dim_obs_l_pdafomi, prodRinvA_l_pdafomi, &
+      init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, init_n_domains_pdaf, &
+      init_dim_l_pdaf, init_dim_obs_l_pdaf, prodRinvA_l_pdaf, &
       g2l_state_pdaf, l2g_state_pdaf, next_observation_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(out) :: outflag
@@ -1835,15 +1838,15 @@ contains
       ! Routine to distribute a state vector
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: obs_op_pdafomi
+      procedure(c__obs_op_pdaf) :: obs_op_pdaf
       ! Provide number of local analysis domains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdaf
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdafomi
+      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
       ! Get state on local ana. domain from full state
       procedure(c__g2l_state_pdaf) :: g2l_state_pdaf
       ! Init full state from state on local analysis domain
@@ -1853,19 +1856,19 @@ contains
       ! Provide time step and time of next observation
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
       ! Provide product R^-1 A
-      procedure(c__prodRinvA_l_pdaf) :: prodRinvA_l_pdafomi
+      procedure(c__prodRinvA_l_pdaf) :: prodRinvA_l_pdaf
 
       call PDAFomi_assimilate_local_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-         init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, init_n_domains_pdaf, &
-         init_dim_l_pdaf, init_dim_obs_l_pdafomi, prodRinvA_l_pdafomi, &
+         init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, init_n_domains_pdaf, &
+         init_dim_l_pdaf, init_dim_obs_l_pdaf, prodRinvA_l_pdaf, &
          g2l_state_pdaf, l2g_state_pdaf, next_observation_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_assimilate_local_nondiagR
 
    SUBROUTINE c__PDAFomi_assimilate_nonlin_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, likelihood_pdafomi, prepoststep_pdaf, &
+      init_dim_obs_pdaf, obs_op_pdaf, likelihood_pdaf, prepoststep_pdaf, &
       next_observation_pdaf, outflag) bind(c)
       ! Status flag
-      INTEGER(c_int), INTENT(out) :: flag
+      INTEGER(c_int), INTENT(out) :: outflag
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Routine to distribute a state vector
@@ -1879,16 +1882,16 @@ contains
       ! Provide time step and time of next observation
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
       ! Compute observation likelihood for an ensemble member
-      procedure(c__likelihood_pdaf) :: likelihood_pdafomi
+      procedure(c__likelihood_pdaf) :: likelihood_pdaf
 
       call PDAFomi_assimilate_nonlin_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-         init_dim_obs_pdafomi, obs_op_pdafomi, likelihood_pdafomi, prepoststep_pdaf, &
+         init_dim_obs_pdaf, obs_op_pdaf, likelihood_pdaf, prepoststep_pdaf, &
          next_observation_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_assimilate_nonlin_nondiagR
 
    SUBROUTINE c__PDAFomi_put_state_3dvar_nondiagR(collect_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
-      cvt_pdaf, cvt_adj_pdaf, obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
+      init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
+      cvt_pdaf, cvt_adj_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, &
       prepoststep_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
@@ -1909,17 +1912,17 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! Provide product R^-1 A
-      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdafomi
+      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdaf
 
       call PDAFomi_put_state_3dvar_nondiagR(collect_state_pdaf, &
-         init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
-         cvt_pdaf, cvt_adj_pdaf, obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
+         init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
+         cvt_pdaf, cvt_adj_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, &
          prepoststep_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_put_state_3dvar_nondiagR
 
    SUBROUTINE c__PDAFomi_put_state_en3dvar_estkf_nondiagR(collect_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
-      cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
+      init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
+      cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, &
       prepoststep_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
@@ -1940,18 +1943,18 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! Provide product R^-1 A
-      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdafomi
+      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdaf
 
       call PDAFomi_put_state_en3dvar_estkf_nondiagR(collect_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
-      cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
+      init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
+      cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, &
       prepoststep_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_put_state_en3dvar_estkf_nondiagR
 
    SUBROUTINE c__PDAFomi_put_state_en3dvar_lestkf_nondiagR(collect_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
-      cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
-      prodRinvA_l_pdafomi, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdafomi, &
+      init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
+      cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, &
+      prodRinvA_l_pdaf, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdaf, &
       g2l_state_pdaf, l2g_state_pdaf, prepoststep_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
@@ -1976,46 +1979,49 @@ contains
       ! Init full state from local state
       procedure(c__l2g_state_pdaf) :: l2g_state_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdaf
       ! Full observation operator
-      procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_pdaf
       ! Initialize local dimimension of obs. vector
       procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
+      ! Provide product R^-1 A for local analysis domain
+      procedure(c__prodRinvA_l_pdaf) :: prodRinvA_l_pdaf
       ! Provide product R^-1 A
-      procedure(c__prodRinvA_l_pdaf) :: prodRinvA_l_pdafomi
+      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdaf
+
       call PDAFomi_put_state_en3dvar_lestkf_nondiagR(collect_state_pdaf, &
-         init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
-         cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
-         prodRinvA_l_pdafomi, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdafomi, &
+         init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
+         cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, &
+         prodRinvA_l_pdaf, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdaf, &
          g2l_state_pdaf, l2g_state_pdaf, prepoststep_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_put_state_en3dvar_lestkf_nondiagR
 
    SUBROUTINE c__PDAFomi_put_state_enkf_nondiagR(collect_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, add_obs_error_pdafomi, init_obscovar_pdafomi, &
+      init_dim_obs_pdaf, obs_op_pdaf, add_obs_error_pdaf, init_obscovar_pdaf, &
       prepoststep_pdaf, outflag) bind(c)
       INTEGER(c_int), INTENT(out) :: outflag
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdaf
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: obs_op_pdafomi
+      procedure(c__obs_op_pdaf) :: obs_op_pdaf
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Add obs error covariance R to HPH in EnKF
-      procedure(c__add_obs_err_pdaf) :: add_obs_error_pdafomi
+      procedure(c__add_obs_err_pdaf) :: add_obs_error_pdaf
       ! Initialize obs. error cov. matrix R in EnKF
-      procedure(c__init_obs_covar_pdaf) :: init_obscovar_pdafomi
+      procedure(c__init_obs_covar_pdaf) :: init_obscovar_pdaf
 
       call PDAFomi_put_state_enkf_nondiagR(collect_state_pdaf, &
-         init_dim_obs_pdafomi, obs_op_pdafomi, add_obs_error_pdafomi, init_obscovar_pdafomi, &
+         init_dim_obs_pdaf, obs_op_pdaf, add_obs_error_pdaf, init_obscovar_pdaf, &
          prepoststep_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_put_state_enkf_nondiagR
 
    SUBROUTINE c__PDAFomi_put_state_global_nondiagR(collect_state_pdaf, &
       init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, prepoststep_pdaf, outflag) bind(c)
       ! Status flag
-      INTEGER(c_int), INTENT(out) :: flag
+      INTEGER(c_int), INTENT(out) :: outflag
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Initialize dimension of observation vector
@@ -2025,16 +2031,16 @@ contains
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide product R^-1 A
-      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdafomi
+      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdaf
 
       call PDAFomi_put_state_global_nondiagR(collect_state_pdaf, &
          init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, prepoststep_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_put_state_global_nondiagR
 
-   SUBROUTINE PDAFomi_put_state_hyb3dvar_estkf_nondiagR(collect_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
+   SUBROUTINE c__PDAFomi_put_state_hyb3dvar_estkf_nondiagR(collect_state_pdaf, &
+      init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
       cvt_ens_pdaf, cvt_adj_ens_pdaf, cvt_pdaf, cvt_adj_pdaf, &
-      obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
+      obs_op_lin_pdaf, obs_op_adj_pdaf, &
       prepoststep_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
@@ -2059,19 +2065,20 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! Provide product R^-1 A
-      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdafomi
+      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdaf
+
       call PDAFomi_put_state_hyb3dvar_estkf_nondiagR(collect_state_pdaf, &
-         init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
+         init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
          cvt_ens_pdaf, cvt_adj_ens_pdaf, cvt_pdaf, cvt_adj_pdaf, &
-         obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
+         obs_op_lin_pdaf, obs_op_adj_pdaf, &
          prepoststep_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_put_state_hyb3dvar_estkf_nondiagR
 
    SUBROUTINE c__PDAFomi_put_state_hyb3dvar_lestkf_nondiagR(collect_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
+      init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
       cvt_ens_pdaf, cvt_adj_ens_pdaf, cvt_pdaf, cvt_adj_pdaf, &
-      obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
-      prodRinvA_l_pdafomi, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdafomi, &
+      obs_op_lin_pdaf, obs_op_adj_pdaf, &
+      prodRinvA_l_pdaf, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdaf, &
       g2l_state_pdaf, l2g_state_pdaf, prepoststep_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
@@ -2100,66 +2107,68 @@ contains
       ! Init full state from local state
       procedure(c__l2g_state_pdaf) :: l2g_state_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdaf
       ! Full observation operator
-      procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_pdaf
       ! Initialize local dimimension of obs. vector
       procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
+      ! Provide product R^-1 A for analysis domain
+      procedure(c__prodRinvA_l_pdaf) :: prodRinvA_l_pdaf
       ! Provide product R^-1 A
-      procedure(c__prodRinvA_l_pdaf) :: prodRinvA_l_pdafomi
+      procedure(c__prodRinvA_pdaf) :: prodRinvA_pdaf
 
       call PDAFomi_put_state_hyb3dvar_lestkf_nondiagR(collect_state_pdaf, &
-         init_dim_obs_pdafomi, obs_op_pdafomi, prodRinvA_pdafomi, &
+         init_dim_obs_pdaf, obs_op_pdaf, prodRinvA_pdaf, &
          cvt_ens_pdaf, cvt_adj_ens_pdaf, cvt_pdaf, cvt_adj_pdaf, &
-         obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
-         prodRinvA_l_pdafomi, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdafomi, &
+         obs_op_lin_pdaf, obs_op_adj_pdaf, &
+         prodRinvA_l_pdaf, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdaf, &
          g2l_state_pdaf, l2g_state_pdaf, prepoststep_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_put_state_hyb3dvar_lestkf_nondiagR
 
    SUBROUTINE c__PDAFomi_put_state_lenkf_nondiagR(collect_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, localize_covar_pdafomi, &
-      add_obs_error_pdafomi, init_obscovar_pdafomi, outflag) bind(c)
+      init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, localize_covar_pdaf, &
+      add_obs_error_pdaf, init_obscovar_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(out) :: outflag
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdaf
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: obs_op_pdafomi
+      procedure(c__obs_op_pdaf) :: obs_op_pdaf
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Apply localization to HP and HPH^T
-      procedure(c__localize_covar_pdaf) :: localize_covar_pdafomi
+      procedure(c__localize_covar_pdaf) :: localize_covar_pdaf
       ! Add obs error covariance R to HPH in EnKF
-      procedure(c__add_obs_err_pdaf) :: add_obs_error_pdafomi
+      procedure(c__add_obs_err_pdaf) :: add_obs_error_pdaf
       ! Initialize obs. error cov. matrix R in EnKF
-      procedure(c__init_obs_covar_pdaf) :: init_obscovar_pdafomi
+      procedure(c__init_obs_covar_pdaf) :: init_obscovar_pdaf
 
       call PDAFomi_put_state_lenkf_nondiagR(collect_state_pdaf, &
-         init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, localize_covar_pdafomi, &
-         add_obs_error_pdafomi, init_obscovar_pdafomi, outflag)
+         init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, localize_covar_pdaf, &
+         add_obs_error_pdaf, init_obscovar_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_put_state_lenkf_nondiagR
 
-   SUBROUTINE PDAFomi_put_state_lknetf_nondiagR(collect_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, init_n_domains_pdaf, &
-      init_dim_l_pdaf, init_dim_obs_l_pdafomi, prodRinvA_l_pdafomi, prodRinvA_hyb_l_pdafomi, &
-      likelihood_l_pdafomi, likelihood_hyb_l_pdafomi, g2l_state_pdaf, l2g_state_pdaf, &
+   SUBROUTINE c__PDAFomi_put_state_lknetf_nondiagR(collect_state_pdaf, &
+      init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, init_n_domains_pdaf, &
+      init_dim_l_pdaf, init_dim_obs_l_pdaf, prodRinvA_l_pdaf, prodRinvA_hyb_l_pdaf, &
+      likelihood_l_pdaf, likelihood_hyb_l_pdaf, g2l_state_pdaf, l2g_state_pdaf, &
       outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(out) :: outflag
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: obs_op_pdafomi
+      procedure(c__obs_op_pdaf) :: obs_op_pdaf
       ! Provide number of local analysis domains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdaf
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdafomi
+      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
       ! Get state on local ana. domain from full state
       procedure(c__g2l_state_pdaf) :: g2l_state_pdaf
       ! Init full state from state on local analysis domain
@@ -2167,39 +2176,39 @@ contains
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide product R^-1 A
-      procedure(c__prodRinvA_l_pdaf) :: prodRinvA_l_pdafomi
+      procedure(c__prodRinvA_l_pdaf) :: prodRinvA_l_pdaf
       ! Compute observation likelihood for an ensemble member
-      procedure(c__likelihood_l_pdaf) :: likelihood_l_pdafomi
+      procedure(c__likelihood_l_pdaf) :: likelihood_l_pdaf
       ! Provide product R^-1 A on local analysis domain with hybrid weight
-      procedure(c__prodRinvA_hyb_l_pdaf) :: prodRinvA_hyb_l_pdafomi
+      procedure(c__prodRinvA_hyb_l_pdaf) :: prodRinvA_hyb_l_pdaf
       ! Compute likelihood with hybrid weight
-      procedure(c__likelihood_hyb_l_pdaf) :: likelihood_hyb_l_pdafomi
+      procedure(c__likelihood_hyb_l_pdaf) :: likelihood_hyb_l_pdaf
 
       call PDAFomi_put_state_lknetf_nondiagR(collect_state_pdaf, &
-         init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, init_n_domains_pdaf, &
-         init_dim_l_pdaf, init_dim_obs_l_pdafomi, prodRinvA_l_pdafomi, prodRinvA_hyb_l_pdafomi, &
-         likelihood_l_pdafomi, likelihood_hyb_l_pdafomi, g2l_state_pdaf, l2g_state_pdaf, &
+         init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, init_n_domains_pdaf, &
+         init_dim_l_pdaf, init_dim_obs_l_pdaf, prodRinvA_l_pdaf, prodRinvA_hyb_l_pdaf, &
+         likelihood_l_pdaf, likelihood_hyb_l_pdaf, g2l_state_pdaf, l2g_state_pdaf, &
          outflag)
-   END SUBROUTINE PDAFomi_put_state_lknetf_nondiagR
+   END SUBROUTINE c__PDAFomi_put_state_lknetf_nondiagR
 
    SUBROUTINE c__PDAFomi_put_state_lnetf_nondiagR(collect_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, init_n_domains_pdaf, &
-      init_dim_l_pdaf, init_dim_obs_l_pdafomi, likelihood_l_pdafomi, g2l_state_pdaf, l2g_state_pdaf, &
+      init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, init_n_domains_pdaf, &
+      init_dim_l_pdaf, init_dim_obs_l_pdaf, likelihood_l_pdaf, g2l_state_pdaf, l2g_state_pdaf, &
       outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(out) :: outflag
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: obs_op_pdafomi
+      procedure(c__obs_op_pdaf) :: obs_op_pdaf
       ! Provide number of local analysis domains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdaf
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdafomi
+      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
       ! Get state on local ana. domain from full state
       procedure(c__g2l_state_pdaf) :: g2l_state_pdaf
       ! Init full state from state on local analysis domain
@@ -2207,32 +2216,32 @@ contains
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Compute observation likelihood for an ensemble member
-      procedure(c__likelihood_l_pdaf) :: likelihood_l_pdafomi
+      procedure(c__likelihood_l_pdaf) :: likelihood_l_pdaf
 
       call PDAFomi_put_state_lnetf_nondiagR(collect_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, init_n_domains_pdaf, &
-      init_dim_l_pdaf, init_dim_obs_l_pdafomi, likelihood_l_pdafomi, g2l_state_pdaf, l2g_state_pdaf, &
+      init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, init_n_domains_pdaf, &
+      init_dim_l_pdaf, init_dim_obs_l_pdaf, likelihood_l_pdaf, g2l_state_pdaf, l2g_state_pdaf, &
       outflag)
    END SUBROUTINE c__PDAFomi_put_state_lnetf_nondiagR
 
    SUBROUTINE c__PDAFomi_put_state_local_nondiagR(collect_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, init_n_domains_pdaf, &
-      init_dim_l_pdaf, init_dim_obs_l_pdafomi, prodRinvA_l_pdafomi, &
+      init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, init_n_domains_pdaf, &
+      init_dim_l_pdaf, init_dim_obs_l_pdaf, prodRinvA_l_pdaf, &
       g2l_state_pdaf, l2g_state_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(out) :: outflag
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Observation operator
-      procedure(c__obs_op_pdaf) :: obs_op_pdafomi
+      procedure(c__obs_op_pdaf) :: obs_op_pdaf
       ! Provide number of local analysis domains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdaf
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdafomi
+      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
       ! Get state on local ana. domain from full state
       procedure(c__g2l_state_pdaf) :: g2l_state_pdaf
       ! Init full state from state on local analysis domain
@@ -2240,18 +2249,18 @@ contains
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide product R^-1 A
-      procedure(c__prodRinvA_l_pdaf) :: prodRinvA_l_pdafomi
+      procedure(c__prodRinvA_l_pdaf) :: prodRinvA_l_pdaf
       call PDAFomi_put_state_local_nondiagR(collect_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, init_n_domains_pdaf, &
-      init_dim_l_pdaf, init_dim_obs_l_pdafomi, prodRinvA_l_pdafomi, &
+      init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, init_n_domains_pdaf, &
+      init_dim_l_pdaf, init_dim_obs_l_pdaf, prodRinvA_l_pdaf, &
       g2l_state_pdaf, l2g_state_pdaf, outflag)
    END SUBROUTINE c__PDAFomi_put_state_local_nondiagR
 
    SUBROUTINE c__PDAFomi_put_state_nonlin_nondiagR(collect_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, likelihood_pdafomi, prepoststep_pdaf, &
+      init_dim_obs_pdaf, obs_op_pdaf, likelihood_pdaf, prepoststep_pdaf, &
       outflag) bind(c)
       ! Status flag
-      INTEGER(c_int), INTENT(out) :: flag
+      INTEGER(c_int), INTENT(out) :: outflag
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Initialize dimension of observation vector
@@ -2261,9 +2270,10 @@ contains
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Compute observation likelihood for an ensemble member
-      procedure(c__likelihood_pdaf) :: likelihood_pdafomi
+      procedure(c__likelihood_pdaf) :: likelihood_pdaf
+
       call PDAFomi_put_state_nonlin_nondiagR(collect_state_pdaf, &
-      init_dim_obs_pdafomi, obs_op_pdafomi, likelihood_pdafomi, prepoststep_pdaf, &
+      init_dim_obs_pdaf, obs_op_pdaf, likelihood_pdaf, prepoststep_pdaf, &
       outflag)
    END SUBROUTINE c__PDAFomi_put_state_nonlin_nondiagR
 end module PDAFomi_obs_c_binding

@@ -119,6 +119,15 @@ abstract interface
       integer(c_int), intent(out) :: dim_obs_p
    end subroutine c__init_dim_obs_pdaf
 
+   subroutine c__init_dim_obs_f_pdaf(step, dim_obs_p) bind(c)
+      use iso_c_binding, only: c_double, c_int
+      implicit none
+      ! current time step
+      integer(c_int), intent(in)    :: step
+      ! dimension of observation vector
+      integer(c_int), intent(out) :: dim_obs_p
+   end subroutine c__init_dim_obs_f_pdaf
+
    SUBROUTINE c__init_obs_pdaf(step, dim_obs_p, observation_p) bind(c)
       use iso_c_binding, only: c_double, c_int
       implicit none
@@ -193,6 +202,20 @@ abstract interface
       real(c_double), intent(out), dimension(dim_obs_p) :: m_state_p
    END SUBROUTINE c__obs_op_pdaf
 
+   SUBROUTINE c__obs_op_f_pdaf(step, dim_p, dim_obs_p, state_p, m_state_p) bind(c)
+      use iso_c_binding, only: c_double, c_int
+      implicit none
+      ! Current time step
+      integer(c_int), intent(in) :: step
+      ! Size of state vector (local part in case of parallel decomposed state)
+      integer(c_int), intent(in) :: dim_p
+      ! Size of observation vector
+      integer(c_int), intent(in) :: dim_obs_p
+      ! Model state vector
+      real(c_double), intent(in), dimension(dim_p) :: state_p
+      ! Observed state vector (i.e. the result after applying the observation operator to state_p)
+      real(c_double), intent(out), dimension(dim_obs_p) :: m_state_p
+   END SUBROUTINE c__obs_op_f_pdaf
 
    SUBROUTINE c__g2l_obs_pdaf(domain_p, step, dim_obs_f, dim_obs_l, mstate_f, dim_p, mstate_l, dim_l) bind(c)
       use iso_c_binding, only: c_int
@@ -242,15 +265,6 @@ abstract interface
       ! local state dimension
       integer(c_int), intent(out) :: dim_l
    end subroutine c__init_dim_l_pdaf
-
-   SUBROUTINE c__init_dim_obs_f_pdaf(step, dim_obs_f) bind(c)
-      use iso_c_binding, only: c_int
-      implicit none
-      ! Current time step
-      integer(c_int), intent(in) :: step
-      ! Size of the full observation vector
-      integer(c_int), intent(out) :: dim_obs_f
-   END SUBROUTINE c__init_dim_obs_f_pdaf
 
    subroutine c__init_dim_obs_l_pdaf(domain_p, step, dim_obs_f, dim_obs_l) bind(c)
       use iso_c_binding, only: c_int
@@ -345,20 +359,6 @@ abstract interface
       real(c_double), intent(inout) :: state_p(dim_p)
    end subroutine c__l2g_state_pdaf
 
-   SUBROUTINE c__obs_op_f_pdaf(step, dim_p, dim_obs_f, state_p, m_state_f) bind(c)
-      use iso_c_binding, only: c_double, c_int
-      implicit none
-      ! Current time step
-      integer(c_int), intent(in) :: step
-      ! Size of state vector (local part in case of parallel decomposed state)
-      integer(c_int), intent(in) :: dim_p
-      ! Size of full observation vector
-      integer(c_int), intent(in) :: dim_obs_f
-      ! Model state vector
-      real(c_double), intent(in), dimension(dim_p) :: state_p
-      ! Full observed state (i.e. the result after applying the observation operator to state_p)
-      real(c_double), intent(out), dimension(dim_obs_f) :: m_state_f
-   END SUBROUTINE c__obs_op_f_pdaf
 
    SUBROUTINE c__prodRinvA_l_pdaf(domain_p, step, dim_obs_l, rank, obs_l, A_l, C_l) bind(c)
       use iso_c_binding, only: c_double, c_int
@@ -587,9 +587,9 @@ abstract interface
       ! Hybrid weight provided by PDAF
       real(c_double), intent(in) :: gamma
       ! Input matrix provided by PDAF
-      real(c_double), intent(in) :: A_l(dim_obs_l, rank)
+      real(c_double), intent(in) :: A_l(dim_obs_l, dim_ens)
       ! Output matrix
-      real(c_double), intent(out) :: C_l(dim_obs_l, rank)
+      real(c_double), intent(out) :: C_l(dim_obs_l, dim_ens)
    END SUBROUTINE c__prodRinvA_hyb_l_pdaf
 end interface
 
