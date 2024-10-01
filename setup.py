@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-from setuptools import setup, Extension # type: ignore
+from setuptools import setup, Extension, find_packages # type: ignore
 from setuptools import Distribution # type: ignore
 from setuptools.command.build_ext import build_ext as build_ext_orig # type: ignore
 
@@ -63,7 +63,7 @@ assert fortran_compiler in ['gfortran', 'ifort'], f'{fortran_compiler} is not a 
 logging.info (f'....using {fortran_compiler} compiler for C language....')
 if c_compiler == 'icc': os.environ["LDSHARED"] = "mpiicc -shared"
 
-extra_compile_args : list[str] =[]
+extra_compile_args : list[str] =['-O3','-funroll-loops']
 extra_link_args : list[str] = []
 extra_objects : list[str] = []
 library_dirs : list[str]=[]
@@ -118,6 +118,7 @@ if use_MKL == 'True':
                         f'{MKLROOT}/libmkl_sequential.a',
                         f'{MKLROOT}/libmkl_core.a',
                         '-Wl,--end-group']
+        libraries += ['dl', 'pthread']
     else:
         if condaBuild == 'True': MKLROOT = os.path.join(os.environ['PREFIX'], 'lib')
         extra_objects+=[
@@ -138,7 +139,6 @@ if os.name != 'nt':
     FC = os.environ['FC'] if condaBuild == 'True' else 'gfortran'
     libgfortran_path = subprocess.run([FC, '--print-file', 'libgfortran.'+suffix], stdout=subprocess.PIPE).stdout.decode()
     library_dirs+=[libgfortran_path[:-18] if sys.platform == 'darwin' else libgfortran_path[:-15],]
-    library_dirs+=['/usr/lib', ]
     # somehow gfortran is always necessary
     libraries += ['gfortran', 'm']
     if fortran_compiler == 'ifort': libraries += ['ifcore', 'ifcoremt']
@@ -158,7 +158,7 @@ class build_ext(build_ext_orig):
             if ext.name == 'pyPDAF.PDAFc':
                 cwd = os.getcwd()
                 # compile PDAF and PDAFc
-                PDAFc_build_dir = os.path.join(pwd, 'pyPDAF', 'fortran', 'build')
+                PDAFc_build_dir = os.path.join(pwd, 'src', 'fortran', 'build')
                 os.makedirs(PDAFc_build_dir, exist_ok=True)
                 os.chdir(PDAFc_build_dir)
                 shutil.copyfile(os.path.join(pwd, 'PDAFBuild', 'CMakeLists.txt'),
@@ -175,11 +175,13 @@ class build_ext(build_ext_orig):
 
 
 ext_modules = [Extension('pyPDAF.PDAFc',
-                          ['pyPDAF/fortran/PDAFc.pyx']),
+                          ['src/fortran/PDAFc.pyx']),
                Extension('pyPDAF.UserFunc',
-                         ['pyPDAF/UserFunc.pyx']),
+                         ['src/pyPDAF/UserFunc.pyx'],
+                        extra_compile_args=extra_compile_args
+                        ),
                Extension('pyPDAF.PDAF',
-                         ['pyPDAF/PDAF.pyx'],
+                         ['src/pyPDAF/PDAF.pyx'],
                          extra_compile_args=extra_compile_args,
                          extra_objects=extra_objects,
                          extra_link_args=extra_link_args,
@@ -190,7 +192,17 @@ ext_modules = [Extension('pyPDAF.PDAFc',
 
 setup(name='pyPDAF',
     ext_modules=cythonize(ext_modules,
-                          compiler_directives={'language_level': "3"}),
+                          compiler_directives={'language_level': "3",
+                          'boundscheck': False, 'wraparound': False,
+                          'binding':False, 'initializedcheck':False,
+                          }
+                          ),
+    package_dir={"": "src"},
+    packages=find_packages(where="src", exclude=["*.c"]),
+    include_package_data=True,
+    package_data = {
+        'pyPDAF': ['*.pxd'],
+    },
     include_dirs= [numpy.get_include(),],
     cmdclass={
         'build_ext': build_ext,

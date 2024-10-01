@@ -141,6 +141,8 @@ class localisation:
         """
         # initialize local state dimension
         dim_l = 1
+        id_lstate_in_pstate:np.ndarray = domain_p*np.ones((dim_l), dtype=np.intc)
+        PDAF.local_set_indices(id_lstate_in_pstate)
         return dim_l
 
     def g2l_state_pdaf(self, step:int, domain_p:int, dim_p:int, state_p:np.ndarray, dim_l:int, state_l:np.ndarray) -> np.ndarray:

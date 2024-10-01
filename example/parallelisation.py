@@ -80,11 +80,11 @@ class parallelisation:
             as the number of PEs
         """
 
-        # number of model tasks run in parallel 
+        # number of model tasks run in parallel
         # this is limited by the number of processors
         self.n_modeltasks:int = n_modeltasks
-        # total number of ensemble members. This can be larger than 
-        # number of parallel model tasks where the 'flexible' implementation 
+        # total number of ensemble members. This can be larger than
+        # number of parallel model tasks where the 'flexible' implementation
         # is used
         self.dim_ens:int = dim_ens
 
@@ -101,7 +101,7 @@ class parallelisation:
         # Initialize communicators for ensemble evaluations
         if self.mype_ens == 0:
             log.logger.info('Initialize communicators for assimilation with PDAF')
-        
+
         # get the number of processors used by each model task
         self.local_npes_model:np.ndarray = self.get_processor_per_model()
         self.task_id:int = self.get_task_id()
@@ -112,8 +112,8 @@ class parallelisation:
         self.comm_model, self.npes_model, self.mype_model = self.get_model_communicator()
 
         # local ensemble member of each model task/processors.
-        # When dim_ens > n_modeltasks, some processors/model tasks 
-        # run dim_ens_l number of members sequentially. 
+        # When dim_ens > n_modeltasks, some processors/model tasks
+        # run dim_ens_l number of members sequentially.
         # When n_modeltasks = dim_ens, dim_ens_l = 1
         # Here dim_ens_l is the ensemble size for current model task
         # all_dim_ens_l is the ensemble size for all task ids.
@@ -144,7 +144,7 @@ class parallelisation:
 
         Routine to initialize MPI.
 
-        Here, we also return the communicator for the full ensemble 
+        Here, we also return the communicator for the full ensemble
         as well as its size and the rank of the current processor in
         the communicator.
 
@@ -181,7 +181,7 @@ class parallelisation:
         pe_index:np.ndarray = np.cumsum(self.local_npes_model, dtype=int)
         # task id of the current processor
         task_id:int = np.arange(self.n_modeltasks)[pe_index <= self.mype_ens + self.local_npes_model[0]][-1] + 1
-        
+
         return task_id
 
     def get_model_communicator(self) -> tuple[MPI.Comm, int, int]:

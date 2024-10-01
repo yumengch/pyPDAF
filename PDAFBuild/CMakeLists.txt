@@ -6,7 +6,7 @@ set(PDAF_VERSION "2.2.1")
 
 set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
-set(MOD_PDAF 
+set(MOD_PDAF
     PDAF_timer.F90
     PDAF_memcount.F90
     PDAF_mod_filtermpi.F90
@@ -14,7 +14,8 @@ set(MOD_PDAF
 )
 
 # Generic routines in PDAF
-set(OBJ_PDAF_GEN 
+set(OBJ_PDAF_GEN
+    PDAF_analysis_utils.F90
     PDAF_init.F90
     PDAF_init_filters.F90
     PDAF_alloc_filters.F90
@@ -64,19 +65,35 @@ set(OBJ_PDAF_GEN
     PDAF_get_globalobs.F90
     PDAF_inflate_weights.F90
     PDAFomi_put_state_global.F90
+    PDAFomi_put_state_global_nondiagR.F90
+    PDAFomi_put_state_nonlin_nondiagR.F90
     PDAFomi_put_state_local.F90
+    PDAFomi_put_state_local_nondiagR.F90
     PDAFomi_assimilate_global.F90
+    PDAFomi_assimilate_global_nondiagR.F90
+    PDAFomi_assimilate_nonlin_nondiagR.F90
     PDAFomi_assimilate_local.F90
+    PDAFomi_assimilate_local_nondiagR.F90
     PDAF_reset_forget.F90
     PDAF_get_ensstats.F90
     PDAF_set_debug_flag.F90
-    PDAF_analysis_utils.F90
     PDAF_reset_dim_p.F90
     PDAF_set_offline_mode.F90
+    PDAFlocal.F90
+    PDAFlocal_set_indices.F90
+    PDAFlocal_set_increment_weights.F90
+    PDAFlocal_clear_increment_weights.F90
+    PDAFlocal_g2l_cb.F90
+    PDAFlocal_l2g_cb.F90
+    PDAFlocalomi_assimilate.F90
+    PDAFlocalomi_assimilate_nondiagR.F90
+    PDAFlocalomi_put_state.F90
+    PDAFlocalomi_put_state_nondiagR.F90
+    PDAF_correlation_function.F90
 )
 
 # Specific PDAF-routines for SEIK
-set(OBJ_SEIK 
+set(OBJ_SEIK
     PDAF_seik_init.F90
     PDAF_seik_alloc.F90
     PDAF_seik_options.F90
@@ -96,7 +113,7 @@ set(OBJ_SEIK
 )
 
 # Specific PDAF-routines for local SEIK
-set(OBJ_LSEIK 
+set(OBJ_LSEIK
     PDAF_lseik_init.F90
     PDAF_lseik_alloc.F90
     PDAF_lseik_options.F90
@@ -107,10 +124,12 @@ set(OBJ_LSEIK
     PDAF_lseik_analysis.F90
     PDAF_lseik_resample.F90
     PDAF_lseik_analysis_trans.F90
+    PDAFlocal_put_state_lseik.F90
+    PDAFlocal_assimilate_lseik.F90
 )
 
 # Specific PDAF-routines for SEEK
-set(OBJ_SEEK 
+set(OBJ_SEEK
     PDAF_seek_init.F90
     PDAF_seek_alloc.F90
     PDAF_seek_options.F90
@@ -123,7 +142,7 @@ set(OBJ_SEEK
 )
 
 # Specific PDAF-routines for EnKF
-set(OBJ_ENKF 
+set(OBJ_ENKF
     PDAF_enkf_init.F90
     PDAF_enkf_alloc.F90
     PDAF_enkf_options.F90
@@ -132,15 +151,18 @@ set(OBJ_ENKF
     PDAF_assimilate_enkf.F90
     PDAF_enkf_update.F90
     PDAF_enkf_obs_ensemble.F90
+    PDAF_enkf_gather_resid.F90
     PDAF_enkf_analysis_rlm.F90
     PDAF_enkf_analysis_rsm.F90
     PDAF_enkf_omega.F90
     PDAF_enkf_Tleft.F90
     PDAF_smoother_enkf.F90
+    PDAFomi_put_state_enkf_nondiagR.F90
+    PDAFomi_assimilate_enkf_nondiagR.F90
 )
 
 # Specific PDAF-routines for ETKF
-set(OBJ_ETKF 
+set(OBJ_ETKF
     PDAF_etkf_init.F90
     PDAF_etkf_alloc.F90
     PDAF_etkf_options.F90
@@ -156,7 +178,7 @@ set(OBJ_ETKF
 )
 
 # Specific PDAF-routines for LETKF
-set(OBJ_LETKF 
+set(OBJ_LETKF
     PDAF_letkf_init.F90
     PDAF_letkf_alloc.F90
     PDAF_letkf_options.F90
@@ -167,10 +189,12 @@ set(OBJ_LETKF
     PDAF_letkf_analysis.F90
     PDAF_letkf_analysis_T.F90
     PDAF_letkf_analysis_fixed.F90
+    PDAFlocal_put_state_letkf.F90
+    PDAFlocal_assimilate_letkf.F90
 )
 
 # Specific PDAF-routines for ESTKF
-set(OBJ_ESTKF 
+set(OBJ_ESTKF
     PDAF_estkf_init.F90
     PDAF_estkf_alloc.F90
     PDAF_estkf_options.F90
@@ -185,7 +209,7 @@ set(OBJ_ESTKF
 )
 
 # Specific PDAF-routines for LESTKF
-set(OBJ_LESTKF 
+set(OBJ_LESTKF
     PDAF_lestkf_init.F90
     PDAF_lestkf_alloc.F90
     PDAF_lestkf_options.F90
@@ -195,25 +219,28 @@ set(OBJ_LESTKF
     PDAF_lestkf_update.F90
     PDAF_lestkf_analysis.F90
     PDAF_lestkf_analysis_fixed.F90
+    PDAFlocal_put_state_lestkf.F90
+    PDAFlocal_assimilate_lestkf.F90
 )
 
 # Specific PDAF-routines for EnKF
-set(OBJ_LENKF 
+set(OBJ_LENKF
     PDAF_lenkf_init.F90
     PDAF_lenkf_alloc.F90
     PDAF_lenkf_options.F90
     PDAF_lenkf_memtime.F90
     PDAF_put_state_lenkf.F90
     PDAFomi_put_state_lenkf.F90
+    PDAFomi_put_state_lenkf_nondiagR.F90
     PDAF_assimilate_lenkf.F90
     PDAFomi_assimilate_lenkf.F90
+    PDAFomi_assimilate_lenkf_nondiagR.F90
     PDAF_lenkf_update.F90
-    PDAF_enkf_gather_resid.F90
     PDAF_lenkf_analysis_rsm.F90
 )
 
 # Specific PDAF-routines for NETF
-set(OBJ_NETF 
+set(OBJ_NETF
     PDAF_netf_init.F90
     PDAF_netf_alloc.F90
     PDAF_netf_options.F90
@@ -227,7 +254,7 @@ set(OBJ_NETF
 )
 
 # Specific PDAF-routines for LNETF
-set(OBJ_LNETF 
+set(OBJ_LNETF
     PDAF_lnetf_init.F90
     PDAF_lnetf_alloc.F90
     PDAF_lnetf_options.F90
@@ -239,10 +266,16 @@ set(OBJ_LNETF
     PDAF_lnetf_smootherT.F90
     PDAF_mod_lnetf.F90
     PDAF_smoother_lnetf.F90
+    PDAFomi_put_state_lnetf_nondiagR.F90
+    PDAFomi_assimilate_lnetf_nondiagR.F90
+    PDAFlocal_put_state_lnetf.F90
+    PDAFlocal_assimilate_lnetf.F90
+    PDAFlocalomi_assimilate_lnetf_nondiagR.F90
+    PDAFlocalomi_put_state_lnetf_nondiagR.F90
 )
 
 # Specific PDAF-routines for PF
-set(OBJ_PF 
+set(OBJ_PF
     PDAF_pf_init.F90
     PDAF_pf_alloc.F90
     PDAF_pf_options.F90
@@ -256,7 +289,7 @@ set(OBJ_PF
 )
 
 # Specific PDAF-routines for LKNETF
-set(OBJ_LKNETF 
+set(OBJ_LKNETF
     PDAF_lknetf_init.F90
     PDAF_lknetf_alloc.F90
     PDAF_lknetf_options.F90
@@ -272,10 +305,16 @@ set(OBJ_LKNETF
     PDAF_lknetf_set_gamma.F90
     PDAF_lknetf_alpha_neff.F90
     PDAF_lknetf_reset_gamma.F90
+    PDAFomi_put_state_lknetf_nondiagR.F90
+    PDAFomi_assimilate_lknetf_nondiagR.F90
+    PDAFlocal_put_state_lknetf.F90
+    PDAFlocal_assimilate_lknetf.F90
+    PDAFlocalomi_assimilate_lknetf_nondiagR.F90
+    PDAFlocalomi_put_state_lknetf_nondiagR.F90
 )
 
 # Specific PDAF-routines for generating observations
-set(OBJ_OBSGEN 
+set(OBJ_OBSGEN
     PDAF_genobs_init.F90
     PDAF_genobs_alloc.F90
     PDAF_genobs_options.F90
@@ -287,7 +326,7 @@ set(OBJ_OBSGEN
 )
 
 # Specific PDAF-routines for 3DVAR initialization part
-set(OBJ_3DVAR_INI 
+set(OBJ_3DVAR_INI
     PDAF_3dvar_init.F90
     PDAF_3dvar_alloc.F90
     PDAF_3dvar_options.F90
@@ -329,22 +368,45 @@ set(OBJ_3DVAR
     PDAF_hyb3dvar_optim_cg.F90
     PDAF_hyb3dvar_costf_cvt.F90
     PDAF_hyb3dvar_costf_cg_cvt.F90
+    PDAFlocal_put_state_en3dvar_lestkf.F90
+    PDAFlocal_put_state_hyb3dvar_lestkf.F90
+    PDAFlocal_assimilate_en3dvar_lestkf.F90
+    PDAFlocal_assimilate_hyb3dvar_lestkf.F90
     PDAFomi_assimilate_3dvar.F90
     PDAFomi_assimilate_en3dvar_estkf.F90
     PDAFomi_assimilate_en3dvar_lestkf.F90
     PDAFomi_assimilate_hyb3dvar_estkf.F90
     PDAFomi_assimilate_hyb3dvar_lestkf.F90
+    PDAFomi_assimilate_3dvar_nondiagR.F90
+    PDAFomi_assimilate_en3dvar_estkf_nondiagR.F90
+    PDAFomi_assimilate_en3dvar_lestkf_nondiagR.F90
+    PDAFomi_assimilate_hyb3dvar_estkf_nondiagR.F90
+    PDAFomi_assimilate_hyb3dvar_lestkf_nondiagR.F90
+    PDAFlocalomi_assimilate_en3dvar_lestkf.F90
+    PDAFlocalomi_assimilate_en3dvar_lestkf_nondiagR.F90
+    PDAFlocalomi_assimilate_hyb3dvar_lestkf.F90
+    PDAFlocalomi_assimilate_hyb3dvar_lestkf_nondiagR.F90
     PDAFomi_put_state_3dvar.F90
     PDAFomi_put_state_en3dvar_estkf.F90
     PDAFomi_put_state_en3dvar_lestkf.F90
     PDAFomi_put_state_hyb3dvar_estkf.F90
     PDAFomi_put_state_hyb3dvar_lestkf.F90
-)
+    PDAFomi_put_state_3dvar_nondiagR.F90
+    PDAFomi_put_state_en3dvar_estkf_nondiagR.F90
+    PDAFomi_put_state_en3dvar_lestkf_nondiagR.F90
+    PDAFomi_put_state_hyb3dvar_estkf_nondiagR.F90
+    PDAFomi_put_state_hyb3dvar_lestkf_nondiagR.F90
+    PDAFlocalomi_put_state_en3dvar_lestkf.F90
+    PDAFlocalomi_put_state_en3dvar_lestkf_nondiagR.F90
+    PDAFlocalomi_put_state_hyb3dvar_lestkf.F90
+    PDAFlocalomi_put_state_hyb3dvar_lestkf_nondiagR.F90
+    )
 
 # Routines for PDAF-OMI
 set(OBJ_PDAFOMI
     PDAFomi_obs_f.F90
     PDAFomi_obs_l.F90
+    PDAFomi_dim_obs_l.F90
     PDAFomi_obs_op.F90
     PDAFomi.F90
     PDAFomi_callback.F90
@@ -361,7 +423,12 @@ set(OBJ_OPTIM
     ../external/LBFGS/timer.f
 )
 
+set(OBJ_SANGOMA
+    ../external/SANGOMA/SANGOMA_quicksort.F90
+)
+
 set (OBJ_INTERFACE
+    PDAFlocal_interfaces.F90
     PDAF_interfaces_module.F90
 )
 # List all source files
@@ -385,6 +452,7 @@ set(SRC_FILES
     ${OBJ_PDAFOMI}
     ${OBJ_INTERFACE}
     ${OBJ_3DVAR_INI}
+    ${OBJ_SANGOMA}
 )
 
 # check if Config Path is provided
