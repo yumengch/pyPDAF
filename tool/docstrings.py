@@ -1265,7 +1265,7 @@ docstrings['omi_set_ncoord'] = "This function sets the `ncoord` attribute of `ob
 docstrings['omi_set_id_obs_p'] = "This function sets the `id_obs_p` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. " \
                                  "`id_obs_p(nrows, dim_obs_p)` is a 2D array of integers.\n    " \
                                  "The value of `nrows` depends on the observation operator used for an observation. " \
-                                 "Examples: \n     `nrows=1` if observations are located on model grid point. In this case,\n    " \
+                                 "Examples: \n     `nrows=1` if observations are located on model grid point. In this case, " \
                                  "`id_obs_p` stores the index of the state vector (starting from 1) corresponds to the observations,\n    " \
                                  "e.g. `id_obs_p[0, j] = i means that the `j`-th observation is located on the same grid point and is the " \
                                  "same physical quantity as the `i`-th element of the state vector. \n    " \
@@ -1318,8 +1318,8 @@ docstrings['omi_obs_op_gridpoint'] = "The routine provides an observation operat
                                      "See https://pdaf.awi.de/trac/wiki/OMI_observation_operators#PDAF-OMIObservationOperators"
 docstrings['omi_obs_op_gridavg'] = "The routine provides an observation operator for observations that are the average of some grid point values in the state vector. " \
                                    "The function is used in the user-supplied function `py__obs_op_pdaf`. " \
-                                   "This function is used with `id_obs_p` property of `obs_f`" \
-                                   "See https://pdaf.awi.de/trac/wiki/OMI_observation_operators#PDAF-OMIObservationOperators"
+                                   "This function is used with `id_obs_p` property of `obs_f`. \n" \
+                                   "See 'https://pdaf.awi.de/trac/wiki/OMI_observation_operators#PDAF-OMIObservationOperators'"
 docstrings['omi_obs_op_interp_lin'] = "The routine provides an observation operator for observations that are the average of some grid point values in the state vector. " \
                                       "The function is used in the user-supplied function `py__obs_op_pdaf`. " \
                                       "This function is used with `id_obs_p` and `icoeff_p` property of `obs_f`" \
@@ -2529,7 +2529,7 @@ docstrings['local_assimilate_en3dvar_lestkf'] =  "It is recommended to use OMI f
                                                  "9. py__obs_op_adj_pdaf\n    " \
                                                  "10. py__cvt_adj_ens_pdaf\n    " \
                                                  "11. core DA algorithm\n    " \
-                                                 " After the iterations: n    " \
+                                                 "After the iterations: \n    " \
                                                  "12. py__cvt_ens_pdaf\n    " \
                                                  "Perform LESTKF: \n    " \
                                                  "13. py__init_n_domains_p_pdaf\n    " \
@@ -2574,7 +2574,7 @@ docstrings['local_assimilate_hyb3dvar_lestkf'] = "It is recommended to use OMI f
                                                  "11. py__cvt_adj_pdaf\n    " \
                                                  "12. py__cvt_adj_ens_pdaf\n    " \
                                                  "13. core DA algorithm\n    " \
-                                                 " After the iterations: n    " \
+                                                 "After the iterations: \n    " \
                                                  "14. py__cvt_pdaf\n    " \
                                                  "15. py__cvt_ens_pdaf\n    " \
                                                  "Perform LESTKF: \n    " \
@@ -2763,7 +2763,7 @@ docstrings['local_put_state_en3dvar_lestkf'] = "It is recommended to use OMI fun
                                                "9. py__obs_op_adj_pdaf\n    " \
                                                "10. py__cvt_adj_ens_pdaf\n    " \
                                                "11. core DA algorithm\n    " \
-                                               " After the iterations: n    " \
+                                               "After the iterations: \n    " \
                                                "12. py__cvt_ens_pdaf\n    " \
                                                "Perform LESTKF: \n    " \
                                                "13. py__init_n_domains_p_pdaf\n    " \
@@ -2808,7 +2808,7 @@ docstrings['local_put_state_hyb3dvar_lestkf'] = "It is recommended to use OMI fu
                                                 "11. py__cvt_adj_pdaf\n    " \
                                                 "12. py__cvt_adj_ens_pdaf\n    " \
                                                 "13. core DA algorithm\n    " \
-                                                "After the iterations: n    " \
+                                                "After the iterations: \n    " \
                                                 "14. py__cvt_pdaf\n    " \
                                                 "15. py__cvt_ens_pdaf\n    " \
                                                 "Perform LESTKF: \n    " \
@@ -3040,7 +3040,7 @@ docstrings['localomi_assimilate_hyb3dvar_lestkf'] =  "Using Hybrid 3DEnVar for D
                                                      "9. py__cvt_adj_pdaf\n    " \
                                                      "10. py__cvt_adj_ens_pdaf\n    " \
                                                      "11. core DA algorithm\n    " \
-                                                     "After the iterations: n    " \
+                                                     "After the iterations: \n    " \
                                                      "12. py__cvt_pdaf\n    " \
                                                      "13. py__cvt_ens_pdaf\n    " \
                                                      "Perform LESTKF: \n    " \
