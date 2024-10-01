@@ -1,3 +1,4 @@
+
 # Installation
 
 There are two ways of installing pyPDAF. 
@@ -5,7 +6,8 @@ There are two ways of installing pyPDAF.
 ```bash
 conda create -n pyPDAF -c yumengch -c conda-forge pyPDAF
 ```
-You can start to use `pyPDAF` by `conda activate pyPDAF`.
+After installation, `pyPDAF` can be used by activating the conda environment `conda activate pyPDAF`.
+
 - In HPC or cluster environment, it might not be desirable to use compilers and MPI implementation provided by conda. In this case, pyPDAF can be installed from source
 ```bash
 git clone https://github.com/yumengch/pyPDAF.git
@@ -13,13 +15,16 @@ cd pyPDAF
 git submodule update --init --recursive
 pip install -v .
 ```
-The `pip` command compiles both `PDAF V2.1` and its C interface. To customise the compiler options with the local machine, it is necessary to specify the compiler, compiler options, path to the dependent libraries. In our case, the dependent library is `BLAS`, `LAPACK`, and `MPI` implementation. 
-   - The installation requires `Cython`, `mpi4py`, and `numpy` package.
-   - The Fortran compiler options need to be specified in the PDAF section of [`setup.cfg`](setup.cfg). Note that the `-fPIC` compiler option is required to create a Python package. Note that these are only relevant on non-Windows machines. For Windows machines, `MSVC` and `Intel Fortran compilers` are used by default and adaptations for other compilers will need changes in `CMakeLists.txt` in [PDAFBuild/CMakeLists.txt](PDAFBuild/CMakeLists.txt) and [pyPDAF/fortran/CMakeLists.txt](pyPDAF/fortran/CMakeLists.txt).
-   - Options in pyPDAF section of `setup.cfg` requires the following options:
-      - `pwd` is the absolute path to the pyPDAF repository directory
-      - `CC` is the C compiler used by Cython, e.g. `CC=mpicc` for GNU compiler or `CC=mpiicc` for Intel compiler. This option is not usable in Windows as only `MSVC` is supported.
-      - `condaBuild` -- ignore this option as is only relevant for `conda build` scenario
-      - `useMKL` decides if you use Intel's Math Kernel Library (MKL). If `True` is given, `MKLROOT` must be specified which is the absolute path to the static MKL library
-      - `LAPACK_PATH` and `LAPACK_LIBRARY` is the path to the BLAS and LAPACK directory and the linking flag respectively. They can be delimited by `,`. For example, we can have `LAPACK_LIBRARY=blas,lapack`. Do not give `-lblas` as `setuptools` deal with the format to the linker.
-      - `MPI_INC_PATH`, `MPI_MOD_PATH`, and `MPI_LIB_PATH` are only relevant in Windows, which is the path to `.h` file, `.f90` file, and `.lib` file respectively. These paths are usually `C:\Program Files (x86)\Microsoft SDKs\MPI\Include\x64`, `C:\Program Files (x86)\Microsoft SDKs\MPI\Include`, and `C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x64` respectively.
+The `pip` command compiles both `PDAF` and its C interface. To customise the compiler options with the local machine, it is necessary to specify the compiler, compiler options, and path to the dependent libraries. There are a few components for compilation:
+1. The PDAF and PDAFc compilation:
+   In pyPDAF, PDAF is compiled with `CMake`. It utilises the `.cmake` files in `PDAFBuild` directory in which examples of `.cmake` files are included for linux, mac and windows systems. It might be necessary to adapt the `CMAKE_Fortran_COMPILER`, `MPI_Fortran_INCLUDE_PATH` and `MPI_Fortran_MODULE_DIR`entries based on your local system. If the  `CMAKE_Fortran_COMPILER` is a MPI wrapper such as `mpif90` or `ftn` in cray, the `MPI_Fortran_xxx` entries can be left empty.
+2. The linking of pyPDAF and PDAFc:
+    The linking is handled by `setuptools` of Python and Cython extension modules. The `setuptools` is configured by `setup.cfg`.  Here is an entry by entry explanation:
+   - `pwd` is the root path of the repository directory. This should be an absolute path starting from `/`, e.g.`/home/user/pyPDAF`
+   - `PDAF_dir` is the relative path to the PDAF directory. By default it is `PDAF_V2.2.1`
+   - `cmake_config_path` is the path to the `.cmake` file for PDAF compilation, e.g. `/home/user/pyPDAF/PDAFBuild/linux_gfortran_openmpi_pypdaf.cmake`
+   - `c_compiler` and `fortran_compiler` specifies the compiler being used. `c_compiler` can be: `gcc`, `msvc`, `icc`, `clang` and `fortran_compiler` can be: `gfortran` and `ifort`. The `fortran_compiler` should be consistent with the compiler used in cmake configuration file.
+   - `condaBuild` -- a switch for building a conda package. Usually this can be ignored
+   - `useMKL` decides if you use Intel's Math Kernel Library (MKL). If `True` is given, `MKLROOT` must be specified which is the absolute path to the static MKL library
+   - `LAPACK_PATH` and `LAPACK_Flag` is the path to the BLAS and LAPACK directory and the linking flag respectively. They can be delimited by `,`. For example, we can have `LAPACK_Flag=blas,lapack`. Do not give `-lblas` as `setuptools` deal with the format to the linker.
+   - `MPI_LIB_PATH` is the path to the MPI library. In windows, this path is usually  `C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x64`.
