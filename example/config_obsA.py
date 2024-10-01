@@ -49,7 +49,7 @@ ncoord:int = 2
 # nrows depends on the necessity of interpolating
 # observations onto model grid
 # if nrows = 1, observations are on the model grid points
-# when interpolation is required, 
+# when interpolation is required,
 # this is the number of grid points required for interpolation.
 # For example, nrows = 4 for bi-linear interpolation in 2D,
 # and nrows = 8 for 3D linear interpolation.

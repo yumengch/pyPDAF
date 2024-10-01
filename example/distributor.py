@@ -55,7 +55,7 @@ class distributor:
 
     def next_observation(self, stepnow:int, nsteps:int, doexit:int, time:float) -> tuple[int, int, float]:
         """Providing PDAF the information on the number of model integration steps
-        to next analysis 
+        to next analysis
         """
         # next observation will arrive at `nsteps' steps
         nsteps = min(config_obsA.dtobs, config_obsB.dtobs)

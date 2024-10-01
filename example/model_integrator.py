@@ -67,7 +67,7 @@ class model_integrator:
 
         # collect the length of state vector on each processor
         ny, _ = field_p.shape
-        n_gp = len(field_p.ravel()) 
+        n_gp = len(field_p.ravel())
         send_counts = np.array(pe.comm_model.gather(n_gp, root=0))
         if pe.mype_model == 0:
             # get the length of the full state vector

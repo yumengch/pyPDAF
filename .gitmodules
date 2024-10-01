@@ -1,4 +1,4 @@
-[submodule "PDAF_V2.2.1"]
-	path = PDAF_V2.2.1
+[submodule "PDAF"]
+	branch = PDAF_V2.3
+	path = PDAF
 	url = https://github.com/PDAF/PDAF.git
-	branch = PDAF_V2.2.1

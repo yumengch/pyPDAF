@@ -12,6 +12,7 @@ set(SRC_FILES
     U_PDAF_interface_c_binding.F90
     PDAF_c_binding.F90
     PDAFomi_obs_c_binding.F90
+    PDAFlocal_c_binding.F90
 )
 
 # check if Config Path is provided
