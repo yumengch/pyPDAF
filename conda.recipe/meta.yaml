@@ -1,8 +1,8 @@
-{% set version = "0.03" %}
+{% set version = "1.0.0" %}
 
 package:
   name: pypdaf
-  version: 0.0.3
+  version: 1.0.0
 
 source:
   noarch: python
