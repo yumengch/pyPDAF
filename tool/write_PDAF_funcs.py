@@ -2,6 +2,7 @@
 fortran routines in pyPDAF/fortran to Cython definition and
 implementation files.
 """
+import os
 import typing
 import re
 import docstrings
@@ -183,7 +184,7 @@ def write_docstring(f:typing.TextIO, subroutine_name:str, user_func_info:dict[st
                     s += u_arg + ':' + mypy_conv[u_arg_info['type']] + ', '
             s = s[:-2]
             s += ']\n'
-            s += 2*indent + info['comment'] +'\n\n'
+            s += 2*indent + info['comment'].replace('\\n', f'\n{(2*indent)[:-1]}') +'\n\n'
             s += 2*indent + '**Callback Parameters**\n\n'
             for u_arg, u_arg_info in user_arg_info.items():
                 assert type(u_arg_info['type']) is str, f"type in u_arg_info {u_arg_info['type']} is not a str"
@@ -194,7 +195,7 @@ def write_docstring(f:typing.TextIO, subroutine_name:str, user_func_info:dict[st
                     s += 2*indent + f'* **{u_arg}** : ndarray[tuple[{s_dims}], {s_dtype}]\n\n'
                 else:
                     s += 2*indent + f'* **{u_arg}** : ' + mypy_conv[u_arg_info['type']] + '\n\n'
-                s += 3*indent + '* ' + u_arg_info['comment'] +'\n\n'
+                s += 3*indent + '* ' + u_arg_info['comment'].replace('\\n', f'\n{(3*indent)[:-1]}') +'\n\n'
 
             s += 2*indent + '**Callback Returns**\n\n'
             for u_arg, u_arg_info in user_arg_info.items():
@@ -207,16 +208,16 @@ def write_docstring(f:typing.TextIO, subroutine_name:str, user_func_info:dict[st
                     s += 2*indent + f'* **{u_arg}** : ndarray[tuple[{s_dims}], {s_dtype}]\n\n'
                 else:
                     s += 2*indent + f'* **{u_arg}** : ' + mypy_conv[u_arg_info['type']] + '\n\n'
-                s += 3*indent + '* ' + u_arg_info['comment'] +'\n\n'
+                s += 3*indent + '* ' + u_arg_info['comment'].replace('\\n', f'\n{(3*indent)[:-1]}') +'\n\n'
         elif len(info['dimension']) > 0:
             s += indent+arg +f' : '
             s_dims = ', '.join(info['dimension'])
             s_dtype = npyconv[info['type'].lower()]
             s += f'ndarray[tuple[{s_dims}], {s_dtype}]\n'
-            s += 2*indent + info['comment'] +'\n'
+            s += 2*indent + info['comment'].replace('\\n', f'\n{(2*indent)[:-1]}') +'\n'
         else:
             s += indent + f'{arg} : {pyconv[info["type"]]}\n'
-            s += 2*indent + info['comment'] +'\n'
+            s += 2*indent + info['comment'].replace('\\n', f'\n{(2*indent)[:-1]}') +'\n'
 
         count += 1
 
@@ -249,7 +250,7 @@ def write_docstring(f:typing.TextIO, subroutine_name:str, user_func_info:dict[st
     if count > 0:
         f.write(s)
 
-    s = '    \"\"\"\n'
+    s = '    \"\"\"\n\n'
     f.write(s)
 
 
@@ -330,7 +331,7 @@ def write_user_Cython(f:typing.TextIO, arg_info: dict[str, dict[str, str|list[st
             if argname.lower() == 'u_init_ens':
                 s = ' '*4 + 'c__PDAFcython.init_ens_pdaf_single_member = <void*>py__init_ens_pdaf\n'
                 f.write(s)
-        count += 1
+            count += 1
     f.write('\n' if count > 0 else '')
 
 
@@ -420,7 +421,7 @@ def write_returns(f, arg_info):
 
 def write_PDAF_calls(filename:str, user_func_info, func_info: dict[str, dict[str, dict[str, str|list[str]]]]) -> None:
     """write the PDAF interface calls"""
-    with open(filename, 'w') as f:
+    with open(filename, 'w', encoding="utf-8") as f:
         # MPI exception handling
         s:str  = 'import sys\n'
         s += 'import numpy as np\n'
@@ -478,10 +479,10 @@ def write_PDAF_calls(filename:str, user_func_info, func_info: dict[str, dict[str
 if __name__ == '__main__':
     import get_interface_info
     import write_pxd
-    user_func_info = get_interface_info.get_func_info(['../src/fortran/U_PDAF_interface_c_binding.F90'])
-    PDAF_func_info = get_interface_info.get_func_info(['../src/fortran/PDAF_c_binding.F90',
-                                                       '../src/fortran/PDAFomi_obs_c_binding.F90',
-                                                       '../src/fortran/PDAFlocal_c_binding.F90', ])
+    user_func_info = get_interface_info.get_func_info([os.path.join('..', 'src', 'fortran', 'U_PDAF_interface_c_binding.F90')])
+    PDAF_func_info = get_interface_info.get_func_info([os.path.join('..', 'src', 'fortran', 'PDAF_c_binding.F90'),
+                                                       os.path.join('..', 'src', 'fortran', 'PDAFomi_obs_c_binding.F90'),
+                                                       os.path.join('..', 'src', 'fortran', 'PDAFlocal_c_binding.F90'), ])
     write_pxd.write_Pxd_file('PDAF.pxd', PDAF_func_info, user_func_info)
     write_PDAF_calls('PDAF.pyx', user_func_info, PDAF_func_info)
 

@@ -105,7 +105,7 @@ def merge_line(f: typing.TextIO, line:str) -> str:
     # Here we assume no ampersand in the start of the line
     while '&' in line.split('!')[0]:
         line = line.replace('&', '')
-        line = line + ' ' + f.readline().strip().replace('\n', '')
+        line = line + f.readline().strip().replace('\n', '')
     return line
 
 def get_subroutine_name(line:str) -> str:
@@ -216,11 +216,9 @@ def get_arguments(subroutine:list[str]) -> dict[str, dict[str, str|list[str]]]:
     comment:str = ''
     for line in subroutine[1:]:
         if '!' in line:
-            comment = ''.join([comment, line.split('!')[1].strip()])
-
+            comment = ' '.join([comment, line.split('!')[1].strip()])
         if '::' not in line:
             continue
-
         assert '!' not in line, 'if ! is in  the same line as ::, '\
                                 'it doesn\'t fit the assumption that '\
                                 'comment and arguments declaration are separated.'
@@ -292,6 +290,6 @@ def get_func_info(filenames:list[str]) -> dict[str, dict[str, dict[str, str|list
 
 
 if __name__ == '__main__':
-    get_func_info(['../src/pyPDAF/fortran/PDAF_c_binding.F90', ])
-    get_func_info(['../src/pyPDAF/fortran/PDAFomi_obs_c_binding.F90', ])
-    get_func_info(['../src/pyPDAF/fortran/U_PDAF_interface_c_binding.F90', ])
+    get_func_info(['../src/fortran/PDAF_c_binding.F90', ])
+    # get_func_info(['../src/pyPDAF/fortran/PDAFomi_obs_c_binding.F90', ])
+    # get_func_info(['../src/pyPDAF/fortran/U_PDAF_interface_c_binding.F90', ])

@@ -185,7 +185,7 @@ def assimilate_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -361,7 +361,7 @@ def assimilate_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -379,7 +379,7 @@ def assimilate_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -642,7 +642,7 @@ def assimilate_en3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -862,7 +862,7 @@ def assimilate_en3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -880,7 +880,7 @@ def assimilate_en3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -1193,7 +1193,7 @@ def assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -1481,7 +1481,7 @@ def assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -1781,7 +1781,7 @@ def assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -1799,7 +1799,7 @@ def assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -2041,7 +2041,7 @@ def assimilate_enkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -2059,7 +2059,7 @@ def assimilate_enkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -2200,22 +2200,54 @@ def assimilate_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
                                                             float], tuple[int, 
                                                             int, float]]
                      ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.omi_assimilate_global` or `pyPDAF.PDAF.omi_assimilate_global_nondiagR`. 
-    Using ESTKF (error space transform Kalman filter) for DA without OMI. This function should be called at each model time step. The ESTKF is a more efficient equivalent to the ETKF. 
-    
-    The function is a combination of `pyPDAF.PDAF.put_state_estkf` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf 
-    2. py__prepoststep_state_pdaf 
-    3. py__init_dim_obs_pdaf 
+    """It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`
+    or :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR` instead of this function.
+
+    OMI functions need fewer user-supplied functions and improve DA efficiency.
+
+    This function calls ESTKF (error space transform Kalman filter) [1]_.
+    The ESTKF is a more efficient equivalent to the ETKF.
+
+    The function is a combination of :func:`pyPDAF.PDAF.put_state_estkf`
+    and :func:`pyPDAF.PDAF.get_state`.
+    The function should be called at each model time step.
+
+    User-supplied functions are executed in the following sequence:
+
+    1. py__collect_state_pdaf
+
+    2. py__prepoststep_state_pdaf
+
+    3. py__init_dim_obs_pdaf
+
     4. py__obs_op_pdaf (for ensemble mean)
-    5. py__init_obs_pdaf 
+
+    5. py__init_obs_pdaf
+
     6. py__obs_op_pdaf (for each ensemble member)
-    7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes) 
-    8. py__prodRinvA_pdaf 
-    9. core DA algorithm 
-    10. py__prepoststep_state_pdaf 
-    11. py__distribute_state_pdaf 
-    12. py__next_observation_pdaf 
+
+    7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)
+
+    8. py__prodRinvA_pdaf
+
+    9. core DA algorithm
+
+    10. py__prepoststep_state_pdaf
+
+    11. py__distribute_state_pdaf
+
+    12. py__next_observation_pdaf
+
+
+    .. deprecated:: 1.0.0
+        This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`
+        and :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`
+
+    References
+    ----------
+    .. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
 
     Parameters
     ----------
@@ -2362,7 +2394,7 @@ def assimilate_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -2380,7 +2412,7 @@ def assimilate_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -2406,7 +2438,7 @@ def assimilate_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -2684,7 +2716,7 @@ def assimilate_etkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -2702,7 +2734,7 @@ def assimilate_etkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -2728,7 +2760,7 @@ def assimilate_etkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -3040,7 +3072,7 @@ def assimilate_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -3324,7 +3356,7 @@ def assimilate_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -3342,7 +3374,7 @@ def assimilate_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -3667,7 +3699,7 @@ def assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -4019,7 +4051,7 @@ def assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -4319,7 +4351,7 @@ def assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -4337,7 +4369,7 @@ def assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -4581,7 +4613,7 @@ def assimilate_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -4599,7 +4631,7 @@ def assimilate_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -4789,31 +4821,62 @@ def assimilate_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
                                                              int, float], tuple[int, 
                                                              int, float]]
                       ) -> int:
-    """It is recommended to use local module with OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_assimilate` or `pyPDAF.PDAF.localomi_assimilate_nondiagR`. 
-    Using Local ESTKF (error space transform Kalman filter) for DA without OMI. This is a domain localisation method. This function should be called at each model time step. The LESTKF is a more efficient equivalent to the LETKF. 
-    
-    The function is a combination of `pyPDAF.PDAF.put_state_lestkf` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf 
-    2. py__prepoststep_state_pdaf 
-    3. py__init_n_domains_p_pdaf 
-    4. py__init_dim_obs_pdaf 
+    """It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`
+    or :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Local ESTKF (error space transform Kalman filter) for DA without OMI.
+    This is a domain localisation method.
+    This function should be called at each model time step.
+    The LESTKF is a more efficient equivalent to the LETKF.
+
+    The function is a combination of :func:`pyPDAF.PDAF.put_state_lestkf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    User-supplied functions are executed in the following sequence:
+
+    1. py__collect_state_pdaf
+
+    2. py__prepoststep_state_pdaf
+
+    3. py__init_n_domains_p_pdaf
+
+    4. py__init_dim_obs_pdaf
+
     5. py__obs_op_pdaf (for each ensemble member)
-    6. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init)) 
-    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used) 
+
+    6. py__init_obs_pdaf (if global adaptive forgetting factor `type_forget=1` is used in :func:`pyPDAF.PDAF.init`)
+
+    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)
+
     loop over each local domain:
-    8. py__init_dim_l_pdaf 
-    9. py__init_dim_obs_l_pdaf 
-    10. py__g2l_state_pdaf 
+
+    8. py__init_dim_l_pdaf
+
+    9. py__init_dim_obs_l_pdaf
+
+    10. py__g2l_state_pdaf
+
     11. py__g2l_obs_pdaf (localise mean ensemble in observation space)
-    12. py__init_obs_l_pdaf 
-    13. py__g2l_obs_pdaf (localise each ensemble member in observation space) 
-    14. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used) 
-    15. py__prodRinvA_l_pdaf 
-    16. core DA algorithm 
-    17. py__l2g_state_pdaf 
-    18. py__prepoststep_state_pdaf 
-    19. py__distribute_state_pdaf 
-    20. py__next_observation_pdaf 
+
+    12. py__init_obs_l_pdaf
+
+    13. py__g2l_obs_pdaf (localise each ensemble member in observation space)
+
+    14. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor `type_forget=2` is used)
+
+    15. py__prodRinvA_l_pdaf
+
+    16. core DA algorithm
+
+    17. py__l2g_state_pdaf
+
+    18. py__prepoststep_state_pdaf
+
+    19. py__distribute_state_pdaf
+
+    20. py__next_observation_pdaf
 
     Parameters
     ----------
@@ -4988,7 +5051,7 @@ def assimilate_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -5006,7 +5069,7 @@ def assimilate_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -5036,7 +5099,7 @@ def assimilate_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -5392,32 +5455,65 @@ def assimilate_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
                                                             float], tuple[int, 
                                                             int, float]]
                      ) -> int:
-    """It is recommended to use local module with OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_assimilate` or `pyPDAF.PDAF.localomi_assimilate_nondiagR`. 
-    Using local ensemble transform Kalman filter for DA without OMI. This is a domain localisation method. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.put_state_letkf` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
+    """It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`
+    or :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Local ensemble transform Kalman filter (LETKF) for DA without OMI.
+    This is a domain localisation method.
+    This function should be called at each model time step.
+    The LESTKF is a more efficient equivalent to the LETKF.
+
+    The function is a combination of :func:`pyPDAF.PDAF.put_state_letkf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    User-supplied functions are executed in the following sequence:
+
     1. py__collect_state_pdaf
+
     2. py__prepoststep_state_pdaf
+
     3. py__init_n_domains_p_pdaf
+
     4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-6. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init))
+
+    5. py__obs_op_pdaf (for each ensemble member)
+
+    6. py__init_obs_pdaf
+    (if global adaptive forgetting factor is used
+    (type_forget=1 in :func:`pyPDAF.PDAF.init`))
+
     7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)
+
     loop over each local domain:
+
     8. py__init_dim_l_pdaf
+
     9. py__init_dim_obs_l_pdaf
+
     10. py__g2l_state_pdaf
-    11. py__g2l_obs_pdaf (localise mean ensemble in observation space
+
+    11. py__g2l_obs_pdaf (localise mean ensemble in observation space)
+
     12. py__init_obs_l_pdaf
+
     13. py__g2l_obs_pdaf (localise each ensemble member in observation space)
-    14. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used)
+
+    14. py__init_obsvar_l_pdaf
+    (only called if local adaptive forgetting factor (type_forget=2) is used)
+
     15. py__prodRinvA_l_pdaf
+
     16. core DA algorithm
+
     17. py__l2g_state_pdaf
+
     18. py__prepoststep_state_pdaf
+
     19. py__distribute_state_pdaf
+
     20. py__next_observation_pdaf
-    
 
     Parameters
     ----------
@@ -5592,7 +5688,7 @@ def assimilate_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -5610,7 +5706,7 @@ def assimilate_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -5640,7 +5736,7 @@ def assimilate_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -6162,7 +6258,7 @@ def assimilate_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -6180,7 +6276,7 @@ def assimilate_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -6714,7 +6810,7 @@ def assimilate_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -6732,7 +6828,7 @@ def assimilate_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -6762,7 +6858,7 @@ def assimilate_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -6783,7 +6879,7 @@ def assimilate_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
             --- Output matrix
 
 
-    py__prodRinvA_hyb_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, dim_ens:int, obs_l:ndarray[tuple[dim_obs_l], np.float64], gamma:float, A_l:ndarray[tuple[dim_obs_l, rank], np.float64], C_l:ndarray[tuple[dim_obs_l, rank], np.float64]]
+    py__prodRinvA_hyb_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, dim_ens:int, obs_l:ndarray[tuple[dim_obs_l], np.float64], gamma:float, A_l:ndarray[tuple[dim_obs_l, dim_ens], np.float64], C_l:ndarray[tuple[dim_obs_l, dim_ens], np.float64]]
         Provide product R^-1 A on local analysis domain with hybrid weight
 
         **Callback Parameters**
@@ -6812,17 +6908,17 @@ def assimilate_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
 
             --- Hybrid weight provided by PDAF
 
-        * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **A_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Input matrix provided by PDAF
 
-        * **C_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **C_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Output matrix
 
         **Callback Returns**
 
-        * **C_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **C_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Output matrix
 
@@ -7438,7 +7534,7 @@ def assimilate_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -7456,7 +7552,7 @@ def assimilate_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -7486,7 +7582,7 @@ def assimilate_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -7984,7 +8080,7 @@ def assimilate_netf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -8002,7 +8098,7 @@ def assimilate_netf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -8270,7 +8366,7 @@ def assimilate_pf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int]
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -8288,7 +8384,7 @@ def assimilate_pf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int]
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -8557,7 +8653,7 @@ def assimilate_seek (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -8575,7 +8671,7 @@ def assimilate_seek (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -8601,7 +8697,7 @@ def assimilate_seek (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -8849,7 +8945,7 @@ def assimilate_seik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -8867,7 +8963,7 @@ def assimilate_seik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -8893,7 +8989,7 @@ def assimilate_seik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -9049,7 +9145,7 @@ def assimilate_prepost (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -9067,7 +9163,7 @@ def assimilate_prepost (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -9154,7 +9250,7 @@ def diag_ensstats (element: int,state: np.ndarray[tuple[int], np.dtype[np.float6
     Parameters
     ----------
     element : int
-        Index of state vector/ensemble element to be used.If element=0, mean values over all elements are computed
+        Index of state vector/ensemble element to be used. If element=0, mean values over all elements are computed
     state : ndarray[tuple[dim], np.float64]
         State vector (typically ensemble mean)
     ens : ndarray[tuple[dim, dim_ens], np.float64]
@@ -9179,7 +9275,7 @@ def diag_histogram (ncall: int,element: int,state: np.ndarray[tuple[int], np.dty
     Parameters
     ----------
     ncall : int
-        The number of calls used to increment the histogram andis needed to compute the delta-measure thatdescribes the deviation from the ideal histogram.
+        The number of calls used to increment the histogram and is needed to compute the delta-measure that describes the deviation from the ideal histogram.
     element : int
         Element of vector used for histogram. If element=0, all elements are used
     state : ndarray[tuple[dim], np.float64]
@@ -9194,7 +9290,7 @@ def diag_histogram (ncall: int,element: int,state: np.ndarray[tuple[int], np.dty
     hist : ndarray[tuple[dim_ens+1], np.intc]
          Histogram about the state
     delta : float
-        deviation measure from flat histogram.It must be initialised to be 0
+        deviation measure from flat histogram. It must be initialised to be 0
     status : int
         Status flag (0=success)
     """
@@ -9206,26 +9302,39 @@ def eofcovar (dim_fields: np.ndarray[tuple[int], np.dtype[np.intc]],offsets: np.
              ) -> tuple[np.ndarray[tuple[int, int], np.dtype[np.float64]], np.ndarray[tuple[int], np.dtype[np.float64]], 
               np.ndarray[tuple[int], np.dtype[np.float64]], np.ndarray[tuple[int, int], np.dtype[np.float64]], 
               np.ndarray[tuple[int], np.dtype[np.float64]], int]:
-    """This function performs an EOF analysis of a state vectors at multiple time steps by singular value decomposition. A multivariate scaling can be performed to ensure that all fields in the state vectors have unit variance. The function returns a the singular vectors and square root of the singular values of the covariance matrix. It also returns the time mean of the state vectors and the temporal anomaly used for the EOF analysis.
-    
-    These information can be used to initialise an ensemble. 
-    
-    One can store the singular vectors and corresponding values in a file. When one wants to initialise an ensemble from these EOFs for a data assimilation application, one can use the function `pyPDAF.PDAF.sampleens` to generate an ensemble of a chosen size (up to the number of EOFs plus one) by second-order exact sampling. Thus, it can be useful to store more EOFs than one finally might want to use to have the flexibility to cary the ensemble size.
+    """EOF analysis of a state vectors at multiple time steps by singular value decomposition.
+
+    Typically, this function is used with :func:`pyPDAF.PDAF.sampleens`
+    to generate an ensemble of a chosen size 
+    (up to the number of EOFs plus one).
+
+    Here, the function performs a singular value decomposition of the ensemble anomaly of the input matrix,
+    which is an ensemble formed by state vectors at multiple time steps.
+    The singular values and corresponding singular vectors can be used to
+    construct an error covariance matrix.
+    This can be used as the initial error covariance for the initial ensemble.
+
+    A multivariate scaling can be performed to ensure that all fields in the state vectors have unit variance.
+
+    It can be useful to store more EOFs than one finally
+    might want to use to have the flexibility to cary the ensemble size.
+
+    See also `PDAF webpage <https://pdaf.awi.de/trac/wiki/EnsembleGeneration>`_
 
     Parameters
     ----------
     dim_fields : ndarray[tuple[nfields], np.intc]
-        Size of each field, only used when `do_mv = 1`.Each field could be 2D or 3D so can have different sizes
+        Size of each field, only used when `do_mv = 1`. Each field could be 2D or 3D so can have different sizes.
     offsets : ndarray[tuple[nfields], np.intc]
-        Start position of each field, only used when `do_mv = 1`It starts from 1.
+        Start position of each field.\n This variable is used only used when `do_mv = 1`.\n For example, if the state vector contains temperature and humidity, this array specifies the starting index of the two physical fields.\n The offset values start from 1.
     remove_mstate : int
-        1: subtract mean state from states (average over nstates dimension)before computing EOFs; 0: don't remove
+        Subtract mean state from states (average over nstates dimension) before computing EOFs (`remove_mstate = 1`) or don't remove (`remove_mstate = 0`)
     do_mv : int
-        1: Do multivariate scaling; 0: no scalingnfields, dim_fields and offsets are only used if do_mv=1
+        Do multivariate scaling (`do_mv = 1`) or no scaling (`do_mv = 0`). Variable `nfields`, `dim_fields` and `offsets` are only used if `do_mv=1`.
     states : ndarray[tuple[dim_state, nstates], np.float64]
         State perturbations or an ensemble of state vectors
     meanstate : ndarray[tuple[dim_state], np.float64]
-        Mean state (only changed if remove_mstate=1)
+        Mean state (only changed if `remove_mstate=1`)
     verbose : int
         Verbosity flag
 
@@ -9234,13 +9343,13 @@ def eofcovar (dim_fields: np.ndarray[tuple[int], np.dtype[np.intc]],offsets: np.
     states : ndarray[tuple[dim_state, nstates], np.float64]
          State perturbations or an ensemble of state vectors
     stddev : ndarray[tuple[nfields], np.float64]
-         Standard deviation of field variability.Without multivariate scaling (do_mv=0), it is stddev = 1.0
+         Standard deviation of field variability. Without multivariate scaling (`do_mv=0`), it is `stddev = 1.0`.
     svals : ndarray[tuple[nstates], np.float64]
-         Singular values divided by sqrt(nstates-1)
+         Singular values scaled by `1/sqrt(nstates-1)`.
     svec : ndarray[tuple[dim_state, nstates], np.float64]
          Singular vectors
     meanstate : ndarray[tuple[dim_state], np.float64]
-         Mean state (only changed if remove_mstate=1)
+         Mean state (only changed if `remove_mstate=1`)
     status : int
         Status flag
     """
@@ -9280,7 +9389,7 @@ def gather_obs_f (obs_p: np.ndarray[tuple[int], np.dtype[np.float64]],dimobs_f: 
     obs_f : ndarray[tuple[dimobs_f], np.float64]
          Full gathered vector
     status : int
-        Status flag:(0) no error;(1) when PDAF_gather_dim_obs_f not executed before
+        Status flag: (0) no error; (1) when PDAF_gather_dim_obs_f not executed before
     """
     ...
 
@@ -9303,7 +9412,7 @@ def gather_obs_f2 (coords_p: np.ndarray[tuple[int, int], np.dtype[np.float64]],
     coords_f : ndarray[tuple[nrows, dimobs_f], np.float64]
          Full gathered array
     status : int
-        Status flag:(0) no error;(1) when PDAF_gather dim_obs_f not executed before
+        Status flag: (0) no error; (1) when PDAF_gather dim_obs_f not executed before
     """
     ...
 
@@ -9514,7 +9623,7 @@ def generate_obs (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int],
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -9532,7 +9641,7 @@ def generate_obs (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int],
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -9691,13 +9800,17 @@ def get_state (steps: int,doexit: int,py__next_observation_pdaf : Callable[[int,
                                                 np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                 np.ndarray[tuple[int, int], np.dtype[np.float64]]]],
                flag: int) -> tuple[int, float, int, int]:
-    """This function distribute the analysis state vector back to the model. It also post-processes the ensemble and sets the next assimilation time. 
-    
-    The function executes the user-supplied function in the following sequence: 
+    """Post-processing the analysis and distributing state vector back to the model.
+
+    This function also sets the next model step for assimilation, or end the entire assimilation.
+
+    The function executes the user-supplied function in the following sequence:
+
     1. py__prepoststep_state_pdaf
+
     2. py__distribute_state_pdaf
+
     3. py__next_observation_pdaf
-    
 
     Parameters
     ----------
@@ -9788,7 +9901,7 @@ def get_state (steps: int,doexit: int,py__next_observation_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -9806,7 +9919,7 @@ def get_state (steps: int,doexit: int,py__next_observation_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -9847,7 +9960,7 @@ def init (filtertype: int,subtype: int,stepnull: int,param_int: np.ndarray[tuple
           in_screen: int) -> tuple[np.ndarray[tuple[int], np.dtype[np.intc]], np.ndarray[tuple[int], np.dtype[np.float64]], 
                          int]:
     """This function initialises the PDAF system. It is called once at the beginning of the assimilation. The function specifies the type of DA methods, parameters of the filters, the MPI communicators, and other parallel options.The function also provides an initial ensemble to the PDAF system by the user-supplied function which can be distribute to the model by `pyPDAF.PDAF.get_state`. 
-    For the options and parameters of DA methods, check the https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF. 
+    For the options and parameters of DA methods, check the `PDAF introduction page <https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF.>` 
     The parallisation module in the repository example can be used directly for most cases. Explanation of the parallelisation strategy in PDAF can be found in https://pdaf.awi.de/trac/wiki/ImplementationConceptOnline#Parallelizationofthedataassimilationprogram and https://pdaf.awi.de/trac/wiki/AdaptParallelization
 
     Parameters
@@ -9953,9 +10066,9 @@ def local_weight (wtype: int,rtype: int,cradius: float,sradius: float,distance: 
     rtype : int
         Type of regulated weighting
     cradius : float
-        Cut-off radius (check https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE)
+        Cut-off radius (check `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
     sradius : float
-        Support radius (check https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE)
+        Support radius (check `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
     distance : float
         Distance to observation
     A : ndarray[tuple[nrows, ncols], np.float64]
@@ -9980,7 +10093,7 @@ def print_info (printtype: int) -> None:
     Parameters
     ----------
     printtype : int
-        - X=1: Basic timers- X=3: Timers showing the time spent int he different call-back routines (this variant was added with PDAF 1.15)- X=4: More detailed timers about parts of the filter algorithm (before PDAF 1.15, this was timer level 3)- X=5: Very detailed timers about various operations in the filter algorithm (before PDAF 1.15, this was timer level 4)
+        - X=1: Basic timers - X=3: Timers showing the time spent int he different call-back routines (this variant was added with PDAF 1.15) - X=4: More detailed timers about parts of the filter algorithm (before PDAF 1.15, this was timer level 3) - X=5: Very detailed timers about various operations in the filter algorithm (before PDAF 1.15, this was timer level 4)
     """
     ...
 
@@ -10144,7 +10257,7 @@ def put_state_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -10320,7 +10433,7 @@ def put_state_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -10338,7 +10451,7 @@ def put_state_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -10539,7 +10652,7 @@ def put_state_en3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -10759,7 +10872,7 @@ def put_state_en3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -10777,7 +10890,7 @@ def put_state_en3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -11023,7 +11136,7 @@ def put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -11311,7 +11424,7 @@ def put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -11611,7 +11724,7 @@ def put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -11629,7 +11742,7 @@ def put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -11806,7 +11919,7 @@ def put_state_enkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -11824,7 +11937,7 @@ def put_state_enkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -12065,7 +12178,7 @@ def put_state_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -12083,7 +12196,7 @@ def put_state_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -12109,7 +12222,7 @@ def put_state_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -12324,7 +12437,7 @@ def put_state_etkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -12342,7 +12455,7 @@ def put_state_etkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -12368,7 +12481,7 @@ def put_state_etkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -12611,7 +12724,7 @@ def put_state_generate_obs (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -12629,7 +12742,7 @@ def put_state_generate_obs (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -12840,7 +12953,7 @@ def put_state_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -13124,7 +13237,7 @@ def put_state_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -13142,7 +13255,7 @@ def put_state_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -13404,7 +13517,7 @@ def put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -13756,7 +13869,7 @@ def put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -14056,7 +14169,7 @@ def put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -14074,7 +14187,7 @@ def put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -14255,7 +14368,7 @@ def put_state_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -14273,7 +14386,7 @@ def put_state_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -14600,7 +14713,7 @@ def put_state_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -14618,7 +14731,7 @@ def put_state_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -14648,7 +14761,7 @@ def put_state_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -15140,7 +15253,7 @@ def put_state_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -15158,7 +15271,7 @@ def put_state_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -15188,7 +15301,7 @@ def put_state_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -15647,7 +15760,7 @@ def put_state_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -15665,7 +15778,7 @@ def put_state_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -16138,7 +16251,7 @@ def put_state_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -16156,7 +16269,7 @@ def put_state_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -16186,7 +16299,7 @@ def put_state_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -16207,7 +16320,7 @@ def put_state_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
             --- Output matrix
 
 
-    py__prodRinvA_hyb_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, dim_ens:int, obs_l:ndarray[tuple[dim_obs_l], np.float64], gamma:float, A_l:ndarray[tuple[dim_obs_l, rank], np.float64], C_l:ndarray[tuple[dim_obs_l, rank], np.float64]]
+    py__prodRinvA_hyb_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, dim_ens:int, obs_l:ndarray[tuple[dim_obs_l], np.float64], gamma:float, A_l:ndarray[tuple[dim_obs_l, dim_ens], np.float64], C_l:ndarray[tuple[dim_obs_l, dim_ens], np.float64]]
         Provide product R^-1 A on local analysis domain with hybrid weight
 
         **Callback Parameters**
@@ -16236,17 +16349,17 @@ def put_state_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
             --- Hybrid weight provided by PDAF
 
-        * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **A_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Input matrix provided by PDAF
 
-        * **C_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **C_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Output matrix
 
         **Callback Returns**
 
-        * **C_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **C_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Output matrix
 
@@ -16798,7 +16911,7 @@ def put_state_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -16816,7 +16929,7 @@ def put_state_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -16846,7 +16959,7 @@ def put_state_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -17281,7 +17394,7 @@ def put_state_netf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -17299,7 +17412,7 @@ def put_state_netf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -17504,7 +17617,7 @@ def put_state_pf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int],
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -17522,7 +17635,7 @@ def put_state_pf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int],
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -17637,7 +17750,7 @@ def put_state_prepost (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -17655,7 +17768,7 @@ def put_state_prepost (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -17829,7 +17942,7 @@ def put_state_seek (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -17847,7 +17960,7 @@ def put_state_seek (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -17873,7 +17986,7 @@ def put_state_seek (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -18060,7 +18173,7 @@ def put_state_seik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -18078,7 +18191,7 @@ def put_state_seik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -18104,7 +18217,7 @@ def put_state_seik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -18315,7 +18428,7 @@ def enkf_omega (seed: np.ndarray[tuple[int], np.dtype[np.intc]],omega: np.ndarra
     norm : float
         Norm for ensemble transformation
     otype : int
-        Type of Omega:(1) Simple Gaussian random matrix(2) Columns of unit norm(3) Columns of norm dim_ens^(-1/2)(4) Projection orthogonal (1,..,1)^T(6) Combination of 2 and 4(7) Combination of 3 and 4(8) Rows of sum 0 and variance 1
+        Type of Omega: (1) Simple Gaussian random matrix (2) Columns of unit norm (3) Columns of norm dim_ens^(-1/2) (4) Projection orthogonal (1,..,1)^T (6) Combination of 2 and 4 (7) Combination of 3 and 4 (8) Rows of sum 0 and variance 1
     screen : int
         Verbosity flag
 
@@ -18337,7 +18450,7 @@ def seik_omega (omega: np.ndarray[tuple[int, int], np.dtype[np.float64]],
     omega : ndarray[tuple[rank+1, rank], np.float64]
         Matrix Omega
     omegatype : int
-        Select type of Omega:(1) generated from random vectors(0) generated from deterministic vectors (Householder)
+        Select type of Omega: (1) generated from random vectors (0) generated from deterministic vectors (Householder)
     screen : int
         Verbosity flag
 
@@ -18407,7 +18520,7 @@ def local_weights (wtype: int,cradius: float,sradius: float,distance: np.ndarray
     Parameters
     ----------
     wtype : int
-        Type of weight function(0): unit weight (=1 up to distance=cradius)(1): exponential decrease (1/e at distance=sradius; 0 for distance>cradius)(2): 5th order polynomial (Gaspari&Cohn 1999; 0 for distance>cradius)
+        Type of weight function (0): unit weight (=1 up to distance=cradius) (1): exponential decrease (1/e at distance=sradius; 0 for distance>cradius) (2): 5th order polynomial (Gaspari&Cohn 1999; 0 for distance>cradius)
     cradius : float
         Parameter for cut-off
     sradius : float
@@ -18593,7 +18706,7 @@ def prepost (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int], np.d
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -18611,7 +18724,7 @@ def prepost (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int], np.d
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -18840,7 +18953,7 @@ def diag_CRPS_nompi (element: int,oens: np.ndarray[tuple[int, int], np.dtype[np.
     Parameters
     ----------
     element : int
-        ID of element to be usedIf element=0, mean values over all elements are computed
+        ID of element to be used If element=0, mean values over all elements are computed
     oens : ndarray[tuple[dim, dim_ens], np.float64]
         State ensemble
     obs : ndarray[tuple[dim], np.float64]
@@ -18879,7 +18992,7 @@ def omi_set_doassim (i_obs: int,doassim: int) -> None:
     i_obs : int
         index of observation types
     doassim : int
-        0) do not assimilate;1) assimilate the observation type
+        0) do not assimilate; 1) assimilate the observation type
     """
     ...
 
@@ -18891,7 +19004,7 @@ def omi_set_disttype (i_obs: int,disttype: int) -> None:
     i_obs : int
         index of observations
     disttype : int
-        0) Cartesian; 1) Cartesian periodic2) Approximation to geographic distance in metres using latitude and longitude expressed in radians3) Using Haversine formula to compute distance in metres between two points on the surface of a sphere10) 3D Cartesian distance for 2D+1D factorised localisation where horizontal and vertical distances are treated separately11) 3D Cartesian periodic distance for 2D+1D factorised localisation where horizontal and vertical distances are treated separately12) Same as 2) for horizontal distance but vertical distance is in units chosen by users13) Same as 3) for horizontal distance but vertical distance is in units chosen by users
+        0) Cartesian; 1) Cartesian periodic 2) Approximation to geographic distance in metres using latitude and longitude expressed in radians 3) Using Haversine formula to compute distance in metres between two points on the surface of a sphere 10) 3D Cartesian distance for 2D+1D factorised localisation where horizontal and vertical distances are treated separately 11) 3D Cartesian periodic distance for 2D+1D factorised localisation where horizontal and vertical distances are treated separately 12) Same as 2) for horizontal distance but vertical distance is in units chosen by users 13) Same as 3) for horizontal distance but vertical distance is in units chosen by users
     """
     ...
 
@@ -18909,14 +19022,34 @@ def omi_set_ncoord (i_obs: int,ncoord: int) -> None:
 
 def omi_set_id_obs_p (i_obs: int,id_obs_p: np.ndarray[tuple[int, int], np.dtype[np.intc]]
                      ) -> None:
-    """This function sets the `id_obs_p` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. `id_obs_p(nrows, dim_obs_p)` is a 2D array of integers.
-    The value of `nrows` depends on the observation operator used for an observation. Examples: 
-     `nrows=1` if observations are located on model grid point. In this case,
-    `id_obs_p` stores the index of the state vector (starting from 1) corresponds to the observations,
-    e.g. `id_obs_p[0, j] = i means that the `j`-th observation is located on the same grid point and is the same physical quantity as the `i`-th element of the state vector. 
-    If `nrows=4`, each observations corresponds to 4 indices of the state vector. In this case,
-    the location of these state vector is used to perform bi-linear interpolation from model grid to observation location. This information is used in the `pyPDAF.PDAF.omi_obs_op_gridavg` and `pyPDAF.PDAF.omi_obs_op_interp_lin` functions. When interpolation is needed, the weighting of the interpolation is done in the `pyPDAF.PDAF.omi_get_interp_coeff_lin`,  `pyPDAF.PDAF.omi_get_interp_coeff_lin1D`, and `pyPDAF.PDAF.omi_get_interp_coeff_tri` functions.
-    
+    """Setting the `id_obs_p` attribute of `obs_f`.
+
+    The function is typically used in user-supplied function `py__init_dim_obs_pdaf`.
+
+    Here, `id_obs_p(nrows, dim_obs_p)` is a 2D array of integers.
+    The value of `nrows` depends on the observation operator used for an observation.
+
+    Examples:
+
+    - `nrows=1`: observations are located on model grid point.
+      In this case, `id_obs_p` stores the index of the state vector (starting from 1) corresponds to the observations,
+      e.g. `id_obs_p[0, j] = i` means that the location and variable of the `i`-th element of the state vector
+      is the same as the `j`-th observation.
+
+    - `nrows=4`: each observation corresponds to 4 indices of elements in the state vector.
+       In this case,
+       the location of these elements is used to perform bi-linear interpolation
+       from model grid to observation location.
+       This information is used in the :func:`pyPDAF.PDAF.omi_obs_op_gridavg`
+       and :func:`pyPDAF.PDAF.omi_obs_op_interp_lin` functions.
+       When interpolation is needed,
+       the weighting of the interpolation is done
+       in the :func:`pyPDAF.PDAF.omi_get_interp_coeff_lin`,
+       :func:`pyPDAF.PDAF.omi_get_interp_coeff_lin1D`,
+       and :func:`pyPDAF.PDAF.omi_get_interp_coeff_tri` functions.
+       The details of interpolation setup can be found at
+       `PDAF wiki page <https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Initializinginterpolationcoefficients>`_.
+
 
     Parameters
     ----------
@@ -19088,7 +19221,15 @@ def omi_deallocate_obs (i_obs: int) -> None:
 def omi_obs_op_gridpoint (i_obs: int,state_p: np.ndarray[tuple[int], np.dtype[np.float64]],
                           obs_f_all: np.ndarray[tuple[int], np.dtype[np.float64]]
                          ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """The routine provides an observation operator for observations that are the same grid point values in the state vector. The function is used in the user-supplied function `py__obs_op_pdaf`. See https://pdaf.awi.de/trac/wiki/OMI_observation_operators#PDAF-OMIObservationOperators
+    """A (partial) identity observation operator
+
+    This observation operator is used when observations and model use the same grid. 
+
+    The observations operator selects state vectors where observations are present. 
+
+    The function is used in the user-supplied function `py__obs_op_pdaf`. 
+
+    
 
     Parameters
     ----------
@@ -19109,7 +19250,12 @@ def omi_obs_op_gridpoint (i_obs: int,state_p: np.ndarray[tuple[int], np.dtype[np
 def omi_obs_op_gridavg (i_obs: int,nrows: int,state_p: np.ndarray[tuple[int], np.dtype[np.float64]],
                         obs_f_all: np.ndarray[tuple[int], np.dtype[np.float64]]
                        ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """The routine provides an observation operator for observations that are the average of some grid point values in the state vector. The function is used in the user-supplied function `py__obs_op_pdaf`. This function is used with `id_obs_p` property of `obs_f`See https://pdaf.awi.de/trac/wiki/OMI_observation_operators#PDAF-OMIObservationOperators
+    """Observation operator that average values on given model grid points.
+
+    The averaged model grid points are specified in `id_obs_p` property of `obs_f`,
+    which can be set in :func:`pyPDAF.PDAF.omi_set_id_obs_p`.
+
+    The function is used in the user-supplied function `py__obs_op_pdaf`. 
 
     Parameters
     ----------
@@ -19132,7 +19278,22 @@ def omi_obs_op_gridavg (i_obs: int,nrows: int,state_p: np.ndarray[tuple[int], np
 def omi_obs_op_interp_lin (i_obs: int,nrows: int,state_p: np.ndarray[tuple[int], np.dtype[np.float64]],
                            obs_f_all: np.ndarray[tuple[int], np.dtype[np.float64]]
                           ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """The routine provides an observation operator for observations that are the average of some grid point values in the state vector. The function is used in the user-supplied function `py__obs_op_pdaf`. This function is used with `id_obs_p` and `icoeff_p` property of `obs_f`See https://pdaf.awi.de/trac/wiki/OMI_observation_operators#PDAF-OMIObservationOperators
+    """Observation operator that linearly interpolates model grid values to observation location.
+
+    The grid points used by linear interpolation is specified in `id_obs_p` of `obs_f`,
+    which can be set by :func:`pyPDAF.PDAF.omi_set_id_obs_p`.
+
+    The function also requires `icoeff_p` attribute of `obs_f`,
+    which can be set by :func:`pyPDAF.PDAF.omi_set_icoeff_p`
+
+    The interpolation coefficient can be obtained by :func:`pyPDAF.PDAF.omi_get_interp_coeff_lin1D`,
+    :func:`pyPDAF.PDAF.omi_get_interp_coeff_lin`, and
+    :func:`pyPDAF.PDAF.omi_get_interp_coeff_tri`
+
+    The details of interpolation setup can be found at
+    `PDAF wiki page <https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Initializinginterpolationcoefficients>`_
+
+    The function is used in the user-supplied function `py__obs_op_pdaf`. 
 
     Parameters
     ----------
@@ -19155,7 +19316,7 @@ def omi_obs_op_interp_lin (i_obs: int,nrows: int,state_p: np.ndarray[tuple[int],
 def omi_obs_op_adj_gridavg (i_obs: int,nrows: int,state_p: np.ndarray[tuple[int], np.dtype[np.float64]],
                             obs_f_all: np.ndarray[tuple[int], np.dtype[np.float64]]
                            ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """This is the adjoint of `pyPDAF.PDAF.omi_obs_op_gridavg`.See https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Adjointobservationoperators
+    """The adjoint observation operator of :func:`pyPDAF.PDAF.omi_obs_op_gridavg`.
 
     Parameters
     ----------
@@ -19178,7 +19339,7 @@ def omi_obs_op_adj_gridavg (i_obs: int,nrows: int,state_p: np.ndarray[tuple[int]
 def omi_obs_op_adj_gridpoint (i_obs: int,state_p: np.ndarray[tuple[int], np.dtype[np.float64]],
                               obs_f_all: np.ndarray[tuple[int], np.dtype[np.float64]]
                              ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """This is the adjoint of `pyPDAF.PDAF.omi_obs_op_gridpoint`.See https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Adjointobservationoperators
+    """The adjoint observation operator of :func:`pyPDAF.PDAF.omi_obs_op_gridpoint`.
 
     Parameters
     ----------
@@ -19199,7 +19360,7 @@ def omi_obs_op_adj_gridpoint (i_obs: int,state_p: np.ndarray[tuple[int], np.dtyp
 def omi_obs_op_adj_interp_lin (i_obs: int,nrows: int,state_p: np.ndarray[tuple[int], np.dtype[np.float64]],
                                obs_f_all: np.ndarray[tuple[int], np.dtype[np.float64]]
                               ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """This is the adjoint of `pyPDAF.PDAF.omi_obs_op_interp_lin`.See https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Adjointobservationoperators
+    """The adjoint observation operator of :func:`pyPDAF.PDAF.omi_obs_op_interp_lin`.
 
     Parameters
     ----------
@@ -19223,15 +19384,18 @@ def omi_get_interp_coeff_tri (gpc: np.ndarray[tuple[int, int], np.dtype[np.float
                               oc: np.ndarray[tuple[int], np.dtype[np.float64]],
                               icoeff: np.ndarray[tuple[int], np.dtype[np.float64]]
                              ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """This function returns the coefficient for linear interpolation in 2D on unstructure triangular grid.
-    
+    """The coefficient for linear interpolation in 2D on unstructure triangular grid.
+
+    The resulting coefficient is used in :func:`omi_obs_op_interp_lin`.
+
+    This function is for triangular model grid interpolation coefficients determined as barycentric coordinates.
 
     Parameters
     ----------
     gpc : ndarray[tuple[3, 2], np.float64]
-        Coordinates of grid points; dim(3,2)3 grid points surrounding the observation; each containing lon and lat coordinates
+        Coordinates of grid points with dimension of (3, 2). 3 grid points surrounding the observation; each containing lon and lat coordinates. The order of the grid points in gcoords has to be consistent with the order of the indices specified in `id_obs_p` of `obs_f`.
     oc : ndarray[tuple[2], np.float64]
-        Coordinates of observation; dim(2)
+        Coordinates of observation (targeted location); dim(2)
     icoeff : ndarray[tuple[3], np.float64]
         Interpolation coefficients; dim(3)
 
@@ -19245,7 +19409,10 @@ def omi_get_interp_coeff_tri (gpc: np.ndarray[tuple[int, int], np.dtype[np.float
 def omi_get_interp_coeff_lin1D (gpc: np.ndarray[tuple[int], np.dtype[np.float64]],
                                 oc: float,icoeff: np.ndarray[tuple[int], np.dtype[np.float64]]
                                ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """This function returns the coefficient for linear interpolation in 1D.
+    """The coefficient for linear interpolation in 1D.
+
+    The resulting coefficient is used in :func:`omi_obs_op_interp_lin`.
+
     
 
     Parameters
@@ -19253,7 +19420,7 @@ def omi_get_interp_coeff_lin1D (gpc: np.ndarray[tuple[int], np.dtype[np.float64]
     gpc : ndarray[tuple[2], np.float64]
         Coordinates of grid points surrounding the observations (dim=2)
     oc : float
-        Coordinates of observation
+        Coordinates of observation (targeted location)
     icoeff : ndarray[tuple[2], np.float64]
         Interpolation coefficients (dim=2)
 
@@ -19268,13 +19435,17 @@ def omi_get_interp_coeff_lin (gpc: np.ndarray[tuple[int, int], np.dtype[np.float
                               oc: np.ndarray[tuple[int], np.dtype[np.float64]],
                               icoeff: np.ndarray[tuple[int], np.dtype[np.float64]]
                              ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """This function returns the coefficient for linear interpolation up to 3D.
-    See https://pdaf.awi.de/trac/wiki/OMI_observation_operators#PDAFomi_get_interp_coeff_lin
+    """The coefficient for linear interpolation up to 3D.
+
+    The resulting coefficient is used in :func:`omi_obs_op_interp_lin`.
+
+    See introduction in `PDAF-OMI wiki page 
+    <https://pdaf.awi.de/trac/wiki/OMI_observation_operators#PDAFomi_get_interp_coeff_lin>`_
 
     Parameters
     ----------
     gpc : ndarray[tuple[num_gp, n_dim], np.float64]
-        Coordinates of grid points
+        Coordinates of grid points The order of the grid points in gcoords has to be consistent with the order of the indices specified in `id_obs_p` of `obs_f`.
     oc : ndarray[tuple[n_dim], np.float64]
         Coordinates of observation
     icoeff : ndarray[tuple[num_gp], np.float64]
@@ -19584,7 +19755,7 @@ def omi_assimilate_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -19602,7 +19773,7 @@ def omi_assimilate_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -20000,7 +20171,7 @@ def omi_assimilate_en3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -20018,7 +20189,7 @@ def omi_assimilate_en3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -20590,7 +20761,7 @@ def omi_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -20608,7 +20779,7 @@ def omi_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -20681,19 +20852,33 @@ def omi_assimilate_global (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
                                                                  int, float], tuple[int, 
                                                                  int, float]]
                           ) -> int:
-    """Using global filters for DA except for 3DVars with diagonal observation error covariance matrix.
-    The function is a combination of `pyPDAF.PDAF.put_state_global` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function This function should be called at each model time step. 
-    
-    in the following sequence: 
+    """Global filters for DA except for 3DVars with diagonal observation error covariance matrix.
+
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_global`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    This function should be called at each model time step.
+
+    User-supplied functions are executed in the following sequence:
+
     1. py__collect_state_pdaf
+
     2. py__prepoststep_state_pdaf
+
     3. py__init_dim_obs_pdaf
+
     4. py__obs_op_pdaf (for ensemble mean
+
     5. py__obs_op_pdaf (for each ensemble member
+
     6. core DA algorithm
+
     7. py__prepoststep_state_pdaf
+
     8. py__distribute_state_pdaf
+
     9. py__next_observation_pdaf
+
     
 
     Parameters
@@ -20817,7 +21002,7 @@ def omi_assimilate_global (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -20835,7 +21020,7 @@ def omi_assimilate_global (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -21304,7 +21489,7 @@ def omi_assimilate_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -21322,7 +21507,7 @@ def omi_assimilate_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -21968,7 +22153,7 @@ def omi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -21986,7 +22171,7 @@ def omi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -22199,7 +22384,7 @@ def omi_assimilate_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -22217,7 +22402,7 @@ def omi_assimilate_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -22471,7 +22656,7 @@ def omi_assimilate_local (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -22489,7 +22674,7 @@ def omi_assimilate_local (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -22863,7 +23048,7 @@ def omi_generate_obs (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -22881,7 +23066,7 @@ def omi_generate_obs (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -23206,7 +23391,7 @@ def omi_put_state_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -23224,7 +23409,7 @@ def omi_put_state_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -23550,7 +23735,7 @@ def omi_put_state_en3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -23568,7 +23753,7 @@ def omi_put_state_en3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -24066,7 +24251,7 @@ def omi_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -24084,7 +24269,7 @@ def omi_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -24258,7 +24443,7 @@ def omi_put_state_generate_obs (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -24276,7 +24461,7 @@ def omi_put_state_generate_obs (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -24307,17 +24492,24 @@ def omi_put_state_global (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
                                                            np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                            np.ndarray[tuple[int, int], np.dtype[np.float64]]]]
                          ) -> int:
-    """Using global filters for DA except for 3DVars without post-processing and analysis distribution to forecsat with diagonal observation error covariance matrix.
-    This function should be called at each model time step. 
-    
-    in the following sequence: 
+    """Global filters for DA except for 3DVars
+    without post-processing and analysis distribution to forecsat
+    with diagonal observation error covariance matrix.
+
+    This function should be called at each model time step.
+
+    User-supplied functions are executed in the following sequence: 
     1. py__collect_state_pdaf
+
     2. py__prepoststep_state_pdaf
+
     3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf (for ensemble mean
-    5. py__obs_op_pdaf (for each ensemble member
+
+    4. py__obs_op_pdaf (for ensemble mean)
+
+    5. py__obs_op_pdaf (for each ensemble member)
+
     6. core DA algorithm
-    
 
     Parameters
     ----------
@@ -24420,7 +24612,7 @@ def omi_put_state_global (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -24438,7 +24630,7 @@ def omi_put_state_global (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -24838,7 +25030,7 @@ def omi_put_state_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -24856,7 +25048,7 @@ def omi_put_state_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -25432,7 +25624,7 @@ def omi_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -25450,7 +25642,7 @@ def omi_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -25600,7 +25792,7 @@ def omi_put_state_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -25618,7 +25810,7 @@ def omi_put_state_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -25810,7 +26002,7 @@ def omi_put_state_local (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -25828,7 +26020,7 @@ def omi_put_state_local (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -26386,11 +26578,11 @@ def omi_weights_l (verbose: int,locweight: int,cradius: np.ndarray[tuple[int], n
     verbose : int
         Verbosity flag
     locweight : int
-        Types of localization function0) unit weight; 1) exponential; 2) 5-th order polynomial;3) 5-th order polynomial with regulatioin using mean variance;4) 5-th order polynomial with regulatioin using variance of single observation point;
+        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point;
     cradius : ndarray[tuple[nobs_l], np.float64]
         Vector of localization cut-off radii; observation weight=0 if distance > cradius
     sradius : ndarray[tuple[nobs_l], np.float64]
-        Vector of support radii of localization function.It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
     matA : ndarray[tuple[nobs_l, ncols], np.float64]
         
     ivar_obs_l : ndarray[tuple[nobs_l], np.float64]
@@ -26417,11 +26609,11 @@ def omi_weights_l_sgnl (verbose: int,locweight: int,cradius: float,sradius: floa
     verbose : int
         Verbosity flag
     locweight : int
-        Types of localization function0) unit weight; 1) exponential; 2) 5-th order polynomial;3) 5-th order polynomial with regulatioin using mean variance;4) 5-th order polynomial with regulatioin using variance of single observation point;
+        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point;
     cradius : float
         Vector of localization cut-off radii; observation weight=0 if distance > cradius
     sradius : float
-        Vector of support radii of localization function.It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
     matA : ndarray[tuple[nobs_l, ncols], np.float64]
         
     ivar_obs_l : ndarray[tuple[nobs_l], np.float64]
@@ -26479,11 +26671,11 @@ def omi_init_dim_obs_l_iso (i_obs: int,coords_l: np.ndarray[tuple[int], np.dtype
     coords_l : ndarray[tuple[ncoord], np.float64]
         Coordinates of current analysis domain
     locweight : int
-        Types of localization function0) unit weight; 1) exponential; 2) 5-th order polynomial;3) 5-th order polynomial with regulatioin using mean variance;4) 5-th order polynomial with regulatioin using variance of single observation point;
+        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point;
     cradius : float
         Vector of localization cut-off radii; observation weight=0 if distance > cradius
     sradius : float
-        Vector of support radii of localization function.It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
     cnt_obs_l : int
         Local dimension of current observation vector
 
@@ -26507,11 +26699,11 @@ def omi_init_dim_obs_l_noniso (i_obs: int,coords_l: np.ndarray[tuple[int], np.dt
     coords_l : ndarray[tuple[ncoord], np.float64]
         Coordinates of current analysis domain
     locweight : int
-        Types of localization function0) unit weight; 1) exponential; 2) 5-th order polynomial;3) 5-th order polynomial with regulatioin using mean variance;4) 5-th order polynomial with regulatioin using variance of single observation point;
+        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point;
     cradius : ndarray[tuple[ncoord], np.float64]
         Vector of localization cut-off radii; observation weight=0 if distance > cradius
     sradius : ndarray[tuple[ncoord], np.float64]
-        Vector of support radii of localization function.It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
     cnt_obs_l : int
         Local dimension of current observation vector
 
@@ -26536,11 +26728,11 @@ def omi_init_dim_obs_l_noniso_locweights (i_obs: int,coords_l: np.ndarray[tuple[
     coords_l : ndarray[tuple[ncoord], np.float64]
         Coordinates of current analysis domain
     locweights : ndarray[tuple[2], np.intc]
-        Types of localization function0) unit weight; 1) exponential; 2) 5-th order polynomial;3) 5-th order polynomial with regulatioin using mean variance;4) 5-th order polynomial with regulatioin using variance of single observation point;The first dimension is horizontal weight function and the second is the vertical function
+        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point; The first dimension is horizontal weight function and the second is the vertical function
     cradius : ndarray[tuple[ncoord], np.float64]
         Vector of localization cut-off radii for each dimension; observation weight=0 if distance > cradius
     sradius : ndarray[tuple[ncoord], np.float64]
-        Vector of support radii of localization function for each dimension.It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function for each dimension. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
     cnt_obs_l : int
         Local dimension of current observation vector
 
@@ -26564,11 +26756,11 @@ def omi_localize_covar_iso (i_obs: int,locweight: int,cradius: float,sradius: fl
     i_obs : int
         index of observation type
     locweight : int
-        Types of localization function0) unit weight; 1) exponential; 2) 5-th order polynomial;3) 5-th order polynomial with regulatioin using mean variance;4) 5-th order polynomial with regulatioin using variance of single observation point;
+        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point;
     cradius : float
         Vector of localization cut-off radii; observation weight=0 if distance > cradius
     sradius : float
-        Vector of support radii of localization function.It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
     coords : ndarray[tuple[ncoord, dim_p], np.float64]
         Coordinates of state vector elements
     HP : ndarray[tuple[dim_obs, dim_p], np.float64]
@@ -26599,11 +26791,11 @@ def omi_localize_covar_noniso (i_obs: int,locweight: int,cradius: np.ndarray[tup
     i_obs : int
         Data type with full observation
     locweight : int
-        Types of localization function0) unit weight; 1) exponential; 2) 5-th order polynomial;3) 5-th order polynomial with regulatioin using mean variance;4) 5-th order polynomial with regulatioin using variance of single observation point;
+        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point;
     cradius : ndarray[tuple[ncoord], np.float64]
         Vector of localization cut-off radii for each dimension; observation weight=0 if distance > cradius
     sradius : ndarray[tuple[ncoord], np.float64]
-        Vector of support radii of localization function for each dimension.It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function for each dimension. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
     coords : ndarray[tuple[ncoord, dim_p], np.float64]
         Coordinates of state vector elements
     HP : ndarray[tuple[dim_obs, dim_p], np.float64]
@@ -26635,11 +26827,11 @@ def omi_localize_covar_noniso_locweights (i_obs: int,locweights: np.ndarray[tupl
     i_obs : int
         index of observation type
     locweights : ndarray[tuple[2], np.intc]
-        Types of localization function0) unit weight; 1) exponential; 2) 5-th order polynomial;3) 5-th order polynomial with regulatioin using mean variance;4) 5-th order polynomial with regulatioin using variance of single observation point;The first dimension is horizontal weight function and the second is the vertical function
+        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point; The first dimension is horizontal weight function and the second is the vertical function
     cradius : ndarray[tuple[ncoord], np.float64]
         Vector of localization cut-off radii for each dimension; observation weight=0 if distance > cradius
     sradius : ndarray[tuple[ncoord], np.float64]
-        Vector of support radii of localization function for each dimension.It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function for each dimension. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
     coords : ndarray[tuple[ncoord, dim_p], np.float64]
         Coordinates of state vector elements
     HP : ndarray[tuple[dim_obs, dim_p], np.float64]
@@ -26717,9 +26909,9 @@ def omi_set_localization (i_obs: int,cradius: float,sradius: float,locweight: in
     cradius : float
         Vector of localization cut-off radii; observation weight=0 if distance > cradius
     sradius : float
-        Vector of support radii of localization function.It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
     locweight : int
-        Types of localization function0) unit weight; 1) exponential; 2) 5-th order polynomial;3) 5-th order polynomial with regulatioin using mean variance;4) 5-th order polynomial with regulatioin using variance of single observation point;
+        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point;
 
     Returns
     -------
@@ -26740,9 +26932,9 @@ def omi_set_localization_noniso (i_obs: int,cradius: np.ndarray[tuple[int], np.d
     cradius : ndarray[tuple[nradii], np.float64]
         Vector of localization cut-off radii; observation weight=0 if distance > cradius
     sradius : ndarray[tuple[nradii], np.float64]
-        Vector of support radii of localization function.It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
     locweight : int
-        Types of localization function0) unit weight; 1) exponential; 2) 5-th order polynomial;3) 5-th order polynomial with regulatioin using mean variance;4) 5-th order polynomial with regulatioin using variance of single observation point;
+        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point;
     locweight_v : int
         Type of localization function in vertical direction (only for nradii=3)
 
@@ -26791,9 +26983,9 @@ def omi_store_obs_l_index (i_obs: int,idx: int,id_obs_l: int,distance: float,
     distance : float
         < Distance between local analysis domain and observation
     cradius_l : float
-        < cut-off radius for this local observation; observation weight=0 if distance > cradius(directional radius in case of non-isotropic localization)
+        < cut-off radius for this local observation; observation weight=0 if distance > cradius (directional radius in case of non-isotropic localization)
     sradius_l : float
-        < support radius for this local observation(directional radius in case of non-isotropic localization)Vector of support radii of localization function.It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        < support radius for this local observation (directional radius in case of non-isotropic localization) Vector of support radii of localization function. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
 
     Returns
     -------
@@ -26819,9 +27011,9 @@ def omi_store_obs_l_index_vdist (i_obs: int,idx: int,id_obs_l: int,distance: flo
     distance : float
         < Distance between local analysis domain and observation
     cradius_l : float
-        < cut-off radius for this local observation(directional radius in case of non-isotropic localization)
+        < cut-off radius for this local observation (directional radius in case of non-isotropic localization)
     sradius_l : float
-        < support radius for this local observation(directional radius in case of non-isotropic localization)
+        < support radius for this local observation (directional radius in case of non-isotropic localization)
     vdist : float
         < support radius in vertical direction for 2+1D factorized localization
 
@@ -27013,7 +27205,7 @@ def omi_assimilate_3dvar_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -27189,7 +27381,7 @@ def omi_assimilate_3dvar_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -27207,7 +27399,7 @@ def omi_assimilate_3dvar_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -27461,7 +27653,7 @@ def omi_assimilate_en3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -27653,7 +27845,7 @@ def omi_assimilate_en3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -27671,7 +27863,7 @@ def omi_assimilate_en3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -27963,7 +28155,7 @@ def omi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -28147,7 +28339,7 @@ def omi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -28339,7 +28531,7 @@ def omi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -28357,7 +28549,7 @@ def omi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -28652,7 +28844,7 @@ def omi_assimilate_enkf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -28670,7 +28862,7 @@ def omi_assimilate_enkf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -28758,21 +28950,34 @@ def omi_assimilate_global_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                           int, 
                                                                           float]]
                                    ) -> int:
-    """Using global filters for DA except for 3DVars with non-diagonal observation error covariance matrix.
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_global_nondiagR` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function This function should be called at each model time step. 
-    
-    in the following sequence: 
+    """Global DA filters for DA except for 3DVars 
+with non-diagonal observation error covariance matrix.
+
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    This function should be called at each model time step.
+
+    The user-supplied functions are executed in the following sequence:
     1. py__collect_state_pdaf
+
     2. py__prepoststep_state_pdaf
+
     3. py__init_dim_obs_pdaf
+
     4. py__obs_op_pdaf (for ensemble mean
+
     5. py__obs_op_pdaf (for each ensemble member
+
     6. py__prodRinvA_pdaf
+
     7. core DA algorithm
+
     8. py__prepoststep_state_pdaf
+
     9. py__distribute_state_pdaf
+
     10. py__next_observation_pdaf
-    
 
     Parameters
     ----------
@@ -28883,7 +29088,7 @@ def omi_assimilate_global_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -28931,7 +29136,7 @@ def omi_assimilate_global_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -28949,7 +29154,7 @@ def omi_assimilate_global_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -29214,7 +29419,7 @@ def omi_assimilate_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -29470,7 +29675,7 @@ def omi_assimilate_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -29488,7 +29693,7 @@ def omi_assimilate_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -29794,7 +29999,7 @@ def omi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -30042,7 +30247,7 @@ def omi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -30234,7 +30439,7 @@ def omi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -30252,7 +30457,7 @@ def omi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -30489,7 +30694,7 @@ def omi_assimilate_lenkf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -30507,7 +30712,7 @@ def omi_assimilate_lenkf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -30880,7 +31085,7 @@ def omi_assimilate_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -30898,7 +31103,7 @@ def omi_assimilate_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -31000,7 +31205,7 @@ def omi_assimilate_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -31021,7 +31226,7 @@ def omi_assimilate_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
             --- Output matrix
 
 
-    py__prodRinvA_hyb_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, dim_ens:int, obs_l:ndarray[tuple[dim_obs_l], np.float64], gamma:float, A_l:ndarray[tuple[dim_obs_l, rank], np.float64], C_l:ndarray[tuple[dim_obs_l, rank], np.float64]]
+    py__prodRinvA_hyb_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, dim_ens:int, obs_l:ndarray[tuple[dim_obs_l], np.float64], gamma:float, A_l:ndarray[tuple[dim_obs_l, dim_ens], np.float64], C_l:ndarray[tuple[dim_obs_l, dim_ens], np.float64]]
         Provide product R^-1 A on local analysis domain with hybrid weight
 
         **Callback Parameters**
@@ -31050,17 +31255,17 @@ def omi_assimilate_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
             --- Hybrid weight provided by PDAF
 
-        * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **A_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Input matrix provided by PDAF
 
-        * **C_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **C_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Output matrix
 
         **Callback Returns**
 
-        * **C_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **C_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Output matrix
 
@@ -31453,7 +31658,7 @@ def omi_assimilate_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -31471,7 +31676,7 @@ def omi_assimilate_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -31904,7 +32109,7 @@ def omi_assimilate_local_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -31922,7 +32127,7 @@ def omi_assimilate_local_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -32024,7 +32229,7 @@ def omi_assimilate_local_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -32362,7 +32567,7 @@ def omi_assimilate_nonlin_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -32380,7 +32585,7 @@ def omi_assimilate_nonlin_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -32582,7 +32787,7 @@ def omi_put_state_3dvar_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -32758,7 +32963,7 @@ def omi_put_state_3dvar_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -32776,7 +32981,7 @@ def omi_put_state_3dvar_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -32962,7 +33167,7 @@ def omi_put_state_en3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[int
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -33154,7 +33359,7 @@ def omi_put_state_en3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -33172,7 +33377,7 @@ def omi_put_state_en3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -33396,7 +33601,7 @@ def omi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -33580,7 +33785,7 @@ def omi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -33772,7 +33977,7 @@ def omi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -33790,7 +33995,7 @@ def omi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -34020,7 +34225,7 @@ def omi_put_state_enkf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -34038,7 +34243,7 @@ def omi_put_state_enkf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -34082,20 +34287,37 @@ def omi_put_state_global_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                     np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                     np.ndarray[tuple[int, int], np.dtype[np.float64]]]]
                                   ) -> int:
-    """Using global filters for DA except for 3DVars with non-diagonal observation error covariance matrix
-    without post-processing and analysis distribution to forecsat without OMI. This function should be called at each model time step. 
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
+    """Global filters for DA except for 3DVars
+    with non-diagonal observation error covariance matrix
+    without post-processing and analysis distribution to forecsat.
+
+    This function is usually used in 'flexible' parallelisation
+    where the ensemble size is larger than the available number of processes.
+
+    This function should be called at each model time step.
+
+    A :func:`pyPDAF.PDAF.get_state` function is typically
+    used afterwards to post-process and distribute the ensemble
+    to the model after this function.
+
+    This function should be called at each model time step.
+
+    The function executes the user-supplied function
+    in the following sequence:
+
     1. py__collect_state_pdaf
+
     2. py__prepoststep_state_pdaf
+
     3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf (for ensemble mean
-    5. py__obs_op_pdaf (for each ensemble member
+
+    4. py__obs_op_pdaf (for ensemble mean)
+
+    5. py__obs_op_pdaf (for each ensemble member)
+
     6. py__prodRinvA_pdaf
+
     7. core DA algorithm
-    
 
     Parameters
     ----------
@@ -34186,7 +34408,7 @@ def omi_put_state_global_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -34234,7 +34456,7 @@ def omi_put_state_global_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -34252,7 +34474,7 @@ def omi_put_state_global_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -34451,7 +34673,7 @@ def omi_put_state_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -34707,7 +34929,7 @@ def omi_put_state_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -34725,7 +34947,7 @@ def omi_put_state_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -34965,7 +35187,7 @@ def omi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -35213,7 +35435,7 @@ def omi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -35405,7 +35627,7 @@ def omi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -35423,7 +35645,7 @@ def omi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -35595,7 +35817,7 @@ def omi_put_state_lenkf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -35613,7 +35835,7 @@ def omi_put_state_lenkf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -35921,7 +36143,7 @@ def omi_put_state_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -35939,7 +36161,7 @@ def omi_put_state_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -36041,7 +36263,7 @@ def omi_put_state_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -36062,7 +36284,7 @@ def omi_put_state_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
             --- Output matrix
 
 
-    py__prodRinvA_hyb_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, dim_ens:int, obs_l:ndarray[tuple[dim_obs_l], np.float64], gamma:float, A_l:ndarray[tuple[dim_obs_l, rank], np.float64], C_l:ndarray[tuple[dim_obs_l, rank], np.float64]]
+    py__prodRinvA_hyb_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, dim_ens:int, obs_l:ndarray[tuple[dim_obs_l], np.float64], gamma:float, A_l:ndarray[tuple[dim_obs_l, dim_ens], np.float64], C_l:ndarray[tuple[dim_obs_l, dim_ens], np.float64]]
         Provide product R^-1 A on local analysis domain with hybrid weight
 
         **Callback Parameters**
@@ -36091,17 +36313,17 @@ def omi_put_state_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
             --- Hybrid weight provided by PDAF
 
-        * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **A_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Input matrix provided by PDAF
 
-        * **C_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **C_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Output matrix
 
         **Callback Returns**
 
-        * **C_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **C_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Output matrix
 
@@ -36423,7 +36645,7 @@ def omi_put_state_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -36441,7 +36663,7 @@ def omi_put_state_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -36803,7 +37025,7 @@ def omi_put_state_local_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -36821,7 +37043,7 @@ def omi_put_state_local_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -36923,7 +37145,7 @@ def omi_put_state_local_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -37196,7 +37418,7 @@ def omi_put_state_nonlin_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -37214,7 +37436,7 @@ def omi_put_state_nonlin_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -37478,7 +37700,7 @@ def localomi_assimilate (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -37496,7 +37718,7 @@ def localomi_assimilate (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -38055,7 +38277,7 @@ def localomi_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -38073,7 +38295,7 @@ def localomi_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -38347,7 +38569,7 @@ def localomi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callab
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -38531,7 +38753,7 @@ def localomi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callab
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -38651,7 +38873,7 @@ def localomi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callab
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -38669,7 +38891,7 @@ def localomi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callab
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -38816,7 +39038,8 @@ def localomi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
     9. py__cvt_adj_pdaf
     10. py__cvt_adj_ens_pdaf
     11. core DA algorithm
-    After the iterations: n    12. py__cvt_pdaf
+    After the iterations: 
+    12. py__cvt_pdaf
     13. py__cvt_ens_pdaf
     Perform LESTKF: 
     14. py__init_n_domains_p_pdaf
@@ -39233,7 +39456,7 @@ def localomi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -39251,7 +39474,7 @@ def localomi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -39539,7 +39762,7 @@ def localomi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Calla
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -39787,7 +40010,7 @@ def localomi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Calla
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -39907,7 +40130,7 @@ def localomi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Calla
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -39925,7 +40148,7 @@ def localomi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Calla
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -40191,7 +40414,7 @@ def localomi_assimilate_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -40209,7 +40432,7 @@ def localomi_assimilate_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -40311,7 +40534,7 @@ def localomi_assimilate_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -40332,7 +40555,7 @@ def localomi_assimilate_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
             --- Output matrix
 
 
-    py__prodRinvA_hyb_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, dim_ens:int, obs_l:ndarray[tuple[dim_obs_l], np.float64], gamma:float, A_l:ndarray[tuple[dim_obs_l, rank], np.float64], C_l:ndarray[tuple[dim_obs_l, rank], np.float64]]
+    py__prodRinvA_hyb_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, dim_ens:int, obs_l:ndarray[tuple[dim_obs_l], np.float64], gamma:float, A_l:ndarray[tuple[dim_obs_l, dim_ens], np.float64], C_l:ndarray[tuple[dim_obs_l, dim_ens], np.float64]]
         Product R^-1 A on local analysis domain with hybrid weight
 
         **Callback Parameters**
@@ -40361,17 +40584,17 @@ def localomi_assimilate_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
             --- Hybrid weight provided by PDAF
 
-        * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **A_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Input matrix provided by PDAF
 
-        * **C_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **C_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Output matrix
 
         **Callback Returns**
 
-        * **C_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **C_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Output matrix
 
@@ -40681,7 +40904,7 @@ def localomi_assimilate_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -40699,7 +40922,7 @@ def localomi_assimilate_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -41047,7 +41270,7 @@ def localomi_assimilate_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -41065,7 +41288,7 @@ def localomi_assimilate_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -41167,7 +41390,7 @@ def localomi_assimilate_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -41368,7 +41591,7 @@ def localomi_put_state (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -41386,7 +41609,7 @@ def localomi_put_state (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -41877,7 +42100,7 @@ def localomi_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -41895,7 +42118,7 @@ def localomi_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -42101,7 +42324,7 @@ def localomi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callabl
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -42285,7 +42508,7 @@ def localomi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callabl
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -42405,7 +42628,7 @@ def localomi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callabl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -42423,7 +42646,7 @@ def localomi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callabl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -42916,7 +43139,7 @@ def localomi_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -42934,7 +43157,7 @@ def localomi_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -43156,7 +43379,7 @@ def localomi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callab
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -43404,7 +43627,7 @@ def localomi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callab
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -43524,7 +43747,7 @@ def localomi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callab
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -43542,7 +43765,7 @@ def localomi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callab
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -43743,7 +43966,7 @@ def localomi_put_state_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -43761,7 +43984,7 @@ def localomi_put_state_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -43863,7 +44086,7 @@ def localomi_put_state_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -43884,7 +44107,7 @@ def localomi_put_state_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
             --- Output matrix
 
 
-    py__prodRinvA_hyb_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, dim_ens:int, obs_l:ndarray[tuple[dim_obs_l], np.float64], gamma:float, A_l:ndarray[tuple[dim_obs_l, rank], np.float64], C_l:ndarray[tuple[dim_obs_l, rank], np.float64]]
+    py__prodRinvA_hyb_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, dim_ens:int, obs_l:ndarray[tuple[dim_obs_l], np.float64], gamma:float, A_l:ndarray[tuple[dim_obs_l, dim_ens], np.float64], C_l:ndarray[tuple[dim_obs_l, dim_ens], np.float64]]
         Product R^-1 A on local analysis domain with hybrid weight
 
         **Callback Parameters**
@@ -43913,17 +44136,17 @@ def localomi_put_state_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
             --- Hybrid weight provided by PDAF
 
-        * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **A_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Input matrix provided by PDAF
 
-        * **C_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **C_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Output matrix
 
         **Callback Returns**
 
-        * **C_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **C_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Output matrix
 
@@ -44168,7 +44391,7 @@ def localomi_put_state_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -44186,7 +44409,7 @@ def localomi_put_state_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -44468,7 +44691,7 @@ def localomi_put_state_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -44486,7 +44709,7 @@ def localomi_put_state_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -44588,7 +44811,7 @@ def localomi_put_state_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -44749,7 +44972,8 @@ def local_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
     9. py__obs_op_adj_pdaf
     10. py__cvt_adj_ens_pdaf
     11. core DA algorithm
-     After the iterations: n    12. py__cvt_ens_pdaf
+    After the iterations: 
+    12. py__cvt_ens_pdaf
     Perform LESTKF: 
     13. py__init_n_domains_p_pdaf
     14. py__init_dim_obs_pdaf
@@ -44903,7 +45127,7 @@ def local_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -45191,7 +45415,7 @@ def local_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -45419,7 +45643,7 @@ def local_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -45437,7 +45661,7 @@ def local_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -45634,7 +45858,8 @@ def local_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
     11. py__cvt_adj_pdaf
     12. py__cvt_adj_ens_pdaf
     13. core DA algorithm
-     After the iterations: n    14. py__cvt_pdaf
+    After the iterations: 
+    14. py__cvt_pdaf
     15. py__cvt_ens_pdaf
     Perform LESTKF: 
     16. py__init_n_domains_p_pdaf
@@ -45789,7 +46014,7 @@ def local_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -46141,7 +46366,7 @@ def local_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -46369,7 +46594,7 @@ def local_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -46387,7 +46612,7 @@ def local_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -46685,7 +46910,7 @@ def local_assimilate_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -46703,7 +46928,7 @@ def local_assimilate_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -46733,7 +46958,7 @@ def local_assimilate_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -47045,7 +47270,8 @@ def local_assimilate_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
     15. core DA algorithm
     16. py__prepoststep_state_pdaf
     17. py__distribute_state_pdaf
-    18. py__next_observation_pdaf \n    
+    18. py__next_observation_pdaf 
+    
 
     Parameters
     ----------
@@ -47220,7 +47446,7 @@ def local_assimilate_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -47238,7 +47464,7 @@ def local_assimilate_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -47268,7 +47494,7 @@ def local_assimilate_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -47582,14 +47808,30 @@ def local_assimilate_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[
     This function will is a hybridised LETKF and LNETF for DA without OMI. The LNETF computes the distribution up to the second moment similar to KF but using a nonlinear weighting similar to particle filter. This leads to an equal weights assumption for prior ensemble. The hybridisation with LETKF is expected to lead to improved performance for quasi-Gaussian problems. The function should be called at each model step. 
     
     The function is a combination of `pyPDAF.PDAF.local_put_state_lknetf` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf \n    2. py__prepoststep_state_pdaf \n    3. py__init_n_domains_p_pdaf \n    4. py__init_dim_obs_pdaf \n    5. py__obs_op_pdaf (for each ensemble member)\n    6. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in `pyPDAF.PDAF.init`
+    1. py__collect_state_pdaf 
+    2. py__prepoststep_state_pdaf 
+    3. py__init_n_domains_p_pdaf 
+    4. py__init_dim_obs_pdaf 
+    5. py__obs_op_pdaf (for each ensemble member)
+    6. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in `pyPDAF.PDAF.init`
     7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used
     loop over each local domain:
-    8. py__init_dim_l_pdaf \n    9. py__init_dim_obs_l_pdaf \n    10. py__g2l_obs_pdaf (localise each ensemble member in observation space
-    11. py__init_obs_l_pdaf \n    12. py__init_obsvar_l_pdaf 
+    8. py__init_dim_l_pdaf 
+    9. py__init_dim_obs_l_pdaf 
+    10. py__g2l_obs_pdaf (localise each ensemble member in observation space
+    11. py__init_obs_l_pdaf 
+    12. py__init_obsvar_l_pdaf 
 (only called if local adaptive forgetting factor (type_forget=2) is used
-    13. py__prodRinvA_pdaf \n    14. py__likelihood_l_pdaf \n    15. core DA algorithm \n    16. py__obs_op_pdaf (only called with `HKN` and `HNK` options called for each ensemble member)\n    17. py__likelihood_hyb_l_pdaf\n    18. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    19. py__prodRinvA_hyb_l_pdaf \n    20. py__prepoststep_state_pdaf \n    21. py__distribute_state_pdaf \n    22. py__next_observation_pdaf
+    13. py__prodRinvA_pdaf 
+    14. py__likelihood_l_pdaf 
+    15. core DA algorithm 
+    16. py__obs_op_pdaf (only called with `HKN` and `HNK` options called for each ensemble member)
+    17. py__likelihood_hyb_l_pdaf
+    18. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
+    19. py__prodRinvA_hyb_l_pdaf 
+    20. py__prepoststep_state_pdaf 
+    21. py__distribute_state_pdaf 
+    22. py__next_observation_pdaf
     
 
     Parameters
@@ -47765,7 +48007,7 @@ def local_assimilate_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -47783,7 +48025,7 @@ def local_assimilate_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -47813,7 +48055,7 @@ def local_assimilate_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -47834,7 +48076,7 @@ def local_assimilate_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[
             --- Output matrix
 
 
-    py__prodRinvA_hyb_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, dim_ens:int, obs_l:ndarray[tuple[dim_obs_l], np.float64], gamma:float, A_l:ndarray[tuple[dim_obs_l, rank], np.float64], C_l:ndarray[tuple[dim_obs_l, rank], np.float64]]
+    py__prodRinvA_hyb_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, dim_ens:int, obs_l:ndarray[tuple[dim_obs_l], np.float64], gamma:float, A_l:ndarray[tuple[dim_obs_l, dim_ens], np.float64], C_l:ndarray[tuple[dim_obs_l, dim_ens], np.float64]]
         Provide product R^-1 A on local analysis domain with hybrid weight
 
         **Callback Parameters**
@@ -47863,17 +48105,17 @@ def local_assimilate_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[
 
             --- Hybrid weight provided by PDAF
 
-        * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **A_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Input matrix provided by PDAF
 
-        * **C_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **C_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Output matrix
 
         **Callback Returns**
 
-        * **C_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **C_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Output matrix
 
@@ -48385,7 +48627,7 @@ def local_assimilate_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -48403,7 +48645,7 @@ def local_assimilate_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -48853,7 +49095,7 @@ def local_assimilate_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -48871,7 +49113,7 @@ def local_assimilate_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -48901,7 +49143,7 @@ def local_assimilate_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -49262,7 +49504,8 @@ def local_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
     9. py__obs_op_adj_pdaf
     10. py__cvt_adj_ens_pdaf
     11. core DA algorithm
-     After the iterations: n    12. py__cvt_ens_pdaf
+    After the iterations: 
+    12. py__cvt_ens_pdaf
     Perform LESTKF: 
     13. py__init_n_domains_p_pdaf
     14. py__init_dim_obs_pdaf
@@ -49393,7 +49636,7 @@ def local_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -49681,7 +49924,7 @@ def local_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -49909,7 +50152,7 @@ def local_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -49927,7 +50170,7 @@ def local_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -50079,7 +50322,8 @@ def local_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
     11. py__cvt_adj_pdaf
     12. py__cvt_adj_ens_pdaf
     13. core DA algorithm
-    After the iterations: n    14. py__cvt_pdaf
+    After the iterations: 
+    14. py__cvt_pdaf
     15. py__cvt_ens_pdaf
     Perform LESTKF: 
     16. py__init_n_domains_p_pdaf
@@ -50211,7 +50455,7 @@ def local_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -50563,7 +50807,7 @@ def local_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -50791,7 +51035,7 @@ def local_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -50809,7 +51053,7 @@ def local_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -51040,7 +51284,7 @@ def local_put_state_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -51058,7 +51302,7 @@ def local_put_state_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -51088,7 +51332,7 @@ def local_put_state_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -51504,7 +51748,7 @@ def local_put_state_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -51522,7 +51766,7 @@ def local_put_state_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -51552,7 +51796,7 @@ def local_put_state_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -51996,7 +52240,7 @@ def local_put_state_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -52014,7 +52258,7 @@ def local_put_state_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -52044,7 +52288,7 @@ def local_put_state_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -52065,7 +52309,7 @@ def local_put_state_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
             --- Output matrix
 
 
-    py__prodRinvA_hyb_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, dim_ens:int, obs_l:ndarray[tuple[dim_obs_l], np.float64], gamma:float, A_l:ndarray[tuple[dim_obs_l, rank], np.float64], C_l:ndarray[tuple[dim_obs_l, rank], np.float64]]
+    py__prodRinvA_hyb_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, dim_ens:int, obs_l:ndarray[tuple[dim_obs_l], np.float64], gamma:float, A_l:ndarray[tuple[dim_obs_l, dim_ens], np.float64], C_l:ndarray[tuple[dim_obs_l, dim_ens], np.float64]]
         Provide product R^-1 A on local analysis domain with hybrid weight
 
         **Callback Parameters**
@@ -52094,17 +52338,17 @@ def local_put_state_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
             --- Hybrid weight provided by PDAF
 
-        * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **A_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Input matrix provided by PDAF
 
-        * **C_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **C_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Output matrix
 
         **Callback Returns**
 
-        * **C_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
+        * **C_l** : ndarray[tuple[dim_obs_l, dim_ens], np.float64]
 
             --- Output matrix
 
@@ -52548,7 +52792,7 @@ def local_put_state_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -52566,7 +52810,7 @@ def local_put_state_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -52944,7 +53188,7 @@ def local_put_state_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -52962,7 +53206,7 @@ def local_put_state_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state(the array 'state_p' is not generally notinitialized in the case of seik.it can be used freely here.)
+            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -52992,7 +53236,7 @@ def local_put_state_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here.This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 

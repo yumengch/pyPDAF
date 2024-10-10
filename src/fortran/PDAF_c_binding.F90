@@ -830,36 +830,40 @@ contains
 
    SUBROUTINE c__PDAF_eofcovar(dim_state, nstates, nfields, dim_fields, offsets, &
          remove_mstate, do_mv, states, stddev, svals, svec, meanstate, verbose, status) bind(c)
-      ! Dimension of state vector
+      ! Dimension of state vector.
       INTEGER(c_int), INTENT(in) :: dim_state
-      ! Number of state vectors, typically from different time steps
+      ! Number of state vectors, typically from different time steps.
       INTEGER(c_int), INTENT(in) :: nstates
-      ! Number of fields in state vector
+      ! Number of fields in state vector.
       ! For example, if the state vector contains temperature and humidity,
-      ! nfields=2, only used when `do_mv = 1`
+      ! nfields=2. This variable is used only when `do_mv = 1`.
       INTEGER(c_int), INTENT(in) :: nfields
       ! Size of each field, only used when `do_mv = 1`.
-      ! Each field could be 2D or 3D so can have different sizes
+      ! Each field could be 2D or 3D so can have different sizes.
       INTEGER(c_int), INTENT(in) :: dim_fields(nfields)
-      ! Start position of each field, only used when `do_mv = 1`
-      ! It starts from 1.
+      ! Start position of each field.\n
+      ! This variable is used only used when `do_mv = 1`.\n 
+      ! For example, if the state vector contains temperature and humidity,
+      ! this array specifies the starting index of the two physical fields.\n
+      ! The offset values start from 1.
       INTEGER(c_int), INTENT(in) :: offsets(nfields)
-      ! 1: Do multivariate scaling; 0: no scaling
-      ! nfields, dim_fields and offsets are only used if do_mv=1
+      ! Do multivariate scaling (`do_mv = 1`) or no scaling (`do_mv = 0`).
+      ! Variable `nfields`, `dim_fields`
+      ! and `offsets` are only used if `do_mv=1`.
       INTEGER(c_int), INTENT(in) :: do_mv
-      ! 1: subtract mean state from states (average over nstates dimension)
-      ! before computing EOFs; 0: don't remove
+      ! Subtract mean state from states (average over nstates dimension)
+      ! before computing EOFs (`remove_mstate = 1`) or don't remove (`remove_mstate = 0`)
       INTEGER(c_int), INTENT(in) :: remove_mstate
       ! State perturbations or an ensemble of state vectors
       REAL(c_double), INTENT(inout) :: states(dim_state, nstates)
       ! Standard deviation of field variability.
-      ! Without multivariate scaling (do_mv=0), it is stddev = 1.0
+      ! Without multivariate scaling (`do_mv=0`), it is `stddev = 1.0`.
       REAL(c_double), INTENT(out) :: stddev(nfields)
-      ! Singular values divided by sqrt(nstates-1)
+      ! Singular values scaled by `1/sqrt(nstates-1)`.
       REAL(c_double), INTENT(out) :: svals(nstates)
       ! Singular vectors
       REAL(c_double), INTENT(out) :: svec(dim_state, nstates)
-      ! Mean state (only changed if remove_mstate=1)
+      ! Mean state (only changed if `remove_mstate=1`)
       REAL(c_double), INTENT(inout) :: meanstate(dim_state)
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: verbose
@@ -1079,9 +1083,9 @@ contains
       INTEGER(c_int), INTENT(in) :: wtype
       ! Type of regulated weighting
       INTEGER(c_int), INTENT(in) :: rtype
-      ! Cut-off radius (check https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE)
+      ! Cut-off radius (check `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
       REAL(c_double), INTENT(in) :: cradius
-      ! Support radius (check https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE)
+      ! Support radius (check `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
       REAL(c_double), INTENT(in) :: sradius
       ! Distance to observation
       REAL(c_double), INTENT(in) :: distance

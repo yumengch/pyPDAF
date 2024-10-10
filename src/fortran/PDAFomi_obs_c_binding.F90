@@ -268,10 +268,14 @@ contains
    END SUBROUTINE c__PDAFomi_obs_op_adj_interp_lin
 
    SUBROUTINE c__PDAFomi_get_interp_coeff_tri(gpc, oc, icoeff) bind(c)
-      ! Coordinates of grid points; dim(3,2)
-      ! 3 grid points surrounding the observation; each containing lon and lat coordinates
+      ! Coordinates of grid points with dimension of (3, 2). 
+      ! 3 grid points surrounding the observation; 
+      ! each containing lon and lat coordinates.
+      ! The order of the grid points in gcoords has to 
+      ! be consistent with the order of the indices specified in
+      ! `id_obs_p` of `obs_f`.
       REAL(c_double), INTENT(in)    :: gpc(3,2)
-      ! Coordinates of observation; dim(2)
+      ! Coordinates of observation (targeted location); dim(2)
       REAL(c_double), INTENT(in)    :: oc(2)
       ! Interpolation coefficients; dim(3)
       REAL(c_double), INTENT(inout) :: icoeff(3)
@@ -281,7 +285,7 @@ contains
    SUBROUTINE c__PDAFomi_get_interp_coeff_lin1D(gpc, oc, icoeff) bind(c)
       ! Coordinates of grid points surrounding the observations (dim=2)
       REAL(c_double), INTENT(in)    :: gpc(2)
-      ! Coordinates of observation
+      ! Coordinates of observation (targeted location)
       REAL(c_double), INTENT(in)    :: oc
       ! Interpolation coefficients (dim=2)
       REAL(c_double), INTENT(inout) :: icoeff(2)
@@ -294,6 +298,9 @@ contains
       ! Number of dimensions in interpolation
       INTEGER(c_int), INTENT(in) :: n_dim
       ! Coordinates of grid points
+      ! The order of the grid points in gcoords has to 
+      ! be consistent with the order of the indices specified in
+      ! `id_obs_p` of `obs_f`.
       REAL(c_double), INTENT(in)    :: gpc(num_gp,n_dim)
       ! Coordinates of observation
       REAL(c_double), INTENT(in)    :: oc(n_dim)

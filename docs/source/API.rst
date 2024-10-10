@@ -159,6 +159,7 @@ API
    pyPDAF.PDAF.omi_localize_covar_noniso_locweights
    pyPDAF.PDAF.omi_omit_by_inno_l_cb
    pyPDAF.PDAF.omi_omit_by_inno_cb
+   pyPDAF.PDAF.omi_assimilate_global_nondiagR
    pyPDAF.PDAF.local_set_indices
    pyPDAF.PDAF.local_set_increment_weights
    pyPDAF.PDAF.local_clear_increment_weights

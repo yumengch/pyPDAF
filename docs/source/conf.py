@@ -67,8 +67,14 @@ source_suffix = {'.rst': 'restructuredtext', '.md': 'markdown'}
 # a list of builtin themes.
 #
 html_theme = 'alabaster'
-
+html_theme_options = {
+	"description": "A Python interface to Parallel Data Assimilation Framework.",
+	"github_button": True,
+	"github_user": "yumengch",
+	"github_repo": "pyPDAF",
+    "body_max_width": "none"
+}
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = []
+html_static_path = ['_static']
