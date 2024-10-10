@@ -7,7 +7,7 @@
 
     <title>pyPDAF.PDAF.assimilate_estkf &#8212; pyPDAF  documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
-    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=c058f7c8" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=8e461078" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
@@ -38,21 +38,44 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAF.assimilate_estkf">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_estkf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_estkf" title="Link to this definition">¶</a></dt>
-<dd><p>It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., <cite>pyPDAF.PDAF.omi_assimilate_global</cite> or <cite>pyPDAF.PDAF.omi_assimilate_global_nondiagR</cite>.
-Using ESTKF (error space transform Kalman filter) for DA without OMI. This function should be called at each model time step. The ESTKF is a more efficient equivalent to the ETKF.</p>
-<p>The function is a combination of <cite>pyPDAF.PDAF.put_state_estkf</cite> and <cite>pyPDAF.PDAF.get_state</cite>, and executes the user-supplied function in the following sequence:
-1. py__collect_state_pdaf
-2. py__prepoststep_state_pdaf
-3. py__init_dim_obs_pdaf
-4. py__obs_op_pdaf (for ensemble mean)
-5. py__init_obs_pdaf
-6. py__obs_op_pdaf (for each ensemble member)
-7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)
-8. py__prodRinvA_pdaf
-9. core DA algorithm
-10. py__prepoststep_state_pdaf
-11. py__distribute_state_pdaf
-12. py__next_observation_pdaf</p>
+<dd><p>It is recommended to use <a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global.html#pyPDAF.PDAF.omi_assimilate_global" title="pyPDAF.PDAF.omi_assimilate_global"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.omi_assimilate_global()</span></code></a>
+or <a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global_nondiagR.html#pyPDAF.PDAF.omi_assimilate_global_nondiagR" title="pyPDAF.PDAF.omi_assimilate_global_nondiagR"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.omi_assimilate_global_nondiagR()</span></code></a> instead of this function.</p>
+<p>OMI functions need fewer user-supplied functions and improve DA efficiency.</p>
+<p>This function calls ESTKF (error space transform Kalman filter) <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.
+The ESTKF is a more efficient equivalent to the ETKF.</p>
+<p>The function should be called at each model time step.
+The function is a combination of <a class="reference internal" href="pyPDAF.PDAF.put_state_estkf.html#pyPDAF.PDAF.put_state_estkf" title="pyPDAF.PDAF.put_state_estkf"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.put_state_estkf()</span></code></a>
+and <a class="reference internal" href="pyPDAF.PDAF.get_state.html#pyPDAF.PDAF.get_state" title="pyPDAF.PDAF.get_state"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_state()</span></code></a>.</p>
+<dl class="simple">
+<dt>User-supplied functions are executed in the following sequence:</dt><dd><ol class="arabic simple">
+<li><p>py__collect_state_pdaf</p></li>
+<li><p>py__prepoststep_state_pdaf</p></li>
+<li><p>py__init_dim_obs_pdaf</p></li>
+<li><p>py__obs_op_pdaf (for ensemble mean)</p></li>
+<li><p>py__init_obs_pdaf</p></li>
+<li><p>py__obs_op_pdaf (for each ensemble member)</p></li>
+<li><p>py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)</p></li>
+<li><p>py__prodRinvA_pdaf</p></li>
+<li><p>core DA algorithm</p></li>
+<li><p>py__prepoststep_state_pdaf</p></li>
+<li><p>py__distribute_state_pdaf</p></li>
+<li><p>py__next_observation_pdaf</p></li>
+</ol>
+</dd>
+</dl>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 1.0.0: </span>This function is replaced by <a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global.html#pyPDAF.PDAF.omi_assimilate_global" title="pyPDAF.PDAF.omi_assimilate_global"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.omi_assimilate_global()</span></code></a>
+and <a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global_nondiagR.html#pyPDAF.PDAF.omi_assimilate_global_nondiagR" title="pyPDAF.PDAF.omi_assimilate_global_nondiagR"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.omi_assimilate_global_nondiagR()</span></code></a></p>
+</div>
+<p class="rubric">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012).
+A unification of ensemble square root Kalman filters.
+Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1</p>
+</aside>
+</aside>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -270,7 +293,7 @@ Using ESTKF (error space transform Kalman filter) for DA without OMI. This funct
 <li><p><strong>state_p</strong> : ndarray[tuple[dim_p], np.float64]</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>pe-local forecast/analysis state(the array ‘state_p’ is not generally notinitialized in the case of seik.it can be used freely here.)</p></li>
+<li><p>pe-local forecast/analysis state (the array ‘state_p’ is not generally not initialized in the case of seik. it can be used freely here.)</p></li>
 </ul>
 </div></blockquote>
 </li>
@@ -301,7 +324,7 @@ Using ESTKF (error space transform Kalman filter) for DA without OMI. This funct
 <li><p><strong>state_p</strong> : ndarray[tuple[dim_p], np.float64]</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>pe-local forecast/analysis state(the array ‘state_p’ is not generally notinitialized in the case of seik.it can be used freely here.)</p></li>
+<li><p>pe-local forecast/analysis state (the array ‘state_p’ is not generally not initialized in the case of seik. it can be used freely here.)</p></li>
 </ul>
 </div></blockquote>
 </li>
@@ -341,7 +364,7 @@ Using ESTKF (error space transform Kalman filter) for DA without OMI. This funct
 <li><p><strong>rank</strong> : int</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>Number of the columns in the matrix processes here.This is usually the ensemble size minus one(or the rank of the initial covariance matrix)</p></li>
+<li><p>Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)</p></li>
 </ul>
 </div></blockquote>
 </li>
@@ -502,6 +525,15 @@ Using ESTKF (error space transform Kalman filter) for DA without OMI. This funct
 
 
 
+<p class="blurb">A Python interface to Parallel Data Assimilation Framework.</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=yumengch&repo=pyPDAF&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
 
 
 
@@ -681,6 +713,7 @@ Using ESTKF (error space transform Kalman filter) for DA without OMI. This funct
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_localize_covar_noniso_locweights.html">pyPDAF.PDAF.omi_localize_covar_noniso_locweights</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_omit_by_inno_l_cb.html">pyPDAF.PDAF.omi_omit_by_inno_l_cb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_omit_by_inno_cb.html">pyPDAF.PDAF.omi_omit_by_inno_cb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global_nondiagR.html">pyPDAF.PDAF.omi_assimilate_global_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_set_indices.html">pyPDAF.PDAF.local_set_indices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_set_increment_weights.html">pyPDAF.PDAF.local_set_increment_weights</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_clear_increment_weights.html">pyPDAF.PDAF.local_clear_increment_weights</a></li>

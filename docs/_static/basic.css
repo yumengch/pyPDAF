@@ -223,7 +223,7 @@ table.modindextable td {
 
 div.body {
     min-width: inherit;
-    max-width: 800px;
+    max-width: none;
 }
 
 div.body p, div.body dd, div.body li, div.body blockquote {

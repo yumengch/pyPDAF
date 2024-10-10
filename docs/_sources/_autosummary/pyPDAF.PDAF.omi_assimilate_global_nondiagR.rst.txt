@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.omi\_assimilate\_global\_nondiagR
+=============================================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: omi_assimilate_global_nondiagR
