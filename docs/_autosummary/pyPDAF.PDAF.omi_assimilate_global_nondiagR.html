@@ -14,8 +14,8 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pyPDAF.PDAF.local_set_indices" href="pyPDAF.PDAF.local_set_indices.html" />
-    <link rel="prev" title="pyPDAF.PDAF.omi_omit_by_inno_cb" href="pyPDAF.PDAF.omi_omit_by_inno_cb.html" />
+    <link rel="next" title="pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR" href="pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR.html" />
+    <link rel="prev" title="pyPDAF.PDAF.omi_assimilate_enkf_nondiagR" href="pyPDAF.PDAF.omi_assimilate_enkf_nondiagR.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -613,10 +613,22 @@ and <a class="reference internal" href="pyPDAF.PDAF.get_state.html#pyPDAF.PDAF.g
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_localize_covar_noniso_locweights.html">pyPDAF.PDAF.omi_localize_covar_noniso_locweights</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_omit_by_inno_l_cb.html">pyPDAF.PDAF.omi_omit_by_inno_l_cb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_omit_by_inno_cb.html">pyPDAF.PDAF.omi_omit_by_inno_cb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR.html">pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_enkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_enkf_nondiagR</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">pyPDAF.PDAF.omi_assimilate_global_nondiagR</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyPDAF.PDAF.omi_assimilate_global_nondiagR"><code class="docutils literal notranslate"><span class="pre">omi_assimilate_global_nondiagR()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR.html">pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_en3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lknetf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lknetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lnetf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lnetf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_set_indices.html">pyPDAF.PDAF.local_set_indices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_set_increment_weights.html">pyPDAF.PDAF.local_set_increment_weights</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_clear_increment_weights.html">pyPDAF.PDAF.local_clear_increment_weights</a></li>
@@ -661,8 +673,8 @@ and <a class="reference internal" href="pyPDAF.PDAF.get_state.html#pyPDAF.PDAF.g
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="../API.html">API</a><ul>
-      <li>Previous: <a href="pyPDAF.PDAF.omi_omit_by_inno_cb.html" title="previous chapter">pyPDAF.PDAF.omi_omit_by_inno_cb</a></li>
-      <li>Next: <a href="pyPDAF.PDAF.local_set_indices.html" title="next chapter">pyPDAF.PDAF.local_set_indices</a></li>
+      <li>Previous: <a href="pyPDAF.PDAF.omi_assimilate_enkf_nondiagR.html" title="previous chapter">pyPDAF.PDAF.omi_assimilate_enkf_nondiagR</a></li>
+      <li>Next: <a href="pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR.html" title="next chapter">pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR</a></li>
   </ul></li>
   </ul></li>
 </ul>

@@ -38,20 +38,43 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAF.assimilate_seek">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_seek</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_seek" title="Link to this definition">¶</a></dt>
-<dd><p>It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., <cite>pyPDAF.PDAF.omi_assimilate_global</cite> or <cite>pyPDAF.PDAF.omi_assimilate_global_nondiagR</cite>.
-This function will use singular evolutive extended Kalman filter for DA without OMI. This is a deterministic Kalman filter. The function should be called at each model step.</p>
-<p>The function is a combination of <cite>pyPDAF.PDAF.put_state_seek</cite> and <cite>pyPDAF.PDAF.get_state</cite>, and executes the user-supplied function in the following sequence:
-1. py__collect_state_pdaf
-2. py__prepoststep_state_pdaf
-3. py__init_dim_obs_pdaf
-4. py__obs_op_pdaf (for ensemble mean
-5. py__init_obs_pdaf
-6. py__obs_op_pdaf (for each ensemble member
-7. py__prodRinvA_pdaf
-8. core DA algorithm
-9. py__prepoststep_state_pdaf
-10. py__distribute_state_pdaf
-11. py__next_observation_pdaf</p>
+<dd><p>It is recommended to use <a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global.html#pyPDAF.PDAF.omi_assimilate_global" title="pyPDAF.PDAF.omi_assimilate_global"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.omi_assimilate_global()</span></code></a>
+or <a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global_nondiagR.html#pyPDAF.PDAF.omi_assimilate_global_nondiagR" title="pyPDAF.PDAF.omi_assimilate_global_nondiagR"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.omi_assimilate_global_nondiagR()</span></code></a>.</p>
+<p>PDAF-OMI modules require fewer user-supplied functions and improved efficiency.</p>
+<p>This function will use singular evolutive extended Kalman filter <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> for a single DA step.
+This is a deterministic Kalman filter.
+The function should be called at each model step.</p>
+<p>The function is a combination of <a class="reference internal" href="pyPDAF.PDAF.put_state_seek.html#pyPDAF.PDAF.put_state_seek" title="pyPDAF.PDAF.put_state_seek"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.put_state_seek()</span></code></a>
+and <a class="reference internal" href="pyPDAF.PDAF.get_state.html#pyPDAF.PDAF.get_state" title="pyPDAF.PDAF.get_state"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_state()</span></code></a>.</p>
+<dl class="simple">
+<dt>This function executes the user-supplied functions in the following sequence:</dt><dd><ol class="arabic simple">
+<li><p>py__collect_state_pdaf</p></li>
+<li><p>py__prepoststep_state_pdaf</p></li>
+<li><p>py__init_dim_obs_pdaf</p></li>
+<li><p>py__obs_op_pdaf (for ensemble mean)</p></li>
+<li><p>py__init_obs_pdaf</p></li>
+<li><p>py__obs_op_pdaf (for each ensemble member)</p></li>
+<li><p>py__prodRinvA_pdaf</p></li>
+<li><p>core DA algorithm</p></li>
+<li><p>py__prepoststep_state_pdaf</p></li>
+<li><p>py__distribute_state_pdaf</p></li>
+<li><p>py__next_observation_pdaf</p></li>
+</ol>
+</dd>
+</dl>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 1.0.0: </span>This function is replaced by <a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global.html#pyPDAF.PDAF.omi_assimilate_global" title="pyPDAF.PDAF.omi_assimilate_global"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.omi_assimilate_global()</span></code></a>
+and <a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global_nondiagR.html#pyPDAF.PDAF.omi_assimilate_global_nondiagR" title="pyPDAF.PDAF.omi_assimilate_global_nondiagR"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.omi_assimilate_global_nondiagR()</span></code></a></p>
+</div>
+<p class="rubric">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Pham, D. T., Verron, J., &amp; Roubaud, M. C. (1998).
+A singular evolutive extended Kalman filter for data assimilation
+in oceanography. Journal of Marine systems, 16(3-4), 323-340.</p>
+</aside>
+</aside>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -646,7 +669,19 @@ This function will use singular evolutive extended Kalman filter for DA without 
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_localize_covar_noniso_locweights.html">pyPDAF.PDAF.omi_localize_covar_noniso_locweights</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_omit_by_inno_l_cb.html">pyPDAF.PDAF.omi_omit_by_inno_l_cb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_omit_by_inno_cb.html">pyPDAF.PDAF.omi_omit_by_inno_cb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR.html">pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_enkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_enkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global_nondiagR.html">pyPDAF.PDAF.omi_assimilate_global_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR.html">pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_en3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lknetf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lknetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lnetf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lnetf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_set_indices.html">pyPDAF.PDAF.local_set_indices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_set_increment_weights.html">pyPDAF.PDAF.local_set_increment_weights</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_clear_increment_weights.html">pyPDAF.PDAF.local_clear_increment_weights</a></li>

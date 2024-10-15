@@ -38,13 +38,22 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAF.assimilate_prepost">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_prepost</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.assimilate_prepost" title="Link to this definition">¶</a></dt>
-<dd><p>This function does not perform any DA. It is used to perform a preprocess and postprocess of the ensemble. Compared to <cite>pyPDAF.PDAF.prepost</cite>, this function sets assimilation flag.
-The function is a combination of <cite>pyPDAF.PDAF.put_state_prepost</cite> and <cite>pyPDAF.PDAF.get_state</cite>, and executes the user-supplied function in the following sequence:
-1. py__collect_state_pdaf
-2. py__prepoststep_state_pdaf (preprocess, step &lt; 0)
-3. py__prepoststep_state_pdaf (postprocess, step &gt; 0
-4. py__distribute_state_pdaf
-5. py__next_observation_pdaf</p>
+<dd><p>It is used to preprocess and postprocess of the ensemble.</p>
+<p>No DA is performed in this function.
+Compared to <a class="reference internal" href="pyPDAF.PDAF.prepost.html#pyPDAF.PDAF.prepost" title="pyPDAF.PDAF.prepost"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.prepost()</span></code></a>, this function sets assimilation flag,
+which means that it is acted as an assimilation in PDAF.</p>
+<p>The function is a combination of <a class="reference internal" href="pyPDAF.PDAF.put_state_prepost.html#pyPDAF.PDAF.put_state_prepost" title="pyPDAF.PDAF.put_state_prepost"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.put_state_prepost()</span></code></a>
+and <a class="reference internal" href="pyPDAF.PDAF.get_state.html#pyPDAF.PDAF.get_state" title="pyPDAF.PDAF.get_state"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_state()</span></code></a>.</p>
+<dl class="simple">
+<dt>This function executes the user-supplied functions in the following sequence:</dt><dd><ol class="arabic simple">
+<li><p>py__collect_state_pdaf</p></li>
+<li><p>py__prepoststep_state_pdaf (preprocess, step &lt; 0)</p></li>
+<li><p>py__prepoststep_state_pdaf (postprocess, step &gt; 0</p></li>
+<li><p>py__distribute_state_pdaf</p></li>
+<li><p>py__next_observation_pdaf</p></li>
+</ol>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -467,7 +476,19 @@ The function is a combination of <cite>pyPDAF.PDAF.put_state_prepost</cite> and 
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_localize_covar_noniso_locweights.html">pyPDAF.PDAF.omi_localize_covar_noniso_locweights</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_omit_by_inno_l_cb.html">pyPDAF.PDAF.omi_omit_by_inno_l_cb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_omit_by_inno_cb.html">pyPDAF.PDAF.omi_omit_by_inno_cb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR.html">pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_enkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_enkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global_nondiagR.html">pyPDAF.PDAF.omi_assimilate_global_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR.html">pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_en3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lknetf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lknetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lnetf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lnetf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_set_indices.html">pyPDAF.PDAF.local_set_indices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_set_increment_weights.html">pyPDAF.PDAF.local_set_increment_weights</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_clear_increment_weights.html">pyPDAF.PDAF.local_clear_increment_weights</a></li>
