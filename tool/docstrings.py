@@ -333,7 +333,7 @@ docstrings['assimilate_en3dvar_lestkf'] = "It is recommended to use :func:`pyPDA
                                           "            1. py__init_dim_l_pdaf\n    " \
                                           "            2. py__init_dim_obs_l_pdaf\n    " \
                                           "            3. py__g2l_state_pdaf\n    " \
-                                          "            4. py__g2l_obs_pdaf\n   "\
+                                          "            4. py__g2l_obs_pdaf\n    "\
                                           "               (localise mean ensemble in observation space)\n    " \
                                           "            5. py__init_obs_l_pdaf\n    "\
                                           "            6. py__g2l_obs_pdaf\n    " \
@@ -531,7 +531,7 @@ docstrings['assimilate_lknetf'] = "It is recommended to use :func:`pyPDAF.PDAF.l
                                   "        9. core DA algorithm\n    " \
                                   "        10. py__l2g_state_pdaf\n    " \
                                   "    9. py__obs_op_pdaf\n    " \
-                                  "        (only called with `HKN` and `HNK` options called for each ensemble member)\n    " \
+                                  "       (only called with `HKN` and `HNK` options called for each ensemble member)\n    " \
                                   "    10. py__likelihood_hyb_l_pda\n    " \
                                   "    11. py__init_obsvar_l_pdaf\n    " \
                                   "        (only called if local adaptive forgetting factor `type_forget=2` is used)\n    "\
@@ -602,7 +602,7 @@ docstrings['assimilate_netf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi
                                 "particle filter. This leads to an equal weights assumption for prior ensemble.\n    " \
                                 "The function should be called at each model step.\n\n    " \
                                 "The function is a combination of :func:`pyPDAF.PDAF.put_state_netf`\n    " \
-                                "and :func:`pyPDAF.PDAF.get_state`\n    "\
+                                "and :func:`pyPDAF.PDAF.get_state`.\n\n    "\
                                 "This function executes the user-supplied function in the following sequence:\n    " \
                                 "    1. py__collect_state_pdaf\n    " \
                                 "    2. py__prepoststep_state_pdaf\n    " \
@@ -633,7 +633,7 @@ docstrings['assimilate_pf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_a
                               "A review of particle filter can be found at [1]_.\n    " \
                               "The function should be called at each model step.\n\n    " \
                               "The function is a combination of :func:`pyPDAF.PDAF.put_state_pf`\n    " \
-                              "and :func:`pyPDAF.PDAF.get_state`\n    "\
+                              "and :func:`pyPDAF.PDAF.get_state`.\n\n    "\
                               "This function executes the user-supplied functions in the following sequence:\n    " \
                               "    1. py__collect_state_pdaf\n    " \
                               "    2. py__prepoststep_state_pdaf\n    " \
@@ -662,7 +662,7 @@ docstrings['assimilate_seek'] = "It is recommended to use :func:`pyPDAF.PDAF.omi
                                 "This is a deterministic Kalman filter.\n    " \
                                 "The function should be called at each model step.\n\n    " \
                                 "The function is a combination of :func:`pyPDAF.PDAF.put_state_seek`\n    " \
-                                "and :func:`pyPDAF.PDAF.get_state`\n    "\
+                                "and :func:`pyPDAF.PDAF.get_state`.\n\n    "\
                                 "This function executes the user-supplied functions in the following sequence:\n    " \
                                 "    1. py__collect_state_pdaf\n    " \
                                 "    2. py__prepoststep_state_pdaf\n    " \
@@ -688,10 +688,10 @@ docstrings['assimilate_seek'] = "It is recommended to use :func:`pyPDAF.PDAF.omi
 docstrings['assimilate_seik'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`\n    "\
                                 "or :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`.\n\n    "\
                                 "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
-                                "This function will use singular evolutive interpolated Kalman filter for a single DA step.\n    " \
+                                "This function will use singular evolutive interpolated Kalman filter [1]_ for a single DA step.\n    " \
                                 "The function should be called at each model step.\n\n    " \
                                 "The function is a combination of :func:`pyPDAF.PDAF.put_state_seik`\n    " \
-                                "and :func:`pyPDAF.PDAF.get_state`\n    "\
+                                "and :func:`pyPDAF.PDAF.get_state`.\n\n    "\
                                 "The function executes the user-supplied functions in the following sequence:\n    " \
                                 "    1. py__collect_state_pdaf\n    " \
                                 "    2. py__prepoststep_state_pdaf\n    " \
@@ -720,11 +720,11 @@ docstrings['assimilate_prepost'] = "It is used to preprocess and postprocess of 
                                    "Compared to :func:`pyPDAF.PDAF.prepost`, this function sets assimilation flag, \n    " \
                                    "which means that it is acted as an assimilation in PDAF.\n\n    " \
                                    "The function is a combination of :func:`pyPDAF.PDAF.put_state_prepost`\n    " \
-                                   "and :func:`pyPDAF.PDAF.get_state`\n    "\
+                                   "and :func:`pyPDAF.PDAF.get_state`.\n\n    "\
                                    "This function executes the user-supplied functions in the following sequence: \n    " \
                                    "    1. py__collect_state_pdaf\n    " \
                                    "    2. py__prepoststep_state_pdaf (preprocess, step < 0)\n    " \
-                                   "    3. py__prepoststep_state_pdaf (postprocess, step > 0\n    " \
+                                   "    3. py__prepoststep_state_pdaf (postprocess, step > 0)\n    " \
                                    "    4. py__distribute_state_pdaf\n    " \
                                    "    5. py__next_observation_pdaf"
 docstrings['generate_obs'] = "Generation of synthetic observations based on given error statistics and observation operator.\n\n    " \
@@ -737,7 +737,7 @@ docstrings['generate_obs'] = "Generation of synthetic observations based on give
                              "The implementation strategy is similar to an assimilation step. This means that, \n    " \
                              "one can reuse many user-supplied functions for assimilation and observation generation.\n\n    " \
                              "The function is a combination of :func:`pyPDAF.PDAF.put_state_generate_obs`\n    " \
-                             "and :func:`pyPDAF.PDAF.get_state`.\n    "\
+                             "and :func:`pyPDAF.PDAF.get_state`.\n\n    "\
                              "This function executes the user-supplied function in the following sequence:\n    " \
                              "    1. py__collect_state_pdaf\n    " \
                              "    2. py__prepoststep_state_pdaf\n    " \

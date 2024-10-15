@@ -159,7 +159,19 @@ API
    pyPDAF.PDAF.omi_localize_covar_noniso_locweights
    pyPDAF.PDAF.omi_omit_by_inno_l_cb
    pyPDAF.PDAF.omi_omit_by_inno_cb
+   pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR
+   pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR
+   pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR
+   pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR
+   pyPDAF.PDAF.omi_assimilate_enkf_nondiagR
    pyPDAF.PDAF.omi_assimilate_global_nondiagR
+   pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR
+   pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR
+   pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR
+   pyPDAF.PDAF.omi_put_state_en3dvar_lestkf_nondiagR
+   pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf_nondiagR
+   pyPDAF.PDAF.omi_put_state_lknetf_nondiagR
+   pyPDAF.PDAF.omi_put_state_lnetf_nondiagR
    pyPDAF.PDAF.local_set_indices
    pyPDAF.PDAF.local_set_increment_weights
    pyPDAF.PDAF.local_clear_increment_weights
