@@ -12,6 +12,7 @@
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="pyPDAF.PDAF.gather_dim_obs_f" href="pyPDAF.PDAF.gather_dim_obs_f.html" />
@@ -38,12 +39,12 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAF.eofcovar">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">eofcovar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.eofcovar" title="Link to this definition">¶</a></dt>
-<dd><p>EOF analysis of a state vectors at multiple time steps by singular value decomposition.</p>
+<dd><p>EOF analysis of an ensemble of state vectors by singular value decomposition.</p>
 <p>Typically, this function is used with <code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.sampleens()</span></code>
 to generate an ensemble of a chosen size
 (up to the number of EOFs plus one).</p>
 <p>Here, the function performs a singular value decomposition of the ensemble anomaly of the input matrix,
-which is an ensemble formed by state vectors at multiple time steps.
+which is usually an ensemble formed by state vectors at multiple time steps.
 The singular values and corresponding singular vectors can be used to
 construct an error covariance matrix.
 This can be used as the initial error covariance for the initial ensemble.</p>
@@ -54,25 +55,83 @@ might want to use to have the flexibility to cary the ensemble size.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dim_fields</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>nfields</em><em>]</em><em>, </em><em>np.intc</em><em>]</em>) – Size of each field, only used when <cite>do_mv = 1</cite>. Each field could be 2D or 3D so can have different sizes.</p></li>
-<li><p><strong>offsets</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>nfields</em><em>]</em><em>, </em><em>np.intc</em><em>]</em>) – Start position of each field.
-This variable is used only used when <cite>do_mv = 1</cite>.
-For example, if the state vector contains temperature and humidity, this array specifies the starting index of the two physical fields.
-The offset values start from 1.</p></li>
-<li><p><strong>remove_mstate</strong> (<em>int</em>) – Subtract mean state from states (average over nstates dimension) before computing EOFs (<cite>remove_mstate = 1</cite>) or don’t remove (<cite>remove_mstate = 0</cite>)</p></li>
-<li><p><strong>do_mv</strong> (<em>int</em>) – Do multivariate scaling (<cite>do_mv = 1</cite>) or no scaling (<cite>do_mv = 0</cite>). Variable <cite>nfields</cite>, <cite>dim_fields</cite> and <cite>offsets</cite> are only used if <cite>do_mv=1</cite>.</p></li>
-<li><p><strong>states</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_state</em><em>, </em><em>nstates</em><em>]</em><em>, </em><em>np.float64</em><em>]</em>) – State perturbations or an ensemble of state vectors</p></li>
-<li><p><strong>meanstate</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_state</em><em>]</em><em>, </em><em>np.float64</em><em>]</em>) – Mean state (only changed if <cite>remove_mstate=1</cite>)</p></li>
+<li><p><strong>dim_fields</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>nfields</em><em>]</em><em>, </em><em>np.intc</em><em>]</em>) – <p>Size of each model field. This argument is effective only when <cite>do_mv = 1</cite>.
+Each model field, e.g., sea surface temperature, or 3D sea salinity,
+can be 2D or 3D with different number of grid points. Each element
+of the array specifies the size of each model field.</p>
+<p>The array dimension <cite>nfields</cite> is the number of model fields in state vector.
+For example, if the state vector contains temperature and humidity,
+<cite>nfields=2</cite>. This variable is effective only when <cite>do_mv = 1</cite>.</p>
+</p></li>
+<li><p><strong>offsets</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>nfields</em><em>]</em><em>, </em><em>np.intc</em><em>]</em>) – <p>Starting position of each field.
+This variable is effective only when <cite>do_mv = 1</cite>.
+For example, if the state vector contains temperature and humidity,
+this array specifies the first index of the physical field in the state vector.
+Following Fortran notation, the offset values start from 1.</p>
+<p>The array dimension <cite>nfields</cite> is the number of model fields in state vector.
+For example, if the state vector contains temperature and humidity,
+<cite>nfields=2</cite>. This variable is effective only when <cite>do_mv = 1</cite>.</p>
+</p></li>
+<li><p><strong>remove_mstate</strong> (<em>int</em>) – <p>Switch for only computing EOF of the ensemble anomaly.</p>
+<dl class="simple">
+<dt>This option can be used if <cite>states</cite> are not centred on 0, i.e., anomaly values.</dt><dd><ol class="arabic simple" start="0">
+<li><p>do nothing</p></li>
+<li><p>remove the mean of <cite>states</cite> over <cite>nstates</cite> dimension
+before EOF computation</p></li>
+</ol>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>do_mv</strong> (<em>int</em>) – <dl class="simple">
+<dt>Switch for multivariate scaling</dt><dd><ol class="arabic simple" start="0">
+<li><p>do nothing</p></li>
+<li><p>Each model field are scaled by its standard deviation
+such that each model field has unit standard deviation.
+This option makes use of <cite>nfields</cite>, <cite>dim_fields</cite> and <cite>offsets</cite> arguments.</p></li>
+</ol>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>states</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_state</em><em>, </em><em>nstates</em><em>]</em><em>, </em><em>np.float64</em><em>]</em>) – <p>An ensemble of state vectors.
+This argument should ideally be the anomalies of an ensemble,
+and each member is from a different model time.
+However, one can set <cite>remove_mstate = 1</cite> if this is not an ensemble anomaly.</p>
+<p>The 1st-th dimension dim_state is the dimension of state vector.
+The 2nd-th dimension nstates is the number of state vectors, typically number of different time steps, or number of ensemble members.</p>
+</p></li>
+<li><p><strong>meanstate</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_state</em><em>]</em><em>, </em><em>np.float64</em><em>]</em>) – <p>Mean state
+The returned value equlas to the input unless <cite>remove_mstate=1</cite></p>
+<p>The array dimension <cite>dim_state</cite> is the dimension of state vector.</p>
+</p></li>
 <li><p><strong>verbose</strong> (<em>int</em>) – Verbosity flag</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>states</strong> (<em>ndarray[tuple[dim_state, nstates], np.float64]</em>) – State perturbations or an ensemble of state vectors</p></li>
-<li><p><strong>stddev</strong> (<em>ndarray[tuple[nfields], np.float64]</em>) – Standard deviation of field variability. Without multivariate scaling (<cite>do_mv=0</cite>), it is <cite>stddev = 1.0</cite>.</p></li>
-<li><p><strong>svals</strong> (<em>ndarray[tuple[nstates], np.float64]</em>) – Singular values scaled by <cite>1/sqrt(nstates-1)</cite>.</p></li>
-<li><p><strong>svec</strong> (<em>ndarray[tuple[dim_state, nstates], np.float64]</em>) – Singular vectors</p></li>
-<li><p><strong>meanstate</strong> (<em>ndarray[tuple[dim_state], np.float64]</em>) – Mean state (only changed if <cite>remove_mstate=1</cite>)</p></li>
+<dd class="field-even"><p><ul>
+<li><p><strong>states</strong> (<em>ndarray[tuple[dim_state, nstates], np.float64]</em>) – An ensemble of state vectors.
+This argument should ideally be the anomalies of an ensemble,
+and each member is from a different model time.
+However, one can set <cite>remove_mstate = 1</cite> if this is not an ensemble anomaly.</p>
+<p>The 1st-th dimension dim_state is the dimension of state vector.
+The 2nd-th dimension nstates is the number of state vectors, typically number of different time steps, or number of ensemble members.</p>
+</li>
+<li><p><strong>stddev</strong> (<em>ndarray[tuple[nfields], np.float64]</em>) – Standard deviation of each model field in <cite>states</cite>.
+If <cite>do_mv = 1</cite>, stddev should be <cite>1.0</cite>.</p>
+<p>The array dimension <cite>nfields</cite> is the number of model fields in state vector.
+For example, if the state vector contains temperature and humidity,
+<cite>nfields=2</cite>. This variable is effective only when <cite>do_mv = 1</cite>.</p>
+</li>
+<li><p><strong>svals</strong> (<em>ndarray[tuple[nstates], np.float64]</em>) – Singular values of <cite>states</cite> scaled by <span class="math notranslate nohighlight">\(\frac{1}{\sqrt(nstates-1)}\)</span>.</p>
+<p>The array dimension <cite>nstates</cite> is the number of state vectors, typically number of different time steps, or number of ensemble members.</p>
+</li>
+<li><p><strong>svec</strong> (<em>ndarray[tuple[dim_state, nstates], np.float64]</em>) – Singular vectors of <cite>states</cite></p>
+<p>The 1st-th dimension dim_state is the dimension of state vector.
+The 2nd-th dimension nstates is the number of state vectors, typically number of different time steps, or number of ensemble members.</p>
+</li>
+<li><p><strong>meanstate</strong> (<em>ndarray[tuple[dim_state], np.float64]</em>) – Mean state
+The returned value equlas to the input unless <cite>remove_mstate=1</cite></p>
+<p>The array dimension <cite>dim_state</cite> is the dimension of state vector.</p>
+</li>
 <li><p><strong>status</strong> (<em>int</em>) – Status flag</p></li>
 </ul>
 </p>
@@ -126,22 +185,43 @@ The offset values start from 1.</p></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_3dvar.html">pyPDAF.PDAF.assimilate_3dvar</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_en3dvar_estkf.html">pyPDAF.PDAF.assimilate_en3dvar_estkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_en3dvar_lestkf.html">pyPDAF.PDAF.assimilate_en3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_hyb3dvar_estkf.html">pyPDAF.PDAF.assimilate_hyb3dvar_estkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.assimilate_hyb3dvar_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_enkf.html">pyPDAF.PDAF.assimilate_enkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_estkf.html">pyPDAF.PDAF.assimilate_estkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_etkf.html">pyPDAF.PDAF.assimilate_etkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_hyb3dvar_estkf.html">pyPDAF.PDAF.assimilate_hyb3dvar_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.assimilate_hyb3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_seek.html">pyPDAF.PDAF.assimilate_seek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_seik.html">pyPDAF.PDAF.assimilate_seik</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_netf.html">pyPDAF.PDAF.assimilate_netf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_pf.html">pyPDAF.PDAF.assimilate_pf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lenkf.html">pyPDAF.PDAF.assimilate_lenkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lestkf.html">pyPDAF.PDAF.assimilate_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_letkf.html">pyPDAF.PDAF.assimilate_letkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lseik.html">pyPDAF.PDAF.assimilate_lseik</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lnetf.html">pyPDAF.PDAF.assimilate_lnetf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lknetf.html">pyPDAF.PDAF.assimilate_lknetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lseik.html">pyPDAF.PDAF.assimilate_lseik</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_netf.html">pyPDAF.PDAF.assimilate_netf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_pf.html">pyPDAF.PDAF.assimilate_pf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_seek.html">pyPDAF.PDAF.assimilate_seek</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_seik.html">pyPDAF.PDAF.assimilate_seik</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_prepost.html">pyPDAF.PDAF.assimilate_prepost</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.generate_obs.html">pyPDAF.PDAF.generate_obs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_3dvar.html">pyPDAF.PDAF.put_state_3dvar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_en3dvar_estkf.html">pyPDAF.PDAF.put_state_en3dvar_estkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_en3dvar_lestkf.html">pyPDAF.PDAF.put_state_en3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_hyb3dvar_estkf.html">pyPDAF.PDAF.put_state_hyb3dvar_estkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.put_state_hyb3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_enkf.html">pyPDAF.PDAF.put_state_enkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_estkf.html">pyPDAF.PDAF.put_state_estkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_etkf.html">pyPDAF.PDAF.put_state_etkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_seek.html">pyPDAF.PDAF.put_state_seek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_seik.html">pyPDAF.PDAF.put_state_seik</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_netf.html">pyPDAF.PDAF.put_state_netf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_pf.html">pyPDAF.PDAF.put_state_pf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lenkf.html">pyPDAF.PDAF.put_state_lenkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lestkf.html">pyPDAF.PDAF.put_state_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_letkf.html">pyPDAF.PDAF.put_state_letkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lseik.html">pyPDAF.PDAF.put_state_lseik</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lnetf.html">pyPDAF.PDAF.put_state_lnetf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lknetf.html">pyPDAF.PDAF.put_state_lknetf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_prepost.html">pyPDAF.PDAF.put_state_prepost</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_generate_obs.html">pyPDAF.PDAF.put_state_generate_obs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.deallocate.html">pyPDAF.PDAF.deallocate</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.diag_effsample.html">pyPDAF.PDAF.diag_effsample</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.diag_ensstats.html">pyPDAF.PDAF.diag_ensstats</a></li>
@@ -153,7 +233,6 @@ The offset values start from 1.</p></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.gather_dim_obs_f.html">pyPDAF.PDAF.gather_dim_obs_f</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.gather_obs_f.html">pyPDAF.PDAF.gather_obs_f</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.gather_obs_f2.html">pyPDAF.PDAF.gather_obs_f2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.generate_obs.html">pyPDAF.PDAF.generate_obs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.get_assim_flag.html">pyPDAF.PDAF.get_assim_flag</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.get_ensstats.html">pyPDAF.PDAF.get_ensstats</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.get_localfilter.html">pyPDAF.PDAF.get_localfilter</a></li>
@@ -164,26 +243,6 @@ The offset values start from 1.</p></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.init.html">pyPDAF.PDAF.init</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_weight.html">pyPDAF.PDAF.local_weight</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.print_info.html">pyPDAF.PDAF.print_info</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_3dvar.html">pyPDAF.PDAF.put_state_3dvar</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_en3dvar_estkf.html">pyPDAF.PDAF.put_state_en3dvar_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_en3dvar_lestkf.html">pyPDAF.PDAF.put_state_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_enkf.html">pyPDAF.PDAF.put_state_enkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_estkf.html">pyPDAF.PDAF.put_state_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_etkf.html">pyPDAF.PDAF.put_state_etkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_generate_obs.html">pyPDAF.PDAF.put_state_generate_obs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_hyb3dvar_estkf.html">pyPDAF.PDAF.put_state_hyb3dvar_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.put_state_hyb3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lenkf.html">pyPDAF.PDAF.put_state_lenkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lestkf.html">pyPDAF.PDAF.put_state_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_letkf.html">pyPDAF.PDAF.put_state_letkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lnetf.html">pyPDAF.PDAF.put_state_lnetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lknetf.html">pyPDAF.PDAF.put_state_lknetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lseik.html">pyPDAF.PDAF.put_state_lseik</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_netf.html">pyPDAF.PDAF.put_state_netf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_pf.html">pyPDAF.PDAF.put_state_pf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_prepost.html">pyPDAF.PDAF.put_state_prepost</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_seek.html">pyPDAF.PDAF.put_state_seek</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_seik.html">pyPDAF.PDAF.put_state_seik</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.reset_forget.html">pyPDAF.PDAF.reset_forget</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.SampleEns.html">pyPDAF.PDAF.SampleEns</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.set_debug_flag.html">pyPDAF.PDAF.set_debug_flag</a></li>
@@ -238,21 +297,21 @@ The offset values start from 1.</p></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_3dvar.html">pyPDAF.PDAF.omi_assimilate_3dvar</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_estkf.html">pyPDAF.PDAF.omi_assimilate_en3dvar_estkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf.html">pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global.html">pyPDAF.PDAF.omi_assimilate_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global.html">pyPDAF.PDAF.omi_assimilate_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lenkf.html">pyPDAF.PDAF.omi_assimilate_lenkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_local.html">pyPDAF.PDAF.omi_assimilate_local</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_generate_obs.html">pyPDAF.PDAF.omi_generate_obs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_3dvar.html">pyPDAF.PDAF.omi_put_state_3dvar</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_en3dvar_estkf.html">pyPDAF.PDAF.omi_put_state_en3dvar_estkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_en3dvar_lestkf.html">pyPDAF.PDAF.omi_put_state_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_generate_obs.html">pyPDAF.PDAF.omi_put_state_generate_obs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_global.html">pyPDAF.PDAF.omi_put_state_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf.html">pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_global.html">pyPDAF.PDAF.omi_put_state_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lenkf.html">pyPDAF.PDAF.omi_put_state_lenkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_local.html">pyPDAF.PDAF.omi_put_state_local</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_generate_obs.html">pyPDAF.PDAF.omi_put_state_generate_obs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_init_obs_f_cb.html">pyPDAF.PDAF.omi_init_obs_f_cb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_init_obsvar_cb.html">pyPDAF.PDAF.omi_init_obsvar_cb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_g2l_obs_cb.html">pyPDAF.PDAF.omi_g2l_obs_cb</a></li>
@@ -283,52 +342,61 @@ The offset values start from 1.</p></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_omit_by_inno_cb.html">pyPDAF.PDAF.omi_omit_by_inno_cb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR.html">pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_enkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_enkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global_nondiagR.html">pyPDAF.PDAF.omi_assimilate_global_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR.html">pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lnetf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_lnetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lknetf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_lknetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_3dvar_nondiagR.html">pyPDAF.PDAF.omi_put_state_3dvar_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_en3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_en3dvar_estkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_en3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lknetf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lknetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_enkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_enkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_global_nondiagR.html">pyPDAF.PDAF.omi_put_state_global_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_nonlin_nondiagR.html">pyPDAF.PDAF.omi_put_state_nonlin_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lenkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lenkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lnetf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lnetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lknetf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lknetf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_set_indices.html">pyPDAF.PDAF.local_set_indices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_set_increment_weights.html">pyPDAF.PDAF.local_set_increment_weights</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_clear_increment_weights.html">pyPDAF.PDAF.local_clear_increment_weights</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_g2l_cb.html">pyPDAF.PDAF.local_g2l_cb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_l2g_cb.html">pyPDAF.PDAF.local_l2g_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate.html">pyPDAF.PDAF.localomi_assimilate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf.html">pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state.html">pyPDAF.PDAF.localomi_put_state</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf.html">pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_nondiagR.html">pyPDAF.PDAF.localomi_put_state_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_en3dvar_lestkf.html">pyPDAF.PDAF.local_assimilate_en3dvar_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.local_assimilate_hyb3dvar_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lestkf.html">pyPDAF.PDAF.local_assimilate_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_letkf.html">pyPDAF.PDAF.local_assimilate_letkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lknetf.html">pyPDAF.PDAF.local_assimilate_lknetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lnetf.html">pyPDAF.PDAF.local_assimilate_lnetf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lseik.html">pyPDAF.PDAF.local_assimilate_lseik</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lnetf.html">pyPDAF.PDAF.local_assimilate_lnetf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lknetf.html">pyPDAF.PDAF.local_assimilate_lknetf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_en3dvar_lestkf.html">pyPDAF.PDAF.local_put_state_en3dvar_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.local_put_state_hyb3dvar_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lestkf.html">pyPDAF.PDAF.local_put_state_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_letkf.html">pyPDAF.PDAF.local_put_state_letkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lknetf.html">pyPDAF.PDAF.local_put_state_lknetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lnetf.html">pyPDAF.PDAF.local_put_state_lnetf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lseik.html">pyPDAF.PDAF.local_put_state_lseik</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lnetf.html">pyPDAF.PDAF.local_put_state_lnetf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lknetf.html">pyPDAF.PDAF.local_put_state_lknetf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf.html">pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate.html">pyPDAF.PDAF.localomi_assimilate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf.html">pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state.html">pyPDAF.PDAF.localomi_put_state</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_nondiagR.html">pyPDAF.PDAF.localomi_put_state_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR</a></li>
 </ul>
 </li>
 </ul>

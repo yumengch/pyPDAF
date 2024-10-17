@@ -14,7 +14,7 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pyPDAF.PDAF.local_assimilate_lknetf" href="pyPDAF.PDAF.local_assimilate_lknetf.html" />
+    <link rel="next" title="pyPDAF.PDAF.local_assimilate_lseik" href="pyPDAF.PDAF.local_assimilate_lseik.html" />
     <link rel="prev" title="pyPDAF.PDAF.local_assimilate_lestkf" href="pyPDAF.PDAF.local_assimilate_lestkf.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -64,712 +64,749 @@ loop over each local domain:
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>py__collect_state_pdaf</strong> (<em>Callable</em><em>[</em><em>dim_p:int</em><em>, </em><em>state_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>]</em>) – <p>Routine to collect a state vector</p>
-<p><strong>Callback Parameters</strong></p>
-<ul>
-<li><p><strong>dim_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<dl class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>dim_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>pe-local state dimension</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>state_p</strong> : ndarray[tuple[dim_p], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>state_p</strong><span class="classifier">ndarray[tuple[dim_p], np.float64]</span></dt><dd><ul>
 <li><p>local state vector</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
-<p><strong>Callback Returns</strong></p>
-<ul>
-<li><p><strong>state_p</strong> : ndarray[tuple[dim_p], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+</dd>
+<dt><strong>Callback Returns</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>state_p</strong><span class="classifier">ndarray[tuple[dim_p], np.float64]</span></dt><dd><ul>
 <li><p>local state vector</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
+</dd>
+</dl>
 </p></li>
 <li><p><strong>py__distribute_state_pdaf</strong> (<em>Callable</em><em>[</em><em>dim_p:int</em><em>, </em><em>state_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>]</em>) – <p>Routine to distribute a state vector</p>
-<p><strong>Callback Parameters</strong></p>
-<ul>
-<li><p><strong>dim_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<dl class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>dim_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>pe-local state dimension</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>state_p</strong> : ndarray[tuple[dim_p], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>state_p</strong><span class="classifier">ndarray[tuple[dim_p], np.float64]</span></dt><dd><ul>
 <li><p>local state vector</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
-<p><strong>Callback Returns</strong></p>
-<ul>
-<li><p><strong>state_p</strong> : ndarray[tuple[dim_p], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+</dd>
+<dt><strong>Callback Returns</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>state_p</strong><span class="classifier">ndarray[tuple[dim_p], np.float64]</span></dt><dd><ul>
 <li><p>local state vector</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
+</dd>
+</dl>
 </p></li>
 <li><p><strong>py__init_dim_obs_pdaf</strong> (<em>Callable</em><em>[</em><em>step:int</em><em>, </em><em>dim_obs_p:int</em><em>]</em>) – <p>Initialize dimension of observation vector</p>
-<p><strong>Callback Parameters</strong></p>
-<ul>
-<li><p><strong>step</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<dl class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>step</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>current time step</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_obs_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_obs_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>dimension of observation vector</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
-<p><strong>Callback Returns</strong></p>
-<ul>
-<li><p><strong>dim_obs_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+</dd>
+<dt><strong>Callback Returns</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>dim_obs_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>dimension of observation vector</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
+</dd>
+</dl>
 </p></li>
 <li><p><strong>py__obs_op_pdaf</strong> (<em>Callable</em><em>[</em><em>step:int</em><em>, </em><em>dim_p:int</em><em>, </em><em>dim_obs_p:int</em><em>, </em><em>state_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>m_state_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>]</em>) – <p>Observation operator</p>
-<p><strong>Callback Parameters</strong></p>
-<ul>
-<li><p><strong>step</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<dl class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>step</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Current time step</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Size of state vector (local part in case of parallel decomposed state)</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_obs_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_obs_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Size of observation vector</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>state_p</strong> : ndarray[tuple[dim_p], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>state_p</strong><span class="classifier">ndarray[tuple[dim_p], np.float64]</span></dt><dd><ul>
 <li><p>Model state vector</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>m_state_p</strong> : ndarray[tuple[dim_obs_p], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>m_state_p</strong><span class="classifier">ndarray[tuple[dim_obs_p], np.float64]</span></dt><dd><ul>
 <li><p>Observed state vector (i.e. the result after applying the observation operator to state_p)</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
-<p><strong>Callback Returns</strong></p>
-<ul>
-<li><p><strong>m_state_p</strong> : ndarray[tuple[dim_obs_p], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+</dd>
+<dt><strong>Callback Returns</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>m_state_p</strong><span class="classifier">ndarray[tuple[dim_obs_p], np.float64]</span></dt><dd><ul>
 <li><p>Observed state vector (i.e. the result after applying the observation operator to state_p)</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
+</dd>
+</dl>
 </p></li>
 <li><p><strong>py__init_obs_pdaf</strong> (<em>Callable</em><em>[</em><em>step:int</em><em>, </em><em>dim_obs_p:int</em><em>, </em><em>observation_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>]</em>) – <p>Initialize PE-local observation vector</p>
-<p><strong>Callback Parameters</strong></p>
-<ul>
-<li><p><strong>step</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<dl class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>step</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Current time step</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_obs_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_obs_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Size of the observation vector</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>observation_p</strong> : ndarray[tuple[dim_obs_p], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>observation_p</strong><span class="classifier">ndarray[tuple[dim_obs_p], np.float64]</span></dt><dd><ul>
 <li><p>Vector of observations</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
-<p><strong>Callback Returns</strong></p>
-<ul>
-<li><p><strong>observation_p</strong> : ndarray[tuple[dim_obs_p], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+</dd>
+<dt><strong>Callback Returns</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>observation_p</strong><span class="classifier">ndarray[tuple[dim_obs_p], np.float64]</span></dt><dd><ul>
 <li><p>Vector of observations</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
+</dd>
+</dl>
 </p></li>
 <li><p><strong>py__init_obs_l_pdaf</strong> (<em>Callable</em><em>[</em><em>domain_p:int</em><em>, </em><em>step:int</em><em>, </em><em>dim_obs_l:int</em><em>, </em><em>observation_l : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_l</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>]</em>) – <p>Init. observation vector on local analysis domain</p>
-<p><strong>Callback Parameters</strong></p>
-<ul>
-<li><p><strong>domain_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<dl class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>domain_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Index of current local analysis domain</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>step</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>step</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Current time step</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_obs_l</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_obs_l</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Local size of the observation vector</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>observation_l</strong> : ndarray[tuple[dim_obs_l], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>observation_l</strong><span class="classifier">ndarray[tuple[dim_obs_l], np.float64]</span></dt><dd><ul>
 <li><p>Local vector of observations</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
-<p><strong>Callback Returns</strong></p>
-<ul>
-<li><p><strong>observation_l</strong> : ndarray[tuple[dim_obs_l], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+</dd>
+<dt><strong>Callback Returns</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>observation_l</strong><span class="classifier">ndarray[tuple[dim_obs_l], np.float64]</span></dt><dd><ul>
 <li><p>Local vector of observations</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
+</dd>
+</dl>
 </p></li>
 <li><p><strong>py__prepoststep_pdaf</strong> (<em>Callable</em><em>[</em><em>step:int</em><em>, </em><em>dim_p:int</em><em>, </em><em>dim_ens:int</em><em>, </em><em>dim_ens_p:int</em><em>, </em><em>dim_obs_p:int</em><em>, </em><em>state_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>uinv : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_ens-1</em><em>, </em><em>dim_ens-1</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>ens_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_p</em><em>, </em><em>dim_ens</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>flag:int</em><em>]</em>) – <p>User supplied pre/poststep routine</p>
-<p><strong>Callback Parameters</strong></p>
-<ul>
-<li><p><strong>step</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<dl class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>step</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>current time step (negative for call after forecast)</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>pe-local state dimension</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_ens</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_ens</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>size of state ensemble</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_ens_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_ens_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>pe-local size of ensemble</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_obs_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_obs_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>pe-local dimension of observation vector</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>state_p</strong> : ndarray[tuple[dim_p], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>pe-local forecast/analysis state (the array ‘state_p’ is not generally not initialized in the case of seik. it can be used freely here.)</p></li>
+<li><dl class="simple">
+<dt><strong>state_p</strong><span class="classifier">ndarray[tuple[dim_p], np.float64]</span></dt><dd><ul>
+<li><p>pe-local forecast/analysis state
+(the array ‘state_p’ is not generally not
+initialized in the case of seik.
+it can be used freely here.)</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>uinv</strong> : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>uinv</strong><span class="classifier">ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]</span></dt><dd><ul>
 <li><p>inverse of matrix u</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>ens_p</strong> : ndarray[tuple[dim_p, dim_ens], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>ens_p</strong><span class="classifier">ndarray[tuple[dim_p, dim_ens], np.float64]</span></dt><dd><ul>
 <li><p>pe-local state ensemble</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>flag</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>flag</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>pdaf status flag</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
-<p><strong>Callback Returns</strong></p>
-<ul>
-<li><p><strong>state_p</strong> : ndarray[tuple[dim_p], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>pe-local forecast/analysis state (the array ‘state_p’ is not generally not initialized in the case of seik. it can be used freely here.)</p></li>
+</dd>
+<dt><strong>Callback Returns</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>state_p</strong><span class="classifier">ndarray[tuple[dim_p], np.float64]</span></dt><dd><ul>
+<li><p>pe-local forecast/analysis state
+(the array ‘state_p’ is not generally not
+initialized in the case of seik.
+it can be used freely here.)</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>uinv</strong> : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>uinv</strong><span class="classifier">ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]</span></dt><dd><ul>
 <li><p>inverse of matrix u</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>ens_p</strong> : ndarray[tuple[dim_p, dim_ens], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>ens_p</strong><span class="classifier">ndarray[tuple[dim_p, dim_ens], np.float64]</span></dt><dd><ul>
 <li><p>pe-local state ensemble</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
+</dd>
+</dl>
 </p></li>
 <li><p><strong>py__prodRinvA_l_pdaf</strong> (<em>Callable</em><em>[</em><em>domain_p:int</em><em>, </em><em>step:int</em><em>, </em><em>dim_obs_l:int</em><em>, </em><em>rank:int</em><em>, </em><em>obs_l : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_l</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>A_l : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_l</em><em>, </em><em>rank</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>C_l : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_l</em><em>, </em><em>rank</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>]</em>) – <p>Provide product R^-1 A on local analysis domain</p>
-<p><strong>Callback Parameters</strong></p>
-<ul>
-<li><p><strong>domain_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<dl class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>domain_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Index of current local analysis domain</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>step</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>step</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Current time step</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_obs_l</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_obs_l</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Number of local observations at current time step (i.e. the size of the local observation vector)</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>rank</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)</p></li>
+<li><dl class="simple">
+<dt><strong>rank</strong><span class="classifier">int</span></dt><dd><ul>
+<li><p>Number of the columns in the matrix processes here.
+This is usually the ensemble size minus one (or the rank of the initial covariance matrix)</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>obs_l</strong> : ndarray[tuple[dim_obs_l], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>obs_l</strong><span class="classifier">ndarray[tuple[dim_obs_l], np.float64]</span></dt><dd><ul>
 <li><p>Local vector of observations</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>A_l</strong> : ndarray[tuple[dim_obs_l, rank], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>A_l</strong><span class="classifier">ndarray[tuple[dim_obs_l, rank], np.float64]</span></dt><dd><ul>
 <li><p>Input matrix provided by PDAF</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>C_l</strong> : ndarray[tuple[dim_obs_l, rank], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>C_l</strong><span class="classifier">ndarray[tuple[dim_obs_l, rank], np.float64]</span></dt><dd><ul>
 <li><p>Output matrix</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
-<p><strong>Callback Returns</strong></p>
-<ul>
-<li><p><strong>C_l</strong> : ndarray[tuple[dim_obs_l, rank], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+</dd>
+<dt><strong>Callback Returns</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>C_l</strong><span class="classifier">ndarray[tuple[dim_obs_l, rank], np.float64]</span></dt><dd><ul>
 <li><p>Output matrix</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
+</dd>
+</dl>
 </p></li>
 <li><p><strong>py__init_n_domains_p_pdaf</strong> (<em>Callable</em><em>[</em><em>step:int</em><em>, </em><em>n_domains_p:int</em><em>]</em>) – <p>Provide number of local analysis domains</p>
-<p><strong>Callback Parameters</strong></p>
-<ul>
-<li><p><strong>step</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<dl class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>step</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>current time step</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>n_domains_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>n_domains_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>pe-local number of analysis domains</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
-<p><strong>Callback Returns</strong></p>
-<ul>
-<li><p><strong>n_domains_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+</dd>
+<dt><strong>Callback Returns</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>n_domains_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>pe-local number of analysis domains</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
+</dd>
+</dl>
 </p></li>
 <li><p><strong>py__init_dim_l_pdaf</strong> (<em>Callable</em><em>[</em><em>step:int</em><em>, </em><em>domain_p:int</em><em>, </em><em>dim_l:int</em><em>]</em>) – <p>Init state dimension for local ana. domain</p>
-<p><strong>Callback Parameters</strong></p>
-<ul>
-<li><p><strong>step</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<dl class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>step</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>current time step</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>domain_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>domain_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>current local analysis domain</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_l</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_l</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>local state dimension</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
-<p><strong>Callback Returns</strong></p>
-<ul>
-<li><p><strong>dim_l</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+</dd>
+<dt><strong>Callback Returns</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>dim_l</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>local state dimension</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
+</dd>
+</dl>
 </p></li>
 <li><p><strong>py__init_dim_obs_l_pdaf</strong> (<em>Callable</em><em>[</em><em>domain_p:int</em><em>, </em><em>step:int</em><em>, </em><em>dim_obs_f:int</em><em>, </em><em>dim_obs_l:int</em><em>]</em>) – <p>Initialize dim. of obs. vector for local ana. domain</p>
-<p><strong>Callback Parameters</strong></p>
-<ul>
-<li><p><strong>domain_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<dl class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>domain_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>index of current local analysis domain</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>step</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>step</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>current time step</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_obs_f</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_obs_f</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>full dimension of observation vector</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_obs_l</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_obs_l</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>local dimension of observation vector</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
-<p><strong>Callback Returns</strong></p>
-<ul>
-<li><p><strong>dim_obs_l</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+</dd>
+<dt><strong>Callback Returns</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>dim_obs_l</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>local dimension of observation vector</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
+</dd>
+</dl>
 </p></li>
 <li><p><strong>py__g2l_obs_pdaf</strong> (<em>Callable</em><em>[</em><em>domain_p:int</em><em>, </em><em>step:int</em><em>, </em><em>dim_obs_f:int</em><em>, </em><em>dim_obs_l:int</em><em>, </em><em>mstate_f : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_p</em><em>]</em><em>, </em><em>np.intc</em><em>]</em><em>, </em><em>dim_p:int</em><em>, </em><em>mstate_l : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_l</em><em>]</em><em>, </em><em>np.intc</em><em>]</em><em>, </em><em>dim_l:int</em><em>]</em>) – <p>Restrict full obs. vector to local analysis domain</p>
-<p><strong>Callback Parameters</strong></p>
-<ul>
-<li><p><strong>domain_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<dl class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>domain_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Index of current local analysis domain</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>step</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>step</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Current time step</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_obs_f</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_obs_f</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Size of full observation vector for model sub-domain</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_obs_l</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_obs_l</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Size of observation vector for local analysis domain</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>mstate_f</strong> : ndarray[tuple[dim_p], np.intc]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>mstate_f</strong><span class="classifier">ndarray[tuple[dim_p], np.intc]</span></dt><dd><ul>
 <li><p>Full observation vector for model sub-domain</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Size of full observation vector for model sub-domain</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>mstate_l</strong> : ndarray[tuple[dim_l], np.intc]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>mstate_l</strong><span class="classifier">ndarray[tuple[dim_l], np.intc]</span></dt><dd><ul>
 <li><p>Observation vector for local analysis domain</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_l</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_l</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Size of observation vector for local analysis domain</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
-<p><strong>Callback Returns</strong></p>
-<ul>
-<li><p><strong>mstate_l</strong> : ndarray[tuple[dim_l], np.intc]</p>
-<blockquote>
-<div><ul class="simple">
+</dd>
+<dt><strong>Callback Returns</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>mstate_l</strong><span class="classifier">ndarray[tuple[dim_l], np.intc]</span></dt><dd><ul>
 <li><p>Observation vector for local analysis domain</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
+</dd>
+</dl>
 </p></li>
 <li><p><strong>py__init_obsvar_pdaf</strong> (<em>Callable</em><em>[</em><em>step:int</em><em>, </em><em>dim_obs_p:int</em><em>, </em><em>obs_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>meanvar:float</em><em>]</em>) – <p>Initialize mean observation error variance</p>
-<p><strong>Callback Parameters</strong></p>
-<ul>
-<li><p><strong>step</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<dl class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>step</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Current time step</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_obs_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_obs_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Size of observation vector</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>obs_p</strong> : ndarray[tuple[dim_obs_p], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>obs_p</strong><span class="classifier">ndarray[tuple[dim_obs_p], np.float64]</span></dt><dd><ul>
 <li><p>Vector of observations</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>meanvar</strong> : float</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>meanvar</strong><span class="classifier">float</span></dt><dd><ul>
 <li><p>Mean observation error variance</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
-<p><strong>Callback Returns</strong></p>
-<ul>
-<li><p><strong>meanvar</strong> : float</p>
-<blockquote>
-<div><ul class="simple">
+</dd>
+<dt><strong>Callback Returns</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>meanvar</strong><span class="classifier">float</span></dt><dd><ul>
 <li><p>Mean observation error variance</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
+</dd>
+</dl>
 </p></li>
 <li><p><strong>py__init_obsvar_l_pdaf</strong> (<em>Callable</em><em>[</em><em>domain_p:int</em><em>, </em><em>step:int</em><em>, </em><em>dim_obs_l:int</em><em>, </em><em>obs_l : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>dim_obs_p:int</em><em>, </em><em>meanvar_l:float</em><em>]</em>) – <p>Initialize local mean observation error variance</p>
-<p><strong>Callback Parameters</strong></p>
-<ul>
-<li><p><strong>domain_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<dl class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>domain_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Index of current local analysis domain</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>step</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>step</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Current time step</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_obs_l</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_obs_l</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Local dimension of observation vector</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>obs_l</strong> : ndarray[tuple[dim_obs_p], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>obs_l</strong><span class="classifier">ndarray[tuple[dim_obs_p], np.float64]</span></dt><dd><ul>
 <li><p>Local observation vector</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_obs_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_obs_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Dimension of local observation vector</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>meanvar_l</strong> : float</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>meanvar_l</strong><span class="classifier">float</span></dt><dd><ul>
 <li><p>Mean local observation error variance</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
-<p><strong>Callback Returns</strong></p>
-<ul>
-<li><p><strong>meanvar_l</strong> : float</p>
-<blockquote>
-<div><ul class="simple">
+</dd>
+<dt><strong>Callback Returns</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>meanvar_l</strong><span class="classifier">float</span></dt><dd><ul>
 <li><p>Mean local observation error variance</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
+</dd>
+</dl>
 </p></li>
 <li><p><strong>py__next_observation_pdaf</strong> (<em>Callable</em><em>[</em><em>stepnow:int</em><em>, </em><em>nsteps:int</em><em>, </em><em>doexit:int</em><em>, </em><em>time:float</em><em>]</em>) – <p>Routine to provide time step, time and dimension of next observation</p>
-<p><strong>Callback Parameters</strong></p>
-<ul>
-<li><p><strong>stepnow</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<dl class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>stepnow</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>number of the current time step</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>nsteps</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>nsteps</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>number of time steps until next obs</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>doexit</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>doexit</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>whether to exit forecasting (1 for exit)</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>time</strong> : float</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>time</strong><span class="classifier">float</span></dt><dd><ul>
 <li><p>current model (physical) time</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
-<p><strong>Callback Returns</strong></p>
-<ul>
-<li><p><strong>nsteps</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+</dd>
+<dt><strong>Callback Returns</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>nsteps</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>number of time steps until next obs</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>doexit</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>doexit</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>whether to exit forecasting (1 for exit)</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>time</strong> : float</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>time</strong><span class="classifier">float</span></dt><dd><ul>
 <li><p>current model (physical) time</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
+</dd>
+</dl>
 </p></li>
 </ul>
 </dd>
@@ -828,22 +865,43 @@ loop over each local domain:
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_3dvar.html">pyPDAF.PDAF.assimilate_3dvar</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_en3dvar_estkf.html">pyPDAF.PDAF.assimilate_en3dvar_estkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_en3dvar_lestkf.html">pyPDAF.PDAF.assimilate_en3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_hyb3dvar_estkf.html">pyPDAF.PDAF.assimilate_hyb3dvar_estkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.assimilate_hyb3dvar_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_enkf.html">pyPDAF.PDAF.assimilate_enkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_estkf.html">pyPDAF.PDAF.assimilate_estkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_etkf.html">pyPDAF.PDAF.assimilate_etkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_hyb3dvar_estkf.html">pyPDAF.PDAF.assimilate_hyb3dvar_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.assimilate_hyb3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_seek.html">pyPDAF.PDAF.assimilate_seek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_seik.html">pyPDAF.PDAF.assimilate_seik</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_netf.html">pyPDAF.PDAF.assimilate_netf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_pf.html">pyPDAF.PDAF.assimilate_pf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lenkf.html">pyPDAF.PDAF.assimilate_lenkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lestkf.html">pyPDAF.PDAF.assimilate_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_letkf.html">pyPDAF.PDAF.assimilate_letkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lseik.html">pyPDAF.PDAF.assimilate_lseik</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lnetf.html">pyPDAF.PDAF.assimilate_lnetf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lknetf.html">pyPDAF.PDAF.assimilate_lknetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lseik.html">pyPDAF.PDAF.assimilate_lseik</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_netf.html">pyPDAF.PDAF.assimilate_netf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_pf.html">pyPDAF.PDAF.assimilate_pf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_seek.html">pyPDAF.PDAF.assimilate_seek</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_seik.html">pyPDAF.PDAF.assimilate_seik</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_prepost.html">pyPDAF.PDAF.assimilate_prepost</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.generate_obs.html">pyPDAF.PDAF.generate_obs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_3dvar.html">pyPDAF.PDAF.put_state_3dvar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_en3dvar_estkf.html">pyPDAF.PDAF.put_state_en3dvar_estkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_en3dvar_lestkf.html">pyPDAF.PDAF.put_state_en3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_hyb3dvar_estkf.html">pyPDAF.PDAF.put_state_hyb3dvar_estkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.put_state_hyb3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_enkf.html">pyPDAF.PDAF.put_state_enkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_estkf.html">pyPDAF.PDAF.put_state_estkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_etkf.html">pyPDAF.PDAF.put_state_etkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_seek.html">pyPDAF.PDAF.put_state_seek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_seik.html">pyPDAF.PDAF.put_state_seik</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_netf.html">pyPDAF.PDAF.put_state_netf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_pf.html">pyPDAF.PDAF.put_state_pf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lenkf.html">pyPDAF.PDAF.put_state_lenkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lestkf.html">pyPDAF.PDAF.put_state_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_letkf.html">pyPDAF.PDAF.put_state_letkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lseik.html">pyPDAF.PDAF.put_state_lseik</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lnetf.html">pyPDAF.PDAF.put_state_lnetf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lknetf.html">pyPDAF.PDAF.put_state_lknetf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_prepost.html">pyPDAF.PDAF.put_state_prepost</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_generate_obs.html">pyPDAF.PDAF.put_state_generate_obs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.deallocate.html">pyPDAF.PDAF.deallocate</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.diag_effsample.html">pyPDAF.PDAF.diag_effsample</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.diag_ensstats.html">pyPDAF.PDAF.diag_ensstats</a></li>
@@ -852,7 +910,6 @@ loop over each local domain:
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.gather_dim_obs_f.html">pyPDAF.PDAF.gather_dim_obs_f</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.gather_obs_f.html">pyPDAF.PDAF.gather_obs_f</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.gather_obs_f2.html">pyPDAF.PDAF.gather_obs_f2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.generate_obs.html">pyPDAF.PDAF.generate_obs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.get_assim_flag.html">pyPDAF.PDAF.get_assim_flag</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.get_ensstats.html">pyPDAF.PDAF.get_ensstats</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.get_localfilter.html">pyPDAF.PDAF.get_localfilter</a></li>
@@ -863,26 +920,6 @@ loop over each local domain:
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.init.html">pyPDAF.PDAF.init</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_weight.html">pyPDAF.PDAF.local_weight</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.print_info.html">pyPDAF.PDAF.print_info</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_3dvar.html">pyPDAF.PDAF.put_state_3dvar</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_en3dvar_estkf.html">pyPDAF.PDAF.put_state_en3dvar_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_en3dvar_lestkf.html">pyPDAF.PDAF.put_state_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_enkf.html">pyPDAF.PDAF.put_state_enkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_estkf.html">pyPDAF.PDAF.put_state_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_etkf.html">pyPDAF.PDAF.put_state_etkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_generate_obs.html">pyPDAF.PDAF.put_state_generate_obs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_hyb3dvar_estkf.html">pyPDAF.PDAF.put_state_hyb3dvar_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.put_state_hyb3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lenkf.html">pyPDAF.PDAF.put_state_lenkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lestkf.html">pyPDAF.PDAF.put_state_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_letkf.html">pyPDAF.PDAF.put_state_letkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lnetf.html">pyPDAF.PDAF.put_state_lnetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lknetf.html">pyPDAF.PDAF.put_state_lknetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lseik.html">pyPDAF.PDAF.put_state_lseik</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_netf.html">pyPDAF.PDAF.put_state_netf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_pf.html">pyPDAF.PDAF.put_state_pf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_prepost.html">pyPDAF.PDAF.put_state_prepost</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_seek.html">pyPDAF.PDAF.put_state_seek</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_seik.html">pyPDAF.PDAF.put_state_seik</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.reset_forget.html">pyPDAF.PDAF.reset_forget</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.SampleEns.html">pyPDAF.PDAF.SampleEns</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.set_debug_flag.html">pyPDAF.PDAF.set_debug_flag</a></li>
@@ -937,21 +974,21 @@ loop over each local domain:
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_3dvar.html">pyPDAF.PDAF.omi_assimilate_3dvar</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_estkf.html">pyPDAF.PDAF.omi_assimilate_en3dvar_estkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf.html">pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global.html">pyPDAF.PDAF.omi_assimilate_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global.html">pyPDAF.PDAF.omi_assimilate_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lenkf.html">pyPDAF.PDAF.omi_assimilate_lenkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_local.html">pyPDAF.PDAF.omi_assimilate_local</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_generate_obs.html">pyPDAF.PDAF.omi_generate_obs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_3dvar.html">pyPDAF.PDAF.omi_put_state_3dvar</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_en3dvar_estkf.html">pyPDAF.PDAF.omi_put_state_en3dvar_estkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_en3dvar_lestkf.html">pyPDAF.PDAF.omi_put_state_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_generate_obs.html">pyPDAF.PDAF.omi_put_state_generate_obs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_global.html">pyPDAF.PDAF.omi_put_state_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf.html">pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_global.html">pyPDAF.PDAF.omi_put_state_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lenkf.html">pyPDAF.PDAF.omi_put_state_lenkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_local.html">pyPDAF.PDAF.omi_put_state_local</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_generate_obs.html">pyPDAF.PDAF.omi_put_state_generate_obs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_init_obs_f_cb.html">pyPDAF.PDAF.omi_init_obs_f_cb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_init_obsvar_cb.html">pyPDAF.PDAF.omi_init_obsvar_cb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_g2l_obs_cb.html">pyPDAF.PDAF.omi_g2l_obs_cb</a></li>
@@ -982,38 +1019,31 @@ loop over each local domain:
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_omit_by_inno_cb.html">pyPDAF.PDAF.omi_omit_by_inno_cb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR.html">pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_enkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_enkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global_nondiagR.html">pyPDAF.PDAF.omi_assimilate_global_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR.html">pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lnetf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_lnetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lknetf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_lknetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_3dvar_nondiagR.html">pyPDAF.PDAF.omi_put_state_3dvar_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_en3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_en3dvar_estkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_en3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lknetf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lknetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_enkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_enkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_global_nondiagR.html">pyPDAF.PDAF.omi_put_state_global_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_nonlin_nondiagR.html">pyPDAF.PDAF.omi_put_state_nonlin_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lenkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lenkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lnetf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lnetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lknetf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lknetf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_set_indices.html">pyPDAF.PDAF.local_set_indices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_set_increment_weights.html">pyPDAF.PDAF.local_set_increment_weights</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_clear_increment_weights.html">pyPDAF.PDAF.local_clear_increment_weights</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_g2l_cb.html">pyPDAF.PDAF.local_g2l_cb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_l2g_cb.html">pyPDAF.PDAF.local_l2g_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate.html">pyPDAF.PDAF.localomi_assimilate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf.html">pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state.html">pyPDAF.PDAF.localomi_put_state</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf.html">pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_nondiagR.html">pyPDAF.PDAF.localomi_put_state_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_en3dvar_lestkf.html">pyPDAF.PDAF.local_assimilate_en3dvar_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.local_assimilate_hyb3dvar_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lestkf.html">pyPDAF.PDAF.local_assimilate_lestkf</a></li>
@@ -1021,16 +1051,32 @@ loop over each local domain:
 <li class="toctree-l3"><a class="reference internal" href="#pyPDAF.PDAF.local_assimilate_letkf"><code class="docutils literal notranslate"><span class="pre">local_assimilate_letkf()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lknetf.html">pyPDAF.PDAF.local_assimilate_lknetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lnetf.html">pyPDAF.PDAF.local_assimilate_lnetf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lseik.html">pyPDAF.PDAF.local_assimilate_lseik</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lnetf.html">pyPDAF.PDAF.local_assimilate_lnetf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lknetf.html">pyPDAF.PDAF.local_assimilate_lknetf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_en3dvar_lestkf.html">pyPDAF.PDAF.local_put_state_en3dvar_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.local_put_state_hyb3dvar_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lestkf.html">pyPDAF.PDAF.local_put_state_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_letkf.html">pyPDAF.PDAF.local_put_state_letkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lknetf.html">pyPDAF.PDAF.local_put_state_lknetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lnetf.html">pyPDAF.PDAF.local_put_state_lnetf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lseik.html">pyPDAF.PDAF.local_put_state_lseik</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lnetf.html">pyPDAF.PDAF.local_put_state_lnetf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lknetf.html">pyPDAF.PDAF.local_put_state_lknetf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf.html">pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate.html">pyPDAF.PDAF.localomi_assimilate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf.html">pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state.html">pyPDAF.PDAF.localomi_put_state</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_nondiagR.html">pyPDAF.PDAF.localomi_put_state_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR</a></li>
 </ul>
 </li>
 </ul>
@@ -1041,7 +1087,7 @@ loop over each local domain:
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="../API.html">API</a><ul>
       <li>Previous: <a href="pyPDAF.PDAF.local_assimilate_lestkf.html" title="previous chapter">pyPDAF.PDAF.local_assimilate_lestkf</a></li>
-      <li>Next: <a href="pyPDAF.PDAF.local_assimilate_lknetf.html" title="next chapter">pyPDAF.PDAF.local_assimilate_lknetf</a></li>
+      <li>Next: <a href="pyPDAF.PDAF.local_assimilate_lseik.html" title="next chapter">pyPDAF.PDAF.local_assimilate_lseik</a></li>
   </ul></li>
   </ul></li>
 </ul>

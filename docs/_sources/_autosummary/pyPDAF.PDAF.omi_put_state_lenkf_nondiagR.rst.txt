@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.omi\_put\_state\_lenkf\_nondiagR
+============================================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: omi_put_state_lenkf_nondiagR

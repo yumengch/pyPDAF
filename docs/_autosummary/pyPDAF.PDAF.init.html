@@ -47,8 +47,12 @@ The parallisation module in the repository example can be used directly for most
 <li><p><strong>filtertype</strong> (<em>int</em>) – Type of filter</p></li>
 <li><p><strong>subtype</strong> (<em>int</em>) – Sub-type of filter</p></li>
 <li><p><strong>stepnull</strong> (<em>int</em>) – Initial time step of assimilation</p></li>
-<li><p><strong>param_int</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_pint</em><em>]</em><em>, </em><em>np.intc</em><em>]</em>) – Integer parameter array</p></li>
-<li><p><strong>param_real</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_preal</em><em>]</em><em>, </em><em>np.float64</em><em>]</em>) – Real parameter array</p></li>
+<li><p><strong>param_int</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_pint</em><em>]</em><em>, </em><em>np.intc</em><em>]</em>) – <p>Integer parameter array</p>
+<p>The array dimension <cite>dim_pint</cite> is Number of integer parameters</p>
+</p></li>
+<li><p><strong>param_real</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_preal</em><em>]</em><em>, </em><em>np.float64</em><em>]</em>) – <p>Real parameter array</p>
+<p>The array dimension <cite>dim_preal</cite> is Number of real parameter</p>
+</p></li>
 <li><p><strong>COMM_model</strong> (<em>int</em>) – Model communicator</p></li>
 <li><p><strong>COMM_filter</strong> (<em>int</em>) – Filter communicator</p></li>
 <li><p><strong>COMM_couple</strong> (<em>int</em>) – Coupling communicator</p></li>
@@ -56,97 +60,103 @@ The parallisation module in the repository example can be used directly for most
 <li><p><strong>n_modeltasks</strong> (<em>int</em>) – Number of parallel model tasks</p></li>
 <li><p><strong>in_filterpe</strong> (<em>bool</em>) – Is my PE a filter-PE?</p></li>
 <li><p><strong>py__init_ens_pdaf</strong> (<em>Callable</em><em>[</em><em>filtertype:int</em><em>, </em><em>dim_p:int</em><em>, </em><em>dim_ens:int</em><em>, </em><em>state_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>uinv : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_ens-1</em><em>, </em><em>dim_ens-1</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>ens_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_p</em><em>, </em><em>dim_ens</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>flag:int</em><em>]</em>) – <p>User-supplied routine for ensemble initialization</p>
-<p><strong>Callback Parameters</strong></p>
-<ul>
-<li><p><strong>filtertype</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<dl class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>filtertype</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>type of filter to initialize</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_p</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>pe-local state dimension</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>dim_ens</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>dim_ens</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>size of ensemble</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>state_p</strong> : ndarray[tuple[dim_p], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>state_p</strong><span class="classifier">ndarray[tuple[dim_p], np.float64]</span></dt><dd><ul>
 <li><p>pe-local model state</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>uinv</strong> : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>uinv</strong><span class="classifier">ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]</span></dt><dd><ul>
 <li><p>array not referenced for ensemble filters</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>ens_p</strong> : ndarray[tuple[dim_p, dim_ens], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>ens_p</strong><span class="classifier">ndarray[tuple[dim_p, dim_ens], np.float64]</span></dt><dd><ul>
 <li><p>pe-local state ensemble</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>flag</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>flag</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>pdaf status flag</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
-<p><strong>Callback Returns</strong></p>
-<ul>
-<li><p><strong>state_p</strong> : ndarray[tuple[dim_p], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+</dd>
+<dt><strong>Callback Returns</strong></dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>state_p</strong><span class="classifier">ndarray[tuple[dim_p], np.float64]</span></dt><dd><ul>
 <li><p>pe-local model state</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>uinv</strong> : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>uinv</strong><span class="classifier">ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]</span></dt><dd><ul>
 <li><p>array not referenced for ensemble filters</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>ens_p</strong> : ndarray[tuple[dim_p, dim_ens], np.float64]</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>ens_p</strong><span class="classifier">ndarray[tuple[dim_p, dim_ens], np.float64]</span></dt><dd><ul>
 <li><p>pe-local state ensemble</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p><strong>flag</strong> : int</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="simple">
+<dt><strong>flag</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>pdaf status flag</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
+</dd>
+</dl>
 </p></li>
 <li><p><strong>in_screen</strong> (<em>int</em>) – Control screen output:</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>param_int</strong> (<em>ndarray[tuple[dim_pint], np.intc]</em>) – Integer parameter array</p></li>
-<li><p><strong>param_real</strong> (<em>ndarray[tuple[dim_preal], np.float64]</em>) – Real parameter array</p></li>
+<dd class="field-even"><p><ul>
+<li><p><strong>param_int</strong> (<em>ndarray[tuple[dim_pint], np.intc]</em>) – Integer parameter array</p>
+<p>The array dimension <cite>dim_pint</cite> is Number of integer parameters</p>
+</li>
+<li><p><strong>param_real</strong> (<em>ndarray[tuple[dim_preal], np.float64]</em>) – Real parameter array</p>
+<p>The array dimension <cite>dim_preal</cite> is Number of real parameter</p>
+</li>
 <li><p><strong>flag</strong> (<em>int</em>) – Status flag, 0: no error, error codes:</p></li>
 </ul>
 </p>
@@ -200,22 +210,43 @@ The parallisation module in the repository example can be used directly for most
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_3dvar.html">pyPDAF.PDAF.assimilate_3dvar</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_en3dvar_estkf.html">pyPDAF.PDAF.assimilate_en3dvar_estkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_en3dvar_lestkf.html">pyPDAF.PDAF.assimilate_en3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_hyb3dvar_estkf.html">pyPDAF.PDAF.assimilate_hyb3dvar_estkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.assimilate_hyb3dvar_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_enkf.html">pyPDAF.PDAF.assimilate_enkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_estkf.html">pyPDAF.PDAF.assimilate_estkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_etkf.html">pyPDAF.PDAF.assimilate_etkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_hyb3dvar_estkf.html">pyPDAF.PDAF.assimilate_hyb3dvar_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.assimilate_hyb3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_seek.html">pyPDAF.PDAF.assimilate_seek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_seik.html">pyPDAF.PDAF.assimilate_seik</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_netf.html">pyPDAF.PDAF.assimilate_netf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_pf.html">pyPDAF.PDAF.assimilate_pf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lenkf.html">pyPDAF.PDAF.assimilate_lenkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lestkf.html">pyPDAF.PDAF.assimilate_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_letkf.html">pyPDAF.PDAF.assimilate_letkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lseik.html">pyPDAF.PDAF.assimilate_lseik</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lnetf.html">pyPDAF.PDAF.assimilate_lnetf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lknetf.html">pyPDAF.PDAF.assimilate_lknetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lseik.html">pyPDAF.PDAF.assimilate_lseik</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_netf.html">pyPDAF.PDAF.assimilate_netf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_pf.html">pyPDAF.PDAF.assimilate_pf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_seek.html">pyPDAF.PDAF.assimilate_seek</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_seik.html">pyPDAF.PDAF.assimilate_seik</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_prepost.html">pyPDAF.PDAF.assimilate_prepost</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.generate_obs.html">pyPDAF.PDAF.generate_obs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_3dvar.html">pyPDAF.PDAF.put_state_3dvar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_en3dvar_estkf.html">pyPDAF.PDAF.put_state_en3dvar_estkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_en3dvar_lestkf.html">pyPDAF.PDAF.put_state_en3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_hyb3dvar_estkf.html">pyPDAF.PDAF.put_state_hyb3dvar_estkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.put_state_hyb3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_enkf.html">pyPDAF.PDAF.put_state_enkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_estkf.html">pyPDAF.PDAF.put_state_estkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_etkf.html">pyPDAF.PDAF.put_state_etkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_seek.html">pyPDAF.PDAF.put_state_seek</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_seik.html">pyPDAF.PDAF.put_state_seik</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_netf.html">pyPDAF.PDAF.put_state_netf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_pf.html">pyPDAF.PDAF.put_state_pf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lenkf.html">pyPDAF.PDAF.put_state_lenkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lestkf.html">pyPDAF.PDAF.put_state_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_letkf.html">pyPDAF.PDAF.put_state_letkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lseik.html">pyPDAF.PDAF.put_state_lseik</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lnetf.html">pyPDAF.PDAF.put_state_lnetf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lknetf.html">pyPDAF.PDAF.put_state_lknetf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_prepost.html">pyPDAF.PDAF.put_state_prepost</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_generate_obs.html">pyPDAF.PDAF.put_state_generate_obs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.deallocate.html">pyPDAF.PDAF.deallocate</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.diag_effsample.html">pyPDAF.PDAF.diag_effsample</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.diag_ensstats.html">pyPDAF.PDAF.diag_ensstats</a></li>
@@ -224,7 +255,6 @@ The parallisation module in the repository example can be used directly for most
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.gather_dim_obs_f.html">pyPDAF.PDAF.gather_dim_obs_f</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.gather_obs_f.html">pyPDAF.PDAF.gather_obs_f</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.gather_obs_f2.html">pyPDAF.PDAF.gather_obs_f2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.generate_obs.html">pyPDAF.PDAF.generate_obs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.get_assim_flag.html">pyPDAF.PDAF.get_assim_flag</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.get_ensstats.html">pyPDAF.PDAF.get_ensstats</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.get_localfilter.html">pyPDAF.PDAF.get_localfilter</a></li>
@@ -238,26 +268,6 @@ The parallisation module in the repository example can be used directly for most
 </li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_weight.html">pyPDAF.PDAF.local_weight</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.print_info.html">pyPDAF.PDAF.print_info</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_3dvar.html">pyPDAF.PDAF.put_state_3dvar</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_en3dvar_estkf.html">pyPDAF.PDAF.put_state_en3dvar_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_en3dvar_lestkf.html">pyPDAF.PDAF.put_state_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_enkf.html">pyPDAF.PDAF.put_state_enkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_estkf.html">pyPDAF.PDAF.put_state_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_etkf.html">pyPDAF.PDAF.put_state_etkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_generate_obs.html">pyPDAF.PDAF.put_state_generate_obs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_hyb3dvar_estkf.html">pyPDAF.PDAF.put_state_hyb3dvar_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.put_state_hyb3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lenkf.html">pyPDAF.PDAF.put_state_lenkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lestkf.html">pyPDAF.PDAF.put_state_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_letkf.html">pyPDAF.PDAF.put_state_letkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lnetf.html">pyPDAF.PDAF.put_state_lnetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lknetf.html">pyPDAF.PDAF.put_state_lknetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lseik.html">pyPDAF.PDAF.put_state_lseik</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_netf.html">pyPDAF.PDAF.put_state_netf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_pf.html">pyPDAF.PDAF.put_state_pf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_prepost.html">pyPDAF.PDAF.put_state_prepost</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_seek.html">pyPDAF.PDAF.put_state_seek</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_seik.html">pyPDAF.PDAF.put_state_seik</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.reset_forget.html">pyPDAF.PDAF.reset_forget</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.SampleEns.html">pyPDAF.PDAF.SampleEns</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.set_debug_flag.html">pyPDAF.PDAF.set_debug_flag</a></li>
@@ -312,21 +322,21 @@ The parallisation module in the repository example can be used directly for most
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_3dvar.html">pyPDAF.PDAF.omi_assimilate_3dvar</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_estkf.html">pyPDAF.PDAF.omi_assimilate_en3dvar_estkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf.html">pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global.html">pyPDAF.PDAF.omi_assimilate_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global.html">pyPDAF.PDAF.omi_assimilate_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lenkf.html">pyPDAF.PDAF.omi_assimilate_lenkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_local.html">pyPDAF.PDAF.omi_assimilate_local</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_generate_obs.html">pyPDAF.PDAF.omi_generate_obs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_3dvar.html">pyPDAF.PDAF.omi_put_state_3dvar</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_en3dvar_estkf.html">pyPDAF.PDAF.omi_put_state_en3dvar_estkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_en3dvar_lestkf.html">pyPDAF.PDAF.omi_put_state_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_generate_obs.html">pyPDAF.PDAF.omi_put_state_generate_obs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_global.html">pyPDAF.PDAF.omi_put_state_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf.html">pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_global.html">pyPDAF.PDAF.omi_put_state_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lenkf.html">pyPDAF.PDAF.omi_put_state_lenkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_local.html">pyPDAF.PDAF.omi_put_state_local</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_generate_obs.html">pyPDAF.PDAF.omi_put_state_generate_obs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_init_obs_f_cb.html">pyPDAF.PDAF.omi_init_obs_f_cb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_init_obsvar_cb.html">pyPDAF.PDAF.omi_init_obsvar_cb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_g2l_obs_cb.html">pyPDAF.PDAF.omi_g2l_obs_cb</a></li>
@@ -357,52 +367,61 @@ The parallisation module in the repository example can be used directly for most
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_omit_by_inno_cb.html">pyPDAF.PDAF.omi_omit_by_inno_cb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR.html">pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_enkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_enkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global_nondiagR.html">pyPDAF.PDAF.omi_assimilate_global_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR.html">pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lnetf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_lnetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lknetf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_lknetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_3dvar_nondiagR.html">pyPDAF.PDAF.omi_put_state_3dvar_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_en3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_en3dvar_estkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_en3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lknetf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lknetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_enkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_enkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_global_nondiagR.html">pyPDAF.PDAF.omi_put_state_global_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_nonlin_nondiagR.html">pyPDAF.PDAF.omi_put_state_nonlin_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lenkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lenkf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lnetf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lnetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lknetf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lknetf_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_set_indices.html">pyPDAF.PDAF.local_set_indices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_set_increment_weights.html">pyPDAF.PDAF.local_set_increment_weights</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_clear_increment_weights.html">pyPDAF.PDAF.local_clear_increment_weights</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_g2l_cb.html">pyPDAF.PDAF.local_g2l_cb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_l2g_cb.html">pyPDAF.PDAF.local_l2g_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate.html">pyPDAF.PDAF.localomi_assimilate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf.html">pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state.html">pyPDAF.PDAF.localomi_put_state</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf.html">pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_nondiagR.html">pyPDAF.PDAF.localomi_put_state_nondiagR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_en3dvar_lestkf.html">pyPDAF.PDAF.local_assimilate_en3dvar_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.local_assimilate_hyb3dvar_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lestkf.html">pyPDAF.PDAF.local_assimilate_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_letkf.html">pyPDAF.PDAF.local_assimilate_letkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lknetf.html">pyPDAF.PDAF.local_assimilate_lknetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lnetf.html">pyPDAF.PDAF.local_assimilate_lnetf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lseik.html">pyPDAF.PDAF.local_assimilate_lseik</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lnetf.html">pyPDAF.PDAF.local_assimilate_lnetf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lknetf.html">pyPDAF.PDAF.local_assimilate_lknetf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_en3dvar_lestkf.html">pyPDAF.PDAF.local_put_state_en3dvar_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.local_put_state_hyb3dvar_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lestkf.html">pyPDAF.PDAF.local_put_state_lestkf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_letkf.html">pyPDAF.PDAF.local_put_state_letkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lknetf.html">pyPDAF.PDAF.local_put_state_lknetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lnetf.html">pyPDAF.PDAF.local_put_state_lnetf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lseik.html">pyPDAF.PDAF.local_put_state_lseik</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lnetf.html">pyPDAF.PDAF.local_put_state_lnetf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lknetf.html">pyPDAF.PDAF.local_put_state_lknetf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf.html">pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate.html">pyPDAF.PDAF.localomi_assimilate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf.html">pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state.html">pyPDAF.PDAF.localomi_put_state</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_nondiagR.html">pyPDAF.PDAF.localomi_put_state_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR</a></li>
 </ul>
 </li>
 </ul>
