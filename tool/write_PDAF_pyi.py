@@ -13,6 +13,24 @@ pyconv = {'integer' : 'int', 'logical': 'bool', 'real': 'float', 'procedure':'vo
 npyconv = {'integer' : 'np.intc', 'real': 'np.float64'}
 mypy_conv = {'integer' : 'int', 'logical': 'bool', 'real': 'float', 'character':'str', 'logical': 'bool',}
 
+
+def make_ordinal(n) -> str:
+    '''
+    Convert an integer into its ordinal representation::
+
+    This code is from `https://stackoverflow.com/a/50992575`_.
+        make_ordinal(0)   => '0th'
+        make_ordinal(3)   => '3rd'
+        make_ordinal(122) => '122nd'
+        make_ordinal(213) => '213th'
+    '''
+    n = int(n)
+    if 11 <= (n % 100) <= 13:
+        suffix = 'th'
+    else:
+        suffix = ['th', 'st', 'nd', 'rd', 'th'][min(n % 10, 4)]
+    return str(n) + suffix
+
 def get_current_column(file:typing.TextIO) -> int:
     current_pos = file.tell()
 
@@ -269,7 +287,7 @@ def write_docstring(f:typing.TextIO, subroutine_name:str, user_func_info:dict[st
     else:
         funcname = subroutine_name[3:]
 
-    s = '    \"\"\"'
+    s = '    r\"\"\"'
     # todo: this needs to be done better
     s += docstrings.docstrings[funcname]+'\n\n'
     f.write(s)
@@ -313,8 +331,8 @@ def write_docstring(f:typing.TextIO, subroutine_name:str, user_func_info:dict[st
                     s_dtype = npyconv[u_arg_info['type']]
                     s += 2*indent + f'* **{u_arg}** : ndarray[tuple[{s_dims}], {s_dtype}]\n\n'
                 else:
-                    s += 2*indent + f'* **{u_arg}**' + ' : ' + mypy_conv[u_arg_info['type']] + '\n\n'
-                s += 3*indent + '--- ' + u_arg_info['comment'] +'\n\n'
+                    s += 2*indent + f'* **{u_arg}** : ' + mypy_conv[u_arg_info['type']] + '\n\n'
+                s += 3*indent + '--- ' + u_arg_info['comment'].replace('\n', f'\n{2*indent}') +'\n\n'
 
             s += 2*indent + '**Callback Returns**\n\n'
             for u_arg, u_arg_info in user_arg_info.items():
@@ -327,7 +345,7 @@ def write_docstring(f:typing.TextIO, subroutine_name:str, user_func_info:dict[st
                     s += 2*indent + f'* **{u_arg}** : ndarray[tuple[{s_dims}], {s_dtype}]\n\n'
                 else:
                     s += 2*indent + f'* **{u_arg}**' + ':' + mypy_conv[u_arg_info['type']] + '\n\n'
-                s += 3*indent+ '--- ' + u_arg_info['comment'] +'\n\n'
+                s += 3*indent+ '--- ' + u_arg_info['comment'].replace('\n', f'\n{2*indent}') +'\n\n'
             s += '\n'
         elif len(info['dimension']) > 0:
             s += indent+arg +f' : '
@@ -335,9 +353,24 @@ def write_docstring(f:typing.TextIO, subroutine_name:str, user_func_info:dict[st
             s_dtype = npyconv[info['type'].lower()]
             s += f'ndarray[tuple[{s_dims}], {s_dtype}]\n'
             s += 2*indent + info['comment'] +'\n'
+            # adding documentation for array dimensions
+            if len(info['dimension']) > 1:
+                i = 0
+                for dim in info['dimension']:
+                    dim0 = dim.split('+')[0].split('-')[0].replace(' ', '')
+                    if dim in arg_info:
+                        i += 1
+                        s += 2*indent + f'The {make_ordinal(i)}-th dimension {dim0} is {arg_info[dim0]["comment"]}\n'
+            else:
+                dim = info['dimension'][0]
+                dim0 = dim.split('+')[0].split('-')[0].replace(' ', '')
+                if dim in arg_info:
+                    s += 2*indent + f'The array dimension `{dim0}` is {arg_info[dim0]["comment"]}\n'
+
         else:
             s += indent + f'{arg} : {pyconv[info["type"]]}\n'
             s += 2*indent + info['comment'] +'\n'
+
 
         count += 1
 
@@ -366,6 +399,23 @@ def write_docstring(f:typing.TextIO, subroutine_name:str, user_func_info:dict[st
             s += indent + f'{arg} : {pyconv[info["type"]]}\n'
 
         s += 2*indent + info['comment'] +'\n'
+
+        # add comments for array dimensions
+        if len(info['dimension']) > 0:
+            s += '\n'
+            if len(info['dimension']) > 1:
+                i = 0
+                for dim in info['dimension']:
+                    dim0 = dim.split('+')[0].split('-')[0].replace(' ', '')
+                    if dim in arg_info:
+                        i += 1
+                        s += 2*indent + f'The {make_ordinal(i)}-th dimension {dim0} is {arg_info[dim0]["comment"]}\n'
+            else:
+                dim = info['dimension'][0]
+                dim0 = dim.split('+')[0].split('-')[0].replace(' ', '')
+                if dim in arg_info:
+                    s += 2*indent + f'The array dimension `{dim0}` is {arg_info[dim0]["comment"]}\n'
+
         count += 1
     if count > 0:
         f.write(s)

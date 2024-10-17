@@ -1099,12 +1099,14 @@ contains
       INTEGER(c_int), INTENT(in) :: verbose
       ! Number of local observations
       INTEGER(c_int), INTENT(in) :: nobs_l
-      !
+      ! the number of columns
       INTEGER(c_int), INTENT(in) :: ncols
-      ! Types of localization function
-      ! 0) unit weight; 1) exponential; 2) 5-th order polynomial;
-      ! 3) 5-th order polynomial with regulatioin using mean variance;
-      ! 4) 5-th order polynomial with regulatioin using variance of single observation point;
+      ! Types of localization function:
+      !     0. unit weight; 
+      !     1. exponential; 
+      !     2. 5-th order polynomial;
+      !     3. 5-th order polynomial with regulatioin using mean variance;
+      !     4. 5-th order polynomial with regulatioin using variance of single observation point;
       INTEGER(c_int), INTENT(in) :: locweight
       ! Vector of localization cut-off radii; observation weight=0 if distance > cradius
       REAL(c_double), INTENT(in)    :: cradius(nobs_l)
@@ -1112,7 +1114,7 @@ contains
       ! It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
       ! weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
       REAL(c_double), INTENT(in)    :: sradius(nobs_l)
-      !
+      ! input matrix
       REAL(c_double), INTENT(in)    :: matA(nobs_l,ncols)
       ! Local vector of inverse obs. variances (nobs_l)
       REAL(c_double), INTENT(in)    :: ivar_obs_l(nobs_l)
@@ -1131,12 +1133,14 @@ contains
       INTEGER(c_int), INTENT(in) :: verbose
       ! Number of local observations
       INTEGER(c_int), INTENT(in) :: nobs_l
-      !
+      ! number of columns
       INTEGER(c_int), INTENT(in) :: ncols
       ! Types of localization function
-      ! 0) unit weight; 1) exponential; 2) 5-th order polynomial;
-      ! 3) 5-th order polynomial with regulatioin using mean variance;
-      ! 4) 5-th order polynomial with regulatioin using variance of single observation point;
+      !     0) unit weight; 
+      !     1) exponential; 
+      !     2) 5-th order polynomial;
+      !     3) 5-th order polynomial with regulatioin using mean variance;
+      !     4) 5-th order polynomial with regulatioin using variance of single observation point;
       INTEGER(c_int), INTENT(in) :: locweight
       ! Vector of localization cut-off radii; observation weight=0 if distance > cradius
       REAL(c_double), INTENT(in)    :: cradius
@@ -1144,7 +1148,7 @@ contains
       ! It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
       ! weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
       REAL(c_double), INTENT(in)    :: sradius
-      !
+      ! input matrix
       REAL(c_double), INTENT(in)    :: matA(nobs_l,ncols)
       ! Local vector of inverse obs. variances (nobs_l)
       REAL(c_double), INTENT(in)    :: ivar_obs_l(nobs_l)

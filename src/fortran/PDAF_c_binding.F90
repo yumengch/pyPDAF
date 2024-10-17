@@ -766,11 +766,11 @@ contains
    END SUBROUTINE c__PDAF_deallocate
 
    SUBROUTINE c__PDAF_diag_effsample(dim_sample, weights, effSample) bind(c)
-      ! Sample size
+      ! Number of particles
       INTEGER(c_int), INTENT(in) :: dim_sample
-      ! weights of the samples
+      ! weights of the particles
       REAL(c_double), INTENT(in) :: weights(dim_sample)
-      ! effecfive sample size
+      ! effecfive sample/particle size
       REAL(c_double), INTENT(out) :: effSample
 
       CALL PDAF_diag_effsample(dim_sample, weights, effSample)
@@ -830,40 +830,52 @@ contains
 
    SUBROUTINE c__PDAF_eofcovar(dim_state, nstates, nfields, dim_fields, offsets, &
          remove_mstate, do_mv, states, stddev, svals, svec, meanstate, verbose, status) bind(c)
-      ! Dimension of state vector.
+      ! the dimension of state vector.
       INTEGER(c_int), INTENT(in) :: dim_state
-      ! Number of state vectors, typically from different time steps.
+      ! the number of state vectors, typically number of different time steps, or number of ensemble members.
       INTEGER(c_int), INTENT(in) :: nstates
-      ! Number of fields in state vector.
+      ! the number of model fields in state vector.
       ! For example, if the state vector contains temperature and humidity,
-      ! nfields=2. This variable is used only when `do_mv = 1`.
+      ! `nfields=2`. This variable is effective only when `do_mv = 1`.
       INTEGER(c_int), INTENT(in) :: nfields
-      ! Size of each field, only used when `do_mv = 1`.
-      ! Each field could be 2D or 3D so can have different sizes.
+      ! Size of each model field. This argument is effective only when `do_mv = 1`.
+      ! Each model field, e.g., sea surface temperature, or 3D sea salinity,
+      ! can be 2D or 3D with different number of grid points. Each element
+      ! of the array specifies the size of each model field.
       INTEGER(c_int), INTENT(in) :: dim_fields(nfields)
-      ! Start position of each field.\n
-      ! This variable is used only used when `do_mv = 1`.\n 
+      ! Starting position of each field.
+      ! This variable is effective only when `do_mv = 1`.
       ! For example, if the state vector contains temperature and humidity,
-      ! this array specifies the starting index of the two physical fields.\n
-      ! The offset values start from 1.
+      ! this array specifies the first index of the physical field in the state vector.
+      ! Following Fortran notation, the offset values start from 1.
       INTEGER(c_int), INTENT(in) :: offsets(nfields)
-      ! Do multivariate scaling (`do_mv = 1`) or no scaling (`do_mv = 0`).
-      ! Variable `nfields`, `dim_fields`
-      ! and `offsets` are only used if `do_mv=1`.
+      ! Switch for multivariate scaling
+      !     0. do nothing
+      !     1. Each model field are scaled by its standard deviation
+      !        such that each model field has unit standard deviation.
+      !        This option makes use of `nfields`, `dim_fields` and `offsets` arguments.
       INTEGER(c_int), INTENT(in) :: do_mv
-      ! Subtract mean state from states (average over nstates dimension)
-      ! before computing EOFs (`remove_mstate = 1`) or don't remove (`remove_mstate = 0`)
+      ! Switch for only computing EOF of the ensemble anomaly.
+      !
+      ! This option can be used if `states` are not centred on 0, i.e., anomaly values.
+      !     0. do nothing
+      !     1. remove the mean of `states` over `nstates` dimension 
+      !        before EOF computation  
       INTEGER(c_int), INTENT(in) :: remove_mstate
-      ! State perturbations or an ensemble of state vectors
+      ! An ensemble of state vectors.
+      ! This argument should ideally be the anomalies of an ensemble,
+      ! and each member is from a different model time.
+      ! However, one can set `remove_mstate = 1` if this is not an ensemble anomaly.
       REAL(c_double), INTENT(inout) :: states(dim_state, nstates)
-      ! Standard deviation of field variability.
-      ! Without multivariate scaling (`do_mv=0`), it is `stddev = 1.0`.
+      ! Standard deviation of each model field in `states`.
+      ! If `do_mv = 1`, stddev should be `1.0`.
       REAL(c_double), INTENT(out) :: stddev(nfields)
-      ! Singular values scaled by `1/sqrt(nstates-1)`.
+      ! Singular values of `states` scaled by :math:`\frac{1}{\sqrt{nstates-1}}`.
       REAL(c_double), INTENT(out) :: svals(nstates)
-      ! Singular vectors
+      ! Singular vectors of `states`
       REAL(c_double), INTENT(out) :: svec(dim_state, nstates)
-      ! Mean state (only changed if `remove_mstate=1`)
+      ! Mean state 
+      ! The returned value equlas to the input unless `remove_mstate=1`
       REAL(c_double), INTENT(inout) :: meanstate(dim_state)
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: verbose

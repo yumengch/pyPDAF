@@ -7,22 +7,44 @@ API
    pyPDAF.PDAF.assimilate_3dvar
    pyPDAF.PDAF.assimilate_en3dvar_estkf
    pyPDAF.PDAF.assimilate_en3dvar_lestkf
+   pyPDAF.PDAF.assimilate_hyb3dvar_estkf
+   pyPDAF.PDAF.assimilate_hyb3dvar_lestkf
    pyPDAF.PDAF.assimilate_enkf
    pyPDAF.PDAF.assimilate_estkf
    pyPDAF.PDAF.assimilate_etkf
-   pyPDAF.PDAF.assimilate_hyb3dvar_estkf
-   pyPDAF.PDAF.assimilate_hyb3dvar_lestkf
+   pyPDAF.PDAF.assimilate_seek
+   pyPDAF.PDAF.assimilate_seik
+   pyPDAF.PDAF.assimilate_netf
+   pyPDAF.PDAF.assimilate_pf
    pyPDAF.PDAF.assimilate_lenkf
    pyPDAF.PDAF.assimilate_lestkf
    pyPDAF.PDAF.assimilate_letkf
+   pyPDAF.PDAF.assimilate_lseik
    pyPDAF.PDAF.assimilate_lnetf
    pyPDAF.PDAF.assimilate_lknetf
-   pyPDAF.PDAF.assimilate_lseik
-   pyPDAF.PDAF.assimilate_netf
-   pyPDAF.PDAF.assimilate_pf
-   pyPDAF.PDAF.assimilate_seek
-   pyPDAF.PDAF.assimilate_seik
    pyPDAF.PDAF.assimilate_prepost
+   pyPDAF.PDAF.generate_obs
+   pyPDAF.PDAF.put_state_3dvar
+   pyPDAF.PDAF.put_state_en3dvar_estkf
+   pyPDAF.PDAF.put_state_en3dvar_lestkf
+   pyPDAF.PDAF.put_state_hyb3dvar_estkf
+   pyPDAF.PDAF.put_state_hyb3dvar_lestkf
+   pyPDAF.PDAF.put_state_enkf
+   pyPDAF.PDAF.put_state_estkf
+   pyPDAF.PDAF.put_state_etkf
+   pyPDAF.PDAF.put_state_seek
+   pyPDAF.PDAF.put_state_seik
+   pyPDAF.PDAF.put_state_netf
+   pyPDAF.PDAF.put_state_pf
+   pyPDAF.PDAF.put_state_lenkf
+   pyPDAF.PDAF.put_state_lestkf
+   pyPDAF.PDAF.put_state_letkf
+   pyPDAF.PDAF.put_state_lseik
+   pyPDAF.PDAF.put_state_lnetf
+   pyPDAF.PDAF.put_state_lknetf
+   pyPDAF.PDAF.put_state_prepost
+   pyPDAF.PDAF.put_state_generate_obs
+
    pyPDAF.PDAF.deallocate
    pyPDAF.PDAF.diag_effsample
    pyPDAF.PDAF.diag_ensstats
@@ -31,7 +53,7 @@ API
    pyPDAF.PDAF.gather_dim_obs_f
    pyPDAF.PDAF.gather_obs_f
    pyPDAF.PDAF.gather_obs_f2
-   pyPDAF.PDAF.generate_obs
+   
    pyPDAF.PDAF.get_assim_flag
    pyPDAF.PDAF.get_ensstats
    pyPDAF.PDAF.get_localfilter
@@ -42,26 +64,6 @@ API
    pyPDAF.PDAF.init
    pyPDAF.PDAF.local_weight
    pyPDAF.PDAF.print_info
-   pyPDAF.PDAF.put_state_3dvar
-   pyPDAF.PDAF.put_state_en3dvar_estkf
-   pyPDAF.PDAF.put_state_en3dvar_lestkf
-   pyPDAF.PDAF.put_state_enkf
-   pyPDAF.PDAF.put_state_estkf
-   pyPDAF.PDAF.put_state_etkf
-   pyPDAF.PDAF.put_state_generate_obs
-   pyPDAF.PDAF.put_state_hyb3dvar_estkf
-   pyPDAF.PDAF.put_state_hyb3dvar_lestkf
-   pyPDAF.PDAF.put_state_lenkf
-   pyPDAF.PDAF.put_state_lestkf
-   pyPDAF.PDAF.put_state_letkf
-   pyPDAF.PDAF.put_state_lnetf
-   pyPDAF.PDAF.put_state_lknetf
-   pyPDAF.PDAF.put_state_lseik
-   pyPDAF.PDAF.put_state_netf
-   pyPDAF.PDAF.put_state_pf
-   pyPDAF.PDAF.put_state_prepost
-   pyPDAF.PDAF.put_state_seek
-   pyPDAF.PDAF.put_state_seik
    pyPDAF.PDAF.reset_forget
    pyPDAF.PDAF.SampleEns
    pyPDAF.PDAF.set_debug_flag
@@ -116,21 +118,21 @@ API
    pyPDAF.PDAF.omi_assimilate_3dvar
    pyPDAF.PDAF.omi_assimilate_en3dvar_estkf
    pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf
-   pyPDAF.PDAF.omi_assimilate_global
    pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf
    pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf
+   pyPDAF.PDAF.omi_assimilate_global
    pyPDAF.PDAF.omi_assimilate_lenkf
    pyPDAF.PDAF.omi_assimilate_local
    pyPDAF.PDAF.omi_generate_obs
    pyPDAF.PDAF.omi_put_state_3dvar
    pyPDAF.PDAF.omi_put_state_en3dvar_estkf
    pyPDAF.PDAF.omi_put_state_en3dvar_lestkf
-   pyPDAF.PDAF.omi_put_state_generate_obs
-   pyPDAF.PDAF.omi_put_state_global
    pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf
    pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf
+   pyPDAF.PDAF.omi_put_state_global
    pyPDAF.PDAF.omi_put_state_lenkf
    pyPDAF.PDAF.omi_put_state_local
+   pyPDAF.PDAF.omi_put_state_generate_obs
    pyPDAF.PDAF.omi_init_obs_f_cb
    pyPDAF.PDAF.omi_init_obsvar_cb
    pyPDAF.PDAF.omi_g2l_obs_cb
@@ -161,49 +163,58 @@ API
    pyPDAF.PDAF.omi_omit_by_inno_cb
    pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR
    pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR
+   pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR
    pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR
-   pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR
+   pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR
    pyPDAF.PDAF.omi_assimilate_enkf_nondiagR
    pyPDAF.PDAF.omi_assimilate_global_nondiagR
    pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR
-   pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR
-   pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR
+   pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR
+   pyPDAF.PDAF.omi_assimilate_lnetf_nondiagR
+   pyPDAF.PDAF.omi_assimilate_lknetf_nondiagR
+   pyPDAF.PDAF.omi_put_state_3dvar_nondiagR
+   pyPDAF.PDAF.omi_put_state_en3dvar_estkf_nondiagR
    pyPDAF.PDAF.omi_put_state_en3dvar_lestkf_nondiagR
+   pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf_nondiagR
    pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf_nondiagR
-   pyPDAF.PDAF.omi_put_state_lknetf_nondiagR
+   pyPDAF.PDAF.omi_put_state_enkf_nondiagR
+   pyPDAF.PDAF.omi_put_state_global_nondiagR
+   pyPDAF.PDAF.omi_put_state_nonlin_nondiagR
+   pyPDAF.PDAF.omi_put_state_lenkf_nondiagR
    pyPDAF.PDAF.omi_put_state_lnetf_nondiagR
+   pyPDAF.PDAF.omi_put_state_lknetf_nondiagR
    pyPDAF.PDAF.local_set_indices
    pyPDAF.PDAF.local_set_increment_weights
    pyPDAF.PDAF.local_clear_increment_weights
    pyPDAF.PDAF.local_g2l_cb
    pyPDAF.PDAF.local_l2g_cb
-   pyPDAF.PDAF.localomi_assimilate
-   pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf
-   pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR
-   pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf
-   pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR
-   pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR
-   pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR
-   pyPDAF.PDAF.localomi_assimilate_nondiagR
-   pyPDAF.PDAF.localomi_put_state
-   pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf
-   pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR
-   pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf
-   pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR
-   pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR
-   pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR
-   pyPDAF.PDAF.localomi_put_state_nondiagR
    pyPDAF.PDAF.local_assimilate_en3dvar_lestkf
    pyPDAF.PDAF.local_assimilate_hyb3dvar_lestkf
    pyPDAF.PDAF.local_assimilate_lestkf
    pyPDAF.PDAF.local_assimilate_letkf
-   pyPDAF.PDAF.local_assimilate_lknetf
-   pyPDAF.PDAF.local_assimilate_lnetf
    pyPDAF.PDAF.local_assimilate_lseik
+   pyPDAF.PDAF.local_assimilate_lnetf
+   pyPDAF.PDAF.local_assimilate_lknetf
    pyPDAF.PDAF.local_put_state_en3dvar_lestkf
    pyPDAF.PDAF.local_put_state_hyb3dvar_lestkf
    pyPDAF.PDAF.local_put_state_lestkf
    pyPDAF.PDAF.local_put_state_letkf
-   pyPDAF.PDAF.local_put_state_lknetf
-   pyPDAF.PDAF.local_put_state_lnetf
    pyPDAF.PDAF.local_put_state_lseik
+   pyPDAF.PDAF.local_put_state_lnetf
+   pyPDAF.PDAF.local_put_state_lknetf
+   pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf
+   pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf
+   pyPDAF.PDAF.localomi_assimilate
+   pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR
+   pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR
+   pyPDAF.PDAF.localomi_assimilate_nondiagR
+   pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR
+   pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR
+   pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf
+   pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf
+   pyPDAF.PDAF.localomi_put_state
+   pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR
+   pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR
+   pyPDAF.PDAF.localomi_put_state_nondiagR
+   pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR
+   pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR

@@ -1,229 +1,4 @@
 docstrings = dict()
-docstrings['assimilate_estkf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`\n    " \
-                                 "or :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR` instead of this function.\n\n    " \
-                                 "OMI functions need fewer user-supplied functions and improve DA efficiency.\n\n    " \
-                                 "This function calls ESTKF (error space transform Kalman filter) [1]_.\n    " \
-                                 "The ESTKF is a more efficient equivalent to the ETKF.\n\n    " \
-                                 "The function should be called at each model time step.\n    " \
-                                 "The function is a combination of :func:`pyPDAF.PDAF.put_state_estkf`\n    " \
-                                 "and :func:`pyPDAF.PDAF.get_state`.\n\n    " \
-                                 "User-supplied functions are executed in the following sequence:\n    " \
-                                 "    1. py__collect_state_pdaf\n    " \
-                                 "    2. py__prepoststep_state_pdaf\n    " \
-                                 "    3. py__init_dim_obs_pdaf\n    " \
-                                 "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
-                                 "    5. py__init_obs_pdaf\n    " \
-                                 "    6. py__obs_op_pdaf (for each ensemble member)\n    " \
-                                 "    7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)\n    " \
-                                 "    8. py__prodRinvA_pdaf\n    " \
-                                 "    9. core DA algorithm\n    " \
-                                 "    10. py__prepoststep_state_pdaf\n    " \
-                                 "    11. py__distribute_state_pdaf\n    " \
-                                 "    12. py__next_observation_pdaf\n" \
-                                 "\n    " \
-                                 ".. deprecated:: 1.0.0\n\n    " \
-                                 "   This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`\n    " \
-                                 "   and :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`" \
-                                 "\n\n    " \
-                                 "References\n    " \
-                                 "----------\n    " \
-                                 ".. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). \n    " \
-                                 "       A unification of ensemble square root Kalman filters. \n    " \
-                                 "       Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1"
-docstrings['assimilate_lestkf'] = "It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`\n    "\
-                                  "or :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`.\n\n    "\
-                                  "PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
-                                  "Local ESTKF (error space transform " \
-                                  "Kalman filter) [1]_ for a single DA step without OMI.\n    " \
-                                  "The LESTKF is a more efficient equivalent to the LETKF.\n\n    " \
-                                  "This function should be called at each model time step.\n    " \
-                                  "The function is a combination of :func:`pyPDAF.PDAF.put_state_lestkf`\n    " \
-                                  "and :func:`pyPDAF.PDAF.get_state`.\n\n    " \
-                                  "User-supplied functions are executed in the following sequence:\n    " \
-                                  "    1. py__collect_state_pdaf\n    "\
-                                  "    2. py__prepoststep_state_pdaf\n    "\
-                                  "    3. py__init_n_domains_p_pdaf\n    "\
-                                  "    4. py__init_dim_obs_pdaf\n    "\
-                                  "    5. py__obs_op_pdaf (for each ensemble member)\n    "\
-                                  "    6. py__init_obs_pdaf\n    " \
-                                  "       (if global adaptive forgetting factor `type_forget=1` is used\n    " \
-                                  "       in :func:`pyPDAF.PDAF.init`)\n    "\
-                                  "    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)\n    "\
-                                  "    8. loop over each local domain:\n    " \
-                                  "        1. py__init_dim_l_pdaf\n    "\
-                                  "        2. py__init_dim_obs_l_pdaf\n    "\
-                                  "        3. py__g2l_state_pdaf\n    "\
-                                  "        4. py__g2l_obs_pdaf (localise mean ensemble in observation space)\n    "\
-                                  "        5. py__init_obs_l_pdaf\n    " \
-                                  "        6. py__g2l_obs_pdaf\n    "\
-                                  "           (localise each ensemble member in observation space)\n    "\
-                                  "        7. py__init_obsvar_l_pdaf\n    " \
-                                  "           (only called if local adaptive forgetting factor `type_forget=2` is used)\n    " \
-                                  "        8. py__prodRinvA_l_pdaf\n    "\
-                                  "        9. core DA algorithm\n    " \
-                                  "        10. py__l2g_state_pdaf\n    "\
-                                  "    9. py__prepoststep_state_pdaf\n    "\
-                                  "    10. py__distribute_state_pdaf\n    "\
-                                  "    11. py__next_observation_pdaf\n" \
-                                  "\n    " \
-                                  ".. deprecated:: 1.0.0\n\n    " \
-                                  "   This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate`\n    " \
-                                  "   and :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`" \
-                                  "\n\n    " \
-                                  "References\n    " \
-                                  "----------\n    " \
-                                  ".. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). \n    " \
-                                  "       A unification of ensemble square root Kalman filters. \n    " \
-                                  "       Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1"
-docstrings['assimilate_etkf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`\n    "\
-                                "or :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`.\n\n    "\
-                                "PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
-                                "Using ETKF (ensemble transform " \
-                                "Kalman filter) [1]_ for a single DA step without OMI. The implementation is baed on [2]_.\n\n    " \
-                                "This function should be called at each model time step.\n    " \
-                                "The function is a combination of :func:`pyPDAF.PDAF.put_state_etkf` " \
-                                "and :func:`pyPDAF.PDAF.get_state`.\n\n    " \
-                                "This function executes the user-supplied function in the following sequence:\n    " \
-                                "    1. py__collect_state_pdaf\n    " \
-                                "    2. py__prepoststep_state_pdaf\n    " \
-                                "    3. py__init_dim_obs_pdaf\n    " \
-                                "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
-                                "    5. py__init_obs_pdaf\n    " \
-                                "    6. py__obs_op_pdaf (for each ensemble member)\n    " \
-                                "    7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)\n    " \
-                                "    8. py__prodRinvA_pdaf\n    " \
-                                "    9. core DA algorithm\n    " \
-                                "    10. py__prepoststep_state_pdaf\n    " \
-                                "    11. py__distribute_state_pdaf\n    " \
-                                "    12. py__next_observation_pdaf\n" \
-                                "\n    " \
-                                ".. deprecated:: 1.0.0\n\n    " \
-                                "   This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`\n    " \
-                                "   and :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`" \
-                                "\n\n    " \
-                                "References\n    " \
-                                "----------\n    " \
-                                ".. [1] Bishop, C. H., B. J. Etherton, and S. J. Majumdar (2001)\n    "\
-                                "       Adaptive Sampling with the Ensemble Transform Kalman Filter.\n    "\
-                                "       Part I: Theoretical Aspects. Mon. Wea. Rev., 129, 420–436,\n    "\
-                                "       doi: 10.1175/1520-0493(2001)129<0420:ASWTET>2.0.CO;2. \n    " \
-                                ".. [2] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). \n    " \
-                                "       A unification of ensemble square root Kalman filters. \n    " \
-                                "       Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1"
-docstrings['assimilate_letkf'] = "It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`\n    "\
-                                 "or :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`.\n\n    "\
-                                 "PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
-                                 "Local ensemble transform Kalman filter (LETKF) [1]_ " \
-                                 "for a single DA step without OMI. Implementation is based on [2]_.\n    " \
-                                 "Note that the LESTKF is a more efficient equivalent to the LETKF.\n\n    " \
-                                 "This function should be called at each model time step.\n    " \
-                                 "The function is a combination of :func:`pyPDAF.PDAF.put_state_letkf`\n    " \
-                                 "and :func:`pyPDAF.PDAF.get_state`.\n\n    " \
-                                 "User-supplied functions are executed in the following sequence:\n    " \
-                                 "    1. py__collect_state_pdaf\n    "\
-                                 "    2. py__prepoststep_state_pdaf\n    "\
-                                 "    3. py__init_n_domains_p_pdaf\n    "\
-                                 "    4. py__init_dim_obs_pdaf\n    "\
-                                 "    5. py__obs_op_pdaf (for each ensemble member)\n    "\
-                                 "    6. py__init_obs_pdaf\n    " \
-                                 "       (if global adaptive forgetting factor `type_forget=1` is used\n    " \
-                                 "       in :func:`pyPDAF.PDAF.init`)\n    "\
-                                 "    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)\n    "\
-                                 "    8. loop over each local domain:\n    " \
-                                 "        1. py__init_dim_l_pdaf\n    "\
-                                 "        2. py__init_dim_obs_l_pdaf\n    "\
-                                 "        3. py__g2l_state_pdaf\n    "\
-                                 "        4. py__g2l_obs_pdaf (localise mean ensemble in observation space)\n    "\
-                                 "        5. py__init_obs_l_pdaf\n    " \
-                                 "        6. py__g2l_obs_pdaf (localise each ensemble member in observation space)\n    "\
-                                 "        7. py__init_obsvar_l_pdaf\n    " \
-                                 "           (only called if local adaptive forgetting factor `type_forget=2` is used)\n    " \
-                                 "        8. py__prodRinvA_l_pdaf\n    "\
-                                 "        9. core DA algorithm\n    " \
-                                 "        10. py__l2g_state_pdaf\n    "\
-                                 "    9. py__prepoststep_state_pdaf\n    "\
-                                 "    10. py__distribute_state_pdaf\n    "\
-                                 "    11. py__next_observation_pdaf\n" \
-                                 "\n    " \
-                                 ".. deprecated:: 1.0.0\n\n    " \
-                                 "   This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate`\n    " \
-                                 "   and :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`" \
-                                 "\n\n    " \
-                                 "References\n    " \
-                                 "----------\n    " \
-                                 ".. [1] Hunt, B. R., Kostelich, E. J., & Szunyogh, I. (2007).\n    "\
-                                 "       Efficient data assimilation for spatiotemporal chaos:\n    "\
-                                 "       A local ensemble transform Kalman filter. \n    "\
-                                 "       Physica D: Nonlinear Phenomena, 230(1-2), 112-126.\n    " \
-                                 ".. [2] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). \n    " \
-                                 "       A unification of ensemble square root Kalman filters. \n    " \
-                                 "       Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1"
-docstrings['assimilate_enkf'] =  "It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`\n    "\
-                                 "or :func:`pyPDAF.PDAF.omi_assimilate_enkf_nondiagR`.\n\n    "\
-                                 "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
-                                 "Stochastic EnKF (ensemble " \
-                                 "Kalman filter) [1]_ for a single DA step without OMI. " \
-                                 "This function should be called at each model time step. \n\n    " \
-                                 "The function is a combination of :func:`pyPDAF.PDAF.put_state_enkf` " \
-                                 "and :func:`pyPDAF.PDAF.get_state`.\n\n    "\
-                                 "This function executes the user-supplied functions in the following sequence:\n    " \
-                                 "    1. py__collect_state_pdaf\n    " \
-                                 "    2. py__prepoststep_state_pdaf\n    " \
-                                 "    3. py__init_dim_obs_pdaf\n    " \
-                                 "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
-                                 "    5. py__add_obs_err_pdaf\n    " \
-                                 "    6. py__init_obs_pdaf\n    " \
-                                 "    7. py__init_obscovar_pdaf\n    " \
-                                 "    8. py__obs_op_pdaf (for each ensemble member)\n    " \
-                                 "    9. core DA algorithm\n    " \
-                                 "    10. py__prepoststep_state_pdaf\n    " \
-                                 "    11. py__distribute_state_pdaf\n    " \
-                                 "    12. py__next_observation_pdaf\n" \
-                                 "\n    " \
-                                 ".. deprecated:: 1.0.0\n\n    " \
-                                 "   This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`\n    " \
-                                 "   and :func:`pyPDAF.PDAF.omi_assimilate_enkf_nondiagR`" \
-                                 "\n\n    " \
-                                 "References\n    " \
-                                 "----------\n    " \
-                                 ".. [1] Evensen, G. (1994), \n    "\
-                                 "       Sequential data assimilation with a nonlinear quasi-geostrophic model\n    "\
-                                 "       using Monte Carlo methods to forecast error statistics,\n    "\
-                                 "       J. Geophys. Res., 99(C5), 10143–10162, doi:10.1029/94JC00572."
-docstrings['assimilate_lenkf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_lenkf`\n    "\
-                                 "or :func:`pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR`.\n\n    "\
-                                 "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
-                                 "Stochastic EnKF (ensemble Kalman filter) with covariance localisation [1]_\n    " \
-                                 "for a single DA step without OMI.\n\n    " \
-                                 "This is the only scheme for covariance localisation in PDAF.\n\n    " \
-                                 "This function should be called at each model time step.\n    " \
-                                 "The function is a combination of :func:`pyPDAF.PDAF.put_state_lenkf`\n    " \
-                                 "and :func:`pyPDAF.PDAF.get_state`.\n\n    " \
-                                 "The user-supplied function is executed in the following sequence:\n    " \
-                                 "    1. py__collect_state_pdaf\n    " \
-                                 "    2. py__prepoststep_state_pdaf\n    " \
-                                 "    3. py__init_dim_obs_pdaf\n    " \
-                                 "    4. py__obs_op_pdaf (for each ensemble member)\n    " \
-                                 "    5. py__localize_pdaf\n    " \
-                                 "    6. py__add_obs_err_pdaf\n    " \
-                                 "    7. py__init_obs_pdaf\n    " \
-                                 "    8. py__init_obscovar_pdaf\n    " \
-                                 "    9. py__obs_op_pdaf (repeated to reduce storage)\n    " \
-                                 "    10. core DA algorith\n    " \
-                                 "    11. py__prepoststep_state_pdaf\n    " \
-                                 "    12. py__distribute_state_pdaf\n    " \
-                                 "    13. py__next_observation_pdaf\n" \
-                                 "\n    " \
-                                 ".. deprecated:: 1.0.0\n\n    " \
-                                 "   This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_lenkf`\n    " \
-                                 "   and :func:`pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR`" \
-                                 "\n\n    " \
-                                 "References\n    " \
-                                 "----------\n    " \
-                                 ".. [1] Houtekamer, P. L., and H. L. Mitchell (1998): \n    " \
-                                 "       Data Assimilation Using an Ensemble Kalman Filter Technique.\n    "\
-                                 "       Mon. Wea. Rev., 126, 796–811,\n    "\
-                                 "       doi: 10.1175/1520-0493(1998)126<0796:DAUAEK>2.0.CO;2."
 docstrings['assimilate_3dvar'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_3dvar`\n    "\
                                  "or :func:`pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR`.\n\n    "\
                                  "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
@@ -455,6 +230,397 @@ docstrings['assimilate_hyb3dvar_lestkf'] = "It is recommended to use :func:`pyPD
                                            ".. deprecated:: 1.0.0\n\n    " \
                                            "   This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf`\n    " \
                                            "   and :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR`"
+docstrings['assimilate_enkf'] =  "It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`\n    "\
+                                 "or :func:`pyPDAF.PDAF.omi_assimilate_enkf_nondiagR`.\n\n    "\
+                                 "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
+                                 "Stochastic EnKF (ensemble " \
+                                 "Kalman filter) [1]_ for a single DA step without OMI. " \
+                                 "This function should be called at each model time step. \n\n    " \
+                                 "The function is a combination of :func:`pyPDAF.PDAF.put_state_enkf` " \
+                                 "and :func:`pyPDAF.PDAF.get_state`.\n\n    "\
+                                 "This function executes the user-supplied functions in the following sequence:\n    " \
+                                 "    1. py__collect_state_pdaf\n    " \
+                                 "    2. py__prepoststep_state_pdaf\n    " \
+                                 "    3. py__init_dim_obs_pdaf\n    " \
+                                 "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
+                                 "    5. py__add_obs_err_pdaf\n    " \
+                                 "    6. py__init_obs_pdaf\n    " \
+                                 "    7. py__init_obscovar_pdaf\n    " \
+                                 "    8. py__obs_op_pdaf (for each ensemble member)\n    " \
+                                 "    9. core DA algorithm\n    " \
+                                 "    10. py__prepoststep_state_pdaf\n    " \
+                                 "    11. py__distribute_state_pdaf\n    " \
+                                 "    12. py__next_observation_pdaf\n" \
+                                 "\n    " \
+                                 ".. deprecated:: 1.0.0\n\n    " \
+                                 "   This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`\n    " \
+                                 "   and :func:`pyPDAF.PDAF.omi_assimilate_enkf_nondiagR`" \
+                                 "\n\n    " \
+                                 "References\n    " \
+                                 "----------\n    " \
+                                 ".. [1] Evensen, G. (1994), \n    "\
+                                 "       Sequential data assimilation with a nonlinear quasi-geostrophic model\n    "\
+                                 "       using Monte Carlo methods to forecast error statistics,\n    "\
+                                 "       J. Geophys. Res., 99(C5), 10143–10162, doi:10.1029/94JC00572."
+docstrings['assimilate_estkf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`\n    " \
+                                 "or :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR` instead of this function.\n\n    " \
+                                 "OMI functions need fewer user-supplied functions and improve DA efficiency.\n\n    " \
+                                 "This function calls ESTKF (error space transform Kalman filter) [1]_.\n    " \
+                                 "The ESTKF is a more efficient equivalent to the ETKF.\n\n    " \
+                                 "The function should be called at each model time step.\n    " \
+                                 "The function is a combination of :func:`pyPDAF.PDAF.put_state_estkf`\n    " \
+                                 "and :func:`pyPDAF.PDAF.get_state`.\n\n    " \
+                                 "User-supplied functions are executed in the following sequence:\n    " \
+                                 "    1. py__collect_state_pdaf\n    " \
+                                 "    2. py__prepoststep_state_pdaf\n    " \
+                                 "    3. py__init_dim_obs_pdaf\n    " \
+                                 "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
+                                 "    5. py__init_obs_pdaf\n    " \
+                                 "    6. py__obs_op_pdaf (for each ensemble member)\n    " \
+                                 "    7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)\n    " \
+                                 "    8. py__prodRinvA_pdaf\n    " \
+                                 "    9. core DA algorithm\n    " \
+                                 "    10. py__prepoststep_state_pdaf\n    " \
+                                 "    11. py__distribute_state_pdaf\n    " \
+                                 "    12. py__next_observation_pdaf\n" \
+                                 "\n    " \
+                                 ".. deprecated:: 1.0.0\n\n    " \
+                                 "   This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`\n    " \
+                                 "   and :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`" \
+                                 "\n\n    " \
+                                 "References\n    " \
+                                 "----------\n    " \
+                                 ".. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). \n    " \
+                                 "       A unification of ensemble square root Kalman filters. \n    " \
+                                 "       Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1"
+docstrings['assimilate_etkf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`\n    "\
+                                "or :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`.\n\n    "\
+                                "PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
+                                "Using ETKF (ensemble transform " \
+                                "Kalman filter) [1]_ for a single DA step without OMI. The implementation is baed on [2]_.\n\n    " \
+                                "This function should be called at each model time step.\n    " \
+                                "The function is a combination of :func:`pyPDAF.PDAF.put_state_etkf` " \
+                                "and :func:`pyPDAF.PDAF.get_state`.\n\n    " \
+                                "This function executes the user-supplied function in the following sequence:\n    " \
+                                "    1. py__collect_state_pdaf\n    " \
+                                "    2. py__prepoststep_state_pdaf\n    " \
+                                "    3. py__init_dim_obs_pdaf\n    " \
+                                "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
+                                "    5. py__init_obs_pdaf\n    " \
+                                "    6. py__obs_op_pdaf (for each ensemble member)\n    " \
+                                "    7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)\n    " \
+                                "    8. py__prodRinvA_pdaf\n    " \
+                                "    9. core DA algorithm\n    " \
+                                "    10. py__prepoststep_state_pdaf\n    " \
+                                "    11. py__distribute_state_pdaf\n    " \
+                                "    12. py__next_observation_pdaf\n" \
+                                "\n    " \
+                                ".. deprecated:: 1.0.0\n\n    " \
+                                "   This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`\n    " \
+                                "   and :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`" \
+                                "\n\n    " \
+                                "References\n    " \
+                                "----------\n    " \
+                                ".. [1] Bishop, C. H., B. J. Etherton, and S. J. Majumdar (2001)\n    "\
+                                "       Adaptive Sampling with the Ensemble Transform Kalman Filter.\n    "\
+                                "       Part I: Theoretical Aspects. Mon. Wea. Rev., 129, 420–436,\n    "\
+                                "       doi: 10.1175/1520-0493(2001)129<0420:ASWTET>2.0.CO;2. \n    " \
+                                ".. [2] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). \n    " \
+                                "       A unification of ensemble square root Kalman filters. \n    " \
+                                "       Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1"
+docstrings['assimilate_seek'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`\n    "\
+                                "or :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`.\n\n    "\
+                                "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
+                                "This function will use singular evolutive extended Kalman filter [1]_ for a single DA step.\n    " \
+                                "This is a deterministic Kalman filter.\n    " \
+                                "The function should be called at each model step.\n\n    " \
+                                "The function is a combination of :func:`pyPDAF.PDAF.put_state_seek`\n    " \
+                                "and :func:`pyPDAF.PDAF.get_state`.\n\n    "\
+                                "This function executes the user-supplied functions in the following sequence:\n    " \
+                                "    1. py__collect_state_pdaf\n    " \
+                                "    2. py__prepoststep_state_pdaf\n    " \
+                                "    3. py__init_dim_obs_pdaf\n    " \
+                                "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
+                                "    5. py__init_obs_pdaf\n    " \
+                                "    6. py__obs_op_pdaf (for each ensemble member)\n    " \
+                                "    7. py__prodRinvA_pdaf\n    " \
+                                "    8. core DA algorithm\n    " \
+                                "    9. py__prepoststep_state_pdaf\n    " \
+                                "    10. py__distribute_state_pdaf\n    " \
+                                "    11. py__next_observation_pdaf\n" \
+                                "\n    " \
+                                ".. deprecated:: 1.0.0\n\n    " \
+                                "   This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`\n    " \
+                                "   and :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`" \
+                                "\n\n    " \
+                                "References\n    " \
+                                "----------\n    " \
+                                 ".. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).\n    "\
+                                 "       A singular evolutive extended Kalman filter for data assimilation\n    "\
+                                 "       in oceanography. Journal of Marine systems, 16(3-4), 323-340."
+docstrings['assimilate_seik'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`\n    "\
+                                "or :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`.\n\n    "\
+                                "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
+                                "This function will use singular evolutive interpolated Kalman filter [1]_ for a single DA step.\n    " \
+                                "The function should be called at each model step.\n\n    " \
+                                "The function is a combination of :func:`pyPDAF.PDAF.put_state_seik`\n    " \
+                                "and :func:`pyPDAF.PDAF.get_state`.\n\n    "\
+                                "The function executes the user-supplied functions in the following sequence:\n    " \
+                                "    1. py__collect_state_pdaf\n    " \
+                                "    2. py__prepoststep_state_pdaf\n    " \
+                                "    3. py__init_dim_obs_pdaf\n    " \
+                                "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
+                                "    5. py__init_obs_pdaf\n    " \
+                                "    6. py__obs_op_pdaf (for each ensemble member)\n    " \
+                                "    7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)\n    " \
+                                "    8. py__prodRinvA_pdaf\n    " \
+                                "    9. core DA algorithm\n    " \
+                                "    10. py__prepoststep_state_pdaf\n    " \
+                                "    11. py__distribute_state_pdaf\n    " \
+                                "    12. py__next_observation_pdaf\n" \
+                                "\n    " \
+                                ".. deprecated:: 1.0.0\n\n    " \
+                                "   This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`\n    " \
+                                "   and :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`" \
+                                "\n\n    " \
+                                "References\n    " \
+                                "----------\n    " \
+                                 ".. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).\n    "\
+                                 "       A singular evolutive extended Kalman filter for data assimilation\n    "\
+                                 "       in oceanography. Journal of Marine systems, 16(3-4), 323-340."
+docstrings['assimilate_netf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`\n    "\
+                                "or :func:`pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR`.\n\n    "\
+                                "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
+                                "This function will use Nonlinear Ensemble Transform Filter (NETF) [1]_ \n    " \
+                                "for a single DA step. The nonlinear filter computes the distribution up to\n    " \
+                                "the second moment similar to KF but using a nonlinear weighting similar to\n    " \
+                                "particle filter. This leads to an equal weights assumption for prior ensemble.\n    " \
+                                "The function should be called at each model step.\n\n    " \
+                                "The function is a combination of :func:`pyPDAF.PDAF.put_state_netf`\n    " \
+                                "and :func:`pyPDAF.PDAF.get_state`.\n\n    "\
+                                "This function executes the user-supplied function in the following sequence:\n    " \
+                                "    1. py__collect_state_pdaf\n    " \
+                                "    2. py__prepoststep_state_pdaf\n    " \
+                                "    3. py__init_dim_obs_pdaf\n    " \
+                                "    4. py__init_obs_pdaf\n    " \
+                                "    5. py__obs_op_pdaf (for each ensemble member)\n    " \
+                                "    6. py__likelihood_pdaf\n    " \
+                                "    7. core DA algorithm\n    " \
+                                "    8. py__prepoststep_state_pdaf\n    " \
+                                "    9. py__distribute_state_pdaf\n    " \
+                                "    10. py__next_observation_pdaf\n" \
+                                "\n    " \
+                                ".. deprecated:: 1.0.0\n\n    " \
+                                "   This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`\n    " \
+                                "   and :func:`pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR`" \
+                                "\n\n    " \
+                                "References\n    " \
+                                "----------\n    " \
+                                ".. [1] Tödter, J., and B. Ahrens, 2015:\n    "\
+                                "       A second-order exact ensemble square root filter\n    " \
+                                "       for nonlinear data assimilation. Mon. Wea. Rev.,\n    " \
+                                "       143, 1347–1367, doi:10.1175/MWR-D-14-00108.1."
+docstrings['assimilate_pf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`\n    "\
+                              "or :func:`pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR`.\n\n    "\
+                              "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
+                              "This function will use particle filter for a single DA step.\n    " \
+                              "This is a fully nonlinear filter, and may require a high number of ensemble members.\n    " \
+                              "A review of particle filter can be found at [1]_.\n    " \
+                              "The function should be called at each model step.\n\n    " \
+                              "The function is a combination of :func:`pyPDAF.PDAF.put_state_pf`\n    " \
+                              "and :func:`pyPDAF.PDAF.get_state`.\n\n    "\
+                              "This function executes the user-supplied functions in the following sequence:\n    " \
+                              "    1. py__collect_state_pdaf\n    " \
+                              "    2. py__prepoststep_state_pdaf\n    " \
+                              "    3. py__init_dim_obs_pdaf\n    " \
+                              "    4. py__init_obs_pdaf\n    " \
+                              "    5. py__obs_op_pdaf (for each ensemble member)\n    " \
+                              "    6. py__likelihood_pdaf\n    " \
+                              "    7. core DA algorithm\n    " \
+                              "    8. py__prepoststep_state_pdaf\n    " \
+                              "    9. py__distribute_state_pdaf\n    " \
+                              "    10. py__next_observation_pdaf\n" \
+                              "\n    " \
+                              ".. deprecated:: 1.0.0\n\n    " \
+                              "   This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`\n    " \
+                              "   and :func:`pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR`" \
+                              "\n\n    " \
+                              "References\n    " \
+                              "----------\n    " \
+                              ".. [1] Van Leeuwen, P. J., Künsch, H. R., Nerger, L., Potthast, R., & Reich, S. (2019).\n    "\
+                              "       Particle filters for high‐dimensional geoscience applications:\n    "\
+                              "       A review. Quarterly Journal of the Royal Meteorological Society, 145(723), 2335-2365."
+docstrings['assimilate_lenkf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_lenkf`\n    "\
+                                 "or :func:`pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR`.\n\n    "\
+                                 "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
+                                 "Stochastic EnKF (ensemble Kalman filter) with covariance localisation [1]_\n    " \
+                                 "for a single DA step without OMI.\n\n    " \
+                                 "This is the only scheme for covariance localisation in PDAF.\n\n    " \
+                                 "This function should be called at each model time step.\n    " \
+                                 "The function is a combination of :func:`pyPDAF.PDAF.put_state_lenkf`\n    " \
+                                 "and :func:`pyPDAF.PDAF.get_state`.\n\n    " \
+                                 "The user-supplied function is executed in the following sequence:\n    " \
+                                 "    1. py__collect_state_pdaf\n    " \
+                                 "    2. py__prepoststep_state_pdaf\n    " \
+                                 "    3. py__init_dim_obs_pdaf\n    " \
+                                 "    4. py__obs_op_pdaf (for each ensemble member)\n    " \
+                                 "    5. py__localize_pdaf\n    " \
+                                 "    6. py__add_obs_err_pdaf\n    " \
+                                 "    7. py__init_obs_pdaf\n    " \
+                                 "    8. py__init_obscovar_pdaf\n    " \
+                                 "    9. py__obs_op_pdaf (repeated to reduce storage)\n    " \
+                                 "    10. core DA algorith\n    " \
+                                 "    11. py__prepoststep_state_pdaf\n    " \
+                                 "    12. py__distribute_state_pdaf\n    " \
+                                 "    13. py__next_observation_pdaf\n" \
+                                 "\n    " \
+                                 ".. deprecated:: 1.0.0\n\n    " \
+                                 "   This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_lenkf`\n    " \
+                                 "   and :func:`pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR`" \
+                                 "\n\n    " \
+                                 "References\n    " \
+                                 "----------\n    " \
+                                 ".. [1] Houtekamer, P. L., and H. L. Mitchell (1998): \n    " \
+                                 "       Data Assimilation Using an Ensemble Kalman Filter Technique.\n    "\
+                                 "       Mon. Wea. Rev., 126, 796–811,\n    "\
+                                 "       doi: 10.1175/1520-0493(1998)126<0796:DAUAEK>2.0.CO;2."
+docstrings['assimilate_lestkf'] = "It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`\n    "\
+                                  "or :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`.\n\n    "\
+                                  "PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
+                                  "Local ESTKF (error space transform " \
+                                  "Kalman filter) [1]_ for a single DA step without OMI.\n    " \
+                                  "The LESTKF is a more efficient equivalent to the LETKF.\n\n    " \
+                                  "This function should be called at each model time step.\n    " \
+                                  "The function is a combination of :func:`pyPDAF.PDAF.put_state_lestkf`\n    " \
+                                  "and :func:`pyPDAF.PDAF.get_state`.\n\n    " \
+                                  "User-supplied functions are executed in the following sequence:\n    " \
+                                  "    1. py__collect_state_pdaf\n    "\
+                                  "    2. py__prepoststep_state_pdaf\n    "\
+                                  "    3. py__init_n_domains_p_pdaf\n    "\
+                                  "    4. py__init_dim_obs_pdaf\n    "\
+                                  "    5. py__obs_op_pdaf (for each ensemble member)\n    "\
+                                  "    6. py__init_obs_pdaf\n    " \
+                                  "       (if global adaptive forgetting factor `type_forget=1` is used\n    " \
+                                  "       in :func:`pyPDAF.PDAF.init`)\n    "\
+                                  "    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)\n    "\
+                                  "    8. loop over each local domain:\n    " \
+                                  "        1. py__init_dim_l_pdaf\n    "\
+                                  "        2. py__init_dim_obs_l_pdaf\n    "\
+                                  "        3. py__g2l_state_pdaf\n    "\
+                                  "        4. py__g2l_obs_pdaf (localise mean ensemble in observation space)\n    "\
+                                  "        5. py__init_obs_l_pdaf\n    " \
+                                  "        6. py__g2l_obs_pdaf\n    "\
+                                  "           (localise each ensemble member in observation space)\n    "\
+                                  "        7. py__init_obsvar_l_pdaf\n    " \
+                                  "           (only called if local adaptive forgetting factor `type_forget=2` is used)\n    " \
+                                  "        8. py__prodRinvA_l_pdaf\n    "\
+                                  "        9. core DA algorithm\n    " \
+                                  "        10. py__l2g_state_pdaf\n    "\
+                                  "    9. py__prepoststep_state_pdaf\n    "\
+                                  "    10. py__distribute_state_pdaf\n    "\
+                                  "    11. py__next_observation_pdaf\n" \
+                                  "\n    " \
+                                  ".. deprecated:: 1.0.0\n\n    " \
+                                  "   This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate`\n    " \
+                                  "   and :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`" \
+                                  "\n\n    " \
+                                  "References\n    " \
+                                  "----------\n    " \
+                                  ".. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). \n    " \
+                                  "       A unification of ensemble square root Kalman filters. \n    " \
+                                  "       Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1"
+docstrings['assimilate_letkf'] = "It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`\n    "\
+                                 "or :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`.\n\n    "\
+                                 "PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
+                                 "Local ensemble transform Kalman filter (LETKF) [1]_ " \
+                                 "for a single DA step without OMI. Implementation is based on [2]_.\n    " \
+                                 "Note that the LESTKF is a more efficient equivalent to the LETKF.\n\n    " \
+                                 "This function should be called at each model time step.\n    " \
+                                 "The function is a combination of :func:`pyPDAF.PDAF.put_state_letkf`\n    " \
+                                 "and :func:`pyPDAF.PDAF.get_state`.\n\n    " \
+                                 "User-supplied functions are executed in the following sequence:\n    " \
+                                 "    1. py__collect_state_pdaf\n    "\
+                                 "    2. py__prepoststep_state_pdaf\n    "\
+                                 "    3. py__init_n_domains_p_pdaf\n    "\
+                                 "    4. py__init_dim_obs_pdaf\n    "\
+                                 "    5. py__obs_op_pdaf (for each ensemble member)\n    "\
+                                 "    6. py__init_obs_pdaf\n    " \
+                                 "       (if global adaptive forgetting factor `type_forget=1` is used\n    " \
+                                 "       in :func:`pyPDAF.PDAF.init`)\n    "\
+                                 "    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)\n    "\
+                                 "    8. loop over each local domain:\n    " \
+                                 "        1. py__init_dim_l_pdaf\n    "\
+                                 "        2. py__init_dim_obs_l_pdaf\n    "\
+                                 "        3. py__g2l_state_pdaf\n    "\
+                                 "        4. py__g2l_obs_pdaf (localise mean ensemble in observation space)\n    "\
+                                 "        5. py__init_obs_l_pdaf\n    " \
+                                 "        6. py__g2l_obs_pdaf (localise each ensemble member in observation space)\n    "\
+                                 "        7. py__init_obsvar_l_pdaf\n    " \
+                                 "           (only called if local adaptive forgetting factor `type_forget=2` is used)\n    " \
+                                 "        8. py__prodRinvA_l_pdaf\n    "\
+                                 "        9. core DA algorithm\n    " \
+                                 "        10. py__l2g_state_pdaf\n    "\
+                                 "    9. py__prepoststep_state_pdaf\n    "\
+                                 "    10. py__distribute_state_pdaf\n    "\
+                                 "    11. py__next_observation_pdaf\n" \
+                                 "\n    " \
+                                 ".. deprecated:: 1.0.0\n\n    " \
+                                 "   This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate`\n    " \
+                                 "   and :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`" \
+                                 "\n\n    " \
+                                 "References\n    " \
+                                 "----------\n    " \
+                                 ".. [1] Hunt, B. R., Kostelich, E. J., & Szunyogh, I. (2007).\n    "\
+                                 "       Efficient data assimilation for spatiotemporal chaos:\n    "\
+                                 "       A local ensemble transform Kalman filter. \n    "\
+                                 "       Physica D: Nonlinear Phenomena, 230(1-2), 112-126.\n    " \
+                                 ".. [2] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). \n    " \
+                                 "       A unification of ensemble square root Kalman filters. \n    " \
+                                 "       Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1"
+docstrings['assimilate_lseik'] = "It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`\n    "\
+                                 "or :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`.\n\n    "\
+                                 "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
+                                 "Local singular evolutive interpolated Kalman filter [1]_ for a single DA step.\n    " \
+                                 "This function should be called at each model time step.\n\n    " \
+                                 "The function is a combination of :func:`pyPDAF.PDAF.put_state_lseik` " \
+                                 "and :func:`pyPDAF.PDAF.get_state`\n\n    "\
+                                 "This function  executes the user-supplied functions in the following sequence:\n    " \
+                                 "    1. py__collect_state_pdaf\n    " \
+                                 "    2. py__prepoststep_state_pdaf\n    " \
+                                 "    3. py__init_n_domains_p_pdaf\n    " \
+                                 "    4. py__init_dim_obs_pdaf\n    " \
+                                 "    5. py__obs_op_pdaf (for each ensemble member)\n    " \
+                                 "    6. py__init_obs_pdaf\n    "\
+                                 "       (if global adaptive forgetting factor `type_forget=1`\n    " \
+                                 "       is used in :func:`pyPDAF.PDAF.init`)\n    " \
+                                 "    7. py__init_obsvar_pdaf\n    "\
+                                 "       (if global adaptive forgetting factor is used)\n    " \
+                                 "    8. loop over each local domain:\n    " \
+                                 "        1. py__init_dim_l_pdaf\n    " \
+                                 "        2. py__init_dim_obs_l_pdaf\n    " \
+                                 "        3. py__g2l_state_pdaf\n    " \
+                                 "        4. py__g2l_obs_pdaf (localise mean ensemble in observation space)\n    " \
+                                 "        5. py__init_obs_l_pdaf\n    "\
+                                 "        6. py__g2l_obs_pdaf\n    "\
+                                 "           (localise each ensemble member in observation space)\n    " \
+                                 "        7. py__init_obsvar_l_pdaf\n    "\
+                                 "           (only called if local adaptive forgetting factor `type_forget=2` is used)\n    "\
+                                 "        8. py__prodRinvA_l_pdaf\n    " \
+                                 "        9. core DA algorithm\n    " \
+                                 "        10. py__l2g_state_pdaf\n    " \
+                                 "    9. py__prepoststep_state_pdaf\n    " \
+                                 "    10. py__distribute_state_pdaf\n    " \
+                                 "    11. py__next_observation_pdaf\n" \
+                                 "\n    " \
+                                 ".. deprecated:: 1.0.0\n\n    " \
+                                 "   This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate`\n    " \
+                                 "   and :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`" \
+                                 "\n\n    " \
+                                 "References\n    " \
+                                 "----------\n    " \
+                                 ".. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).\n    "\
+                                 "       A singular evolutive extended Kalman filter for data assimilation\n    "\
+                                 "       in oceanography. Journal of Marine systems, 16(3-4), 323-340."
 docstrings['assimilate_lnetf'] = "It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`\n    "\
                                  "or :func:`pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR`.\n\n    "\
                                  "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
@@ -549,172 +715,6 @@ docstrings['assimilate_lknetf'] = "It is recommended to use :func:`pyPDAF.PDAF.l
                                   ".. [1] Nerger, L.. (2022) \n" \
                                   "       Data assimilation for nonlinear systems with a hybrid nonlinear Kalman ensemble transform filter. \n" \
                                   "       Q J R Meteorol Soc, 620–640. doi:10.1002/qj.4221"
-docstrings['assimilate_lseik'] = "It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`\n    "\
-                                 "or :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`.\n\n    "\
-                                 "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
-                                 "Local singular evolutive interpolated Kalman filter [1]_ for a single DA step.\n    " \
-                                 "This function should be called at each model time step.\n\n    " \
-                                 "The function is a combination of :func:`pyPDAF.PDAF.put_state_lseik` " \
-                                 "and :func:`pyPDAF.PDAF.get_state`\n\n    "\
-                                 "This function  executes the user-supplied functions in the following sequence:\n    " \
-                                 "    1. py__collect_state_pdaf\n    " \
-                                 "    2. py__prepoststep_state_pdaf\n    " \
-                                 "    3. py__init_n_domains_p_pdaf\n    " \
-                                 "    4. py__init_dim_obs_pdaf\n    " \
-                                 "    5. py__obs_op_pdaf (for each ensemble member)\n    " \
-                                 "    6. py__init_obs_pdaf\n    "\
-                                 "       (if global adaptive forgetting factor `type_forget=1`\n    " \
-                                 "       is used in :func:`pyPDAF.PDAF.init`)\n    " \
-                                 "    7. py__init_obsvar_pdaf\n    "\
-                                 "       (if global adaptive forgetting factor is used)\n    " \
-                                 "    8. loop over each local domain:\n    " \
-                                 "        1. py__init_dim_l_pdaf\n    " \
-                                 "        2. py__init_dim_obs_l_pdaf\n    " \
-                                 "        3. py__g2l_state_pdaf\n    " \
-                                 "        4. py__g2l_obs_pdaf (localise mean ensemble in observation space)\n    " \
-                                 "        5. py__init_obs_l_pdaf\n    "\
-                                 "        6. py__g2l_obs_pdaf\n    "\
-                                 "           (localise each ensemble member in observation space)\n    " \
-                                 "        7. py__init_obsvar_l_pdaf\n    "\
-                                 "           (only called if local adaptive forgetting factor `type_forget=2` is used)\n    "\
-                                 "        8. py__prodRinvA_l_pdaf\n    " \
-                                 "        9. core DA algorithm\n    " \
-                                 "        10. py__l2g_state_pdaf\n    " \
-                                 "    9. py__prepoststep_state_pdaf\n    " \
-                                 "    10. py__distribute_state_pdaf\n    " \
-                                 "    11. py__next_observation_pdaf\n" \
-                                 "\n    " \
-                                 ".. deprecated:: 1.0.0\n\n    " \
-                                 "   This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate`\n    " \
-                                 "   and :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`" \
-                                 "\n\n    " \
-                                 "References\n    " \
-                                 "----------\n    " \
-                                 ".. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).\n    "\
-                                 "       A singular evolutive extended Kalman filter for data assimilation\n    "\
-                                 "       in oceanography. Journal of Marine systems, 16(3-4), 323-340."
-docstrings['assimilate_netf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`\n    "\
-                                "or :func:`pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR`.\n\n    "\
-                                "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
-                                "This function will use Nonlinear Ensemble Transform Filter (NETF) [1]_ \n    " \
-                                "for a single DA step. The nonlinear filter computes the distribution up to\n    " \
-                                "the second moment similar to KF but using a nonlinear weighting similar to\n    " \
-                                "particle filter. This leads to an equal weights assumption for prior ensemble.\n    " \
-                                "The function should be called at each model step.\n\n    " \
-                                "The function is a combination of :func:`pyPDAF.PDAF.put_state_netf`\n    " \
-                                "and :func:`pyPDAF.PDAF.get_state`.\n\n    "\
-                                "This function executes the user-supplied function in the following sequence:\n    " \
-                                "    1. py__collect_state_pdaf\n    " \
-                                "    2. py__prepoststep_state_pdaf\n    " \
-                                "    3. py__init_dim_obs_pdaf\n    " \
-                                "    4. py__init_obs_pdaf\n    " \
-                                "    5. py__obs_op_pdaf (for each ensemble member)\n    " \
-                                "    6. py__likelihood_pdaf\n    " \
-                                "    7. core DA algorithm\n    " \
-                                "    8. py__prepoststep_state_pdaf\n    " \
-                                "    9. py__distribute_state_pdaf\n    " \
-                                "    10. py__next_observation_pdaf\n" \
-                                "\n    " \
-                                ".. deprecated:: 1.0.0\n\n    " \
-                                "   This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`\n    " \
-                                "   and :func:`pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR`" \
-                                "\n\n    " \
-                                "References\n    " \
-                                "----------\n    " \
-                                ".. [1] Tödter, J., and B. Ahrens, 2015:\n    "\
-                                "       A second-order exact ensemble square root filter\n    " \
-                                "       for nonlinear data assimilation. Mon. Wea. Rev.,\n    " \
-                                "       143, 1347–1367, doi:10.1175/MWR-D-14-00108.1."
-docstrings['assimilate_pf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`\n    "\
-                              "or :func:`pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR`.\n\n    "\
-                              "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
-                              "This function will use particle filter for a single DA step.\n    " \
-                              "This is a fully nonlinear filter, and may require a high number of ensemble members.\n    " \
-                              "A review of particle filter can be found at [1]_.\n    " \
-                              "The function should be called at each model step.\n\n    " \
-                              "The function is a combination of :func:`pyPDAF.PDAF.put_state_pf`\n    " \
-                              "and :func:`pyPDAF.PDAF.get_state`.\n\n    "\
-                              "This function executes the user-supplied functions in the following sequence:\n    " \
-                              "    1. py__collect_state_pdaf\n    " \
-                              "    2. py__prepoststep_state_pdaf\n    " \
-                              "    3. py__init_dim_obs_pdaf\n    " \
-                              "    4. py__init_obs_pdaf\n    " \
-                              "    5. py__obs_op_pdaf (for each ensemble member)\n    " \
-                              "    6. py__likelihood_pdaf\n    " \
-                              "    7. core DA algorithm\n    " \
-                              "    8. py__prepoststep_state_pdaf\n    " \
-                              "    9. py__distribute_state_pdaf\n    " \
-                              "    10. py__next_observation_pdaf\n" \
-                              "\n    " \
-                              ".. deprecated:: 1.0.0\n\n    " \
-                              "   This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`\n    " \
-                              "   and :func:`pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR`" \
-                              "\n\n    " \
-                              "References\n    " \
-                              "----------\n    " \
-                              ".. [1] Van Leeuwen, P. J., Künsch, H. R., Nerger, L., Potthast, R., & Reich, S. (2019).\n    "\
-                              "       Particle filters for high‐dimensional geoscience applications:\n    "\
-                              "       A review. Quarterly Journal of the Royal Meteorological Society, 145(723), 2335-2365."
-docstrings['assimilate_seek'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`\n    "\
-                                "or :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`.\n\n    "\
-                                "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
-                                "This function will use singular evolutive extended Kalman filter [1]_ for a single DA step.\n    " \
-                                "This is a deterministic Kalman filter.\n    " \
-                                "The function should be called at each model step.\n\n    " \
-                                "The function is a combination of :func:`pyPDAF.PDAF.put_state_seek`\n    " \
-                                "and :func:`pyPDAF.PDAF.get_state`.\n\n    "\
-                                "This function executes the user-supplied functions in the following sequence:\n    " \
-                                "    1. py__collect_state_pdaf\n    " \
-                                "    2. py__prepoststep_state_pdaf\n    " \
-                                "    3. py__init_dim_obs_pdaf\n    " \
-                                "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
-                                "    5. py__init_obs_pdaf\n    " \
-                                "    6. py__obs_op_pdaf (for each ensemble member)\n    " \
-                                "    7. py__prodRinvA_pdaf\n    " \
-                                "    8. core DA algorithm\n    " \
-                                "    9. py__prepoststep_state_pdaf\n    " \
-                                "    10. py__distribute_state_pdaf\n    " \
-                                "    11. py__next_observation_pdaf\n" \
-                                "\n    " \
-                                ".. deprecated:: 1.0.0\n\n    " \
-                                "   This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`\n    " \
-                                "   and :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`" \
-                                "\n\n    " \
-                                "References\n    " \
-                                "----------\n    " \
-                                 ".. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).\n    "\
-                                 "       A singular evolutive extended Kalman filter for data assimilation\n    "\
-                                 "       in oceanography. Journal of Marine systems, 16(3-4), 323-340."
-docstrings['assimilate_seik'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`\n    "\
-                                "or :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`.\n\n    "\
-                                "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
-                                "This function will use singular evolutive interpolated Kalman filter [1]_ for a single DA step.\n    " \
-                                "The function should be called at each model step.\n\n    " \
-                                "The function is a combination of :func:`pyPDAF.PDAF.put_state_seik`\n    " \
-                                "and :func:`pyPDAF.PDAF.get_state`.\n\n    "\
-                                "The function executes the user-supplied functions in the following sequence:\n    " \
-                                "    1. py__collect_state_pdaf\n    " \
-                                "    2. py__prepoststep_state_pdaf\n    " \
-                                "    3. py__init_dim_obs_pdaf\n    " \
-                                "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
-                                "    5. py__init_obs_pdaf\n    " \
-                                "    6. py__obs_op_pdaf (for each ensemble member)\n    " \
-                                "    7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)\n    " \
-                                "    8. py__prodRinvA_pdaf\n    " \
-                                "    9. core DA algorithm\n    " \
-                                "    10. py__prepoststep_state_pdaf\n    " \
-                                "    11. py__distribute_state_pdaf\n    " \
-                                "    12. py__next_observation_pdaf\n" \
-                                "\n    " \
-                                ".. deprecated:: 1.0.0\n\n    " \
-                                "   This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`\n    " \
-                                "   and :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`" \
-                                "\n\n    " \
-                                "References\n    " \
-                                "----------\n    " \
-                                 ".. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).\n    "\
-                                 "       A singular evolutive extended Kalman filter for data assimilation\n    "\
-                                 "       in oceanography. Journal of Marine systems, 16(3-4), 323-340."
 docstrings['assimilate_prepost'] = "It is used to preprocess and postprocess of the ensemble.\n\n    " \
                                    "No DA is performed in this function.\n    " \
                                    "Compared to :func:`pyPDAF.PDAF.prepost`, this function sets assimilation flag, \n    " \
@@ -878,129 +878,6 @@ docstrings['put_state_en3dvar_lestkf'] = "It is recommended to use :func:`pyPDAF
                                          ".. deprecated:: 1.0.0\n\n    " \
                                          "   This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf`\n    " \
                                          "   and :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR`"
-docstrings['put_state_enkf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`\n    "\
-                                 "or :func:`pyPDAF.PDAF.omi_put_state_enkf_nondiagR`.\n\n    "\
-                                 "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
-                                 "Stochastic EnKF (ensemble " \
-                                 "Kalman filter) [1]_ for a single DA step without OMI.\n\n    " \
-                                 "Compared to :func:`pyPDAF.PDAF.assimilate_enkf`, this function has no :func:`get_state` call.\n    " \
-                                 "This means that the analysis is not post-processed, and distributed to the model forecast\n    " \
-                                 "by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.\n    " \
-                                 "This function is typically used when there are not enough CPUs to run the ensemble in parallel,\n    "\
-                                 "and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this\n    "\
-                                 "function call to ensure the sequential DA.\n\n    " \
-                                 "This function should be called at each model time step. \n\n    " \
-                                 "This function executes the user-supplied functions in the following sequence:\n    " \
-                                 "    1. py__collect_state_pdaf\n    " \
-                                 "    2. py__prepoststep_state_pdaf\n    " \
-                                 "    3. py__init_dim_obs_pdaf\n    " \
-                                 "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
-                                 "    5. py__add_obs_err_pdaf\n    " \
-                                 "    6. py__init_obs_pdaf\n    " \
-                                 "    7. py__init_obscovar_pdaf\n    " \
-                                 "    8. py__obs_op_pdaf (for each ensemble member)\n    " \
-                                 "    9. core DA algorithm\n" \
-                                 "\n    " \
-                                 ".. deprecated:: 1.0.0\n\n    " \
-                                 "   This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`\n    " \
-                                 "   and :func:`pyPDAF.PDAF.omi_put_state_enkf_nondiagR`" \
-                                 "\n\n    " \
-                                 "References\n    " \
-                                 "----------\n    " \
-                                 ".. [1] Evensen, G. (1994), \n    "\
-                                 "       Sequential data assimilation with a nonlinear quasi-geostrophic model\n    "\
-                                 "       using Monte Carlo methods to forecast error statistics,\n    "\
-                                 "       J. Geophys. Res., 99(C5), 10143–10162, doi:10.1029/94JC00572."
-
-docstrings['put_state_estkf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`\n    " \
-                                "or :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR` instead of this function.\n\n    " \
-                                "OMI functions need fewer user-supplied functions and improve DA efficiency.\n\n    " \
-                                "This function calls ESTKF (error space transform Kalman filter) [1]_.\n\n    " \
-                                "Compared to :func:`pyPDAF.PDAF.assimilate_estkf`, this function has no :func:`get_state` call.\n    " \
-                                "This means that the analysis is not post-processed, and distributed to the model forecast\n    " \
-                                "by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.\n    " \
-                                "This function is typically used when there are not enough CPUs to run the ensemble in parallel,\n    "\
-                                "and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this\n    "\
-                                "function call to ensure the sequential DA.\n\n    " \
-                                "The ESTKF is a more efficient equivalent to the ETKF.\n\n    " \
-                                "The function should be called at each model time step.\n    " \
-                                "User-supplied functions are executed in the following sequence:\n    " \
-                                "    1. py__collect_state_pdaf\n    " \
-                                "    2. py__prepoststep_state_pdaf\n    " \
-                                "    3. py__init_dim_obs_pdaf\n    " \
-                                "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
-                                "    5. py__init_obs_pdaf\n    " \
-                                "    6. py__obs_op_pdaf (for each ensemble member)\n    " \
-                                "    7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)\n    " \
-                                "    8. py__prodRinvA_pdaf\n    " \
-                                "    9. core DA algorithm\n" \
-                                "\n    " \
-                                ".. deprecated:: 1.0.0\n\n    " \
-                                "   This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`\n    " \
-                                "   and :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`" \
-                                "\n\n    " \
-                                "References\n    " \
-                                "----------\n    " \
-                                ".. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). \n    " \
-                                "       A unification of ensemble square root Kalman filters. \n    " \
-                                "       Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1"
-docstrings['put_state_etkf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`\n    "\
-                               "or :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`.\n\n    "\
-                               "PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
-                               "Using ETKF (ensemble transform " \
-                               "Kalman filter) [1]_ for a single DA step without OMI. The implementation is baed on [2]_.\n\n    " \
-                               "Compared to :func:`pyPDAF.PDAF.assimilate_etkf`, this function has no :func:`get_state` call.\n    " \
-                               "This means that the analysis is not post-processed, and distributed to the model forecast\n    " \
-                               "by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.\n    " \
-                               "This function is typically used when there are not enough CPUs to run the ensemble in parallel,\n    "\
-                               "and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this\n    "\
-                               "function call to ensure the sequential DA.\n\n    " \
-                               "This function should be called at each model time step.\n\n    " \
-                               "This function executes the user-supplied function in the following sequence:\n    " \
-                               "    1. py__collect_state_pdaf\n    " \
-                               "    2. py__prepoststep_state_pdaf\n    " \
-                               "    3. py__init_dim_obs_pdaf\n    " \
-                               "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
-                               "    5. py__init_obs_pdaf\n    " \
-                               "    6. py__obs_op_pdaf (for each ensemble member)\n    " \
-                               "    7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)\n    " \
-                               "    8. py__prodRinvA_pdaf\n    " \
-                               "    9. core DA algorithm\n" \
-                               "\n    " \
-                               ".. deprecated:: 1.0.0\n\n    " \
-                               "   This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`\n    " \
-                               "   and :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`" \
-                               "\n\n    " \
-                               "References\n    " \
-                               "----------\n    " \
-                               ".. [1] Bishop, C. H., B. J. Etherton, and S. J. Majumdar (2001)\n    "\
-                               "       Adaptive Sampling with the Ensemble Transform Kalman Filter.\n    "\
-                               "       Part I: Theoretical Aspects. Mon. Wea. Rev., 129, 420–436,\n    "\
-                               "       doi: 10.1175/1520-0493(2001)129<0420:ASWTET>2.0.CO;2. \n    " \
-                               ".. [2] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). \n    " \
-                               "       A unification of ensemble square root Kalman filters. \n    " \
-                               "       Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1"
-docstrings['put_state_generate_obs'] =  "Generation of synthetic observations based on given error statistics and observation operator.\n\n    " \
-                                        "When diagonal observation error covariance matrix is used,\n    " \
-                                        "it is recommended to use :func:`pyPDAF.PDAF.omi_generate_obs` functionalities\n    "\
-                                        "for fewer user-supplied functions and improved efficiency.\n\n    " \
-                                        "The generated synthetic observations are based on each member of model forecast.\n    " \
-                                        "Therefore, an ensemble of observations can be obtained. In a typical experiment,\n    "\
-                                        "one may only need one ensemble member.\n\n    " \
-                                        "Compared to :func:`pyPDAF.PDAF.generate_obs`, this function has no :func:`get_state` call.\n    " \
-                                        "This means that the next DA step will not be assigned by user-supplied functions.\n    " \
-                                        "This function is typically used when there are not enough CPUs to run the ensemble in parallel,\n    "\
-                                        "and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this\n    "\
-                                        "function call to ensure the sequential DA.\n\n    " \
-                                        "The implementation strategy is similar to an assimilation step. This means that, \n    " \
-                                        "one can reuse many user-supplied functions for assimilation and observation generation.\n\n    " \
-                                        "This function executes the user-supplied function in the following sequence:\n    " \
-                                        "    1. py__collect_state_pdaf\n    " \
-                                        "    2. py__prepoststep_state_pdaf\n    " \
-                                        "    3. py__init_dim_obs_pdaf\n    " \
-                                        "    4. py__obs_op_pda\n    " \
-                                        "    5. py__init_obserr_f_pdaf\n    " \
-                                        "    6. py__get_obs_f_pdaf"
 docstrings['put_state_hyb3dvar_estkf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf`\n    "\
                                          "or :func:`pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf_nondiagR`.\n\n    "\
                                          "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
@@ -1109,6 +986,233 @@ docstrings['put_state_hyb3dvar_lestkf'] = "It is recommended to use :func:`pyPDA
                                           ".. deprecated:: 1.0.0\n\n    " \
                                           "   This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf`\n    " \
                                           "   and :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR`"
+docstrings['put_state_enkf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`\n    "\
+                                 "or :func:`pyPDAF.PDAF.omi_put_state_enkf_nondiagR`.\n\n    "\
+                                 "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
+                                 "Stochastic EnKF (ensemble " \
+                                 "Kalman filter) [1]_ for a single DA step without OMI.\n\n    " \
+                                 "Compared to :func:`pyPDAF.PDAF.assimilate_enkf`, this function has no :func:`get_state` call.\n    " \
+                                 "This means that the analysis is not post-processed, and distributed to the model forecast\n    " \
+                                 "by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.\n    " \
+                                 "This function is typically used when there are not enough CPUs to run the ensemble in parallel,\n    "\
+                                 "and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this\n    "\
+                                 "function call to ensure the sequential DA.\n\n    " \
+                                 "This function should be called at each model time step. \n\n    " \
+                                 "This function executes the user-supplied functions in the following sequence:\n    " \
+                                 "    1. py__collect_state_pdaf\n    " \
+                                 "    2. py__prepoststep_state_pdaf\n    " \
+                                 "    3. py__init_dim_obs_pdaf\n    " \
+                                 "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
+                                 "    5. py__add_obs_err_pdaf\n    " \
+                                 "    6. py__init_obs_pdaf\n    " \
+                                 "    7. py__init_obscovar_pdaf\n    " \
+                                 "    8. py__obs_op_pdaf (for each ensemble member)\n    " \
+                                 "    9. core DA algorithm\n" \
+                                 "\n    " \
+                                 ".. deprecated:: 1.0.0\n\n    " \
+                                 "   This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`\n    " \
+                                 "   and :func:`pyPDAF.PDAF.omi_put_state_enkf_nondiagR`" \
+                                 "\n\n    " \
+                                 "References\n    " \
+                                 "----------\n    " \
+                                 ".. [1] Evensen, G. (1994), \n    "\
+                                 "       Sequential data assimilation with a nonlinear quasi-geostrophic model\n    "\
+                                 "       using Monte Carlo methods to forecast error statistics,\n    "\
+                                 "       J. Geophys. Res., 99(C5), 10143–10162, doi:10.1029/94JC00572."
+docstrings['put_state_estkf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`\n    " \
+                                "or :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR` instead of this function.\n\n    " \
+                                "OMI functions need fewer user-supplied functions and improve DA efficiency.\n\n    " \
+                                "This function calls ESTKF (error space transform Kalman filter) [1]_.\n\n    " \
+                                "Compared to :func:`pyPDAF.PDAF.assimilate_estkf`, this function has no :func:`get_state` call.\n    " \
+                                "This means that the analysis is not post-processed, and distributed to the model forecast\n    " \
+                                "by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.\n    " \
+                                "This function is typically used when there are not enough CPUs to run the ensemble in parallel,\n    "\
+                                "and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this\n    "\
+                                "function call to ensure the sequential DA.\n\n    " \
+                                "The ESTKF is a more efficient equivalent to the ETKF.\n\n    " \
+                                "The function should be called at each model time step.\n\n    " \
+                                "User-supplied functions are executed in the following sequence:\n    " \
+                                "    1. py__collect_state_pdaf\n    " \
+                                "    2. py__prepoststep_state_pdaf\n    " \
+                                "    3. py__init_dim_obs_pdaf\n    " \
+                                "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
+                                "    5. py__init_obs_pdaf\n    " \
+                                "    6. py__obs_op_pdaf (for each ensemble member)\n    " \
+                                "    7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)\n    " \
+                                "    8. py__prodRinvA_pdaf\n    " \
+                                "    9. core DA algorithm\n" \
+                                "\n    " \
+                                ".. deprecated:: 1.0.0\n\n    " \
+                                "   This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`\n    " \
+                                "   and :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`." \
+                                "\n\n    " \
+                                "References\n    " \
+                                "----------\n    " \
+                                ".. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). \n    " \
+                                "       A unification of ensemble square root Kalman filters. \n    " \
+                                "       Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1"
+docstrings['put_state_etkf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`\n    "\
+                               "or :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`.\n\n    "\
+                               "PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
+                               "Using ETKF (ensemble transform " \
+                               "Kalman filter) [1]_ for a single DA step without OMI. The implementation is baed on [2]_.\n\n    " \
+                               "Compared to :func:`pyPDAF.PDAF.assimilate_etkf`, this function has no :func:`get_state` call.\n    " \
+                               "This means that the analysis is not post-processed, and distributed to the model forecast\n    " \
+                               "by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.\n    " \
+                               "This function is typically used when there are not enough CPUs to run the ensemble in parallel,\n    "\
+                               "and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this\n    "\
+                               "function call to ensure the sequential DA.\n\n    " \
+                               "This function should be called at each model time step.\n\n    " \
+                               "This function executes the user-supplied function in the following sequence:\n    " \
+                               "    1. py__collect_state_pdaf\n    " \
+                               "    2. py__prepoststep_state_pdaf\n    " \
+                               "    3. py__init_dim_obs_pdaf\n    " \
+                               "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
+                               "    5. py__init_obs_pdaf\n    " \
+                               "    6. py__obs_op_pdaf (for each ensemble member)\n    " \
+                               "    7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)\n    " \
+                               "    8. py__prodRinvA_pdaf\n    " \
+                               "    9. core DA algorithm\n" \
+                               "\n    " \
+                               ".. deprecated:: 1.0.0\n\n    " \
+                               "   This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`\n    " \
+                               "   and :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`" \
+                               "\n\n    " \
+                               "References\n    " \
+                               "----------\n    " \
+                               ".. [1] Bishop, C. H., B. J. Etherton, and S. J. Majumdar (2001)\n    "\
+                               "       Adaptive Sampling with the Ensemble Transform Kalman Filter.\n    "\
+                               "       Part I: Theoretical Aspects. Mon. Wea. Rev., 129, 420–436,\n    "\
+                               "       doi: 10.1175/1520-0493(2001)129<0420:ASWTET>2.0.CO;2. \n    " \
+                               ".. [2] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). \n    " \
+                               "       A unification of ensemble square root Kalman filters. \n    " \
+                               "       Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1"
+docstrings['put_state_seek'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`\n    "\
+                               "or :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`.\n\n    "\
+                               "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
+                               "This function will use singular evolutive extended Kalman filter [1]_ for a single DA step.\n\n    " \
+                               "Compared to :func:`pyPDAF.PDAF.assimilate_seek`, this function has no :func:`get_state` call.\n    " \
+                               "This means that the analysis is not post-processed, and distributed to the model forecast\n    " \
+                               "by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.\n    " \
+                               "The :func:`pyPDAF.PDAF.get_state` function follows this\n    "\
+                               "function call to ensure the sequential DA.\n\n    " \
+                               "This is a deterministic Kalman filter.\n    " \
+                               "The function should be called at each model step.\n\n    " \
+                               "This function executes the user-supplied functions in the following sequence:\n    " \
+                               "    1. py__collect_state_pdaf\n    " \
+                               "    2. py__prepoststep_state_pdaf\n    " \
+                               "    3. py__init_dim_obs_pdaf\n    " \
+                               "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
+                               "    5. py__init_obs_pdaf\n    " \
+                               "    6. py__obs_op_pdaf (for each ensemble member)\n    " \
+                               "    7. py__prodRinvA_pdaf\n    " \
+                               "    8. core DA algorithm\n" \
+                               "\n    " \
+                               ".. deprecated:: 1.0.0\n\n    " \
+                               "   This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`\n    " \
+                               "   and :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`" \
+                               "\n\n    " \
+                               "References\n    " \
+                               "----------\n    " \
+                               ".. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).\n    "\
+                               "       A singular evolutive extended Kalman filter for data assimilation\n    "\
+                               "       in oceanography. Journal of Marine systems, 16(3-4), 323-340."
+docstrings['put_state_seik'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`\n    "\
+                               "or :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`.\n\n    "\
+                               "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
+                               "This function will use singular evolutive interpolated Kalman filter [1]_ for a single DA step.\n\n    " \
+                               "Compared to :func:`pyPDAF.PDAF.assimilate_seik`, this function has no :func:`get_state` call.\n    " \
+                               "This means that the analysis is not post-processed, and distributed to the model forecast\n    " \
+                               "by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.\n    " \
+                               "This function is typically used when there are not enough CPUs to run the ensemble in parallel,\n    "\
+                               "and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this\n    "\
+                               "function call to ensure the sequential DA.\n\n    " \
+                               "The function should be called at each model step.\n\n    " \
+                               "The function executes the user-supplied functions in the following sequence:\n    " \
+                               "    1. py__collect_state_pdaf\n    " \
+                               "    2. py__prepoststep_state_pdaf\n    " \
+                               "    3. py__init_dim_obs_pdaf\n    " \
+                               "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
+                               "    5. py__init_obs_pdaf\n    " \
+                               "    6. py__obs_op_pdaf (for each ensemble member)\n    " \
+                               "    7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)\n    " \
+                               "    8. py__prodRinvA_pdaf\n    " \
+                               "    9. core DA algorithm\n" \
+                               "\n    " \
+                               ".. deprecated:: 1.0.0\n\n    " \
+                               "   This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`\n    " \
+                               "   and :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`" \
+                               "\n\n    " \
+                               "References\n    " \
+                               "----------\n    " \
+                               ".. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).\n    "\
+                               "       A singular evolutive extended Kalman filter for data assimilation\n    "\
+                               "       in oceanography. Journal of Marine systems, 16(3-4), 323-340."
+docstrings['put_state_netf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`\n    "\
+                               "or :func:`pyPDAF.PDAF.omi_put_state_nonlin_nondiagR`.\n\n    "\
+                               "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
+                               "This function will use Nonlinear Ensemble Transform Filter (NETF) [1]_ \n    " \
+                               "for a single DA step.\n\n    "\
+                               "Compared to :func:`pyPDAF.PDAF.assimilate_netf`, this function has no :func:`get_state` call.\n    " \
+                               "This means that the analysis is not post-processed, and distributed to the model forecast\n    " \
+                               "by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.\n    " \
+                               "This function is typically used when there are not enough CPUs to run the ensemble in parallel,\n    "\
+                               "and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this\n    "\
+                               "function call to ensure the sequential DA.\n\n    " \
+                               "The nonlinear filter computes the distribution up to\n    " \
+                               "the second moment similar to KF but using a nonlinear weighting similar to\n    " \
+                               "particle filter. This leads to an equal weights assumption for prior ensemble.\n    " \
+                               "The function should be called at each model step.\n\n    " \
+                               "This function executes the user-supplied function in the following sequence:\n    " \
+                               "    1. py__collect_state_pdaf\n    " \
+                               "    2. py__prepoststep_state_pdaf\n    " \
+                               "    3. py__init_dim_obs_pdaf\n    " \
+                               "    4. py__init_obs_pdaf\n    " \
+                               "    5. py__obs_op_pdaf (for each ensemble member)\n    " \
+                               "    6. py__likelihood_pdaf\n    " \
+                               "    7. core DA algorithm\n" \
+                               "\n    " \
+                               ".. deprecated:: 1.0.0\n\n    " \
+                               "   This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`\n    " \
+                               "   and :func:`pyPDAF.PDAF.omi_put_state_nonlin_nondiagR`" \
+                               "\n\n    " \
+                               "References\n    " \
+                               "----------\n    " \
+                               ".. [1] Tödter, J., and B. Ahrens, 2015:\n    "\
+                               "       A second-order exact ensemble square root filter\n    " \
+                               "       for nonlinear data assimilation. Mon. Wea. Rev.,\n    " \
+                               "       143, 1347–1367, doi:10.1175/MWR-D-14-00108.1."
+docstrings['put_state_pf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`\n    "\
+                              "or :func:`pyPDAF.PDAF.omi_put_state_nonlin_nondiagR`.\n\n    "\
+                              "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
+                              "This function will use particle filter for a single DA step.\n\n    " \
+                              "Compared to :func:`pyPDAF.PDAF.assimilate_pf`, this function has no :func:`get_state` call.\n    " \
+                              "This means that the analysis is not post-processed, and distributed to the model forecast\n    " \
+                              "by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.\n    " \
+                              "This function is typically used when there are not enough CPUs to run the ensemble in parallel,\n    "\
+                              "and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this\n    "\
+                              "function call to ensure the sequential DA.\n\n    " \
+                              "This is a fully nonlinear filter, and may require a high number of ensemble members.\n    " \
+                              "A review of particle filter can be found at [1]_.\n    " \
+                              "The function should be called at each model step.\n\n    " \
+                              "This function executes the user-supplied functions in the following sequence:\n    " \
+                              "    1. py__collect_state_pdaf\n    " \
+                              "    2. py__prepoststep_state_pdaf\n    " \
+                              "    3. py__init_dim_obs_pdaf\n    " \
+                              "    4. py__init_obs_pdaf\n    " \
+                              "    5. py__obs_op_pdaf (for each ensemble member)\n    " \
+                              "    6. py__likelihood_pdaf\n    " \
+                              "    7. core DA algorithm\n" \
+                              "\n    " \
+                              ".. deprecated:: 1.0.0\n\n    " \
+                              "   This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`\n    " \
+                              "   and :func:`pyPDAF.PDAF.omi_put_state_nonlin_nondiagR`" \
+                              "\n\n    " \
+                              "References\n    " \
+                              "----------\n    " \
+                              ".. [1] Van Leeuwen, P. J., Künsch, H. R., Nerger, L., Potthast, R., & Reich, S. (2019).\n    "\
+                              "       Particle filters for high‐dimensional geoscience applications:\n    "\
+                              "       A review. Quarterly Journal of the Royal Meteorological Society, 145(723), 2335-2365."
 docstrings['put_state_lenkf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_lenkf`\n    "\
                                 "or :func:`pyPDAF.PDAF.omi_put_state_lenkf_nondiagR`.\n\n    "\
                                 "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
@@ -1121,7 +1225,7 @@ docstrings['put_state_lenkf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi
                                 "and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this\n    "\
                                 "function call to ensure the sequential DA.\n\n    " \
                                 "This is the only scheme for covariance localisation in PDAF.\n\n    " \
-                                "This function should be called at each model time step.\n    " \
+                                "This function should be called at each model time step.\n\n    " \
                                 "The user-supplied function is executed in the following sequence:\n    " \
                                 "    1. py__collect_state_pdaf\n    " \
                                 "    2. py__prepoststep_state_pdaf\n    " \
@@ -1239,6 +1343,51 @@ docstrings['put_state_letkf'] = "It is recommended to use :func:`pyPDAF.PDAF.loc
                                 ".. [2] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). \n    " \
                                 "       A unification of ensemble square root Kalman filters. \n    " \
                                 "       Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1"
+docstrings['put_state_lseik'] = "It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state`\n    "\
+                                "or :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`.\n\n    "\
+                                "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
+                                "Local singular evolutive interpolated Kalman filter [1]_ for a single DA step.\n\n    " \
+                                "Compared to :func:`pyPDAF.PDAF.assimilate_lseik`, this function has no :func:`get_state` call.\n    " \
+                                "This means that the analysis is not post-processed, and distributed to the model forecast\n    " \
+                                "by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.\n    " \
+                                "This function is typically used when there are not enough CPUs to run the ensemble in parallel,\n    "\
+                                "and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this\n    "\
+                                "function call to ensure the sequential DA.\n\n    " \
+                                "This function should be called at each model time step.\n\n    " \
+                                "This function  executes the user-supplied functions in the following sequence:\n    " \
+                                "    1. py__collect_state_pdaf\n    " \
+                                "    2. py__prepoststep_state_pdaf\n    " \
+                                "    3. py__init_n_domains_p_pdaf\n    " \
+                                "    4. py__init_dim_obs_pdaf\n    " \
+                                "    5. py__obs_op_pdaf (for each ensemble member)\n    " \
+                                "    6. py__init_obs_pdaf\n    "\
+                                "       (if global adaptive forgetting factor `type_forget=1`\n    " \
+                                "       is used in :func:`pyPDAF.PDAF.init`)\n    " \
+                                "    7. py__init_obsvar_pdaf\n    "\
+                                "       (if global adaptive forgetting factor is used)\n    " \
+                                "    8. loop over each local domain:\n    " \
+                                "        1. py__init_dim_l_pdaf\n    " \
+                                "        2. py__init_dim_obs_l_pdaf\n    " \
+                                "        3. py__g2l_state_pdaf\n    " \
+                                "        4. py__g2l_obs_pdaf (localise mean ensemble in observation space)\n    " \
+                                "        5. py__init_obs_l_pdaf\n    "\
+                                "        6. py__g2l_obs_pdaf\n    "\
+                                "           (localise each ensemble member in observation space)\n    " \
+                                "        7. py__init_obsvar_l_pdaf\n    "\
+                                "           (only called if local adaptive forgetting factor `type_forget=2` is used)\n    "\
+                                "        8. py__prodRinvA_l_pdaf\n    " \
+                                "        9. core DA algorithm\n    " \
+                                "        10. py__l2g_state_pdaf\n" \
+                                "\n    " \
+                                ".. deprecated:: 1.0.0\n\n    " \
+                                "   This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state`\n    " \
+                                "   and :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`" \
+                                "\n\n    " \
+                                "References\n    " \
+                                "----------\n    " \
+                                ".. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).\n    "\
+                                "       A singular evolutive extended Kalman filter for data assimilation\n    "\
+                                "       in oceanography. Journal of Marine systems, 16(3-4), 323-340."
 docstrings['put_state_lnetf'] = "It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state`\n    "\
                                 "or :func:`pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR`.\n\n    "\
                                 "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
@@ -1335,116 +1484,6 @@ docstrings['put_state_lknetf'] = "It is recommended to use :func:`pyPDAF.PDAF.lo
                                  ".. [1] Nerger, L.. (2022) \n" \
                                  "       Data assimilation for nonlinear systems with a hybrid nonlinear Kalman ensemble transform filter. \n" \
                                  "       Q J R Meteorol Soc, 620–640. doi:10.1002/qj.4221"
-docstrings['put_state_lseik'] = "It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state`\n    "\
-                                "or :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`.\n\n    "\
-                                "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
-                                "Local singular evolutive interpolated Kalman filter [1]_ for a single DA step.\n\n    " \
-                                "Compared to :func:`pyPDAF.PDAF.assimilate_lseik`, this function has no :func:`get_state` call.\n    " \
-                                "This means that the analysis is not post-processed, and distributed to the model forecast\n    " \
-                                "by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.\n    " \
-                                "This function is typically used when there are not enough CPUs to run the ensemble in parallel,\n    "\
-                                "and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this\n    "\
-                                "function call to ensure the sequential DA.\n\n    " \
-                                "This function should be called at each model time step.\n\n    " \
-                                "This function  executes the user-supplied functions in the following sequence:\n    " \
-                                "    1. py__collect_state_pdaf\n    " \
-                                "    2. py__prepoststep_state_pdaf\n    " \
-                                "    3. py__init_n_domains_p_pdaf\n    " \
-                                "    4. py__init_dim_obs_pdaf\n    " \
-                                "    5. py__obs_op_pdaf (for each ensemble member)\n    " \
-                                "    6. py__init_obs_pdaf\n    "\
-                                "       (if global adaptive forgetting factor `type_forget=1`\n    " \
-                                "       is used in :func:`pyPDAF.PDAF.init`)\n    " \
-                                "    7. py__init_obsvar_pdaf\n    "\
-                                "       (if global adaptive forgetting factor is used)\n    " \
-                                "    8. loop over each local domain:\n    " \
-                                "        1. py__init_dim_l_pdaf\n    " \
-                                "        2. py__init_dim_obs_l_pdaf\n    " \
-                                "        3. py__g2l_state_pdaf\n    " \
-                                "        4. py__g2l_obs_pdaf (localise mean ensemble in observation space)\n    " \
-                                "        5. py__init_obs_l_pdaf\n    "\
-                                "        6. py__g2l_obs_pdaf\n    "\
-                                "           (localise each ensemble member in observation space)\n    " \
-                                "        7. py__init_obsvar_l_pdaf\n    "\
-                                "           (only called if local adaptive forgetting factor `type_forget=2` is used)\n    "\
-                                "        8. py__prodRinvA_l_pdaf\n    " \
-                                "        9. core DA algorithm\n    " \
-                                "        10. py__l2g_state_pdaf\n" \
-                                "\n    " \
-                                ".. deprecated:: 1.0.0\n\n    " \
-                                "   This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state`\n    " \
-                                "   and :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`" \
-                                "\n\n    " \
-                                "References\n    " \
-                                "----------\n    " \
-                                ".. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).\n    "\
-                                "       A singular evolutive extended Kalman filter for data assimilation\n    "\
-                                "       in oceanography. Journal of Marine systems, 16(3-4), 323-340."
-docstrings['put_state_netf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`\n    "\
-                               "or :func:`pyPDAF.PDAF.omi_put_state_nonlin_nondiagR`.\n\n    "\
-                               "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
-                               "This function will use Nonlinear Ensemble Transform Filter (NETF) [1]_ \n    " \
-                               "for a single DA step.\n\n    "\
-                               "Compared to :func:`pyPDAF.PDAF.assimilate_netf`, this function has no :func:`get_state` call.\n    " \
-                               "This means that the analysis is not post-processed, and distributed to the model forecast\n    " \
-                               "by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.\n    " \
-                               "This function is typically used when there are not enough CPUs to run the ensemble in parallel,\n    "\
-                               "and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this\n    "\
-                               "function call to ensure the sequential DA.\n\n    " \
-                               "The nonlinear filter computes the distribution up to\n    " \
-                               "the second moment similar to KF but using a nonlinear weighting similar to\n    " \
-                               "particle filter. This leads to an equal weights assumption for prior ensemble.\n    " \
-                               "The function should be called at each model step.\n\n    " \
-                               "This function executes the user-supplied function in the following sequence:\n    " \
-                               "    1. py__collect_state_pdaf\n    " \
-                               "    2. py__prepoststep_state_pdaf\n    " \
-                               "    3. py__init_dim_obs_pdaf\n    " \
-                               "    4. py__init_obs_pdaf\n    " \
-                               "    5. py__obs_op_pdaf (for each ensemble member)\n    " \
-                               "    6. py__likelihood_pdaf\n    " \
-                               "    7. core DA algorithm\n" \
-                               "\n    " \
-                               ".. deprecated:: 1.0.0\n\n    " \
-                               "   This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`\n    " \
-                               "   and :func:`pyPDAF.PDAF.omi_put_state_nonlin_nondiagR`" \
-                               "\n\n    " \
-                               "References\n    " \
-                               "----------\n    " \
-                               ".. [1] Tödter, J., and B. Ahrens, 2015:\n    "\
-                               "       A second-order exact ensemble square root filter\n    " \
-                               "       for nonlinear data assimilation. Mon. Wea. Rev.,\n    " \
-                               "       143, 1347–1367, doi:10.1175/MWR-D-14-00108.1."
-docstrings['put_state_pf'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`\n    "\
-                              "or :func:`pyPDAF.PDAF.omi_put_state_nonlin_nondiagR`.\n\n    "\
-                              "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
-                              "This function will use particle filter for a single DA step.\n\n    " \
-                              "Compared to :func:`pyPDAF.PDAF.assimilate_pf`, this function has no :func:`get_state` call.\n    " \
-                              "This means that the analysis is not post-processed, and distributed to the model forecast\n    " \
-                              "by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.\n    " \
-                              "This function is typically used when there are not enough CPUs to run the ensemble in parallel,\n    "\
-                              "and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this\n    "\
-                              "function call to ensure the sequential DA.\n\n    " \
-                              "This is a fully nonlinear filter, and may require a high number of ensemble members.\n    " \
-                              "A review of particle filter can be found at [1]_.\n    " \
-                              "The function should be called at each model step.\n\n    " \
-                              "This function executes the user-supplied functions in the following sequence:\n    " \
-                              "    1. py__collect_state_pdaf\n    " \
-                              "    2. py__prepoststep_state_pdaf\n    " \
-                              "    3. py__init_dim_obs_pdaf\n    " \
-                              "    4. py__init_obs_pdaf\n    " \
-                              "    5. py__obs_op_pdaf (for each ensemble member)\n    " \
-                              "    6. py__likelihood_pdaf\n    " \
-                              "    7. core DA algorithm\n" \
-                              "\n    " \
-                              ".. deprecated:: 1.0.0\n\n    " \
-                              "   This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`\n    " \
-                              "   and :func:`pyPDAF.PDAF.omi_put_state_nonlin_nondiagR`" \
-                              "\n\n    " \
-                              "References\n    " \
-                              "----------\n    " \
-                              ".. [1] Van Leeuwen, P. J., Künsch, H. R., Nerger, L., Potthast, R., & Reich, S. (2019).\n    "\
-                              "       Particle filters for high‐dimensional geoscience applications:\n    "\
-                              "       A review. Quarterly Journal of the Royal Meteorological Society, 145(723), 2335-2365."
 docstrings['put_state_prepost'] = "It is used to preprocess and postprocess of the ensemble.\n\n    " \
                                   "No DA is performed in this function.\n    " \
                                   "Compared to :func:`pyPDAF.PDAF.assimilate_prepost`, this function does not set assimilation flag, \n    " \
@@ -1454,76 +1493,36 @@ docstrings['put_state_prepost'] = "It is used to preprocess and postprocess of t
                                   "This function executes the user-supplied functions in the following sequence: \n    " \
                                   "    1. py__collect_state_pdaf\n    " \
                                   "    2. py__prepoststep_state_pdaf (preprocess, step < 0)"
-docstrings['put_state_seek'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`\n    "\
-                               "or :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`.\n\n    "\
-                               "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
-                               "This function will use singular evolutive extended Kalman filter [1]_ for a single DA step.\n\n    " \
-                               "Compared to :func:`pyPDAF.PDAF.assimilate_seek`, this function has no :func:`get_state` call.\n    " \
-                               "This means that the analysis is not post-processed, and distributed to the model forecast\n    " \
-                               "by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.\n    " \
-                               "The :func:`pyPDAF.PDAF.get_state` function follows this\n    "\
-                               "function call to ensure the sequential DA.\n\n    " \
-                               "This is a deterministic Kalman filter.\n    " \
-                               "The function should be called at each model step.\n\n    " \
-                               "This function executes the user-supplied functions in the following sequence:\n    " \
-                               "    1. py__collect_state_pdaf\n    " \
-                               "    2. py__prepoststep_state_pdaf\n    " \
-                               "    3. py__init_dim_obs_pdaf\n    " \
-                               "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
-                               "    5. py__init_obs_pdaf\n    " \
-                               "    6. py__obs_op_pdaf (for each ensemble member)\n    " \
-                               "    7. py__prodRinvA_pdaf\n    " \
-                               "    8. core DA algorithm\n" \
-                               "\n    " \
-                               ".. deprecated:: 1.0.0\n\n    " \
-                               "   This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`\n    " \
-                               "   and :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`" \
-                               "\n\n    " \
-                               "References\n    " \
-                               "----------\n    " \
-                               ".. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).\n    "\
-                               "       A singular evolutive extended Kalman filter for data assimilation\n    "\
-                               "       in oceanography. Journal of Marine systems, 16(3-4), 323-340."
-docstrings['put_state_seik'] = "It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`\n    "\
-                               "or :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`.\n\n    "\
-                               "PDAF-OMI modules require fewer user-supplied functions and improved efficiency.\n\n    " \
-                               "This function will use singular evolutive interpolated Kalman filter [1]_ for a single DA step.\n\n    " \
-                               "Compared to :func:`pyPDAF.PDAF.assimilate_seik`, this function has no :func:`get_state` call.\n    " \
-                               "This means that the analysis is not post-processed, and distributed to the model forecast\n    " \
-                               "by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.\n    " \
-                               "This function is typically used when there are not enough CPUs to run the ensemble in parallel,\n    "\
-                               "and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this\n    "\
-                               "function call to ensure the sequential DA.\n\n    " \
-                               "The function should be called at each model step.\n\n    " \
-                               "The function executes the user-supplied functions in the following sequence:\n    " \
-                               "    1. py__collect_state_pdaf\n    " \
-                               "    2. py__prepoststep_state_pdaf\n    " \
-                               "    3. py__init_dim_obs_pdaf\n    " \
-                               "    4. py__obs_op_pdaf (for ensemble mean)\n    " \
-                               "    5. py__init_obs_pdaf\n    " \
-                               "    6. py__obs_op_pdaf (for each ensemble member)\n    " \
-                               "    7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)\n    " \
-                               "    8. py__prodRinvA_pdaf\n    " \
-                               "    9. core DA algorithm\n" \
-                               "\n    " \
-                               ".. deprecated:: 1.0.0\n\n    " \
-                               "   This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`\n    " \
-                               "   and :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`" \
-                               "\n\n    " \
-                               "References\n    " \
-                               "----------\n    " \
-                               ".. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).\n    "\
-                               "       A singular evolutive extended Kalman filter for data assimilation\n    "\
-                               "       in oceanography. Journal of Marine systems, 16(3-4), 323-340."
+docstrings['put_state_generate_obs'] =  "Generation of synthetic observations based on given error statistics and observation operator.\n\n    " \
+                                        "When diagonal observation error covariance matrix is used,\n    " \
+                                        "it is recommended to use :func:`pyPDAF.PDAF.omi_generate_obs` functionalities\n    "\
+                                        "for fewer user-supplied functions and improved efficiency.\n\n    " \
+                                        "The generated synthetic observations are based on each member of model forecast.\n    " \
+                                        "Therefore, an ensemble of observations can be obtained. In a typical experiment,\n    "\
+                                        "one may only need one ensemble member.\n\n    " \
+                                        "Compared to :func:`pyPDAF.PDAF.generate_obs`, this function has no :func:`get_state` call.\n    " \
+                                        "This means that the next DA step will not be assigned by user-supplied functions.\n    " \
+                                        "This function is typically used when there are not enough CPUs to run the ensemble in parallel,\n    "\
+                                        "and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this\n    "\
+                                        "function call to ensure the sequential DA.\n\n    " \
+                                        "The implementation strategy is similar to an assimilation step. This means that, \n    " \
+                                        "one can reuse many user-supplied functions for assimilation and observation generation.\n\n    " \
+                                        "This function executes the user-supplied function in the following sequence:\n    " \
+                                        "    1. py__collect_state_pdaf\n    " \
+                                        "    2. py__prepoststep_state_pdaf\n    " \
+                                        "    3. py__init_dim_obs_pdaf\n    " \
+                                        "    4. py__obs_op_pda\n    " \
+                                        "    5. py__init_obserr_f_pdaf\n    " \
+                                        "    6. py__get_obs_f_pdaf"
 
 docstrings['deallocate'] = "This function finalise the PDAF systems including freeing all memory used by PDAF."
 
 docstrings['diag_effsample'] = "Calculating the effective sample size of a particle filter.\n\n    " \
-                               "It is defined as the inverse of the sum of the squared particle filter weights:\n    " \
+                               "Based on [1]_, it is defined as the inverse of the sum of the squared particle filter weights:\n    " \
                                r":math:`N_{eff} = \frac{1}{\sum_{i=1}^{N} w_i^2}` where :math:`w_i` is the weight of particle with index i.""\n    " \
-                               "and :math:N is the number of particles.\n\n    " \
-                               r"If the :math:`N_{eff}=N`, all weights are identical, the filter has no influence.\n    "  \
-                               r"If :math:`N_{eff}=0`, the filter is collapsed.\n\n    " \
+                               r"and :math:`N` is the number of particles.""\n\n    " \
+                               r"If the :math:`N_{eff}=N`, all weights are identical, and the filter has no influence on the analysis.""\n    "  \
+                               r"If :math:`N_{eff}=0`, the filter is collapsed.""\n\n    " \
                                "This is typically called during the analysis step of a particle filter,\n    "\
                                "e.g. in the analysis step of NETF and LNETF.\n\n    " \
                                "References\n    " \

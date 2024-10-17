@@ -216,7 +216,7 @@ def get_arguments(subroutine:list[str]) -> dict[str, dict[str, str|list[str]]]:
     comment:str = ''
     for line in subroutine[1:]:
         if '!' in line:
-            comment = ' '.join([comment, line.split('!')[1].strip()])
+            comment = '\n        '.join([comment, line.split('!')[1][1:]])
         if '::' not in line:
             continue
         assert '!' not in line, 'if ! is in  the same line as ::, '\
