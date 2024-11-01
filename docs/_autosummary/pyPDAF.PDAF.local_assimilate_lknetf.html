@@ -14,7 +14,7 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pyPDAF.PDAF.local_put_state_en3dvar_lestkf" href="pyPDAF.PDAF.local_put_state_en3dvar_lestkf.html" />
+    <link rel="next" title="pyPDAF.PDAF.put_state_3dvar" href="pyPDAF.PDAF.put_state_3dvar.html" />
     <link rel="prev" title="pyPDAF.PDAF.local_assimilate_lnetf" href="pyPDAF.PDAF.local_assimilate_lnetf.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -38,39 +38,77 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAF.local_assimilate_lknetf">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">local_assimilate_lknetf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.local_assimilate_lknetf" title="Link to this definition">¶</a></dt>
-<dd><dl>
-<dt>It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., <cite>pyPDAF.PDAF.localomi_assimilate</cite> or <cite>pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR</cite>.</dt><dd><p>This function will is a hybridised LETKF and LNETF for DA without OMI. The LNETF computes the distribution up to the second moment similar to KF but using a nonlinear weighting similar to particle filter. This leads to an equal weights assumption for prior ensemble. The hybridisation with LETKF is expected to lead to improved performance for quasi-Gaussian problems. The function should be called at each model step.</p>
-<p>The function is a combination of <cite>pyPDAF.PDAF.local_put_state_lknetf</cite> and <cite>pyPDAF.PDAF.get_state</cite>, and executes the user-supplied function in the following sequence:
-1. py__collect_state_pdaf
-2. py__prepoststep_state_pdaf
-3. py__init_n_domains_p_pdaf
-4. py__init_dim_obs_pdaf
-5. py__obs_op_pdaf (for each ensemble member)
-6. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in <cite>pyPDAF.PDAF.init</cite>
-7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used
-loop over each local domain:
-8. py__init_dim_l_pdaf
-9. py__init_dim_obs_l_pdaf
-10. py__g2l_obs_pdaf (localise each ensemble member in observation space
-11. py__init_obs_l_pdaf
-12. py__init_obsvar_l_pdaf</p>
-</dd>
-<dt>(only called if local adaptive forgetting factor (type_forget=2) is used</dt><dd><ol class="arabic simple" start="13">
+<dd><p>It is recommended to use <a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate.html#pyPDAF.PDAF.localomi_assimilate" title="pyPDAF.PDAF.localomi_assimilate"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.localomi_assimilate()</span></code></a>
+or <a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR.html#pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR" title="pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR()</span></code></a>.</p>
+<p>PDAF-OMI modules require fewer user-supplied functions and improved efficiency.</p>
+<p>A hybridised LETKF and LNETF <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> for a single DA step.
+The LNETF computes the distribution up to
+the second moment similar to Kalman filters but using a nonlinear weighting similar to
+particle filters. This leads to an equal weights assumption for the prior ensemble.
+The hybridisation with LETKF is expected to lead to improved performance for
+quasi-Gaussian problems.
+The function should be called at each model step.</p>
+<p>The function is a combination of <a class="reference internal" href="pyPDAF.PDAF.local_put_state_lknetf.html#pyPDAF.PDAF.local_put_state_lknetf" title="pyPDAF.PDAF.local_put_state_lknetf"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.local_put_state_lknetf()</span></code></a>
+and <a class="reference internal" href="pyPDAF.PDAF.get_state.html#pyPDAF.PDAF.get_state" title="pyPDAF.PDAF.get_state"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_state()</span></code></a>.</p>
+<dl class="simple">
+<dt>This function executes the user-supplied function in the following sequence:</dt><dd><ol class="arabic simple">
+<li><p>py__collect_state_pdaf</p></li>
+<li><p>py__prepoststep_state_pdaf</p></li>
+<li><p>py__init_n_domains_p_pdaf</p></li>
+<li><p>py__init_dim_obs_pdaf</p></li>
+<li><p>py__obs_op_pdaf
+(for each ensemble member)</p></li>
+<li><p>py__init_obs_pdaf
+(if global adaptive forgetting factor <cite>type_forget=1</cite>
+is used in <a class="reference internal" href="pyPDAF.PDAF.init.html#pyPDAF.PDAF.init" title="pyPDAF.PDAF.init"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.init()</span></code></a>)</p></li>
+<li><p>py__init_obsvar_pdaf (if global adaptive forgetting factor is used)</p></li>
+<li><dl class="simple">
+<dt>loop over each local domain:</dt><dd><ol class="arabic simple">
+<li><p>py__init_dim_l_pdaf</p></li>
+<li><p>py__init_dim_obs_l_pdaf</p></li>
+<li><p>py__g2l_obs_pdaf
+(localise each ensemble member in observation space)</p></li>
+<li><p>py__init_obs_l_pdaf</p></li>
+<li><p>py__init_obsvar_l_pdaf
+(only called if local adaptive forgetting factor <cite>type_forget=2</cite> is used)</p></li>
 <li><p>py__prodRinvA_pdaf</p></li>
 <li><p>py__likelihood_l_pdaf</p></li>
 <li><p>core DA algorithm</p></li>
-<li><p>py__obs_op_pdaf (only called with <cite>HKN</cite> and <cite>HNK</cite> options called for each ensemble member)</p></li>
-<li><p>py__likelihood_hyb_l_pdaf</p></li>
-<li><p>py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><p>py__obs_op_pdaf
+(only called with <cite>HKN</cite> and <cite>HNK</cite> options called for each ensemble member)</p></li>
+<li><p>py__likelihood_hyb_l_pda</p></li>
+<li><p>py__init_obsvar_l_pdaf
+(only called if local adaptive forgetting factor <cite>type_forget=2</cite> is used)</p></li>
 <li><p>py__prodRinvA_hyb_l_pdaf</p></li>
 <li><p>py__prepoststep_state_pdaf</p></li>
 <li><p>py__distribute_state_pdaf</p></li>
 <li><p>py__next_observation_pdaf</p></li>
 </ol>
-<dl>
-<dt>py__collect_state_pdaf<span class="classifier">Callable[dim_p:int, state_p</span><span class="classifier">ndarray[tuple[dim_p], np.float64]]</span></dt><dd><p>Routine to collect a state vector</p>
+</dd>
+</dl>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 1.0.0: </span>This function is replaced by <a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate.html#pyPDAF.PDAF.localomi_assimilate" title="pyPDAF.PDAF.localomi_assimilate"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.localomi_assimilate()</span></code></a>
+and <a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR.html#pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR" title="pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR()</span></code></a></p>
+</div>
+<p class="rubric">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Nerger, L.. (2022)
+Data assimilation for nonlinear systems with a hybrid nonlinear Kalman ensemble transform filter.
+Q J R Meteorol Soc, 620–640. doi:10.1002/qj.4221</p>
+</aside>
+</aside>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>py__collect_state_pdaf</strong> (<em>Callable</em><em>[</em><em>dim_p:int</em><em>, </em><em>state_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>]</em>) – <p>Routine to collect a state vector</p>
 <dl class="simple">
-<dt><strong>Callback Parameters</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>dim_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>pe-local state dimension</p></li>
@@ -87,7 +125,7 @@ loop over each local domain:
 </li>
 </ul>
 </dd>
-<dt><strong>Callback Returns</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Returns</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>state_p</strong><span class="classifier">ndarray[tuple[dim_p], np.float64]</span></dt><dd><ul>
 <li><p>local state vector</p></li>
@@ -98,10 +136,10 @@ loop over each local domain:
 </ul>
 </dd>
 </dl>
-</dd>
-<dt>py__distribute_state_pdaf<span class="classifier">Callable[dim_p:int, state_p</span><span class="classifier">ndarray[tuple[dim_p], np.float64]]</span></dt><dd><p>Routine to distribute a state vector</p>
+</p></li>
+<li><p><strong>py__distribute_state_pdaf</strong> (<em>Callable</em><em>[</em><em>dim_p:int</em><em>, </em><em>state_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>]</em>) – <p>Routine to distribute a state vector</p>
 <dl class="simple">
-<dt><strong>Callback Parameters</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>dim_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>pe-local state dimension</p></li>
@@ -118,7 +156,7 @@ loop over each local domain:
 </li>
 </ul>
 </dd>
-<dt><strong>Callback Returns</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Returns</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>state_p</strong><span class="classifier">ndarray[tuple[dim_p], np.float64]</span></dt><dd><ul>
 <li><p>local state vector</p></li>
@@ -129,10 +167,10 @@ loop over each local domain:
 </ul>
 </dd>
 </dl>
-</dd>
-<dt>py__init_dim_obs_pdaf<span class="classifier">Callable[step:int, dim_obs_p:int]</span></dt><dd><p>Initialize dimension of observation vector</p>
+</p></li>
+<li><p><strong>py__init_dim_obs_pdaf</strong> (<em>Callable</em><em>[</em><em>step:int</em><em>, </em><em>dim_obs_p:int</em><em>]</em>) – <p>Initialize dimension of observation vector</p>
 <dl class="simple">
-<dt><strong>Callback Parameters</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>step</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>current time step</p></li>
@@ -149,7 +187,7 @@ loop over each local domain:
 </li>
 </ul>
 </dd>
-<dt><strong>Callback Returns</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Returns</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>dim_obs_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>dimension of observation vector</p></li>
@@ -160,10 +198,10 @@ loop over each local domain:
 </ul>
 </dd>
 </dl>
-</dd>
-<dt>py__obs_op_pdaf<span class="classifier">Callable[step:int, dim_p:int, dim_obs_p:int, state_p</span><span class="classifier">ndarray[tuple[dim_p], np.float64], m_state_p</span><span class="classifier">ndarray[tuple[dim_obs_p], np.float64]]</span></dt><dd><p>Observation operator</p>
+</p></li>
+<li><p><strong>py__obs_op_pdaf</strong> (<em>Callable</em><em>[</em><em>step:int</em><em>, </em><em>dim_p:int</em><em>, </em><em>dim_obs_p:int</em><em>, </em><em>state_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>m_state_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>]</em>) – <p>Observation operator</p>
 <dl class="simple">
-<dt><strong>Callback Parameters</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>step</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Current time step</p></li>
@@ -201,7 +239,7 @@ loop over each local domain:
 </li>
 </ul>
 </dd>
-<dt><strong>Callback Returns</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Returns</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>m_state_p</strong><span class="classifier">ndarray[tuple[dim_obs_p], np.float64]</span></dt><dd><ul>
 <li><p>Observed state vector (i.e. the result after applying the observation operator to state_p)</p></li>
@@ -212,10 +250,10 @@ loop over each local domain:
 </ul>
 </dd>
 </dl>
-</dd>
-<dt>py__init_obs_pdaf<span class="classifier">Callable[step:int, dim_obs_p:int, observation_p</span><span class="classifier">ndarray[tuple[dim_obs_p], np.float64]]</span></dt><dd><p>Initialize PE-local observation vector</p>
+</p></li>
+<li><p><strong>py__init_obs_pdaf</strong> (<em>Callable</em><em>[</em><em>step:int</em><em>, </em><em>dim_obs_p:int</em><em>, </em><em>observation_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>]</em>) – <p>Initialize PE-local observation vector</p>
 <dl class="simple">
-<dt><strong>Callback Parameters</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>step</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Current time step</p></li>
@@ -239,7 +277,7 @@ loop over each local domain:
 </li>
 </ul>
 </dd>
-<dt><strong>Callback Returns</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Returns</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>observation_p</strong><span class="classifier">ndarray[tuple[dim_obs_p], np.float64]</span></dt><dd><ul>
 <li><p>Vector of observations</p></li>
@@ -250,10 +288,10 @@ loop over each local domain:
 </ul>
 </dd>
 </dl>
-</dd>
-<dt>py__init_obs_l_pdaf<span class="classifier">Callable[domain_p:int, step:int, dim_obs_l:int, observation_l</span><span class="classifier">ndarray[tuple[dim_obs_l], np.float64]]</span></dt><dd><p>Init. observation vector on local analysis domain</p>
+</p></li>
+<li><p><strong>py__init_obs_l_pdaf</strong> (<em>Callable</em><em>[</em><em>domain_p:int</em><em>, </em><em>step:int</em><em>, </em><em>dim_obs_l:int</em><em>, </em><em>observation_l : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_l</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>]</em>) – <p>Init. observation vector on local analysis domain</p>
 <dl class="simple">
-<dt><strong>Callback Parameters</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>domain_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Index of current local analysis domain</p></li>
@@ -284,7 +322,7 @@ loop over each local domain:
 </li>
 </ul>
 </dd>
-<dt><strong>Callback Returns</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Returns</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>observation_l</strong><span class="classifier">ndarray[tuple[dim_obs_l], np.float64]</span></dt><dd><ul>
 <li><p>Local vector of observations</p></li>
@@ -295,10 +333,10 @@ loop over each local domain:
 </ul>
 </dd>
 </dl>
-</dd>
-<dt>py__prepoststep_pdaf<span class="classifier">Callable[step:int, dim_p:int, dim_ens:int, dim_ens_p:int, dim_obs_p:int, state_p</span><span class="classifier">ndarray[tuple[dim_p], np.float64], uinv</span><span class="classifier">ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p</span><span class="classifier">ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]</span></dt><dd><p>User supplied pre/poststep routine</p>
+</p></li>
+<li><p><strong>py__prepoststep_pdaf</strong> (<em>Callable</em><em>[</em><em>step:int</em><em>, </em><em>dim_p:int</em><em>, </em><em>dim_ens:int</em><em>, </em><em>dim_ens_p:int</em><em>, </em><em>dim_obs_p:int</em><em>, </em><em>state_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>uinv : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_ens-1</em><em>, </em><em>dim_ens-1</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>ens_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_p</em><em>, </em><em>dim_ens</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>flag:int</em><em>]</em>) – <p>User supplied pre/poststep routine</p>
 <dl class="simple">
-<dt><strong>Callback Parameters</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>step</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>current time step (negative for call after forecast)</p></li>
@@ -367,7 +405,7 @@ it can be used freely here.)</p></li>
 </li>
 </ul>
 </dd>
-<dt><strong>Callback Returns</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Returns</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>state_p</strong><span class="classifier">ndarray[tuple[dim_p], np.float64]</span></dt><dd><ul>
 <li><p>pe-local forecast/analysis state
@@ -395,10 +433,10 @@ it can be used freely here.)</p></li>
 </ul>
 </dd>
 </dl>
-</dd>
-<dt>py__prodRinvA_l_pdaf<span class="classifier">Callable[domain_p:int, step:int, dim_obs_l:int, rank:int, obs_l</span><span class="classifier">ndarray[tuple[dim_obs_l], np.float64], A_l</span><span class="classifier">ndarray[tuple[dim_obs_l, rank], np.float64], C_l</span><span class="classifier">ndarray[tuple[dim_obs_l, rank], np.float64]]</span></dt><dd><p>Provide product R^-1 A on local analysis domain</p>
+</p></li>
+<li><p><strong>py__prodRinvA_l_pdaf</strong> (<em>Callable</em><em>[</em><em>domain_p:int</em><em>, </em><em>step:int</em><em>, </em><em>dim_obs_l:int</em><em>, </em><em>rank:int</em><em>, </em><em>obs_l : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_l</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>A_l : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_l</em><em>, </em><em>rank</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>C_l : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_l</em><em>, </em><em>rank</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>]</em>) – <p>Provide product R^-1 A on local analysis domain</p>
 <dl class="simple">
-<dt><strong>Callback Parameters</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>domain_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Index of current local analysis domain</p></li>
@@ -451,7 +489,7 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </li>
 </ul>
 </dd>
-<dt><strong>Callback Returns</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Returns</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>C_l</strong><span class="classifier">ndarray[tuple[dim_obs_l, rank], np.float64]</span></dt><dd><ul>
 <li><p>Output matrix</p></li>
@@ -462,10 +500,10 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </ul>
 </dd>
 </dl>
-</dd>
-<dt>py__prodRinvA_hyb_l_pdaf<span class="classifier">Callable[domain_p:int, step:int, dim_obs_l:int, dim_ens:int, obs_l</span><span class="classifier">ndarray[tuple[dim_obs_l], np.float64], gamma:float, A_l</span><span class="classifier">ndarray[tuple[dim_obs_l, dim_ens], np.float64], C_l</span><span class="classifier">ndarray[tuple[dim_obs_l, dim_ens], np.float64]]</span></dt><dd><p>Provide product R^-1 A on local analysis domain with hybrid weight</p>
+</p></li>
+<li><p><strong>py__prodRinvA_hyb_l_pdaf</strong> (<em>Callable</em><em>[</em><em>domain_p:int</em><em>, </em><em>step:int</em><em>, </em><em>dim_obs_l:int</em><em>, </em><em>dim_ens:int</em><em>, </em><em>obs_l : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_l</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>gamma:float</em><em>, </em><em>A_l : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_l</em><em>, </em><em>dim_ens</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>C_l : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_l</em><em>, </em><em>dim_ens</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>]</em>) – <p>Provide product R^-1 A on local analysis domain with hybrid weight</p>
 <dl class="simple">
-<dt><strong>Callback Parameters</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>domain_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Index of current local analysis domain</p></li>
@@ -524,7 +562,7 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </li>
 </ul>
 </dd>
-<dt><strong>Callback Returns</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Returns</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>C_l</strong><span class="classifier">ndarray[tuple[dim_obs_l, dim_ens], np.float64]</span></dt><dd><ul>
 <li><p>Output matrix</p></li>
@@ -535,10 +573,10 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </ul>
 </dd>
 </dl>
-</dd>
-<dt>py__init_n_domains_p_pdaf<span class="classifier">Callable[step:int, n_domains_p:int]</span></dt><dd><p>Provide number of local analysis domains</p>
+</p></li>
+<li><p><strong>py__init_n_domains_p_pdaf</strong> (<em>Callable</em><em>[</em><em>step:int</em><em>, </em><em>n_domains_p:int</em><em>]</em>) – <p>Provide number of local analysis domains</p>
 <dl class="simple">
-<dt><strong>Callback Parameters</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>step</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>current time step</p></li>
@@ -555,7 +593,7 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </li>
 </ul>
 </dd>
-<dt><strong>Callback Returns</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Returns</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>n_domains_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>pe-local number of analysis domains</p></li>
@@ -566,10 +604,10 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </ul>
 </dd>
 </dl>
-</dd>
-<dt>py__init_dim_l_pdaf<span class="classifier">Callable[step:int, domain_p:int, dim_l:int]</span></dt><dd><p>Init state dimension for local ana. domain</p>
+</p></li>
+<li><p><strong>py__init_dim_l_pdaf</strong> (<em>Callable</em><em>[</em><em>step:int</em><em>, </em><em>domain_p:int</em><em>, </em><em>dim_l:int</em><em>]</em>) – <p>Init state dimension for local ana. domain</p>
 <dl class="simple">
-<dt><strong>Callback Parameters</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>step</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>current time step</p></li>
@@ -593,7 +631,7 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </li>
 </ul>
 </dd>
-<dt><strong>Callback Returns</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Returns</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>dim_l</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>local state dimension</p></li>
@@ -604,10 +642,10 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </ul>
 </dd>
 </dl>
-</dd>
-<dt>py__init_dim_obs_l_pdaf<span class="classifier">Callable[domain_p:int, step:int, dim_obs_f:int, dim_obs_l:int]</span></dt><dd><p>Initialize dim. of obs. vector for local ana. domain</p>
+</p></li>
+<li><p><strong>py__init_dim_obs_l_pdaf</strong> (<em>Callable</em><em>[</em><em>domain_p:int</em><em>, </em><em>step:int</em><em>, </em><em>dim_obs_f:int</em><em>, </em><em>dim_obs_l:int</em><em>]</em>) – <p>Initialize dim. of obs. vector for local ana. domain</p>
 <dl class="simple">
-<dt><strong>Callback Parameters</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>domain_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>index of current local analysis domain</p></li>
@@ -638,7 +676,7 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </li>
 </ul>
 </dd>
-<dt><strong>Callback Returns</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Returns</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>dim_obs_l</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>local dimension of observation vector</p></li>
@@ -649,10 +687,10 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </ul>
 </dd>
 </dl>
-</dd>
-<dt>py__g2l_obs_pdaf<span class="classifier">Callable[domain_p:int, step:int, dim_obs_f:int, dim_obs_l:int, mstate_f</span><span class="classifier">ndarray[tuple[dim_p], np.intc], dim_p:int, mstate_l</span><span class="classifier">ndarray[tuple[dim_l], np.intc], dim_l:int]</span></dt><dd><p>Restrict full obs. vector to local analysis domain</p>
+</p></li>
+<li><p><strong>py__g2l_obs_pdaf</strong> (<em>Callable</em><em>[</em><em>domain_p:int</em><em>, </em><em>step:int</em><em>, </em><em>dim_obs_f:int</em><em>, </em><em>dim_obs_l:int</em><em>, </em><em>mstate_f : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_p</em><em>]</em><em>, </em><em>np.intc</em><em>]</em><em>, </em><em>dim_p:int</em><em>, </em><em>mstate_l : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_l</em><em>]</em><em>, </em><em>np.intc</em><em>]</em><em>, </em><em>dim_l:int</em><em>]</em>) – <p>Restrict full obs. vector to local analysis domain</p>
 <dl class="simple">
-<dt><strong>Callback Parameters</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>domain_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Index of current local analysis domain</p></li>
@@ -711,7 +749,7 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </li>
 </ul>
 </dd>
-<dt><strong>Callback Returns</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Returns</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>mstate_l</strong><span class="classifier">ndarray[tuple[dim_l], np.intc]</span></dt><dd><ul>
 <li><p>Observation vector for local analysis domain</p></li>
@@ -722,10 +760,10 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </ul>
 </dd>
 </dl>
-</dd>
-<dt>py__init_obsvar_pdaf<span class="classifier">Callable[step:int, dim_obs_p:int, obs_p</span><span class="classifier">ndarray[tuple[dim_obs_p], np.float64], meanvar:float]</span></dt><dd><p>Initialize mean observation error variance</p>
+</p></li>
+<li><p><strong>py__init_obsvar_pdaf</strong> (<em>Callable</em><em>[</em><em>step:int</em><em>, </em><em>dim_obs_p:int</em><em>, </em><em>obs_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>meanvar:float</em><em>]</em>) – <p>Initialize mean observation error variance</p>
 <dl class="simple">
-<dt><strong>Callback Parameters</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>step</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Current time step</p></li>
@@ -756,7 +794,7 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </li>
 </ul>
 </dd>
-<dt><strong>Callback Returns</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Returns</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>meanvar</strong><span class="classifier">float</span></dt><dd><ul>
 <li><p>Mean observation error variance</p></li>
@@ -767,10 +805,10 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </ul>
 </dd>
 </dl>
-</dd>
-<dt>py__init_obsvar_l_pdaf<span class="classifier">Callable[domain_p:int, step:int, dim_obs_l:int, obs_l</span><span class="classifier">ndarray[tuple[dim_obs_p], np.float64], dim_obs_p:int, meanvar_l:float]</span></dt><dd><p>Initialize local mean observation error variance</p>
+</p></li>
+<li><p><strong>py__init_obsvar_l_pdaf</strong> (<em>Callable</em><em>[</em><em>domain_p:int</em><em>, </em><em>step:int</em><em>, </em><em>dim_obs_l:int</em><em>, </em><em>obs_l : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>dim_obs_p:int</em><em>, </em><em>meanvar_l:float</em><em>]</em>) – <p>Initialize local mean observation error variance</p>
 <dl class="simple">
-<dt><strong>Callback Parameters</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>domain_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Index of current local analysis domain</p></li>
@@ -815,7 +853,7 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </li>
 </ul>
 </dd>
-<dt><strong>Callback Returns</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Returns</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>meanvar_l</strong><span class="classifier">float</span></dt><dd><ul>
 <li><p>Mean local observation error variance</p></li>
@@ -826,10 +864,10 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </ul>
 </dd>
 </dl>
-</dd>
-<dt>py__likelihood_l_pdaf<span class="classifier">Callable[domain_p:int, step:int, dim_obs_l:int, obs_l</span><span class="classifier">ndarray[tuple[dim_obs_l], np.float64], resid_l</span><span class="classifier">ndarray[tuple[dim_obs_l], np.float64], likely_l:float]</span></dt><dd><p>Compute likelihood</p>
+</p></li>
+<li><p><strong>py__likelihood_l_pdaf</strong> (<em>Callable</em><em>[</em><em>domain_p:int</em><em>, </em><em>step:int</em><em>, </em><em>dim_obs_l:int</em><em>, </em><em>obs_l : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_l</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>resid_l : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_l</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>likely_l:float</em><em>]</em>) – <p>Compute likelihood</p>
 <dl class="simple">
-<dt><strong>Callback Parameters</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>domain_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Index of current local analysis domain</p></li>
@@ -874,7 +912,7 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </li>
 </ul>
 </dd>
-<dt><strong>Callback Returns</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Returns</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>likely_l</strong><span class="classifier">float</span></dt><dd><ul>
 <li><p>Output value of the local likelihood</p></li>
@@ -885,10 +923,10 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </ul>
 </dd>
 </dl>
-</dd>
-<dt>py__likelihood_hyb_l_pdaf<span class="classifier">Callable[domain_p:int, step:int, dim_obs_l:int, obs_l</span><span class="classifier">ndarray[tuple[dim_obs_l], np.float64], resid_l</span><span class="classifier">ndarray[tuple[dim_obs_l], np.float64], gamma:float, likely_l:float]</span></dt><dd><p>Compute likelihood with hybrid weight</p>
+</p></li>
+<li><p><strong>py__likelihood_hyb_l_pdaf</strong> (<em>Callable</em><em>[</em><em>domain_p:int</em><em>, </em><em>step:int</em><em>, </em><em>dim_obs_l:int</em><em>, </em><em>obs_l : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_l</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>resid_l : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_l</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>gamma:float</em><em>, </em><em>likely_l:float</em><em>]</em>) – <p>Compute likelihood with hybrid weight</p>
 <dl class="simple">
-<dt><strong>Callback Parameters</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>domain_p</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>Index of current local analysis domain</p></li>
@@ -940,7 +978,7 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </li>
 </ul>
 </dd>
-<dt><strong>Callback Returns</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Returns</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>likely_l</strong><span class="classifier">float</span></dt><dd><ul>
 <li><p>Output value of the local likelihood</p></li>
@@ -951,10 +989,10 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </ul>
 </dd>
 </dl>
-</dd>
-<dt>py__next_observation_pdaf<span class="classifier">Callable[stepnow:int, nsteps:int, doexit:int, time:float]</span></dt><dd><p>Routine to provide time step, time and dimension of next observation</p>
+</p></li>
+<li><p><strong>py__next_observation_pdaf</strong> (<em>Callable</em><em>[</em><em>stepnow:int</em><em>, </em><em>nsteps:int</em><em>, </em><em>doexit:int</em><em>, </em><em>time:float</em><em>]</em>) – <p>Routine to provide time step, time and dimension of next observation</p>
 <dl class="simple">
-<dt><strong>Callback Parameters</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Parameters</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>stepnow</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>number of the current time step</p></li>
@@ -985,7 +1023,7 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </li>
 </ul>
 </dd>
-<dt><strong>Callback Returns</strong></dt><dd><ul class="simple">
+<dt><strong>Callback Returns</strong></dt><dd><ul>
 <li><dl class="simple">
 <dt><strong>nsteps</strong><span class="classifier">int</span></dt><dd><ul>
 <li><p>number of time steps until next obs</p></li>
@@ -1010,12 +1048,14 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 </ul>
 </dd>
 </dl>
+</p></li>
+</ul>
 </dd>
-</dl>
-<dl class="simple">
-<dt>outflag<span class="classifier">int</span></dt><dd><p>Status flag</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>outflag</strong> – Status flag</p>
 </dd>
-</dl>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1062,222 +1102,9 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Manual.html">Userguide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../implementation.html">Design Details</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../API.html">API</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_3dvar.html">pyPDAF.PDAF.assimilate_3dvar</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_en3dvar_estkf.html">pyPDAF.PDAF.assimilate_en3dvar_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_en3dvar_lestkf.html">pyPDAF.PDAF.assimilate_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_hyb3dvar_estkf.html">pyPDAF.PDAF.assimilate_hyb3dvar_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.assimilate_hyb3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_enkf.html">pyPDAF.PDAF.assimilate_enkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_estkf.html">pyPDAF.PDAF.assimilate_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_etkf.html">pyPDAF.PDAF.assimilate_etkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_seek.html">pyPDAF.PDAF.assimilate_seek</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_seik.html">pyPDAF.PDAF.assimilate_seik</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_netf.html">pyPDAF.PDAF.assimilate_netf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_pf.html">pyPDAF.PDAF.assimilate_pf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lenkf.html">pyPDAF.PDAF.assimilate_lenkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lestkf.html">pyPDAF.PDAF.assimilate_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_letkf.html">pyPDAF.PDAF.assimilate_letkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lseik.html">pyPDAF.PDAF.assimilate_lseik</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lnetf.html">pyPDAF.PDAF.assimilate_lnetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_lknetf.html">pyPDAF.PDAF.assimilate_lknetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.assimilate_prepost.html">pyPDAF.PDAF.assimilate_prepost</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.generate_obs.html">pyPDAF.PDAF.generate_obs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_3dvar.html">pyPDAF.PDAF.put_state_3dvar</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_en3dvar_estkf.html">pyPDAF.PDAF.put_state_en3dvar_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_en3dvar_lestkf.html">pyPDAF.PDAF.put_state_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_hyb3dvar_estkf.html">pyPDAF.PDAF.put_state_hyb3dvar_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.put_state_hyb3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_enkf.html">pyPDAF.PDAF.put_state_enkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_estkf.html">pyPDAF.PDAF.put_state_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_etkf.html">pyPDAF.PDAF.put_state_etkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_seek.html">pyPDAF.PDAF.put_state_seek</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_seik.html">pyPDAF.PDAF.put_state_seik</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_netf.html">pyPDAF.PDAF.put_state_netf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_pf.html">pyPDAF.PDAF.put_state_pf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lenkf.html">pyPDAF.PDAF.put_state_lenkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lestkf.html">pyPDAF.PDAF.put_state_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_letkf.html">pyPDAF.PDAF.put_state_letkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lseik.html">pyPDAF.PDAF.put_state_lseik</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lnetf.html">pyPDAF.PDAF.put_state_lnetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_lknetf.html">pyPDAF.PDAF.put_state_lknetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_prepost.html">pyPDAF.PDAF.put_state_prepost</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.put_state_generate_obs.html">pyPDAF.PDAF.put_state_generate_obs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.deallocate.html">pyPDAF.PDAF.deallocate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.diag_effsample.html">pyPDAF.PDAF.diag_effsample</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.diag_ensstats.html">pyPDAF.PDAF.diag_ensstats</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.diag_histogram.html">pyPDAF.PDAF.diag_histogram</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.eofcovar.html">pyPDAF.PDAF.eofcovar</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.gather_dim_obs_f.html">pyPDAF.PDAF.gather_dim_obs_f</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.gather_obs_f.html">pyPDAF.PDAF.gather_obs_f</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.gather_obs_f2.html">pyPDAF.PDAF.gather_obs_f2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.get_assim_flag.html">pyPDAF.PDAF.get_assim_flag</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.get_ensstats.html">pyPDAF.PDAF.get_ensstats</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.get_localfilter.html">pyPDAF.PDAF.get_localfilter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.get_memberid.html">pyPDAF.PDAF.get_memberid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.get_obsmemberid.html">pyPDAF.PDAF.get_obsmemberid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.get_smootherens.html">pyPDAF.PDAF.get_smootherens</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.get_state.html">pyPDAF.PDAF.get_state</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.init.html">pyPDAF.PDAF.init</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_weight.html">pyPDAF.PDAF.local_weight</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.print_info.html">pyPDAF.PDAF.print_info</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.reset_forget.html">pyPDAF.PDAF.reset_forget</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.SampleEns.html">pyPDAF.PDAF.SampleEns</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.set_debug_flag.html">pyPDAF.PDAF.set_debug_flag</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.set_ens_pointer.html">pyPDAF.PDAF.set_ens_pointer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.set_smootherens.html">pyPDAF.PDAF.set_smootherens</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.seik_TtimesA.html">pyPDAF.PDAF.seik_TtimesA</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.etkf_Tleft.html">pyPDAF.PDAF.etkf_Tleft</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.estkf_OmegaA.html">pyPDAF.PDAF.estkf_OmegaA</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.enkf_omega.html">pyPDAF.PDAF.enkf_omega</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.seik_omega.html">pyPDAF.PDAF.seik_omega</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.incremental.html">pyPDAF.PDAF.incremental</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.add_increment.html">pyPDAF.PDAF.add_increment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_weights.html">pyPDAF.PDAF.local_weights</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.diag_CRPS.html">pyPDAF.PDAF.diag_CRPS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.force_analysis.html">pyPDAF.PDAF.force_analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.gather_obs_f2_flex.html">pyPDAF.PDAF.gather_obs_f2_flex</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.gather_obs_f_flex.html">pyPDAF.PDAF.gather_obs_f_flex</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.prepost.html">pyPDAF.PDAF.prepost</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.set_memberid.html">pyPDAF.PDAF.set_memberid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.set_comm_pdaf.html">pyPDAF.PDAF.set_comm_pdaf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.set_offline_mode.html">pyPDAF.PDAF.set_offline_mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.print_domain_stats.html">pyPDAF.PDAF.print_domain_stats</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.init_local_obsstats.html">pyPDAF.PDAF.init_local_obsstats</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.incr_local_obsstats.html">pyPDAF.PDAF.incr_local_obsstats</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.print_local_obsstats.html">pyPDAF.PDAF.print_local_obsstats</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omit_obs_omi.html">pyPDAF.PDAF.omit_obs_omi</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_init.html">pyPDAF.PDAF.omi_init</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_set_doassim.html">pyPDAF.PDAF.omi_set_doassim</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_set_disttype.html">pyPDAF.PDAF.omi_set_disttype</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_set_ncoord.html">pyPDAF.PDAF.omi_set_ncoord</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_set_id_obs_p.html">pyPDAF.PDAF.omi_set_id_obs_p</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_set_icoeff_p.html">pyPDAF.PDAF.omi_set_icoeff_p</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_set_domainsize.html">pyPDAF.PDAF.omi_set_domainsize</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_set_obs_err_type.html">pyPDAF.PDAF.omi_set_obs_err_type</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_set_use_global_obs.html">pyPDAF.PDAF.omi_set_use_global_obs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_set_inno_omit.html">pyPDAF.PDAF.omi_set_inno_omit</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_set_inno_omit_ivar.html">pyPDAF.PDAF.omi_set_inno_omit_ivar</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_gather_obs.html">pyPDAF.PDAF.omi_gather_obs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_gather_obsstate.html">pyPDAF.PDAF.omi_gather_obsstate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_set_domain_limits.html">pyPDAF.PDAF.omi_set_domain_limits</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_set_debug_flag.html">pyPDAF.PDAF.omi_set_debug_flag</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_deallocate_obs.html">pyPDAF.PDAF.omi_deallocate_obs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_obs_op_gridpoint.html">pyPDAF.PDAF.omi_obs_op_gridpoint</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_obs_op_gridavg.html">pyPDAF.PDAF.omi_obs_op_gridavg</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_obs_op_interp_lin.html">pyPDAF.PDAF.omi_obs_op_interp_lin</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_obs_op_adj_gridavg.html">pyPDAF.PDAF.omi_obs_op_adj_gridavg</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_obs_op_adj_gridpoint.html">pyPDAF.PDAF.omi_obs_op_adj_gridpoint</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_obs_op_adj_interp_lin.html">pyPDAF.PDAF.omi_obs_op_adj_interp_lin</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_get_interp_coeff_tri.html">pyPDAF.PDAF.omi_get_interp_coeff_tri</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_get_interp_coeff_lin1D.html">pyPDAF.PDAF.omi_get_interp_coeff_lin1D</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_get_interp_coeff_lin.html">pyPDAF.PDAF.omi_get_interp_coeff_lin</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_3dvar.html">pyPDAF.PDAF.omi_assimilate_3dvar</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_estkf.html">pyPDAF.PDAF.omi_assimilate_en3dvar_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf.html">pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global.html">pyPDAF.PDAF.omi_assimilate_global</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lenkf.html">pyPDAF.PDAF.omi_assimilate_lenkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_local.html">pyPDAF.PDAF.omi_assimilate_local</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_generate_obs.html">pyPDAF.PDAF.omi_generate_obs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_3dvar.html">pyPDAF.PDAF.omi_put_state_3dvar</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_en3dvar_estkf.html">pyPDAF.PDAF.omi_put_state_en3dvar_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_en3dvar_lestkf.html">pyPDAF.PDAF.omi_put_state_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf.html">pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_global.html">pyPDAF.PDAF.omi_put_state_global</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lenkf.html">pyPDAF.PDAF.omi_put_state_lenkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_local.html">pyPDAF.PDAF.omi_put_state_local</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_generate_obs.html">pyPDAF.PDAF.omi_put_state_generate_obs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_init_obs_f_cb.html">pyPDAF.PDAF.omi_init_obs_f_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_init_obsvar_cb.html">pyPDAF.PDAF.omi_init_obsvar_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_g2l_obs_cb.html">pyPDAF.PDAF.omi_g2l_obs_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_init_obs_l_cb.html">pyPDAF.PDAF.omi_init_obs_l_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_init_obsvar_l_cb.html">pyPDAF.PDAF.omi_init_obsvar_l_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_prodRinvA_l_cb.html">pyPDAF.PDAF.omi_prodRinvA_l_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_likelihood_l_cb.html">pyPDAF.PDAF.omi_likelihood_l_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_prodRinvA_cb.html">pyPDAF.PDAF.omi_prodRinvA_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_likelihood_cb.html">pyPDAF.PDAF.omi_likelihood_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_add_obs_error_cb.html">pyPDAF.PDAF.omi_add_obs_error_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_init_obscovar_cb.html">pyPDAF.PDAF.omi_init_obscovar_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_init_obserr_f_cb.html">pyPDAF.PDAF.omi_init_obserr_f_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_prodRinvA_hyb_l_cb.html">pyPDAF.PDAF.omi_prodRinvA_hyb_l_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_likelihood_hyb_l_cb.html">pyPDAF.PDAF.omi_likelihood_hyb_l_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_obsstats_l.html">pyPDAF.PDAF.omi_obsstats_l</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_weights_l.html">pyPDAF.PDAF.omi_weights_l</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_weights_l_sgnl.html">pyPDAF.PDAF.omi_weights_l_sgnl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_check_error.html">pyPDAF.PDAF.omi_check_error</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_gather_obsdims.html">pyPDAF.PDAF.omi_gather_obsdims</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_obsstats.html">pyPDAF.PDAF.omi_obsstats</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_init_dim_obs_l_iso.html">pyPDAF.PDAF.omi_init_dim_obs_l_iso</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_init_dim_obs_l_noniso.html">pyPDAF.PDAF.omi_init_dim_obs_l_noniso</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_init_dim_obs_l_noniso_locweights.html">pyPDAF.PDAF.omi_init_dim_obs_l_noniso_locweights</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_localize_covar_iso.html">pyPDAF.PDAF.omi_localize_covar_iso</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_localize_covar_noniso.html">pyPDAF.PDAF.omi_localize_covar_noniso</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_localize_covar_noniso_locweights.html">pyPDAF.PDAF.omi_localize_covar_noniso_locweights</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_omit_by_inno_l_cb.html">pyPDAF.PDAF.omi_omit_by_inno_l_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_omit_by_inno_cb.html">pyPDAF.PDAF.omi_omit_by_inno_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR.html">pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_enkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_enkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_global_nondiagR.html">pyPDAF.PDAF.omi_assimilate_global_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR.html">pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lnetf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_lnetf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_assimilate_lknetf_nondiagR.html">pyPDAF.PDAF.omi_assimilate_lknetf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_3dvar_nondiagR.html">pyPDAF.PDAF.omi_put_state_3dvar_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_en3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_en3dvar_estkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_en3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_enkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_enkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_global_nondiagR.html">pyPDAF.PDAF.omi_put_state_global_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_nonlin_nondiagR.html">pyPDAF.PDAF.omi_put_state_nonlin_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lenkf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lenkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lnetf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lnetf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.omi_put_state_lknetf_nondiagR.html">pyPDAF.PDAF.omi_put_state_lknetf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_set_indices.html">pyPDAF.PDAF.local_set_indices</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_set_increment_weights.html">pyPDAF.PDAF.local_set_increment_weights</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_clear_increment_weights.html">pyPDAF.PDAF.local_clear_increment_weights</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_g2l_cb.html">pyPDAF.PDAF.local_g2l_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_l2g_cb.html">pyPDAF.PDAF.local_l2g_cb</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_en3dvar_lestkf.html">pyPDAF.PDAF.local_assimilate_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.local_assimilate_hyb3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lestkf.html">pyPDAF.PDAF.local_assimilate_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_letkf.html">pyPDAF.PDAF.local_assimilate_letkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lseik.html">pyPDAF.PDAF.local_assimilate_lseik</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_assimilate_lnetf.html">pyPDAF.PDAF.local_assimilate_lnetf</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">pyPDAF.PDAF.local_assimilate_lknetf</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pyPDAF.PDAF.local_assimilate_lknetf"><code class="docutils literal notranslate"><span class="pre">local_assimilate_lknetf()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_en3dvar_lestkf.html">pyPDAF.PDAF.local_put_state_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.local_put_state_hyb3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lestkf.html">pyPDAF.PDAF.local_put_state_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_letkf.html">pyPDAF.PDAF.local_put_state_letkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lseik.html">pyPDAF.PDAF.local_put_state_lseik</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lnetf.html">pyPDAF.PDAF.local_put_state_lnetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.local_put_state_lknetf.html">pyPDAF.PDAF.local_put_state_lknetf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf.html">pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf.html">pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate.html">pyPDAF.PDAF.localomi_assimilate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR.html">pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf.html">pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf.html">pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state.html">pyPDAF.PDAF.localomi_put_state</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_nondiagR.html">pyPDAF.PDAF.localomi_put_state_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR.html">pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../API.html">API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../API_legacy.html">API (legacy)</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../API_legacy.html#da-algorithms">DA algorithms</a></li>
 </ul>
 </li>
 </ul>
@@ -1286,9 +1113,9 @@ This is usually the ensemble size minus one (or the rank of the initial covarian
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="../API.html">API</a><ul>
+  <li><a href="../API_legacy.html">API (legacy)</a><ul>
       <li>Previous: <a href="pyPDAF.PDAF.local_assimilate_lnetf.html" title="previous chapter">pyPDAF.PDAF.local_assimilate_lnetf</a></li>
-      <li>Next: <a href="pyPDAF.PDAF.local_put_state_en3dvar_lestkf.html" title="next chapter">pyPDAF.PDAF.local_put_state_en3dvar_lestkf</a></li>
+      <li>Next: <a href="pyPDAF.PDAF.put_state_3dvar.html" title="next chapter">pyPDAF.PDAF.put_state_3dvar</a></li>
   </ul></li>
   </ul></li>
 </ul>

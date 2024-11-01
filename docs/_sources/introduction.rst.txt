@@ -5,4 +5,4 @@ pyPDAF is a Python interface to the `Parallel Data Assimilation Framwork (PDAF) 
 
 With a variety of packages in Python, it allows a simpler coding style for user-supplied functions, such as I/O of observations and post-processing. This is helpful for prototyping data assimilation systems, offline data assimilation systems. It can also benefit many Python-based numerical models, or models that can be interfaced with Python, with parallel and efficient data assimilation capability.
 
-The core DA algorithm is as efficient as Fortran implementation in the interface. The efficiency of the Python-based user supplied functions can be improved if sufficient optimisations are used. 
+The core DA algorithm is as efficient as Fortran implementation in the interface. The efficiency of the Python-based user supplied functions can be improved if sufficient optimisations are used.
