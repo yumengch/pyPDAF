@@ -241,12 +241,15 @@ def write_docstring(f:typing.TextIO, subroutine_name:str, user_func_info:dict[st
                     dim0 = dim.split('+')[0].split('-')[0].replace(' ', '')
                     if dim in arg_info:
                         i += 1
-                        s += 2*indent + f'The {make_ordinal(i)}-th dimension {dim0} is {arg_info[dim0]["comment"]}\n'
+                        s += 2*indent
+                        s += 'The' if i == 1 else 'the'
+                        s += f'{make_ordinal(i)}-th dimension {dim0} is {arg_info[dim0]["comment"]}'
+                        s += ';\n' if i == 1 else '.\n'
             else:
                 dim = info['dimension'][0]
                 dim0 = dim.split('+')[0].split('-')[0].replace(' ', '')
                 if dim in arg_info:
-                    s += 2*indent + f'The array dimension `{dim0}` is {arg_info[dim0]["comment"]}\n'
+                    s += 2*indent + f'The array dimension `{dim0}` is {arg_info[dim0]["comment"]}.\n'
 
         else:
             s += indent + f'{arg} : {pyconv[info["type"]]}\n'

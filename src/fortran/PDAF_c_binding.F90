@@ -859,8 +859,8 @@ contains
       !
       ! This option can be used if `states` are not centred on 0, i.e., anomaly values.
       !     0. do nothing
-      !     1. remove the mean of `states` over `nstates` dimension 
-      !        before EOF computation  
+      !     1. remove the mean of `states` over `nstates` dimension
+      !        before EOF computation
       INTEGER(c_int), INTENT(in) :: remove_mstate
       ! An ensemble of state vectors.
       ! This argument should ideally be the anomalies of an ensemble,
@@ -874,7 +874,7 @@ contains
       REAL(c_double), INTENT(out) :: svals(nstates)
       ! Singular vectors of `states`
       REAL(c_double), INTENT(out) :: svec(dim_state, nstates)
-      ! Mean state 
+      ! Mean state
       ! The returned value equlas to the input unless `remove_mstate=1`
       REAL(c_double), INTENT(inout) :: meanstate(dim_state)
       ! Verbosity flag
@@ -1048,39 +1048,43 @@ contains
          param_real, dim_preal, COMM_model, COMM_filter, COMM_couple, &
          task_id, n_modeltasks, in_filterpe, U_init_ens, in_screen, &
          flag) bind(c)
-      ! Type of filter
+      ! type of filter
       INTEGER(c_int), INTENT(in) :: filtertype
-      ! Sub-type of filter
+      ! sub-type of filter
       INTEGER(c_int), INTENT(in) :: subtype
-      ! Initial time step of assimilation
+      ! initial time step of assimilation
       INTEGER(c_int), INTENT(in) :: stepnull
-      ! Number of integer parameters
+      ! the number of integer parameters which depends on
+      ! the type of filters and required non-default options
       INTEGER(c_int), INTENT(in) :: dim_pint
-      ! Integer parameter array
+      ! filter parameters in integer
       INTEGER(c_int), INTENT(inout) :: param_int(dim_pint)
-      ! Number of real parameter
+      ! number of real parameter which depends on
+      ! the type of filters and required non-default options
       INTEGER(c_int), INTENT(in) :: dim_preal
-      ! Real parameter array
+      ! filter parameters in float/real values
       REAL(c_double), INTENT(inout) :: param_real(dim_preal)
-      ! Model communicator
+      ! model MPI communicator
       INTEGER(c_int), INTENT(in) :: COMM_model
-      ! Coupling communicator
+      ! coupling MPI communicator
       INTEGER(c_int), INTENT(in) :: COMM_couple
-      ! Filter communicator
+      ! filter MPI communicator
       INTEGER(c_int), INTENT(in) :: COMM_filter
-      ! Id of my ensemble task
+      ! index of parallel model task starting from 1
       INTEGER(c_int), INTENT(in) :: task_id
-      ! Number of parallel model tasks
+      ! number of parallel model tasks
       INTEGER(c_int), INTENT(in) :: n_modeltasks
-      ! Is my PE a filter-PE?
+      ! True if the current PE is a filter PE else False
       LOGICAL(c_bool), INTENT(in) :: in_filterpe
-      ! Control screen output:
+      ! Verbosity level of PDAF screen output
       INTEGER(c_int), INTENT(in) :: in_screen
       ! Status flag, 0: no error, error codes:
       INTEGER(c_int), INTENT(out):: flag
-      ! User-supplied routine for ensemble initialization
+      ! initialise PDAF internal ensemble array
       procedure(c__init_ens_pdaf) :: U_init_ens
+
       logical :: filterpe
+
       filterpe = in_filterpe
 
       CALL PDAF_init(filtertype, subtype, stepnull, param_int, dim_pint, &
@@ -1119,10 +1123,14 @@ contains
    END SUBROUTINE c__PDAF_local_weight
 
    SUBROUTINE c__PDAF_print_info(printtype) bind(c)
-      ! - X=1: Basic timers
-      ! - X=3: Timers showing the time spent int he different call-back routines (this variant was added with PDAF 1.15)
-      ! - X=4: More detailed timers about parts of the filter algorithm (before PDAF 1.15, this was timer level 3)
-      ! - X=5: Very detailed timers about various operations in the filter algorithm (before PDAF 1.15, this was timer level 4)
+      ! Type of information to be printed
+      !     - printtype=1: Basic timers
+      !     - printtype=3: Timers showing the time spent int he different call-back routines
+      !       (this variant was added with PDAF 1.15)
+      !     - printtype=4: More detailed timers about parts of the filter algorithm
+      !       (before PDAF 1.15, this was timer level 3)
+      !     - printtype=5: Very detailed timers about various operations in the filter algorithm
+      !       (before PDAF 1.15, this was timer level 4)
       INTEGER(c_int), INTENT(in) :: printtype
 
       CALL PDAF_print_info(printtype)

@@ -8,10 +8,11 @@ pyPDAF - A Python interface to Parallel Data Assimilation Framework
 .. include:: introduction.rst
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    :caption: Contents:
 
    install
    Manual
    implementation
    API
+   API_legacy
