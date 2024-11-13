@@ -15,8 +15,14 @@ Initialisation and finalisation
    pyPDAF.PDAF.deallocate
    pyPDAF.PDAF.print_info
 
-DA algorithms
--------------
+`Fully parallel` DA algorithms
+------------------------------
+
+Sequential DA
+^^^^^^^^^^^^^
+
+diagnoal observation matrix
+"""""""""""""""""""""""""""
 .. autosummary::
    :toctree: _autosummary
    :recursive:
@@ -25,11 +31,11 @@ DA algorithms
    pyPDAF.PDAF.omi_assimilate_lenkf
    pyPDAF.PDAF.localomi_assimilate
 
-   pyPDAF.PDAF.omi_assimilate_3dvar
-   pyPDAF.PDAF.omi_assimilate_en3dvar_estkf
-   pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf
-   pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf
-   pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf
+non-diagnoal observation matrix
+"""""""""""""""""""""""""""""""
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
 
    pyPDAF.PDAF.omi_assimilate_global_nondiagR
    pyPDAF.PDAF.omi_assimilate_enkf_nondiagR
@@ -39,21 +45,60 @@ DA algorithms
    pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR
    pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR
 
+Variational DA
+^^^^^^^^^^^^^^
+
+diagnoal observation matrix
+"""""""""""""""""""""""""""
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
+
+   pyPDAF.PDAF.omi_assimilate_3dvar
+   pyPDAF.PDAF.omi_assimilate_en3dvar_estkf
+   pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf
+   pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf
+   pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf
+
+non-diagnoal observation matrix
+"""""""""""""""""""""""""""""""
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
+
    pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR
    pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR
    pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR
    pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR
    pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR
 
+
+`Flexible` DA algorithms
+------------------------
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
+
+
+Sequential DA
+^^^^^^^^^^^^^
+
+diagnoal observation matrix
+"""""""""""""""""""""""""""
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
+
    pyPDAF.PDAF.omi_put_state_global
    pyPDAF.PDAF.omi_put_state_lenkf
    pyPDAF.PDAF.localomi_put_state
 
-   pyPDAF.PDAF.omi_put_state_3dvar
-   pyPDAF.PDAF.omi_put_state_en3dvar_estkf
-   pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf
-   pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf
-   pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf
+
+diagnoal observation matrix
+"""""""""""""""""""""""""""
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
 
    pyPDAF.PDAF.omi_put_state_global_nondiagR
    pyPDAF.PDAF.omi_put_state_enkf_nondiagR
@@ -63,38 +108,40 @@ DA algorithms
    pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR
    pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR
 
+Variational DA
+^^^^^^^^^^^^^^
+
+diagnoal observation matrix
+"""""""""""""""""""""""""""
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
+
+   pyPDAF.PDAF.omi_put_state_3dvar
+   pyPDAF.PDAF.omi_put_state_en3dvar_estkf
+   pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf
+   pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf
+   pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf
+
+non-diagnoal observation matrix
+"""""""""""""""""""""""""""""""
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
+
    pyPDAF.PDAF.omi_put_state_3dvar_nondiagR
    pyPDAF.PDAF.omi_put_state_en3dvar_estkf_nondiagR
    pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf_nondiagR
    pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR
    pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR
 
-Synthetic experiments
----------------------
-.. autosummary::
-   :toctree: _autosummary
-   :recursive:
 
-   pyPDAF.PDAF.omi_generate_obs
-   pyPDAF.PDAF.generate_obs
-
-   pyPDAF.PDAF.omi_put_state_generate_obs
-   pyPDAF.PDAF.put_state_generate_obs
-
-Statistical diagnostics
------------------------
-.. autosummary::
-   :toctree: _autosummary
-   :recursive:
-
-   pyPDAF.PDAF.diag_effsample
-   pyPDAF.PDAF.diag_ensstats
-   pyPDAF.PDAF.diag_histogram
-   pyPDAF.PDAF.diag_CRPS
-   pyPDAF.PDAF.diag_CRPS_nompi
 
 OMI functions
 -------------
+
+obs_f setter functions
+^^^^^^^^^^^^^^^^^^^^^^
 .. autosummary::
    :toctree: _autosummary
    :recursive:
@@ -109,34 +156,61 @@ OMI functions
    pyPDAF.PDAF.omi_set_use_global_obs
    pyPDAF.PDAF.omi_set_inno_omit
    pyPDAF.PDAF.omi_set_inno_omit_ivar
-   pyPDAF.PDAF.omi_gather_obs
-   pyPDAF.PDAF.omi_gather_obsstate
-   pyPDAF.PDAF.omi_set_domain_limits
-   pyPDAF.PDAF.omi_set_debug_flag
-   pyPDAF.PDAF.omi_deallocate_obs
+
+Observation operators
+^^^^^^^^^^^^^^^^^^^^^
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
+
    pyPDAF.PDAF.omi_obs_op_gridpoint
    pyPDAF.PDAF.omi_obs_op_gridavg
    pyPDAF.PDAF.omi_obs_op_interp_lin
    pyPDAF.PDAF.omi_obs_op_adj_gridavg
    pyPDAF.PDAF.omi_obs_op_adj_gridpoint
    pyPDAF.PDAF.omi_obs_op_adj_interp_lin
+
+Interpolations
+^^^^^^^^^^^^^^
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
+
    pyPDAF.PDAF.omi_get_interp_coeff_tri
    pyPDAF.PDAF.omi_get_interp_coeff_lin1D
    pyPDAF.PDAF.omi_get_interp_coeff_lin
 
+Localisation
+^^^^^^^^^^^^
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
+
    pyPDAF.PDAF.omi_obsstats_l
    pyPDAF.PDAF.omi_weights_l
    pyPDAF.PDAF.omi_weights_l_sgnl
-   pyPDAF.PDAF.omi_check_error
-   pyPDAF.PDAF.omi_gather_obsdims
-   pyPDAF.PDAF.omi_obsstats
    pyPDAF.PDAF.omi_init_dim_obs_l_iso
    pyPDAF.PDAF.omi_init_dim_obs_l_noniso
    pyPDAF.PDAF.omi_init_dim_obs_l_noniso_locweights
    pyPDAF.PDAF.omi_localize_covar_iso
    pyPDAF.PDAF.omi_localize_covar_noniso
    pyPDAF.PDAF.omi_localize_covar_noniso_locweights
+
+Others
+^^^^^^
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
+
+   pyPDAF.PDAF.omi_set_domain_limits
+   pyPDAF.PDAF.omi_set_debug_flag
+   pyPDAF.PDAF.omi_gather_obs
+   pyPDAF.PDAF.omi_gather_obsstate
+   pyPDAF.PDAF.omi_gather_obsdims
+   pyPDAF.PDAF.omi_obsstats
    pyPDAF.PDAF.omit_obs_omi
+   pyPDAF.PDAF.omi_deallocate_obs
+   pyPDAF.PDAF.omi_check_error
 
 Local module functions
 ----------------------
@@ -150,19 +224,45 @@ Local module functions
 
 Utilities
 ---------
+
+Synthetic experiments
+^^^^^^^^^^^^^^^^^^^^^
 .. autosummary::
    :toctree: _autosummary
    :recursive:
 
-   pyPDAF.PDAF.assimilate_prepost
-   pyPDAF.PDAF.prepost
-   pyPDAF.PDAF.put_state_prepost
-   pyPDAF.PDAF.get_state
+   pyPDAF.PDAF.omi_generate_obs
+   pyPDAF.PDAF.generate_obs
+
+   pyPDAF.PDAF.omi_put_state_generate_obs
+   pyPDAF.PDAF.put_state_generate_obs
+
+Statistical diagnostics
+^^^^^^^^^^^^^^^^^^^^^^^
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
+
+   pyPDAF.PDAF.diag_effsample
+   pyPDAF.PDAF.diag_ensstats
+   pyPDAF.PDAF.diag_histogram
+   pyPDAF.PDAF.diag_CRPS
+   pyPDAF.PDAF.diag_CRPS_nompi
+
+Ensemble generation
+^^^^^^^^^^^^^^^^^^^
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
 
    pyPDAF.PDAF.eofcovar
-   pyPDAF.PDAF.gather_dim_obs_f
-   pyPDAF.PDAF.gather_obs_f
-   pyPDAF.PDAF.gather_obs_f2
+   pyPDAF.PDAF.SampleEns
+
+Diagnostics
+^^^^^^^^^^^
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
 
    pyPDAF.PDAF.get_assim_flag
    pyPDAF.PDAF.get_ensstats
@@ -170,28 +270,49 @@ Utilities
    pyPDAF.PDAF.get_memberid
    pyPDAF.PDAF.get_obsmemberid
    pyPDAF.PDAF.get_smootherens
-
-   pyPDAF.PDAF.reset_forget
-   pyPDAF.PDAF.SampleEns
    pyPDAF.PDAF.set_debug_flag
+   pyPDAF.PDAF.print_local_obsstats
+   pyPDAF.PDAF.print_domain_stats
+
+Advanced manipulation
+^^^^^^^^^^^^^^^^^^^^^
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
+
    pyPDAF.PDAF.set_ens_pointer
    pyPDAF.PDAF.set_smootherens
+   pyPDAF.PDAF.set_memberid
+   pyPDAF.PDAF.set_comm_pdaf
+   pyPDAF.PDAF.set_offline_mode
+   pyPDAF.PDAF.reset_forget
+
+   pyPDAF.PDAF.init_local_obsstats
+   pyPDAF.PDAF.incr_local_obsstats
+   pyPDAF.PDAF.force_analysis
+
+Others
+^^^^^^
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
+
+   pyPDAF.PDAF.get_state
+   pyPDAF.PDAF.assimilate_prepost
+   pyPDAF.PDAF.prepost
+   pyPDAF.PDAF.put_state_prepost
+
+   pyPDAF.PDAF.gather_dim_obs_f
+   pyPDAF.PDAF.gather_obs_f
+   pyPDAF.PDAF.gather_obs_f2
 
    pyPDAF.PDAF.incremental
    pyPDAF.PDAF.add_increment
    pyPDAF.PDAF.local_weight
    pyPDAF.PDAF.local_weights
 
-   pyPDAF.PDAF.force_analysis
    pyPDAF.PDAF.gather_obs_f2_flex
    pyPDAF.PDAF.gather_obs_f_flex
-   pyPDAF.PDAF.set_memberid
-   pyPDAF.PDAF.set_comm_pdaf
-   pyPDAF.PDAF.set_offline_mode
-   pyPDAF.PDAF.print_domain_stats
-   pyPDAF.PDAF.init_local_obsstats
-   pyPDAF.PDAF.incr_local_obsstats
-   pyPDAF.PDAF.print_local_obsstats
 
 Internal matrix operations
 --------------------------

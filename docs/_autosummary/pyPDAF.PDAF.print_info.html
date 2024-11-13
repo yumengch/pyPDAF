@@ -38,17 +38,30 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAF.print_info">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">print_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.print_info" title="Link to this definition">¶</a></dt>
-<dd><p>This function prints the wallclock time and memory measured by PDAF. This is called at the end of the DA program.
-The function displays the following information:
-- Memory required for the ensemble array, state vector, and transform matrix- Memory required by the analysis step- Memory required to perform the ensemble transformation</p>
+<dd><p>Printing the wallclock time and memory measured by PDAF.</p>
+<p>This is called at the end of the DA program.</p>
+<dl class="simple">
+<dt>The function displays the following information:</dt><dd><ul class="simple">
+<li><p>Memory required for the ensemble array, state vector, and transform matrix</p></li>
+<li><p>Memory required by the analysis step</p></li>
+<li><p>Memory required to perform the ensemble transformation</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>printtype</strong> (<em>int</em>) – <ul class="simple">
-<li><p>X=1: Basic timers</p></li>
-<li><p>X=3: Timers showing the time spent int he different call-back routines (this variant was added with PDAF 1.15)</p></li>
-<li><p>X=4: More detailed timers about parts of the filter algorithm (before PDAF 1.15, this was timer level 3)</p></li>
-<li><p>X=5: Very detailed timers about various operations in the filter algorithm (before PDAF 1.15, this was timer level 4)</p></li>
+<dd class="field-odd"><p><strong>printtype</strong> (<em>int</em>) – <dl class="simple">
+<dt>Type of information to be printed</dt><dd><ul class="simple">
+<li><p>printtype=1: Basic timers</p></li>
+<li><p>printtype=3: Timers showing the time spent int he different call-back routines
+(this variant was added with PDAF 1.15)</p></li>
+<li><p>printtype=4: More detailed timers about parts of the filter algorithm
+(before PDAF 1.15, this was timer level 3)</p></li>
+<li><p>printtype=5: Very detailed timers about various operations in the filter algorithm
+(before PDAF 1.15, this was timer level 4)</p></li>
 </ul>
+</dd>
+</dl>
 </p>
 </dd>
 </dl>
@@ -94,13 +107,13 @@ The function displays the following information:
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallelisation Strategy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Manual.html">Userguide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../implementation.html">Design Details</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../API.html">API</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../API.html#initialisation-and-finalisation">Initialisation and finalisation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#da-algorithms">DA algorithms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#synthetic-experiments">Synthetic experiments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#statistical-diagnostics">Statistical diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#fully-parallel-da-algorithms"><cite>Fully parallel</cite> DA algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#flexible-da-algorithms"><cite>Flexible</cite> DA algorithms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#omi-functions">OMI functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#local-module-functions">Local module functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#utilities">Utilities</a></li>

@@ -14,7 +14,7 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Userguide" href="Manual.html" />
+    <link rel="next" title="Parallelisation Strategy" href="parallel.html" />
     <link rel="prev" title="pyPDAF - A Python interface to Parallel Data Assimilation Framework" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -36,40 +36,36 @@
   <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h1>
 <p>There are two ways of installing pyPDAF.</p>
-<ul class="simple">
-<li><p>The easiest approach is using <code class="docutils literal notranslate"><span class="pre">conda</span></code>. Currently, <code class="docutils literal notranslate"><span class="pre">pyPDAF</span></code> is available from <code class="docutils literal notranslate"><span class="pre">conda</span></code> for <code class="docutils literal notranslate"><span class="pre">Windows</span></code>, <code class="docutils literal notranslate"><span class="pre">Linux</span></code> and <code class="docutils literal notranslate"><span class="pre">MacOS</span></code>. The installation can be obtained via:</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>pyPDAF<span class="w"> </span>-c<span class="w"> </span>yumengch<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>pyPDAF
+<section id="conda">
+<h2>Conda<a class="headerlink" href="#conda" title="Link to this heading">¶</a></h2>
+<p>The easiest approach is using <code class="docutils literal notranslate"><span class="pre">conda</span></code>. Currently, <code class="docutils literal notranslate"><span class="pre">pyPDAF</span></code> is available from <code class="docutils literal notranslate"><span class="pre">conda</span></code> for <code class="docutils literal notranslate"><span class="pre">Windows</span></code>, <code class="docutils literal notranslate"><span class="pre">Linux</span></code> and <code class="docutils literal notranslate"><span class="pre">MacOS</span></code>. The installation can be obtained via:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>pypdaf<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>yumengch::pypdaf
 </pre></div>
 </div>
-<p>After installation, <code class="docutils literal notranslate"><span class="pre">pyPDAF</span></code> can be used by activating the conda environment <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">pyPDAF</span></code>.</p>
-<ul class="simple">
-<li><p>In HPC or cluster environment, it might not be desirable to use compilers and MPI implementation provided by conda. In this case, pyPDAF can be installed from source</p></li>
-</ul>
+<p>After installation, <code class="docutils literal notranslate"><span class="pre">pyPDAF</span></code> can be used by activating the conda environment <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">pypdaf</span></code>.</p>
+</section>
+<section id="source-code">
+<h2>Source code<a class="headerlink" href="#source-code" title="Link to this heading">¶</a></h2>
+<p>In some cases, it might be desirable to compile pyPDAF using your preferred compilers and environment. In this case, pyPDAF can be installed from source</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/yumengch/pyPDAF.git
 <span class="nb">cd</span><span class="w"> </span>pyPDAF
 git<span class="w"> </span>submodule<span class="w"> </span>update<span class="w"> </span>--init<span class="w"> </span>--recursive
 pip<span class="w"> </span>install<span class="w"> </span>-v<span class="w"> </span>.
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">pip</span></code> command compiles both <code class="docutils literal notranslate"><span class="pre">PDAF</span></code> and its C interface. To customise the compiler options with the local machine, it is necessary to specify the compiler, compiler options, and path to the dependent libraries. There are a few components for compilation:</p>
-<ol class="arabic simple">
-<li><p>The PDAF and PDAFc compilation:
-In pyPDAF, PDAF is compiled with <code class="docutils literal notranslate"><span class="pre">CMake</span></code>. It utilises the <code class="docutils literal notranslate"><span class="pre">.cmake</span></code> files in <code class="docutils literal notranslate"><span class="pre">PDAFBuild</span></code> directory in which examples of <code class="docutils literal notranslate"><span class="pre">.cmake</span></code> files are included for linux, mac and windows systems. It might be necessary to adapt the <code class="docutils literal notranslate"><span class="pre">CMAKE_Fortran_COMPILER</span></code>, <code class="docutils literal notranslate"><span class="pre">MPI_Fortran_INCLUDE_PATH</span></code> and <code class="docutils literal notranslate"><span class="pre">MPI_Fortran_MODULE_DIR</span></code>entries based on your local system. If the  <code class="docutils literal notranslate"><span class="pre">CMAKE_Fortran_COMPILER</span></code> is a MPI wrapper such as <code class="docutils literal notranslate"><span class="pre">mpif90</span></code> or <code class="docutils literal notranslate"><span class="pre">ftn</span></code> in cray, the <code class="docutils literal notranslate"><span class="pre">MPI_Fortran_xxx</span></code> entries can be left empty.</p></li>
-<li><p>The linking of pyPDAF and PDAFc:
-The linking is handled by <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> of Python and Cython extension modules. The <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> is configured by <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>.  Here is an entry by entry explanation:</p>
+<p>The installation congifuration is specified in <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>. Example setup configurations are provided in <a class="reference external" href="https://github.com/yumengch/pyPDAF/tree/main/PDAFBuild">PDAFBuild directory</a>.</p>
+<p>Each entry of the configuration file is listed here:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">pwd</span></code> is the root path of the repository directory. This should be an absolute path starting from <code class="docutils literal notranslate"><span class="pre">/</span></code>, e.g.<code class="docutils literal notranslate"><span class="pre">/home/user/pyPDAF</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">PDAF_dir</span></code> is the relative path to the PDAF directory. By default it is <code class="docutils literal notranslate"><span class="pre">PDAF_V2.2.1</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">cmake_config_path</span></code> is the path to the <code class="docutils literal notranslate"><span class="pre">.cmake</span></code> file for PDAF compilation, e.g. <code class="docutils literal notranslate"><span class="pre">/home/user/pyPDAF/PDAFBuild/linux_gfortran_openmpi_pypdaf.cmake</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pwd</span></code>: This is the path to the current directory of the repository, e.g. <code class="docutils literal notranslate"><span class="pre">/home/users/xxxx/pyPDAF</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PDAF_dir</span></code>: This is the absolute, or relative (to <code class="docutils literal notranslate"><span class="pre">pwd</span></code>) path where PDAF directory is located. One do not need to change this option.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cmake_config_path</span></code> is the path to the <code class="docutils literal notranslate"><span class="pre">.cmake</span></code> file for PDAF compilation. This file contains CMake configurations for PDAF. There are example configurations in the <a class="reference external" href="https://github.com/yumengch/pyPDAF/tree/main/PDAFBuild"><code class="docutils literal notranslate"><span class="pre">PDAFBuild</span></code> directory</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">condaBuild</span></code> is a switch for building a conda package. If the purpose of compiling is not building a conda package, this option should always be <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">c_compiler</span></code> and <code class="docutils literal notranslate"><span class="pre">fortran_compiler</span></code> specifies the compiler being used. <code class="docutils literal notranslate"><span class="pre">c_compiler</span></code> can be: <code class="docutils literal notranslate"><span class="pre">gcc</span></code>, <code class="docutils literal notranslate"><span class="pre">msvc</span></code>, <code class="docutils literal notranslate"><span class="pre">icc</span></code>, <code class="docutils literal notranslate"><span class="pre">clang</span></code> and <code class="docutils literal notranslate"><span class="pre">fortran_compiler</span></code> can be: <code class="docutils literal notranslate"><span class="pre">gfortran</span></code> and <code class="docutils literal notranslate"><span class="pre">ifort</span></code>. The <code class="docutils literal notranslate"><span class="pre">fortran_compiler</span></code> should be consistent with the compiler used in cmake configuration file.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">condaBuild</span></code> – a switch for building a conda package. Usually this can be ignored</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">useMKL</span></code> decides if you use Intel’s Math Kernel Library (MKL). If <code class="docutils literal notranslate"><span class="pre">True</span></code> is given, <code class="docutils literal notranslate"><span class="pre">MKLROOT</span></code> must be specified which is the absolute path to the static MKL library</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">LAPACK_PATH</span></code> and <code class="docutils literal notranslate"><span class="pre">LAPACK_Flag</span></code> is the path to the BLAS and LAPACK directory and the linking flag respectively. They can be delimited by <code class="docutils literal notranslate"><span class="pre">,</span></code>. For example, we can have <code class="docutils literal notranslate"><span class="pre">LAPACK_Flag=blas,lapack</span></code>. Do not give <code class="docutils literal notranslate"><span class="pre">-lblas</span></code> as <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> deal with the format to the linker.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">MPI_LIB_PATH</span></code> is the path to the MPI library. In windows, this path is usually  <code class="docutils literal notranslate"><span class="pre">C:\Program</span> <span class="pre">Files</span> <span class="pre">(x86)\Microsoft</span> <span class="pre">SDKs\MPI\Lib\x64</span></code>.</p></li>
 </ul>
-</li>
-</ol>
+</section>
 </section>
 
 
@@ -109,7 +105,12 @@ The linking is handled by <code class="docutils literal notranslate"><span class
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#conda">Conda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#source-code">Source code</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Parallelisation Strategy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Manual.html">Userguide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implementation.html">Design Details</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
@@ -121,7 +122,7 @@ The linking is handled by <code class="docutils literal notranslate"><span class
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="index.html" title="previous chapter">pyPDAF - A Python interface to Parallel Data Assimilation Framework</a></li>
-      <li>Next: <a href="Manual.html" title="next chapter">Userguide</a></li>
+      <li>Next: <a href="parallel.html" title="next chapter">Parallelisation Strategy</a></li>
   </ul></li>
 </ul>
 </div>
