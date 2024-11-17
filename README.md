@@ -9,7 +9,7 @@ The interface inherits the efficiency of the data assimilation algorithms in For
 ## Getting Started
 It is recommended to install pyPDAF via `conda`:
 ```bash
-conda -n pypdaf -c conda-forge -c yumengch pypdaf
+conda create -n pypdaf -c conda-forge yumengch::pypdaf
 ```
 You can also install locally from the source code using `pip` by setting up `setup.cfg` and `cmake` configurations with examples given in [PDAFBuild](PDAFBuild).
 
