@@ -29,28 +29,42 @@ def assimilate_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
                                                             float], tuple[int, 
                                                             int, float]]
                      ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency.I.e., `pyPDAF.PDAF.omi_assimilate_3dvar` or `pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR`. 
-    Using 3DVar for DA without OMI. This is a deterministic filtering scheme. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.put_state_3dvar` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    5. py__init_obs_pdaf
-    Starting the iterative optimisation:
-    6. py__cvt_pdaf
-    7. py__obs_op_lin_pdaf
-    8. py__prodRinvA_pdaf
-    9. py__obs_op_adj_pdaf
-    10. py__cvt_adj_pdaf
-    11. core DA algorithm
-    After the iterations: 
-    12. py__cvt_pdaf
-    13. py__prepoststep_state_pdaf
-    14. py__distribute_state_pdaf
-    15. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_3dvar`
+    or :func:`pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    3DVar DA for a single step without OMI.
+    When 3DVar is used, the background error covariance matrix
+    has to be modelled for cotrol variable transformation.
+    This is a deterministic filtering scheme so no ensemble and parallelisation is needed.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.put_state_3dvar`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. py__init_obs_pdaf
+        6. Iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__prodRinvA_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_pdaf
+            6. core DA algorithm
+        7. py__cvt_pdaf
+        8. py__prepoststep_state_pdaf
+        9. py__distribute_state_pdaf
+        10. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_3dvar`
+       and :func:`pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR`
 
     Parameters
     ----------
@@ -185,7 +199,9 @@ def assimilate_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -361,7 +377,10 @@ def assimilate_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -379,7 +398,10 @@ def assimilate_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -479,35 +501,51 @@ def assimilate_en3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray
                                                                     int, 
                                                                     float]]
                              ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.omi_assimilate_en3dvar_estkf` or `pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR`. 
-    Using 3DEnVar for DA without OMI. The background error covariance matrix is estimated by ensemble. The 3DEnVar only calculates the analysis of the ensemble mean. An ESTKF is used to generate ensemble perturbations. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.put_state_en3dvar_estkf` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    5. py__init_obs_pdaf
-    Starting the iterative optimisation:
-    6. py__cvt_ens_pdaf
-    7. py__obs_op_lin_pdaf
-    8. py__prodRinvA_pdaf
-    9. py__obs_op_adj_pdaf
-    10. py__cvt_adj_ens_pdaf
-    11. core 3DEnVar algorithm
-    After the iterations: 
-    12. py__cvt_ens_pdaf
-    Perform ESTKF: 13. py__init_dim_obs_pdaf
-    14. py__obs_op_pdaf (for ensemble mean)
-    15. py__init_obs_pdaf
-    16. py__obs_op_pdaf (for each ensemble member)
-    17. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)
-    18. py__prodRinvA_pdaf
-    19. core ESTKF algorithm
-    20. py__prepoststep_state_pdaf
-    21. py__distribute_state_pdaf
-    22. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_en3dvar_estkf`
+    or :func:`pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    3DEnVar for a single DA step.
+    The background error covariance matrix is estimated by an ensemble.
+    The 3DEnVar only calculates the analysis of the ensemble mean.
+    An ESTKF is used along with 3DEnVar to generate ensemble perturbations.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.put_state_en3dvar_estkf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. py__init_obs_pdaf
+        6. the iterative optimisation:
+            1. py__cvt_ens_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__prodRinvA_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_ens_pdaf
+            6. core 3DEnVar algorithm
+        7. py__cvt_ens_pdaf
+        8. ESTKF:
+            1. py__init_dim_obs_pdaf
+            2. py__obs_op_pdaf (for ensemble mean)
+            3. py__init_obs_pdaf
+            4. py__obs_op_pdaf (for each ensemble member)
+            5. py__init_obsvar_pdaf
+               (only relevant for adaptive forgetting factor schemes)
+            6. py__prodRinvA_pdaf
+            7. core ESTKF algorithm
+        9. py__prepoststep_state_pdaf
+        10. py__distribute_state_pdaf
+        11. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_en3dvar_estkf`
+       and :func:`pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR`
 
     Parameters
     ----------
@@ -642,7 +680,9 @@ def assimilate_en3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -862,7 +902,10 @@ def assimilate_en3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -880,7 +923,10 @@ def assimilate_en3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -1020,45 +1066,67 @@ def assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
                                                                      int, 
                                                                      float]],
                                outflag: int) -> int:
-    """It is recommended to use local module with OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf` or `pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR`. 
-    Using 3DEnVar for DA without OMI. The background error covariance matrix is estimated by ensemble. The 3DEnVar only calculates the analysis of the ensemble mean. An LESTKF is used to generate ensemble perturbations. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.put_state_en3dvar_lestkf` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    5. py__init_obs_pdaf
-    Starting the iterative optimisation:
-    6. py__cvt_ens_pdaf
-    7. py__obs_op_lin_pdaf
-    8. py__prodRinvA_pdaf
-    9. py__obs_op_adj_pdaf
-    10. py__cvt_adj_ens_pdaf
-    11. core DA algorithm
-    After the iterations: 
-    12. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    13. py__init_n_domains_p_pdaf
-    14. py__init_dim_obs_pdaf
-    15. py__obs_op_pdaf (for each ensemble member
-    16. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init))(if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init)(if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init))(if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init))(if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init)(if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init
-    17. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)
-    loop over each local domain:
-    18. py__init_dim_l_pdaf
-    19. py__init_dim_obs_l_pdaf
-    20. py__g2l_state_pdaf
-    21. py__g2l_obs_pdaf (localise mean ensemble in observation space)
-    22. py__init_obs_l_pdaf
-    23. py__g2l_obs_pdaf (localise each ensemble member in observation space)
-    24. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used)(only called if local adaptive forgetting factor (type_forget=2
-    25. py__prodRinvA_l_pdaf
-    26. core DA algorithm
-    27. py__l2g_state_pdaf
-    28. py__prepoststep_state_pdaf
-    29. py__distribute_state_pdaf
-    30. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf`
+    or :func:`pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    3DEnVar for a single DA step where the ensemble anomaly is generated by LESTKF.
+    The background error covariance matrix is estimated by ensemble.
+    The 3DEnVar only calculates the analysis of the ensemble mean.
+    An LESTKF is used to generate ensemble perturbations.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.put_state_en3dvar_lestkf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied function are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. py__init_obs_pdaf
+        6. Starting the iterative optimisation:
+            1. py__cvt_ens_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__prodRinvA_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_ens_pdaf
+            6. core DA algorithm
+        7. py__cvt_ens_pdaf
+        8. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. py__init_obs_pdaf
+               (if global adaptive forgetting factor is used
+               `type_forget=1` in :func:`pyPDAF.PDAF.init`)
+            5. py__init_obsvar_pdaf
+               (if global adaptive forgetting factor is used)
+            6. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__g2l_state_pdaf
+                4. py__g2l_obs_pdaf
+                   (localise mean ensemble in observation space)
+                5. py__init_obs_l_pdaf
+                6. py__g2l_obs_pdaf
+                   (localise each ensemble member in observation space)
+                7. py__init_obsvar_l_pdaf
+                   (only called if local adaptive forgetting factor
+                   `type_forget=2` is used)
+                8. py__prodRinvA_l_pdaf
+                9. core DA algorithm
+                10. py__l2g_state_pdaf
+        9. py__prepoststep_state_pdaf
+        10. py__distribute_state_pdaf
+        11. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR`
 
     Parameters
     ----------
@@ -1193,7 +1261,9 @@ def assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -1481,7 +1551,8 @@ def assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -1781,7 +1852,10 @@ def assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -1799,7 +1873,10 @@ def assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -1878,12 +1955,12 @@ def assimilate_enkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
                                                            float], tuple[int, 
                                                            int, float]]
                     ) -> int:
-    """It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`
     or :func:`pyPDAF.PDAF.omi_assimilate_enkf_nondiagR`.
 
     PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
 
-    Using stochastic EnKF (ensemble Kalman filter) [1]_ for DA without OMI. This function should be called at each model time step. 
+    Stochastic EnKF (ensemble Kalman filter) [1]_ for a single DA step without OMI. This function should be called at each model time step. 
 
     The function is a combination of :func:`pyPDAF.PDAF.put_state_enkf` and :func:`pyPDAF.PDAF.get_state`.
 
@@ -2058,7 +2135,10 @@ def assimilate_enkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -2076,7 +2156,10 @@ def assimilate_enkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -2217,7 +2300,7 @@ def assimilate_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
                                                             float], tuple[int, 
                                                             int, float]]
                      ) -> int:
-    """It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`
     or :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR` instead of this function.
 
     OMI functions need fewer user-supplied functions and improve DA efficiency.
@@ -2399,7 +2482,10 @@ def assimilate_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -2417,7 +2503,10 @@ def assimilate_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -2443,7 +2532,9 @@ def assimilate_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -2558,15 +2649,15 @@ def assimilate_etkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
                                                            float], tuple[int, 
                                                            int, float]]
                     ) -> int:
-    """It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`
     or :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`.
 
     PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
 
-    Using ETKF (ensemble transform Kalman filter) [1]_ for DA without OMI. The implementation is baed on [2]_.
+    Using ETKF (ensemble transform Kalman filter) [1]_ for a single DA step without OMI. The implementation is baed on [2]_.
 
     This function should be called at each model time step.
-    The function is a combination of :func:`pyPDAF.PDAF.put_state_etkf` :func:and `pyPDAF.PDAF.get_state`.
+    The function is a combination of :func:`pyPDAF.PDAF.put_state_etkf` and :func:`pyPDAF.PDAF.get_state`.
 
     This function executes the user-supplied function in the following sequence:
         1. py__collect_state_pdaf
@@ -2742,7 +2833,10 @@ def assimilate_etkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -2760,7 +2854,10 @@ def assimilate_etkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -2786,7 +2883,9 @@ def assimilate_etkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -2932,38 +3031,57 @@ def assimilate_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int,
                                                                      int, 
                                                                      float]]
                               ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf` or `pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR`. 
-    Using Hybrid 3DEnVar for DA without OMI. Here, the background error covariance is hybridised by a static background error covariance, and a flow-dependent background error covariance estimated from ensemble. The 3DVar generates an ensemble mean and the ensemble perturbation is generated by ESTKF in this implementation. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.put_state_hyb3dvar_estkf` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    5. py__init_obs_pdaf
-    Starting the iterative optimisation:
-    6. py__cvt_pdaf
-    7. py__cvt_ens_pdaf
-    8. py__obs_op_lin_pdaf
-    9. py__prodRinvA_pdaf
-    10. py__obs_op_adj_pdaf
-    11. py__cvt_adj_pdaf
-    12. py__cvt_adj_ens_pdaf
-    13. core 3DEnVar algorithm
-    After the iterations: 
-    14. py__cvt_pdaf
-    15. py__cvt_ens_pdaf
-    Perform ESTKF: 16. py__init_dim_obs_pdaf
-    17. py__obs_op_pdaf (for ensemble mean
-    18. py__init_obs_pdaf
-    19. py__obs_op_pdaf (for each ensemble member
-    20. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)
-    21. py__prodRinvA_pdaf
-    22. core ESTKF algorithm
-    23. py__prepoststep_state_pdaf
-    24. py__distribute_state_pdaf
-    25. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf`
+    or :func:`pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Hybrid 3DEnVar for a single DA step where
+    the background error covariance is hybridised by a static background error covariance,
+    and a flow-dependent background error covariance estimated from ensemble.
+    The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
+    ESTKF in this implementation.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.put_state_hyb3dvar_estkf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. py__init_obs_pdaf
+        6. the iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__cvt_ens_pdaf
+            3. py__obs_op_lin_pdaf
+            4. py__prodRinvA_pdaf
+            5. py__obs_op_adj_pdaf
+            6. py__cvt_adj_pdaf
+            7. py__cvt_adj_ens_pdaf
+            8. core 3DEnVar algorithm
+        7. py__cvt_pdaf
+        8. py__cvt_ens_pdaf
+        9. Perform ESTKF:
+            1. py__init_dim_obs_pdaf
+            2. py__obs_op_pdaf
+               (for ensemble mean)
+            3. py__init_obs_pdaf
+            4. py__obs_op_pdaf
+               (for each ensemble member)
+            5. py__init_obsvar_pdaf
+               (only relevant for adaptive forgetting factor schemes)
+            6. py__prodRinvA_pdaf
+            7. core ESTKF algorithm
+        10. py__prepoststep_state_pdaf
+        11. py__distribute_state_pdaf
+        12. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf`
+       and :func:`pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR`
 
     Parameters
     ----------
@@ -3098,7 +3216,9 @@ def assimilate_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -3382,7 +3502,10 @@ def assimilate_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -3400,7 +3523,10 @@ def assimilate_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -3549,48 +3675,69 @@ def assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
                                                                       int, 
                                                                       float]]
                                ) -> int:
-    """It is recommended to use local module with OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf` or `pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR`. 
-    Using Hybrid 3DEnVar for DA without OMI. Here, the background error covariance is hybridised by a static background error covariance, and a flow-dependent background error covariance estimated from ensemble. The 3DVar generates an ensemble mean and the ensemble perturbation is generated by LESTKF in this implementation. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.put_state_hyb3dvar_lestkf` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    5. py__init_obs_pdaf
-    Starting the iterative optimisation:
-    6. py__cvt_pdaf
-    7. py__cvt_ens_pdaf
-    8. py__obs_op_lin_pdaf
-    9. py__prodRinvA_pdaf
-    10. py__obs_op_adj_pdaf
-    11. py__cvt_adj_pdaf
-    12. py__cvt_adj_ens_pdaf
-    13. core DA algorithm
-    After the iterations: 
-    14. py__cvt_pdaf
-    15. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    16. py__init_n_domains_p_pdaf
-    17. py__init_dim_obs_pdaf
-    18. py__obs_op_pdaf (for each ensemble member
-    19. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in `pyPDAF.PDAF.init`))
-    20. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)
-    loop over each local domain:
-    21. py__init_dim_l_pdaf
-    22. py__init_dim_obs_l_pdaf
-    23. py__g2l_state_pdaf
-    24. py__g2l_obs_pdaf (localise mean ensemble in observation space)
-    25. py__init_obs_l_pdaf
-    26. py__g2l_obs_pdaf (localise each ensemble member in observation space)
-    27. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used)
-    28. py__prodRinvA_l_pdaf
-    29. core DA algorithm
-    30. py__l2g_state_pdaf
-    31. py__prepoststep_state_pdaf
-    32. py__distribute_state_pdaf
-    33. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf`
+    or :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Hybrid 3DEnVar for a single DA step where
+    the background error covariance is hybridised by a static background error covariance,
+    and a flow-dependent background error covariance estimated from ensemble.
+    The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
+    LESTKF in this implementation.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.put_state_hyb3dvar_lestkf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. py__init_obs_pdaf
+        6. The iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__cvt_ens_pdaf
+            3. py__obs_op_lin_pdaf
+            4. py__prodRinvA_pdaf
+            5. py__obs_op_adj_pdaf
+            6. py__cvt_adj_pdaf
+            7. py__cvt_adj_ens_pdaf
+            8. core DA algorithm
+        7. py__cvt_pdaf
+        8. py__cvt_ens_pdaf
+        9. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. py__init_obs_pdaf
+               (if global adaptive forgetting factor `type_forget=1` in :func:`pyPDAF.PDAF.init`)
+            5. py__init_obsvar_pdaf
+               (if global adaptive forgetting factor is used)
+            6. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__g2l_state_pdaf
+                4. py__g2l_obs_pdaf
+                   (localise mean ensemble in observation space)
+                5. py__init_obs_l_pdaf
+                6. py__g2l_obs_pdaf
+                   (localise each ensemble member in observation space)
+                7. py__init_obsvar_l_pdaf
+                   (only called if local adaptive forgetting factor `type_forget=2` is used)
+                8. py__prodRinvA_l_pdaf
+                9. core DA algorithm
+                10. py__l2g_state_pdaf
+        10. py__prepoststep_state_pdaf
+        11. py__distribute_state_pdaf
+        12. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR`
 
     Parameters
     ----------
@@ -3725,7 +3872,9 @@ def assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -4077,7 +4226,8 @@ def assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -4377,7 +4527,10 @@ def assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -4395,7 +4548,10 @@ def assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -4475,13 +4631,13 @@ def assimilate_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
                                                             float], tuple[int, 
                                                             int, float]]
                      ) -> int:
-    """It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_lenkf`
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_lenkf`
     or :func:`pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR`.
 
     PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
 
-    Using stochastic EnKF (ensemble Kalman filter) with covariance localisation [1]_
-    for DA without OMI.
+    Stochastic EnKF (ensemble Kalman filter) with covariance localisation [1]_
+    for a single DA step without OMI.
 
     This is the only scheme for covariance localisation in PDAF.
 
@@ -4661,7 +4817,10 @@ def assimilate_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -4679,7 +4838,10 @@ def assimilate_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -4869,12 +5031,12 @@ def assimilate_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
                                                              int, float], tuple[int, 
                                                              int, float]]
                       ) -> int:
-    """It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`
     or :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`.
 
     PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
 
-    Local ESTKF (error space transform Kalman filter) [1]_ for DA without OMI.
+    Local ESTKF (error space transform Kalman filter) [1]_ for a single DA step without OMI.
     The LESTKF is a more efficient equivalent to the LETKF.
 
     This function should be called at each model time step.
@@ -4910,8 +5072,8 @@ def assimilate_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
 
     .. deprecated:: 1.0.0
 
-       This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`
-       and :func:`pyPDAF.PDAF.localomi_assimilate`
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`
 
     References
     ----------
@@ -5092,7 +5254,10 @@ def assimilate_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -5110,7 +5275,10 @@ def assimilate_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -5140,7 +5308,8 @@ def assimilate_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -5496,12 +5665,12 @@ def assimilate_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
                                                             float], tuple[int, 
                                                             int, float]]
                      ) -> int:
-    """It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`
     or :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`.
 
     PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
 
-    Local ensemble transform Kalman filter (LETKF) [1]_ for DA without OMI. Implementation is based on [2]_.
+    Local ensemble transform Kalman filter (LETKF) [1]_ for a single DA step without OMI. Implementation is based on [2]_.
     Note that the LESTKF is a more efficient equivalent to the LETKF.
 
     This function should be called at each model time step.
@@ -5722,7 +5891,10 @@ def assimilate_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -5740,7 +5912,10 @@ def assimilate_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -5770,7 +5945,8 @@ def assimilate_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -6120,28 +6296,50 @@ def assimilate_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
                                                             float], tuple[int, 
                                                             int, float]]
                      ) -> int:
-    """It is recommended to use local module with OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_assimilate` or `pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR`. 
-    This function will use Local Nonlinear Ensemble Transform Filter (LNETF) for DA without OMI. The nonlinear filter computes the distribution up to the second moment similar to KF but using a nonlinear weighting similar to particle filter. This leads to an equal weights assumption for prior ensemble. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.put_state_lnetf` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    8. py__g2l_state_pdaf
-    9. py__init_obs_l_pdaf
-    10. py__g2l_obs_pdaf(localise each ensemble member in observation space)
-    11. py__likelihood_l_pdaf
-    12. core DA algorithm
-    13. py__l2g_state_pdaf
-    14. py__prepoststep_state_pdaf
-    15. py__distribute_state_pdaf
-    16. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`
+    or :func:`pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Local Nonlinear Ensemble Transform Filter (LNETF) [1]_ for a single DA step.
+    The nonlinear filter computes the distribution up to
+    the second moment similar to Kalman filters but it uses a nonlinear weighting similar to
+    particle filters. This leads to an equal weights assumption for the prior ensemble at each step.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.put_state_lnetf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    This function executes the user-supplied function in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_state_pdaf
+            4. py__init_obs_l_pdaf
+            5. py__g2l_obs_pdaf (localise each ensemble member in observation space)
+            6. py__likelihood_l_pdaf
+            7. core DA algorithm
+            8. py__l2g_state_pdaf
+        7. py__prepoststep_state_pdaf
+        8. py__distribute_state_pdaf
+        9. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR`
+
+    References
+    ----------
+    .. [1] Tödter, J., and B. Ahrens, 2015:
+           A second-order exact ensemble square root filter
+           for nonlinear data assimilation. Mon. Wea. Rev.,
+           143, 1347–1367, doi:10.1175/MWR-D-14-00108.1.
 
     Parameters
     ----------
@@ -6292,7 +6490,10 @@ def assimilate_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -6310,7 +6511,10 @@ def assimilate_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -6640,36 +6844,66 @@ def assimilate_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
                                                              int, float], tuple[int, 
                                                              int, float]]
                       ) -> int:
-    """It is recommended to use local module with OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_assimilate` or `pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR`. 
-    This function will is a hybridised LETKF and LNETF for DA without OMI. The LNETF computes the distribution up to the second moment similar to KF but using a nonlinear weighting similar to particle filter. This leads to an equal weights assumption for prior ensemble. The hybridisation with LETKF is expected to lead to improved performance for quasi-Gaussian problems. The function should be called at each model step. 
-    
-    The function is a combination of `pyPDAF.PDAF.put_state_lknetf` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    6. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init
-    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used
-    loop over each local domain:
-    8. py__init_dim_l_pdaf
-    9. py__init_dim_obs_l_pdaf
-    10. py__g2l_state_pdaf
-    11. py__g2l_obs_pdaf (localise each ensemble member in observation space)
-    12. py__init_obs_l_pdaf
-    13. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    14. py__prodRinvA_pdaf
-    15. py__likelihood_l_pdaf
-    16. core DA algorithm
-    17. py__l2g_state_pdaf
-    18. py__obs_op_pdaf (only called with `HKN` and `HNK` options called for each ensemble member
-    19. py__likelihood_hyb_l_pda
-    20. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    21. py__prodRinvA_hyb_l_pdaf
-    22. py__prepoststep_state_pdaf
-    23. py__distribute_state_pdaf
-    24. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`
+    or :func:`pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    A hybridised LETKF and LNETF [1]_ for a single DA step.
+    The LNETF computes the distribution up to
+    the second moment similar to Kalman filters but using a nonlinear weighting similar to
+    particle filters. This leads to an equal weights assumption for the prior ensemble.
+    The hybridisation with LETKF is expected to lead to improved performance for
+    quasi-Gaussian problems.
+    The function should be called at each model step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.put_state_lknetf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    This function executes the user-supplied function in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf
+           (for each ensemble member)
+        6. py__init_obs_pdaf
+           (if global adaptive forgetting factor `type_forget=1`
+           is used in :func:`pyPDAF.PDAF.init`)
+        7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)
+        8. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_state_pdaf
+            4. py__g2l_obs_pdaf
+               (localise each ensemble member in observation space)
+            5. py__init_obs_l_pdaf
+            6. py__init_obsvar_l_pdaf
+               (only called if local adaptive forgetting factor `type_forget=2` is used)
+            7. py__prodRinvA_pdaf
+            8. py__likelihood_l_pdaf
+            9. core DA algorithm
+            10. py__l2g_state_pdaf
+        9. py__obs_op_pdaf
+           (only called with `HKN` and `HNK` options called for each ensemble member)
+        10. py__likelihood_hyb_l_pda
+        11. py__init_obsvar_l_pdaf
+            (only called if local adaptive forgetting factor `type_forget=2` is used)
+        12. py__prodRinvA_hyb_l_pdaf
+        13. py__prepoststep_state_pdaf
+        14. py__distribute_state_pdaf
+        15. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR`
+
+    References
+    ----------
+    .. [1] Nerger, L.. (2022) 
+           Data assimilation for nonlinear systems with a hybrid nonlinear Kalman ensemble transform filter. 
+           Q J R Meteorol Soc, 620–640. doi:10.1002/qj.4221
 
     Parameters
     ----------
@@ -6844,7 +7078,10 @@ def assimilate_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -6862,7 +7099,10 @@ def assimilate_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -6892,7 +7132,8 @@ def assimilate_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -7368,32 +7609,54 @@ def assimilate_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
                                                             float], tuple[int, 
                                                             int, float]]
                      ) -> int:
-    """It is recommended to use local module with OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_assimilate` or `pyPDAF.PDAF.localomi_assimilate_nondiagR`. 
-    Using local singular evolutive interpolated Kalman filter for DA without OMI. This is a domain localisation method. This function should be called at each model time step.
-    
-    The function is a combination of `pyPDAF.PDAF.put_state_lseik` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    6. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init
-    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used
-    loop over each local domain:
-    8. py__init_dim_l_pdaf
-    9. py__init_dim_obs_l_pdaf
-    10. py__g2l_state_pdaf
-    11. py__g2l_obs_pdaf (localise mean ensemble in observation space)
-    12. py__init_obs_l_pdaf
-    13. py__g2l_obs_pdaf (localise each ensemble member in observation space
-    14. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    15. py__prodRinvA_l_pdaf
-    16. core DA algorithm
-    17. py__l2g_state_pdaf
-    18. py__prepoststep_state_pdaf
-    19. py__distribute_state_pdaf
-    20. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`
+    or :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Local singular evolutive interpolated Kalman filter [1]_ for a single DA step.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.put_state_lseik` and :func:`pyPDAF.PDAF.get_state`
+
+    This function  executes the user-supplied functions in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. py__init_obs_pdaf
+           (if global adaptive forgetting factor `type_forget=1`
+           is used in :func:`pyPDAF.PDAF.init`)
+        7. py__init_obsvar_pdaf
+           (if global adaptive forgetting factor is used)
+        8. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_state_pdaf
+            4. py__g2l_obs_pdaf (localise mean ensemble in observation space)
+            5. py__init_obs_l_pdaf
+            6. py__g2l_obs_pdaf
+               (localise each ensemble member in observation space)
+            7. py__init_obsvar_l_pdaf
+               (only called if local adaptive forgetting factor `type_forget=2` is used)
+            8. py__prodRinvA_l_pdaf
+            9. core DA algorithm
+            10. py__l2g_state_pdaf
+        9. py__prepoststep_state_pdaf
+        10. py__distribute_state_pdaf
+        11. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`
+
+    References
+    ----------
+    .. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).
+           A singular evolutive extended Kalman filter for data assimilation
+           in oceanography. Journal of Marine systems, 16(3-4), 323-340.
 
     Parameters
     ----------
@@ -7568,7 +7831,10 @@ def assimilate_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -7586,7 +7852,10 @@ def assimilate_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -7616,7 +7885,8 @@ def assimilate_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -7953,21 +8223,43 @@ def assimilate_netf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
                                                            float], tuple[int, 
                                                            int, float]]
                     ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.omi_assimilate_global` or `pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR`. 
-    This function will use Nonlinear Ensemble Transform Filter (NETF) for DA without OMI. The nonlinear filter computes the distribution up to the second moment similar to KF but using a nonlinear weighting similar to particle filter. This leads to an equal weights assumption for prior ensemble. The function should be called at each model step. 
-    
-    The function is a combination of `pyPDAF.PDAF.put_state_netf` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__init_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    6. py__likelihood_pdaf
-    7. core DA algorithm
-    8. py__prepoststep_state_pdaf
-    9. py__distribute_state_pdaf
-    10. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`
+    or :func:`pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    This function will use Nonlinear Ensemble Transform Filter (NETF) [1]_ 
+    for a single DA step. The nonlinear filter computes the distribution up to
+    the second moment similar to KF but using a nonlinear weighting similar to
+    particle filter. This leads to an equal weights assumption for prior ensemble.
+    The function should be called at each model step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.put_state_netf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    This function executes the user-supplied function in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__init_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. py__likelihood_pdaf
+        7. core DA algorithm
+        8. py__prepoststep_state_pdaf
+        9. py__distribute_state_pdaf
+        10. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`
+       and :func:`pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR`
+
+    References
+    ----------
+    .. [1] Tödter, J., and B. Ahrens, 2015:
+           A second-order exact ensemble square root filter
+           for nonlinear data assimilation. Mon. Wea. Rev.,
+           143, 1347–1367, doi:10.1175/MWR-D-14-00108.1.
 
     Parameters
     ----------
@@ -8114,7 +8406,10 @@ def assimilate_netf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -8132,7 +8427,10 @@ def assimilate_netf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -8239,21 +8537,41 @@ def assimilate_pf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int]
                                                          float], tuple[int, 
                                                          int, float]]
                   ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.omi_assimilate_global` or `pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR`. 
-    This function will use particle filter for DA without OMI. This is a fully nonlinear filter. The function should be called at each model step. 
-    
-    The function is a combination of `pyPDAF.PDAF.put_state_pf` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__init_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    6. py__likelihood_pdaf
-    7. core DA algorithm
-    8. py__prepoststep_state_pdaf
-    9. py__distribute_state_pdaf
-    10. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`
+    or :func:`pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    This function will use particle filter for a single DA step.
+    This is a fully nonlinear filter, and may require a high number of ensemble members.
+    A review of particle filter can be found at [1]_.
+    The function should be called at each model step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.put_state_pf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    This function executes the user-supplied functions in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__init_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. py__likelihood_pdaf
+        7. core DA algorithm
+        8. py__prepoststep_state_pdaf
+        9. py__distribute_state_pdaf
+        10. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`
+       and :func:`pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR`
+
+    References
+    ----------
+    .. [1] Van Leeuwen, P. J., Künsch, H. R., Nerger, L., Potthast, R., & Reich, S. (2019).
+           Particle filters for high‐dimensional geoscience applications:
+           A review. Quarterly Journal of the Royal Meteorological Society, 145(723), 2335-2365.
 
     Parameters
     ----------
@@ -8400,7 +8718,10 @@ def assimilate_pf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int]
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -8418,7 +8739,10 @@ def assimilate_pf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int]
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -8525,22 +8849,41 @@ def assimilate_seek (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
                                                            float], tuple[int, 
                                                            int, float]]
                     ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.omi_assimilate_global` or `pyPDAF.PDAF.omi_assimilate_global_nondiagR`. 
-    This function will use singular evolutive extended Kalman filter for DA without OMI. This is a deterministic Kalman filter. The function should be called at each model step.
-    
-    The function is a combination of `pyPDAF.PDAF.put_state_seek` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf (for ensemble mean
-    5. py__init_obs_pdaf
-    6. py__obs_op_pdaf (for each ensemble member
-    7. py__prodRinvA_pdaf
-    8. core DA algorithm
-    9. py__prepoststep_state_pdaf
-    10. py__distribute_state_pdaf
-    11. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`
+    or :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    This function will use singular evolutive extended Kalman filter [1]_ for a single DA step.
+    This is a deterministic Kalman filter.
+    The function should be called at each model step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.put_state_seek`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    This function executes the user-supplied functions in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf (for ensemble mean)
+        5. py__init_obs_pdaf
+        6. py__obs_op_pdaf (for each ensemble member)
+        7. py__prodRinvA_pdaf
+        8. core DA algorithm
+        9. py__prepoststep_state_pdaf
+        10. py__distribute_state_pdaf
+        11. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`
+       and :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`
+
+    References
+    ----------
+    .. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).
+           A singular evolutive extended Kalman filter for data assimilation
+           in oceanography. Journal of Marine systems, 16(3-4), 323-340.
 
     Parameters
     ----------
@@ -8687,7 +9030,10 @@ def assimilate_seek (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -8705,7 +9051,10 @@ def assimilate_seek (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -8731,7 +9080,9 @@ def assimilate_seek (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -8816,23 +9167,41 @@ def assimilate_seik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
                                                            float], tuple[int, 
                                                            int, float]]
                     ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.omi_assimilate_global` or `pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR`. 
-    This function will use singular evolutive interpolated Kalman filter for DA without OMI. The function should be called at each model step.
-    
-    The function is a combination of `pyPDAF.PDAF.put_state_seik` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf (for ensemble mean
-    5. py__init_obs_pdaf
-    6. py__obs_op_pdaf (for each ensemble member
-    7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)
-    8. py__prodRinvA_pdaf
-    9. core DA algorithm
-    10. py__prepoststep_state_pdaf
-    11. py__distribute_state_pdaf
-    12. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_assimilate_global`
+    or :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    This function will use singular evolutive interpolated Kalman filter [1]_ for a single DA step.
+    The function should be called at each model step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.put_state_seik`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The function executes the user-supplied functions in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf (for ensemble mean)
+        5. py__init_obs_pdaf
+        6. py__obs_op_pdaf (for each ensemble member)
+        7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)
+        8. py__prodRinvA_pdaf
+        9. core DA algorithm
+        10. py__prepoststep_state_pdaf
+        11. py__distribute_state_pdaf
+        12. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_assimilate_global`
+       and :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`
+
+    References
+    ----------
+    .. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).
+           A singular evolutive extended Kalman filter for data assimilation
+           in oceanography. Journal of Marine systems, 16(3-4), 323-340.
 
     Parameters
     ----------
@@ -8979,7 +9348,10 @@ def assimilate_seik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -8997,7 +9369,10 @@ def assimilate_seik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -9023,7 +9398,9 @@ def assimilate_seik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -9101,14 +9478,21 @@ def assimilate_prepost (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple
                                                               int, float], tuple[int, 
                                                               int, float]]
                        ) -> int:
-    """This function does not perform any DA. It is used to perform a preprocess and postprocess of the ensemble. Compared to `pyPDAF.PDAF.prepost`, this function sets assimilation flag.
-    The function is a combination of `pyPDAF.PDAF.put_state_prepost` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf (preprocess, step < 0)
-    3. py__prepoststep_state_pdaf (postprocess, step > 0
-    4. py__distribute_state_pdaf
-    5. py__next_observation_pdaf
-    
+    r"""It is used to preprocess and postprocess of the ensemble.
+
+    No DA is performed in this function.
+    Compared to :func:`pyPDAF.PDAF.prepost`, this function sets assimilation flag, 
+    which means that it is acted as an assimilation in PDAF.
+
+    The function is a combination of :func:`pyPDAF.PDAF.put_state_prepost`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    This function executes the user-supplied functions in the following sequence: 
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf (preprocess, step < 0)
+        3. py__prepoststep_state_pdaf (postprocess, step > 0)
+        4. py__distribute_state_pdaf
+        5. py__next_observation_pdaf
 
     Parameters
     ----------
@@ -9179,7 +9563,10 @@ def assimilate_prepost (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -9197,7 +9584,10 @@ def assimilate_prepost (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -9253,42 +9643,73 @@ def assimilate_prepost (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple
     ...
 
 def deallocate () -> None:
-    """This function finalise the PDAF systems including deaclloating all arrays in PDAF.
+    r"""This function finalise the PDAF systems including freeing all memory used by PDAF.
 
     """
     ...
 
 def diag_effsample (weights: np.ndarray[tuple[int], np.dtype[np.float64]]
                    ) -> float:
-    """This function calculates the effective sample size of a particle filter as defined in Doucet et al. 2001 p. 333.
-    It is defined as the inverse of the sum of the squared particle filter weights. If the `n_eff=dim_sample`, all weights are identical, the filter has no influence. If `n_eff=0`, the filter is collapsed. This is typically called during the analysis step of a particle filter, e.g. in the analysis step of NETF and LNETF.
+    r"""Calculating the effective sample size of a particle filter.
+
+    Based on [1]_, it is defined as the inverse of the sum of the squared particle filter weights:
+    :math:`N_{eff} = \frac{1}{\sum_{i=1}^{N} w_i^2}` where :math:`w_i` is the weight of particle with index i.
+    and :math:`N` is the number of particles.
+
+    If the :math:`N_{eff}=N`, all weights are identical, and the filter has no influence on the analysis.
+    If :math:`N_{eff}=0`, the filter is collapsed.
+
+    This is typically called during the analysis step of a particle filter,
+    e.g. in the analysis step of NETF and LNETF.
+
+    References
+    ----------
+    .. [1] Doucet, A., de Freitas, N., Gordon, N. (2001). 
+           An Introduction to Sequential Monte Carlo Methods. 
+           In: Doucet, A., de Freitas, N., Gordon, N. (eds) 
+           Sequential Monte Carlo Methods in Practice.
+           Statistics for Engineering and Information Science.
+           Springer, New York, NY. https://doi.org/10.1007/978-1-4757-3437-9_1
 
     Parameters
     ----------
     weights : ndarray[tuple[dim_sample], np.float64]
-        weights of the samples
+        weights of the particles
+        The array dimension `dim_sample` is Number of particles
 
     Returns
     -------
     effSample : float
-        effecfive sample size
+        effecfive sample/particle size
     """
     ...
 
 def diag_ensstats (element: int,state: np.ndarray[tuple[int], np.dtype[np.float64]],
                    ens: np.ndarray[tuple[int, int], np.dtype[np.float64]]
                   ) -> tuple[float, float, int]:
-    """This function returns the skewness and kurtosis of the ensemble of a given element of the state vector. The definition used for kurtosis follows that used by Lawson and Hansen, Mon. Wea. Rev. 132 (2004) 1966
-    
+    r"""Computing the skewness and kurtosis of the ensemble of a given element of the state vector.
+
+    The definition used for kurtosis follows that used by [1]_.
+
+    References
+    ----------
+    .. [1] Lawson, W. G., & Hansen, J. A. (2004).
+           Implications of stochastic and deterministic filters as ensemble-based
+           data assimilation methods in varying regimes of error growth.
+           Monthly weather review, 132(8), 1966-1981.
 
     Parameters
     ----------
     element : int
-        Index of state vector/ensemble element to be used. If element=0, mean values over all elements are computed
+        Index of state vector/ensemble element to be used.
+        If element=0, mean values over all elements are computed
     state : ndarray[tuple[dim], np.float64]
         State vector (typically ensemble mean)
+        The array dimension `dim` is PE-local state dimension
     ens : ndarray[tuple[dim, dim_ens], np.float64]
         State ensemble
+        The 1st-th dimension dim is PE-local state dimension
+        The 2nd-th dimension dim_ens is Ensemble size
 
     Returns
     -------
@@ -9304,18 +9725,35 @@ def diag_ensstats (element: int,state: np.ndarray[tuple[int], np.dtype[np.float6
 def diag_histogram (ncall: int,element: int,state: np.ndarray[tuple[int], np.dtype[np.float64]],
                     ens: np.ndarray[tuple[int, int], np.dtype[np.float64]],
                     hist: np.ndarray[tuple[int], np.dtype[np.intc]]) -> tuple[np.ndarray[tuple[int], np.dtype[np.intc]], float, int]:
-    """This function returns a rank histogram of the ensemble. A rank histogram is used to diagnose the reliability of the ensemble. A perfectly reliable ensemble should have a uniform rank histogram. The function can be called in the pre/poststep routine of PDAF both before and after the analysis step to collect the histogram information.
+    r"""Computing the rank histogram of an ensemble.
+
+    A rank histogram is used to diagnose the reliability of the ensemble [1]_.
+    A perfectly reliable ensemble should have a uniform rank histogram.
+
+    The function can be called in the pre/poststep routine of PDAF
+    both before and after the analysis step to collect the histogram information.
+
+    References
+    ----------
+    .. [1] Hamill, T. M. (2001).
+           Interpretation of rank histograms for verifying ensemble forecasts.
+           Monthly Weather Review, 129(3), 550-560.
 
     Parameters
     ----------
     ncall : int
-        The number of calls used to increment the histogram and is needed to compute the delta-measure that describes the deviation from the ideal histogram.
+        The number of calls used to increment the histogram and
+        is needed to compute the delta-measure that
+        describes the deviation from the ideal histogram.
     element : int
         Element of vector used for histogram. If element=0, all elements are used
     state : ndarray[tuple[dim], np.float64]
         Assumed truth
+        The array dimension `dim` is State dimension
     ens : ndarray[tuple[dim, dim_ens], np.float64]
         Ensemble
+        The 1st-th dimension dim is State dimension
+        The 2nd-th dimension dim_ens is Ensemble size
     hist : ndarray[tuple[dim_ens+1], np.intc]
         Histogram about the state
 
@@ -9323,8 +9761,10 @@ def diag_histogram (ncall: int,element: int,state: np.ndarray[tuple[int], np.dty
     -------
     hist : ndarray[tuple[dim_ens+1], np.intc]
          Histogram about the state
+
     delta : float
-        deviation measure from flat histogram. It must be initialised to be 0
+        deviation measure from flat histogram.
+        It must be initialised to be 0
     status : int
         Status flag (0=success)
     """
@@ -9336,14 +9776,14 @@ def eofcovar (dim_fields: np.ndarray[tuple[int], np.dtype[np.intc]],offsets: np.
              ) -> tuple[np.ndarray[tuple[int, int], np.dtype[np.float64]], np.ndarray[tuple[int], np.dtype[np.float64]], 
               np.ndarray[tuple[int], np.dtype[np.float64]], np.ndarray[tuple[int, int], np.dtype[np.float64]], 
               np.ndarray[tuple[int], np.dtype[np.float64]], int]:
-    """EOF analysis of a state vectors at multiple time steps by singular value decomposition.
+    r"""EOF analysis of an ensemble of state vectors by singular value decomposition.
 
     Typically, this function is used with :func:`pyPDAF.PDAF.sampleens`
     to generate an ensemble of a chosen size 
     (up to the number of EOFs plus one).
 
     Here, the function performs a singular value decomposition of the ensemble anomaly of the input matrix,
-    which is an ensemble formed by state vectors at multiple time steps.
+    which is usually an ensemble formed by state vectors at multiple time steps.
     The singular values and corresponding singular vectors can be used to
     construct an error covariance matrix.
     This can be used as the initial error covariance for the initial ensemble.
@@ -9358,40 +9798,98 @@ def eofcovar (dim_fields: np.ndarray[tuple[int], np.dtype[np.intc]],offsets: np.
     Parameters
     ----------
     dim_fields : ndarray[tuple[nfields], np.intc]
-        Size of each field, only used when `do_mv = 1`. Each field could be 2D or 3D so can have different sizes.
+        Size of each model field. This argument is effective only when `do_mv = 1`.
+        Each model field, e.g., sea surface temperature, or 3D sea salinity,
+        can be 2D or 3D with different number of grid points. Each element
+        of the array specifies the size of each model field.
+        The array dimension `nfields` is the number of model fields in state vector.
+        For example, if the state vector contains temperature and humidity,
+        `nfields=2`. This variable is effective only when `do_mv = 1`.
     offsets : ndarray[tuple[nfields], np.intc]
-        Start position of each field.\n This variable is used only used when `do_mv = 1`.\n For example, if the state vector contains temperature and humidity, this array specifies the starting index of the two physical fields.\n The offset values start from 1.
+        Starting position of each field.
+        This variable is effective only when `do_mv = 1`.
+        For example, if the state vector contains temperature and humidity,
+        this array specifies the first index of the physical field in the state vector.
+        Following Fortran notation, the offset values start from 1.
+        The array dimension `nfields` is the number of model fields in state vector.
+        For example, if the state vector contains temperature and humidity,
+        `nfields=2`. This variable is effective only when `do_mv = 1`.
     remove_mstate : int
-        Subtract mean state from states (average over nstates dimension) before computing EOFs (`remove_mstate = 1`) or don't remove (`remove_mstate = 0`)
+        Switch for only computing EOF of the ensemble anomaly.
+        
+        This option can be used if `states` are not centred on 0, i.e., anomaly values.
+            0. do nothing
+            1. remove the mean of `states` over `nstates` dimension
+               before EOF computation
     do_mv : int
-        Do multivariate scaling (`do_mv = 1`) or no scaling (`do_mv = 0`). Variable `nfields`, `dim_fields` and `offsets` are only used if `do_mv=1`.
+        Switch for multivariate scaling
+            0. do nothing
+            1. Each model field are scaled by its standard deviation
+               such that each model field has unit standard deviation.
+               This option makes use of `nfields`, `dim_fields` and `offsets` arguments.
     states : ndarray[tuple[dim_state, nstates], np.float64]
-        State perturbations or an ensemble of state vectors
+        An ensemble of state vectors.
+        This argument should ideally be the anomalies of an ensemble,
+        and each member is from a different model time.
+        However, one can set `remove_mstate = 1` if this is not an ensemble anomaly.
+        The 1st-th dimension dim_state is the dimension of state vector.
+        The 2nd-th dimension nstates is the number of state vectors, typically number of different time steps, or number of ensemble members.
     meanstate : ndarray[tuple[dim_state], np.float64]
-        Mean state (only changed if `remove_mstate=1`)
+        Mean state
+        The returned value equlas to the input unless `remove_mstate=1`
+        The array dimension `dim_state` is the dimension of state vector.
     verbose : int
         Verbosity flag
 
     Returns
     -------
     states : ndarray[tuple[dim_state, nstates], np.float64]
-         State perturbations or an ensemble of state vectors
+         An ensemble of state vectors.
+        This argument should ideally be the anomalies of an ensemble,
+        and each member is from a different model time.
+        However, one can set `remove_mstate = 1` if this is not an ensemble anomaly.
+
+        The 1st-th dimension dim_state is the dimension of state vector.
+        The 2nd-th dimension nstates is the number of state vectors, typically number of different time steps, or number of ensemble members.
     stddev : ndarray[tuple[nfields], np.float64]
-         Standard deviation of field variability. Without multivariate scaling (`do_mv=0`), it is `stddev = 1.0`.
+         Standard deviation of each model field in `states`.
+        If `do_mv = 1`, stddev should be `1.0`.
+
+        The array dimension `nfields` is the number of model fields in state vector.
+        For example, if the state vector contains temperature and humidity,
+        `nfields=2`. This variable is effective only when `do_mv = 1`.
     svals : ndarray[tuple[nstates], np.float64]
-         Singular values scaled by `1/sqrt(nstates-1)`.
+         Singular values of `states` scaled by :math:`\frac{1}{\sqrt{nstates-1}}`.
+
+        The array dimension `nstates` is the number of state vectors, typically number of different time steps, or number of ensemble members.
     svec : ndarray[tuple[dim_state, nstates], np.float64]
-         Singular vectors
+         Singular vectors of `states`
+
+        The 1st-th dimension dim_state is the dimension of state vector.
+        The 2nd-th dimension nstates is the number of state vectors, typically number of different time steps, or number of ensemble members.
     meanstate : ndarray[tuple[dim_state], np.float64]
-         Mean state (only changed if `remove_mstate=1`)
+         Mean state
+        The returned value equlas to the input unless `remove_mstate=1`
+
+        The array dimension `dim_state` is the dimension of state vector.
     status : int
         Status flag
     """
     ...
 
 def gather_dim_obs_f (dim_obs_p: int) -> int:
-    """In the local filters (LESKTF, LETKF, LSEIK, LNETF) this function returns the total observation dimension from process-local observation dimensions. The function has to be called once before using any of the functions `pyPDAF.PDAF.gather_obs_f` or `pyPDAF.PDAF.gather_obs_f2`.
-    This is because it stores the information on the process-local observation dimensions to allocate actual observation vectors. The routine is typically used in the routine `py__init_dim_obs_f_pdaf` if the analysis step of the local filters is parallelized.
+    r"""Gathers the dimension of observation vector across multiple local domains/filter processors.
+
+    This function is typically used in the user-supplied function of :func:`py__init_dim_obs_f_pdaf`
+    when OMI functionality is not used. Otherwise, one can use :func:`pyPDAF.PDAF.omi_gather_obs`.
+
+    This function does two things:
+        1. Receiving observation dimension on each local process and allocate arrays for observation vectors.
+        2. Gather the total dimension of observation across local process
+
+    The second functionality is used for domain localised filters when local domains are distributed in different processors.
+    This means :math:`npes_filter > 0`. This function must be used
+    before :func:`pyPDAF.PDAF.gather_obs_f` or :func:`pyPDAF.PDAF.gather_obs_f2`.
 
     Parameters
     ----------
@@ -9407,7 +9905,7 @@ def gather_dim_obs_f (dim_obs_p: int) -> int:
 
 def gather_obs_f (obs_p: np.ndarray[tuple[int], np.dtype[np.float64]],dimobs_f: int
                  ) -> tuple[np.ndarray[tuple[int], np.dtype[np.float64]], int]:
-    """In the local filters (LESKTF, LETKF, LSEIK, LNETF) this function returns the total observation vector from process-local observations. The function depends on `pyPDAF.PDAF.gather_dim_obs_f` which defines the process-local observation dimensions. Further, the related routine `pyPDAF.PDAF.gather_obs_f2` is used to
+    r"""In the local filters (LESKTF, LETKF, LSEIK, LNETF) this function returns the total observation vector from process-local observations. The function depends on `pyPDAF.PDAF.gather_dim_obs_f` which defines the process-local observation dimensions. Further, the related routine `pyPDAF.PDAF.gather_obs_f2` is used to
     gather the associated 2D observation coordinates
     
 
@@ -9415,6 +9913,7 @@ def gather_obs_f (obs_p: np.ndarray[tuple[int], np.dtype[np.float64]],dimobs_f: 
     ----------
     obs_p : ndarray[tuple[dimobs_p], np.float64]
         PE-local vector
+        The array dimension `dimobs_p` is dimensions of PE local obs
     dimobs_f : int
         dimension of full gathered obs
 
@@ -9422,14 +9921,18 @@ def gather_obs_f (obs_p: np.ndarray[tuple[int], np.dtype[np.float64]],dimobs_f: 
     -------
     obs_f : ndarray[tuple[dimobs_f], np.float64]
          Full gathered vector
+
+        The array dimension `dimobs_f` is dimension of full gathered obs
     status : int
-        Status flag: (0) no error; (1) when PDAF_gather_dim_obs_f not executed before
+        Status flag:
+        (0) no error;
+        (1) when PDAF_gather_dim_obs_f not executed before
     """
     ...
 
 def gather_obs_f2 (coords_p: np.ndarray[tuple[int, int], np.dtype[np.float64]],
                    dimobs_f: int) -> tuple[np.ndarray[tuple[int, int], np.dtype[np.float64]], int]:
-    """In the local filters (LESKTF, LETKF, LSEIK, LNETF)
+    r"""In the local filters (LESKTF, LETKF, LSEIK, LNETF)
     this function returns the full observation coordinates from process-local observation coordinates. The function depends on `pyPDAF.PDAF.gather_dim_obs_f` which defines the process-local observation dimensions. Further, the related routine `pyPDAF.PDAF.gather_obs_f` is used to gather the associated observation vectors. 
     
     The routine is typically used in the routines `py__init_dim_obs_f_pdaf` if the analysis step of the local filters is parallelized.
@@ -9438,6 +9941,8 @@ def gather_obs_f2 (coords_p: np.ndarray[tuple[int, int], np.dtype[np.float64]],
     ----------
     coords_p : ndarray[tuple[nrows, dimobs_p], np.float64]
         PE-local array
+        The 1st-th dimension nrows is Number of rows in array
+        The 2nd-th dimension dimobs_p is dimensions of PE local obs
     dimobs_f : int
         dimension of full gathered obs
 
@@ -9445,8 +9950,13 @@ def gather_obs_f2 (coords_p: np.ndarray[tuple[int, int], np.dtype[np.float64]],
     -------
     coords_f : ndarray[tuple[nrows, dimobs_f], np.float64]
          Full gathered array
+
+        The 1st-th dimension nrows is Number of rows in array
+        The 2nd-th dimension dimobs_f is dimension of full gathered obs
     status : int
-        Status flag: (0) no error; (1) when PDAF_gather dim_obs_f not executed before
+        Status flag:
+        (0) no error;
+        (1) when PDAF_gather dim_obs_f not executed before
     """
     ...
 
@@ -9469,20 +9979,31 @@ def generate_obs (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int],
                                                         float], tuple[int, 
                                                         int, float]]
                  ) -> int:
-    """When diagonal observation error covariance matrix is used, it is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.omi_generate_obs`. 
-    This function generates synthetic observations based on each member of model forecast. This is based on the usual implementation strategy for PDAF.
-    
-    The function is a combination of `pyPDAF.PDAF.put_state_generate_obs` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pda
-    5. py__init_obserr_f_pdaf
-    6. py__get_obs_f_pdaf
-    7. py__prepoststep_state_pdaf
-    8. py__distribute_state_pdaf
-    9. py__next_observation_pdaf
-    
+    r"""Generation of synthetic observations based on given error statistics and observation operator.
+
+    When diagonal observation error covariance matrix is used,
+    it is recommended to use :func:`pyPDAF.PDAF.omi_generate_obs` functionalities
+    for fewer user-supplied functions and improved efficiency.
+
+    The generated synthetic observations are based on each member of model forecast.
+    Therefore, an ensemble of observations can be obtained. In a typical experiment,
+    one may only need one ensemble member.
+    The implementation strategy is similar to an assimilation step. This means that, 
+    one can reuse many user-supplied functions for assimilation and observation generation.
+
+    The function is a combination of :func:`pyPDAF.PDAF.put_state_generate_obs`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    This function executes the user-supplied function in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pda
+        5. py__init_obserr_f_pdaf
+        6. py__get_obs_f_pdaf
+        7. py__prepoststep_state_pdaf
+        8. py__distribute_state_pdaf
+        9. py__next_observation_pdaf
 
     Parameters
     ----------
@@ -9657,7 +10178,10 @@ def generate_obs (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int],
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -9675,7 +10199,10 @@ def generate_obs (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int],
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -9731,7 +10258,7 @@ def generate_obs (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int],
     ...
 
 def get_assim_flag () -> int:
-    """This function returns the flag that indicates if the DA is performed in the last time step. It only works for online DA systems. 
+    r"""This function returns the flag that indicates if the DA is performed in the last time step. It only works for online DA systems. 
 
 
     Returns
@@ -9743,13 +10270,14 @@ def get_assim_flag () -> int:
 
 def get_ensstats () -> tuple[np.ndarray[tuple[int, ], np.dtype[float]], np.ndarray[tuple[int, ], np.dtype[float]], 
                    int]:
-    """This is a diagnotics function for LKNETF which returns the skewness and kutosis used there. 
+    r"""This is a diagnotics function for LKNETF which returns the skewness and kutosis used there. 
 
 
     Returns
     -------
     dims : ndarray[tuple[1], np.intc]
          dimension of pointer
+
     c_skew_ptr : ndarray[float]
         Skewness array
     c_kurt_ptr : ndarray[float]
@@ -9760,7 +10288,7 @@ def get_ensstats () -> tuple[np.ndarray[tuple[int, ], np.dtype[float]], np.ndarr
     ...
 
 def get_localfilter () -> int:
-    """This function returns whether a local filter is used. 
+    r"""This function returns whether a local filter is used. 
 
 
     Returns
@@ -9771,7 +10299,7 @@ def get_localfilter () -> int:
     ...
 
 def get_memberid (memberid: int) -> int:
-    """This function returns the ensemble member id on the current process. 
+    r"""This function returns the ensemble member id on the current process. 
     For example, it can be called during the ensemble integration if ensemble-specific forcing is applied. It can also be used in the user-supplied functions such as `py__collect_state_pdaf` and `py__distribute_state_pdaf`.
 
     Parameters
@@ -9787,7 +10315,7 @@ def get_memberid (memberid: int) -> int:
     ...
 
 def get_obsmemberid (memberid: int) -> int:
-    """This function returns the ensemble member id when observation operator is being applied. 
+    r"""This function returns the ensemble member id when observation operator is being applied. 
     This function is used specifically for user-supplied function `py__obs_op_pdaf`.
 
     Parameters
@@ -9803,7 +10331,7 @@ def get_obsmemberid (memberid: int) -> int:
     ...
 
 def get_smootherens () -> tuple[np.ndarray[tuple[int, ], np.dtype[float]], int, int]:
-    """This function returns the smoothed ensemble in earlier time steps. It is only used when the smoother options is used .
+    r"""This function returns the smoothed ensemble in earlier time steps. It is only used when the smoother options is used .
 
 
     Returns
@@ -9814,6 +10342,7 @@ def get_smootherens () -> tuple[np.ndarray[tuple[int, ], np.dtype[float]], int, 
         Number of past timesteps processed in sens
     dims : ndarray[tuple[3], np.intc]
          dimension of pointer
+
     status : int
         Status flag
     """
@@ -9834,7 +10363,7 @@ def get_state (steps: int,doexit: int,py__next_observation_pdaf : Callable[[int,
                                                 np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                 np.ndarray[tuple[int, int], np.dtype[np.float64]]]],
                flag: int) -> tuple[int, float, int, int]:
-    """Post-processing the analysis and distributing state vector back to the model.
+    r"""Post-processing the analysis and distributing state vector back to the model.
 
     This function also sets the next model step for assimilation, or end the entire assimilation.
 
@@ -9935,7 +10464,10 @@ def get_state (steps: int,doexit: int,py__next_observation_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -9953,7 +10485,10 @@ def get_state (steps: int,doexit: int,py__next_observation_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -9993,36 +10528,60 @@ def init (filtertype: int,subtype: int,stepnull: int,param_int: np.ndarray[tuple
                                                           int]],
           in_screen: int) -> tuple[np.ndarray[tuple[int], np.dtype[np.intc]], np.ndarray[tuple[int], np.dtype[np.float64]], 
                          int]:
-    """This function initialises the PDAF system. It is called once at the beginning of the assimilation. The function specifies the type of DA methods, parameters of the filters, the MPI communicators, and other parallel options.The function also provides an initial ensemble to the PDAF system by the user-supplied function which can be distribute to the model by `pyPDAF.PDAF.get_state`. 
-    For the options and parameters of DA methods, check the `PDAF introduction page <https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF.>` 
-    The parallisation module in the repository example can be used directly for most cases. Explanation of the parallelisation strategy in PDAF can be found in https://pdaf.awi.de/trac/wiki/ImplementationConceptOnline#Parallelizationofthedataassimilationprogram and https://pdaf.awi.de/trac/wiki/AdaptParallelization
+    r"""This function initialises the PDAF system.
+
+    It is called once at the beginning of the assimilation.
+    The function specifies the type of DA methods, 
+    parameters of the filters, the MPI communicators, and other parallel options.
+    The user-supplied function :func:`py__init_ens_pdaf`
+    provides an initial ensemble to the internal PDAF ensemble array.
+    The internal PDAF ensemble can be distribute to the model by
+    :func:`pyPDAF.PDAF.get_state`.
+
+    The filter options including `filtertype`, `subtype`, `param_int`, and `param_real`
+    are introduced in
+    `PDAF filter options wiki page <https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF>`_.
+
+    The MPI communicators are defined in
+    `pyPDAF example page <https://github.com/yumengch/pyPDAF/blob/main/example/parallelisation.py>`_.
+    The example script is based on the parallelisation strategy of PDAF
+    which is available at
+    `PDAF parallelisation strategy wiki page <https://pdaf.awi.de/trac/wiki/ImplementationConceptOnline#Parallelizationofthedataassimilationprogram>`_
+    and `PDAF parallelisation adaptation wiki page <https://pdaf.awi.de/trac/wiki/AdaptParallelization>`_.
+    In most cases, the user does not need to change the parallelisation script.
+
+    
 
     Parameters
     ----------
     filtertype : int
-        Type of filter
+        type of filter
     subtype : int
-        Sub-type of filter
+        sub-type of filter
     stepnull : int
-        Initial time step of assimilation
+        initial time step of assimilation
     param_int : ndarray[tuple[dim_pint], np.intc]
-        Integer parameter array
+        filter parameters in integer
+        The array dimension `dim_pint` is the number of integer parameters which depends on
+        the type of filters and required non-default options
     param_real : ndarray[tuple[dim_preal], np.float64]
-        Real parameter array
+        filter parameters in float/real values
+        The array dimension `dim_preal` is number of real parameter which depends on
+        the type of filters and required non-default options
     COMM_model : int
-        Model communicator
+        model MPI communicator
     COMM_filter : int
-        Filter communicator
+        filter MPI communicator
     COMM_couple : int
-        Coupling communicator
+        coupling MPI communicator
     task_id : int
-        Id of my ensemble task
+        index of parallel model task starting from 1
     n_modeltasks : int
-        Number of parallel model tasks
+        number of parallel model tasks
     in_filterpe : bool
-        Is my PE a filter-PE?
+        True if the current PE is a filter PE else False
     py__init_ens_pdaf : Callable[filtertype:int, dim_p:int, dim_ens:int, state_p:ndarray[tuple[dim_p], np.float64], uinv:ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p:ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
-        User-supplied routine for ensemble initialization
+        initialise PDAF internal ensemble array
 
         **Callback Parameters**
 
@@ -10074,14 +10633,20 @@ def init (filtertype: int,subtype: int,stepnull: int,param_int: np.ndarray[tuple
 
 
     in_screen : int
-        Control screen output:
+        Verbosity level of PDAF screen output
 
     Returns
     -------
     param_int : ndarray[tuple[dim_pint], np.intc]
-         Integer parameter array
+         filter parameters in integer
+
+        The array dimension `dim_pint` is the number of integer parameters which depends on
+        the type of filters and required non-default options
     param_real : ndarray[tuple[dim_preal], np.float64]
-         Real parameter array
+         filter parameters in float/real values
+
+        The array dimension `dim_preal` is number of real parameter which depends on
+        the type of filters and required non-default options
     flag : int
         Status flag, 0: no error, error codes:
     """
@@ -10090,7 +10655,7 @@ def init (filtertype: int,subtype: int,stepnull: int,param_int: np.ndarray[tuple
 def local_weight (wtype: int,rtype: int,cradius: float,sradius: float,distance: float,
                   A: np.ndarray[tuple[int, int], np.dtype[np.float64]],
                   var_obs: float,verbose: int) -> float:
-    """The function is used for localisation in the analysis step of a filter and computes a weight according to the specified distance and the settings for the localising function. Typically the function is called in `py__prodRinvA_l_pdaf` in the domain-localised filters. Also, the function is typically called for the LEnKF in the `py__localize_covar_pdaf`. 
+    r"""The function is used for localisation in the analysis step of a filter and computes a weight according to the specified distance and the settings for the localising function. Typically the function is called in `py__prodRinvA_l_pdaf` in the domain-localised filters. Also, the function is typically called for the LEnKF in the `py__localize_covar_pdaf`. 
     This function is usually only used in user-codes that do not use PDAF-OMI.
 
     Parameters
@@ -10107,6 +10672,8 @@ def local_weight (wtype: int,rtype: int,cradius: float,sradius: float,distance: 
         Distance to observation
     A : ndarray[tuple[nrows, ncols], np.float64]
         Input matrix
+        The 1st-th dimension nrows is Number of rows in matrix A
+        The 2nd-th dimension ncols is Number of columns in matrix A
     var_obs : float
         Observation variance
     verbose : int
@@ -10120,14 +10687,26 @@ def local_weight (wtype: int,rtype: int,cradius: float,sradius: float,distance: 
     ...
 
 def print_info (printtype: int) -> None:
-    """This function prints the wallclock time and memory measured by PDAF. This is called at the end of the DA program. 
-    The function displays the following information: 
-    - Memory required for the ensemble array, state vector, and transform matrix- Memory required by the analysis step- Memory required to perform the ensemble transformation
+    r"""Printing the wallclock time and memory measured by PDAF.
+
+    This is called at the end of the DA program.
+
+    The function displays the following information:
+        - Memory required for the ensemble array, state vector, and transform matrix
+        - Memory required by the analysis step
+        - Memory required to perform the ensemble transformation
 
     Parameters
     ----------
     printtype : int
-        - X=1: Basic timers - X=3: Timers showing the time spent int he different call-back routines (this variant was added with PDAF 1.15) - X=4: More detailed timers about parts of the filter algorithm (before PDAF 1.15, this was timer level 3) - X=5: Very detailed timers about various operations in the filter algorithm (before PDAF 1.15, this was timer level 4)
+        Type of information to be printed
+            - printtype=1: Basic timers
+            - printtype=3: Timers showing the time spent int he different call-back routines
+              (this variant was added with PDAF 1.15)
+            - printtype=4: More detailed timers about parts of the filter algorithm
+              (before PDAF 1.15, this was timer level 3)
+            - printtype=5: Very detailed timers about various operations in the filter algorithm
+              (before PDAF 1.15, this was timer level 4)
     """
     ...
 
@@ -10155,28 +10734,43 @@ def put_state_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
                                                       np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                       np.ndarray[tuple[int, int], np.dtype[np.float64]]]]
                     ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency.
-    I.e., `pyPDAF.PDAF.omi_put_state_global` or `pyPDAF.PDAF.omi_put_state_global_nondiagR`. 
-    Using 3DVar for DA without post-processing and analysis distribution to forecsat without OMI.
-    This is a deterministic filtering scheme. This function is usually used in 'flexible' parallelisation, but 3dvar is deterministic and does not require ensemble.
-    A `pyPDAF.PDAF.get_state` function should be used to post-process the state vector and distribute the state vector to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    5. py__init_obs_pdaf
-    Starting the iterative optimisation:
-    6. py__cvt_pdaf
-    7. py__obs_op_lin_pdaf
-    8. py__prodRinvA_pdaf
-    9. py__obs_op_adj_pdaf
-    10. py__cvt_adj_pdaf
-    11. core DA algorithm
-    After the iterations: 
-    12. py__cvt_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_3dvar`
+    or :func:`pyPDAF.PDAF.omi_put_state_3dvar_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    3DVar DA for a single DA step.
+
+    Compared to :func:`pyPDAF.PDAF.assimilate_3dvar`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    When 3DVar is used, the background error covariance matrix
+    has to be modelled for cotrol variable transformation.
+    This is a deterministic filtering scheme so no ensemble and parallelisation is needed.
+    This function should be called at each model time step.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. py__init_obs_pdaf
+        6. Iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__prodRinvA_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_pdaf
+            6. core DA algorithm
+        7. py__cvt_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_3dvar`
+       and :func:`pyPDAF.PDAF.omi_put_state_3dvar_nondiagR`
 
     Parameters
     ----------
@@ -10291,7 +10885,9 @@ def put_state_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -10467,7 +11063,10 @@ def put_state_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -10485,7 +11084,10 @@ def put_state_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -10541,37 +11143,53 @@ def put_state_en3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[
                                                               np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                               np.ndarray[tuple[int, int], np.dtype[np.float64]]]]
                             ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency.
-    I.e., `pyPDAF.PDAF.omi_put_state_en3dvar_estkf` or `pyPDAF.PDAF.omi_put_state_en3dvar_estkf_nondiagR`. 
-    
-    
-    Using 3DEnVar for DA without post-processing and analysis distribution to forecsat without OMI.
-    The background error covariance matrix is estimated by ensemble. The 3DEnVar only calculates the analysis of the ensemble mean.
-    An ESTKF is used to generate ensemble perturbations. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    5. py__init_obs_pdaf
-    Starting the iterative optimisation:
-    6. py__cvt_ens_pdaf
-    7. py__obs_op_lin_pdaf
-    8. py__prodRinvA_pdaf
-    9. py__obs_op_adj_pdaf
-    10. py__cvt_adj_ens_pdaf
-    11. core 3DEnVar algorithm
-    After the iterations: 
-    12. py__cvt_ens_pdaf
-    Perform ESTKF: 13. py__init_dim_obs_pdaf
-    14. py__obs_op_pdaf (for ensemble mean
-    15. py__init_obs_pdaf
-    16. py__obs_op_pdaf (for each ensemble member
-    17. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)
-    18. py__prodRinvA_pdaf
-    19. core ESTKF algorithm
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_en3dvar_estkf`
+    or :func:`pyPDAF.PDAF.omi_put_state_en3dvar_estkf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    3DEnVar for a single DA step.
+
+    Compared to :func:`pyPDAF.PDAF.assimilate_en3dvar_estkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The background error covariance matrix is estimated by an ensemble.
+    The 3DEnVar only calculates the analysis of the ensemble mean.
+    An ESTKF is used along with 3DEnVar to generate ensemble perturbations.
+    This function should be called at each model time step.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. py__init_obs_pdaf
+        6. the iterative optimisation:
+            1. py__cvt_ens_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__prodRinvA_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_ens_pdaf
+            6. core 3DEnVar algorithm
+        7. py__cvt_ens_pdaf
+        8. ESTKF:
+            1. py__init_dim_obs_pdaf
+            2. py__obs_op_pdaf (for ensemble mean)
+            3. py__init_obs_pdaf
+            4. py__obs_op_pdaf (for each ensemble member)
+            5. py__init_obsvar_pdaf
+               (only relevant for adaptive forgetting factor schemes)
+            6. py__prodRinvA_pdaf
+            7. core ESTKF algorithm
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_en3dvar_estkf`
+       and :func:`pyPDAF.PDAF.omi_put_state_en3dvar_estkf_nondiagR`
 
     Parameters
     ----------
@@ -10686,7 +11304,9 @@ def put_state_en3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -10906,7 +11526,10 @@ def put_state_en3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -10924,7 +11547,10 @@ def put_state_en3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -11015,47 +11641,70 @@ def put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray
                                                                np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                np.ndarray[tuple[int, int], np.dtype[np.float64]]]]
                              ) -> int:
-    """It is recommended to use local module with OMI functionalities for fewer user-supplied functions and improved efficiency.
-    I.e., `pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf` or `pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR`. 
-    
-    
-    Using 3DEnVar for DA without post-processing and analysis distribution to forecsat without OMI.
-    The background error covariance matrix is estimated by ensemble. The 3DEnVar only calculates the analysis of the ensemble mean.
-    An LESTKF is used to generate ensemble perturbations. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    5. py__init_obs_pdaf
-    Starting the iterative optimisation:
-    6. py__cvt_ens_pdaf
-    7. py__obs_op_lin_pdaf
-    8. py__prodRinvA_pdaf
-    9. py__obs_op_adj_pdaf
-    10. py__cvt_adj_ens_pdaf
-    11. core DA algorithm
-    After the iterations: 
-    12. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    13. py__init_n_domains_p_pdaf
-    14. py__init_dim_obs_pdaf
-    15. py__obs_op_pdaf (for each ensemble member
-    16. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init
-    17. py__init_obsvar_pdaf (if global adaptive forgetting factor is used
-    loop over each local domain:
-    18. py__init_dim_l_pdaf
-    19. py__init_dim_obs_l_pdaf
-    20. py__g2l_state_pdaf
-    21. py__g2l_obs_pdaf (localise mean ensemble in observation space)
-    22. py__init_obs_l_pdaf
-    23. py__g2l_obs_pdaf (localise each ensemble member in observation space
-    24. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    25. py__prodRinvA_pdaf
-    26. core DA algorithm
-    27. py__l2g_state_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf`
+    or :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    3DEnVar for a single DA step without post-processing, distributing analysis, and setting next observation step,
+     where the ensemble anomaly is generated by LESTKF.
+
+    Compared to :func:`pyPDAF.PDAF.assimilate_en3dvar_lestkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The background error covariance matrix is estimated by ensemble.
+    The 3DEnVar only calculates the analysis of the ensemble mean.
+    An LESTKF is used to generate ensemble perturbations.
+    This function should be called at each model time step.
+
+    The user-supplied function are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. py__init_obs_pdaf
+        6. Starting the iterative optimisation:
+            1. py__cvt_ens_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__prodRinvA_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_ens_pdaf
+            6. core DA algorithm
+        7. py__cvt_ens_pdaf
+        8. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. py__init_obs_pdaf
+               (if global adaptive forgetting factor is used
+               `type_forget=1` in :func:`pyPDAF.PDAF.init`)
+            5. py__init_obsvar_pdaf
+               (if global adaptive forgetting factor is used)
+            6. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__g2l_state_pdaf
+                4. py__g2l_obs_pdaf
+                   (localise mean ensemble in observation space)
+                5. py__init_obs_l_pdaf
+                6. py__g2l_obs_pdaf
+                   (localise each ensemble member in observation space)
+                7. py__init_obsvar_l_pdaf
+                   (only called if local adaptive forgetting factor
+                   `type_forget=2` is used)
+                8. py__prodRinvA_l_pdaf
+                9. core DA algorithm
+                10. py__l2g_state_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf`
+       and :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR`
 
     Parameters
     ----------
@@ -11170,7 +11819,9 @@ def put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -11458,7 +12109,8 @@ def put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -11758,7 +12410,10 @@ def put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -11776,7 +12431,10 @@ def put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -11813,20 +12471,44 @@ def put_state_enkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
                                                         bool], tuple[float, 
                                                         bool]]
                    ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.put_state_global` or `pyPDAF.PDAF.put_state_enkf_nondiagR`. 
-    Using stochastic EnKF (ensemble Kalman filter) for DA without post-processing and analysis distribution to forecsat without OMI. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf (for ensemble mean
-    5. py__add_obs_err_pdaf
-    6. py__init_obs_pdaf
-    7. py__init_obscovar_pdaf
-    8. py__obs_op_pdaf (for each ensemble member
-    9. core DA algorithm
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`
+    or :func:`pyPDAF.PDAF.omi_put_state_enkf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Stochastic EnKF (ensemble Kalman filter) [1]_ for a single DA step without OMI.
+
+    Compared to :func:`pyPDAF.PDAF.assimilate_enkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    This function should be called at each model time step. 
+
+    This function executes the user-supplied functions in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf (for ensemble mean)
+        5. py__add_obs_err_pdaf
+        6. py__init_obs_pdaf
+        7. py__init_obscovar_pdaf
+        8. py__obs_op_pdaf (for each ensemble member)
+        9. core DA algorithm
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`
+       and :func:`pyPDAF.PDAF.omi_put_state_enkf_nondiagR`
+
+    References
+    ----------
+    .. [1] Evensen, G. (1994), 
+           Sequential data assimilation with a nonlinear quasi-geostrophic model
+           using Monte Carlo methods to forecast error statistics,
+           J. Geophys. Res., 99(C5), 10143–10162, doi:10.1029/94JC00572.
 
     Parameters
     ----------
@@ -11953,7 +12635,10 @@ def put_state_enkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -11971,7 +12656,10 @@ def put_state_enkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -12072,20 +12760,45 @@ def put_state_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
                      py__init_obsvar_pdaf : Callable[[int, int, np.ndarray[tuple[int], np.dtype[np.float64]], 
                                                       float], float]
                     ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.put_state_global` or `pyPDAF.PDAF.put_state_global_nondiagR`. 
-    Using ESTKF (error space transform Kalman filter) for DA without post-processing and analysis distribution to forecsat without OMI. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. The ESTKF is a more efficient equivalent to the ETKF. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf (for ensemble mean
-    5. py__init_obs_pdaf
-    6. py__obs_op_pdaf (for each ensemble member
-    7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)
-    8. py__prodRinvA_pdaf
-    9. core DA algorithm
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`
+    or :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR` instead of this function.
+
+    OMI functions need fewer user-supplied functions and improve DA efficiency.
+
+    This function calls ESTKF (error space transform Kalman filter) [1]_.
+
+    Compared to :func:`pyPDAF.PDAF.assimilate_estkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The ESTKF is a more efficient equivalent to the ETKF.
+
+    The function should be called at each model time step.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf (for ensemble mean)
+        5. py__init_obs_pdaf
+        6. py__obs_op_pdaf (for each ensemble member)
+        7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)
+        8. py__prodRinvA_pdaf
+        9. core DA algorithm
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`
+       and :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`.
+
+    References
+    ----------
+    .. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
 
     Parameters
     ----------
@@ -12212,7 +12925,10 @@ def put_state_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -12230,7 +12946,10 @@ def put_state_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -12256,7 +12975,9 @@ def put_state_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -12331,20 +13052,47 @@ def put_state_etkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
                     py__init_obsvar_pdaf : Callable[[int, int, np.ndarray[tuple[int], np.dtype[np.float64]], 
                                                      float], float]
                    ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.put_state_global` or `pyPDAF.PDAF.put_state_global_nondiagR`. 
-    Using ETKF (ensemble transform Kalman filter) for DA without post-processing and analysis distribution to forecsat without OMI. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf (for ensemble mean
-    5. py__init_obs_pdaf
-    6. py__obs_op_pdaf (for each ensemble member
-    7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)
-    8. py__prodRinvA_pdaf
-    9. core DA algorithm
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`
+    or :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Using ETKF (ensemble transform Kalman filter) [1]_ for a single DA step without OMI. The implementation is baed on [2]_.
+
+    Compared to :func:`pyPDAF.PDAF.assimilate_etkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    This function should be called at each model time step.
+
+    This function executes the user-supplied function in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf (for ensemble mean)
+        5. py__init_obs_pdaf
+        6. py__obs_op_pdaf (for each ensemble member)
+        7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)
+        8. py__prodRinvA_pdaf
+        9. core DA algorithm
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`
+       and :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`
+
+    References
+    ----------
+    .. [1] Bishop, C. H., B. J. Etherton, and S. J. Majumdar (2001)
+           Adaptive Sampling with the Ensemble Transform Kalman Filter.
+           Part I: Theoretical Aspects. Mon. Wea. Rev., 129, 420–436,
+           doi: 10.1175/1520-0493(2001)129<0420:ASWTET>2.0.CO;2. 
+    .. [2] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
 
     Parameters
     ----------
@@ -12471,7 +13219,10 @@ def put_state_etkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -12489,7 +13240,10 @@ def put_state_etkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -12515,7 +13269,9 @@ def put_state_etkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -12590,20 +13346,32 @@ def put_state_generate_obs (py__collect_state_pdaf : Callable[[int, np.ndarray[t
                                                              np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                              np.ndarray[tuple[int, int], np.dtype[np.float64]]]]
                            ) -> int:
-    """When diagonal observation error covariance matrix is used, it is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.omi_put_state_generate_obs`. 
-    This function generates synthetic observations based on each member of model forecast. This function is for the case where the ensemble size is larger than the number of processors. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pda
-    5. py__init_obserr_f_pdaf
-    6. py__get_obs_f_pdaf
-    7. py__prepoststep_state_pdaf
-    8. py__distribute_state_pdaf
-    9. py__next_observation_pdaf
-    
+    r"""Generation of synthetic observations based on given error statistics and observation operator.
+
+    When diagonal observation error covariance matrix is used,
+    it is recommended to use :func:`pyPDAF.PDAF.omi_generate_obs` functionalities
+    for fewer user-supplied functions and improved efficiency.
+
+    The generated synthetic observations are based on each member of model forecast.
+    Therefore, an ensemble of observations can be obtained. In a typical experiment,
+    one may only need one ensemble member.
+
+    Compared to :func:`pyPDAF.PDAF.generate_obs`, this function has no :func:`get_state` call.
+    This means that the next DA step will not be assigned by user-supplied functions.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The implementation strategy is similar to an assimilation step. This means that, 
+    one can reuse many user-supplied functions for assimilation and observation generation.
+
+    This function executes the user-supplied function in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pda
+        5. py__init_obserr_f_pdaf
+        6. py__get_obs_f_pdaf
 
     Parameters
     ----------
@@ -12758,7 +13526,10 @@ def put_state_generate_obs (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -12776,7 +13547,10 @@ def put_state_generate_obs (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -12837,42 +13611,59 @@ def put_state_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray
                                                                np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                np.ndarray[tuple[int, int], np.dtype[np.float64]]]]
                              ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency.
-    I.e., `pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf` or `pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf_nondiagR`. 
-    
-    
-    Using Hybrid 3DEnVar for DA without post-processing and analysis distribution to forecsat without OMI.
-    Here, the background error covariance is hybridised by a static background error covariance, and a flow-dependent background error covariance estimated from ensemble. The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
-    ESTKF in this implementation. 
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    5. py__init_obs_pdaf
-    Starting the iterative optimisation:
-    6. py__cvt_pdaf
-    7. py__cvt_ens_pdaf
-    8. py__obs_op_lin_pdaf
-    9. py__prodRinvA_pdaf
-    10. py__obs_op_adj_pdaf
-    11. py__cvt_adj_pdaf
-    12. py__cvt_adj_ens_pdaf
-    13. core 3DEnVar algorithm
-    After the iterations: 
-    14. py__cvt_pdaf
-    15. py__cvt_ens_pdaf
-    Perform ESTKF: 16. py__init_dim_obs_pdaf
-    17. py__obs_op_pdaf (for ensemble mean
-    18. py__init_obs_pdaf
-    19. py__obs_op_pdaf (for each ensemble member
-    20. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)
-    21. py__prodRinvA_pdaf
-    22. core ESTKF algorithm
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf`
+    or :func:`pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Hybrid 3DEnVar for a single DA step where
+    the background error covariance is hybridised by a static background error covariance,
+    and a flow-dependent background error covariance estimated from ensemble.
+
+    Compared to :func:`pyPDAF.PDAF.assimilate_hyb3dvar_estkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
+    ESTKF in this implementation.
+    This function should be called at each model time step.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. py__init_obs_pdaf
+        6. the iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__cvt_ens_pdaf
+            3. py__obs_op_lin_pdaf
+            4. py__prodRinvA_pdaf
+            5. py__obs_op_adj_pdaf
+            6. py__cvt_adj_pdaf
+            7. py__cvt_adj_ens_pdaf
+            8. core 3DEnVar algorithm
+        7. py__cvt_pdaf
+        8. py__cvt_ens_pdaf
+        9. Perform ESTKF:
+            1. py__init_dim_obs_pdaf
+            2. py__obs_op_pdaf
+               (for ensemble mean)
+            3. py__init_obs_pdaf
+            4. py__obs_op_pdaf
+               (for each ensemble member)
+            5. py__init_obsvar_pdaf
+               (only relevant for adaptive forgetting factor schemes)
+            6. py__prodRinvA_pdaf
+            7. core ESTKF algorithm
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf`
+       and :func:`pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf_nondiagR`
 
     Parameters
     ----------
@@ -12987,7 +13778,9 @@ def put_state_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -13271,7 +14064,10 @@ def put_state_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -13289,7 +14085,10 @@ def put_state_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int, np.ndarray
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -13391,52 +14190,72 @@ def put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
                                                                 np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                 np.ndarray[tuple[int, int], np.dtype[np.float64]]]]
                               ) -> int:
-    """It is recommended to use local module with OMI functionalities for fewer user-supplied functions and improved efficiency.
-    I.e., `pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf` or `pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR`. 
-    
-    
-    Using Hybrid 3DEnVar for DA without post-processing and analysis distribution to forecsat without OMI.
-    Here, the background error covariance is hybridised by a static background error covariance, and a flow-dependent background error covariance estimated from ensemble. The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
-    LESTKF in this implementation. 
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    5. py__init_obs_pdaf
-    Starting the iterative optimisation:
-    6. py__cvt_pdaf
-    7. py__cvt_ens_pdaf
-    8. py__obs_op_lin_pdaf
-    9. py__prodRinvA_pdaf
-    10. py__obs_op_adj_pdaf
-    11. py__cvt_adj_pdaf
-    12. py__cvt_adj_ens_pdaf
-    13. core DA algorithm
-    After the iterations: 
-    14. py__cvt_pdaf
-    15. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    16. py__init_n_domains_p_pdaf
-    17. py__init_dim_obs_pdaf
-    18. py__obs_op_pdaf (for each ensemble member
-    19. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in `pyPDAF.PDAF.init`))
-    20. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)
-    loop over each local domain:
-    21. py__init_dim_l_pdaf
-    22. py__init_dim_obs_l_pdaf
-    23. py__g2l_state_pdaf
-    24. py__g2l_obs_pdaf (localise mean ensemble in observation space)
-    25. py__init_obs_l_pdaf
-    26. py__g2l_obs_pdaf (localise each ensemble member in observation space)
-    27. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used)
-    28. py__prodRinvA_pdaf
-    29. core DA algorithm
-    30. py__l2g_state_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf`
+    or :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Hybrid 3DEnVar for a single DA step using non-diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step, where
+    the background error covariance is hybridised by a static background error covariance,
+    and a flow-dependent background error covariance estimated from ensemble.
+
+    Compared to :func:`pyPDAF.PDAF.assimilate_hyb3dvar_lestkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
+    LESTKF in this implementation.
+    This function should be called at each model time step.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. py__init_obs_pdaf
+        6. The iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__cvt_ens_pdaf
+            3. py__obs_op_lin_pdaf
+            4. py__prodRinvA_pdaf
+            5. py__obs_op_adj_pdaf
+            6. py__cvt_adj_pdaf
+            7. py__cvt_adj_ens_pdaf
+            8. core DA algorithm
+        7. py__cvt_pdaf
+        8. py__cvt_ens_pdaf
+        9. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. py__init_obs_pdaf
+               (if global adaptive forgetting factor `type_forget=1` in :func:`pyPDAF.PDAF.init`)
+            5. py__init_obsvar_pdaf
+               (if global adaptive forgetting factor is used)
+            6. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__g2l_state_pdaf
+                4. py__g2l_obs_pdaf
+                   (localise mean ensemble in observation space)
+                5. py__init_obs_l_pdaf
+                6. py__g2l_obs_pdaf
+                   (localise each ensemble member in observation space)
+                7. py__init_obsvar_l_pdaf
+                   (only called if local adaptive forgetting factor `type_forget=2` is used)
+                8. py__prodRinvA_l_pdaf
+                9. core DA algorithm
+                10. py__l2g_state_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf`
+       and :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR`
 
     Parameters
     ----------
@@ -13551,7 +14370,9 @@ def put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -13903,7 +14724,8 @@ def put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -14203,7 +15025,10 @@ def put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -14221,7 +15046,10 @@ def put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -14261,21 +15089,48 @@ def put_state_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
                                                          bool], tuple[float, 
                                                          bool]]
                     ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.omi_put_state_lenkf` or `pyPDAF.PDAF.omi_put_state_lenkf_nondiagR`. 
-    Using stochastic EnKF (ensemble Kalman filter) with covariance localisation for DA without post-processing and analysis distribution to forecsat without OMI. This is the only scheme for covariance localisation in PDAF. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf (for each ensemble member
-    5. py__localize_pdaf
-    6. py__add_obs_err_pdaf
-    7. py__init_obs_pdaf
-    8. py__init_obscovar_pdaf
-    9. py__obs_op_pdaf (repeated to reduce storage
-    10. core DA algorith
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_lenkf`
+    or :func:`pyPDAF.PDAF.omi_put_state_lenkf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Stochastic EnKF (ensemble Kalman filter) with covariance localisation [1]_
+    for a single DA step without OMI.
+
+    Compared to :func:`pyPDAF.PDAF.assimilate_lenkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    This is the only scheme for covariance localisation in PDAF.
+
+    This function should be called at each model time step.
+
+    The user-supplied function is executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf (for each ensemble member)
+        5. py__localize_pdaf
+        6. py__add_obs_err_pdaf
+        7. py__init_obs_pdaf
+        8. py__init_obscovar_pdaf
+        9. py__obs_op_pdaf (repeated to reduce storage)
+        10. core DA algorith
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_lenkf`
+       and :func:`pyPDAF.PDAF.omi_put_state_lenkf_nondiagR`
+
+    References
+    ----------
+    .. [1] Houtekamer, P. L., and H. L. Mitchell (1998): 
+           Data Assimilation Using an Ensemble Kalman Filter Technique.
+           Mon. Wea. Rev., 126, 796–811,
+           doi: 10.1175/1520-0493(1998)126<0796:DAUAEK>2.0.CO;2.
 
     Parameters
     ----------
@@ -14402,7 +15257,10 @@ def put_state_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -14420,7 +15278,10 @@ def put_state_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -14570,29 +15431,58 @@ def put_state_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
                                                          np.ndarray[tuple[int], np.dtype[np.float64]], 
                                                          int, float], float]
                      ) -> int:
-    """It is recommended to use local module with OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_put_state` or `pyPDAF.PDAF.localomi_put_state_nondiagR`. 
-    Using Local ESTKF (error space transform Kalman filter) for DA without post-processing and analysis distribution to forecsat without OMI. This is a domain localisation method. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. The LESTKF is a more efficient equivalent to the LETKF. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    6. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init
-    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used
-    loop over each local domain:
-    8. py__init_dim_l_pdaf
-    9. py__init_dim_obs_l_pdaf
-    10. py__g2l_state_pdaf
-    11. py__g2l_obs_pdaf (localise mean ensemble in observation space)
-    12. py__init_obs_l_pdaf
-    13. py__g2l_obs_pdaf (localise each ensemble member in observation space
-    14. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    15. py__prodRinvA_l_pdaf
-    16. core DA algorithm
-    17. py__l2g_state_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state`
+    or :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Local ESTKF (error space transform Kalman filter) [1]_ for a single DA step without OMI.
+
+    Compared to :func:`pyPDAF.PDAF.assimilate_lestkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The LESTKF is a more efficient equivalent to the LETKF.
+
+    This function should be called at each model time step.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. py__init_obs_pdaf
+           (if global adaptive forgetting factor `type_forget=1` is used
+           in :func:`pyPDAF.PDAF.init`)
+        7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)
+        8. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_state_pdaf
+            4. py__g2l_obs_pdaf (localise mean ensemble in observation space)
+            5. py__init_obs_l_pdaf
+            6. py__g2l_obs_pdaf
+               (localise each ensemble member in observation space)
+            7. py__init_obsvar_l_pdaf
+               (only called if local adaptive forgetting factor `type_forget=2` is used)
+            8. py__prodRinvA_l_pdaf
+            9. core DA algorithm
+            10. py__l2g_state_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state`
+       and :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`
+
+    References
+    ----------
+    .. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
 
     Parameters
     ----------
@@ -14747,7 +15637,10 @@ def put_state_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -14765,7 +15658,10 @@ def put_state_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -14795,7 +15691,8 @@ def put_state_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -15110,29 +16007,62 @@ def put_state_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
                                                         np.ndarray[tuple[int], np.dtype[np.float64]], 
                                                         int, float], float]
                     ) -> int:
-    """It is recommended to use local module with OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_put_state` or `pyPDAF.PDAF.localomi_put_state_nondiagR`. 
-    Using local ensemble transform Kalman filter for DA without post-processing and analysis distribution to forecsat without OMI. This is a domain localisation method. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    6. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init
-    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used
-    loop over each local domain:
-    8. py__init_dim_l_pdaf
-    9. py__init_dim_obs_l_pdaf
-    10. py__g2l_state_pdaf
-    11. py__g2l_obs_pdaf (localise mean ensemble in observation space)
-    12. py__init_obs_l_pdaf
-    13. py__g2l_obs_pdaf (localise each ensemble member in observation space
-    14. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    15. py__prodRinvA_l_pdaf
-    16. core DA algorithm
-    17. py__l2g_state_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state`
+    or :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Local ensemble transform Kalman filter (LETKF) [1]_
+    for a single DA step without OMI. Implementation is based on [2]_.
+
+    Compared to :func:`pyPDAF.PDAF.assimilate_letkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    Note that the LESTKF is a more efficient equivalent to the LETKF.
+
+    This function should be called at each model time step.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. py__init_obs_pdaf
+           (if global adaptive forgetting factor `type_forget=1` is used
+           in :func:`pyPDAF.PDAF.init`)
+        7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)
+        8. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_state_pdaf
+            4. py__g2l_obs_pdaf (localise mean ensemble in observation space)
+            5. py__init_obs_l_pdaf
+            6. py__g2l_obs_pdaf (localise each ensemble member in observation space)
+            7. py__init_obsvar_l_pdaf
+               (only called if local adaptive forgetting factor `type_forget=2` is used)
+            8. py__prodRinvA_l_pdaf
+            9. core DA algorithm
+            10. py__l2g_state_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state`
+       and :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`
+
+    References
+    ----------
+    .. [1] Hunt, B. R., Kostelich, E. J., & Szunyogh, I. (2007).
+           Efficient data assimilation for spatiotemporal chaos:
+           A local ensemble transform Kalman filter. 
+           Physica D: Nonlinear Phenomena, 230(1-2), 112-126.
+    .. [2] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
 
     Parameters
     ----------
@@ -15287,7 +16217,10 @@ def put_state_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -15305,7 +16238,10 @@ def put_state_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -15335,7 +16271,8 @@ def put_state_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -15643,27 +16580,52 @@ def put_state_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
                                                   int, np.ndarray[tuple[int], np.dtype[np.intc]], 
                                                   int], np.ndarray[tuple[int], np.dtype[np.intc]]]
                     ) -> int:
-    """It is recommended to use local module with OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_put_state` or `pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR`. 
-    This function will use Local Nonlinear Ensemble Transform Filter (LNETF) for DA without post-processing and analysis distribution to forecsat without OMI. The nonlinear filter computes the distribution up to the second moment similar to KF but using a nonlinear weighting similar to particle filter. This leads to an equal weights assumption for prior ensemble. 
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    8. py__g2l_state_pdaf
-    9. py__init_obs_l_pdaf
-    10. py__g2l_obs_pdaf (localise each ensemble member in observation space)
-    11. py__likelihood_l_pdaf
-    12. core DA algorithm
-    13. py__l2g_state_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state`
+    or :func:`pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Local Nonlinear Ensemble Transform Filter (LNETF) [1]_ for a single DA step.
+
+    Compared to :func:`pyPDAF.PDAF.assimilate_lnetf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The nonlinear filter computes the distribution up to
+    the second moment similar to Kalman filters but it uses a nonlinear weighting similar to
+    particle filters. This leads to an equal weights assumption for the prior ensemble at each step.
+    This function should be called at each model time step.
+
+    This function executes the user-supplied function in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_state_pdaf
+            4. py__init_obs_l_pdaf
+            5. py__g2l_obs_pdaf (localise each ensemble member in observation space)
+            6. py__likelihood_l_pdaf
+            7. core DA algorithm
+            8. py__l2g_state_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state`
+       and :func:`pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR`
+
+    References
+    ----------
+    .. [1] Tödter, J., and B. Ahrens, 2015:
+           A second-order exact ensemble square root filter
+           for nonlinear data assimilation. Mon. Wea. Rev.,
+           143, 1347–1367, doi:10.1175/MWR-D-14-00108.1.
 
     Parameters
     ----------
@@ -15794,7 +16756,10 @@ def put_state_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -15812,7 +16777,10 @@ def put_state_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -16102,35 +17070,68 @@ def put_state_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
                                                             np.ndarray[tuple[int], np.dtype[np.float64]], 
                                                             float, float], float]
                      ) -> int:
-    """It is recommended to use local module with OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_put_state` or `pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR`. 
-    This function will is a hybridised LETKF and LNETF for DA without post-processing and analysis distribution to forecsat without OMI. The LNETF computes the distribution up to the second moment similar to KF but using a nonlinear weighting similar to particle filter. This leads to an equal weights assumption for prior ensemble. The hybridisation with LETKF is expected to lead to improved performance for quasi-Gaussian problems.  
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    6. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init
-    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used
-    loop over each local domain:
-    8. py__init_dim_l_pdaf
-    9. py__init_dim_obs_l_pdaf
-    10. py__g2l_state_pdaf
-    11. py__g2l_obs_pdaf (localise each ensemble member in observation space)
-    12. py__init_obs_l_pdaf
-    13. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    14. py__prodRinvA_pdaf
-    15. py__likelihood_l_pdaf
-    16. core DA algorithm
-    17. py__l2g_state_pdaf
-    18. py__obs_op_pdaf (only called with `HKN` and `HNK` options called for each ensemble member
-    19. py__likelihood_hyb_l_pda
-    20. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    21. py__prodRinvA_hyb_l_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state`
+    or :func:`pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    A hybridised LETKF and LNETF [1]_ for a single DA step.
+
+    Compared to :func:`pyPDAF.PDAF.assimilate_lknetf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The LNETF computes the distribution up to
+    the second moment similar to Kalman filters but using a nonlinear weighting similar to
+    particle filters. This leads to an equal weights assumption for the prior ensemble.
+    The hybridisation with LETKF is expected to lead to improved performance for
+    quasi-Gaussian problems.
+    The function should be called at each model step.
+
+    This function executes the user-supplied function in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf
+           (for each ensemble member)
+        6. py__init_obs_pdaf
+           (if global adaptive forgetting factor `type_forget=1`
+           is used in :func:`pyPDAF.PDAF.init`)
+        7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)
+        8. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_state_pdaf
+            4. py__g2l_obs_pdaf
+               (localise each ensemble member in observation space)
+            5. py__init_obs_l_pdaf
+            6. py__init_obsvar_l_pdaf
+               (only called if local adaptive forgetting factor `type_forget=2` is used)
+            7. py__prodRinvA_pdaf
+            8. py__likelihood_l_pdaf
+            9. core DA algorithm
+            10. py__l2g_state_pdaf
+        9. py__obs_op_pdaf
+           (only called with `HKN` and `HNK` options called for each ensemble member)
+        10. py__likelihood_hyb_l_pda
+        11. py__init_obsvar_l_pdaf
+            (only called if local adaptive forgetting factor `type_forget=2` is used)
+        12. py__prodRinvA_hyb_l_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state`
+       and :func:`pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR`
+
+    References
+    ----------
+    .. [1] Nerger, L.. (2022) 
+       Data assimilation for nonlinear systems with a hybrid nonlinear Kalman ensemble transform filter. 
+       Q J R Meteorol Soc, 620–640. doi:10.1002/qj.4221
 
     Parameters
     ----------
@@ -16285,7 +17286,10 @@ def put_state_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -16303,7 +17307,10 @@ def put_state_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -16333,7 +17340,8 @@ def put_state_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -16768,29 +17776,57 @@ def put_state_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
                                                         np.ndarray[tuple[int], np.dtype[np.float64]], 
                                                         int, float], float]
                     ) -> int:
-    """It is recommended to use local module with OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_put_state` or `pyPDAF.PDAF.localomi_put_state_nondiagR`. 
-    Using local singular evolutive interpolated Kalman filter for DA without post-processing and analysis distribution to forecsat without OMI. This is a domain localisation method. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    6. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init
-    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used
-    loop over each local domain:
-    8. py__init_dim_l_pdaf
-    9. py__init_dim_obs_l_pdaf
-    10. py__g2l_state_pdaf
-    11. py__g2l_obs_pdaf (localise mean ensemble in observation space)
-    12. py__init_obs_l_pdaf
-    13. py__g2l_obs_pdaf (localise each ensemble member in observation space
-    14. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    15. py__prodRinvA_l_pdaf
-    16. core DA algorithm
-    17. py__l2g_state_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state`
+    or :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Local singular evolutive interpolated Kalman filter [1]_ for a single DA step.
+
+    Compared to :func:`pyPDAF.PDAF.assimilate_lseik`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    This function should be called at each model time step.
+
+    This function  executes the user-supplied functions in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. py__init_obs_pdaf
+           (if global adaptive forgetting factor `type_forget=1`
+           is used in :func:`pyPDAF.PDAF.init`)
+        7. py__init_obsvar_pdaf
+           (if global adaptive forgetting factor is used)
+        8. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_state_pdaf
+            4. py__g2l_obs_pdaf (localise mean ensemble in observation space)
+            5. py__init_obs_l_pdaf
+            6. py__g2l_obs_pdaf
+               (localise each ensemble member in observation space)
+            7. py__init_obsvar_l_pdaf
+               (only called if local adaptive forgetting factor `type_forget=2` is used)
+            8. py__prodRinvA_l_pdaf
+            9. core DA algorithm
+            10. py__l2g_state_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state`
+       and :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`
+
+    References
+    ----------
+    .. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).
+           A singular evolutive extended Kalman filter for data assimilation
+           in oceanography. Journal of Marine systems, 16(3-4), 323-340.
 
     Parameters
     ----------
@@ -16945,7 +17981,10 @@ def put_state_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -16963,7 +18002,10 @@ def put_state_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -16993,7 +18035,8 @@ def put_state_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -17290,18 +18333,46 @@ def put_state_netf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
                                                     np.ndarray[tuple[int], np.dtype[np.float64]], 
                                                     float], float]
                    ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.put_state_global` or `pyPDAF.PDAF.omi_put_state_nonlin_nondiagR`. 
-    This function will use Nonlinear Ensemble Transform Filter (NETF) for DA without post-processing and analysis distribution to forecsat without OMI. The nonlinear filter computes the distribution up to the second moment similar to KF but using a nonlinear weighting similar to particle filter. This leads to an equal weights assumption for prior ensemble. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__init_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    6. py__likelihood_pdaf
-    7. core DA algorithm
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`
+    or :func:`pyPDAF.PDAF.omi_put_state_nonlin_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    This function will use Nonlinear Ensemble Transform Filter (NETF) [1]_ 
+    for a single DA step.
+
+    Compared to :func:`pyPDAF.PDAF.assimilate_netf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The nonlinear filter computes the distribution up to
+    the second moment similar to KF but using a nonlinear weighting similar to
+    particle filter. This leads to an equal weights assumption for prior ensemble.
+    The function should be called at each model step.
+
+    This function executes the user-supplied function in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__init_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. py__likelihood_pdaf
+        7. core DA algorithm
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`
+       and :func:`pyPDAF.PDAF.omi_put_state_nonlin_nondiagR`
+
+    References
+    ----------
+    .. [1] Tödter, J., and B. Ahrens, 2015:
+           A second-order exact ensemble square root filter
+           for nonlinear data assimilation. Mon. Wea. Rev.,
+           143, 1347–1367, doi:10.1175/MWR-D-14-00108.1.
 
     Parameters
     ----------
@@ -17428,7 +18499,10 @@ def put_state_netf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -17446,7 +18520,10 @@ def put_state_netf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -17513,18 +18590,43 @@ def put_state_pf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int],
                                                   np.ndarray[tuple[int], np.dtype[np.float64]], 
                                                   float], float]
                  ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.put_state_global` or `pyPDAF.PDAF.omi_put_state_nonlin_nondiagR`. 
-    This function will use particle filter for DA without post-processing and analysis distribution to forecsat without OMI. This is a fully nonlinear filter. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__init_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    6. py__likelihood_pdaf
-    7. core DA algorithm
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`
+    or :func:`pyPDAF.PDAF.omi_put_state_nonlin_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    This function will use particle filter for a single DA step.
+
+    Compared to :func:`pyPDAF.PDAF.assimilate_pf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    This is a fully nonlinear filter, and may require a high number of ensemble members.
+    A review of particle filter can be found at [1]_.
+    The function should be called at each model step.
+
+    This function executes the user-supplied functions in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__init_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. py__likelihood_pdaf
+        7. core DA algorithm
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`
+       and :func:`pyPDAF.PDAF.omi_put_state_nonlin_nondiagR`
+
+    References
+    ----------
+    .. [1] Van Leeuwen, P. J., Künsch, H. R., Nerger, L., Potthast, R., & Reich, S. (2019).
+           Particle filters for high‐dimensional geoscience applications:
+           A review. Quarterly Journal of the Royal Meteorological Society, 145(723), 2335-2365.
 
     Parameters
     ----------
@@ -17651,7 +18753,10 @@ def put_state_pf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int],
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -17669,7 +18774,10 @@ def put_state_pf (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int],
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -17729,11 +18837,17 @@ def put_state_prepost (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
                                                         np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                         np.ndarray[tuple[int, int], np.dtype[np.float64]]]]
                       ) -> int:
-    """This function does not perform any DA. It is used to preprocess the ensemble. To distribute the ensemble back to the model with post-processing, `pyPDAF.PDAF.get_state` function should be used afterwards.
-    The sequence of the user-supplied functions is: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    
+    r"""It is used to preprocess and postprocess of the ensemble.
+
+    No DA is performed in this function.
+    Compared to :func:`pyPDAF.PDAF.assimilate_prepost`, this function does not set assimilation flag, 
+    and does not distribute the processed ensemble to the model field.
+    This function also does not set the next assimilation step as :func:`pyPDAF.PDAF.assimilate_prepost`
+    because it does not call :func:`pyPDAF.PDAF.get_state`.
+
+    This function executes the user-supplied functions in the following sequence: 
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf (preprocess, step < 0)
 
     Parameters
     ----------
@@ -17784,7 +18898,10 @@ def put_state_prepost (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -17802,7 +18919,10 @@ def put_state_prepost (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -17837,19 +18957,42 @@ def put_state_seek (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
                                                    np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                    np.ndarray[tuple[int, int], np.dtype[np.float64]]], np.ndarray[tuple[int, int], np.dtype[np.float64]]]
                    ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.put_state_global` or `pyPDAF.PDAF.put_state_global_nondiagR`. 
-    This function will use singular evolutive extended Kalman filter for DA without post-processing and analysis distribution to forecsat without OMI. This function is usually used in 'flexible' parallelisation, but SEEK is deterministic and does not require ensemble. A `pyPDAF.PDAF.get_state` function should be used to post-process the state vector and distribute the state vector to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf (for ensemble mean
-    5. py__init_obs_pdaf
-    6. py__obs_op_pdaf (for each ensemble member
-    7. py__prodRinvA_pdaf
-    8. core DA algorithm
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`
+    or :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    This function will use singular evolutive extended Kalman filter [1]_ for a single DA step.
+
+    Compared to :func:`pyPDAF.PDAF.assimilate_seek`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    This is a deterministic Kalman filter.
+    The function should be called at each model step.
+
+    This function executes the user-supplied functions in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf (for ensemble mean)
+        5. py__init_obs_pdaf
+        6. py__obs_op_pdaf (for each ensemble member)
+        7. py__prodRinvA_pdaf
+        8. core DA algorithm
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`
+       and :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`
+
+    References
+    ----------
+    .. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).
+           A singular evolutive extended Kalman filter for data assimilation
+           in oceanography. Journal of Marine systems, 16(3-4), 323-340.
 
     Parameters
     ----------
@@ -17976,7 +19119,10 @@ def put_state_seek (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -17994,7 +19140,10 @@ def put_state_seek (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -18020,7 +19169,9 @@ def put_state_seek (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -18067,20 +19218,43 @@ def put_state_seik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
                     py__init_obsvar_pdaf : Callable[[int, int, np.ndarray[tuple[int], np.dtype[np.float64]], 
                                                      float], float]
                    ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.put_state_global` or `pyPDAF.PDAF.put_state_global_nondiagR`. 
-    This function will use singular evolutive interpolated Kalman filter for DA without post-processing and analysis distribution to forecsat without OMI. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf (for ensemble mean
-    5. py__init_obs_pdaf
-    6. py__obs_op_pdaf (for each ensemble member
-    7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)
-    8. py__prodRinvA_pdaf
-    9. core DA algorithm
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.omi_put_state_global`
+    or :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    This function will use singular evolutive interpolated Kalman filter [1]_ for a single DA step.
+
+    Compared to :func:`pyPDAF.PDAF.assimilate_seik`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The function should be called at each model step.
+
+    The function executes the user-supplied functions in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf (for ensemble mean)
+        5. py__init_obs_pdaf
+        6. py__obs_op_pdaf (for each ensemble member)
+        7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)
+        8. py__prodRinvA_pdaf
+        9. core DA algorithm
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`
+       and :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`
+
+    References
+    ----------
+    .. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).
+           A singular evolutive extended Kalman filter for data assimilation
+           in oceanography. Journal of Marine systems, 16(3-4), 323-340.
 
     Parameters
     ----------
@@ -18207,7 +19381,10 @@ def put_state_seik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -18225,7 +19402,10 @@ def put_state_seik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -18251,7 +19431,9 @@ def put_state_seik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -18309,7 +19491,7 @@ def put_state_seik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
     ...
 
 def reset_forget (forget_in: float) -> None:
-    """This function allows a user to reset the forgetting factor manually during the assimilation process. For the local ensemble Kalman filters the forgetting factor can be set either globally of differently for each local analysis domain. For the LNETF and the global filters only a global setting of the forgeting factor is possible. In addition, the implementation of adaptive choices for the forgetting factor (beyond what is implemented in PDAF) are possible.
+    r"""This function allows a user to reset the forgetting factor manually during the assimilation process. For the local ensemble Kalman filters the forgetting factor can be set either globally of differently for each local analysis domain. For the LNETF and the global filters only a global setting of the forgeting factor is possible. In addition, the implementation of adaptive choices for the forgetting factor (beyond what is implemented in PDAF) are possible.
 
     Parameters
     ----------
@@ -18323,16 +19505,18 @@ def SampleEns (modes: np.ndarray[tuple[int, int], np.dtype[np.float64]],
                verbose: int,flag: int) -> tuple[np.ndarray[tuple[int, int], np.dtype[np.float64]], np.ndarray[tuple[int], np.dtype[np.float64]], 
                                       np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                       int]:
-    """This function generates an ensemble from singular values and their vectors (EOF modes) centred on given mean state. The singular values and vectors are derived from the ensemble anomalies which can be obtained from a long model trajectory using `pyPDAF.PDAF.eofcovar`.
+    r"""This function generates an ensemble from singular values and their vectors (EOF modes) centred on given mean state. The singular values and vectors are derived from the ensemble anomalies which can be obtained from a long model trajectory using `pyPDAF.PDAF.eofcovar`.
 
     Parameters
     ----------
     modes : ndarray[tuple[dim, dim_ens-1], np.float64]
         Array of EOF modes
+        The 1st-th dimension dim is Size of state vector
     svals : ndarray[tuple[dim_ens-1], np.float64]
         Vector of singular values
     state : ndarray[tuple[dim], np.float64]
         PE-local model mean state
+        The array dimension `dim` is Size of state vector
     verbose : int
         Verbosity flag
     flag : int
@@ -18342,17 +19526,24 @@ def SampleEns (modes: np.ndarray[tuple[int, int], np.dtype[np.float64]],
     -------
     modes : ndarray[tuple[dim, dim_ens-1], np.float64]
          Array of EOF modes
+
+        The 1st-th dimension dim is Size of state vector
     state : ndarray[tuple[dim], np.float64]
          PE-local model mean state
+
+        The array dimension `dim` is Size of state vector
     ens : ndarray[tuple[dim, dim_ens], np.float64]
          State ensemble
+
+        The 1st-th dimension dim is Size of state vector
+        The 2nd-th dimension dim_ens is Size of ensemble
     flag : int
         Status flag
     """
     ...
 
 def set_debug_flag (debugval: int) -> None:
-    """This function activates the debug output of the PDAF. Starting from the use of this function, the debug infomation is sent to screen output.  The screen output end when the debug flag is set to 0. We recommend using debugging output for single local domain, e.g. `if domain_p = 1: pyPDAF.PDAF.set_debug_flag(1)`.
+    r"""This function activates the debug output of the PDAF. Starting from the use of this function, the debug infomation is sent to screen output.  The screen output end when the debug flag is set to 0. We recommend using debugging output for single local domain, e.g. `if domain_p = 1: pyPDAF.PDAF.set_debug_flag(1)`.
     
 
     Parameters
@@ -18363,7 +19554,7 @@ def set_debug_flag (debugval: int) -> None:
     ...
 
 def set_ens_pointer () -> tuple[np.ndarray[tuple[int, ], np.dtype[float]], int]:
-    """This function returns the ensemble array in a numpy array where the internal array data has the same memoery address as PDAF ensemble array.
+    r"""This function returns the ensemble array in a numpy array where the internal array data has the same memoery address as PDAF ensemble array.
 
 
     Returns
@@ -18372,13 +19563,14 @@ def set_ens_pointer () -> tuple[np.ndarray[tuple[int, ], np.dtype[float]], int]:
         Pointer to smoother array
     dims : ndarray[tuple[2], np.intc]
          dimension of the pointer
+
     status : int
         Status flag
     """
     ...
 
 def set_smootherens (maxlag: int) -> tuple[np.ndarray[tuple[int, ], np.dtype[float]], int]:
-    """This function can be used in the offline implementation when a smoother is used. It is typically called in `py__init_ens_pdaf` in the call to `pyPDAF.PDAF.PDAF_init`. The function `pyPDAF.PDAF.set_smootherens` is used when the smoother extension of a filter is used. In this case, the smoothed ensemble states at earlier times are stored in an internal array of PDAF. To be able to smooth post times, the smoother algorithm must have access to the past ensembles. In the offline mode the user has to manually fill the smoother ensemble array from ensembles read in from files. In the online mode, the smoother array is filled automatically during the cycles of forecast phases and analysis steps. 
+    r"""This function can be used in the offline implementation when a smoother is used. It is typically called in `py__init_ens_pdaf` in the call to `pyPDAF.PDAF.PDAF_init`. The function `pyPDAF.PDAF.set_smootherens` is used when the smoother extension of a filter is used. In this case, the smoothed ensemble states at earlier times are stored in an internal array of PDAF. To be able to smooth post times, the smoother algorithm must have access to the past ensembles. In the offline mode the user has to manually fill the smoother ensemble array from ensembles read in from files. In the online mode, the smoother array is filled automatically during the cycles of forecast phases and analysis steps. 
 
     Parameters
     ----------
@@ -18391,6 +19583,7 @@ def set_smootherens (maxlag: int) -> tuple[np.ndarray[tuple[int, ], np.dtype[flo
         Pointer to smoother array
     dims : ndarray[tuple[3], np.intc]
          dimension of the pointer
+
     status : int
         Status flag
     """
@@ -18398,7 +19591,7 @@ def set_smootherens (maxlag: int) -> tuple[np.ndarray[tuple[int, ], np.dtype[flo
 
 def seik_TtimesA (A: np.ndarray[tuple[int, int], np.dtype[np.float64]]
                  ) -> np.ndarray[tuple[int, int], np.dtype[np.float64]]:
-    """This is an internal function in PDAF where it perform matrix calculation of B = TA. This allows for two types of T matrix. The resulting matrix B is the transformation matrix act on the full forecast ensemble. Mathematical description of the function is the second term of Eq. (23) and the T matrix is defined in Eq. (13) in
+    r"""This is an internal function in PDAF where it perform matrix calculation of B = TA. This allows for two types of T matrix. The resulting matrix B is the transformation matrix act on the full forecast ensemble. Mathematical description of the function is the second term of Eq. (23) and the T matrix is defined in Eq. (13) in
     Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). A unification of ensemble square root Kalman filters. Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
     
 
@@ -18406,16 +19599,20 @@ def seik_TtimesA (A: np.ndarray[tuple[int, int], np.dtype[np.float64]]
     ----------
     A : ndarray[tuple[rank, dim_col], np.float64]
         Input matrix
+        The 1st-th dimension rank is Rank of initial covariance matrix
+        The 2nd-th dimension dim_col is Number of columns in A and B
 
     Returns
     -------
     B : ndarray[tuple[rank+1, dim_col], np.float64]
          Output matrix (TA)
+
+        The 1st-th dimension dim_col is Number of columns in A and B
     """
     ...
 
 def etkf_Tleft (A: np.ndarray[tuple[int, int], np.dtype[np.float64]]) -> np.ndarray[tuple[int, int], np.dtype[np.float64]]:
-    """This is an internal function in PDAF where it perform matrix calculation of B = TA. This function performs the second term of Eq. (34) i
+    r"""This is an internal function in PDAF where it perform matrix calculation of B = TA. This function performs the second term of Eq. (34) i
     Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). A unification of ensemble square root Kalman filters. Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
     
 
@@ -18423,17 +19620,22 @@ def etkf_Tleft (A: np.ndarray[tuple[int, int], np.dtype[np.float64]]) -> np.ndar
     ----------
     A : ndarray[tuple[dim_ens, dim], np.float64]
         Input/output matrix
+        The 1st-th dimension dim_ens is Rank of initial covariance matrix
+        The 2nd-th dimension dim is Number of columns in A and B
 
     Returns
     -------
     A : ndarray[tuple[dim_ens, dim], np.float64]
          Input/output matrix
+
+        The 1st-th dimension dim_ens is Rank of initial covariance matrix
+        The 2nd-th dimension dim is Number of columns in A and B
     """
     ...
 
 def estkf_OmegaA (A: np.ndarray[tuple[int, int], np.dtype[np.float64]]
                  ) -> np.ndarray[tuple[int, int], np.dtype[np.float64]]:
-    """This function is an internal function in PDAF. This function performs the second term of Eq. (29) i
+    r"""This function is an internal function in PDAF. This function performs the second term of Eq. (29) i
     Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). A unification of ensemble square root Kalman filters. Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
     
 
@@ -18441,17 +19643,21 @@ def estkf_OmegaA (A: np.ndarray[tuple[int, int], np.dtype[np.float64]]
     ----------
     A : ndarray[tuple[rank, dim_col], np.float64]
         Input matrix
+        The 1st-th dimension rank is Rank of initial covariance matrix
+        The 2nd-th dimension dim_col is Number of columns in A and B
 
     Returns
     -------
     B : ndarray[tuple[rank+1, dim_col], np.float64]
          Output matrix (TA)
+
+        The 1st-th dimension dim_col is Number of columns in A and B
     """
     ...
 
 def enkf_omega (seed: np.ndarray[tuple[int], np.dtype[np.intc]],omega: np.ndarray[tuple[int, int], np.dtype[np.float64]],
                 norm: float,otype: int,screen: int) -> tuple[np.ndarray[tuple[int, int], np.dtype[np.float64]], float]:
-    """Generation of a random matrix with orthogonal basis following SEEK approach for EnKF with given properties.
+    r"""Generation of a random matrix with orthogonal basis following SEEK approach for EnKF with given properties.
 
     Parameters
     ----------
@@ -18459,10 +19665,19 @@ def enkf_omega (seed: np.ndarray[tuple[int], np.dtype[np.intc]],omega: np.ndarra
         Seed for random number generation
     omega : ndarray[tuple[dim_ens, r], np.float64]
         Random matrix
+        The 1st-th dimension dim_ens is Ensemble size
+        The 2nd-th dimension r is Approximated rank of covar matrix
     norm : float
         Norm for ensemble transformation
     otype : int
-        Type of Omega: (1) Simple Gaussian random matrix (2) Columns of unit norm (3) Columns of norm dim_ens^(-1/2) (4) Projection orthogonal (1,..,1)^T (6) Combination of 2 and 4 (7) Combination of 3 and 4 (8) Rows of sum 0 and variance 1
+        Type of Omega:
+        (1) Simple Gaussian random matrix
+        (2) Columns of unit norm
+        (3) Columns of norm dim_ens^(-1/2)
+        (4) Projection orthogonal (1,..,1)^T
+        (6) Combination of 2 and 4
+        (7) Combination of 3 and 4
+        (8) Rows of sum 0 and variance 1
     screen : int
         Verbosity flag
 
@@ -18470,6 +19685,9 @@ def enkf_omega (seed: np.ndarray[tuple[int], np.dtype[np.intc]],omega: np.ndarra
     -------
     omega : ndarray[tuple[dim_ens, r], np.float64]
          Random matrix
+
+        The 1st-th dimension dim_ens is Ensemble size
+        The 2nd-th dimension r is Approximated rank of covar matrix
     norm : float
         Norm for ensemble transformation
     """
@@ -18477,14 +19695,17 @@ def enkf_omega (seed: np.ndarray[tuple[int], np.dtype[np.intc]],omega: np.ndarra
 
 def seik_omega (omega: np.ndarray[tuple[int, int], np.dtype[np.float64]],
                 omegatype: int,screen: int) -> np.ndarray[tuple[int, int], np.dtype[np.float64]]:
-    """Generation of a random matrix with orthogonal basis following SEIK approach.
+    r"""Generation of a random matrix with orthogonal basis following SEIK approach.
 
     Parameters
     ----------
     omega : ndarray[tuple[rank+1, rank], np.float64]
         Matrix Omega
+        The 1st-th dimension rank is Approximated rank of covar matrix
     omegatype : int
-        Select type of Omega: (1) generated from random vectors (0) generated from deterministic vectors (Householder)
+        Select type of Omega:
+          (1) generated from random vectors
+          (0) generated from deterministic vectors (Householder)
     screen : int
         Verbosity flag
 
@@ -18492,13 +19713,15 @@ def seik_omega (omega: np.ndarray[tuple[int, int], np.dtype[np.float64]],
     -------
     omega : ndarray[tuple[rank+1, rank], np.float64]
          Matrix Omega
+
+        The 1st-th dimension rank is Approximated rank of covar matrix
     """
     ...
 
 def incremental (steps: int,py__dist_stateinc_pdaf : Callable[[int, np.ndarray[tuple[int], np.dtype[np.float64]], 
                                                                int, int], None]
                 ) -> None:
-    """This is a helper function to apply analysis increment to model state in model forecast phase. It simply calls the user-supplied function. 
+    r"""This is a helper function to apply analysis increment to model state in model forecast phase. It simply calls the user-supplied function. 
 
     Parameters
     ----------
@@ -18533,34 +19756,41 @@ def incremental (steps: int,py__dist_stateinc_pdaf : Callable[[int, np.ndarray[t
 
 def add_increment (state_p: np.ndarray[tuple[int], np.dtype[np.float64]]
                   ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """This function directly adds analysis increment to given state vector without the need for user-supplied functions.
+    r"""This function directly adds analysis increment to given state vector without the need for user-supplied functions.
 
     Parameters
     ----------
     state_p : ndarray[tuple[dim_p], np.float64]
         State vector
+        The array dimension `dim_p` is State dimension
 
     Returns
     -------
     state_p : ndarray[tuple[dim_p], np.float64]
          State vector
+
+        The array dimension `dim_p` is State dimension
     """
     ...
 
 def local_weights (wtype: int,cradius: float,sradius: float,distance: np.ndarray[tuple[int], np.dtype[np.float64]],
                    verbose: int) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """This function returns a vector of the localisation weights based on distance and localisation functions and radii. This function is particularly useful for mannually apply covariance localisations for state or observation errors.
+    r"""This function returns a vector of the localisation weights based on distance and localisation functions and radii. This function is particularly useful for mannually apply covariance localisations for state or observation errors.
 
     Parameters
     ----------
     wtype : int
-        Type of weight function (0): unit weight (=1 up to distance=cradius) (1): exponential decrease (1/e at distance=sradius; 0 for distance>cradius) (2): 5th order polynomial (Gaspari&Cohn 1999; 0 for distance>cradius)
+        Type of weight function
+        (0): unit weight (=1 up to distance=cradius)
+        (1): exponential decrease (1/e at distance=sradius; 0 for distance>cradius)
+        (2): 5th order polynomial (Gaspari&Cohn 1999; 0 for distance>cradius)
     cradius : float
         Parameter for cut-off
     sradius : float
         Support radius
     distance : ndarray[tuple[dim], np.float64]
         Array holding distances
+        The array dimension `dim` is Size of distance and weight arrays
     verbose : int
         Verbosity flag
 
@@ -18568,12 +19798,14 @@ def local_weights (wtype: int,cradius: float,sradius: float,distance: np.ndarray
     -------
     weight : ndarray[tuple[dim], np.float64]
          Array for weights
+
+        The array dimension `dim` is Size of distance and weight arrays
     """
     ...
 
 def diag_CRPS (element: int,oens: np.ndarray[tuple[int, int], np.dtype[np.float64]],
                obs: np.ndarray[tuple[int], np.dtype[np.float64]]) -> tuple[float, float, float, float, int]:
-    """Obtain a continuous rank probability score for an ensemble. The implementation is based on This function follows follows Hersbach, H., 2000: Decomposition of the Continuous Ranked Probability Score for Ensemble Prediction Systems. Wea. Forecasting, 15, 559–570, https://doi.org/10.1175/1520-0434(2000)015<0559:DOTCRP>2.0.CO;2
+    r"""Obtain a continuous rank probability score for an ensemble. The implementation is based on This function follows follows Hersbach, H., 2000: Decomposition of the Continuous Ranked Probability Score for Ensemble Prediction Systems. Wea. Forecasting, 15, 559–570, https://doi.org/10.1175/1520-0434(2000)015<0559:DOTCRP>2.0.CO;2
     
 
     Parameters
@@ -18582,8 +19814,11 @@ def diag_CRPS (element: int,oens: np.ndarray[tuple[int, int], np.dtype[np.float6
         ID of element to be used. If element=0, mean values over all elements are computed
     oens : ndarray[tuple[dim, dim_ens], np.float64]
         State ensemble
+        The 1st-th dimension dim is PE-local state dimension
+        The 2nd-th dimension dim_ens is Ensemble size
     obs : ndarray[tuple[dim], np.float64]
         State ensemble
+        The array dimension `dim` is PE-local state dimension
 
     Returns
     -------
@@ -18601,7 +19836,7 @@ def diag_CRPS (element: int,oens: np.ndarray[tuple[int, int], np.dtype[np.float6
     ...
 
 def force_analysis () -> None:
-    """This function overwrite member index of the ensemble state by local_dim_ens (number of ensembles for current process, in full parallel setup, this is 1.) and the counter cnt_steps by nsteps-1.
+    r"""This function overwrite member index of the ensemble state by local_dim_ens (number of ensembles for current process, in full parallel setup, this is 1.) and the counter cnt_steps by nsteps-1.
     This forces that the analysis step is executed at the next call to PDAF assimilation functions.
 
     """
@@ -18609,7 +19844,7 @@ def force_analysis () -> None:
 
 def gather_obs_f2_flex (dim_obs_f: int,coords_p: np.ndarray[tuple[int, int], np.dtype[np.float64]]
                        ) -> tuple[np.ndarray[tuple[int, int], np.dtype[np.float64]], int]:
-    """In the local filters (LESKTF, LETKF, LSEIK, LNETF)
+    r"""In the local filters (LESKTF, LETKF, LSEIK, LNETF)
     this function returns the full observation coordinates from process-local observation coordinates. `pyPDAF.PDAF.gather_obs_f_flex` is used to get corresponding observations. Unlike `pyPDAF.PDAF.gather_obs_f2`, the function does not use depends on
     `pyPDAF.PDAF.gather_dim_obs_f`
 
@@ -18619,11 +19854,16 @@ def gather_obs_f2_flex (dim_obs_f: int,coords_p: np.ndarray[tuple[int, int], np.
         Full observation dimension
     coords_p : ndarray[tuple[nrows, dim_obs_p], np.float64]
         PE-local array
+        The 1st-th dimension nrows is Number of rows in array
+        The 2nd-th dimension dim_obs_p is PE-local observation dimension
 
     Returns
     -------
     coords_f : ndarray[tuple[nrows, dim_obs_f], np.float64]
          Full gathered array
+
+        The 1st-th dimension nrows is Number of rows in array
+        The 2nd-th dimension dim_obs_f is Full observation dimension
     status : int
         Status flag: (0) no error
     """
@@ -18631,7 +19871,7 @@ def gather_obs_f2_flex (dim_obs_f: int,coords_p: np.ndarray[tuple[int, int], np.
 
 def gather_obs_f_flex (dim_obs_f: int,obs_p: np.ndarray[tuple[int], np.dtype[np.float64]]
                       ) -> tuple[np.ndarray[tuple[int], np.dtype[np.float64]], int]:
-    """In the local filters (LESKTF, LETKF, LSEIK, LNETF) this function returns the total observation vector from process-local observations. `pyPDAF.PDAF.gather_obs_f2_flex` is used to get corresponding coordinates.
+    r"""In the local filters (LESKTF, LETKF, LSEIK, LNETF) this function returns the total observation vector from process-local observations. `pyPDAF.PDAF.gather_obs_f2_flex` is used to get corresponding coordinates.
     Unlike `pyPDAF.PDAF.gather_obs_f`, the function does not use depends on `pyPDAF.PDAF.gather_dim_obs_f`
 
     Parameters
@@ -18640,11 +19880,14 @@ def gather_obs_f_flex (dim_obs_f: int,obs_p: np.ndarray[tuple[int], np.dtype[np.
         Full observation dimension
     obs_p : ndarray[tuple[dim_obs_p], np.float64]
         PE-local vector
+        The array dimension `dim_obs_p` is PE-local observation dimension
 
     Returns
     -------
     obs_f : ndarray[tuple[dim_obs_f], np.float64]
          Full gathered vector
+
+        The array dimension `dim_obs_f` is Full observation dimension
     status : int
         Status flag: (0) no error
     """
@@ -18662,7 +19905,7 @@ def prepost (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int], np.d
              py__next_observation_pdaf : Callable[[int, int, int, float], tuple[int, 
                                                    int, float]]
             ) -> int:
-    """This function does not perform any DA. It is used to perform a preprocess and postprocess of the ensemble. Compared to `pyPDAF.PDAF.assimilate_prepost`, this function does not set assimilation flag.
+    r"""This function does not perform any DA. It is used to perform a preprocess and postprocess of the ensemble. Compared to `pyPDAF.PDAF.assimilate_prepost`, this function does not set assimilation flag.
     The function is a combination of `pyPDAF.PDAF.put_state_prepost` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
     1. py__collect_state_pdaf
     2. py__prepoststep_state_pdaf
@@ -18740,7 +19983,10 @@ def prepost (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int], np.d
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -18758,7 +20004,10 @@ def prepost (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int], np.d
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -18814,7 +20063,7 @@ def prepost (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int], np.d
     ...
 
 def set_memberid (memberid: int) -> int:
-    """This function sets the ensemble member index to given value.
+    r"""This function sets the ensemble member index to given value.
 
     Parameters
     ----------
@@ -18829,7 +20078,7 @@ def set_memberid (memberid: int) -> int:
     ...
 
 def set_comm_pdaf (in_COMM_pdaf: int) -> None:
-    """This function sets the MPI communicator of PDAF. This is by default `MPI_COMM_WORLD`. 
+    r"""This function sets the MPI communicator of PDAF. This is by default `MPI_COMM_WORLD`. 
 
     Parameters
     ----------
@@ -18839,7 +20088,7 @@ def set_comm_pdaf (in_COMM_pdaf: int) -> None:
     ...
 
 def set_offline_mode (screen: int) -> None:
-    """This function activates offline mode.
+    r"""This function activates offline mode.
 
     Parameters
     ----------
@@ -18849,7 +20098,7 @@ def set_offline_mode (screen: int) -> None:
     ...
 
 def print_domain_stats (n_domains_p: int) -> None:
-    """This function make screen output of statistics of the local domains on current process.
+    r"""This function make screen output of statistics of the local domains on current process.
 
     Parameters
     ----------
@@ -18859,13 +20108,13 @@ def print_domain_stats (n_domains_p: int) -> None:
     ...
 
 def init_local_obsstats () -> None:
-    """This function initialise the observation statistics of local domain. This statistics can be updated by `pyPDAF.PDAF.incr_local_obsstats`, and can be viewed by `pyPDAF.PDAF.print_local_obsstats`.
+    r"""This function initialise the observation statistics of local domain. This statistics can be updated by `pyPDAF.PDAF.incr_local_obsstats`, and can be viewed by `pyPDAF.PDAF.print_local_obsstats`.
 
     """
     ...
 
 def incr_local_obsstats (dim_obs_l: int) -> None:
-    """This function update the observation statistics of local domain. This statistics should be initialised by `pyPDAF.PDAF.init_local_obsstats`, and can be viewed by `pyPDAF.PDAF.print_local_obsstats`.
+    r"""This function update the observation statistics of local domain. This statistics should be initialised by `pyPDAF.PDAF.init_local_obsstats`, and can be viewed by `pyPDAF.PDAF.print_local_obsstats`.
 
     Parameters
     ----------
@@ -18875,7 +20124,7 @@ def incr_local_obsstats (dim_obs_l: int) -> None:
     ...
 
 def print_local_obsstats (screen: int) -> int:
-    """This function print the observation statistics of local domain on screen. This statistics should be initialised by `pyPDAF.PDAF.init_local_obsstats`, and can be updated by `pyPDAF.PDAF.incr_local_obsstats`.
+    r"""This function print the observation statistics of local domain on screen. This statistics should be initialised by `pyPDAF.PDAF.init_local_obsstats`, and can be updated by `pyPDAF.PDAF.incr_local_obsstats`.
 
     Parameters
     ----------
@@ -18898,16 +20147,20 @@ def omit_obs_omi (state_p: np.ndarray[tuple[int], np.dtype[np.float64]],
                                               np.ndarray[tuple[int], np.dtype[np.float64]]], np.ndarray[tuple[int], np.dtype[np.float64]]],
                   compute_mean: int,screen: int) -> tuple[np.ndarray[tuple[int], np.dtype[np.float64]], np.ndarray[tuple[int], np.dtype[np.float64]], 
                                               ]:
-    """This function computes innovation and omit corresponding observations in assimilation if the innovation is too large. This function is used by some of the global filters, e.g. EnKF, LEnKF, PF, NETF, with OMI.
+    r"""This function computes innovation and omit corresponding observations in assimilation if the innovation is too large. This function is used by some of the global filters, e.g. EnKF, LEnKF, PF, NETF, with OMI.
 
     Parameters
     ----------
     state_p : ndarray[tuple[dim_p], np.float64]
         on exit: PE-local forecast mean state
+        The array dimension `dim_p` is PE-local dimension of model state
     ens_p : ndarray[tuple[dim_p, dim_ens], np.float64]
         PE-local state ensemble
+        The 1st-th dimension dim_p is PE-local dimension of model state
+        The 2nd-th dimension dim_ens is Size of ensemble
     obs_p : ndarray[tuple[dim_obs_p], np.float64]
         PE-local observation vector
+        The array dimension `dim_obs_p` is PE-local dimension of observation vector
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p:ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -18973,25 +20226,33 @@ def omit_obs_omi (state_p: np.ndarray[tuple[int], np.dtype[np.float64]],
     -------
     state_p : ndarray[tuple[dim_p], np.float64]
          on exit: PE-local forecast mean state
+
+        The array dimension `dim_p` is PE-local dimension of model state
     obs_p : ndarray[tuple[dim_obs_p], np.float64]
          PE-local observation vector
+
+        The array dimension `dim_obs_p` is PE-local dimension of observation vector
     """
     ...
 
 def diag_CRPS_nompi (element: int,oens: np.ndarray[tuple[int, int], np.dtype[np.float64]],
                      obs: np.ndarray[tuple[int], np.dtype[np.float64]]
                     ) -> tuple[float, float, float, float, int]:
-    """Obtain a continuous rank probability score for an ensemble without using MPI parallelisation. The implementation is based on This function follows follows Hersbach, H., 2000: Decomposition of the Continuous Ranked Probability Score for Ensemble Prediction Systems. Wea. Forecasting, 15, 559–570, https://doi.org/10.1175/1520-0434(2000)015<0559:DOTCRP>2.0.CO;2
+    r"""Obtain a continuous rank probability score for an ensemble without using MPI parallelisation. The implementation is based on This function follows follows Hersbach, H., 2000: Decomposition of the Continuous Ranked Probability Score for Ensemble Prediction Systems. Wea. Forecasting, 15, 559–570, https://doi.org/10.1175/1520-0434(2000)015<0559:DOTCRP>2.0.CO;2
     
 
     Parameters
     ----------
     element : int
-        ID of element to be used If element=0, mean values over all elements are computed
+        ID of element to be used
+        If element=0, mean values over all elements are computed
     oens : ndarray[tuple[dim, dim_ens], np.float64]
         State ensemble
+        The 1st-th dimension dim is PE-local state dimension
+        The 2nd-th dimension dim_ens is Ensemble size
     obs : ndarray[tuple[dim], np.float64]
         State ensemble
+        The array dimension `dim` is PE-local state dimension
 
     Returns
     -------
@@ -19009,7 +20270,10 @@ def diag_CRPS_nompi (element: int,oens: np.ndarray[tuple[int, int], np.dtype[np.
     ...
 
 def omi_init (n_obs: int) -> None:
-    """This function initialise the number of observation types in OMI by allocating an array of `obs_f` derived types instances. This should be called before any other OMI functions.
+    r"""Allocating an array of `obs_f` derived types instances.
+
+    This function initialises the number of observation types.
+    This should be called at the start of the DA system after :func:`pyPDAF.PDAF.init`.
 
     Parameters
     ----------
@@ -19019,31 +20283,38 @@ def omi_init (n_obs: int) -> None:
     ...
 
 def omi_set_doassim (i_obs: int,doassim: int) -> None:
-    """This function sets the `doassim` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. If `doassim` is set to 0, the observation is not assimilated in the DA system. See https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsdoassim
+    r"""This function sets the `doassim` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. If `doassim` is set to 0, the observation is not assimilated in the DA system. See https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsdoassim
 
     Parameters
     ----------
     i_obs : int
         index of observation types
     doassim : int
-        0) do not assimilate; 1) assimilate the observation type
+        0) do not assimilate;
+        1) assimilate the observation type
     """
     ...
 
 def omi_set_disttype (i_obs: int,disttype: int) -> None:
-    """This function sets the `disttype` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. `disttype` determines the way the distance between observation and model grid is calculated in OMI. See https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsdisttype
+    r"""This function sets the `disttype` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. `disttype` determines the way the distance between observation and model grid is calculated in OMI. See https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsdisttype
 
     Parameters
     ----------
     i_obs : int
         index of observations
     disttype : int
-        0) Cartesian; 1) Cartesian periodic 2) Approximation to geographic distance in metres using latitude and longitude expressed in radians 3) Using Haversine formula to compute distance in metres between two points on the surface of a sphere 10) 3D Cartesian distance for 2D+1D factorised localisation where horizontal and vertical distances are treated separately 11) 3D Cartesian periodic distance for 2D+1D factorised localisation where horizontal and vertical distances are treated separately 12) Same as 2) for horizontal distance but vertical distance is in units chosen by users 13) Same as 3) for horizontal distance but vertical distance is in units chosen by users
+        0) Cartesian; 1) Cartesian periodic
+        2) Approximation to geographic distance in metres using latitude and longitude expressed in radians
+        3) Using Haversine formula to compute distance in metres between two points on the surface of a sphere
+        10) 3D Cartesian distance for 2D+1D factorised localisation where horizontal and vertical distances are treated separately
+        11) 3D Cartesian periodic distance for 2D+1D factorised localisation where horizontal and vertical distances are treated separately
+        12) Same as 2) for horizontal distance but vertical distance is in units chosen by users
+        13) Same as 3) for horizontal distance but vertical distance is in units chosen by users
     """
     ...
 
 def omi_set_ncoord (i_obs: int,ncoord: int) -> None:
-    """This function sets the `ncoord` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. This is the dimension of coordinates of the observation. 
+    r"""This function sets the `ncoord` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. This is the dimension of coordinates of the observation. 
 
     Parameters
     ----------
@@ -19056,7 +20327,7 @@ def omi_set_ncoord (i_obs: int,ncoord: int) -> None:
 
 def omi_set_id_obs_p (i_obs: int,id_obs_p: np.ndarray[tuple[int, int], np.dtype[np.intc]]
                      ) -> None:
-    """Setting the `id_obs_p` attribute of `obs_f`.
+    r"""Setting the `id_obs_p` attribute of `obs_f`.
 
     The function is typically used in user-supplied function `py__init_dim_obs_pdaf`.
 
@@ -19091,12 +20362,14 @@ def omi_set_id_obs_p (i_obs: int,id_obs_p: np.ndarray[tuple[int, int], np.dtype[
         index of observations
     id_obs_p : ndarray[tuple[nrows, dim_obs_p], np.intc]
         indice corresponds to observations in the state vector
+        The 1st-th dimension nrows is Number of values to be averaged or used for interpolation
+        The 2nd-th dimension dim_obs_p is dimension of PE local obs
     """
     ...
 
 def omi_set_icoeff_p (i_obs: int,icoeff_p: np.ndarray[tuple[int, int], np.dtype[np.float64]]
                      ) -> None:
-    """This function sets the `icoeff_p` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. `icoeff_p(nrows, dim_obs_p)` is a 2D array of real number used to implement
+    r"""This function sets the `icoeff_p` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. `icoeff_p(nrows, dim_obs_p)` is a 2D array of real number used to implement
     interpolations. This is used in tandem with `id_obs_p`. Checking the documentation of `pyPDAF.PDAF.omi_set_id_obs_p` for some details. Also, see https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Initializinginterpolationcoefficients for setting these values.
 
     Parameters
@@ -19105,12 +20378,14 @@ def omi_set_icoeff_p (i_obs: int,icoeff_p: np.ndarray[tuple[int, int], np.dtype[
         index of observations
     icoeff_p : ndarray[tuple[nrows, dim_obs_p], np.float64]
         weighting coefficients for interpolations
+        The 1st-th dimension nrows is Number of values to be averaged
+        The 2nd-th dimension dim_obs_p is dimension of PE local obs
     """
     ...
 
 def omi_set_domainsize (i_obs: int,domainsize: np.ndarray[tuple[int], np.dtype[np.float64]]
                        ) -> None:
-    """This function sets the `domainsize` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. `domainsize(ncoord)` is the size of the domain in each spatial dimension. This information is used to compute the Cartesian disance with periodic boundary. If the value of one dimension is `<=0`, no periodicity is assumed in that dimension. 
+    r"""This function sets the `domainsize` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. `domainsize(ncoord)` is the size of the domain in each spatial dimension. This information is used to compute the Cartesian disance with periodic boundary. If the value of one dimension is `<=0`, no periodicity is assumed in that dimension. 
 
     Parameters
     ----------
@@ -19118,11 +20393,12 @@ def omi_set_domainsize (i_obs: int,domainsize: np.ndarray[tuple[int], np.dtype[n
         index of observations
     domainsize : ndarray[tuple[ncoord], np.float64]
         Size of the domain in each dimension
+        The array dimension `ncoord` is state dimension
     """
     ...
 
 def omi_set_obs_err_type (i_obs: int,obs_err_type: int) -> None:
-    """This function sets the `obs_err_type` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. `obs_err_type` is an integer that specifies the type of observation error. 
+    r"""This function sets the `obs_err_type` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. `obs_err_type` is an integer that specifies the type of observation error. 
 
     Parameters
     ----------
@@ -19134,7 +20410,7 @@ def omi_set_obs_err_type (i_obs: int,obs_err_type: int) -> None:
     ...
 
 def omi_set_use_global_obs (i_obs: int,use_global_obs: int) -> None:
-    """This function sets the `use_global_obs` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. In the domain-localized filters (LESTK, LETKF, LSEIK, LNETF) observations are assimilated that are located within the localization around some grid point. When a model uses parallelisation with domain-decomposition some of these observations might belong to a different process-domain. In the default mode (use_global_obs=1) PDAF-OMI gathers all globally available observations so that each process has access to all observations.
+    r"""This function sets the `use_global_obs` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. In the domain-localized filters (LESTK, LETKF, LSEIK, LNETF) observations are assimilated that are located within the localization around some grid point. When a model uses parallelisation with domain-decomposition some of these observations might belong to a different process-domain. In the default mode (use_global_obs=1) PDAF-OMI gathers all globally available observations so that each process has access to all observations.
     It can be more efficient to limit the observations on a process-domain to those observations that are located inside the domain or within the localization radius around it. Then, in the local analyses less observations have to be checked for their distance. Setting use_global_obs=0 activates this feature. However, it needs additional preparations to make PDAF-OMI aware of the limiting coordinates of a process sub-domain. See https://pdaf.awi.de/trac/wiki/OMI_use_global_obs for the use of `pyPDAF.PDAF.omi_set_domain_limits`.
 
     Parameters
@@ -19147,7 +20423,7 @@ def omi_set_use_global_obs (i_obs: int,use_global_obs: int) -> None:
     ...
 
 def omi_set_inno_omit (i_obs: int,inno_omit: float) -> None:
-    """This function sets the `inno_omit` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. Setting this variable to a value > 0.0 activates the functionality that observations are omitted (made irrelevant) from the analysis update if the difference of their value and the ensemble mean to too large. If inno_omit=2.0, an observation would be omitted if the squared difference between the observed ensemble mean state and the observation value is larger than 2 times the observation error variance
+    r"""This function sets the `inno_omit` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. Setting this variable to a value > 0.0 activates the functionality that observations are omitted (made irrelevant) from the analysis update if the difference of their value and the ensemble mean to too large. If inno_omit=2.0, an observation would be omitted if the squared difference between the observed ensemble mean state and the observation value is larger than 2 times the observation error variance
     See https://pdaf.awi.de/trac/wiki/PDAFomi_additional_functionality#Omittingobservationsthatarepotentialoutliers
 
     Parameters
@@ -19160,7 +20436,7 @@ def omi_set_inno_omit (i_obs: int,inno_omit: float) -> None:
     ...
 
 def omi_set_inno_omit_ivar (i_obs: int,inno_omit_ivar: float) -> None:
-    """This function sets the `inno_omit_ivar` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. This is used to specify the inverse of the observations variance to omit the observation. By default it is `1e-12` for a large observation error, but users can adjust this value to ensure that the observation is omitted based on applications
+    r"""This function sets the `inno_omit_ivar` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. This is used to specify the inverse of the observations variance to omit the observation. By default it is `1e-12` for a large observation error, but users can adjust this value to ensure that the observation is omitted based on applications
     
 
     Parameters
@@ -19176,7 +20452,7 @@ def omi_gather_obs (i_obs: int,obs_p: np.ndarray[tuple[int], np.dtype[np.float64
                     ivar_obs_p: np.ndarray[tuple[int], np.dtype[np.float64]],
                     ocoord_p: np.ndarray[tuple[int, int], np.dtype[np.float64]],
                     cradius: float) -> int:
-    """This function is typically called in the user-supplied function `py__init_dim_obs_pdaf`. This function returns the full observation dimensioin from process-local observations. It also sets the observation vector, its coordinates, and the inverse of the observation variance. This function furtuer sets the localisation radius in OMI.
+    r"""This function is typically called in the user-supplied function `py__init_dim_obs_pdaf`. This function returns the full observation dimensioin from process-local observations. It also sets the observation vector, its coordinates, and the inverse of the observation variance. This function furtuer sets the localisation radius in OMI.
 
     Parameters
     ----------
@@ -19184,10 +20460,13 @@ def omi_gather_obs (i_obs: int,obs_p: np.ndarray[tuple[int], np.dtype[np.float64
         index of observations
     obs_p : ndarray[tuple[dim_obs_p], np.float64]
         pe-local observation vector
+        The array dimension `dim_obs_p` is State dimension
     ivar_obs_p : ndarray[tuple[dim_obs_p], np.float64]
         pe-local inverse observation error variance
+        The array dimension `dim_obs_p` is State dimension
     ocoord_p : ndarray[tuple[thisobs(i_obs)%ncoord, dim_obs_p], np.float64]
         pe-local observation coordinates
+        The 1st-th dimension dim_obs_p is State dimension
     cradius : float
         localization radius
 
@@ -19201,7 +20480,7 @@ def omi_gather_obs (i_obs: int,obs_p: np.ndarray[tuple[int], np.dtype[np.float64
 def omi_gather_obsstate (i_obs: int,obsstate_p: np.ndarray[tuple[int], np.dtype[np.float64]],
                          obsstate_f: np.ndarray[tuple[int], np.dtype[np.float64]]
                         ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """This function is used to implement custom observation operators. See https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Implementingyourownobservationoperator
+    r"""This function is used to implement custom observation operators. See https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Implementingyourownobservationoperator
 
     Parameters
     ----------
@@ -19211,17 +20490,20 @@ def omi_gather_obsstate (i_obs: int,obsstate_p: np.ndarray[tuple[int], np.dtype[
         Vector of process-local observed state
     obsstate_f : ndarray[tuple[nobs_f_all], np.float64]
         Full observed vector for all types
+        The array dimension `nobs_f_all` is dimension of the observation
 
     Returns
     -------
     obsstate_f : ndarray[tuple[nobs_f_all], np.float64]
          Full observed vector for all types
+
+        The array dimension `nobs_f_all` is dimension of the observation
     """
     ...
 
 def omi_set_domain_limits (lim_coords: np.ndarray[tuple[int, int], np.dtype[np.float64]]
                           ) -> None:
-    """This is used to set the domain limits for the use of `pyPDAF.PDAF.omi_set_use_global_obs`.Currently, it only supports 2D limitations. See https://pdaf.awi.de/trac/wiki/PDAFomi_additional_functionality#PDAFomi_set_domain_limit
+    r"""This is used to set the domain limits for the use of `pyPDAF.PDAF.omi_set_use_global_obs`.Currently, it only supports 2D limitations. See https://pdaf.awi.de/trac/wiki/PDAFomi_additional_functionality#PDAFomi_set_domain_limit
     
 
     Parameters
@@ -19232,7 +20514,7 @@ def omi_set_domain_limits (lim_coords: np.ndarray[tuple[int, int], np.dtype[np.f
     ...
 
 def omi_set_debug_flag (debugval: int) -> None:
-    """This sets the debug flag for OMI. If set to 1, debug information is printed to the screen.
+    r"""This sets the debug flag for OMI. If set to 1, debug information is printed to the screen.
     The debug flag can be set to 0 to stop the debugging. See https://pdaf.awi.de/trac/wiki/OMI_debugging
 
     Parameters
@@ -19243,7 +20525,7 @@ def omi_set_debug_flag (debugval: int) -> None:
     ...
 
 def omi_deallocate_obs (i_obs: int) -> None:
-    """It deallocates teh OMI-internal obsrevation arrays but this should not be called as it is called internally in PDAF.
+    r"""It deallocates teh OMI-internal obsrevation arrays but this should not be called as it is called internally in PDAF.
 
     Parameters
     ----------
@@ -19255,7 +20537,7 @@ def omi_deallocate_obs (i_obs: int) -> None:
 def omi_obs_op_gridpoint (i_obs: int,state_p: np.ndarray[tuple[int], np.dtype[np.float64]],
                           obs_f_all: np.ndarray[tuple[int], np.dtype[np.float64]]
                          ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """A (partial) identity observation operator
+    r"""A (partial) identity observation operator
 
     This observation operator is used when observations and model use the same grid. 
 
@@ -19271,20 +20553,24 @@ def omi_obs_op_gridpoint (i_obs: int,state_p: np.ndarray[tuple[int], np.dtype[np
         index of observations
     state_p : ndarray[tuple[dim_p], np.float64]
         PE-local model state (dim_p)
+        The array dimension `dim_p` is dimension of model state
     obs_f_all : ndarray[tuple[nobs_f_all], np.float64]
         Full observed state for all observation types (nobs_f_all)
+        The array dimension `nobs_f_all` is dimension of the observation
 
     Returns
     -------
     obs_f_all : ndarray[tuple[nobs_f_all], np.float64]
          Full observed state for all observation types (nobs_f_all)
+
+        The array dimension `nobs_f_all` is dimension of the observation
     """
     ...
 
 def omi_obs_op_gridavg (i_obs: int,nrows: int,state_p: np.ndarray[tuple[int], np.dtype[np.float64]],
                         obs_f_all: np.ndarray[tuple[int], np.dtype[np.float64]]
                        ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """Observation operator that average values on given model grid points.
+    r"""Observation operator that average values on given model grid points.
 
     The averaged model grid points are specified in `id_obs_p` property of `obs_f`,
     which can be set in :func:`pyPDAF.PDAF.omi_set_id_obs_p`.
@@ -19299,20 +20585,24 @@ def omi_obs_op_gridavg (i_obs: int,nrows: int,state_p: np.ndarray[tuple[int], np
         Number of values to be averaged
     state_p : ndarray[tuple[dim_p], np.float64]
         PE-local model state (dim_p)
+        The array dimension `dim_p` is dimension of model state
     obs_f_all : ndarray[tuple[nobs_f_all], np.float64]
         Full observed state for all observation types (nobs_f_all)
+        The array dimension `nobs_f_all` is dimension of the observation
 
     Returns
     -------
     obs_f_all : ndarray[tuple[nobs_f_all], np.float64]
          Full observed state for all observation types (nobs_f_all)
+
+        The array dimension `nobs_f_all` is dimension of the observation
     """
     ...
 
 def omi_obs_op_interp_lin (i_obs: int,nrows: int,state_p: np.ndarray[tuple[int], np.dtype[np.float64]],
                            obs_f_all: np.ndarray[tuple[int], np.dtype[np.float64]]
                           ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """Observation operator that linearly interpolates model grid values to observation location.
+    r"""Observation operator that linearly interpolates model grid values to observation location.
 
     The grid points used by linear interpolation is specified in `id_obs_p` of `obs_f`,
     which can be set by :func:`pyPDAF.PDAF.omi_set_id_obs_p`.
@@ -19337,20 +20627,24 @@ def omi_obs_op_interp_lin (i_obs: int,nrows: int,state_p: np.ndarray[tuple[int],
         Number of values to be averaged
     state_p : ndarray[tuple[dim_p], np.float64]
         PE-local model state (dim_p)
+        The array dimension `dim_p` is dimension of model state
     obs_f_all : ndarray[tuple[nobs_f_all], np.float64]
         Full observed state for all observation types (nobs_f_all)
+        The array dimension `nobs_f_all` is dimension of the observation
 
     Returns
     -------
     obs_f_all : ndarray[tuple[nobs_f_all], np.float64]
          Full observed state for all observation types (nobs_f_all)
+
+        The array dimension `nobs_f_all` is dimension of the observation
     """
     ...
 
 def omi_obs_op_adj_gridavg (i_obs: int,nrows: int,state_p: np.ndarray[tuple[int], np.dtype[np.float64]],
                             obs_f_all: np.ndarray[tuple[int], np.dtype[np.float64]]
                            ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """The adjoint observation operator of :func:`pyPDAF.PDAF.omi_obs_op_gridavg`.
+    r"""The adjoint observation operator of :func:`pyPDAF.PDAF.omi_obs_op_gridavg`.
 
     Parameters
     ----------
@@ -19360,20 +20654,24 @@ def omi_obs_op_adj_gridavg (i_obs: int,nrows: int,state_p: np.ndarray[tuple[int]
         Number of values to be averaged
     state_p : ndarray[tuple[dim_p], np.float64]
         PE-local model state (dim_p)
+        The array dimension `dim_p` is dimension of model state
     obs_f_all : ndarray[tuple[nobs_f_all], np.float64]
         Full observed state for all observation types (nobs_f_all)
+        The array dimension `nobs_f_all` is dimension of the observation
 
     Returns
     -------
     state_p : ndarray[tuple[dim_p], np.float64]
          PE-local model state (dim_p)
+
+        The array dimension `dim_p` is dimension of model state
     """
     ...
 
 def omi_obs_op_adj_gridpoint (i_obs: int,state_p: np.ndarray[tuple[int], np.dtype[np.float64]],
                               obs_f_all: np.ndarray[tuple[int], np.dtype[np.float64]]
                              ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """The adjoint observation operator of :func:`pyPDAF.PDAF.omi_obs_op_gridpoint`.
+    r"""The adjoint observation operator of :func:`pyPDAF.PDAF.omi_obs_op_gridpoint`.
 
     Parameters
     ----------
@@ -19381,20 +20679,24 @@ def omi_obs_op_adj_gridpoint (i_obs: int,state_p: np.ndarray[tuple[int], np.dtyp
         index of observations
     state_p : ndarray[tuple[dim_p], np.float64]
         PE-local model state (dim_p)
+        The array dimension `dim_p` is dimension of model state
     obs_f_all : ndarray[tuple[nobs_f_all], np.float64]
         Full observed state for all observation types (nobs_f_all)
+        The array dimension `nobs_f_all` is dimension of the observation
 
     Returns
     -------
     state_p : ndarray[tuple[dim_p], np.float64]
          PE-local model state (dim_p)
+
+        The array dimension `dim_p` is dimension of model state
     """
     ...
 
 def omi_obs_op_adj_interp_lin (i_obs: int,nrows: int,state_p: np.ndarray[tuple[int], np.dtype[np.float64]],
                                obs_f_all: np.ndarray[tuple[int], np.dtype[np.float64]]
                               ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """The adjoint observation operator of :func:`pyPDAF.PDAF.omi_obs_op_interp_lin`.
+    r"""The adjoint observation operator of :func:`pyPDAF.PDAF.omi_obs_op_interp_lin`.
 
     Parameters
     ----------
@@ -19404,13 +20706,17 @@ def omi_obs_op_adj_interp_lin (i_obs: int,nrows: int,state_p: np.ndarray[tuple[i
         Number of values to be averaged
     state_p : ndarray[tuple[dim_p], np.float64]
         PE-local model state (dim_p)
+        The array dimension `dim_p` is dimension of model state
     obs_f_all : ndarray[tuple[nobs_f_all], np.float64]
         Full observed state for all observation types (nobs_f_all)
+        The array dimension `nobs_f_all` is dimension of the observation
 
     Returns
     -------
     state_p : ndarray[tuple[dim_p], np.float64]
          PE-local model state (dim_p)
+
+        The array dimension `dim_p` is dimension of model state
     """
     ...
 
@@ -19418,7 +20724,7 @@ def omi_get_interp_coeff_tri (gpc: np.ndarray[tuple[int, int], np.dtype[np.float
                               oc: np.ndarray[tuple[int], np.dtype[np.float64]],
                               icoeff: np.ndarray[tuple[int], np.dtype[np.float64]]
                              ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """The coefficient for linear interpolation in 2D on unstructure triangular grid.
+    r"""The coefficient for linear interpolation in 2D on unstructure triangular grid.
 
     The resulting coefficient is used in :func:`omi_obs_op_interp_lin`.
 
@@ -19427,7 +20733,12 @@ def omi_get_interp_coeff_tri (gpc: np.ndarray[tuple[int, int], np.dtype[np.float
     Parameters
     ----------
     gpc : ndarray[tuple[3, 2], np.float64]
-        Coordinates of grid points with dimension of (3, 2). 3 grid points surrounding the observation; each containing lon and lat coordinates. The order of the grid points in gcoords has to be consistent with the order of the indices specified in `id_obs_p` of `obs_f`.
+        Coordinates of grid points with dimension of (3, 2).
+        3 grid points surrounding the observation;
+        each containing lon and lat coordinates.
+        The order of the grid points in gcoords has to
+        be consistent with the order of the indices specified in
+        `id_obs_p` of `obs_f`.
     oc : ndarray[tuple[2], np.float64]
         Coordinates of observation (targeted location); dim(2)
     icoeff : ndarray[tuple[3], np.float64]
@@ -19437,13 +20748,14 @@ def omi_get_interp_coeff_tri (gpc: np.ndarray[tuple[int, int], np.dtype[np.float
     -------
     icoeff : ndarray[tuple[3], np.float64]
          Interpolation coefficients; dim(3)
+
     """
     ...
 
 def omi_get_interp_coeff_lin1D (gpc: np.ndarray[tuple[int], np.dtype[np.float64]],
                                 oc: float,icoeff: np.ndarray[tuple[int], np.dtype[np.float64]]
                                ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """The coefficient for linear interpolation in 1D.
+    r"""The coefficient for linear interpolation in 1D.
 
     The resulting coefficient is used in :func:`omi_obs_op_interp_lin`.
 
@@ -19462,6 +20774,7 @@ def omi_get_interp_coeff_lin1D (gpc: np.ndarray[tuple[int], np.dtype[np.float64]
     -------
     icoeff : ndarray[tuple[2], np.float64]
          Interpolation coefficients (dim=2)
+
     """
     ...
 
@@ -19469,7 +20782,7 @@ def omi_get_interp_coeff_lin (gpc: np.ndarray[tuple[int, int], np.dtype[np.float
                               oc: np.ndarray[tuple[int], np.dtype[np.float64]],
                               icoeff: np.ndarray[tuple[int], np.dtype[np.float64]]
                              ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """The coefficient for linear interpolation up to 3D.
+    r"""The coefficient for linear interpolation up to 3D.
 
     The resulting coefficient is used in :func:`omi_obs_op_interp_lin`.
 
@@ -19479,16 +20792,25 @@ def omi_get_interp_coeff_lin (gpc: np.ndarray[tuple[int, int], np.dtype[np.float
     Parameters
     ----------
     gpc : ndarray[tuple[num_gp, n_dim], np.float64]
-        Coordinates of grid points The order of the grid points in gcoords has to be consistent with the order of the indices specified in `id_obs_p` of `obs_f`.
+        Coordinates of grid points
+        The order of the grid points in gcoords has to
+        be consistent with the order of the indices specified in
+        `id_obs_p` of `obs_f`.
+        The 1st-th dimension num_gp is Length of icoeff
+        The 2nd-th dimension n_dim is Number of dimensions in interpolation
     oc : ndarray[tuple[n_dim], np.float64]
         Coordinates of observation
+        The array dimension `n_dim` is Number of dimensions in interpolation
     icoeff : ndarray[tuple[num_gp], np.float64]
         Interpolation coefficients (num_gp)
+        The array dimension `num_gp` is Length of icoeff
 
     Returns
     -------
     icoeff : ndarray[tuple[num_gp], np.float64]
          Interpolation coefficients (num_gp)
+
+        The array dimension `num_gp` is Length of icoeff
     """
     ...
 
@@ -19518,27 +20840,33 @@ def omi_assimilate_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
                                                                 int, float], tuple[int, 
                                                                 int, float]],
                           outflag: int) -> int:
-    """Using 3DVar for DA with diagonal observation error covariance matrix.
-    This is a deterministic filtering scheme. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_3dvar`
-    and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_pdaf
-    6. py__obs_op_lin_pdaf
-    7. py__obs_op_adj_pdaf
-    8. py__cvt_adj_pdaf
-    9. core DA algorithm
-    After the iterations: 
-    10. py__cvt_pdaf
-    11. py__prepoststep_state_pdaf
-    12. py__distribute_state_pdaf
-    13. py__next_observation_pdaf
-    
+    r"""3DVar DA for a single DA step using diagnoal observation error covariance matrix.
+
+    See :func:`pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR` for non-diagonal observation error covariance matrix.
+
+    When 3DVar is used, the background error covariance matrix
+    has to be modelled for cotrol variable transformation.
+    This is a deterministic filtering scheme so no ensemble and parallelisation is needed.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_3dvar`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. Iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__obs_op_adj_pdaf
+            4. py__cvt_adj_pdaf
+            5. core DA algorithm
+        6. py__cvt_pdaf
+        7. py__prepoststep_state_pdaf
+        8. py__distribute_state_pdaf
+        9. py__next_observation_pdaf
 
     Parameters
     ----------
@@ -19789,7 +21117,10 @@ def omi_assimilate_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -19807,7 +21138,10 @@ def omi_assimilate_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -19913,32 +21247,38 @@ def omi_assimilate_en3dvar_estkf (py__collect_state_pdaf : Callable[[int,
                                                                         int, 
                                                                         float]],
                                   outflag: int) -> int:
-    """Using 3DEnVar for DA with diagonal observation error covariance matrix.
-    The background error covariance matrix is estimated by ensemble. The 3DEnVar only calculates the analysis of the ensemble mean.
-    An ESTKF is used to generate ensemble perturbations. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_en3dvar_estkf`
-    and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_ens_pdaf
-    6. py__obs_op_lin_pdaf
-    7. py__obs_op_adj_pdaf
-    8. py__cvt_adj_ens_pdaf
-    9. core 3DEnVar algorithm
-    After the iterations: 
-    10. py__cvt_ens_pdaf
-    Perform ESTKF: 11. py__init_dim_obs_pdaf
-    12. py__obs_op_pdaf (for ensemble mean
-    13. py__obs_op_pdaf (for each ensemble member
-    14. core ESTKF algorithm
-    15. py__prepoststep_state_pdaf
-    16. py__distribute_state_pdaf
-    17. py__next_observation_pdaf
-    
+    r"""3DEnVar for a single DA step using diagnoal observation error covariance matrix.
+
+    See :func:`pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR` for using non-diagonal observation error covariance matirx.
+
+    Here, the background error covariance matrix is estimated by an ensemble.
+    The 3DEnVar only calculates the analysis of the ensemble mean.
+    An ESTKF is used along with 3DEnVar to generate ensemble perturbations.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_en3dvar_estkf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. the iterative optimisation:
+            1. py__cvt_ens_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__obs_op_adj_pdaf
+            4. py__cvt_adj_ens_pdaf
+            5. core 3DEnVar algorithm
+        6. py__cvt_ens_pdaf
+        7. ESTKF:
+            1. py__init_dim_obs_pdaf
+            2. py__obs_op_pdaf (for ensemble mean)
+            3. py__obs_op_pdaf (for each ensemble member)
+            4. core ESTKF algorithm
+        8. py__prepoststep_state_pdaf
+        9. py__distribute_state_pdaf
+        10. py__next_observation_pdaf
 
     Parameters
     ----------
@@ -20205,7 +21545,10 @@ def omi_assimilate_en3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -20223,7 +21566,10 @@ def omi_assimilate_en3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -20350,41 +21696,51 @@ def omi_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
                                                                          int, 
                                                                          float]],
                                    outflag: int) -> int:
-    """It is recommended to use `pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf` for better efficiency. 
-    
-   
-    Using 3DEnVar for DA with diagonal observation error covariance matrix.
-    The background error covariance matrix is estimated by ensemble. The 3DEnVar only calculates the analysis of the ensemble mean.
-    An LESTKF is used to generate ensemble perturbations. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_en3dvar_lestkf`
-    and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_ens_pdaf
-    6. py__obs_op_lin_pdaf
-    7. py__obs_op_adj_pdaf
-    8. py__cvt_adj_ens_pdaf
-    9. core DA algorithm
-    After the iterations: 
-    10. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    11. py__init_n_domains_p_pdaf
-    12. py__init_dim_obs_pdaf
-    13. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    14. py__init_dim_l_pdaf
-    15. py__init_dim_obs_l_pdaf
-    16. py__g2l_state_pdaf (localise mean ensemble in observation space)
-    17. core DA algorithm
-    18. py__l2g_state_pdaf
-    19. py__prepoststep_state_pdaf
-    20. py__distribute_state_pdaf
-    21. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf`
+    or :func:`pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    3DEnVar for a single DA step where the ensemble anomaly is generated by LESTKF using diagnoal observation error covariance matrix.
+    The background error covariance matrix is estimated by ensemble.
+    The 3DEnVar only calculates the analysis of the ensemble mean.
+    An LESTKF is used to generate ensemble perturbations.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_en3dvar_lestkf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied function are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. Starting the iterative optimisation:
+            1. py__cvt_ens_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__obs_op_adj_pdaf
+            4. py__cvt_adj_ens_pdaf
+            5. core DA algorithm
+        6. py__cvt_ens_pdaf
+        7. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__g2l_state_pdaf
+                4. core DA algorithm
+                5. py__l2g_state_pdaf
+        8. py__prepoststep_state_pdaf
+        9. py__distribute_state_pdaf
+        10. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR`
 
     Parameters
     ----------
@@ -20795,7 +22151,10 @@ def omi_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -20813,7 +22172,10 @@ def omi_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -20886,34 +22248,46 @@ def omi_assimilate_global (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
                                                                  int, float], tuple[int, 
                                                                  int, float]]
                           ) -> int:
-    """Global filters for DA except for 3DVars with diagonal observation error covariance matrix.
+    r"""Global filters except for 3DVar for a single DA step using diagnoal observation error covariance matrix.
 
-    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_global`
-    and :func:`pyPDAF.PDAF.get_state`.
+    See :func:`pyPDAF.PDAF.omi_assimilate_enkf_nondiagR`, 
+    or :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`,
+    or :func:`pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR` for non-diagonal observation error covariance matrix.
 
-    This function should be called at each model time step.
+    Here, this function call is used for global stochastic EnKF [1]_, E(S)TKF [2]_, 
+    SEEK [2]_, SEIK [2]_, NETF [3]_, and particle filter [4]_.
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+    This function should be called at each model time step. 
 
-    User-supplied functions are executed in the following sequence:
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_global` and :func:`pyPDAF.PDAF.get_state`.
 
-    1. py__collect_state_pdaf
+    This function executes the user-supplied functions in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf (for ensemble mean)
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. core DA algorithm
+        7. py__prepoststep_state_pdaf
+        8. py__distribute_state_pdaf
+        9. py__next_observation_pdaf
 
-    2. py__prepoststep_state_pdaf
-
-    3. py__init_dim_obs_pdaf
-
-    4. py__obs_op_pdaf (for ensemble mean
-
-    5. py__obs_op_pdaf (for each ensemble member
-
-    6. core DA algorithm
-
-    7. py__prepoststep_state_pdaf
-
-    8. py__distribute_state_pdaf
-
-    9. py__next_observation_pdaf
-
-    
+    References
+    ----------
+    .. [1] Evensen, G. (1994), 
+           Sequential data assimilation with a nonlinear quasi-geostrophic model
+           using Monte Carlo methods to forecast error statistics,
+           J. Geophys. Res., 99(C5), 10143–10162, doi:10.1029/94JC00572.
+    .. [2] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
+    .. [3] Tödter, J., and B. Ahrens, 2015:
+           A second-order exact ensemble square root filter
+           for nonlinear data assimilation. Mon. Wea. Rev.,
+           143, 1347–1367, doi:10.1175/MWR-D-14-00108.1.
+    .. [4] Van Leeuwen, P. J., Künsch, H. R., Nerger, L., Potthast, R., & Reich, S. (2019).
+           Particle filters for high‐dimensional geoscience applications:
+           A review. Quarterly Journal of the Royal Meteorological Society, 145(723), 2335-2365.
 
     Parameters
     ----------
@@ -21036,7 +22410,10 @@ def omi_assimilate_global (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -21054,7 +22431,10 @@ def omi_assimilate_global (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -21164,35 +22544,44 @@ def omi_assimilate_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int,
                                                                          int, 
                                                                          float]],
                                    outflag: int) -> int:
-    """Using Hybrid 3DEnVar for DA with diagonal observation error covariance matrix.
-    Here, the background error covariance is hybridised by a static background error covariance, and a flow-dependent background error covariance estimated from ensemble. The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
-    ESTKF in this implementation. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf`
-    and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_pdaf
-    6. py__cvt_ens_pdaf
-    7. py__obs_op_lin_pdaf
-    8. py__obs_op_adj_pdaf
-    9. py__cvt_adj_pdaf
-    10. py__cvt_adj_ens_pdaf
-    11. core 3DEnVar algorithm
-    After the iterations: 
-    12. py__cvt_pdaf
-    13. py__cvt_ens_pdaf
-    Perform ESTKF: 14. py__init_dim_obs_pdaf
-    15. py__obs_op_pdaf (for ensemble mean
-    16. py__obs_op_pdaf (for each ensemble member
-    17. core ESTKF algorithm
-    18. py__prepoststep_state_pdaf
-    19. py__distribute_state_pdaf
-    20. py__next_observation_pdaf
-    
+    r"""Hybrid 3DEnVar for a single DA step using diagnoal observation error covariance matrix.
+
+    See :func:`pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR` for non-diagonal observation error covariance matrix.
+
+    Here the background error covariance is hybridised by a static background error covariance,
+    and a flow-dependent background error covariance estimated from ensemble.
+    The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
+    ESTKF in this implementation.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. the iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__cvt_ens_pdaf
+            3. py__obs_op_lin_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_pdaf
+            6. py__cvt_adj_ens_pdaf
+            7. core 3DEnVar algorithm
+        6. py__cvt_pdaf
+        7. py__cvt_ens_pdaf
+        8. Perform ESTKF:
+            1. py__init_dim_obs_pdaf
+            2. py__obs_op_pdaf
+               (for ensemble mean)
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. core ESTKF algorithm
+        9. py__prepoststep_state_pdaf
+        10. py__distribute_state_pdaf
+        11. py__next_observation_pdaf
 
     Parameters
     ----------
@@ -21523,7 +22912,10 @@ def omi_assimilate_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -21541,7 +22933,10 @@ def omi_assimilate_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -21674,45 +23069,55 @@ def omi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
                                                                           int, 
                                                                           float]],
                                     outflag: int) -> int:
-    """It is recommended to use `pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf` for better efficiency. 
-    
-   
-    Using Hybrid 3DEnVar for DA with diagonal observation error covariance matrix.
-    Here, the background error covariance is hybridised by a static background error covariance, and a flow-dependent background error covariance estimated from ensemble. The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
-    LESTKF in this implementation. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf`
-    and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_pdaf
-    6. py__cvt_ens_pdaf
-    7. py__obs_op_lin_pdaf
-    8. py__obs_op_adj_pdaf
-    9. py__cvt_adj_pdaf
-    10. py__cvt_adj_ens_pdaf
-    11. core DA algorithm
-    After the iterations: 
-    12. py__cvt_pdaf
-    13. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    14. py__init_n_domains_p_pdaf
-    15. py__init_dim_obs_pdaf
-    16. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    17. py__init_dim_l_pdaf
-    18. py__init_dim_obs_l_pdaf
-    19. py__g2l_state_pdaf
-    20. py__init_obs_l_pdaf
-    21. core DA algorithm
-    22. py__l2g_state_pdaf
-    23. py__prepoststep_state_pdaf
-    24. py__distribute_state_pdaf
-    25. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf`
+    or :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Hybrid 3DEnVar for a single DA step using diagnoal observation error covariance matrix where
+    the background error covariance is hybridised by a static background error covariance,
+    and a flow-dependent background error covariance estimated from ensemble.
+    The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
+    LESTKF in this implementation.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. The iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__cvt_ens_pdaf
+            3. py__obs_op_lin_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_pdaf
+            6. py__cvt_adj_ens_pdaf
+            7. core DA algorithm
+        6. py__cvt_pdaf
+        7. py__cvt_ens_pdaf
+        8. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__g2l_state_pdaf
+                4. core DA algorithm
+                5. py__l2g_state_pdaf
+        9. py__prepoststep_state_pdaf
+        10. py__distribute_state_pdaf
+        11. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR`
 
     Parameters
     ----------
@@ -22187,7 +23592,10 @@ def omi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -22205,7 +23613,10 @@ def omi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -22282,20 +23693,36 @@ def omi_assimilate_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
                                                                 int, float], tuple[int, 
                                                                 int, float]]
                          ) -> int:
-    """Using stochastic EnKF (ensemble Kalman filter) with covariance localisation for DA  with diagonal observation error covariance matrix. This is the only scheme for covariance localisation in PDAF. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_lenkf` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf (for each ensemble member
-    5. py__localize_pdaf
-    6. py__obs_op_pdaf (repeated to reduce storage
-    7. core DA algorith
-    8. py__prepoststep_state_pdaf
-    9. py__distribute_state_pdaf
-    10. py__next_observation_pdaf
-    
+    r"""Covariance localised stochastic EnKF for a single DA step using diagnoal observation error covariance matrix.
+
+    See :func:`pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR` for non-diagnoal observation error covariance matrix.
+
+    This is the only scheme for covariance localisation in PDAF.
+
+    The implementation is based on [1]_.
+
+    This function should be called at each model time step.
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_lenkf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied function is executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf (for each ensemble member)
+        5. py__localize_pdaf
+        6. py__obs_op_pdaf (repeated to reduce storage)
+        7. core DA algorith
+        8. py__prepoststep_state_pdaf
+        9. py__distribute_state_pdaf
+        10. py__next_observation_pdaf
+
+    References
+    ----------
+    .. [1] Houtekamer, P. L., and H. L. Mitchell (1998): 
+           Data Assimilation Using an Ensemble Kalman Filter Technique.
+           Mon. Wea. Rev., 126, 796–811,
+           doi: 10.1175/1520-0493(1998)126<0796:DAUAEK>2.0.CO;2.
 
     Parameters
     ----------
@@ -22418,7 +23845,10 @@ def omi_assimilate_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -22436,7 +23866,10 @@ def omi_assimilate_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -22549,25 +23982,56 @@ def omi_assimilate_local (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
                                                                 int, float], tuple[int, 
                                                                 int, float]]
                          ) -> int:
-    """It is recommended to use `pyPDAF.PDAF.localomi_assimilate` for better efficiency.Using domain localised filters for DA with diagonal observation error covariance matrix. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_local` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    8. py__g2l_state_pdaf
-    9. py__init_obs_l_pdaf
-    10. core DA algorithm
-    11. py__l2g_state_pdaf
-    12. py__prepoststep_state_pdaf
-    13. py__distribute_state_pdaf
-    14. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`
+    or :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`,
+    or :func:`pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR`,
+    or :func:`pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Domain local filters for a single DA step using diagnoal observation error covariance matrix.
+    Here, this function call is used for LE(S)TKF [1]_, 
+    LSEIK [1]_, LNETF [2]_, and LKNETF [3]_.
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+    This function should be called at each model time step.
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_local`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_state_pdaf
+            4. core DA algorithm
+            5. py__l2g_state_pdaf
+        7. py__prepoststep_state_pdaf
+        8. py__distribute_state_pdaf
+        9. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`,
+       and :func:`pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR`,
+       and :func:`pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR`.
+
+    References
+    ----------
+    .. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
+    .. [2] Tödter, J., and B. Ahrens, 2015:
+           A second-order exact ensemble square root filter
+           for nonlinear data assimilation. Mon. Wea. Rev.,
+           143, 1347–1367, doi:10.1175/MWR-D-14-00108.1.
+    .. [3] Nerger, L.. (2022) 
+           Data assimilation for nonlinear systems with a hybrid nonlinear Kalman ensemble transform filter. 
+           Q J R Meteorol Soc, 620–640. doi:10.1002/qj.4221
 
     Parameters
     ----------
@@ -22690,7 +24154,10 @@ def omi_assimilate_local (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -22708,7 +24175,10 @@ def omi_assimilate_local (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -22924,18 +24394,29 @@ def omi_generate_obs (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
                                                             float], tuple[int, 
                                                             int, float]]
                      ) -> int:
-    """This function generates synthetic observations based on each member of model forecast with diagonal observation error covariance matrix. This is based on the usual implementation strategy for PDAF.
-    
-    The function calls `pyPDAF.PDAF.generate_obs`  and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pda
-    5. py__get_obs_f_pdaf
-    6. py__prepoststep_state_pdaf
-    7. py__distribute_state_pdaf
-    8. py__next_observation_pdaf
-    
+    r"""Generation of synthetic observations based on given error statistics and observation operator for diagonal observation error covariance matrix.
+
+    If non-diagonal observation error covariance matrix has to be used,
+    the generic :func:`pyPDAF.PDAF.generate_obs` can be used.
+
+    The generated synthetic observations are based on each member of model forecast.
+    Therefore, an ensemble of observations can be obtained. In a typical experiment,
+    one may only need one ensemble member.
+    The implementation strategy is similar to an assimilation step. This means that, 
+    one can reuse many user-supplied functions for assimilation and observation generation.
+
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_generate_obs`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    This function executes the user-supplied function in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pda
+        5. py__get_obs_f_pdaf
+        6. py__prepoststep_state_pdaf
+        7. py__distribute_state_pdaf
+        8. py__next_observation_pdaf
 
     Parameters
     ----------
@@ -23082,7 +24563,10 @@ def omi_generate_obs (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -23100,7 +24584,10 @@ def omi_generate_obs (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -23177,24 +24664,34 @@ def omi_put_state_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
                                                           np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                           np.ndarray[tuple[int, int], np.dtype[np.float64]]]],
                          outflag: int) -> int:
-    """Using 3DVar for DA without post-processing and analysis distribution to forecsat with diagonal observation error covariance matrix.
-    This is a deterministic filtering scheme. This function is usually used in 'flexible' parallelisation, but 3dvar is deterministic and does not require ensemble.
-    A `pyPDAF.PDAF.get_state` function should be used to post-process the state vector and distribute the state vector to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_pdaf
-    6. py__obs_op_lin_pdaf
-    7. py__obs_op_adj_pdaf
-    8. py__cvt_adj_pdaf
-    9. core DA algorithm
-    After the iterations: 
-    10. py__cvt_pdaf
-    
+    r"""3DVar DA for a single DA step using diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    See :func:`pyPDAF.PDAF.omi_put_state_3dvar_nondiagR` for non-diagonal observation error covariance matrix.
+
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_3dvar`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    When 3DVar is used, the background error covariance matrix
+    has to be modelled for cotrol variable transformation.
+    This is a deterministic filtering scheme so no ensemble and parallelisation is needed.
+    This function should be called at each model time step.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. Iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__obs_op_adj_pdaf
+            4. py__cvt_adj_pdaf
+            5. core DA algorithm
+        6. py__cvt_pdaf
 
     Parameters
     ----------
@@ -23425,7 +24922,10 @@ def omi_put_state_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -23443,7 +24943,10 @@ def omi_put_state_3dvar (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -23501,28 +25004,40 @@ def omi_put_state_en3dvar_estkf (py__collect_state_pdaf : Callable[[int,
                                                                   np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                   np.ndarray[tuple[int, int], np.dtype[np.float64]]]],
                                  outflag: int) -> int:
-    """Using 3DEnVar for DA without post-processing and analysis distribution to forecsat with diagonal observation error covariance matrix.
-    The background error covariance matrix is estimated by ensemble. The 3DEnVar only calculates the analysis of the ensemble mean.
-    An ESTKF is used to generate ensemble perturbations. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_ens_pdaf
-    6. py__obs_op_lin_pdaf
-    7. py__obs_op_adj_pdaf
-    8. py__cvt_adj_ens_pdaf
-    9. core 3DEnVar algorithm
-    After the iterations: 
-    10. py__cvt_ens_pdaf
-    Perform ESTKF: 11. py__init_dim_obs_pdaf
-    12. py__obs_op_pdaf (for ensemble mean
-    13. py__obs_op_pdaf (for each ensemble member (only relevant for adaptive forgetting factor schemes)
-    14. core ESTKF algorithm
-    
+    r"""3DEnVar for a single DA step using diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    See :func:`pyPDAF.PDAF.omi_put_state_en3dvar_estkf_nondiagR` for non-diagonal observation error covariance matrix.
+
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_en3dvar_estkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The background error covariance matrix is estimated by an ensemble.
+    The 3DEnVar only calculates the analysis of the ensemble mean.
+    An ESTKF is used along with 3DEnVar to generate ensemble perturbations.
+    This function should be called at each model time step.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. the iterative optimisation:
+            1. py__cvt_ens_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__obs_op_adj_pdaf
+            4. py__cvt_adj_ens_pdaf
+            5. core 3DEnVar algorithm
+        6. py__cvt_ens_pdaf
+        7. ESTKF:
+            1. py__init_dim_obs_pdaf
+            2. py__obs_op_pdaf (for ensemble mean)
+            3. py__obs_op_pdaf (for each ensemble member)
+            4. core ESTKF algorithm
 
     Parameters
     ----------
@@ -23769,7 +25284,10 @@ def omi_put_state_en3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -23787,7 +25305,10 @@ def omi_put_state_en3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -23864,37 +25385,53 @@ def omi_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
                                                                    np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                    np.ndarray[tuple[int, int], np.dtype[np.float64]]]],
                                   outflag: int) -> int:
-    """It is recommended to use `pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf` for better efficiency. 
-    
-   
-    Using 3DEnVar for DA without post-processing and analysis distribution to forecsat with diagonal observation error covariance matrix.
-    The background error covariance matrix is estimated by ensemble. The 3DEnVar only calculates the analysis of the ensemble mean.
-    An LESTKF is used to generate ensemble perturbations. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_ens_pdaf
-    6. py__obs_op_lin_pdaf
-    7. py__obs_op_adj_pdaf
-    8. py__cvt_adj_ens_pdaf
-    9. core DA algorithm
-    After the iterations: 
-    10. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    11. py__init_n_domains_p_pdaf
-    12. py__init_dim_obs_pdaf
-    13. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    14. py__init_dim_l_pdaf
-    15. py__init_dim_obs_l_pdaf
-    16. py__g2l_state_pdaf
-    17. core DA algorithm
-    18. py__l2g_state_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf`
+    or :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    3DEnVar for a single DA step where the ensemble anomaly is generated by LESTKF using diagnoal observation error covariance matrix.
+
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The background error covariance matrix is estimated by ensemble.
+    The 3DEnVar only calculates the analysis of the ensemble mean.
+    An LESTKF is used to generate ensemble perturbations.
+    This function should be called at each model time step.
+
+    The user-supplied function are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. Starting the iterative optimisation:
+            1. py__cvt_ens_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__obs_op_adj_pdaf
+            4. py__cvt_adj_ens_pdaf
+            5. core DA algorithm
+        6. py__cvt_ens_pdaf
+        7. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__g2l_state_pdaf
+                4. core DA algorithm
+                5. py__l2g_state_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf`
+       and :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR`
 
     Parameters
     ----------
@@ -24285,7 +25822,10 @@ def omi_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -24303,7 +25843,10 @@ def omi_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -24342,15 +25885,31 @@ def omi_put_state_generate_obs (py__collect_state_pdaf : Callable[[int,
                                                                  np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                  np.ndarray[tuple[int, int], np.dtype[np.float64]]]]
                                ) -> int:
-    """This function generates synthetic observations based on each member of model forecast with diagonal observation error covariance matrix. This function is for the case where the ensemble size is larger than the number of processors. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pda
-    5. py__get_obs_f_pdaf
-    
+    r"""Generation of synthetic observations based on given error statistics and observation operator for diagonal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    If non-diagonal observation error covariance matrix has to be used,
+    the generic :func:`pyPDAF.PDAF.put_generate_obs` can be used.
+
+    The generated synthetic observations are based on each member of model forecast.
+    Therefore, an ensemble of observations can be obtained. In a typical experiment,
+    one may only need one ensemble member.
+
+    Compared to :func:`pyPDAF.PDAF.omi_generate_obs`, this function has no :func:`get_state` call.
+    This means that the next DA step will not be assigned by user-supplied functions.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The implementation strategy is similar to an assimilation step. This means that, 
+    one can reuse many user-supplied functions for assimilation and observation generation.
+
+    This function executes the user-supplied function in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pda
+        5. py__get_obs_f_pdaf
 
     Parameters
     ----------
@@ -24477,7 +26036,10 @@ def omi_put_state_generate_obs (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -24495,7 +26057,10 @@ def omi_put_state_generate_obs (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -24526,24 +26091,61 @@ def omi_put_state_global (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
                                                            np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                            np.ndarray[tuple[int, int], np.dtype[np.float64]]]]
                          ) -> int:
-    """Global filters for DA except for 3DVars
-    without post-processing and analysis distribution to forecsat
-    with diagonal observation error covariance matrix.
+    r"""Global filters except for 3DVar for a single DA step using diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
 
-    This function should be called at each model time step.
+    See :func:`pyPDAF.PDAF.omi_put_state_enkf_nondiagR`, 
+    or :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`,
+    or :func:`pyPDAF.PDAF.omi_put_state_nonlin_nondiagR` for non-diagonal observation error covariance matrix.
 
-    User-supplied functions are executed in the following sequence: 
-    1. py__collect_state_pdaf
+    OMI functions need fewer user-supplied functions and improve DA efficiency.
 
-    2. py__prepoststep_state_pdaf
+    Here, this function call is used for global stochastic EnKF [1]_, E(S)TKF [2]_, 
+    SEEK [2]_, SEIK [2]_, NETF [3]_, and particle filter [4]_.
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_global`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
 
-    3. py__init_dim_obs_pdaf
+    The ESTKF is a more efficient equivalent to the ETKF.
 
-    4. py__obs_op_pdaf (for ensemble mean)
+    The function should be called at each model time step.
 
-    5. py__obs_op_pdaf (for each ensemble member)
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf (for ensemble mean)
+        5. py__init_obs_pdaf
+        6. py__obs_op_pdaf (for each ensemble member)
+        7. py__init_obsvar_pdaf (only relevant for adaptive forgetting factor schemes)
+        8. py__prodRinvA_pdaf
+        9. core DA algorithm
 
-    6. core DA algorithm
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_put_state_global`
+       and :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`.
+
+    References
+    ----------
+    .. [1] Evensen, G. (1994), 
+           Sequential data assimilation with a nonlinear quasi-geostrophic model
+           using Monte Carlo methods to forecast error statistics,
+           J. Geophys. Res., 99(C5), 10143–10162, doi:10.1029/94JC00572.
+    .. [2] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
+    .. [3] Tödter, J., and B. Ahrens, 2015:
+           A second-order exact ensemble square root filter
+           for nonlinear data assimilation. Mon. Wea. Rev.,
+           143, 1347–1367, doi:10.1175/MWR-D-14-00108.1.
+    .. [4] Van Leeuwen, P. J., Künsch, H. R., Nerger, L., Potthast, R., & Reich, S. (2019).
+           Particle filters for high‐dimensional geoscience applications:
+           A review. Quarterly Journal of the Royal Meteorological Society, 145(723), 2335-2365.
 
     Parameters
     ----------
@@ -24646,7 +26248,10 @@ def omi_put_state_global (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -24664,7 +26269,10 @@ def omi_put_state_global (py__collect_state_pdaf : Callable[[int, np.ndarray[tup
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -24730,30 +26338,49 @@ def omi_put_state_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int,
                                                                    np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                    np.ndarray[tuple[int, int], np.dtype[np.float64]]]],
                                   outflag: int) -> int:
-    """Using 3DEnVar for DA without post-processing and analysis distribution to forecsat with diagonal observation error covariance matrix.
-    Here, the background error covariance is hybridised by a static background error covariance, and a flow-dependent background error covariance estimated from ensemble. The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
-    ESTKF in this implementation. 
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_ens_pdaf
-    6. py__obs_op_lin_pdaf
-    7. py__obs_op_adj_pdaf
-    8. py__cvt_adj_ens_pdaf
-    9. core 3DEnVar algorithm
-    After the iterations: 
-    10. py__cvt_ens_pdaf
-    Perform ESTKF: 11. py__init_dim_obs_pdaf
-    12. py__obs_op_pdaf (for ensemble mean
-    13. py__obs_op_pdaf (for each ensemble member
-    14. core ESTKF algorithm
-    
+    r"""Hybrid 3DEnVar for a single DA step using diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    See :func:`pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf_nondiagR` for non-diagonal observation error covariance matrix.
+
+    Hybrid 3DEnVar for a single DA step where
+    the background error covariance is hybridised by a static background error covariance,
+    and a flow-dependent background error covariance estimated from ensemble.
+
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
+    ESTKF in this implementation.
+    This function should be called at each model time step.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. the iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__cvt_ens_pdaf
+            3. py__obs_op_lin_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_pdaf
+            6. py__cvt_adj_ens_pdaf
+            7. core 3DEnVar algorithm
+        6. py__cvt_pdaf
+        7. py__cvt_ens_pdaf
+        8. Perform ESTKF:
+            1. py__init_dim_obs_pdaf
+            2. py__obs_op_pdaf
+               (for ensemble mean)
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. core ESTKF algorithm
+
 
     Parameters
     ----------
@@ -25064,7 +26691,10 @@ def omi_put_state_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -25082,7 +26712,10 @@ def omi_put_state_hyb3dvar_estkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -25171,39 +26804,58 @@ def omi_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
                                                                     np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                     np.ndarray[tuple[int, int], np.dtype[np.float64]]]],
                                    outflag: int) -> int:
-    """It is recommended to use `pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf` for better efficiency. 
-    
-   
-    Using 3DEnVar for DA without post-processing and analysis distribution to forecsat with diagonal observation error covariance matrix.
-    Here, the background error covariance is hybridised by a static background error covariance, and a flow-dependent background error covariance estimated from ensemble. The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
-    LESTKF in this implementation. 
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_ens_pdaf
-    6. py__obs_op_lin_pdaf
-    7. py__obs_op_adj_pdaf
-    8. py__cvt_adj_ens_pdaf
-    9. core DA algorithm
-    After the iterations: 
-    10. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    11. py__init_n_domains_p_pdaf
-    12. py__init_dim_obs_pdaf
-    13. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    14. py__init_dim_l_pdaf
-    15. py__init_dim_obs_l_pdaf
-    16. py__g2l_state_pdaf (localise mean ensemble in observation space)
-    17. core DA algorithm
-    18. py__l2g_state_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf`
+    or :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Hybrid 3DEnVar for a single DA step using diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step, where
+    the background error covariance is hybridised by a static background error covariance,
+    and a flow-dependent background error covariance estimated from ensemble.
+
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
+    LESTKF in this implementation.
+    This function should be called at each model time step.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. The iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__cvt_ens_pdaf
+            3. py__obs_op_lin_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_pdaf
+            6. py__cvt_adj_ens_pdaf
+            7. core DA algorithm
+        6. py__cvt_pdaf
+        7. py__cvt_ens_pdaf
+        8. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__g2l_state_pdaf
+                4. core DA algorithm
+                5. py__l2g_state_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf`
+       and :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR`
 
     Parameters
     ----------
@@ -25658,7 +27310,10 @@ def omi_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -25676,7 +27331,10 @@ def omi_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -25713,17 +27371,40 @@ def omi_put_state_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
                                                              np.ndarray[tuple[int, int], np.dtype[np.float64]]], tuple[np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                              np.ndarray[tuple[int, int], np.dtype[np.float64]]]]
                         ) -> int:
-    """Using stochastic EnKF (ensemble Kalman filter) with covariance localisation for DA without post-processing and analysis distribution to forecsat with diagonal observation error covariance matrix. This is the only scheme for covariance localisation in PDAF. This is the only scheme for covariance localisation in PDAF. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf (for each ensemble member
-    5. py__localize_pdaf
-    6. py__obs_op_pdaf (repeated to reduce storage
-    7. core DA algorith
-    
+    r"""Stochastic EnKF (ensemble Kalman filter) with covariance localisation using diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    See :func:`pyPDAF.PDAF.omi_put_state_lenkf_nondiagR` for non-diagonal observation error covariance matrix.
+
+    Stochastic EnKF (ensemble Kalman filter) with covariance localisation [1]_
+    for a single DA step.
+
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_lenkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    This is the only scheme for covariance localisation in PDAF.
+
+    This function should be called at each model time step.
+
+    The user-supplied function is executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf (for each ensemble member)
+        5. py__localize_pdaf
+        6. py__obs_op_pdaf (repeated to reduce storage)
+        7. core DA algorith
+
+    References
+    ----------
+    .. [1] Houtekamer, P. L., and H. L. Mitchell (1998): 
+           Data Assimilation Using an Ensemble Kalman Filter Technique.
+           Mon. Wea. Rev., 126, 796–811,
+           doi: 10.1175/1520-0493(1998)126<0796:DAUAEK>2.0.CO;2.
 
     Parameters
     ----------
@@ -25826,7 +27507,10 @@ def omi_put_state_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -25844,7 +27528,10 @@ def omi_put_state_lenkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -25917,23 +27604,62 @@ def omi_put_state_local (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
                                                         np.ndarray[tuple[int], np.dtype[np.float64]], 
                                                         int, np.ndarray[tuple[int], np.dtype[np.float64]]], np.ndarray[tuple[int], np.dtype[np.float64]]]
                         ) -> int:
-    """It is recommended to use `pyPDAF.PDAF.localomi_put_state` for better efficiency. 
-    
-    Using domain localised filters for DA without post-processing and analysis distribution to forecsat with diagonal observation error covariance matrix. This is a domain localisation method. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. The LESTKF is a more efficient equivalent to the LETKF. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    8. py__g2l_state_pdaf
-    9. core DA algorithm
-    10. py__l2g_state_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state`
+    or :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`,
+    or :func:`pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR`,
+    or :func:`pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Domain local filters for a single DA step using diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    Here, this function call is used for LE(S)TKF [1]_, 
+    LSEIK [1]_, LNETF [2]_, and LKNETF [3]_.
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_local`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The LESTKF is a more efficient equivalent to the LETKF.
+
+    This function should be called at each model time step.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_state_pdaf
+            4. core DA algorithm
+            5. py__l2g_state_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.omi_put_state`
+       and :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`,
+       and :func:`pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR`,
+       and :func:`pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR`.
+
+    References
+    ----------
+    .. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
+    .. [2] Tödter, J., and B. Ahrens, 2015:
+           A second-order exact ensemble square root filter
+           for nonlinear data assimilation. Mon. Wea. Rev.,
+           143, 1347–1367, doi:10.1175/MWR-D-14-00108.1.
+    .. [3] Nerger, L.. (2022) 
+           Data assimilation for nonlinear systems with a hybrid nonlinear Kalman ensemble transform filter. 
+           Q J R Meteorol Soc, 620–640. doi:10.1002/qj.4221
 
     Parameters
     ----------
@@ -26036,7 +27762,10 @@ def omi_put_state_local (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -26054,7 +27783,10 @@ def omi_put_state_local (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -26219,7 +27951,7 @@ def omi_put_state_local (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
 
 def omi_init_obs_f_cb (step: int,dim_obs_f: int,observation_f: np.ndarray[tuple[int], np.dtype[np.float64]]
                       ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """This function is an internal PDAF-OMI function that is used as a call-back function to initialise the observation vector. This could be used to modify the observation vector when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
+    r"""This function is an internal PDAF-OMI function that is used as a call-back function to initialise the observation vector. This could be used to modify the observation vector when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
 
     Parameters
     ----------
@@ -26229,17 +27961,20 @@ def omi_init_obs_f_cb (step: int,dim_obs_f: int,observation_f: np.ndarray[tuple[
         Dimension of full observation vector
     observation_f : ndarray[tuple[dim_obs_f], np.float64]
         Full observation vector
+        The array dimension `dim_obs_f` is Dimension of full observation vector
 
     Returns
     -------
     observation_f : ndarray[tuple[dim_obs_f], np.float64]
          Full observation vector
+
+        The array dimension `dim_obs_f` is Dimension of full observation vector
     """
     ...
 
 def omi_init_obsvar_cb (step: int,dim_obs_p: int,obs_p: np.ndarray[tuple[int], np.dtype[np.float64]],
                         meanvar: float) -> float:
-    """This function is an internal PDAF function that is used as a call-back function to initialise the observation error variance. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
+    r"""This function is an internal PDAF function that is used as a call-back function to initialise the observation error variance. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
 
     Parameters
     ----------
@@ -26249,6 +27984,7 @@ def omi_init_obsvar_cb (step: int,dim_obs_p: int,obs_p: np.ndarray[tuple[int], n
         PE-local dimension of observation vector
     obs_p : ndarray[tuple[dim_obs_p], np.float64]
         PE-local observation vector
+        The array dimension `dim_obs_p` is PE-local dimension of observation vector
     meanvar : float
         Mean observation error variance
 
@@ -26263,7 +27999,7 @@ def omi_g2l_obs_cb (domain_p: int,step: int,dim_obs_f: int,dim_obs_l: int,
                     ostate_f: np.ndarray[tuple[int], np.dtype[np.float64]],
                     ostate_l: np.ndarray[tuple[int], np.dtype[np.float64]]
                    ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """This function is an internal PDAF-OMI function that is used as a call-back function to convert between global and local observation vectors in domain localisation.
+    r"""This function is an internal PDAF-OMI function that is used as a call-back function to convert between global and local observation vectors in domain localisation.
     
 
     Parameters
@@ -26278,19 +28014,23 @@ def omi_g2l_obs_cb (domain_p: int,step: int,dim_obs_f: int,dim_obs_l: int,
         Dimension of local observation vector
     ostate_f : ndarray[tuple[dim_obs_f], np.float64]
         Full PE-local obs.ervation vector
+        The array dimension `dim_obs_f` is Dimension of full PE-local observation vector
     ostate_l : ndarray[tuple[dim_obs_l], np.float64]
         Observation vector on local domain
+        The array dimension `dim_obs_l` is Dimension of local observation vector
 
     Returns
     -------
     ostate_l : ndarray[tuple[dim_obs_l], np.float64]
          Observation vector on local domain
+
+        The array dimension `dim_obs_l` is Dimension of local observation vector
     """
     ...
 
 def omi_init_obs_l_cb (domain_p: int,step: int,dim_obs_l: int,observation_l: np.ndarray[tuple[int], np.dtype[np.float64]]
                       ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """This function is an internal PDAF-OMI function that is used as a call-back function to initialise local observation vector in domain localisation. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
+    r"""This function is an internal PDAF-OMI function that is used as a call-back function to initialise local observation vector in domain localisation. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
 
     Parameters
     ----------
@@ -26302,17 +28042,20 @@ def omi_init_obs_l_cb (domain_p: int,step: int,dim_obs_l: int,observation_l: np.
         Local dimension of observation vector
     observation_l : ndarray[tuple[dim_obs_l], np.float64]
         Local observation vector
+        The array dimension `dim_obs_l` is Local dimension of observation vector
 
     Returns
     -------
     observation_l : ndarray[tuple[dim_obs_l], np.float64]
          Local observation vector
+
+        The array dimension `dim_obs_l` is Local dimension of observation vector
     """
     ...
 
 def omi_init_obsvar_l_cb (domain_p: int,step: int,dim_obs_l: int,obs_l: np.ndarray[tuple[int], np.dtype[np.float64]],
                           meanvar_l: float) -> float:
-    """This function is an internal PDAF-OMI function that is used as a call-back function to initialise local observation vector in domain localisation. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
+    r"""This function is an internal PDAF-OMI function that is used as a call-back function to initialise local observation vector in domain localisation. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
 
     Parameters
     ----------
@@ -26324,6 +28067,7 @@ def omi_init_obsvar_l_cb (domain_p: int,step: int,dim_obs_l: int,obs_l: np.ndarr
         Local dimension of observation vector
     obs_l : ndarray[tuple[dim_obs_l], np.float64]
         Local observation vector
+        The array dimension `dim_obs_l` is Local dimension of observation vector
     meanvar_l : float
         Mean local observation error variance
 
@@ -26340,7 +28084,7 @@ def omi_prodRinvA_l_cb (domain_p: int,step: int,dim_obs_l: int,rank: int,
                         C_l: np.ndarray[tuple[int, int], np.dtype[np.float64]]
                        ) -> tuple[np.ndarray[tuple[int, int], np.dtype[np.float64]], np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                       ]:
-    """This function is an internal PDAF-OMI function that is used as a call-back function to perform the matrix multiplication inverse of local observation error covariance and a matrix A in domain localisation. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
+    r"""This function is an internal PDAF-OMI function that is used as a call-back function to perform the matrix multiplication inverse of local observation error covariance and a matrix A in domain localisation. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
 
     Parameters
     ----------
@@ -26354,24 +28098,35 @@ def omi_prodRinvA_l_cb (domain_p: int,step: int,dim_obs_l: int,rank: int,
         Rank of initial covariance matrix
     obs_l : ndarray[tuple[dim_obs_l], np.float64]
         Local vector of observations
+        The array dimension `dim_obs_l` is Dimension of local observation vector
     A_l : ndarray[tuple[dim_obs_l, rank], np.float64]
         Input matrix
+        The 1st-th dimension dim_obs_l is Dimension of local observation vector
+        The 2nd-th dimension rank is Rank of initial covariance matrix
     C_l : ndarray[tuple[dim_obs_l, rank], np.float64]
         Output matrix
+        The 1st-th dimension dim_obs_l is Dimension of local observation vector
+        The 2nd-th dimension rank is Rank of initial covariance matrix
 
     Returns
     -------
     A_l : ndarray[tuple[dim_obs_l, rank], np.float64]
          Input matrix
+
+        The 1st-th dimension dim_obs_l is Dimension of local observation vector
+        The 2nd-th dimension rank is Rank of initial covariance matrix
     C_l : ndarray[tuple[dim_obs_l, rank], np.float64]
          Output matrix
+
+        The 1st-th dimension dim_obs_l is Dimension of local observation vector
+        The 2nd-th dimension rank is Rank of initial covariance matrix
     """
     ...
 
 def omi_likelihood_l_cb (domain_p: int,step: int,dim_obs_l: int,obs_l: np.ndarray[tuple[int], np.dtype[np.float64]],
                          resid_l: np.ndarray[tuple[int], np.dtype[np.float64]],
                          lhood_l: float) -> tuple[np.ndarray[tuple[int], np.dtype[np.float64]], float]:
-    """This is an internal PDAF-OMI function that is used as a call-back function to compute the likelihood of the observation for a given ensemble member according to the observations used for the local analysis in the localized LNETF. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`. See https://pdaf.awi.de/trac/wiki/U_likelihood_l
+    r"""This is an internal PDAF-OMI function that is used as a call-back function to compute the likelihood of the observation for a given ensemble member according to the observations used for the local analysis in the localized LNETF. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`. See https://pdaf.awi.de/trac/wiki/U_likelihood_l
 
     Parameters
     ----------
@@ -26383,8 +28138,10 @@ def omi_likelihood_l_cb (domain_p: int,step: int,dim_obs_l: int,obs_l: np.ndarra
         PE-local dimension of obs. vector
     obs_l : ndarray[tuple[dim_obs_l], np.float64]
         PE-local vector of observations
+        The array dimension `dim_obs_l` is PE-local dimension of obs. vector
     resid_l : ndarray[tuple[dim_obs_l], np.float64]
         Input vector of residuum
+        The array dimension `dim_obs_l` is PE-local dimension of obs. vector
     lhood_l : float
         Output vector - log likelihood
 
@@ -26392,6 +28149,8 @@ def omi_likelihood_l_cb (domain_p: int,step: int,dim_obs_l: int,obs_l: np.ndarra
     -------
     resid_l : ndarray[tuple[dim_obs_l], np.float64]
          Input vector of residuum
+
+        The array dimension `dim_obs_l` is PE-local dimension of obs. vector
     lhood_l : float
         Output vector - log likelihood
     """
@@ -26401,7 +28160,7 @@ def omi_prodRinvA_cb (step: int,dim_obs_p: int,ncol: int,obs_p: np.ndarray[tuple
                       A_p: np.ndarray[tuple[int, int], np.dtype[np.float64]],
                       C_p: np.ndarray[tuple[int, int], np.dtype[np.float64]]
                      ) -> np.ndarray[tuple[int, int], np.dtype[np.float64]]:
-    """This function is an internal PDAF-OMI function that is used as a call-back function to perform the matrix multiplication inverse of observation errro covariance and a matrix A. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
+    r"""This function is an internal PDAF-OMI function that is used as a call-back function to perform the matrix multiplication inverse of observation errro covariance and a matrix A. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
 
     Parameters
     ----------
@@ -26413,22 +28172,30 @@ def omi_prodRinvA_cb (step: int,dim_obs_p: int,ncol: int,obs_p: np.ndarray[tuple
         Number of columns in A_p and C_p
     obs_p : ndarray[tuple[dim_obs_p], np.float64]
         PE-local vector of observations
+        The array dimension `dim_obs_p` is Dimension of PE-local observation vector
     A_p : ndarray[tuple[dim_obs_p, ncol], np.float64]
         Input matrix
+        The 1st-th dimension dim_obs_p is Dimension of PE-local observation vector
+        The 2nd-th dimension ncol is Number of columns in A_p and C_p
     C_p : ndarray[tuple[dim_obs_p, ncol], np.float64]
         Output matrix
+        The 1st-th dimension dim_obs_p is Dimension of PE-local observation vector
+        The 2nd-th dimension ncol is Number of columns in A_p and C_p
 
     Returns
     -------
     C_p : ndarray[tuple[dim_obs_p, ncol], np.float64]
          Output matrix
+
+        The 1st-th dimension dim_obs_p is Dimension of PE-local observation vector
+        The 2nd-th dimension ncol is Number of columns in A_p and C_p
     """
     ...
 
 def omi_likelihood_cb (step: int,dim_obs: int,obs: np.ndarray[tuple[int], np.dtype[np.float64]],
                        resid: np.ndarray[tuple[int], np.dtype[np.float64]],
                        lhood: float) -> float:
-    """This is an internal PDAF-OMI function that is used as a call-back function to compute the likelihood of the observation for a given ensemble member according to the observations used for the local analysis for NETF or particle filter. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`. See https://pdaf.awi.de/trac/wiki/U_likelihood_l
+    r"""This is an internal PDAF-OMI function that is used as a call-back function to compute the likelihood of the observation for a given ensemble member according to the observations used for the local analysis for NETF or particle filter. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`. See https://pdaf.awi.de/trac/wiki/U_likelihood_l
 
     Parameters
     ----------
@@ -26438,8 +28205,10 @@ def omi_likelihood_cb (step: int,dim_obs: int,obs: np.ndarray[tuple[int], np.dty
         PE-local dimension of obs. vector
     obs : ndarray[tuple[dim_obs], np.float64]
         PE-local vector of observations
+        The array dimension `dim_obs` is PE-local dimension of obs. vector
     resid : ndarray[tuple[dim_obs], np.float64]
         Input vector of residuum
+        The array dimension `dim_obs` is PE-local dimension of obs. vector
     lhood : float
         Output vector - log likelihood
 
@@ -26452,7 +28221,7 @@ def omi_likelihood_cb (step: int,dim_obs: int,obs: np.ndarray[tuple[int], np.dty
 
 def omi_add_obs_error_cb (step: int,dim_obs_p: int,C_p: np.ndarray[tuple[int, int], np.dtype[np.float64]]
                          ) -> np.ndarray[tuple[int, int], np.dtype[np.float64]]:
-    """This is an internal PDAF-OMI function that is used as a call-back function to add random observation error to stochastic EnKF. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`. See https://pdaf.awi.de/trac/wiki/U_likelihood_l
+    r"""This is an internal PDAF-OMI function that is used as a call-back function to add random observation error to stochastic EnKF. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`. See https://pdaf.awi.de/trac/wiki/U_likelihood_l
 
     Parameters
     ----------
@@ -26462,18 +28231,23 @@ def omi_add_obs_error_cb (step: int,dim_obs_p: int,C_p: np.ndarray[tuple[int, in
         Dimension of PE-local observation vector
     C_p : ndarray[tuple[dim_obs_p, dim_obs_p], np.float64]
         Matrix to which R is added
+        The 1st-th dimension dim_obs_p is Dimension of PE-local observation vector
+        The 2nd-th dimension dim_obs_p is Dimension of PE-local observation vector
 
     Returns
     -------
     C_p : ndarray[tuple[dim_obs_p, dim_obs_p], np.float64]
          Matrix to which R is added
+
+        The 1st-th dimension dim_obs_p is Dimension of PE-local observation vector
+        The 2nd-th dimension dim_obs_p is Dimension of PE-local observation vector
     """
     ...
 
 def omi_init_obscovar_cb (step: int,dim_obs: int,dim_obs_p: int,covar: np.ndarray[tuple[int, int], np.dtype[np.float64]],
                           m_state_p: np.ndarray[tuple[int], np.dtype[np.float64]],
                           isdiag: bool) -> tuple[np.ndarray[tuple[int, int], np.dtype[np.float64]], bool]:
-    """This is an internal PDAF-OMI function that is used as a call-back function to construct a full observation error covariance matrix used only in stochastic EnKF. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
+    r"""This is an internal PDAF-OMI function that is used as a call-back function to construct a full observation error covariance matrix used only in stochastic EnKF. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
 
     Parameters
     ----------
@@ -26485,8 +28259,11 @@ def omi_init_obscovar_cb (step: int,dim_obs: int,dim_obs_p: int,covar: np.ndarra
         PE-local dimension of obs. vector
     covar : ndarray[tuple[dim_obs, dim_obs], np.float64]
         Observation error covar. matrix
+        The 1st-th dimension dim_obs is Dimension of observation vector
+        The 2nd-th dimension dim_obs is Dimension of observation vector
     m_state_p : ndarray[tuple[dim_obs_p], np.float64]
         Observation vector
+        The array dimension `dim_obs_p` is PE-local dimension of obs. vector
     isdiag : bool
         Whether matrix R is diagonal
 
@@ -26494,6 +28271,9 @@ def omi_init_obscovar_cb (step: int,dim_obs: int,dim_obs_p: int,covar: np.ndarra
     -------
     covar : ndarray[tuple[dim_obs, dim_obs], np.float64]
          Observation error covar. matrix
+
+        The 1st-th dimension dim_obs is Dimension of observation vector
+        The 2nd-th dimension dim_obs is Dimension of observation vector
     isdiag : bool
         Whether matrix R is diagonal
     """
@@ -26502,7 +28282,7 @@ def omi_init_obscovar_cb (step: int,dim_obs: int,dim_obs_p: int,covar: np.ndarra
 def omi_init_obserr_f_cb (step: int,dim_obs_f: int,obs_f: np.ndarray[tuple[int], np.dtype[np.float64]],
                           obserr_f: np.ndarray[tuple[int], np.dtype[np.float64]]
                          ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """This is an internal PDAF-OMI function that is used as a call-back function to construct a full observation error covariance matrix used only in stochastic EnKF. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
+    r"""This is an internal PDAF-OMI function that is used as a call-back function to construct a full observation error covariance matrix used only in stochastic EnKF. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
 
     Parameters
     ----------
@@ -26512,13 +28292,17 @@ def omi_init_obserr_f_cb (step: int,dim_obs_f: int,obs_f: np.ndarray[tuple[int],
         Full dimension of observation vector
     obs_f : ndarray[tuple[dim_obs_f], np.float64]
         Full observation vector
+        The array dimension `dim_obs_f` is Full dimension of observation vector
     obserr_f : ndarray[tuple[dim_obs_f], np.float64]
         Full observation error stddev
+        The array dimension `dim_obs_f` is Full dimension of observation vector
 
     Returns
     -------
     obserr_f : ndarray[tuple[dim_obs_f], np.float64]
          Full observation error stddev
+
+        The array dimension `dim_obs_f` is Full dimension of observation vector
     """
     ...
 
@@ -26528,7 +28312,7 @@ def omi_prodRinvA_hyb_l_cb (domain_p: int,step: int,dim_obs_l: int,rank: int,
                             C_l: np.ndarray[tuple[int, int], np.dtype[np.float64]]
                            ) -> tuple[np.ndarray[tuple[int, int], np.dtype[np.float64]], np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                           ]:
-    """This function is an internal PDAF-OMI function that is used as a call-back function to perform the matrix multiplication inverse of local observation error covariance and a matrix A in LKNETF. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
+    r"""This function is an internal PDAF-OMI function that is used as a call-back function to perform the matrix multiplication inverse of local observation error covariance and a matrix A in LKNETF. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
 
     Parameters
     ----------
@@ -26542,26 +28326,37 @@ def omi_prodRinvA_hyb_l_cb (domain_p: int,step: int,dim_obs_l: int,rank: int,
         Rank of initial covariance matrix
     obs_l : ndarray[tuple[dim_obs_l], np.float64]
         Local vector of observations
+        The array dimension `dim_obs_l` is Dimension of local observation vector
     alpha : float
         Hybrid weight
     A_l : ndarray[tuple[dim_obs_l, rank], np.float64]
         Input matrix
+        The 1st-th dimension dim_obs_l is Dimension of local observation vector
+        The 2nd-th dimension rank is Rank of initial covariance matrix
     C_l : ndarray[tuple[dim_obs_l, rank], np.float64]
         Output matrix
+        The 1st-th dimension dim_obs_l is Dimension of local observation vector
+        The 2nd-th dimension rank is Rank of initial covariance matrix
 
     Returns
     -------
     A_l : ndarray[tuple[dim_obs_l, rank], np.float64]
          Input matrix
+
+        The 1st-th dimension dim_obs_l is Dimension of local observation vector
+        The 2nd-th dimension rank is Rank of initial covariance matrix
     C_l : ndarray[tuple[dim_obs_l, rank], np.float64]
          Output matrix
+
+        The 1st-th dimension dim_obs_l is Dimension of local observation vector
+        The 2nd-th dimension rank is Rank of initial covariance matrix
     """
     ...
 
 def omi_likelihood_hyb_l_cb (domain_p: int,step: int,dim_obs_l: int,obs_l: np.ndarray[tuple[int], np.dtype[np.float64]],
                              resid_l: np.ndarray[tuple[int], np.dtype[np.float64]],
                              alpha: float,lhood_l: float) -> tuple[np.ndarray[tuple[int], np.dtype[np.float64]], float]:
-    """This is an internal PDAF-OMI function that is used as a call-back function to compute the likelihood of the observation for a given ensemble member according to the observations used for the local analysis in LKNETF. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`. See https://pdaf.awi.de/trac/wiki/U_likelihood_l
+    r"""This is an internal PDAF-OMI function that is used as a call-back function to compute the likelihood of the observation for a given ensemble member according to the observations used for the local analysis in LKNETF. This could be used to modify the observation variance when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`. See https://pdaf.awi.de/trac/wiki/U_likelihood_l
 
     Parameters
     ----------
@@ -26573,8 +28368,10 @@ def omi_likelihood_hyb_l_cb (domain_p: int,step: int,dim_obs_l: int,obs_l: np.nd
         PE-local dimension of obs. vector
     obs_l : ndarray[tuple[dim_obs_l], np.float64]
         PE-local vector of observations
+        The array dimension `dim_obs_l` is PE-local dimension of obs. vector
     resid_l : ndarray[tuple[dim_obs_l], np.float64]
         Input vector of residuum
+        The array dimension `dim_obs_l` is PE-local dimension of obs. vector
     alpha : float
         Hybrid weight
     lhood_l : float
@@ -26584,13 +28381,15 @@ def omi_likelihood_hyb_l_cb (domain_p: int,step: int,dim_obs_l: int,obs_l: np.nd
     -------
     resid_l : ndarray[tuple[dim_obs_l], np.float64]
          Input vector of residuum
+
+        The array dimension `dim_obs_l` is PE-local dimension of obs. vector
     lhood_l : float
         Output vector - log likelihood
     """
     ...
 
 def omi_obsstats_l (screen: int) -> None:
-    """This function is called in the update routine of local filters and write statistics on locally used and excluded observations.
+    r"""This function is called in the update routine of local filters and write statistics on locally used and excluded observations.
 
     Parameters
     ----------
@@ -26605,29 +28404,44 @@ def omi_weights_l (verbose: int,locweight: int,cradius: np.ndarray[tuple[int], n
                    ivar_obs_l: np.ndarray[tuple[int], np.dtype[np.float64]],
                    dist_l: np.ndarray[tuple[int], np.dtype[np.float64]]
                   ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """This function computes a weight vector according to the distances of observations from the local analysis domain with a vector of localisation radius.
+    r"""This function computes a weight vector according to the distances of observations from the local analysis domain with a vector of localisation radius.
 
     Parameters
     ----------
     verbose : int
         Verbosity flag
     locweight : int
-        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point;
+        Types of localization function:
+            0. unit weight;
+            1. exponential;
+            2. 5-th order polynomial;
+            3. 5-th order polynomial with regulatioin using mean variance;
+            4. 5-th order polynomial with regulatioin using variance of single observation point;
     cradius : ndarray[tuple[nobs_l], np.float64]
         Vector of localization cut-off radii; observation weight=0 if distance > cradius
+        The array dimension `nobs_l` is Number of local observations
     sradius : ndarray[tuple[nobs_l], np.float64]
-        Vector of support radii of localization function. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function.
+        It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
+        weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        The array dimension `nobs_l` is Number of local observations
     matA : ndarray[tuple[nobs_l, ncols], np.float64]
-        
+        input matrix
+        The 1st-th dimension nobs_l is Number of local observations
+        The 2nd-th dimension ncols is the number of columns
     ivar_obs_l : ndarray[tuple[nobs_l], np.float64]
         Local vector of inverse obs. variances (nobs_l)
+        The array dimension `nobs_l` is Number of local observations
     dist_l : ndarray[tuple[nobs_l], np.float64]
         Local vector of obs. distances (nobs_l)
+        The array dimension `nobs_l` is Number of local observations
 
     Returns
     -------
     weight_l : ndarray[tuple[nobs_l], np.float64]
          Output: vector of weights
+
+        The array dimension `nobs_l` is Number of local observations
     """
     ...
 
@@ -26636,34 +28450,47 @@ def omi_weights_l_sgnl (verbose: int,locweight: int,cradius: float,sradius: floa
                         ivar_obs_l: np.ndarray[tuple[int], np.dtype[np.float64]],
                         dist_l: np.ndarray[tuple[int], np.dtype[np.float64]]
                        ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """This function computes a weight vector according to the distances of observations from the local analysis domain with given localisation radius.
+    r"""This function computes a weight vector according to the distances of observations from the local analysis domain with given localisation radius.
 
     Parameters
     ----------
     verbose : int
         Verbosity flag
     locweight : int
-        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point;
+        Types of localization function
+            0) unit weight;
+            1) exponential;
+            2) 5-th order polynomial;
+            3) 5-th order polynomial with regulatioin using mean variance;
+            4) 5-th order polynomial with regulatioin using variance of single observation point;
     cradius : float
         Vector of localization cut-off radii; observation weight=0 if distance > cradius
     sradius : float
-        Vector of support radii of localization function. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function.
+        It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
+        weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
     matA : ndarray[tuple[nobs_l, ncols], np.float64]
-        
+        input matrix
+        The 1st-th dimension nobs_l is Number of local observations
+        The 2nd-th dimension ncols is number of columns
     ivar_obs_l : ndarray[tuple[nobs_l], np.float64]
         Local vector of inverse obs. variances (nobs_l)
+        The array dimension `nobs_l` is Number of local observations
     dist_l : ndarray[tuple[nobs_l], np.float64]
         Local vector of obs. distances (nobs_l)
+        The array dimension `nobs_l` is Number of local observations
 
     Returns
     -------
     weight_l : ndarray[tuple[nobs_l], np.float64]
          Output: vector of weights
+
+        The array dimension `nobs_l` is Number of local observations
     """
     ...
 
 def omi_check_error (flag: int) -> int:
-    """This function returns the value of the PDAF-OMI internal error flag.
+    r"""This function returns the value of the PDAF-OMI internal error flag.
 
     Parameters
     ----------
@@ -26678,13 +28505,13 @@ def omi_check_error (flag: int) -> int:
     ...
 
 def omi_gather_obsdims () -> None:
-    """This function gathers the information about the full dimension of each observation type in each process-local subdomain.
+    r"""This function gathers the information about the full dimension of each observation type in each process-local subdomain.
 
     """
     ...
 
 def omi_obsstats (screen: int) -> None:
-    """The function is called in the update routine of global filters and writes statistics on used and excluded observations.
+    r"""The function is called in the update routine of global filters and writes statistics on used and excluded observations.
 
     Parameters
     ----------
@@ -26696,7 +28523,7 @@ def omi_obsstats (screen: int) -> None:
 def omi_init_dim_obs_l_iso (i_obs: int,coords_l: np.ndarray[tuple[int], np.dtype[np.float64]],
                             locweight: int,cradius: float,sradius: float,
                             cnt_obs_l: int) -> int:
-    """The function has to be called in `init_dim_obs_l_OBTYPE` in each observation module if a domain-localized filter (LESTKF/LETKF/LNETF/LSEIK)is used. It initialises the local observation information for PDAF-OMI for a single local analysis domain. This is used for isotropic localisation where the localisation radius is the same in all directions.
+    r"""The function has to be called in `init_dim_obs_l_OBTYPE` in each observation module if a domain-localized filter (LESTKF/LETKF/LNETF/LSEIK)is used. It initialises the local observation information for PDAF-OMI for a single local analysis domain. This is used for isotropic localisation where the localisation radius is the same in all directions.
 
     Parameters
     ----------
@@ -26704,12 +28531,18 @@ def omi_init_dim_obs_l_iso (i_obs: int,coords_l: np.ndarray[tuple[int], np.dtype
         index of observation type
     coords_l : ndarray[tuple[ncoord], np.float64]
         Coordinates of current analysis domain
+        The array dimension `ncoord` is number of coordinate dimension
     locweight : int
-        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point;
+        Types of localization function
+        0) unit weight; 1) exponential; 2) 5-th order polynomial;
+        3) 5-th order polynomial with regulatioin using mean variance;
+        4) 5-th order polynomial with regulatioin using variance of single observation point;
     cradius : float
         Vector of localization cut-off radii; observation weight=0 if distance > cradius
     sradius : float
-        Vector of support radii of localization function. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function.
+        It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
+        weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
     cnt_obs_l : int
         Local dimension of current observation vector
 
@@ -26724,7 +28557,7 @@ def omi_init_dim_obs_l_noniso (i_obs: int,coords_l: np.ndarray[tuple[int], np.dt
                                locweight: int,cradius: np.ndarray[tuple[int], np.dtype[np.float64]],
                                sradius: np.ndarray[tuple[int], np.dtype[np.float64]],
                                cnt_obs_l: int) -> int:
-    """The function has to be called in `init_dim_obs_l_OBTYPE` in each observation module if a domain-localized filter (LESTKF/LETKF/LNETF/LSEIK)is used. It initialises the local observation information for PDAF-OMI for a single local analysis domain. This is used for non-isotropic localisation where the localisation radius is different in each direction. See https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE and https://pdaf.awi.de/trac/wiki/PDAFomi_init_dim_obs_l#Settingsfornon-isotropiclocalization.
+    r"""The function has to be called in `init_dim_obs_l_OBTYPE` in each observation module if a domain-localized filter (LESTKF/LETKF/LNETF/LSEIK)is used. It initialises the local observation information for PDAF-OMI for a single local analysis domain. This is used for non-isotropic localisation where the localisation radius is different in each direction. See https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE and https://pdaf.awi.de/trac/wiki/PDAFomi_init_dim_obs_l#Settingsfornon-isotropiclocalization.
 
     Parameters
     ----------
@@ -26732,12 +28565,20 @@ def omi_init_dim_obs_l_noniso (i_obs: int,coords_l: np.ndarray[tuple[int], np.dt
         index of observation type
     coords_l : ndarray[tuple[ncoord], np.float64]
         Coordinates of current analysis domain
+        The array dimension `ncoord` is number of coordinate dimension
     locweight : int
-        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point;
+        Types of localization function
+        0) unit weight; 1) exponential; 2) 5-th order polynomial;
+        3) 5-th order polynomial with regulatioin using mean variance;
+        4) 5-th order polynomial with regulatioin using variance of single observation point;
     cradius : ndarray[tuple[ncoord], np.float64]
         Vector of localization cut-off radii; observation weight=0 if distance > cradius
+        The array dimension `ncoord` is number of coordinate dimension
     sradius : ndarray[tuple[ncoord], np.float64]
-        Vector of support radii of localization function. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function.
+        It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
+        weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        The array dimension `ncoord` is number of coordinate dimension
     cnt_obs_l : int
         Local dimension of current observation vector
 
@@ -26753,7 +28594,7 @@ def omi_init_dim_obs_l_noniso_locweights (i_obs: int,coords_l: np.ndarray[tuple[
                                           cradius: np.ndarray[tuple[int], np.dtype[np.float64]],
                                           sradius: np.ndarray[tuple[int], np.dtype[np.float64]],
                                           cnt_obs_l: int) -> int:
-    """The function has to be called in `init_dim_obs_l_OBTYPE` in each observation module if a domain-localized filter (LESTKF/LETKF/LNETF/LSEIK)is used. It initialises the local observation information for PDAF-OMI for a single local analysis domain. This is used for non-isotropic localisation and different weight functions for horizontal and vertical directions. See https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE and https://pdaf.awi.de/trac/wiki/PDAFomi_init_dim_obs_l#Settingdifferentweightfunctsforhorizontalandverticaldirections.
+    r"""The function has to be called in `init_dim_obs_l_OBTYPE` in each observation module if a domain-localized filter (LESTKF/LETKF/LNETF/LSEIK)is used. It initialises the local observation information for PDAF-OMI for a single local analysis domain. This is used for non-isotropic localisation and different weight functions for horizontal and vertical directions. See https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE and https://pdaf.awi.de/trac/wiki/PDAFomi_init_dim_obs_l#Settingdifferentweightfunctsforhorizontalandverticaldirections.
 
     Parameters
     ----------
@@ -26761,12 +28602,21 @@ def omi_init_dim_obs_l_noniso_locweights (i_obs: int,coords_l: np.ndarray[tuple[
         index of observation type
     coords_l : ndarray[tuple[ncoord], np.float64]
         Coordinates of current analysis domain
+        The array dimension `ncoord` is number of coordinate dimension
     locweights : ndarray[tuple[2], np.intc]
-        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point; The first dimension is horizontal weight function and the second is the vertical function
+        Types of localization function
+        0) unit weight; 1) exponential; 2) 5-th order polynomial;
+        3) 5-th order polynomial with regulatioin using mean variance;
+        4) 5-th order polynomial with regulatioin using variance of single observation point;
+        The first dimension is horizontal weight function and the second is the vertical function
     cradius : ndarray[tuple[ncoord], np.float64]
         Vector of localization cut-off radii for each dimension; observation weight=0 if distance > cradius
+        The array dimension `ncoord` is number of coordinate dimension
     sradius : ndarray[tuple[ncoord], np.float64]
-        Vector of support radii of localization function for each dimension. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function for each dimension.
+        It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
+        weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        The array dimension `ncoord` is number of coordinate dimension
     cnt_obs_l : int
         Local dimension of current observation vector
 
@@ -26783,31 +28633,48 @@ def omi_localize_covar_iso (i_obs: int,locweight: int,cradius: float,sradius: fl
                             HPH: np.ndarray[tuple[int, int], np.dtype[np.float64]]
                            ) -> tuple[np.ndarray[tuple[int, int], np.dtype[np.float64]], np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                           ]:
-    """The function has to be called in `localize_covar_OBTYPE` in each observation module. It applies the covariance localisation in stochastic EnKF. This is used for isotropic localisation where the localisation radius is the same in all directions. See https://pdaf.awi.de/trac/wiki/PDAFomi_localize_covar
+    r"""The function has to be called in `localize_covar_OBTYPE` in each observation module. It applies the covariance localisation in stochastic EnKF. This is used for isotropic localisation where the localisation radius is the same in all directions. See https://pdaf.awi.de/trac/wiki/PDAFomi_localize_covar
 
     Parameters
     ----------
     i_obs : int
         index of observation type
     locweight : int
-        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point;
+        Types of localization function
+        0) unit weight; 1) exponential; 2) 5-th order polynomial;
+        3) 5-th order polynomial with regulatioin using mean variance;
+        4) 5-th order polynomial with regulatioin using variance of single observation point;
     cradius : float
         Vector of localization cut-off radii; observation weight=0 if distance > cradius
     sradius : float
-        Vector of support radii of localization function. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function.
+        It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
+        weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
     coords : ndarray[tuple[ncoord, dim_p], np.float64]
         Coordinates of state vector elements
+        The 1st-th dimension ncoord is number of coordinate dimension
+        The 2nd-th dimension dim_p is State dimension
     HP : ndarray[tuple[dim_obs, dim_p], np.float64]
         Matrix HP, dimension (nobs, dim)
+        The 1st-th dimension dim_obs is Observation dimension
+        The 2nd-th dimension dim_p is State dimension
     HPH : ndarray[tuple[dim_obs, dim_obs], np.float64]
         Matrix HPH, dimension (nobs, nobs)
+        The 1st-th dimension dim_obs is Observation dimension
+        The 2nd-th dimension dim_obs is Observation dimension
 
     Returns
     -------
     HP : ndarray[tuple[dim_obs, dim_p], np.float64]
          Matrix HP, dimension (nobs, dim)
+
+        The 1st-th dimension dim_obs is Observation dimension
+        The 2nd-th dimension dim_p is State dimension
     HPH : ndarray[tuple[dim_obs, dim_obs], np.float64]
          Matrix HPH, dimension (nobs, nobs)
+
+        The 1st-th dimension dim_obs is Observation dimension
+        The 2nd-th dimension dim_obs is Observation dimension
     """
     ...
 
@@ -26818,31 +28685,50 @@ def omi_localize_covar_noniso (i_obs: int,locweight: int,cradius: np.ndarray[tup
                                HPH: np.ndarray[tuple[int, int], np.dtype[np.float64]]
                               ) -> tuple[np.ndarray[tuple[int, int], np.dtype[np.float64]], np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                              ]:
-    """The function has to be called in `localize_covar_OBTYPE` in each observation module. It applies the covariance localisation in stochastic EnKF. This is used for non-isotropic localisation where the localisation radius is different. See https://pdaf.awi.de/trac/wiki/PDAFomi_localize_covar
+    r"""The function has to be called in `localize_covar_OBTYPE` in each observation module. It applies the covariance localisation in stochastic EnKF. This is used for non-isotropic localisation where the localisation radius is different. See https://pdaf.awi.de/trac/wiki/PDAFomi_localize_covar
 
     Parameters
     ----------
     i_obs : int
         Data type with full observation
     locweight : int
-        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point;
+        Types of localization function
+        0) unit weight; 1) exponential; 2) 5-th order polynomial;
+        3) 5-th order polynomial with regulatioin using mean variance;
+        4) 5-th order polynomial with regulatioin using variance of single observation point;
     cradius : ndarray[tuple[ncoord], np.float64]
         Vector of localization cut-off radii for each dimension; observation weight=0 if distance > cradius
+        The array dimension `ncoord` is number of coordinate dimension
     sradius : ndarray[tuple[ncoord], np.float64]
-        Vector of support radii of localization function for each dimension. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function for each dimension.
+        It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
+        weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        The array dimension `ncoord` is number of coordinate dimension
     coords : ndarray[tuple[ncoord, dim_p], np.float64]
         Coordinates of state vector elements
+        The 1st-th dimension ncoord is number of coordinate dimension
+        The 2nd-th dimension dim_p is State dimension
     HP : ndarray[tuple[dim_obs, dim_p], np.float64]
         Matrix HP, dimension (nobs, dim)
+        The 1st-th dimension dim_obs is Observation dimension
+        The 2nd-th dimension dim_p is State dimension
     HPH : ndarray[tuple[dim_obs, dim_obs], np.float64]
         Matrix HPH, dimension (nobs, nobs)
+        The 1st-th dimension dim_obs is Observation dimension
+        The 2nd-th dimension dim_obs is Observation dimension
 
     Returns
     -------
     HP : ndarray[tuple[dim_obs, dim_p], np.float64]
          Matrix HP, dimension (nobs, dim)
+
+        The 1st-th dimension dim_obs is Observation dimension
+        The 2nd-th dimension dim_p is State dimension
     HPH : ndarray[tuple[dim_obs, dim_obs], np.float64]
          Matrix HPH, dimension (nobs, nobs)
+
+        The 1st-th dimension dim_obs is Observation dimension
+        The 2nd-th dimension dim_obs is Observation dimension
     """
     ...
 
@@ -26854,31 +28740,51 @@ def omi_localize_covar_noniso_locweights (i_obs: int,locweights: np.ndarray[tupl
                                           HPH: np.ndarray[tuple[int, int], np.dtype[np.float64]]
                                          ) -> tuple[np.ndarray[tuple[int, int], np.dtype[np.float64]], np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                         ]:
-    """The function has to be called in `localize_covar_OBTYPE` in each observation module. It applies the covariance localisation in stochastic EnKF. This is used for non-isotropic localisation with different weight function for horizontal and vertical directions. where the localisation radius is different. See https://pdaf.awi.de/trac/wiki/PDAFomi_localize_covar
+    r"""The function has to be called in `localize_covar_OBTYPE` in each observation module. It applies the covariance localisation in stochastic EnKF. This is used for non-isotropic localisation with different weight function for horizontal and vertical directions. where the localisation radius is different. See https://pdaf.awi.de/trac/wiki/PDAFomi_localize_covar
 
     Parameters
     ----------
     i_obs : int
         index of observation type
     locweights : ndarray[tuple[2], np.intc]
-        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point; The first dimension is horizontal weight function and the second is the vertical function
+        Types of localization function
+        0) unit weight; 1) exponential; 2) 5-th order polynomial;
+        3) 5-th order polynomial with regulatioin using mean variance;
+        4) 5-th order polynomial with regulatioin using variance of single observation point;
+        The first dimension is horizontal weight function and the second is the vertical function
     cradius : ndarray[tuple[ncoord], np.float64]
         Vector of localization cut-off radii for each dimension; observation weight=0 if distance > cradius
+        The array dimension `ncoord` is number of coordinate dimension
     sradius : ndarray[tuple[ncoord], np.float64]
-        Vector of support radii of localization function for each dimension. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function for each dimension.
+        It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
+        weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        The array dimension `ncoord` is number of coordinate dimension
     coords : ndarray[tuple[ncoord, dim_p], np.float64]
         Coordinates of state vector elements
+        The 1st-th dimension ncoord is number of coordinate dimension
+        The 2nd-th dimension dim_p is State dimension
     HP : ndarray[tuple[dim_obs, dim_p], np.float64]
         Matrix HP, dimension (nobs, dim)
+        The 1st-th dimension dim_obs is Observation dimension
+        The 2nd-th dimension dim_p is State dimension
     HPH : ndarray[tuple[dim_obs, dim_obs], np.float64]
         Matrix HPH, dimension (nobs, nobs)
+        The 1st-th dimension dim_obs is Observation dimension
+        The 2nd-th dimension dim_obs is Observation dimension
 
     Returns
     -------
     HP : ndarray[tuple[dim_obs, dim_p], np.float64]
          Matrix HP, dimension (nobs, dim)
+
+        The 1st-th dimension dim_obs is Observation dimension
+        The 2nd-th dimension dim_p is State dimension
     HPH : ndarray[tuple[dim_obs, dim_obs], np.float64]
          Matrix HPH, dimension (nobs, nobs)
+
+        The 1st-th dimension dim_obs is Observation dimension
+        The 2nd-th dimension dim_obs is Observation dimension
     """
     ...
 
@@ -26886,7 +28792,7 @@ def omi_omit_by_inno_l_cb (domain_p: int,dim_obs_l: int,resid_l: np.ndarray[tupl
                            obs_l: np.ndarray[tuple[int], np.dtype[np.float64]]
                           ) -> tuple[np.ndarray[tuple[int], np.dtype[np.float64]], np.ndarray[tuple[int], np.dtype[np.float64]], 
                          ]:
-    """The function is called during the analysis step on each local analysis domain. It checks the size of the innovation and sets the observation error to a high value if the squared innovation exceeds a limit relative to the observation error variance.This function is an internal PDAF-OMI function that is used as a call-back function. This could be used to modify the observation vector when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
+    r"""The function is called during the analysis step on each local analysis domain. It checks the size of the innovation and sets the observation error to a high value if the squared innovation exceeds a limit relative to the observation error variance.This function is an internal PDAF-OMI function that is used as a call-back function. This could be used to modify the observation vector when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
 
     Parameters
     ----------
@@ -26896,15 +28802,21 @@ def omi_omit_by_inno_l_cb (domain_p: int,dim_obs_l: int,resid_l: np.ndarray[tupl
         PE-local dimension of obs. vector
     resid_l : ndarray[tuple[dim_obs_l], np.float64]
         Input vector of residuum
+        The array dimension `dim_obs_l` is PE-local dimension of obs. vector
     obs_l : ndarray[tuple[dim_obs_l], np.float64]
         Input vector of local observations
+        The array dimension `dim_obs_l` is PE-local dimension of obs. vector
 
     Returns
     -------
     resid_l : ndarray[tuple[dim_obs_l], np.float64]
          Input vector of residuum
+
+        The array dimension `dim_obs_l` is PE-local dimension of obs. vector
     obs_l : ndarray[tuple[dim_obs_l], np.float64]
          Input vector of local observations
+
+        The array dimension `dim_obs_l` is PE-local dimension of obs. vector
     """
     ...
 
@@ -26912,7 +28824,7 @@ def omi_omit_by_inno_cb (dim_obs_f: int,resid_f: np.ndarray[tuple[int], np.dtype
                          obs_f: np.ndarray[tuple[int], np.dtype[np.float64]]
                         ) -> tuple[np.ndarray[tuple[int], np.dtype[np.float64]], np.ndarray[tuple[int], np.dtype[np.float64]], 
                        ]:
-    """The function is called during the analysis step of a global filter. It checks the size of the innovation and sets the observation error to a high value if the squared innovation exceeds a limit relative to the observation error variance.This function is called in the update routine of local filters and write statistics on locally used and excluded observations.This function is an internal PDAF-OMI function that is used as a call-back function. This could be used to modify the observation vector when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
+    r"""The function is called during the analysis step of a global filter. It checks the size of the innovation and sets the observation error to a high value if the squared innovation exceeds a limit relative to the observation error variance.This function is called in the update routine of local filters and write statistics on locally used and excluded observations.This function is an internal PDAF-OMI function that is used as a call-back function. This could be used to modify the observation vector when OMI is used with `pyPDAF.PDAF.assimilate_xxx` instead of `pyPDAF.PDAF.omi_assimilate_xxx`.
 
     Parameters
     ----------
@@ -26920,21 +28832,27 @@ def omi_omit_by_inno_cb (dim_obs_f: int,resid_f: np.ndarray[tuple[int], np.dtype
         Full dimension of obs. vector
     resid_f : ndarray[tuple[dim_obs_f], np.float64]
         Input vector of residuum
+        The array dimension `dim_obs_f` is Full dimension of obs. vector
     obs_f : ndarray[tuple[dim_obs_f], np.float64]
         Input vector of full observations
+        The array dimension `dim_obs_f` is Full dimension of obs. vector
 
     Returns
     -------
     resid_f : ndarray[tuple[dim_obs_f], np.float64]
          Input vector of residuum
+
+        The array dimension `dim_obs_f` is Full dimension of obs. vector
     obs_f : ndarray[tuple[dim_obs_f], np.float64]
          Input vector of full observations
+
+        The array dimension `dim_obs_f` is Full dimension of obs. vector
     """
     ...
 
 def omi_set_localization (i_obs: int,cradius: float,sradius: float,locweight: int
                          ) -> int:
-    """This function sets localization information (locweight, cradius, sradius) in OMI, and allocates local arrays for cradius and sradius, i.e. `obs_l`. This variant is for isotropic localization. The function is used by user-supplied implementations of `pyPDAF.PDAF.omi_init_dim_obs_l_iso`. 
+    r"""This function sets localization information (locweight, cradius, sradius) in OMI, and allocates local arrays for cradius and sradius, i.e. `obs_l`. This variant is for isotropic localization. The function is used by user-supplied implementations of `pyPDAF.PDAF.omi_init_dim_obs_l_iso`. 
 
     Parameters
     ----------
@@ -26943,9 +28861,14 @@ def omi_set_localization (i_obs: int,cradius: float,sradius: float,locweight: in
     cradius : float
         Vector of localization cut-off radii; observation weight=0 if distance > cradius
     sradius : float
-        Vector of support radii of localization function. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function.
+        It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
+        weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
     locweight : int
-        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point;
+        Types of localization function
+        0) unit weight; 1) exponential; 2) 5-th order polynomial;
+        3) 5-th order polynomial with regulatioin using mean variance;
+        4) 5-th order polynomial with regulatioin using variance of single observation point;
 
     Returns
     -------
@@ -26957,7 +28880,7 @@ def omi_set_localization (i_obs: int,cradius: float,sradius: float,locweight: in
 def omi_set_localization_noniso (i_obs: int,cradius: np.ndarray[tuple[int], np.dtype[np.float64]],
                                  sradius: np.ndarray[tuple[int], np.dtype[np.float64]],
                                  locweight: int,locweight_v: int) -> int:
-    """This function sets localization information (locweight, cradius, sradius) in OMI, and allocates local arrays for cradius and sradius, i.e. `obs_l`. This variant is for non-isotropic localization. The function is used by user-supplied implementations of `pyPDAF.PDAF.omi_init_dim_obs_l_noniso`. 
+    r"""This function sets localization information (locweight, cradius, sradius) in OMI, and allocates local arrays for cradius and sradius, i.e. `obs_l`. This variant is for non-isotropic localization. The function is used by user-supplied implementations of `pyPDAF.PDAF.omi_init_dim_obs_l_noniso`. 
 
     Parameters
     ----------
@@ -26965,10 +28888,17 @@ def omi_set_localization_noniso (i_obs: int,cradius: np.ndarray[tuple[int], np.d
         Type of observation index
     cradius : ndarray[tuple[nradii], np.float64]
         Vector of localization cut-off radii; observation weight=0 if distance > cradius
+        The array dimension `nradii` is Number of radii to consider for localization
     sradius : ndarray[tuple[nradii], np.float64]
-        Vector of support radii of localization function. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        Vector of support radii of localization function.
+        It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
+        weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        The array dimension `nradii` is Number of radii to consider for localization
     locweight : int
-        Types of localization function 0) unit weight; 1) exponential; 2) 5-th order polynomial; 3) 5-th order polynomial with regulatioin using mean variance; 4) 5-th order polynomial with regulatioin using variance of single observation point;
+        Types of localization function
+        0) unit weight; 1) exponential; 2) 5-th order polynomial;
+        3) 5-th order polynomial with regulatioin using mean variance;
+        4) 5-th order polynomial with regulatioin using variance of single observation point;
     locweight_v : int
         Type of localization function in vertical direction (only for nradii=3)
 
@@ -26980,7 +28910,7 @@ def omi_set_localization_noniso (i_obs: int,cradius: np.ndarray[tuple[int], np.d
     ...
 
 def omi_set_dim_obs_l (i_obs: int,cnt_obs_l_all: int,cnt_obs_l: int) -> tuple[int, int, int]:
-    """This function initialises number local observations. It also returns number of local observations up to the current observation type. It is used by a user-supplied implementations of `pyPDAF.PDAF.omi_init_dim_obs_l_xxx`.
+    r"""This function initialises number local observations. It also returns number of local observations up to the current observation type. It is used by a user-supplied implementations of `pyPDAF.PDAF.omi_init_dim_obs_l_xxx`.
 
     Parameters
     ----------
@@ -27004,22 +28934,27 @@ def omi_set_dim_obs_l (i_obs: int,cnt_obs_l_all: int,cnt_obs_l: int) -> tuple[in
 
 def omi_store_obs_l_index (i_obs: int,idx: int,id_obs_l: int,distance: float,
                            cradius_l: float,sradius_l: float) -> int:
-    """This function stores the mapping index between the global and local observation vectors, the distance and the cradius and sradius for a single observations in OMI. This variant is for non-factorised localisation. The function is used by user-supplied implementations of `pyPDAF.PDAF.omi_init_dim_obs_l_iso` or `pyPDAF.PDAF.omi_init_dim_obs_l_noniso`. 
+    r"""This function stores the mapping index between the global and local observation vectors, the distance and the cradius and sradius for a single observations in OMI. This variant is for non-factorised localisation. The function is used by user-supplied implementations of `pyPDAF.PDAF.omi_init_dim_obs_l_iso` or `pyPDAF.PDAF.omi_init_dim_obs_l_noniso`. 
 
     Parameters
     ----------
     i_obs : int
         Type of observation index
     idx : int
-        < Element of local observation array to be filled
+        Element of local observation array to be filled
     id_obs_l : int
-        < Index of local observation in full observation array
+        Index of local observation in full observation array
     distance : float
-        < Distance between local analysis domain and observation
+        Distance between local analysis domain and observation
     cradius_l : float
-        < cut-off radius for this local observation; observation weight=0 if distance > cradius (directional radius in case of non-isotropic localization)
+        cut-off radius for this local observation; observation weight=0 if distance > cradius
+         (directional radius in case of non-isotropic localization)
     sradius_l : float
-        < support radius for this local observation (directional radius in case of non-isotropic localization) Vector of support radii of localization function. It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1; weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        support radius for this local observation
+         (directional radius in case of non-isotropic localization)
+        Vector of support radii of localization function.
+        It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
+        weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
 
     Returns
     -------
@@ -27031,7 +28966,7 @@ def omi_store_obs_l_index (i_obs: int,idx: int,id_obs_l: int,distance: float,
 def omi_store_obs_l_index_vdist (i_obs: int,idx: int,id_obs_l: int,distance: float,
                                  cradius_l: float,sradius_l: float,vdist: float
                                 ) -> int:
-    """This function stores the mapping index between the global and local observation vectors, the distance and the cradius and sradius for a single observations in OMI. This variant is for 2D+1D factorised localisation.
+    r"""This function stores the mapping index between the global and local observation vectors, the distance and the cradius and sradius for a single observations in OMI. This variant is for 2D+1D factorised localisation.
     The function is used by user-supplied implementations of `pyPDAF.PDAF.omi_init_dim_obs_l_noniso_locweights`.
 
     Parameters
@@ -27039,17 +28974,19 @@ def omi_store_obs_l_index_vdist (i_obs: int,idx: int,id_obs_l: int,distance: flo
     i_obs : int
         Type of observation index
     idx : int
-        < Element of local observation array to be filled
+        Element of local observation array to be filled
     id_obs_l : int
-        < Index of local observation in full observation array
+        Index of local observation in full observation array
     distance : float
-        < Distance between local analysis domain and observation
+        Distance between local analysis domain and observation
     cradius_l : float
-        < cut-off radius for this local observation (directional radius in case of non-isotropic localization)
+        cut-off radius for this local observation
+         (directional radius in case of non-isotropic localization)
     sradius_l : float
-        < support radius for this local observation (directional radius in case of non-isotropic localization)
+        support radius for this local observation
+         (directional radius in case of non-isotropic localization)
     vdist : float
-        < support radius in vertical direction for 2+1D factorized localization
+        support radius in vertical direction for 2+1D factorized localization
 
     Returns
     -------
@@ -27107,28 +29044,35 @@ def omi_assimilate_3dvar_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                          int, 
                                                                          float]],
                                    outflag: int) -> int:
-    """Using 3DVar for DA with non-diagonal observation error covariance matrix.
-    This is a deterministic filtering scheme. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_3dvar_nondiagR`
-    and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_pdaf
-    6. py__obs_op_lin_pdaf
-    7. py__prodRinvA_pdaf
-    8. py__obs_op_adj_pdaf
-    9. py__cvt_adj_pdaf
-    10. core DA algorithm
-    After the iterations: 
-    11. py__cvt_pdaf
-    12. py__prepoststep_state_pdaf
-    13. py__distribute_state_pdaf
-    14. py__next_observation_pdaf
-    
+    r"""3DVar DA for a single DA step using non-diagnoal observation error covariance matrix.
+
+    See :func:`pyPDAF.PDAF.omi_assimilate_3dvar` for simpler user-supplied functions
+    using diagonal observation error covariance matrix.
+
+    When 3DVar is used, the background error covariance matrix
+    has to be modelled for cotrol variable transformation.
+    This is a deterministic filtering scheme so no ensemble and parallelisation is needed.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_3dvar_nondiagR`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. Iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__prodRinvA_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_pdaf
+            6. core DA algorithm
+        6. py__cvt_pdaf
+        7. py__prepoststep_state_pdaf
+        8. py__distribute_state_pdaf
+        9. py__next_observation_pdaf
 
     Parameters
     ----------
@@ -27239,7 +29183,9 @@ def omi_assimilate_3dvar_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -27415,7 +29361,10 @@ def omi_assimilate_3dvar_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -27433,7 +29382,10 @@ def omi_assimilate_3dvar_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -27549,34 +29501,41 @@ def omi_assimilate_en3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[in
                                                                                  int, 
                                                                                  float]],
                                            outflag: int) -> int:
-    """Using 3DEnVar for DA with non-diagonal observation error covariance matrix.
-    The background error covariance matrix is estimated by ensemble. The 3DEnVar only calculates the analysis of the ensemble mean.
-    An ESTKF is used to generate ensemble perturbations. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_en3dvar_estkf_nondiagR`
-    and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_ens_pdaf
-    6. py__obs_op_lin_pdaf
-    7. py__prodRinvA_pdaf
-    8. py__obs_op_adj_pdaf
-    9. py__cvt_adj_ens_pdaf
-    10. core 3DEnVar algorithm
-    After the iterations: 
-    11. py__cvt_ens_pdaf
-    Perform ESTKF: 12. py__init_dim_obs_pdaf
-    13. py__obs_op_pdaf (for ensemble mean
-    14. py__obs_op_pdaf (for each ensemble member
-    15. py__prodRinvA_pdaf
-    16. core ESTKF algorithm
-    17. py__prepoststep_state_pdaf
-    18. py__distribute_state_pdaf
-    19. py__next_observation_pdaf
-    
+    r"""3DEnVar for a single DA step using non-diagnoal observation error covariance matrix.
+
+    See :func:`pyPDAF.PDAF.omi_assimilate_en3dvar_estkf` for simpler user-supplied functions
+    using diagonal observation error covariance matirx.
+
+    Here, the background error covariance matrix is estimated by an ensemble.
+    The 3DEnVar only calculates the analysis of the ensemble mean.
+    An ESTKF is used along with 3DEnVar to generate ensemble perturbations.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_en3dvar_estkf_nondiagR`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. the iterative optimisation:
+            1. py__cvt_ens_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__prodRinvA_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_ens_pdaf
+            6. core 3DEnVar algorithm
+        6. py__cvt_ens_pdaf
+        7. ESTKF:
+            1. py__init_dim_obs_pdaf
+            2. py__obs_op_pdaf (for ensemble mean)
+            3. py__obs_op_pdaf (for each ensemble member)
+            4. py__prodRinvA_pdaf
+            5. core ESTKF algorithm
+        8. py__prepoststep_state_pdaf
+        9. py__distribute_state_pdaf
+        10. py__next_observation_pdaf
 
     Parameters
     ----------
@@ -27687,7 +29646,9 @@ def omi_assimilate_en3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -27879,7 +29840,10 @@ def omi_assimilate_en3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -27897,7 +29861,10 @@ def omi_assimilate_en3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -28041,44 +30008,53 @@ def omi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[i
                                                                                   int, 
                                                                                   float]],
                                             outflag: int) -> int:
-    """It is recommended to use local module for fewer user-supplied functions and improved efficiency.
-    I.e., `pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR`. 
-    
-    
-    Using 3DEnVar for DA with non-diagonal observation error covariance matrix.
-    The background error covariance matrix is estimated by ensemble. The 3DEnVar only calculates the analysis of the ensemble mean.
-    An LESTKF is used to generate ensemble perturbations. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_en3dvar_lestkf_nondiagR`
-    and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_ens_pdaf
-    6. py__obs_op_lin_pdaf
-    7. py__prodRinvA_pdaf
-    8. py__obs_op_adj_pdaf
-    9. py__cvt_adj_ens_pdaf
-    10. core DA algorithm
-    After the iterations: 
-    11. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    12. py__init_n_domains_p_pdaf
-    13. py__init_dim_obs_pdaf
-    14. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    15. py__init_dim_l_pdaf
-    16. py__init_dim_obs_l_pdaf
-    17. py__g2l_state_pdaf (localise mean ensemble in observation space)
-    18. py__prodRinvA_l_pdaf
-    19. core DA algorithm
-    20. py__l2g_state_pdaf
-    21. py__prepoststep_state_pdaf
-    22. py__distribute_state_pdaf
-    23. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR`
+    or :func:`pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    3DEnVar for a single DA step where the ensemble anomaly is generated by LESTKF using non-diagnoal observation error covariance matrix.
+    The background error covariance matrix is estimated by ensemble.
+    The 3DEnVar only calculates the analysis of the ensemble mean.
+    An LESTKF is used to generate ensemble perturbations.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_en3dvar_lestkf_nondiagR`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied function are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. Starting the iterative optimisation:
+            1. py__cvt_ens_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__prodRinvA_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_ens_pdaf
+            6. core DA algorithm
+        6. py__cvt_ens_pdaf
+        7. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__g2l_state_pdaf
+                4. py__prodRinvA_l_pdaf
+                5. core DA algorithm
+                6. py__l2g_state_pdaf
+        8. py__prepoststep_state_pdaf
+        9. py__distribute_state_pdaf
+        10. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR`
 
     Parameters
     ----------
@@ -28189,7 +30165,9 @@ def omi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -28373,7 +30351,8 @@ def omi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -28565,7 +30544,10 @@ def omi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -28583,7 +30565,10 @@ def omi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -28677,21 +30662,36 @@ def omi_assimilate_enkf_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                         int, 
                                                                         float]]
                                  ) -> int:
-    """Using stochastic EnKF (ensemble Kalman filter) for DA with non-diagonal observation error covariance matrix. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_enkf_nondiagR` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf (for ensemble mean
-    5. py__add_obs_err_pdaf
-    6. py__init_obscovar_pdaf
-    7. py__obs_op_pdaf (for each ensemble member
-    8. core DA algorithm
-    9. py__prepoststep_state_pdaf
-    10. py__distribute_state_pdaf
-    11. py__next_observation_pdaf
-    
+    r"""Stochastic EnKF for a single DA step using non-diagnoal observation error covariance matrix.
+
+    See :func:`pyPDAF.PDAF.omi_assimilate_global` for simpler user-supplied functions
+    using diagonal observation error covariance matrix.
+
+    The stochastic EnKF is proposed by Evensen [1]_ and is a Monte Carlo approximation of the KF.
+
+    This function should be called at each model time step. 
+
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_enkf_nondiagR` and :func:`pyPDAF.PDAF.get_state`.
+
+    This function executes the user-supplied functions in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf (for ensemble mean)
+        5. py__add_obs_err_pdaf
+        6. py__init_obscovar_pdaf
+        7. py__obs_op_pdaf (for each ensemble member)
+        8. core DA algorithm
+        9. py__prepoststep_state_pdaf
+        10. py__distribute_state_pdaf
+        11. py__next_observation_pdaf
+
+    References
+    ----------
+    .. [1] Evensen, G. (1994), 
+           Sequential data assimilation with a nonlinear quasi-geostrophic model
+           using Monte Carlo methods to forecast error statistics,
+           J. Geophys. Res., 99(C5), 10143–10162, doi:10.1029/94JC00572.
 
     Parameters
     ----------
@@ -28878,7 +30878,10 @@ def omi_assimilate_enkf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -28896,7 +30899,10 @@ def omi_assimilate_enkf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -28984,15 +30990,19 @@ def omi_assimilate_global_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                           int, 
                                                                           float]]
                                    ) -> int:
-    """Global DA filters for DA except for 3DVars
-    with non-diagonal observation error covariance matrix.
+    r"""Global filters except for 3DVar and stochastic EnKF for a single DA step using non-diagnoal observation error covariance matrix.
 
-    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR`
-    and :func:`pyPDAF.PDAF.get_state`.
+    See :func:`pyPDAF.PDAF.omi_assimilate_global` for simpler user-supplied functions
+    using diagonal observation error covariance matrix.
 
-    This function should be called at each model time step.
+    Here, this function call is used for global, E(S)TKF [1]_, 
+    SEEK [1]_, SEIK [1]_.
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+    This function should be called at each model time step. 
 
-    The user-supplied functions are executed in the following sequence:
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_global` and :func:`pyPDAF.PDAF.get_state`.
+
+    This function executes the user-supplied functions in the following sequence:
         1. py__collect_state_pdaf
         2. py__prepoststep_state_pdaf
         3. py__init_dim_obs_pdaf
@@ -29003,6 +31013,12 @@ def omi_assimilate_global_nondiagR (py__collect_state_pdaf : Callable[[int,
         8. py__prepoststep_state_pdaf
         9. py__distribute_state_pdaf
         10. py__next_observation_pdaf
+
+    References
+    ----------
+    .. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
 
     Parameters
     ----------
@@ -29113,7 +31129,9 @@ def omi_assimilate_global_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -29161,7 +31179,10 @@ def omi_assimilate_global_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -29179,7 +31200,10 @@ def omi_assimilate_global_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -29303,37 +31327,47 @@ def omi_assimilate_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[i
                                                                                   int, 
                                                                                   float]],
                                             outflag: int) -> int:
-    """Using Hybrid 3DEnVar for DA with non-diagonal observation error covariance matrix.
-    Here, the background error covariance is hybridised by a static background error covariance, and a flow-dependent background error covariance estimated from ensemble. The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
-    ESTKF in this implementation. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf_nondiagR`
-    and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_pdaf
-    6. py__cvt_ens_pdaf
-    7. py__obs_op_lin_pdaf
-    8. py__prodRinvA_pdaf
-    9. py__obs_op_adj_pdaf
-    10. py__cvt_adj_pdaf
-    11. py__cvt_adj_ens_pdaf
-    12. core 3DEnVar algorithm
-    After the iterations: 
-    13. py__cvt_pdaf
-    14. py__cvt_ens_pdaf
-    Perform ESTKF: 15. py__init_dim_obs_pdaf
-    16. py__obs_op_pdaf (for ensemble mean
-    17. py__obs_op_pdaf (for each ensemble member
-    18. py__prodRinvA_pdaf
-    19. core ESTKF algorithm
-    20. py__prepoststep_state_pdaf
-    21. py__distribute_state_pdaf
-    22. py__next_observation_pdaf
-    
+    r"""Hybrid 3DEnVar for a single DA step using non-diagnoal observation error covariance matrix.
+
+    See :func:`pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf` for simpler user-supplied functions
+    using diagonal observation error covariance matrix.
+
+    Here the background error covariance is hybridised by a static background error covariance,
+    and a flow-dependent background error covariance estimated from ensemble.
+    The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
+    ESTKF in this implementation.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf_nondiagR`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. the iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__cvt_ens_pdaf
+            3. py__obs_op_lin_pdaf
+            4. py__prodRinvA_pdaf
+            5. py__obs_op_adj_pdaf
+            6. py__cvt_adj_pdaf
+            7. py__cvt_adj_ens_pdaf
+            8. core 3DEnVar algorithm
+        6. py__cvt_pdaf
+        7. py__cvt_ens_pdaf
+        8. Perform ESTKF:
+            1. py__init_dim_obs_pdaf
+            2. py__obs_op_pdaf
+               (for ensemble mean)
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. py__prodRinvA_pdaf
+            5. core ESTKF algorithm
+        9. py__prepoststep_state_pdaf
+        10. py__distribute_state_pdaf
+        11. py__next_observation_pdaf
 
     Parameters
     ----------
@@ -29444,7 +31478,9 @@ def omi_assimilate_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -29700,7 +31736,10 @@ def omi_assimilate_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -29718,7 +31757,10 @@ def omi_assimilate_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -29872,48 +31914,57 @@ def omi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[
                                                                                    int, 
                                                                                    float]],
                                              outflag: int) -> int:
-    """It is recommended to use local module for fewer user-supplied functions and improved efficiency.
-    I.e., `pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR`. 
-    
-    
-    Using Hybrid 3DEnVar for DA with non-diagonal observation error covariance matrix.
-    Here, the background error covariance is hybridised by a static background error covariance, and a flow-dependent background error covariance estimated from ensemble. The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
-    LESTKF in this implementation. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf_nondiagR`
-    and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_pdaf
-    6. py__cvt_ens_pdaf
-    7. py__obs_op_lin_pdaf
-    8. py__prodRinvA_pdaf
-    9. py__obs_op_adj_pdaf
-    10. py__cvt_adj_pdaf
-    11. py__cvt_adj_ens_pdaf
-    12. core DA algorithm
-    After the iterations: 
-    13. py__cvt_pdaf
-    14. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    15. py__init_n_domains_p_pdaf
-    16. py__init_dim_obs_pdaf
-    17. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    18. py__init_dim_l_pdaf
-    19. py__init_dim_obs_l_pdaf
-    20. py__g2l_state_pdaf
-    21. py__init_obs_l_pdaf
-    22. py__prodRinvA_l_pdaf
-    23. core DA algorithm
-    24. py__l2g_state_pdaf
-    25. py__prepoststep_state_pdaf
-    26. py__distribute_state_pdaf
-    27. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR`
+    or :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Hybrid 3DEnVar for a single DA step using diagnoal observation error covariance matrix where
+    the background error covariance is hybridised by a static background error covariance,
+    and a flow-dependent background error covariance estimated from ensemble.
+    The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
+    LESTKF in this implementation.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_hyb3dvar_lestkf_nondiagR`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. The iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__cvt_ens_pdaf
+            3. py__obs_op_lin_pdaf
+            4. py__prodRinvA_pdaf
+            5. py__obs_op_adj_pdaf
+            6. py__cvt_adj_pdaf
+            7. py__cvt_adj_ens_pdaf
+            8. core DA algorithm
+        6. py__cvt_pdaf
+        7. py__cvt_ens_pdaf
+        8. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__g2l_state_pdaf
+                4. py__prodRinvA_l_pdaf
+                5. core DA algorithm
+                6. py__l2g_state_pdaf
+        9. py__prepoststep_state_pdaf
+        10. py__distribute_state_pdaf
+        11. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR`
 
     Parameters
     ----------
@@ -30024,7 +32075,9 @@ def omi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -30272,7 +32325,8 @@ def omi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -30464,7 +32518,10 @@ def omi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -30482,7 +32539,10 @@ def omi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -30581,22 +32641,39 @@ def omi_assimilate_lenkf_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                          int, 
                                                                          float]]
                                   ) -> int:
-    """Using stochastic EnKF (ensemble Kalman filter) with covariance localisation for DA with non-diagonal observation error covariance matrix. This is the only scheme for covariance localisation in PDAF. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_lenkf_nondiagR` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf (for each ensemble member
-    5. py__localize_pdaf
-    6. py__add_obs_err_pdaf
-    7. py__init_obscovar_pdaf
-    8. py__obs_op_pdaf (repeated to reduce storage
-    9. core DA algorith
-    10. py__prepoststep_state_pdaf
-    11. py__distribute_state_pdaf
-    12. py__next_observation_pdaf
-    
+    r"""Covariance localised stochastic EnKF for a single DA step using non-diagnoal observation error covariance matrix.
+
+    See :func:`pyPDAF.PDAF.omi_assimilate_lenkf` for simpler user-supplied functions
+    using diagnoal observation error covariance matrix.
+
+    This stochastic EnKF is implemented based on [1]_
+
+    This is the only scheme for covariance localisation in PDAF.
+
+    This function should be called at each model time step.
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_lenkf_nondiagR`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied function is executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf (for each ensemble member)
+        5. py__localize_pdaf
+        6. py__add_obs_err_pdaf
+        7. py__init_obscovar_pdaf
+        8. py__obs_op_pdaf (repeated to reduce storage)
+        9. core DA algorith
+        10. py__prepoststep_state_pdaf
+        11. py__distribute_state_pdaf
+        12. py__next_observation_pdaf
+
+    References
+    ----------
+    .. [1] Houtekamer, P. L., and H. L. Mitchell (1998): 
+           Data Assimilation Using an Ensemble Kalman Filter Technique.
+           Mon. Wea. Rev., 126, 796–811,
+           doi: 10.1175/1520-0493(1998)126<0796:DAUAEK>2.0.CO;2.
 
     Parameters
     ----------
@@ -30719,7 +32796,10 @@ def omi_assimilate_lenkf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -30737,7 +32817,10 @@ def omi_assimilate_lenkf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -30964,30 +33047,50 @@ def omi_assimilate_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                           int, 
                                                                           float]]
                                    ) -> int:
-    """It is recommended to use local module for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR`. 
-    Using LKNETF for DA with non-diagonal observation error covariance matrix. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_lknetf_nondiagR` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    8. py__g2l_state_pdaf
-    9. py__prodRinvA_pdaf
-    10. py__likelihood_l_pdaf
-    11. core DA algorithm
-    12. py__l2g_state_pdaf
-    13. py__obs_op_pdaf (only called with `HKN` and `HNK` options called for each ensemble member
-    14. py__likelihood_hyb_l_pda
-    15. py__prodRinvA_hyb_l_pdaf
-    16. py__prepoststep_state_pdaf
-    17. py__distribute_state_pdaf
-    18. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR`
+    or :func:`pyPDAF.PDAF.localomi_assimilate`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    LKNETF [1]_ for a single DA step using non-diagnoal observation error covariance matrix.
+    See :func:`pyPDAF.PDAF.localomi_assimilate` for using diagnoal observation error covariance matrix.
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+    This function should be called at each model time step.
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_lknetf_nondiagR`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_state_pdaf
+            4. py__prodRinvA_pdaf
+            5. py__likelihood_l_pdaf
+            6. core DA algorithm
+            7. py__l2g_state_pdaf
+            8. py__obs_op_pdaf
+               (only called with `HKN` and `HNK` options called for each ensemble member)
+            9. py__likelihood_hyb_l_pda
+            10. py__prodRinvA_hyb_l_pdaf
+        7. py__prepoststep_state_pdaf
+        8. py__distribute_state_pdaf
+        9. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR`.
+
+    References
+    ----------
+    .. [1] Nerger, L.. (2022) 
+           Data assimilation for nonlinear systems with a hybrid nonlinear Kalman ensemble transform filter. 
+           Q J R Meteorol Soc, 620–640. doi:10.1002/qj.4221
 
     Parameters
     ----------
@@ -31110,7 +33213,10 @@ def omi_assimilate_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -31128,7 +33234,10 @@ def omi_assimilate_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -31230,7 +33339,8 @@ def omi_assimilate_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -31541,26 +33651,46 @@ def omi_assimilate_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                          int, 
                                                                          float]]
                                   ) -> int:
-    """It is recommended to use local module for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR`. 
-    Using LNETF for DA with non-diagonal observation error covariance matrix. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_lnetf_nondiagR` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    8. py__g2l_state_pdaf
-    9. py__likelihood_l_pdaf
-    10. core DA algorithm
-    11. py__l2g_state_pdaf
-    12. py__prepoststep_state_pdaf
-    13. py__distribute_state_pdaf
-    14. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR`
+    or :func:`pyPDAF.PDAF.localomi_assimilate`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    LNETF [1]_ for a single DA step using non-diagnoal observation error covariance matrix.
+    See :func:`pyPDAF.PDAF.localomi_assimilate` for using diagnoal observation error covariance matrix.
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+    This function should be called at each model time step.
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_lnetf_nondiagR`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_state_pdaf
+            4. py__likelihood_l_pdaf
+            5. core DA algorithm
+            6. py__l2g_state_pdaf
+        7. py__prepoststep_state_pdaf
+        8. py__distribute_state_pdaf
+        9. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR`.
+
+    References
+    ----------
+    .. [1] Tödter, J., and B. Ahrens, 2015:
+           A second-order exact ensemble square root filter
+           for nonlinear data assimilation. Mon. Wea. Rev.,
+           143, 1347–1367, doi:10.1175/MWR-D-14-00108.1.
 
     Parameters
     ----------
@@ -31683,7 +33813,10 @@ def omi_assimilate_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -31701,7 +33834,10 @@ def omi_assimilate_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -31991,27 +34127,46 @@ def omi_assimilate_local_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                          int, 
                                                                          float]]
                                   ) -> int:
-    """It is recommended to use local module for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_assimilate_nondiagR`. 
-    Using domain localised filters for DA with non-diagonal observation error covariance matrix. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_local_nondiagR` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    8. py__g2l_state_pdaf
-    9. py__init_obs_l_pdaf
-    10. py__prodRinvA_l_pdaf
-    11. core DA algorithm
-    12. py__l2g_state_pdaf
-    13. py__prepoststep_state_pdaf
-    14. py__distribute_state_pdaf
-    15. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`
+    or :func:`pyPDAF.PDAF.localomi_assimilate`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Domain local filters for a single DA step using non-diagnoal observation error covariance matrix.
+    Here, this function call is used for LE(S)TKF [1]_ and LSEIK [1]_
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+    This function should be called at each model time step.
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_local_nondiagR`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_state_pdaf
+            4. py__init_obs_l_pdaf
+            5. py__prodRinvA_l_pdaf
+            6. core DA algorithm
+            7. py__l2g_state_pdaf
+        7. py__prepoststep_state_pdaf
+        8. py__distribute_state_pdaf
+        9. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`.
+
+    References
+    ----------
+    .. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
 
     Parameters
     ----------
@@ -32134,7 +34289,10 @@ def omi_assimilate_local_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -32152,7 +34310,10 @@ def omi_assimilate_local_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -32254,7 +34415,8 @@ def omi_assimilate_local_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -32423,21 +34585,38 @@ def omi_assimilate_nonlin_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                           int, 
                                                                           float]]
                                    ) -> int:
-    """Using nonlinear filters (particle filter, NETF) for DA except for 3DVars with non-diagonal observation error covariance matrix.
-    The function is a combination of `pyPDAF.PDAF.put_state_nonlin_nondiagR` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function This function should be called at each model time step. 
-    
-    in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf (for ensemble mean
-    5. py__obs_op_pdaf (for each ensemble member
-    6. py__likelihood_pdaf
-    7. core DA algorithm
-    8. py__prepoststep_state_pdaf
-    9. py__distribute_state_pdaf
-    10. py__next_observation_pdaf
-    
+    r"""Global nonlinear filters for a single DA step using non-diagnoal observation error covariance matrix.
+
+    See :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR` for simpler user-supplied functions
+    using diagonal observation error covariance matrix.
+
+    Here, this function call is used for global NETF [1]_, and particle filter [2]_.
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+    This function should be called at each model time step. 
+
+    The function is a combination of :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR` and :func:`pyPDAF.PDAF.get_state`.
+
+    This function executes the user-supplied functions in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf (for ensemble mean)
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. py__likelihood_pdaf
+        7. core DA algorithm
+        8. py__prepoststep_state_pdaf
+        9. py__distribute_state_pdaf
+        10. py__next_observation_pdaf
+
+    References
+    ----------
+    .. [1] Tödter, J., and B. Ahrens, 2015:
+           A second-order exact ensemble square root filter
+           for nonlinear data assimilation. Mon. Wea. Rev.,
+           143, 1347–1367, doi:10.1175/MWR-D-14-00108.1.
+    .. [2] Van Leeuwen, P. J., Künsch, H. R., Nerger, L., Potthast, R., & Reich, S. (2019).
+           Particle filters for high‐dimensional geoscience applications:
+           A review. Quarterly Journal of the Royal Meteorological Society, 145(723), 2335-2365.
 
     Parameters
     ----------
@@ -32592,7 +34771,10 @@ def omi_assimilate_nonlin_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -32610,7 +34792,10 @@ def omi_assimilate_nonlin_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -32704,24 +34889,36 @@ def omi_put_state_3dvar_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                    np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                    np.ndarray[tuple[int, int], np.dtype[np.float64]]]],
                                   outflag: int) -> int:
-    """Using 3DVar for DA with non-diagonal observation error covariance matrix
-    without post-processing and analysis distribution to forecsat without OMI. This is a deterministic filtering scheme. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_pdaf
-    6. py__obs_op_lin_pdaf
-    7. py__prodRinvA_pdaf
-    8. py__obs_op_adj_pdaf
-    9. py__cvt_adj_pdaf
-    10. core DA algorithm
-    After the iterations: 
-    11. py__cvt_pdaf
-    
+    r"""3DVar DA for a single DA step using non-diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    See :func:`pyPDAF.PDAF.omi_put_state_3dvar` for simpler user-supplied functions using
+    diagonal observation error covariance matrix.
+
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_3dvar_nondiagR`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    When 3DVar is used, the background error covariance matrix
+    has to be modelled for cotrol variable transformation.
+    This is a deterministic filtering scheme so no ensemble and parallelisation is needed.
+    This function should be called at each model time step.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. Iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__prodRinvA_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_pdaf
+            6. core DA algorithm
+        6. py__cvt_pdaf
 
     Parameters
     ----------
@@ -32812,7 +35009,9 @@ def omi_put_state_3dvar_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -32988,7 +35187,10 @@ def omi_put_state_3dvar_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -33006,7 +35208,10 @@ def omi_put_state_3dvar_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -33078,30 +35283,43 @@ def omi_put_state_en3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[int
                                                                            np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                            np.ndarray[tuple[int, int], np.dtype[np.float64]]]],
                                           outflag: int) -> int:
-    """Using 3DEnVar for DA with non-diagonal observation error covariance matrix
-    without post-processing and analysis distribution to forecsat without OMI. The background error covariance matrix is estimated by ensemble. The 3DEnVar only calculates the analysis of the ensemble mean.
-    An ESTKF is used to generate ensemble perturbations. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_ens_pdaf
-    6. py__obs_op_lin_pdaf
-    7. py__prodRinvA_pdaf
-    8. py__obs_op_adj_pdaf
-    9. py__cvt_adj_ens_pdaf
-    10. core 3DEnVar algorithm
-    After the iterations: 
-    11. py__cvt_ens_pdaf
-    Perform ESTKF: 12. py__init_dim_obs_pdaf
-    13. py__obs_op_pdaf (for ensemble mean
-    14. py__obs_op_pdaf (for each ensemble member
-    15. py__prodRinvA_pdaf
-    16. core ESTKF algorithm
-    
+    r"""3DEnVar for a single DA step using non-diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    See :func:`pyPDAF.PDAF.omi_put_state_en3dvar_estkf` for simpler user-supplied functions
+    using diagonal observation error covariance matrix.
+
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_en3dvar_estkf_nondiagR`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The background error covariance matrix is estimated by an ensemble.
+    The 3DEnVar only calculates the analysis of the ensemble mean.
+    An ESTKF is used along with 3DEnVar to generate ensemble perturbations.
+    This function should be called at each model time step.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. the iterative optimisation:
+            1. py__cvt_ens_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__prodRinvA_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_ens_pdaf
+            6. core 3DEnVar algorithm
+        6. py__cvt_ens_pdaf
+        7. ESTKF:
+            1. py__init_dim_obs_pdaf
+            2. py__obs_op_pdaf (for ensemble mean)
+            3. py__obs_op_pdaf (for each ensemble member)
+            4. py__prodRinvA_pdaf
+            5. core ESTKF algorithm
 
     Parameters
     ----------
@@ -33192,7 +35410,9 @@ def omi_put_state_en3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[int
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -33384,7 +35604,10 @@ def omi_put_state_en3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -33402,7 +35625,10 @@ def omi_put_state_en3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[int
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -33502,40 +35728,56 @@ def omi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[in
                                                                             np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                             np.ndarray[tuple[int, int], np.dtype[np.float64]]]],
                                            outflag: int) -> int:
-    """It is recommended to use local module for fewer user-supplied functions and improved efficiency.
-    I.e., `pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR`. 
-    
-    
-    Using 3DEnVar for DA with non-diagonal observation error covariance matrix
-    without post-processing and analysis distribution to forecsat without OMI. The background error covariance matrix is estimated by ensemble. The 3DEnVar only calculates the analysis of the ensemble mean.
-    An LESTKF is used to generate ensemble perturbations. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_ens_pdaf
-    6. py__obs_op_lin_pdaf
-    7. py__prodRinvA_pdaf
-    8. py__obs_op_adj_pdaf
-    9. py__cvt_adj_ens_pdaf
-    10. core DA algorithm
-    After the iterations: 
-    11. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    12. py__init_n_domains_p_pdaf
-    13. py__init_dim_obs_pdaf
-    14. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    15. py__init_dim_l_pdaf
-    16. py__init_dim_obs_l_pdaf
-    17. py__g2l_state_pdaf (localise mean ensemble in observation space)
-    18. py__prodRinvA_l_pdaf
-    19. core DA algorithm
-    20. py__l2g_state_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR`
+    or :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    3DEnVar for a single DA step without post-processing, distributing analysis, and setting next observation step,
+     where the ensemble anomaly is generated by LESTKF using non-diagnoal observation error covariance matrix.
+
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_en3dvar_lestkf_nondiagR`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The background error covariance matrix is estimated by ensemble.
+    The 3DEnVar only calculates the analysis of the ensemble mean.
+    An LESTKF is used to generate ensemble perturbations.
+    This function should be called at each model time step.
+
+    The user-supplied function are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. Starting the iterative optimisation:
+            1. py__cvt_ens_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__prodRinvA_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_ens_pdaf
+            6. core DA algorithm
+        6. py__cvt_ens_pdaf
+        7. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__g2l_state_pdaf
+                4. py__prodRinvA_l_pdaf
+                5. core DA algorithm
+                6. py__l2g_state_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR`
+       and :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf`
 
     Parameters
     ----------
@@ -33626,7 +35868,9 @@ def omi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -33810,7 +36054,8 @@ def omi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -34002,7 +36247,10 @@ def omi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -34020,7 +36268,10 @@ def omi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -34070,20 +36321,39 @@ def omi_put_state_enkf_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                   np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                   np.ndarray[tuple[int, int], np.dtype[np.float64]]]]
                                 ) -> int:
-    """Using stochastic EnKF (ensemble Kalman filter) for DA with non-diagonal observation error covariance matrix. without post-processing and analysis distribution to forecsat without OMI. This function should be called at each model time step. 
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf (for ensemble mean
-    5. py__add_obs_err_pdaf
-    6. py__init_obscovar_pdaf
-    7. py__obs_op_pdaf (for each ensemble member
-    8. core DA algorithm
-    
+    r"""Stochastic EnKF for a single DA step using non-diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    See :func:`pyPDAF.PDAF.omi_put_state_global` for simpler user-supplied functions
+    using diagonal observation error covariance matrix.
+
+    The stochastic EnKF is implemented based on [1]_.
+
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_enkf_nondiagR`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    This function should be called at each model time step. 
+
+    This function executes the user-supplied functions in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf (for ensemble mean)
+        5. py__add_obs_err_pdaf
+        6. py__init_obscovar_pdaf
+        7. py__obs_op_pdaf (for each ensemble member)
+        8. core DA algorithm
+
+    References
+    ----------
+    .. [1] Evensen, G. (1994), 
+           Sequential data assimilation with a nonlinear quasi-geostrophic model
+           using Monte Carlo methods to forecast error statistics,
+           J. Geophys. Res., 99(C5), 10143–10162, doi:10.1029/94JC00572.
 
     Parameters
     ----------
@@ -34250,7 +36520,10 @@ def omi_put_state_enkf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -34268,7 +36541,10 @@ def omi_put_state_enkf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -34312,37 +36588,39 @@ def omi_put_state_global_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                     np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                     np.ndarray[tuple[int, int], np.dtype[np.float64]]]]
                                   ) -> int:
-    """Global filters for DA except for 3DVars
-    with non-diagonal observation error covariance matrix
-    without post-processing and analysis distribution to forecsat.
+    r"""Global filters except for 3DVar and stochastic EnKF for a single DA step using non-diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
 
-    This function is usually used in 'flexible' parallelisation
-    where the ensemble size is larger than the available number of processes.
+    See :func:`pyPDAF.PDAF.omi_put_state_global` for simpler user-supplied functions
+    using diagonal observation error covariance matrix.
 
-    This function should be called at each model time step.
+    Here, this function call is used for global, E(S)TKF [1]_, 
+    SEEK [1]_, SEIK [1]_.
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
 
-    A :func:`pyPDAF.PDAF.get_state` function is typically
-    used afterwards to post-process and distribute the ensemble
-    to the model after this function.
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_global_nondiagR`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
 
-    This function should be called at each model time step.
+    This function should be called at each model time step. 
 
-    The function executes the user-supplied function
-    in the following sequence:
+    This function executes the user-supplied functions in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf (for ensemble mean)
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. py__prodRinvA_pdaf
+        7. core DA algorithm
 
-    1. py__collect_state_pdaf
-
-    2. py__prepoststep_state_pdaf
-
-    3. py__init_dim_obs_pdaf
-
-    4. py__obs_op_pdaf (for ensemble mean)
-
-    5. py__obs_op_pdaf (for each ensemble member)
-
-    6. py__prodRinvA_pdaf
-
-    7. core DA algorithm
+    References
+    ----------
+    .. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
 
     Parameters
     ----------
@@ -34433,7 +36711,9 @@ def omi_put_state_global_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -34481,7 +36761,10 @@ def omi_put_state_global_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -34499,7 +36782,10 @@ def omi_put_state_global_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -34579,35 +36865,50 @@ def omi_put_state_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[in
                                                                             np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                             np.ndarray[tuple[int, int], np.dtype[np.float64]]]],
                                            outflag: int) -> int:
-    """Using Hybrid 3DEnVar for DA with non-diagonal observation error covariance matrix
-    without post-processing and analysis distribution to forecsat without OMI. Here, the background error covariance is hybridised by a static background error covariance, and a flow-dependent background error covariance estimated from ensemble. The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
-    ESTKF in this implementation. This function should be called at each model time step. 
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_pdaf
-    6. py__cvt_ens_pdaf
-    7. py__obs_op_lin_pdaf
-    8. py__prodRinvA_pdaf
-    9. py__obs_op_adj_pdaf
-    10. py__cvt_adj_pdaf
-    11. py__cvt_adj_ens_pdaf
-    12. core 3DEnVar algorithm
-    After the iterations: 
-    13. py__cvt_pdaf
-    14. py__cvt_ens_pdaf
-    Perform ESTKF: 15. py__init_dim_obs_pdaf
-    16. py__obs_op_pdaf (for ensemble mean
-    17. py__obs_op_pdaf (for each ensemble member
-    18. py__prodRinvA_pdaf
-    19. core ESTKF algorithm
-    
+    r"""Hybrid 3DEnVar for a single DA step using non-diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    See :func:`pyPDAF.PDAF.omi_put_state_hyb3dvar_estkf` for simpler user-supplied functions
+    using diagonal observation error covariance matrix.
+
+    Here the background error covariance is hybridised by a static background error covariance,
+    and a flow-dependent background error covariance estimated from ensemble.
+
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf_nondiagR`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
+    ESTKF in this implementation.
+    This function should be called at each model time step.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. the iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__cvt_ens_pdaf
+            3. py__obs_op_lin_pdaf
+            4. py__prodRinvA_pdaf
+            5. py__obs_op_adj_pdaf
+            6. py__cvt_adj_pdaf
+            7. py__cvt_adj_ens_pdaf
+            8. core 3DEnVar algorithm
+        6. py__cvt_pdaf
+        7. py__cvt_ens_pdaf
+        8. Perform ESTKF:
+            1. py__init_dim_obs_pdaf
+            2. py__obs_op_pdaf
+               (for ensemble mean)
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. py__prodRinvA_pdaf
+            5. core ESTKF algorithm
 
     Parameters
     ----------
@@ -34698,7 +36999,9 @@ def omi_put_state_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -34954,7 +37257,10 @@ def omi_put_state_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -34972,7 +37278,10 @@ def omi_put_state_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf : Callable[[in
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -35082,46 +37391,60 @@ def omi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[i
                                                                              np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                              np.ndarray[tuple[int, int], np.dtype[np.float64]]]],
                                             outflag: int) -> int:
-    """It is recommended to use local module for fewer user-supplied functions and improved efficiency.
-    I.e., `pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR`. 
-    
-    
-    Using Hybrid 3DEnVar for DA with non-diagonal observation error covariance matrix
-    without post-processing and analysis distribution to forecsat without OMI. Here, the background error covariance is hybridised by a static background error covariance, and a flow-dependent background error covariance estimated from ensemble. The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
-    LESTKF in this implementation. This function should be called at each model time step. 
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_pdaf
-    6. py__cvt_ens_pdaf
-    7. py__obs_op_lin_pdaf
-    8. py__prodRinvA_pdaf
-    9. py__obs_op_adj_pdaf
-    10. py__cvt_adj_pdaf
-    11. py__cvt_adj_ens_pdaf
-    12. core DA algorithm
-    After the iterations: 
-    13. py__cvt_pdaf
-    14. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    15. py__init_n_domains_p_pdaf
-    16. py__init_dim_obs_pdaf
-    17. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    18. py__init_dim_l_pdaf
-    19. py__init_dim_obs_l_pdaf
-    20. py__g2l_state_pdaf
-    21. py__init_obs_l_pdaf
-    22. py__prodRinvA_l_pdaf
-    23. core DA algorithm
-    24. py__l2g_state_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR`
+    or :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Hybrid 3DEnVar for a single DA step using non-diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step, where
+    the background error covariance is hybridised by a static background error covariance,
+    and a flow-dependent background error covariance estimated from ensemble.
+
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_hyb3dvar_lestkf_nondiagR`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
+    LESTKF in this implementation.
+    This function should be called at each model time step.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. The iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__cvt_ens_pdaf
+            3. py__obs_op_lin_pdaf
+            4. py__prodRinvA_pdaf
+            5. py__obs_op_adj_pdaf
+            6. py__cvt_adj_pdaf
+            7. py__cvt_adj_ens_pdaf
+            8. core DA algorithm
+        6. py__cvt_pdaf
+        7. py__cvt_ens_pdaf
+        8. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__g2l_state_pdaf
+                4. py__prodRinvA_l_pdaf
+                5. core DA algorithm
+                6. py__l2g_state_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf`
+       and :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR`
 
     Parameters
     ----------
@@ -35212,7 +37535,9 @@ def omi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -35460,7 +37785,8 @@ def omi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -35652,7 +37978,10 @@ def omi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -35670,7 +37999,10 @@ def omi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callable[[i
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -35725,21 +38057,42 @@ def omi_put_state_lenkf_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                       bool], tuple[float, 
                                                                       bool]]
                                  ) -> int:
-    """Using stochastic EnKF (ensemble Kalman filter) with covariance localisation for DA with non-diagonal observation error covariance matrix without post-processing and analysis distribution to forecsat without OMI. This is the only scheme for covariance localisation in PDAF. This function should be called at each model time step. 
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf (for each ensemble member
-    5. py__localize_pdaf
-    6. py__add_obs_err_pdaf
-    7. py__init_obscovar_pdaf
-    8. py__obs_op_pdaf (repeated to reduce storage
-    9. core DA algorith
-    
+    r"""Covariance localised stochastic EnKF for a single DA step using non-diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    See :func:`pyPDAF.PDAF.omi_put_state_lenkf` for simpler user-supplied functions
+    using diagnoal observation error covariance matrix.
+
+    This function is implemented based on [1]_.
+
+    This is the only scheme for covariance localisation in PDAF.
+
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_lenkf_nondiagR`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    This function should be called at each model time step.
+
+    The user-supplied function is executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf (for each ensemble member)
+        5. py__localize_pdaf
+        6. py__add_obs_err_pdaf
+        7. py__init_obscovar_pdaf
+        8. py__obs_op_pdaf (repeated to reduce storage)
+        9. core DA algorithm
+
+    References
+    ----------
+    .. [1] Houtekamer, P. L., and H. L. Mitchell (1998): 
+           Data Assimilation Using an Ensemble Kalman Filter Technique.
+           Mon. Wea. Rev., 126, 796–811,
+           doi: 10.1175/1520-0493(1998)126<0796:DAUAEK>2.0.CO;2.
 
     Parameters
     ----------
@@ -35842,7 +38195,10 @@ def omi_put_state_lenkf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -35860,7 +38216,10 @@ def omi_put_state_lenkf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -36043,29 +38402,55 @@ def omi_put_state_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                   int, 
                                                                   np.ndarray[tuple[int], np.dtype[np.float64]]], np.ndarray[tuple[int], np.dtype[np.float64]]]
                                   ) -> int:
-    """It is recommended to use local module for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR`. 
-    Using LKNETF for DA with non-diagonal observation error covariance matrix without post-processing and analysis distribution to forecsat without OMI. This function should be called at each model time step. 
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    8. py__g2l_state_pdaf
-    9. py__prodRinvA_pdaf
-    10. py__likelihood_l_pdaf
-    11. core DA algorithm
-    12. py__l2g_state_pdaf
-    13. py__obs_op_pdaf (only called with `HKN` and `HNK` options called for each ensemble member
-    14. py__likelihood_hyb_l_pda
-    15. py__prodRinvA_hyb_l_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR`
+    or :func:`pyPDAF.PDAF.localomi_put_state`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    LKNETF [1]_ for a single DA step using non-diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    See :func:`pyPDAF.PDAF.localomi_assimilate` for using diagnoal observation error covariance matrix.
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_lknetf_nondiagR`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    This function should be called at each model time step.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_state_pdaf
+            4. py__prodRinvA_pdaf
+            5. py__likelihood_l_pdaf
+            6. core DA algorithm
+            7. py__l2g_state_pdaf
+            8. py__obs_op_pdaf
+               (only called with `HKN` and `HNK` options called for each ensemble member)
+            9. py__likelihood_hyb_l_pda
+            10. py__prodRinvA_hyb_l_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state`
+       and :func:`pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR`.
+
+    References
+    ----------
+    .. [1] Nerger, L.. (2022) 
+           Data assimilation for nonlinear systems with a hybrid nonlinear Kalman ensemble transform filter.
+           Q J R Meteorol Soc, 620–640. doi:10.1002/qj.4221
 
     Parameters
     ----------
@@ -36168,7 +38553,10 @@ def omi_put_state_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -36186,7 +38574,10 @@ def omi_put_state_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -36288,7 +38679,8 @@ def omi_put_state_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -36549,25 +38941,51 @@ def omi_put_state_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                  int, np.ndarray[tuple[int], np.dtype[np.float64]], 
                                                                  int, np.ndarray[tuple[int], np.dtype[np.float64]]], np.ndarray[tuple[int], np.dtype[np.float64]]]
                                  ) -> int:
-    """It is recommended to use local module for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR`. 
-    Using LNETF for DA with non-diagonal observation error covariance matrix without post-processing and analysis distribution to forecsat without OMI. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_lnetf_nondiagR` This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    8. py__g2l_state_pdaf
-    9. py__likelihood_l_pdaf
-    10. core DA algorithm
-    11. py__l2g_state_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR`
+    or :func:`pyPDAF.PDAF.localomi_put_state`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    LNETF [1]_ for a single DA step using non-diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    See :func:`pyPDAF.PDAF.localomi_put_state` for using diagnoal observation error covariance matrix.
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_lnetf_nondiagR`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    This function should be called at each model time step.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_state_pdaf
+            4. py__likelihood_l_pdaf
+            5. core DA algorithm
+            6. py__l2g_state_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state`
+       and :func:`pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR`.
+
+    References
+    ----------
+    .. [1] Tödter, J., and B. Ahrens, 2015:
+           A second-order exact ensemble square root filter
+           for nonlinear data assimilation. Mon. Wea. Rev.,
+           143, 1347–1367, doi:10.1175/MWR-D-14-00108.1.
 
     Parameters
     ----------
@@ -36670,7 +39088,10 @@ def omi_put_state_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -36688,7 +39109,10 @@ def omi_put_state_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -36928,26 +39352,51 @@ def omi_put_state_local_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                  int, np.ndarray[tuple[int], np.dtype[np.float64]], 
                                                                  int, np.ndarray[tuple[int], np.dtype[np.float64]]], np.ndarray[tuple[int], np.dtype[np.float64]]]
                                  ) -> int:
-    """It is recommended to use local module for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_assimilate_nondiagR`. 
-    Using domain localised filters for DA with non-diagonal observation error covariance matrix without post-processing and analysis distribution to forecsat without OMI. This function should be called at each model time step. 
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    8. py__g2l_state_pdaf
-    9. py__init_obs_l_pdaf
-    10. py__prodRinvA_l_pdaf
-    11. core DA algorithm
-    12. py__l2g_state_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`
+    or :func:`pyPDAF.PDAF.localomi_put_state`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Domain local filters for a single DA step using non-diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    Here, this function call is used for LE(S)TKF [1]_ and LSEIK [1]_
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_local_nondiagR`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    This function should be called at each model time step.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_state_pdaf
+            4. py__init_obs_l_pdaf
+            5. py__prodRinvA_l_pdaf
+            6. core DA algorithm
+            7. py__l2g_state_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state`
+       and :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`.
+
+    References
+    ----------
+    .. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
 
     Parameters
     ----------
@@ -37050,7 +39499,10 @@ def omi_put_state_local_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -37068,7 +39520,10 @@ def omi_put_state_local_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -37170,7 +39625,8 @@ def omi_put_state_local_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -37295,20 +39751,42 @@ def omi_put_state_nonlin_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                     np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                     np.ndarray[tuple[int, int], np.dtype[np.float64]]]]
                                   ) -> int:
-    """Using nonlinear filters (particle filter, NETF) for DA except for 3DVars with non-diagonal observation error covariance matrix
-    without post-processing and analysis distribution to forecsat without OMI. This function should be called at each model time step. 
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf (for ensemble mean
-    5. py__obs_op_pdaf (for each ensemble member
-    6. py__likelihood_pdaf
-    7. core DA algorithm
-    
+    r"""Global nonlinear filters for a single DA step using non-diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    See :func:`pyPDAF.PDAF.omi_put_state_global_nondiagR` for simpler user-supplied functions
+    using diagonal observation error covariance matrix.
+
+    Here, this function call is used for global NETF [1]_, and particle filter [2]_.
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_nonlin_nondiagR`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    This function should be called at each model time step. 
+
+    This function executes the user-supplied functions in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf (for ensemble mean)
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. py__likelihood_pdaf
+        7. core DA algorithm
+
+    References
+    ----------
+    .. [1] Tödter, J., and B. Ahrens, 2015:
+           A second-order exact ensemble square root filter
+           for nonlinear data assimilation. Mon. Wea. Rev.,
+           143, 1347–1367, doi:10.1175/MWR-D-14-00108.1.
+    .. [2] Van Leeuwen, P. J., Künsch, H. R., Nerger, L., Potthast, R., & Reich, S. (2019).
+           Particle filters for high‐dimensional geoscience applications:
+           A review. Quarterly Journal of the Royal Meteorological Society, 145(723), 2335-2365.
 
     Parameters
     ----------
@@ -37443,7 +39921,10 @@ def omi_put_state_nonlin_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -37461,7 +39942,10 @@ def omi_put_state_nonlin_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -37481,29 +39965,31 @@ def omi_put_state_nonlin_nondiagR (py__collect_state_pdaf : Callable[[int,
     ...
 
 def local_set_indices (map: np.ndarray[tuple[int], np.dtype[np.intc]]) -> None:
-    """Set index vector to map local state vector to global state vectors. This is called in the user-supplied function `py__init_dim_l_pdaf`.
+    r"""Set index vector to map local state vector to global state vectors. This is called in the user-supplied function `py__init_dim_l_pdaf`.
 
     Parameters
     ----------
     map : ndarray[tuple[dim_l], np.intc]
         Index array for mapping between local and global state vector
+        The array dimension `dim_l` is Dimension of local state vector
     """
     ...
 
 def local_set_increment_weights (weights: np.ndarray[tuple[int], np.dtype[np.float64]]
                                 ) -> None:
-    """This function initialises a PDAF_internal local array of increment weights. The weights are applied in in PDAF_local_l2g_cb where the local state vector
+    r"""This function initialises a PDAF_internal local array of increment weights. The weights are applied in in PDAF_local_l2g_cb where the local state vector
     is weighted by given weights. These can e.g. be used to apply a vertical localisation.
 
     Parameters
     ----------
     weights : ndarray[tuple[dim_l], np.float64]
         Weights array
+        The array dimension `dim_l` is Dimension of local state vector
     """
     ...
 
 def local_clear_increment_weights () -> None:
-    """This function deallocates the local increment weight vector in `pyPDAF.PDAF.local_set_increment_weights` if it is allocated
+    r"""This function deallocates the local increment weight vector in `pyPDAF.PDAF.local_set_increment_weights` if it is allocated
 
     """
     ...
@@ -37511,7 +39997,7 @@ def local_clear_increment_weights () -> None:
 def local_g2l_cb (step: int,domain_p: int,dim_p: int,state_p: np.ndarray[tuple[int], np.dtype[np.float64]],
                   dim_l: int,state_l: np.ndarray[tuple[int], np.dtype[np.float64]]
                  ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """Project a global to a local state vector for the localized filters.
+    r"""Project a global to a local state vector for the localized filters.
     This is the full callback function to be used internally. The mapping is done using the index vector id_lstate_in_pstate that is initialised in `pyPDAF.PDAF.local_set_indices`.
 
     Parameters
@@ -37524,22 +40010,26 @@ def local_g2l_cb (step: int,domain_p: int,dim_p: int,state_p: np.ndarray[tuple[i
         PE-local full state dimension
     state_p : ndarray[tuple[dim_p], np.float64]
         PE-local full state vector
+        The array dimension `dim_p` is PE-local full state dimension
     dim_l : int
         Local state dimension
     state_l : ndarray[tuple[dim_l], np.float64]
         State vector on local analysis domain
+        The array dimension `dim_l` is Local state dimension
 
     Returns
     -------
     state_l : ndarray[tuple[dim_l], np.float64]
          State vector on local analysis domain
+
+        The array dimension `dim_l` is Local state dimension
     """
     ...
 
 def local_l2g_cb (step: int,domain_p: int,dim_l: int,state_l: np.ndarray[tuple[int], np.dtype[np.float64]],
                   dim_p: int,state_p: np.ndarray[tuple[int], np.dtype[np.float64]]
                  ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
-    """Initialise elements of a global state vector from a local state vector.
+    r"""Initialise elements of a global state vector from a local state vector.
     This is the full callback function to be used internally. The mapping is done using the index vector `id_lstate_in_pstate` that is initialised in `pyPDAF.PDAF.local_set_indices`. 
     
     To exclude any element of the local state vector from the initialisationone can set the corresponding index value to 0.
@@ -37554,15 +40044,19 @@ def local_l2g_cb (step: int,domain_p: int,dim_l: int,state_l: np.ndarray[tuple[i
         Local state dimension
     state_l : ndarray[tuple[dim_l], np.float64]
         State vector on local analysis domain
+        The array dimension `dim_l` is Local state dimension
     dim_p : int
         PE-local full state dimension
     state_p : ndarray[tuple[dim_p], np.float64]
         PE-local full state vector
+        The array dimension `dim_p` is PE-local full state dimension
 
     Returns
     -------
     state_p : ndarray[tuple[dim_p], np.float64]
          PE-local full state vector
+
+        The array dimension `dim_p` is PE-local full state dimension
     """
     ...
 
@@ -37586,23 +40080,41 @@ def localomi_assimilate (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
                                                                int, float], tuple[int, 
                                                                int, float]],
                          outflag: int) -> int:
-    """Using domain localised filters for DA with diagonal observation error covariance matrix. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.localomi_put_state` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    8. py__init_obs_l_pdaf
-    9. core DA algorithm
-    10. py__prepoststep_state_pdaf
-    11. py__distribute_state_pdaf
-    12. py__next_observation_pdaf
-    
+    r"""Domain local filters for a single DA step using diagnoal observation error covariance matrix.
+
+    Here, this function call is used for LE(S)TKF [1]_, 
+    LSEIK [1]_, LNETF [2]_, and LKNETF [3]_.
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+    This function should be called at each model time step.
+    The function is a combination of :func:`pyPDAF.PDAF.localomi_put_state_local`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. core DA algorithm
+        7. py__prepoststep_state_pdaf
+        8. py__distribute_state_pdaf
+        9. py__next_observation_pdaf
+
+    References
+    ----------
+    .. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
+    .. [2] Tödter, J., and B. Ahrens, 2015:
+           A second-order exact ensemble square root filter
+           for nonlinear data assimilation. Mon. Wea. Rev.,
+           143, 1347–1367, doi:10.1175/MWR-D-14-00108.1.
+    .. [3] Nerger, L.. (2022) 
+           Data assimilation for nonlinear systems with a hybrid nonlinear Kalman ensemble transform filter. 
+           Q J R Meteorol Soc, 620–640. doi:10.1002/qj.4221
 
     Parameters
     ----------
@@ -37725,7 +40237,10 @@ def localomi_assimilate (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -37743,7 +40258,10 @@ def localomi_assimilate (py__collect_state_pdaf : Callable[[int, np.ndarray[tupl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -37934,36 +40452,40 @@ def localomi_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
                                                                               int, 
                                                                               float]],
                                         outflag: int) -> int:
-    """Using 3DEnVar for DA with diagonal observation error covariance matrix.
-    The background error covariance matrix is estimated by ensemble. The 3DEnVar only calculates the analysis of the ensemble mean.
-    An LESTKF is used to generate ensemble perturbations. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf`
-    and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_ens_pdaf
-    6. py__obs_op_lin_pdaf
-    7. py__obs_op_adj_pdaf
-    8. py__cvt_adj_ens_pdaf
-    9. core DA algorithm
-    After the iterations: 
-    10. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    11. py__init_n_domains_p_pdaf
-    12. py__init_dim_obs_pdaf
-    13. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    14. py__init_dim_l_pdaf
-    15. py__init_dim_obs_l_pdaf (localise mean ensemble in observation space)
-    16. core DA algorithm
-    17. py__prepoststep_state_pdaf
-    18. py__distribute_state_pdaf
-    19. py__next_observation_pdaf
-    
+    r"""3DEnVar for a single DA step where the ensemble anomaly is generated by LESTKF using diagnoal observation error covariance matrix.
+
+    The background error covariance matrix is estimated by ensemble.
+    The 3DEnVar only calculates the analysis of the ensemble mean.
+    An LESTKF is used to generate ensemble perturbations.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied function are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. Starting the iterative optimisation:
+            1. py__cvt_ens_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__obs_op_adj_pdaf
+            4. py__cvt_adj_ens_pdaf
+            5. core DA algorithm
+        6. py__cvt_ens_pdaf
+        7. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. core DA algorithm
+        8. py__prepoststep_state_pdaf
+        9. py__distribute_state_pdaf
+        10. py__next_observation_pdaf
 
     Parameters
     ----------
@@ -38302,7 +40824,10 @@ def localomi_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -38320,7 +40845,10 @@ def localomi_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -38452,38 +40980,42 @@ def localomi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callab
                                                                                        int, 
                                                                                        float]],
                                                  outflag: int) -> int:
-    """Using 3DEnVar for DA with non-diagonal observation error covariance matrix.
-    The background error covariance matrix is estimated by ensemble. The 3DEnVar only calculates the analysis of the ensemble mean.
-    An LESTKF is used to generate ensemble perturbations. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR`
-    and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_ens_pdaf
-    6. py__obs_op_lin_pdaf
-    7. py__prodRinvA_pdaf
-    8. py__obs_op_adj_pdaf
-    9. py__cvt_adj_ens_pdaf
-    10. core DA algorithm
-    After the iterations: 
-    11. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    12. py__init_n_domains_p_pdaf
-    13. py__init_dim_obs_pdaf
-    14. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    15. py__init_dim_l_pdaf
-    16. py__init_dim_obs_l_pdaf (localise mean ensemble in observation space)
-    17. py__prodRinvA_l_pdaf
-    18. core DA algorithm
-    19. py__prepoststep_state_pdaf
-    20. py__distribute_state_pdaf
-    21. py__next_observation_pdaf
-    
+    r"""3DEnVar for a single DA step where the ensemble anomaly is generated by LESTKF using non-diagnoal observation error covariance matrix.
+
+    Here, the background error covariance matrix is estimated by ensemble.
+    The 3DEnVar only calculates the analysis of the ensemble mean.
+    An LESTKF is used to generate ensemble perturbations.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied function are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. Starting the iterative optimisation:
+            1. py__cvt_ens_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__prodRinvA_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_ens_pdaf
+            6. core DA algorithm
+        6. py__cvt_ens_pdaf
+        7. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__prodRinvA_l_pdaf
+                4. core DA algorithm
+        8. py__prepoststep_state_pdaf
+        9. py__distribute_state_pdaf
+        10. py__next_observation_pdaf
 
     Parameters
     ----------
@@ -38594,7 +41126,9 @@ def localomi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callab
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -38778,7 +41312,8 @@ def localomi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callab
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -38898,7 +41433,10 @@ def localomi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callab
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -38916,7 +41454,10 @@ def localomi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callab
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -39045,40 +41586,44 @@ def localomi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
                                                                                int, 
                                                                                float]],
                                          outflag: int) -> int:
-    """Using Hybrid 3DEnVar for DA with diagonal observation error covariance matrix.
-    Here, the background error covariance is hybridised by a static background error covariance, and a flow-dependent background error covariance estimated from ensemble. The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
-    LESTKF in this implementation. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf`
-    and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_pdaf
-    6. py__cvt_ens_pdaf
-    7. py__obs_op_lin_pdaf
-    8. py__obs_op_adj_pdaf
-    9. py__cvt_adj_pdaf
-    10. py__cvt_adj_ens_pdaf
-    11. core DA algorithm
-    After the iterations: 
-    12. py__cvt_pdaf
-    13. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    14. py__init_n_domains_p_pdaf
-    15. py__init_dim_obs_pdaf
-    16. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    17. py__init_dim_l_pdaf
-    18. py__init_dim_obs_l_pdaf
-    19. py__init_obs_l_pdaf
-    20. core DA algorithm
-    21. py__prepoststep_state_pdaf
-    22. py__distribute_state_pdaf
-    23. py__next_observation_pdaf
-    
+    r"""Hybrid 3DEnVar for a single DA step using diagnoal observation error covariance matrix.
+
+    Here, the background error covariance is hybridised by a static background error covariance,
+    and a flow-dependent background error covariance estimated from ensemble.
+    The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
+    LESTKF in this implementation.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. The iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__cvt_ens_pdaf
+            3. py__obs_op_lin_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_pdaf
+            6. py__cvt_adj_ens_pdaf
+            7. core DA algorithm
+        6. py__cvt_pdaf
+        7. py__cvt_ens_pdaf
+        8. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. core DA algorithm
+        9. py__prepoststep_state_pdaf
+        10. py__distribute_state_pdaf
+        11. py__next_observation_pdaf
 
     Parameters
     ----------
@@ -39481,7 +42026,10 @@ def localomi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -39499,7 +42047,10 @@ def localomi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -39641,42 +42192,46 @@ def localomi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Calla
                                                                                         int, 
                                                                                         float]],
                                                   outflag: int) -> int:
-    """Using Hybrid 3DEnVar for DA with non-diagonal observation error covariance matrix.
-    Here, the background error covariance is hybridised by a static background error covariance, and a flow-dependent background error covariance estimated from ensemble. The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
-    LESTKF in this implementation. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR`
-    and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_pdaf
-    6. py__cvt_ens_pdaf
-    7. py__obs_op_lin_pdaf
-    8. py__prodRinvA_pdaf
-    9. py__obs_op_adj_pdaf
-    10. py__cvt_adj_pdaf
-    11. py__cvt_adj_ens_pdaf
-    12. core DA algorithm
-    After the iterations: 
-    13. py__cvt_pdaf
-    14. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    15. py__init_n_domains_p_pdaf
-    16. py__init_dim_obs_pdaf
-    17. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    18. py__init_dim_l_pdaf
-    19. py__init_dim_obs_l_pdaf
-    20. py__init_obs_l_pdaf
-    21. py__prodRinvA_l_pdaf
-    22. core DA algorithm
-    23. py__prepoststep_state_pdaf
-    24. py__distribute_state_pdaf
-    25. py__next_observation_pdaf
-    
+    r"""Hybrid 3DEnVar for a single DA step using diagnoal observation error covariance matrix.
+
+    Here, the background error covariance is hybridised by a static background error covariance,
+    and a flow-dependent background error covariance estimated from ensemble.
+    The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
+    LESTKF in this implementation.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. The iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__cvt_ens_pdaf
+            3. py__obs_op_lin_pdaf
+            4. py__prodRinvA_pdaf
+            5. py__obs_op_adj_pdaf
+            6. py__cvt_adj_pdaf
+            7. py__cvt_adj_ens_pdaf
+            8. core DA algorithm
+        6. py__cvt_pdaf
+        7. py__cvt_ens_pdaf
+        8. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__prodRinvA_l_pdaf
+                4. core DA algorithm
+        9. py__prepoststep_state_pdaf
+        10. py__distribute_state_pdaf
+        11. py__next_observation_pdaf
 
     Parameters
     ----------
@@ -39787,7 +42342,9 @@ def localomi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Calla
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -40035,7 +42592,8 @@ def localomi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Calla
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -40155,7 +42713,10 @@ def localomi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Calla
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -40173,7 +42734,10 @@ def localomi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Calla
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -40296,27 +42860,40 @@ def localomi_assimilate_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                                int, 
                                                                                float]],
                                          outflag: int) -> int:
-    """Using LKNETF for DA with non-diagonal observation error covariance matrix. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    8. py__prodRinvA_pdaf
-    9. py__likelihood_l_pdaf
-    10. core DA algorithm
-    11. py__obs_op_pdaf (only called with `HKN` and `HNK` options called for each ensemble member
-    12. py__likelihood_hyb_l_pda
-    13. py__prodRinvA_hyb_l_pdaf
-    14. py__prepoststep_state_pdaf
-    15. py__distribute_state_pdaf
-    16. py__next_observation_pdaf
-    
+    r"""LKNETF for a single DA step using non-diagnoal observation error covariance matrix.
+
+    See :func:`pyPDAF.PDAF.localomi_assimilate` for using diagnoal observation error covariance matrix.
+    The non-linear filter is proposed in [1]_.
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+    This function should be called at each model time step.
+    The function is a combination of :func:`pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__prodRinvA_pdaf
+            4. py__likelihood_l_pdaf
+            5. core DA algorithm
+            6. py__obs_op_pdaf
+               (only called with `HKN` and `HNK` options called for each ensemble member)
+            7. py__likelihood_hyb_l_pda
+            8. py__prodRinvA_hyb_l_pdaf
+        7. py__prepoststep_state_pdaf
+        8. py__distribute_state_pdaf
+        9. py__next_observation_pdaf
+
+    References
+    ----------
+    .. [1] Nerger, L.. (2022) 
+           Data assimilation for nonlinear systems with a hybrid nonlinear Kalman ensemble transform filter. 
+           Q J R Meteorol Soc, 620–640. doi:10.1002/qj.4221
 
     Parameters
     ----------
@@ -40439,7 +43016,10 @@ def localomi_assimilate_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -40457,7 +43037,10 @@ def localomi_assimilate_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -40559,7 +43142,8 @@ def localomi_assimilate_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -40790,23 +43374,36 @@ def localomi_assimilate_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                               int, 
                                                                               float]],
                                         outflag: int) -> int:
-    """Using LNETF for DA with non-diagonal observation error covariance matrix. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    8. py__likelihood_l_pdaf
-    9. core DA algorithm
-    10. py__prepoststep_state_pdaf
-    11. py__distribute_state_pdaf
-    12. py__next_observation_pdaf
-    
+    r"""LNETF for a single DA step using non-diagnoal observation error covariance matrix.
+
+    See :func:`pyPDAF.PDAF.localomi_assimilate` for using diagnoal observation error covariance matrix.
+    The non-linear filter is proposed in [1]_.
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+    This function should be called at each model time step.
+    The function is a combination of :func:`pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__likelihood_l_pdaf
+            4. core DA algorithm
+        7. py__prepoststep_state_pdaf
+        8. py__distribute_state_pdaf
+        9. py__next_observation_pdaf
+
+    References
+    ----------
+    .. [1] Tödter, J., and B. Ahrens, 2015:
+           A second-order exact ensemble square root filter
+           for nonlinear data assimilation. Mon. Wea. Rev.,
+           143, 1347–1367, doi:10.1175/MWR-D-14-00108.1.
 
     Parameters
     ----------
@@ -40929,7 +43526,10 @@ def localomi_assimilate_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -40947,7 +43547,10 @@ def localomi_assimilate_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -41155,24 +43758,35 @@ def localomi_assimilate_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                         int, 
                                                                         float]],
                                   outflag: int) -> int:
-    """Using domain localised filters for DA with non-diagonal observation error covariance matrix. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.localomi_put_state_local_nondiagR` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    8. py__init_obs_l_pdaf
-    9. py__prodRinvA_l_pdaf
-    10. core DA algorithm
-    11. py__prepoststep_state_pdaf
-    12. py__distribute_state_pdaf
-    13. py__next_observation_pdaf
-    
+    r"""Domain local filters for a single DA step using non-diagnoal observation error covariance matrix.
+
+    Here, this function call is used for LE(S)TKF [1]_ and LSEIK [1]_
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+    This function should be called at each model time step.
+    The function is a combination of :func:`pyPDAF.PDAF.localomi_put_state_local_nondiagR`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__init_obs_l_pdaf
+            4. py__prodRinvA_l_pdaf
+            5. core DA algorithm
+        7. py__prepoststep_state_pdaf
+        8. py__distribute_state_pdaf
+        9. py__next_observation_pdaf
+
+    References
+    ----------
+    .. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
 
     Parameters
     ----------
@@ -41295,7 +43909,10 @@ def localomi_assimilate_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -41313,7 +43930,10 @@ def localomi_assimilate_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -41415,7 +44035,8 @@ def localomi_assimilate_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -41498,22 +44119,46 @@ def localomi_put_state (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple
                         py__init_dim_obs_l_pdaf : Callable[[int, int, int, 
                                                             int], int],
                         outflag: int) -> int:
-    """Using domain localised filters for DA without post-processing and analysis distribution to forecsat with diagonal observation error covariance matrix. This is a domain localisation method. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. The LESTKF is a more efficient equivalent to the LETKF. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    8. core DA algorithm
-    9. py__prepoststep_state_pdaf
-    10. py__distribute_state_pdaf
-    11. py__next_observation_pdaf
-    
+    r"""Domain local filters for a single DA step using diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    Here, this function call is used for LE(S)TKF [1]_, 
+    LSEIK [1]_, LNETF [2]_, and LKNETF [3]_.
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+    Compared to :func:`pyPDAF.PDAF.localomi_assimilate_local`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The LESTKF is a more efficient equivalent to the LETKF.
+
+    This function should be called at each model time step.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. core DA algorithm
+
+    References
+    ----------
+    .. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
+    .. [2] Tödter, J., and B. Ahrens, 2015:
+           A second-order exact ensemble square root filter
+           for nonlinear data assimilation. Mon. Wea. Rev.,
+           143, 1347–1367, doi:10.1175/MWR-D-14-00108.1.
+    .. [3] Nerger, L.. (2022) 
+           Data assimilation for nonlinear systems with a hybrid nonlinear Kalman ensemble transform filter. 
+           Q J R Meteorol Soc, 620–640. doi:10.1002/qj.4221
 
     Parameters
     ----------
@@ -41616,7 +44261,10 @@ def localomi_put_state (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -41634,7 +44282,10 @@ def localomi_put_state (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -41781,32 +44432,42 @@ def localomi_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
                                                                         np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                         np.ndarray[tuple[int, int], np.dtype[np.float64]]]],
                                        outflag: int) -> int:
-    """Using 3DEnVar for DA without post-processing and analysis distribution to forecsat with diagonal observation error covariance matrix.
-    The background error covariance matrix is estimated by ensemble. The 3DEnVar only calculates the analysis of the ensemble mean.
-    An LESTKF is used to generate ensemble perturbations. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_ens_pdaf
-    6. py__obs_op_lin_pdaf
-    7. py__obs_op_adj_pdaf
-    8. py__cvt_adj_ens_pdaf
-    9. core DA algorithm
-    After the iterations: 
-    10. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    11. py__init_n_domains_p_pdaf
-    12. py__init_dim_obs_pdaf
-    13. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    14. py__init_dim_l_pdaf
-    15. py__init_dim_obs_l_pdaf
-    16. core DA algorithm
-    
+    r"""3DEnVar for a single DA step where the ensemble anomaly is generated by LESTKF using diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    Compared to :func:`pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The background error covariance matrix is estimated by ensemble.
+    The 3DEnVar only calculates the analysis of the ensemble mean.
+    An LESTKF is used to generate ensemble perturbations.
+    This function should be called at each model time step.
+
+    The user-supplied function are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. Starting the iterative optimisation:
+            1. py__cvt_ens_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__obs_op_adj_pdaf
+            4. py__cvt_adj_ens_pdaf
+            5. core DA algorithm
+        6. py__cvt_ens_pdaf
+        7. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. core DA algorithm
 
     Parameters
     ----------
@@ -42125,7 +44786,10 @@ def localomi_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -42143,7 +44807,10 @@ def localomi_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -42231,34 +44898,45 @@ def localomi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callabl
                                                                                  np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                                  np.ndarray[tuple[int, int], np.dtype[np.float64]]]],
                                                 outflag: int) -> int:
-    """Using 3DEnVar for DA with non-diagonal observation error covariance matrix
-    without post-processing and analysis distribution to forecsat without OMI. The background error covariance matrix is estimated by ensemble. The 3DEnVar only calculates the analysis of the ensemble mean.
-    An LESTKF is used to generate ensemble perturbations. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_ens_pdaf
-    6. py__obs_op_lin_pdaf
-    7. py__prodRinvA_pdaf
-    8. py__obs_op_adj_pdaf
-    9. py__cvt_adj_ens_pdaf
-    10. core DA algorithm
-    After the iterations: 
-    11. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    12. py__init_n_domains_p_pdaf
-    13. py__init_dim_obs_pdaf
-    14. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    15. py__init_dim_l_pdaf
-    16. py__init_dim_obs_l_pdaf (localise mean ensemble in observation space)
-    17. py__prodRinvA_l_pdaf
-    18. core DA algorithm
-    
+    r"""3DEnVar for a single DA step without post-processing, distributing analysis, and setting next observation step.
+
+     Here, the ensemble anomaly is generated by LESTKF using non-diagnoal observation error covariance matrix.
+
+    Compared to :func:`pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The background error covariance matrix is estimated by ensemble.
+    The 3DEnVar only calculates the analysis of the ensemble mean.
+    An LESTKF is used to generate ensemble perturbations.
+    This function should be called at each model time step.
+
+    The user-supplied function are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. Starting the iterative optimisation:
+            1. py__cvt_ens_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__prodRinvA_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_ens_pdaf
+            6. core DA algorithm
+        6. py__cvt_ens_pdaf
+        7. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__prodRinvA_l_pdaf
+                4. core DA algorithm
 
     Parameters
     ----------
@@ -42349,7 +45027,9 @@ def localomi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callabl
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -42533,7 +45213,8 @@ def localomi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callabl
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -42653,7 +45334,10 @@ def localomi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callabl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -42671,7 +45355,10 @@ def localomi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callabl
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -42754,34 +45441,47 @@ def localomi_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
                                                                          np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                          np.ndarray[tuple[int, int], np.dtype[np.float64]]]],
                                         outflag: int) -> int:
-    """Using 3DEnVar for DA without post-processing and analysis distribution to forecsat with diagonal observation error covariance matrix.
-    Here, the background error covariance is hybridised by a static background error covariance, and a flow-dependent background error covariance estimated from ensemble. The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
-    LESTKF in this implementation. 
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_ens_pdaf
-    6. py__obs_op_lin_pdaf
-    7. py__obs_op_adj_pdaf
-    8. py__cvt_adj_ens_pdaf
-    9. core DA algorithm
-    After the iterations: 
-    10. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    11. py__init_n_domains_p_pdaf
-    12. py__init_dim_obs_pdaf
-    13. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    14. py__init_dim_l_pdaf
-    15. py__init_dim_obs_l_pdaf (localise mean ensemble in observation space)
-    16. core DA algorith
-    
+    r"""Hybrid 3DEnVar for a single DA step using diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    Here, the background error covariance is hybridised by a static background error covariance,
+    and a flow-dependent background error covariance estimated from ensemble.
+
+    Compared to :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
+    LESTKF in this implementation.
+    This function should be called at each model time step.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. The iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__cvt_ens_pdaf
+            3. py__obs_op_lin_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_pdaf
+            6. py__cvt_adj_ens_pdaf
+            7. core DA algorithm
+        6. py__cvt_pdaf
+        7. py__cvt_ens_pdaf
+        8. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. core DA algorithm
 
     Parameters
     ----------
@@ -43164,7 +45864,10 @@ def localomi_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -43182,7 +45885,10 @@ def localomi_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -43280,40 +45986,49 @@ def localomi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callab
                                                                                   np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                                   np.ndarray[tuple[int, int], np.dtype[np.float64]]]],
                                                  outflag: int) -> int:
-    """Using Hybrid 3DEnVar for DA with non-diagonal observation error covariance matrix
-    without post-processing and analysis distribution to forecsat without OMI. Here, the background error covariance is hybridised by a static background error covariance, and a flow-dependent background error covariance estimated from ensemble. The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
-    LESTKF in this implementation. This function should be called at each model time step. 
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    Starting the iterative optimisation:
-    5. py__cvt_pdaf
-    6. py__cvt_ens_pdaf
-    7. py__obs_op_lin_pdaf
-    8. py__prodRinvA_pdaf
-    9. py__obs_op_adj_pdaf
-    10. py__cvt_adj_pdaf
-    11. py__cvt_adj_ens_pdaf
-    12. core DA algorithm
-    After the iterations: 
-    13. py__cvt_pdaf
-    14. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    15. py__init_n_domains_p_pdaf
-    16. py__init_dim_obs_pdaf
-    17. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    18. py__init_dim_l_pdaf
-    19. py__init_dim_obs_l_pdaf
-    20. py__init_obs_l_pdaf
-    21. py__prodRinvA_l_pdaf
-    22. core DA algorithm
-    
+    r"""Hybrid 3DEnVar for a single DA step using non-diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    Here, the background error covariance is hybridised by a static background error covariance,
+    and a flow-dependent background error covariance estimated from ensemble.
+
+    Compared to :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
+    LESTKF in this implementation.
+    This function should be called at each model time step.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. The iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__cvt_ens_pdaf
+            3. py__obs_op_lin_pdaf
+            4. py__prodRinvA_pdaf
+            5. py__obs_op_adj_pdaf
+            6. py__cvt_adj_pdaf
+            7. py__cvt_adj_ens_pdaf
+            8. core DA algorithm
+        6. py__cvt_pdaf
+        7. py__cvt_ens_pdaf
+        8. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__prodRinvA_l_pdaf
+                4. core DA algorithm
 
     Parameters
     ----------
@@ -43404,7 +46119,9 @@ def localomi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callab
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -43652,7 +46369,8 @@ def localomi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callab
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -43772,7 +46490,10 @@ def localomi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callab
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -43790,7 +46511,10 @@ def localomi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf : Callab
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -43869,26 +46593,44 @@ def localomi_put_state_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                               float, 
                                                                               float], float],
                                         outflag: int) -> int:
-    """Using LKNETF for DA with non-diagonal observation error covariance matrix without post-processing and analysis distribution to forecsat without OMI. This function should be called at each model time step. 
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    8. py__prodRinvA_pdaf
-    9. py__likelihood_l_pdaf
-    10. core DA algorithm
-    11. py__obs_op_pdaf (only called with `HKN` and `HNK` options called for each ensemble member
-    12. py__likelihood_hyb_l_pda
-    13. py__prodRinvA_hyb_l_pdaf
-    
+    r"""LKNETF for a single DA step using non-diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    See :func:`pyPDAF.PDAF.localomi_assimilate` for using diagnoal observation error covariance matrix.
+    The non-linear filter is proposed in [1]_.
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+
+    Compared to :func:`pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    This function should be called at each model time step.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__prodRinvA_pdaf
+            4. py__likelihood_l_pdaf
+            5. core DA algorithm
+            6. py__obs_op_pdaf
+               (only called with `HKN` and `HNK` options called for each ensemble member)
+            7. py__likelihood_hyb_l_pda
+            8. py__prodRinvA_hyb_l_pdaf
+
+    References
+    ----------
+    .. [1] Nerger, L.. (2022) 
+           Data assimilation for nonlinear systems with a hybrid nonlinear Kalman ensemble transform filter.
+           Q J R Meteorol Soc, 620–640. doi:10.1002/qj.4221
 
     Parameters
     ----------
@@ -43991,7 +46733,10 @@ def localomi_put_state_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -44009,7 +46754,10 @@ def localomi_put_state_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -44111,7 +46859,8 @@ def localomi_put_state_lknetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -44298,22 +47047,40 @@ def localomi_put_state_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                          np.ndarray[tuple[int], np.dtype[np.float64]], 
                                                                          float], float],
                                        outflag: int) -> int:
-    """Using LNETF for DA with non-diagonal observation error covariance matrix without post-processing and analysis distribution to forecsat without OMI. This function should be called at each model time step. 
+    r"""LNETF for a single DA step using non-diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    See :func:`pyPDAF.PDAF.localomi_put_state` for using diagnoal observation error covariance matrix.
+    The non-linear filter is proposed in [1]_.
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+
+    Compared to :func:`pyPDAF.PDAF.omi_assimilate_lnetf_nondiagR`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    This function should be called at each model time step.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__likelihood_l_pdaf
+            4. core DA algorithm
     
-    The function is a combination of `pyPDAF.PDAF.omi_put_state_lnetf_nondiagR` This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    8. py__likelihood_l_pdaf
-    9. core DA algorithm
-    
+    References
+    ----------
+    .. [1] Tödter, J., and B. Ahrens, 2015:
+           A second-order exact ensemble square root filter
+           for nonlinear data assimilation. Mon. Wea. Rev.,
+           143, 1347–1367, doi:10.1175/MWR-D-14-00108.1.
 
     Parameters
     ----------
@@ -44416,7 +47183,10 @@ def localomi_put_state_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -44434,7 +47204,10 @@ def localomi_put_state_lnetf_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -44597,23 +47370,39 @@ def localomi_put_state_nondiagR (py__collect_state_pdaf : Callable[[int,
                                                                   np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                   np.ndarray[tuple[int, int], np.dtype[np.float64]]], np.ndarray[tuple[int, int], np.dtype[np.float64]]],
                                  outflag: int) -> int:
-    """Using domain localised filters for DA with non-diagonal observation error covariance matrix without post-processing and analysis distribution to forecsat without OMI. This function should be called at each model time step. 
+    r"""Domain local filters for a single DA step using non-diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step.
+
+    Here, this function call is used for LE(S)TKF [1]_ and LSEIK [1]_
+    The filter type is set in :func:`pyPDAF.PDAF.init`.
+
+    Compared to :func:`pyPDAF.PDAF.localomi_assimilate_local_nondiagR`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    This function should be called at each model time step.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__init_obs_l_pdaf
+            4. py__prodRinvA_l_pdaf
+            5. core DA algorithm
     
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    9. py__init_obs_l_pdaf
-    10. py__prodRinvA_l_pdaf
-    11. core DA algorithm
-    
+    References
+    ----------
+    .. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
 
     Parameters
     ----------
@@ -44716,7 +47505,10 @@ def localomi_put_state_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -44734,7 +47526,10 @@ def localomi_put_state_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -44836,7 +47631,8 @@ def localomi_put_state_nondiagR (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -44975,49 +47771,65 @@ def local_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
                                                                            int, 
                                                                            float]]
                                     ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency.
-    I.e., `pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf` or `pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR`. 
-    
-    
-    Using 3DEnVar for DA without OMI.
-    The background error covariance matrix is estimated by ensemble. The 3DEnVar only calculates the analysis of the ensemble mean.
-    An LESTKF is used to generate ensemble perturbations. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.local_put_state_en3dvar_lestkf`
-    and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    5. py__init_obs_pdaf
-    Starting the iterative optimisation:
-    6. py__cvt_ens_pdaf
-    7. py__obs_op_lin_pdaf
-    8. py__prodRinvA_pdaf
-    9. py__obs_op_adj_pdaf
-    10. py__cvt_adj_ens_pdaf
-    11. core DA algorithm
-    After the iterations: 
-    12. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    13. py__init_n_domains_p_pdaf
-    14. py__init_dim_obs_pdaf
-    15. py__obs_op_pdaf (for each ensemble member
-    16. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init
-    17. py__init_obsvar_pdaf (if global adaptive forgetting factor is used
-    loop over each local domain:
-    18. py__init_dim_l_pdaf
-    19. py__init_dim_obs_l_pdaf
-    20. py__g2l_obs_pdaf (localise mean ensemble in observation space)
-    21. py__init_obs_l_pdaf
-    22. py__g2l_obs_pdaf (localise each ensemble member in observation space
-    23. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    24. py__prodRinvA_l_pdaf
-    25. core DA algorithm
-    26. py__prepoststep_state_pdaf
-    27. py__distribute_state_pdaf
-    28. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf`
+    or :func:`pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    3DEnVar for a single DA step where the ensemble anomaly is generated by LESTKF.
+    The background error covariance matrix is estimated by ensemble.
+    The 3DEnVar only calculates the analysis of the ensemble mean.
+    An LESTKF is used to generate ensemble perturbations.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.local_put_state_en3dvar_lestkf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied function are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. py__init_obs_pdaf
+        6. Starting the iterative optimisation:
+            1. py__cvt_ens_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__prodRinvA_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_ens_pdaf
+            6. core DA algorithm
+        7. py__cvt_ens_pdaf
+        8. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. py__init_obs_pdaf
+               (if global adaptive forgetting factor is used
+               `type_forget=1` in :func:`pyPDAF.PDAF.init`)
+            5. py__init_obsvar_pdaf
+               (if global adaptive forgetting factor is used)
+            6. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__g2l_obs_pdaf
+                   (localise mean ensemble in observation space)
+                4. py__init_obs_l_pdaf
+                5. py__g2l_obs_pdaf
+                   (localise each ensemble member in observation space)
+                6. py__init_obsvar_l_pdaf
+                   (only called if local adaptive forgetting factor
+                   `type_forget=2` is used)
+                7. py__prodRinvA_l_pdaf
+                8. core DA algorithm
+        9. py__prepoststep_state_pdaf
+        10. py__distribute_state_pdaf
+        11. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf_nondiagR`
 
     Parameters
     ----------
@@ -45152,7 +47964,9 @@ def local_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -45440,7 +48254,8 @@ def local_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -45668,7 +48483,10 @@ def local_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -45686,7 +48504,10 @@ def local_assimilate_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -45859,52 +48680,67 @@ def local_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
                                                                             int, 
                                                                             float]]
                                      ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency.
-    I.e., `pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf` or `pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR`. 
-    
-    
-    Using Hybrid 3DEnVar for DA without OMI.
-    Here, the background error covariance is hybridised by a static background error covariance, and a flow-dependent background error covariance estimated from ensemble. The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
-    LESTKF in this implementation. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.local_put_state_hyb3dvar_lestkf`
-    and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    5. py__init_obs_pdaf
-    Starting the iterative optimisation:
-    6. py__cvt_pdaf
-    7. py__cvt_ens_pdaf
-    8. py__obs_op_lin_pdaf
-    9. py__prodRinvA_pdaf
-    10. py__obs_op_adj_pdaf
-    11. py__cvt_adj_pdaf
-    12. py__cvt_adj_ens_pdaf
-    13. core DA algorithm
-    After the iterations: 
-    14. py__cvt_pdaf
-    15. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    16. py__init_n_domains_p_pdaf
-    17. py__init_dim_obs_pdaf
-    18. py__obs_op_pdaf (for each ensemble member
-    19. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in `pyPDAF.PDAF.init`))
-    20. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)
-    loop over each local domain:
-    21. py__init_dim_l_pdaf
-    22. py__init_dim_obs_l_pdaf
-    23. py__g2l_obs_pdaf (localise mean ensemble in observation space)
-    24. py__init_obs_l_pdaf
-    25. py__g2l_obs_pdaf (localise each ensemble member in observation space)
-    26. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used)
-    27. py__prodRinvA_l_pdaf
-    28. core DA algorithm
-    29. py__prepoststep_state_pdaf
-    30. py__distribute_state_pdaf
-    31. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf`
+    or :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Hybrid 3DEnVar for a single DA step where
+    the background error covariance is hybridised by a static background error covariance,
+    and a flow-dependent background error covariance estimated from ensemble.
+    The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
+    LESTKF in this implementation.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.local_put_state_hyb3dvar_lestkf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. py__init_obs_pdaf
+        6. The iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__cvt_ens_pdaf
+            3. py__obs_op_lin_pdaf
+            4. py__prodRinvA_pdaf
+            5. py__obs_op_adj_pdaf
+            6. py__cvt_adj_pdaf
+            7. py__cvt_adj_ens_pdaf
+            8. core DA algorithm
+        7. py__cvt_pdaf
+        8. py__cvt_ens_pdaf
+        9. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. py__init_obs_pdaf
+               (if global adaptive forgetting factor `type_forget=1` in :func:`pyPDAF.PDAF.init`)
+            5. py__init_obsvar_pdaf
+               (if global adaptive forgetting factor is used)
+            6. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__g2l_obs_pdaf
+                   (localise mean ensemble in observation space)
+                4. py__init_obs_l_pdaf
+                5. py__g2l_obs_pdaf
+                   (localise each ensemble member in observation space)
+                6. py__init_obsvar_l_pdaf
+                   (only called if local adaptive forgetting factor `type_forget=2` is used)
+                7. py__prodRinvA_l_pdaf
+                8. core DA algorithm
+        10. py__prepoststep_state_pdaf
+        11. py__distribute_state_pdaf
+        12. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf_nondiagR`
 
     Parameters
     ----------
@@ -46039,7 +48875,9 @@ def local_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -46391,7 +49229,8 @@ def local_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -46619,7 +49458,10 @@ def local_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -46637,7 +49479,10 @@ def local_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -46738,29 +49583,53 @@ def local_assimilate_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[
                                                                    int, 
                                                                    float]]
                             ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_assimilate` or `pyPDAF.PDAF.localomi_assimilate_nondiagR`. 
-    Using Local ESTKF (error space transform Kalman filter) for DA without OMI. This is a domain localisation method. This function should be called at each model time step. The LESTKF is a more efficient equivalent to the LETKF. 
-    
-    The function is a combination of `pyPDAF.PDAF.local_put_state_lestkf` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    6. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init
-    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used
-    loop over each local domain:
-    8. py__init_dim_l_pdaf
-    9. py__init_dim_obs_l_pdaf
-    10. py__g2l_obs_pdaf (localise mean ensemble in observation space)
-    11. py__init_obs_l_pdaf
-    12. py__g2l_obs_pdaf (localise each ensemble member in observation space
-    13. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    14. py__prodRinvA_l_pdaf
-    15. core DA algorithm
-    16. py__prepoststep_state_pdaf
-    17. py__distribute_state_pdaf (18. py__next_observation_pdaf 
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`
+    or :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Local ESTKF (error space transform Kalman filter) [1]_ for a single DA step without OMI.
+    The LESTKF is a more efficient equivalent to the LETKF.
+
+    This function should be called at each model time step.
+    The function is a combination of :func:`pyPDAF.PDAF.local_put_state_lestkf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. py__init_obs_pdaf
+           (if global adaptive forgetting factor `type_forget=1` is used
+           in :func:`pyPDAF.PDAF.init`)
+        7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)
+        8. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_obs_pdaf (localise mean ensemble in observation space)
+            4. py__init_obs_l_pdaf
+            5. py__g2l_obs_pdaf
+               (localise each ensemble member in observation space)
+            6. py__init_obsvar_l_pdaf
+               (only called if local adaptive forgetting factor `type_forget=2` is used)
+            7. py__prodRinvA_l_pdaf
+            8. core DA algorithm
+        9. py__prepoststep_state_pdaf
+        10. py__distribute_state_pdaf
+        11. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`
+
+    References
+    ----------
+    .. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
 
     Parameters
     ----------
@@ -46935,7 +49804,10 @@ def local_assimilate_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -46953,7 +49825,10 @@ def local_assimilate_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -46983,7 +49858,8 @@ def local_assimilate_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -47273,30 +50149,56 @@ def local_assimilate_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
                                                                   int, 
                                                                   float]]
                            ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_assimilate` or `pyPDAF.PDAF.localomi_assimilate_nondiagR`. 
-    Using local ensemble transform Kalman filter for DA without OMI. This is a domain localisation method. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.local_put_state_letkf` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    6. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init
-    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used
-    loop over each local domain:
-    8. py__init_dim_l_pdaf
-    9. py__init_dim_obs_l_pdaf
-    10. py__g2l_obs_pdaf (localise mean ensemble in observation space)
-    11. py__init_obs_l_pdaf
-    12. py__g2l_obs_pdaf (localise each ensemble member in observation space
-    13. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    14. py__prodRinvA_l_pdaf
-    15. core DA algorithm
-    16. py__prepoststep_state_pdaf
-    17. py__distribute_state_pdaf
-    18. py__next_observation_pdaf 
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`
+    or :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Local ensemble transform Kalman filter (LETKF) [1]_ for a single DA step without OMI. Implementation is based on [2]_.
+    Note that the LESTKF is a more efficient equivalent to the LETKF.
+
+    This function should be called at each model time step.
+    The function is a combination of :func:`pyPDAF.PDAF.local_put_state_letkf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. py__init_obs_pdaf
+           (if global adaptive forgetting factor `type_forget=1` is used
+           in :func:`pyPDAF.PDAF.init`)
+        7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)
+        8. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_obs_pdaf (localise mean ensemble in observation space)
+            4. py__init_obs_l_pdaf
+            5. py__g2l_obs_pdaf (localise each ensemble member in observation space)
+            6. py__init_obsvar_l_pdaf
+               (only called if local adaptive forgetting factor `type_forget=2` is used)
+            7. py__prodRinvA_l_pdaf
+            8. core DA algorithm
+        9. py__prepoststep_state_pdaf
+        10. py__distribute_state_pdaf
+        11. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`
+
+    References
+    ----------
+    .. [1] Hunt, B. R., Kostelich, E. J., & Szunyogh, I. (2007).
+           Efficient data assimilation for spatiotemporal chaos:
+           A local ensemble transform Kalman filter. 
+           Physica D: Nonlinear Phenomena, 230(1-2), 112-126.
+    .. [2] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
 
     Parameters
     ----------
@@ -47471,7 +50373,10 @@ def local_assimilate_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -47489,7 +50394,10 @@ def local_assimilate_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -47519,7 +50427,8 @@ def local_assimilate_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -47829,35 +50738,64 @@ def local_assimilate_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[
                                                                    int, 
                                                                    float]]
                             ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_assimilate` or `pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR`. 
-    This function will is a hybridised LETKF and LNETF for DA without OMI. The LNETF computes the distribution up to the second moment similar to KF but using a nonlinear weighting similar to particle filter. This leads to an equal weights assumption for prior ensemble. The hybridisation with LETKF is expected to lead to improved performance for quasi-Gaussian problems. The function should be called at each model step. 
-    
-    The function is a combination of `pyPDAF.PDAF.local_put_state_lknetf` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf 
-    2. py__prepoststep_state_pdaf 
-    3. py__init_n_domains_p_pdaf 
-    4. py__init_dim_obs_pdaf 
-    5. py__obs_op_pdaf (for each ensemble member)
-    6. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in `pyPDAF.PDAF.init`
-    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used
-    loop over each local domain:
-    8. py__init_dim_l_pdaf 
-    9. py__init_dim_obs_l_pdaf 
-    10. py__g2l_obs_pdaf (localise each ensemble member in observation space
-    11. py__init_obs_l_pdaf 
-    12. py__init_obsvar_l_pdaf 
-(only called if local adaptive forgetting factor (type_forget=2) is used
-    13. py__prodRinvA_pdaf 
-    14. py__likelihood_l_pdaf 
-    15. core DA algorithm 
-    16. py__obs_op_pdaf (only called with `HKN` and `HNK` options called for each ensemble member)
-    17. py__likelihood_hyb_l_pdaf
-    18. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    19. py__prodRinvA_hyb_l_pdaf 
-    20. py__prepoststep_state_pdaf 
-    21. py__distribute_state_pdaf 
-    22. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`
+    or :func:`pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    A hybridised LETKF and LNETF [1]_ for a single DA step.
+    The LNETF computes the distribution up to
+    the second moment similar to Kalman filters but using a nonlinear weighting similar to
+    particle filters. This leads to an equal weights assumption for the prior ensemble.
+    The hybridisation with LETKF is expected to lead to improved performance for
+    quasi-Gaussian problems.
+    The function should be called at each model step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.local_put_state_lknetf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    This function executes the user-supplied function in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf
+           (for each ensemble member)
+        6. py__init_obs_pdaf
+           (if global adaptive forgetting factor `type_forget=1`
+           is used in :func:`pyPDAF.PDAF.init`)
+        7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)
+        8. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_obs_pdaf
+               (localise each ensemble member in observation space)
+            4. py__init_obs_l_pdaf
+            5. py__init_obsvar_l_pdaf
+               (only called if local adaptive forgetting factor `type_forget=2` is used)
+            6. py__prodRinvA_pdaf
+            7. py__likelihood_l_pdaf
+            8. core DA algorithm
+        9. py__obs_op_pdaf
+           (only called with `HKN` and `HNK` options called for each ensemble member)
+        10. py__likelihood_hyb_l_pda
+        11. py__init_obsvar_l_pdaf
+            (only called if local adaptive forgetting factor `type_forget=2` is used)
+        12. py__prodRinvA_hyb_l_pdaf
+        13. py__prepoststep_state_pdaf
+        14. py__distribute_state_pdaf
+        15. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_lknetf_nondiagR`
+
+    References
+    ----------
+    .. [1] Nerger, L.. (2022) 
+           Data assimilation for nonlinear systems with a hybrid nonlinear Kalman ensemble transform filter. 
+           Q J R Meteorol Soc, 620–640. doi:10.1002/qj.4221
 
     Parameters
     ----------
@@ -48032,7 +50970,10 @@ def local_assimilate_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -48050,7 +50991,10 @@ def local_assimilate_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -48080,7 +51024,8 @@ def local_assimilate_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -48482,26 +51427,48 @@ def local_assimilate_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
                                                                   int, 
                                                                   float]]
                            ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_assimilate` or `pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR`. 
-    This function will use Local Nonlinear Ensemble Transform Filter (LNETF) for DA without OMI. The nonlinear filter computes the distribution up to the second moment similar to KF but using a nonlinear weighting similar to particle filter. This leads to an equal weights assumption for prior ensemble. This function should be called at each model time step. 
-    
-    The function is a combination of `pyPDAF.PDAF.local_put_state_lnetf` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    8. py__init_obs_l_pdaf
-    9. py__g2l_obs_pdaf (localise each ensemble member in observation space)
-    10. py__likelihood_l_pdaf
-    11. core DA algorithm
-    12. py__prepoststep_state_pdaf
-    13. py__distribute_state_pdaf
-    14. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`
+    or :func:`pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Local Nonlinear Ensemble Transform Filter (LNETF) [1]_ for a single DA step.
+    The nonlinear filter computes the distribution up to
+    the second moment similar to Kalman filters but it uses a nonlinear weighting similar to
+    particle filters. This leads to an equal weights assumption for the prior ensemble at each step.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.local_put_state_lnetf`
+    and :func:`pyPDAF.PDAF.get_state`.
+
+    This function executes the user-supplied function in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__init_obs_l_pdaf
+            4. py__g2l_obs_pdaf (localise each ensemble member in observation space)
+            5. py__likelihood_l_pdaf
+            6. core DA algorithm
+        7. py__prepoststep_state_pdaf
+        8. py__distribute_state_pdaf
+        9. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_lnetf_nondiagR`
+
+    References
+    ----------
+    .. [1] Tödter, J., and B. Ahrens, 2015:
+           A second-order exact ensemble square root filter
+           for nonlinear data assimilation. Mon. Wea. Rev.,
+           143, 1347–1367, doi:10.1175/MWR-D-14-00108.1.
 
     Parameters
     ----------
@@ -48652,7 +51619,10 @@ def local_assimilate_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -48670,7 +51640,10 @@ def local_assimilate_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -48922,30 +51895,52 @@ def local_assimilate_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[t
                                                                   int, 
                                                                   float]]
                            ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_assimilate` or `pyPDAF.PDAF.localomi_assimilate_nondiagR`. 
-    Using local singular evolutive interpolated Kalman filter for DA without OMI. This is a domain localisation method. This function should be called at each model time step.
-    
-    The function is a combination of `pyPDAF.PDAF.local_put_state_lseik` and `pyPDAF.PDAF.get_state`, and executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    6. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init
-    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used
-    loop over each local domain:
-    8. py__init_dim_l_pdaf
-    9. py__init_dim_obs_l_pdaf
-    10. py__g2l_obs_pdaf (localise mean ensemble in observation space)
-    11. py__init_obs_l_pdaf
-    12. py__g2l_obs_pdaf (localise each ensemble member in observation space
-    13. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    14. py__prodRinvA_l_pdaf
-    15. core DA algorithm
-    16. py__prepoststep_state_pdaf
-    17. py__distribute_state_pdaf
-    18. py__next_observation_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_assimilate`
+    or :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Local singular evolutive interpolated Kalman filter [1]_ for a single DA step.
+    This function should be called at each model time step.
+
+    The function is a combination of :func:`pyPDAF.PDAF.local_put_state_lseik` and :func:`pyPDAF.PDAF.get_state`
+
+    This function  executes the user-supplied functions in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. py__init_obs_pdaf
+           (if global adaptive forgetting factor `type_forget=1`
+           is used in :func:`pyPDAF.PDAF.init`)
+        7. py__init_obsvar_pdaf
+           (if global adaptive forgetting factor is used)
+        8. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_obs_pdaf (localise mean ensemble in observation space)
+            4. py__init_obs_l_pdaf
+            5. py__g2l_obs_pdaf
+               (localise each ensemble member in observation space)
+            6. py__init_obsvar_l_pdaf
+               (only called if local adaptive forgetting factor `type_forget=2` is used)
+            7. py__prodRinvA_l_pdaf
+            8. core DA algorithm
+        9. py__prepoststep_state_pdaf
+        10. py__distribute_state_pdaf
+        11. py__next_observation_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_assimilate`
+       and :func:`pyPDAF.PDAF.localomi_assimilate_nondiagR`
+
+    References
+    ----------
+    .. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).
+           A singular evolutive extended Kalman filter for data assimilation
+           in oceanography. Journal of Marine systems, 16(3-4), 323-340.
 
     Parameters
     ----------
@@ -49120,7 +52115,10 @@ def local_assimilate_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -49138,7 +52136,10 @@ def local_assimilate_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -49168,7 +52169,8 @@ def local_assimilate_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -49508,45 +52510,68 @@ def local_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
                                                                      np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                      np.ndarray[tuple[int, int], np.dtype[np.float64]]]]
                                    ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency.
-    I.e., `pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf` or `pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR`. 
-    
-    
-    Using 3DEnVar for DA without post-processing and analysis distribution to forecsat without OMI.
-    The background error covariance matrix is estimated by ensemble. The 3DEnVar only calculates the analysis of the ensemble mean.
-    An LESTKF is used to generate ensemble perturbations. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    5. py__init_obs_pdaf
-    Starting the iterative optimisation:
-    6. py__cvt_ens_pdaf
-    7. py__obs_op_lin_pdaf
-    8. py__prodRinvA_pdaf
-    9. py__obs_op_adj_pdaf
-    10. py__cvt_adj_ens_pdaf
-    11. core DA algorithm
-    After the iterations: 
-    12. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    13. py__init_n_domains_p_pdaf
-    14. py__init_dim_obs_pdaf
-    15. py__obs_op_pdaf (for each ensemble member
-    16. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init
-    17. py__init_obsvar_pdaf (if global adaptive forgetting factor is used
-    loop over each local domain:
-    18. py__init_dim_l_pdaf
-    19. py__init_dim_obs_l_pdaf
-    20. py__g2l_obs_pdaf (localise mean ensemble in observation space)
-    21. py__init_obs_l_pdaf
-    22. py__g2l_obs_pdaf (localise each ensemble member in observation space
-    23. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    24. py__prodRinvA_pdaf
-    25. core DA algorithm
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf`
+    or :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    3DEnVar for a single DA step without post-processing, distributing analysis, and setting next observation step,
+     where the ensemble anomaly is generated by LESTKF.
+
+    Compared to :func:`pyPDAF.PDAF.local_assimilate_en3dvar_lestkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The background error covariance matrix is estimated by ensemble.
+    The 3DEnVar only calculates the analysis of the ensemble mean.
+    An LESTKF is used to generate ensemble perturbations.
+    This function should be called at each model time step.
+
+    The user-supplied function are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. py__init_obs_pdaf
+        6. Starting the iterative optimisation:
+            1. py__cvt_ens_pdaf
+            2. py__obs_op_lin_pdaf
+            3. py__prodRinvA_pdaf
+            4. py__obs_op_adj_pdaf
+            5. py__cvt_adj_ens_pdaf
+            6. core DA algorithm
+        7. py__cvt_ens_pdaf
+        8. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. py__init_obs_pdaf
+               (if global adaptive forgetting factor is used
+               `type_forget=1` in :func:`pyPDAF.PDAF.init`)
+            5. py__init_obsvar_pdaf
+               (if global adaptive forgetting factor is used)
+            6. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__g2l_obs_pdaf
+                   (localise mean ensemble in observation space)
+                4. py__init_obs_l_pdaf
+                5. py__g2l_obs_pdaf
+                   (localise each ensemble member in observation space)
+                6. py__init_obsvar_l_pdaf
+                   (only called if local adaptive forgetting factor
+                   `type_forget=2` is used)
+                7. py__prodRinvA_l_pdaf
+                8. core DA algorithm
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf`
+       and :func:`pyPDAF.PDAF.localomi_put_state_en3dvar_lestkf_nondiagR`
 
     Parameters
     ----------
@@ -49661,7 +52686,9 @@ def local_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -49949,7 +52976,8 @@ def local_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -50177,7 +53205,10 @@ def local_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -50195,7 +53226,10 @@ def local_put_state_en3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -50322,50 +53356,70 @@ def local_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
                                                                       np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                                       np.ndarray[tuple[int, int], np.dtype[np.float64]]]]
                                     ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency.
-    I.e., `pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf` or `pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR`. 
-    
-    
-    Using Hybrid 3DEnVar for DA without post-processing and analysis distribution to forecsat without OMI.
-    Here, the background error covariance is hybridised by a static background error covariance, and a flow-dependent background error covariance estimated from ensemble. The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
-    LESTKF in this implementation. 
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_dim_obs_pdaf
-    4. py__obs_op_pdaf
-    5. py__init_obs_pdaf
-    Starting the iterative optimisation:
-    6. py__cvt_pdaf
-    7. py__cvt_ens_pdaf
-    8. py__obs_op_lin_pdaf
-    9. py__prodRinvA_pdaf
-    10. py__obs_op_adj_pdaf
-    11. py__cvt_adj_pdaf
-    12. py__cvt_adj_ens_pdaf
-    13. core DA algorithm
-    After the iterations: 
-    14. py__cvt_pdaf
-    15. py__cvt_ens_pdaf
-    Perform LESTKF: 
-    16. py__init_n_domains_p_pdaf
-    17. py__init_dim_obs_pdaf
-    18. py__obs_op_pdaf (for each ensemble member
-    19. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in `pyPDAF.PDAF.init`))
-    20. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)
-    loop over each local domain:
-    21. py__init_dim_l_pdaf
-    22. py__init_dim_obs_l_pdaf
-    23. py__g2l_obs_pdaf (localise mean ensemble in observation space)
-    24. py__init_obs_l_pdaf
-    25. py__g2l_obs_pdaf (localise each ensemble member in observation space)
-    26. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used)
-    27. py__prodRinvA_pdaf
-    28. core DA algorithm
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf`
+    or :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Hybrid 3DEnVar for a single DA step using non-diagnoal observation error covariance matrix
+    without post-processing, distributing analysis, and setting next observation step, where
+    the background error covariance is hybridised by a static background error covariance,
+    and a flow-dependent background error covariance estimated from ensemble.
+
+    Compared to :func:`pyPDAF.PDAF.local_assimilate_hyb3dvar_lestkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The 3DVar generates an ensemble mean and the ensemble perturbation is generated by
+    LESTKF in this implementation.
+    This function should be called at each model time step.
+
+    The user-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_dim_obs_pdaf
+        4. py__obs_op_pdaf
+        5. py__init_obs_pdaf
+        6. The iterative optimisation:
+            1. py__cvt_pdaf
+            2. py__cvt_ens_pdaf
+            3. py__obs_op_lin_pdaf
+            4. py__prodRinvA_pdaf
+            5. py__obs_op_adj_pdaf
+            6. py__cvt_adj_pdaf
+            7. py__cvt_adj_ens_pdaf
+            8. core DA algorithm
+        7. py__cvt_pdaf
+        8. py__cvt_ens_pdaf
+        9. Perform LESTKF:
+            1. py__init_n_domains_p_pdaf
+            2. py__init_dim_obs_pdaf
+            3. py__obs_op_pdaf
+               (for each ensemble member)
+            4. py__init_obs_pdaf
+               (if global adaptive forgetting factor `type_forget=1` in :func:`pyPDAF.PDAF.init`)
+            5. py__init_obsvar_pdaf
+               (if global adaptive forgetting factor is used)
+            6. loop over each local domain:
+                1. py__init_dim_l_pdaf
+                2. py__init_dim_obs_l_pdaf
+                3. py__g2l_obs_pdaf
+                   (localise mean ensemble in observation space)
+                4. py__init_obs_l_pdaf
+                5. py__g2l_obs_pdaf
+                   (localise each ensemble member in observation space)
+                6. py__init_obsvar_l_pdaf
+                   (only called if local adaptive forgetting factor `type_forget=2` is used)
+                7. py__prodRinvA_l_pdaf
+                8. core DA algorithm
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf`
+       and :func:`pyPDAF.PDAF.localomi_put_state_hyb3dvar_lestkf_nondiagR`
 
     Parameters
     ----------
@@ -50480,7 +53534,9 @@ def local_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one
+                (or the rank of the initial covariance matrix)
 
         * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
 
@@ -50832,7 +53888,8 @@ def local_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -51060,7 +54117,10 @@ def local_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -51078,7 +54138,10 @@ def local_put_state_hyb3dvar_lestkf (py__collect_state_pdaf : Callable[[int,
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -51134,27 +54197,56 @@ def local_put_state_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
                                                                int, np.ndarray[tuple[int], np.dtype[np.float64]], 
                                                                int, float], float]
                            ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_put_state` or `pyPDAF.PDAF.localomi_put_state_nondiagR`. 
-    Using Local ESTKF (error space transform Kalman filter) for DA without post-processing and analysis distribution to forecsat without OMI. This is a domain localisation method. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. The LESTKF is a more efficient equivalent to the LETKF. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    6. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init
-    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used
-    loop over each local domain:
-    8. py__init_dim_l_pdaf
-    9. py__init_dim_obs_l_pdaf
-    10. py__g2l_obs_pdaf (localise mean ensemble in observation space)
-    11. py__init_obs_l_pdaf
-    12. py__g2l_obs_pdaf (localise each ensemble member in observation space
-    13. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    14. py__prodRinvA_l_pdaf
-    15. core DA algorithm
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state`
+    or :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Local ESTKF (error space transform Kalman filter) [1]_ for a single DA step without OMI.
+
+    Compared to :func:`pyPDAF.PDAF.local_assimilate_lestkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The LESTKF is a more efficient equivalent to the LETKF.
+
+    This function should be called at each model time step.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. py__init_obs_pdaf
+           (if global adaptive forgetting factor `type_forget=1` is used
+           in :func:`pyPDAF.PDAF.init`)
+        7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)
+        8. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_obs_pdaf (localise mean ensemble in observation space)
+            4. py__init_obs_l_pdaf
+            5. py__g2l_obs_pdaf
+               (localise each ensemble member in observation space)
+            6. py__init_obsvar_l_pdaf
+               (only called if local adaptive forgetting factor `type_forget=2` is used)
+            7. py__prodRinvA_l_pdaf
+            8. core DA algorithm
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state`
+       and :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`
+
+    References
+    ----------
+    .. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
 
     Parameters
     ----------
@@ -51309,7 +54401,10 @@ def local_put_state_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -51327,7 +54422,10 @@ def local_put_state_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -51357,7 +54455,8 @@ def local_put_state_lestkf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -51598,27 +54697,60 @@ def local_put_state_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
                                                               int, np.ndarray[tuple[int], np.dtype[np.float64]], 
                                                               int, float], float]
                           ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_put_state` or `pyPDAF.PDAF.localomi_put_state_nondiagR`. 
-    Using local ensemble transform Kalman filter for DA without post-processing and analysis distribution to forecsat without OMI. This is a domain localisation method. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    6. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init
-    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used
-    loop over each local domain:
-    8. py__init_dim_l_pdaf
-    9. py__init_dim_obs_l_pdaf
-    10. py__g2l_obs_pdaf (localise mean ensemble in observation space)
-    11. py__init_obs_l_pdaf
-    12. py__g2l_obs_pdaf (localise each ensemble member in observation space
-    13. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    14. py__prodRinvA_l_pdaf
-    15. core DA algorithm
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state`
+    or :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`.
+
+    PDAFlocal-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Local ensemble transform Kalman filter (LETKF) [1]_
+    for a single DA step without OMI. Implementation is based on [2]_.
+
+    Compared to :func:`pyPDAF.PDAF.local_assimilate_letkf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    Note that the LESTKF is a more efficient equivalent to the LETKF.
+
+    This function should be called at each model time step.
+
+    User-supplied functions are executed in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. py__init_obs_pdaf
+           (if global adaptive forgetting factor `type_forget=1` is used
+           in :func:`pyPDAF.PDAF.init`)
+        7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)
+        8. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_obs_pdaf (localise mean ensemble in observation space)
+            4. py__init_obs_l_pdaf
+            5. py__g2l_obs_pdaf (localise each ensemble member in observation space)
+            6. py__init_obsvar_l_pdaf
+               (only called if local adaptive forgetting factor `type_forget=2` is used)
+            7. py__prodRinvA_l_pdaf
+            8. core DA algorithm
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state`
+       and :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`
+
+    References
+    ----------
+    .. [1] Hunt, B. R., Kostelich, E. J., & Szunyogh, I. (2007).
+           Efficient data assimilation for spatiotemporal chaos:
+           A local ensemble transform Kalman filter. 
+           Physica D: Nonlinear Phenomena, 230(1-2), 112-126.
+    .. [2] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
 
     Parameters
     ----------
@@ -51773,7 +54905,10 @@ def local_put_state_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -51791,7 +54926,10 @@ def local_put_state_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -51821,7 +54959,8 @@ def local_put_state_letkf (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -52084,33 +55223,66 @@ def local_put_state_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
                                                                   float, 
                                                                   float], float]
                            ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_put_state` or `pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR`. 
-    This function will is a hybridised LETKF and LNETF for DA without post-processing and analysis distribution to forecsat without OMI. The LNETF computes the distribution up to the second moment similar to KF but using a nonlinear weighting similar to particle filter. This leads to an equal weights assumption for prior ensemble. The hybridisation with LETKF is expected to lead to improved performance for quasi-Gaussian problems.  
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    6. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init
-    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used
-    loop over each local domain:
-    8. py__init_dim_l_pdaf
-    9. py__init_dim_obs_l_pdaf
-    10. py__g2l_obs_pdaf (localise each ensemble member in observation space)
-    11. py__init_obs_l_pdaf
-    12. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    13. py__prodRinvA_pdaf
-    14. py__likelihood_l_pdaf
-    15. core DA algorithm
-    16. py__obs_op_pdaf (only called with `HKN` and `HNK` options called for each ensemble member
-    17. py__likelihood_hyb_l_pda
-    18. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    19. py__prodRinvA_hyb_l_pdaf
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state`
+    or :func:`pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    A hybridised LETKF and LNETF [1]_ for a single DA step.
+
+    Compared to :func:`pyPDAF.PDAF.local_assimilate_lknetf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The LNETF computes the distribution up to
+    the second moment similar to Kalman filters but using a nonlinear weighting similar to
+    particle filters. This leads to an equal weights assumption for the prior ensemble.
+    The hybridisation with LETKF is expected to lead to improved performance for
+    quasi-Gaussian problems.
+    The function should be called at each model step.
+
+    This function executes the user-supplied function in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf
+           (for each ensemble member)
+        6. py__init_obs_pdaf
+           (if global adaptive forgetting factor `type_forget=1`
+           is used in :func:`pyPDAF.PDAF.init`)
+        7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used)
+        8. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_obs_pdaf
+               (localise each ensemble member in observation space)
+            4. py__init_obs_l_pdaf
+            5. py__init_obsvar_l_pdaf
+               (only called if local adaptive forgetting factor `type_forget=2` is used)
+            6. py__prodRinvA_pdaf
+            7. py__likelihood_l_pdaf
+            8. core DA algorithm
+        9. py__obs_op_pdaf
+           (only called with `HKN` and `HNK` options called for each ensemble member)
+        10. py__likelihood_hyb_l_pda
+        11. py__init_obsvar_l_pdaf
+            (only called if local adaptive forgetting factor `type_forget=2` is used)
+        12. py__prodRinvA_hyb_l_pdaf
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state`
+       and :func:`pyPDAF.PDAF.localomi_put_state_lknetf_nondiagR`
+
+    References
+    ----------
+    .. [1] Nerger, L.. (2022) 
+       Data assimilation for nonlinear systems with a hybrid nonlinear Kalman ensemble transform filter. 
+       Q J R Meteorol Soc, 620–640. doi:10.1002/qj.4221
 
     Parameters
     ----------
@@ -52265,7 +55437,10 @@ def local_put_state_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -52283,7 +55458,10 @@ def local_put_state_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -52313,7 +55491,8 @@ def local_put_state_lknetf (py__collect_state_pdaf : Callable[[int, np.ndarray[t
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 
@@ -52668,25 +55847,50 @@ def local_put_state_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
                                                         int, np.ndarray[tuple[int], np.dtype[np.intc]], 
                                                         int], np.ndarray[tuple[int], np.dtype[np.intc]]]
                           ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_put_state` or `pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR`. 
-    This function will use Local Nonlinear Ensemble Transform Filter (LNETF) for DA without post-processing and analysis distribution to forecsat without OMI. The nonlinear filter computes the distribution up to the second moment similar to KF but using a nonlinear weighting similar to particle filter. This leads to an equal weights assumption for prior ensemble. 
-    
-    This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
-    
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    loop over each local domain:
-    6. py__init_dim_l_pdaf
-    7. py__init_dim_obs_l_pdaf
-    8. py__init_obs_l_pdaf
-    9. py__g2l_obs_pdaf (localise each ensemble member in observation space)
-    10. py__likelihood_l_pdaf
-    11. core DA algorithm
-    
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state`
+    or :func:`pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Local Nonlinear Ensemble Transform Filter (LNETF) [1]_ for a single DA step.
+
+    Compared to :func:`pyPDAF.PDAF.local_assimilate_lnetf`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    The nonlinear filter computes the distribution up to
+    the second moment similar to Kalman filters but it uses a nonlinear weighting similar to
+    particle filters. This leads to an equal weights assumption for the prior ensemble at each step.
+    This function should be called at each model time step.
+
+    This function executes the user-supplied function in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__init_obs_l_pdaf
+            4. py__g2l_obs_pdaf (localise each ensemble member in observation space)
+            5. py__likelihood_l_pdaf
+            6. core DA algorithm
+
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state`
+       and :func:`pyPDAF.PDAF.localomi_put_state_lnetf_nondiagR`
+
+    References
+    ----------
+    .. [1] Tödter, J., and B. Ahrens, 2015:
+           A second-order exact ensemble square root filter
+           for nonlinear data assimilation. Mon. Wea. Rev.,
+           143, 1347–1367, doi:10.1175/MWR-D-14-00108.1.
 
     Parameters
     ----------
@@ -52817,7 +56021,10 @@ def local_put_state_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -52835,7 +56042,10 @@ def local_put_state_lnetf (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -53038,27 +56248,55 @@ def local_put_state_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
                                                               int, np.ndarray[tuple[int], np.dtype[np.float64]], 
                                                               int, float], float]
                           ) -> int:
-    """It is recommended to use OMI functionalities for fewer user-supplied functions and improved efficiency. I.e., `pyPDAF.PDAF.localomi_put_state` or `pyPDAF.PDAF.localomi_put_state_nondiagR`. 
-    Using local singular evolutive interpolated Kalman filter for DA without post-processing and analysis distribution to forecsat without OMI. This is a domain localisation method. This function is usually used in 'flexible' parallelisation. i.e., the ensemble size is larger than the available number of processes. A `pyPDAF.PDAF.get_state` function should be used to post-process and distribute the ensemble to the model after this function. This function should be called at each model time step. 
+    r"""It is recommended to use :func:`pyPDAF.PDAF.localomi_put_state`
+    or :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`.
+
+    PDAF-OMI modules require fewer user-supplied functions and improved efficiency.
+
+    Local singular evolutive interpolated Kalman filter [1]_ for a single DA step.
+
+    Compared to :func:`pyPDAF.PDAF.local_assimilate_lseik`, this function has no :func:`get_state` call.
+    This means that the analysis is not post-processed, and distributed to the model forecast
+    by user-supplied functions. The next DA step will not be assigned by user-supplied functions as well.
+    This function is typically used when there are not enough CPUs to run the ensemble in parallel,
+    and some ensemble members have to be run serially. The :func:`pyPDAF.PDAF.get_state` function follows this
+    function call to ensure the sequential DA.
+
+    This function should be called at each model time step.
+
+    This function  executes the user-supplied functions in the following sequence:
+        1. py__collect_state_pdaf
+        2. py__prepoststep_state_pdaf
+        3. py__init_n_domains_p_pdaf
+        4. py__init_dim_obs_pdaf
+        5. py__obs_op_pdaf (for each ensemble member)
+        6. py__init_obs_pdaf
+           (if global adaptive forgetting factor `type_forget=1`
+           is used in :func:`pyPDAF.PDAF.init`)
+        7. py__init_obsvar_pdaf
+           (if global adaptive forgetting factor is used)
+        8. loop over each local domain:
+            1. py__init_dim_l_pdaf
+            2. py__init_dim_obs_l_pdaf
+            3. py__g2l_obs_pdaf (localise mean ensemble in observation space)
+            4. py__init_obs_l_pdaf
+            5. py__g2l_obs_pdaf
+               (localise each ensemble member in observation space)
+            6. py__init_obsvar_l_pdaf
+               (only called if local adaptive forgetting factor `type_forget=2` is used)
+            7. py__prodRinvA_l_pdaf
+            8. core DA algorithm
     
-    The function executes the user-supplied function in the following sequence: 
-    1. py__collect_state_pdaf
-    2. py__prepoststep_state_pdaf
-    3. py__init_n_domains_p_pdaf
-    4. py__init_dim_obs_pdaf
-    5. py__obs_op_pdaf (for each ensemble member
-    6. py__init_obs_pdaf (if global adaptive forgetting factor is used (type_forget=1 in pyPDAF.PDAF.init
-    7. py__init_obsvar_pdaf (if global adaptive forgetting factor is used
-    loop over each local domain:
-    8. py__init_dim_l_pdaf
-    9. py__init_dim_obs_l_pdaf
-    10. py__g2l_obs_pdaf (localise mean ensemble in observation space)
-    11. py__init_obs_l_pdaf
-    12. py__g2l_obs_pdaf (localise each ensemble member in observation space
-    13. py__init_obsvar_l_pdaf (only called if local adaptive forgetting factor (type_forget=2) is used
-    14. py__prodRinvA_l_pdaf
-    15. core DA algorithm
-    
+    .. deprecated:: 1.0.0
+
+       This function is replaced by :func:`pyPDAF.PDAF.localomi_put_state`
+       and :func:`pyPDAF.PDAF.localomi_put_state_nondiagR`
+
+    References
+    ----------
+    .. [1] Pham, D. T., Verron, J., & Roubaud, M. C. (1998).
+           A singular evolutive extended Kalman filter for data assimilation
+           in oceanography. Journal of Marine systems, 16(3-4), 323-340.
 
     Parameters
     ----------
@@ -53213,7 +56451,10 @@ def local_put_state_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -53231,7 +56472,10 @@ def local_put_state_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **state_p** : ndarray[tuple[dim_p], np.float64]
 
-            --- pe-local forecast/analysis state (the array 'state_p' is not generally not initialized in the case of seik. it can be used freely here.)
+            --- pe-local forecast/analysis state
+                (the array 'state_p' is not generally not
+                initialized in the case of seik.
+                it can be used freely here.)
 
         * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
 
@@ -53261,7 +56505,8 @@ def local_put_state_lseik (py__collect_state_pdaf : Callable[[int, np.ndarray[tu
 
         * **rank** : int
 
-            --- Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+            --- Number of the columns in the matrix processes here.
+                This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
 
         * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
 

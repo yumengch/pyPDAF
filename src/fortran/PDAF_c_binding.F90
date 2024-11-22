@@ -2082,7 +2082,7 @@ contains
    END SUBROUTINE c__PDAF_set_memberid
 
    SUBROUTINE c__PDAF_set_comm_pdaf(in_COMM_pdaf) bind(c)
-      ! MPI communicator for PDAF
+      ! MPI communicator used by PDAF
      INTEGER(c_int),INTENT(in) :: in_COMM_pdaf
 
      call PDAF_set_comm_pdaf(in_COMM_pdaf)

@@ -1516,7 +1516,7 @@ docstrings['put_state_generate_obs'] = "Generation of synthetic observations bas
                                        "    5. py__init_obserr_f_pdaf\n    " \
                                        "    6. py__get_obs_f_pdaf"
 
-docstrings['deallocate'] = "This function finalise the PDAF systems including freeing all memory used by PDAF."
+docstrings['deallocate'] = "Finalise the PDAF systems including freeing all memory used by PDAF."
 
 docstrings['diag_effsample'] = "Calculating the effective sample size of a particle filter.\n\n    " \
                                "Based on [1]_, it is defined as the inverse of the sum of the squared particle filter weights:\n    " \
@@ -1735,7 +1735,9 @@ docstrings['prepost'] = "This function does not perform any DA. " \
                         "4. py__distribute_state_pdaf\n    " \
                         "5. py__next_observation_pdaf\n    "
 docstrings['set_memberid'] = "This function sets the ensemble member index to given value."
-docstrings['set_comm_pdaf'] = "This function sets the MPI communicator of PDAF. This is by default `MPI_COMM_WORLD`. "
+docstrings['set_comm_pdaf'] = "Setting the MPI communicator used by PDAF.\n\n    " \
+                              "Without using this function `MPI_COMM_WORLD` is used.\n    " \
+                              "This function is very useful if a set of processors is dedicated for I/O or other operations." \
 docstrings['set_offline_mode'] = "This function activates offline mode."
 docstrings['print_domain_stats'] = "This function make screen output of statistics of the local domains on current process."
 docstrings['init_local_obsstats'] = "This function initialise the observation statistics of local domain. " \
@@ -1755,12 +1757,17 @@ docstrings['omit_obs_omi'] = "This function computes innovation and omit corresp
 docstrings['omi_init'] = "Allocating an array of `obs_f` derived types instances.\n\n    " \
                          "This function initialises the number of observation types.\n    " \
                          "This should be called at the start of the DA system after :func:`pyPDAF.PDAF.init`."
-docstrings['omi_set_doassim'] = "This function sets the `doassim` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. " \
-                                "If `doassim` is set to 0, the observation is not assimilated in the DA system. " \
-                                "See https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsdoassim"
-docstrings['omi_set_disttype'] = "This function sets the `disttype` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. " \
-                                 "`disttype` determines the way the distance between observation and model grid is calculated in OMI. " \
-                                 "See https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsdisttype"
+docstrings['omi_set_doassim'] = "Setting the `doassim` attribute of `obs_f`.\n\n    " \
+                                "Properties of `obs_f` are typically set in user-supplied function\n    " \
+                                "`py__init_dim_obs_pdaf`.\n\n    " \
+                                "If `doassim` is set to 0,\n    " \
+                                "the given type of observation is not assimilated in the DA system. "
+docstrings['omi_set_disttype'] = "Setting the `doassim` attribute of `obs_f`.\n\n    " \
+                                 "Properties of `obs_f` are typically set in user-supplied function\n    " \
+                                 "`py__init_dim_obs_pdaf`.\n\n    " \
+                                 "The `disttype` determines the way the distance\n    " \
+                                 "between observation and model grid is calculated in OMI.\n    " \
+                                 "See https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsdisttype."
 docstrings['omi_set_ncoord'] = "This function sets the `ncoord` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. " \
                                "This is the dimension of coordinates of the observation. "
 docstrings['omi_set_id_obs_p'] = "Setting the `id_obs_p` attribute of `obs_f`.\n\n    " \
