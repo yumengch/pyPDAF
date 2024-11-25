@@ -41,6 +41,8 @@ def main():
 
     das.init_pdaf(screen=config.screen)
 
+    das.assimilate()
+
     das.finalise()
 
     pe.finalize_parallel()

@@ -41,7 +41,7 @@ class prepost:
                   pe:parallelisation.parallelisation) -> None:
         self.model_grid:model.model_grid = model_grid
         self.pe:parallelisation.parallelisation = pe
-        os.makedirs('outputs', exist_ok=True)
+        os.makedirs('outputs_offline', exist_ok=True)
 
     def get_full_ens(self, dim_p:int, dim_ens:int, ens_p:np.ndarray
                      ) -> typing.Union[np.ndarray, None]:
@@ -120,11 +120,11 @@ class prepost:
             log.logger.info ('Forecast RMS error according to sampled variance:'
                              f' {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}'
                              )
-            os.makedirs('outputs', exist_ok=True)
+            os.makedirs('outputs_offline', exist_ok=True)
             for i in range(dim_ens):
                 np.savetxt(
                     os.path.join(
-                        'outputs',
+                        'outputs_offline',
                         f'ens_{i+1}_step{-step}_for.txt'
                     ),
                     ens[:, i].reshape(self.model_grid.ny,
@@ -140,11 +140,11 @@ class prepost:
             log.logger.info (f'Analysis RMS error according to sampled variance:'
                              f' {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}'
                              )
-            os.makedirs('outputs', exist_ok=True)
+            os.makedirs('outputs_offline', exist_ok=True)
             for i in range(dim_ens):
                 np.savetxt(
                     os.path.join(
-                        'outputs',
+                        'outputs_offline',
                         f'ens_{i+1}_step{step}_ana.txt'
                         ),
                     ens[:, i].reshape(self.model_grid.ny,

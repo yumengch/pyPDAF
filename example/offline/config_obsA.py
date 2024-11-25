@@ -28,7 +28,7 @@ import os
 obs_name = 'A'
 # path to the observation files
 # here a relative path is given
-obs_path:str = os.path.join('inputs_online', 'obs_step{i}.txt')
+obs_path:str = os.path.join('inputs_offline', 'obs.txt')
 # time steps between observations / assimilation frequency
 dtobs:int = 2
 # Observation error standard deviation

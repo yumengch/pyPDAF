@@ -24,7 +24,7 @@ import parallelisation
 
 
 class collector:
-    """This class implements functions where PDAF collects the state vector from model ensemble
+    """Here, the background/forecast ensemble is read from files.
 
     Attributes
     ----------

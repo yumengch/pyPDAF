@@ -40,7 +40,7 @@ class prepost:
     def __init__(self, model_t: model.model, pe:parallelisation.parallelisation) -> None:
         self.model:model.model = model_t
         self.pe:parallelisation.parallelisation = pe
-        os.makedirs('outputs', exist_ok=True)
+        os.makedirs('outputs_online', exist_ok=True)
 
     def get_full_ens(self, dim_p:int, dim_ens:int, ens_p:np.ndarray) -> typing.Union[np.ndarray, None]:
         """Gather total ensemble from each local processors
@@ -112,9 +112,9 @@ class prepost:
         if self.pe.mype_filter == 0:
             assert isinstance(ens, np.ndarray), 'ens should be a numpy array'
             log.logger.info (f'Forecast RMS error according to sampled variance: {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}')
-            os.makedirs('outputs', exist_ok=True)
+            os.makedirs('outputs_online', exist_ok=True)
             for i in range(dim_ens):
-                np.savetxt(os.path.join('outputs', f'ens_{i+1}_step{-step}_for.txt') , ens[:, i].reshape(self.model.ny, self.model.nx) )
+                np.savetxt(os.path.join('outputs_online', f'ens_{i+1}_step{-step}_for.txt') , ens[:, i].reshape(self.model.ny, self.model.nx) )
 
     def postprocess(self, step:int, dim_p:int, dim_ens:int, ens_p:np.ndarray) -> None:
         """initial processing of the ensemble before it is distributed to model fields
@@ -123,9 +123,9 @@ class prepost:
         if self.pe.mype_filter == 0:
             assert isinstance(ens, np.ndarray), 'ens should be a numpy array'
             log.logger.info (f'Analysis RMS error according to sampled variance: {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}')
-            os.makedirs('outputs', exist_ok=True)
+            os.makedirs('outputs_online', exist_ok=True)
             for i in range(dim_ens):
-                np.savetxt(os.path.join('outputs', f'ens_{i+1}_step{step}_ana.txt') , ens[:, i].reshape(self.model.ny, self.model.nx) )
+                np.savetxt(os.path.join('outputs_online', f'ens_{i+1}_step{step}_ana.txt') , ens[:, i].reshape(self.model.ny, self.model.nx) )
 
     def prepostprocess(self, step:int, dim_p:int, dim_ens:int, dim_ens_p:int,
                        dim_obs_p:int, state_p:np.ndarray, uinv:np.ndarray,
