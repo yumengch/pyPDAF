@@ -1737,7 +1737,7 @@ docstrings['prepost'] = "This function does not perform any DA. " \
 docstrings['set_memberid'] = "This function sets the ensemble member index to given value."
 docstrings['set_comm_pdaf'] = "Setting the MPI communicator used by PDAF.\n\n    " \
                               "Without using this function `MPI_COMM_WORLD` is used.\n    " \
-                              "This function is very useful if a set of processors is dedicated for I/O or other operations." \
+                              "This function is very useful if a set of processors is dedicated for I/O or other operations."
 docstrings['set_offline_mode'] = "This function activates offline mode."
 docstrings['print_domain_stats'] = "This function make screen output of statistics of the local domains on current process."
 docstrings['init_local_obsstats'] = "This function initialise the observation statistics of local domain. " \

@@ -6496,7 +6496,7 @@ def assimilate_prepost (py__collect_state_pdaf,
     return flag
 
 def deallocate ():
-    r"""This function finalise the PDAF systems including freeing all memory used by PDAF.
+    r"""Finalise the PDAF systems including freeing all memory used by PDAF.
 
     """
 
@@ -6530,7 +6530,7 @@ def diag_effsample (double[::1] weights
     weights : ndarray[tuple[dim_sample], np.float64]
         weights of the particles
 
-        The array dimension `dim_sample` is Number of particles
+        The array dimension `dim_sample` is Number of particles.
 
     Returns
     -------
@@ -6573,12 +6573,12 @@ def diag_ensstats (int element,
     state : ndarray[tuple[dim], np.float64]
         State vector (typically ensemble mean)
 
-        The array dimension `dim` is PE-local state dimension
+        The array dimension `dim` is PE-local state dimension.
     ens : ndarray[tuple[dim, dim_ens], np.float64]
         State ensemble
 
-        The 1st-th dimension dim is PE-local state dimension
-        The 2nd-th dimension dim_ens is Ensemble size
+        The1st-th dimension dim is PE-local state dimension;
+        the2nd-th dimension dim_ens is Ensemble size.
 
     Returns
     -------
@@ -6642,12 +6642,12 @@ def diag_histogram (int ncall,
     state : ndarray[tuple[dim], np.float64]
         Assumed truth
 
-        The array dimension `dim` is State dimension
+        The array dimension `dim` is State dimension.
     ens : ndarray[tuple[dim, dim_ens], np.float64]
         Ensemble
 
-        The 1st-th dimension dim is State dimension
-        The 2nd-th dimension dim_ens is Ensemble size
+        The1st-th dimension dim is State dimension;
+        the2nd-th dimension dim_ens is Ensemble size.
     hist : ndarray[tuple[dim_ens+1], np.intc]
         Histogram about the state
 
@@ -6722,7 +6722,7 @@ def eofcovar (int[::1] dim_fields,
 
         The array dimension `nfields` is the number of model fields in state vector.
         For example, if the state vector contains temperature and humidity,
-        `nfields=2`. This variable is effective only when `do_mv = 1`.
+        `nfields=2`. This variable is effective only when `do_mv = 1`..
     offsets : ndarray[tuple[nfields], np.intc]
         Starting position of each field.
         This variable is effective only when `do_mv = 1`.
@@ -6732,7 +6732,7 @@ def eofcovar (int[::1] dim_fields,
 
         The array dimension `nfields` is the number of model fields in state vector.
         For example, if the state vector contains temperature and humidity,
-        `nfields=2`. This variable is effective only when `do_mv = 1`.
+        `nfields=2`. This variable is effective only when `do_mv = 1`..
     remove_mstate : int
         Switch for only computing EOF of the ensemble anomaly.
         
@@ -6752,13 +6752,13 @@ def eofcovar (int[::1] dim_fields,
         and each member is from a different model time.
         However, one can set `remove_mstate = 1` if this is not an ensemble anomaly.
 
-        The 1st-th dimension dim_state is the dimension of state vector.
-        The 2nd-th dimension nstates is the number of state vectors, typically number of different time steps, or number of ensemble members.
+        The1st-th dimension dim_state is the dimension of state vector.;
+        the2nd-th dimension nstates is the number of state vectors, typically number of different time steps, or number of ensemble members..
     meanstate : ndarray[tuple[dim_state], np.float64]
         Mean state
         The returned value equlas to the input unless `remove_mstate=1`
 
-        The array dimension `dim_state` is the dimension of state vector.
+        The array dimension `dim_state` is the dimension of state vector..
     verbose : int
         Verbosity flag
 
@@ -6872,7 +6872,7 @@ def gather_obs_f (double[::1] obs_p,
     obs_p : ndarray[tuple[dimobs_p], np.float64]
         PE-local vector
 
-        The array dimension `dimobs_p` is dimensions of PE local obs
+        The array dimension `dimobs_p` is dimensions of PE local obs.
     dimobs_f : int
         dimension of full gathered obs
 
@@ -6916,8 +6916,8 @@ def gather_obs_f2 (double[:,:] coords_p,
     coords_p : ndarray[tuple[nrows, dimobs_p], np.float64]
         PE-local array
 
-        The 1st-th dimension nrows is Number of rows in array
-        The 2nd-th dimension dimobs_p is dimensions of PE local obs
+        The1st-th dimension nrows is Number of rows in array;
+        the2nd-th dimension dimobs_p is dimensions of PE local obs.
     dimobs_f : int
         dimension of full gathered obs
 
@@ -7476,12 +7476,12 @@ def init (int filtertype,
         filter parameters in integer
 
         The array dimension `dim_pint` is the number of integer parameters which depends on
-        the type of filters and required non-default options
+        the type of filters and required non-default options.
     param_real : ndarray[tuple[dim_preal], np.float64]
         filter parameters in float/real values
 
         The array dimension `dim_preal` is number of real parameter which depends on
-        the type of filters and required non-default options
+        the type of filters and required non-default options.
     COMM_model : int
         model MPI communicator
     COMM_filter : int
@@ -7494,7 +7494,7 @@ def init (int filtertype,
         number of parallel model tasks
     in_filterpe : bool
         True if the current PE is a filter PE else False
-    py__init_ens_pdaf : Callable[filtertype:int, dim_p:int, dim_ens:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
+    py__init_ens_pdaf : Callable[filtertype:int, dim_p:int, dim_ens:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[:, :], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         initialise PDAF internal ensemble array
 
         **Callback Parameters**
@@ -7506,8 +7506,14 @@ def init (int filtertype,
                 * size of ensemble
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local model state
-            * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
+            * **uinv** : ndarray[tuple[:, :], np.float64]
                 * array not referenced for ensemble filters
+                  The dimension of this array depends on the
+                  filtertype
+                  
+                  - (dim_ens, dim_ens) for (L)ETKF, (L)NETF, (L)KNETF, and SEEK
+                  - (dim_ens - 1, dim_ens - 1) for (L)SEIK, (L)ESTKF, and 3DVar using ensemble
+                  - (1, 1) for (L)EnKF, particle filters and gen_obs
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * pe-local state ensemble
             * **flag** : int
@@ -7516,8 +7522,14 @@ def init (int filtertype,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local model state
-            * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
+            * **uinv** : ndarray[tuple[:, :], np.float64]
                 * array not referenced for ensemble filters
+                  The dimension of this array depends on the
+                  filtertype
+                  
+                  - (dim_ens, dim_ens) for (L)ETKF, (L)NETF, (L)KNETF, and SEEK
+                  - (dim_ens - 1, dim_ens - 1) for (L)SEIK, (L)ESTKF, and 3DVar using ensemble
+                  - (1, 1) for (L)EnKF, particle filters and gen_obs
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * pe-local state ensemble
             * **flag** : int
@@ -7546,36 +7558,26 @@ def init (int filtertype,
     dim_preal = param_real.shape[0]
 
     c__PDAFcython.init_ens_pdaf = <void*>py__init_ens_pdaf
-    c__PDAFcython.init_ens_pdaf_single_member = <void*>py__init_ens_pdaf
 
     cdef int flag
 
-    if (filtertype == 0) or (filtertype == 200 and subtype == 0):
-        c__pdaf_init (&filtertype, &subtype, &stepnull,
-                      &param_int[0], &dim_pint,
-                      &param_real[0], &dim_preal,
-                      &COMM_model, &COMM_filter, &COMM_couple,
-                      &task_id, &n_modeltasks, &in_filterpe,
-                      c__PDAFcython.c__init_ens_pdaf_single_member,
-                      &in_screen, &flag)
-    else:
-        c__pdaf_init (&filtertype,
-                      &subtype,
-                      &stepnull,
-                      &param_int[0],
-                      &dim_pint,
-                      &param_real[0],
-                      &dim_preal,
-                      &COMM_model,
-                      &COMM_filter,
-                      &COMM_couple,
-                      &task_id,
-                      &n_modeltasks,
-                      &in_filterpe,
-                      c__PDAFcython.c__init_ens_pdaf,
-                      &in_screen,
-                      &flag
-                     )
+    c__pdaf_init (&filtertype,
+                  &subtype,
+                  &stepnull,
+                  &param_int[0],
+                  &dim_pint,
+                  &param_real[0],
+                  &dim_preal,
+                  &COMM_model,
+                  &COMM_filter,
+                  &COMM_couple,
+                  &task_id,
+                  &n_modeltasks,
+                  &in_filterpe,
+                  c__PDAFcython.c__init_ens_pdaf,
+                  &in_screen,
+                  &flag
+                 )
 
     return np.asarray(param_int).reshape((dim_pint), order='F'), np.asarray(param_real).reshape((dim_preal), order='F'), flag
 
@@ -7606,8 +7608,8 @@ def local_weight (int wtype,
     A : ndarray[tuple[nrows, ncols], np.float64]
         Input matrix
 
-        The 1st-th dimension nrows is Number of rows in matrix A
-        The 2nd-th dimension ncols is Number of columns in matrix A
+        The1st-th dimension nrows is Number of rows in matrix A;
+        the2nd-th dimension ncols is Number of columns in matrix A.
     var_obs : float
         Observation variance
     verbose : int
@@ -9453,7 +9455,8 @@ def put_state_generate_obs (py__collect_state_pdaf,
                             py__init_obserr_f_pdaf,
                             py__prepoststep_pdaf
                            ):
-    r"""Generation of synthetic observations based on given error statistics and observation operator.
+    r"""Generation of synthetic observations based on given error statistics and observation operator
+    without post-processing, distributing analysis, and setting next observation step.
 
     When diagonal observation error covariance matrix is used,
     it is recommended to use :func:`pyPDAF.PDAF.omi_generate_obs` functionalities
@@ -13660,14 +13663,14 @@ def SampleEns (double[:,:] modes,
     modes : ndarray[tuple[dim, dim_ens-1], np.float64]
         Array of EOF modes
 
-        The 1st-th dimension dim is Size of state vector
+        The1st-th dimension dim is Size of state vector;
     svals : ndarray[tuple[dim_ens-1], np.float64]
         Vector of singular values
 
     state : ndarray[tuple[dim], np.float64]
         PE-local model mean state
 
-        The array dimension `dim` is Size of state vector
+        The array dimension `dim` is Size of state vector.
     verbose : int
         Verbosity flag
     flag : int
@@ -13799,8 +13802,8 @@ def seik_TtimesA (double[:,:] A
     A : ndarray[tuple[rank, dim_col], np.float64]
         Input matrix
 
-        The 1st-th dimension rank is Rank of initial covariance matrix
-        The 2nd-th dimension dim_col is Number of columns in A and B
+        The1st-th dimension rank is Rank of initial covariance matrix;
+        the2nd-th dimension dim_col is Number of columns in A and B.
 
     Returns
     -------
@@ -13836,8 +13839,8 @@ def etkf_Tleft (double[:,:] A
     A : ndarray[tuple[dim_ens, dim], np.float64]
         Input/output matrix
 
-        The 1st-th dimension dim_ens is Rank of initial covariance matrix
-        The 2nd-th dimension dim is Number of columns in A and B
+        The1st-th dimension dim_ens is Rank of initial covariance matrix;
+        the2nd-th dimension dim is Number of columns in A and B.
 
     Returns
     -------
@@ -13871,8 +13874,8 @@ def estkf_OmegaA (double[:,:] A
     A : ndarray[tuple[rank, dim_col], np.float64]
         Input matrix
 
-        The 1st-th dimension rank is Rank of initial covariance matrix
-        The 2nd-th dimension dim_col is Number of columns in A and B
+        The1st-th dimension rank is Rank of initial covariance matrix;
+        the2nd-th dimension dim_col is Number of columns in A and B.
 
     Returns
     -------
@@ -13913,8 +13916,8 @@ def enkf_omega (int[::1] seed,
     omega : ndarray[tuple[dim_ens, r], np.float64]
         Random matrix
 
-        The 1st-th dimension dim_ens is Ensemble size
-        The 2nd-th dimension r is Approximated rank of covar matrix
+        The1st-th dimension dim_ens is Ensemble size;
+        the2nd-th dimension r is Approximated rank of covar matrix.
     norm : float
         Norm for ensemble transformation
     otype : int
@@ -13967,7 +13970,7 @@ def seik_omega (double[:,:] omega,
     omega : ndarray[tuple[rank+1, rank], np.float64]
         Matrix Omega
 
-        The 1st-th dimension rank is Approximated rank of covar matrix
+        The1st-th dimension rank is Approximated rank of covar matrix;
     omegatype : int
         Select type of Omega:
           (1) generated from random vectors
@@ -14037,7 +14040,7 @@ def add_increment (double[::1] state_p
     state_p : ndarray[tuple[dim_p], np.float64]
         State vector
 
-        The array dimension `dim_p` is State dimension
+        The array dimension `dim_p` is State dimension.
 
     Returns
     -------
@@ -14078,7 +14081,7 @@ def local_weights (int wtype,
     distance : ndarray[tuple[dim], np.float64]
         Array holding distances
 
-        The array dimension `dim` is Size of distance and weight arrays
+        The array dimension `dim` is Size of distance and weight arrays.
     verbose : int
         Verbosity flag
 
@@ -14110,8 +14113,16 @@ def diag_CRPS (int element,
                double[:,:] oens,
                double[::1] obs
               ):
-    r"""Obtain a continuous rank probability score for an ensemble. The implementation is based on This function follows follows Hersbach, H., 2000: Decomposition of the Continuous Ranked Probability Score for Ensemble Prediction Systems. Wea. Forecasting, 15, 559–570, https://doi.org/10.1175/1520-0434(2000)015<0559:DOTCRP>2.0.CO;2
-    
+    r"""Obtain a continuous rank probability score for an ensemble.
+
+    The implementation is based on [1]_.
+
+    References
+    ----------
+    .. [1] Hersbach, H. (2000), 
+           Decomposition of the Continuous Ranked Probability Score for
+           Ensemble Prediction Systems,
+           Wea. Forecasting, 15, 559–570, doi:10.1175/1520-0434(2000)015<0559:DOTCRP>2.0.CO;2
 
     Parameters
     ----------
@@ -14120,12 +14131,12 @@ def diag_CRPS (int element,
     oens : ndarray[tuple[dim, dim_ens], np.float64]
         State ensemble
 
-        The 1st-th dimension dim is PE-local state dimension
-        The 2nd-th dimension dim_ens is Ensemble size
+        The1st-th dimension dim is PE-local state dimension;
+        the2nd-th dimension dim_ens is Ensemble size.
     obs : ndarray[tuple[dim], np.float64]
         State ensemble
 
-        The array dimension `dim` is PE-local state dimension
+        The array dimension `dim` is PE-local state dimension.
 
     Returns
     -------
@@ -14188,8 +14199,8 @@ def gather_obs_f2_flex (int dim_obs_f,
     coords_p : ndarray[tuple[nrows, dim_obs_p], np.float64]
         PE-local array
 
-        The 1st-th dimension nrows is Number of rows in array
-        The 2nd-th dimension dim_obs_p is PE-local observation dimension
+        The1st-th dimension nrows is Number of rows in array;
+        the2nd-th dimension dim_obs_p is PE-local observation dimension.
 
     Returns
     -------
@@ -14233,7 +14244,7 @@ def gather_obs_f_flex (int dim_obs_f,
     obs_p : ndarray[tuple[dim_obs_p], np.float64]
         PE-local vector
 
-        The array dimension `dim_obs_p` is PE-local observation dimension
+        The array dimension `dim_obs_p` is PE-local observation dimension.
 
     Returns
     -------
@@ -14401,12 +14412,15 @@ def set_memberid (int memberid
 
 def set_comm_pdaf (int in_COMM_pdaf
                   ):
-    r"""This function sets the MPI communicator of PDAF. This is by default `MPI_COMM_WORLD`. 
+    r"""Setting the MPI communicator used by PDAF.
+
+    Without using this function `MPI_COMM_WORLD` is used.
+    This function is very useful if a set of processors is dedicated for I/O or other operations.
 
     Parameters
     ----------
     in_COMM_pdaf : int
-        MPI communicator for PDAF
+        MPI communicator used by PDAF
     """
 
     c__pdaf_set_comm_pdaf (&in_COMM_pdaf
@@ -14496,16 +14510,16 @@ def omit_obs_omi (double[::1] state_p,
     state_p : ndarray[tuple[dim_p], np.float64]
         on exit: PE-local forecast mean state
 
-        The array dimension `dim_p` is PE-local dimension of model state
+        The array dimension `dim_p` is PE-local dimension of model state.
     ens_p : ndarray[tuple[dim_p, dim_ens], np.float64]
         PE-local state ensemble
 
-        The 1st-th dimension dim_p is PE-local dimension of model state
-        The 2nd-th dimension dim_ens is Size of ensemble
+        The1st-th dimension dim_p is PE-local dimension of model state;
+        the2nd-th dimension dim_ens is Size of ensemble.
     obs_p : ndarray[tuple[dim_obs_p], np.float64]
         PE-local observation vector
 
-        The array dimension `dim_obs_p` is PE-local dimension of observation vector
+        The array dimension `dim_obs_p` is PE-local dimension of observation vector.
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -14582,8 +14596,16 @@ def diag_CRPS_nompi (int element,
                      double[:,:] oens,
                      double[::1] obs
                     ):
-    r"""Obtain a continuous rank probability score for an ensemble without using MPI parallelisation. The implementation is based on This function follows follows Hersbach, H., 2000: Decomposition of the Continuous Ranked Probability Score for Ensemble Prediction Systems. Wea. Forecasting, 15, 559–570, https://doi.org/10.1175/1520-0434(2000)015<0559:DOTCRP>2.0.CO;2
-    
+    r"""A continuous rank probability score for an ensemble without using MPI parallelisation.
+
+    The implementation is based on [1]_.
+
+    References
+    ----------
+    .. [1] Hersbach, H. (2000), 
+           Decomposition of the Continuous Ranked Probability Score for
+           Ensemble Prediction Systems,
+           Wea. Forecasting, 15, 559–570, doi:10.1175/1520-0434(2000)015<0559:DOTCRP>2.0.CO;2
 
     Parameters
     ----------
@@ -14593,12 +14615,12 @@ def diag_CRPS_nompi (int element,
     oens : ndarray[tuple[dim, dim_ens], np.float64]
         State ensemble
 
-        The 1st-th dimension dim is PE-local state dimension
-        The 2nd-th dimension dim_ens is Ensemble size
+        The1st-th dimension dim is PE-local state dimension;
+        the2nd-th dimension dim_ens is Ensemble size.
     obs : ndarray[tuple[dim], np.float64]
         State ensemble
 
-        The array dimension `dim` is PE-local state dimension
+        The array dimension `dim` is PE-local state dimension.
 
     Returns
     -------
@@ -14658,7 +14680,13 @@ def omi_init (int n_obs
 def omi_set_doassim (int i_obs,
                      int doassim
                     ):
-    r"""This function sets the `doassim` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. If `doassim` is set to 0, the observation is not assimilated in the DA system. See https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsdoassim
+    r"""Setting the `doassim` attribute of `obs_f`.
+
+    Properties of `obs_f` are typically set in user-supplied function
+    `py__init_dim_obs_pdaf`.
+
+    If `doassim` is set to 0,
+    the given type of observation is not assimilated in the DA system. 
 
     Parameters
     ----------
@@ -14676,7 +14704,14 @@ def omi_set_doassim (int i_obs,
 def omi_set_disttype (int i_obs,
                       int disttype
                      ):
-    r"""This function sets the `disttype` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. `disttype` determines the way the distance between observation and model grid is calculated in OMI. See https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsdisttype
+    r"""Setting the `doassim` attribute of `obs_f`.
+
+    Properties of `obs_f` are typically set in user-supplied function
+    `py__init_dim_obs_pdaf`.
+
+    The `disttype` determines the way the distance
+    between observation and model grid is calculated in OMI.
+    See https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsdisttype.
 
     Parameters
     ----------
@@ -14752,8 +14787,8 @@ def omi_set_id_obs_p (int i_obs,
     id_obs_p : ndarray[tuple[nrows, dim_obs_p], np.intc]
         indice corresponds to observations in the state vector
 
-        The 1st-th dimension nrows is Number of values to be averaged or used for interpolation
-        The 2nd-th dimension dim_obs_p is dimension of PE local obs
+        The1st-th dimension nrows is Number of values to be averaged or used for interpolation;
+        the2nd-th dimension dim_obs_p is dimension of PE local obs.
     """
 
     cdef int[::1] id_obs_p_f = np.asfortranarray(id_obs_p).ravel(order="F")
@@ -14780,8 +14815,8 @@ def omi_set_icoeff_p (int i_obs,
     icoeff_p : ndarray[tuple[nrows, dim_obs_p], np.float64]
         weighting coefficients for interpolations
 
-        The 1st-th dimension nrows is Number of values to be averaged
-        The 2nd-th dimension dim_obs_p is dimension of PE local obs
+        The1st-th dimension nrows is Number of values to be averaged;
+        the2nd-th dimension dim_obs_p is dimension of PE local obs.
     """
 
     cdef double[::1] icoeff_p_f = np.asfortranarray(icoeff_p).ravel(order="F")
@@ -14807,7 +14842,7 @@ def omi_set_domainsize (int i_obs,
     domainsize : ndarray[tuple[ncoord], np.float64]
         Size of the domain in each dimension
 
-        The array dimension `ncoord` is state dimension
+        The array dimension `ncoord` is state dimension.
     """
 
     cdef int ncoord
@@ -14904,15 +14939,15 @@ def omi_gather_obs (int i_obs,
     obs_p : ndarray[tuple[dim_obs_p], np.float64]
         pe-local observation vector
 
-        The array dimension `dim_obs_p` is State dimension
+        The array dimension `dim_obs_p` is State dimension.
     ivar_obs_p : ndarray[tuple[dim_obs_p], np.float64]
         pe-local inverse observation error variance
 
-        The array dimension `dim_obs_p` is State dimension
+        The array dimension `dim_obs_p` is State dimension.
     ocoord_p : ndarray[tuple[thisobs(i_obs)%ncoord, dim_obs_p], np.float64]
         pe-local observation coordinates
 
-        The 1st-th dimension dim_obs_p is State dimension
+        The1st-th dimension dim_obs_p is State dimension;
     cradius : float
         localization radius
 
@@ -14956,7 +14991,7 @@ def omi_gather_obsstate (int i_obs,
     obsstate_f : ndarray[tuple[nobs_f_all], np.float64]
         Full observed vector for all types
 
-        The array dimension `nobs_f_all` is dimension of the observation
+        The array dimension `nobs_f_all` is dimension of the observation.
 
     Returns
     -------
@@ -15041,11 +15076,11 @@ def omi_obs_op_gridpoint (int i_obs,
     state_p : ndarray[tuple[dim_p], np.float64]
         PE-local model state (dim_p)
 
-        The array dimension `dim_p` is dimension of model state
+        The array dimension `dim_p` is dimension of model state.
     obs_f_all : ndarray[tuple[nobs_f_all], np.float64]
         Full observed state for all observation types (nobs_f_all)
 
-        The array dimension `nobs_f_all` is dimension of the observation
+        The array dimension `nobs_f_all` is dimension of the observation.
 
     Returns
     -------
@@ -15089,11 +15124,11 @@ def omi_obs_op_gridavg (int i_obs,
     state_p : ndarray[tuple[dim_p], np.float64]
         PE-local model state (dim_p)
 
-        The array dimension `dim_p` is dimension of model state
+        The array dimension `dim_p` is dimension of model state.
     obs_f_all : ndarray[tuple[nobs_f_all], np.float64]
         Full observed state for all observation types (nobs_f_all)
 
-        The array dimension `nobs_f_all` is dimension of the observation
+        The array dimension `nobs_f_all` is dimension of the observation.
 
     Returns
     -------
@@ -15148,11 +15183,11 @@ def omi_obs_op_interp_lin (int i_obs,
     state_p : ndarray[tuple[dim_p], np.float64]
         PE-local model state (dim_p)
 
-        The array dimension `dim_p` is dimension of model state
+        The array dimension `dim_p` is dimension of model state.
     obs_f_all : ndarray[tuple[nobs_f_all], np.float64]
         Full observed state for all observation types (nobs_f_all)
 
-        The array dimension `nobs_f_all` is dimension of the observation
+        The array dimension `nobs_f_all` is dimension of the observation.
 
     Returns
     -------
@@ -15192,11 +15227,11 @@ def omi_obs_op_adj_gridavg (int i_obs,
     state_p : ndarray[tuple[dim_p], np.float64]
         PE-local model state (dim_p)
 
-        The array dimension `dim_p` is dimension of model state
+        The array dimension `dim_p` is dimension of model state.
     obs_f_all : ndarray[tuple[nobs_f_all], np.float64]
         Full observed state for all observation types (nobs_f_all)
 
-        The array dimension `nobs_f_all` is dimension of the observation
+        The array dimension `nobs_f_all` is dimension of the observation.
 
     Returns
     -------
@@ -15233,11 +15268,11 @@ def omi_obs_op_adj_gridpoint (int i_obs,
     state_p : ndarray[tuple[dim_p], np.float64]
         PE-local model state (dim_p)
 
-        The array dimension `dim_p` is dimension of model state
+        The array dimension `dim_p` is dimension of model state.
     obs_f_all : ndarray[tuple[nobs_f_all], np.float64]
         Full observed state for all observation types (nobs_f_all)
 
-        The array dimension `nobs_f_all` is dimension of the observation
+        The array dimension `nobs_f_all` is dimension of the observation.
 
     Returns
     -------
@@ -15276,11 +15311,11 @@ def omi_obs_op_adj_interp_lin (int i_obs,
     state_p : ndarray[tuple[dim_p], np.float64]
         PE-local model state (dim_p)
 
-        The array dimension `dim_p` is dimension of model state
+        The array dimension `dim_p` is dimension of model state.
     obs_f_all : ndarray[tuple[nobs_f_all], np.float64]
         Full observed state for all observation types (nobs_f_all)
 
-        The array dimension `nobs_f_all` is dimension of the observation
+        The array dimension `nobs_f_all` is dimension of the observation.
 
     Returns
     -------
@@ -15400,16 +15435,16 @@ def omi_get_interp_coeff_lin (double[:,:] gpc,
         be consistent with the order of the indices specified in
         `id_obs_p` of `obs_f`.
 
-        The 1st-th dimension num_gp is Length of icoeff
-        The 2nd-th dimension n_dim is Number of dimensions in interpolation
+        The1st-th dimension num_gp is Length of icoeff;
+        the2nd-th dimension n_dim is Number of dimensions in interpolation.
     oc : ndarray[tuple[n_dim], np.float64]
         Coordinates of observation
 
-        The array dimension `n_dim` is Number of dimensions in interpolation
+        The array dimension `n_dim` is Number of dimensions in interpolation.
     icoeff : ndarray[tuple[num_gp], np.float64]
         Interpolation coefficients (num_gp)
 
-        The array dimension `num_gp` is Length of icoeff
+        The array dimension `num_gp` is Length of icoeff.
 
     Returns
     -------
@@ -20200,7 +20235,7 @@ def omi_init_obs_f_cb (int step,
     observation_f : ndarray[tuple[dim_obs_f], np.float64]
         Full observation vector
 
-        The array dimension `dim_obs_f` is Dimension of full observation vector
+        The array dimension `dim_obs_f` is Dimension of full observation vector.
 
     Returns
     -------
@@ -20233,7 +20268,7 @@ def omi_init_obsvar_cb (int step,
     obs_p : ndarray[tuple[dim_obs_p], np.float64]
         PE-local observation vector
 
-        The array dimension `dim_obs_p` is PE-local dimension of observation vector
+        The array dimension `dim_obs_p` is PE-local dimension of observation vector.
     meanvar : float
         Mean observation error variance
 
@@ -20274,11 +20309,11 @@ def omi_g2l_obs_cb (int domain_p,
     ostate_f : ndarray[tuple[dim_obs_f], np.float64]
         Full PE-local obs.ervation vector
 
-        The array dimension `dim_obs_f` is Dimension of full PE-local observation vector
+        The array dimension `dim_obs_f` is Dimension of full PE-local observation vector.
     ostate_l : ndarray[tuple[dim_obs_l], np.float64]
         Observation vector on local domain
 
-        The array dimension `dim_obs_l` is Dimension of local observation vector
+        The array dimension `dim_obs_l` is Dimension of local observation vector.
 
     Returns
     -------
@@ -20316,7 +20351,7 @@ def omi_init_obs_l_cb (int domain_p,
     observation_l : ndarray[tuple[dim_obs_l], np.float64]
         Local observation vector
 
-        The array dimension `dim_obs_l` is Local dimension of observation vector
+        The array dimension `dim_obs_l` is Local dimension of observation vector.
 
     Returns
     -------
@@ -20353,7 +20388,7 @@ def omi_init_obsvar_l_cb (int domain_p,
     obs_l : ndarray[tuple[dim_obs_l], np.float64]
         Local observation vector
 
-        The array dimension `dim_obs_l` is Local dimension of observation vector
+        The array dimension `dim_obs_l` is Local dimension of observation vector.
     meanvar_l : float
         Mean local observation error variance
 
@@ -20395,17 +20430,17 @@ def omi_prodRinvA_l_cb (int domain_p,
     obs_l : ndarray[tuple[dim_obs_l], np.float64]
         Local vector of observations
 
-        The array dimension `dim_obs_l` is Dimension of local observation vector
+        The array dimension `dim_obs_l` is Dimension of local observation vector.
     A_l : ndarray[tuple[dim_obs_l, rank], np.float64]
         Input matrix
 
-        The 1st-th dimension dim_obs_l is Dimension of local observation vector
-        The 2nd-th dimension rank is Rank of initial covariance matrix
+        The1st-th dimension dim_obs_l is Dimension of local observation vector;
+        the2nd-th dimension rank is Rank of initial covariance matrix.
     C_l : ndarray[tuple[dim_obs_l, rank], np.float64]
         Output matrix
 
-        The 1st-th dimension dim_obs_l is Dimension of local observation vector
-        The 2nd-th dimension rank is Rank of initial covariance matrix
+        The1st-th dimension dim_obs_l is Dimension of local observation vector;
+        the2nd-th dimension rank is Rank of initial covariance matrix.
 
     Returns
     -------
@@ -20454,11 +20489,11 @@ def omi_likelihood_l_cb (int domain_p,
     obs_l : ndarray[tuple[dim_obs_l], np.float64]
         PE-local vector of observations
 
-        The array dimension `dim_obs_l` is PE-local dimension of obs. vector
+        The array dimension `dim_obs_l` is PE-local dimension of obs. vector.
     resid_l : ndarray[tuple[dim_obs_l], np.float64]
         Input vector of residuum
 
-        The array dimension `dim_obs_l` is PE-local dimension of obs. vector
+        The array dimension `dim_obs_l` is PE-local dimension of obs. vector.
     lhood_l : float
         Output vector - log likelihood
 
@@ -20502,17 +20537,17 @@ def omi_prodRinvA_cb (int step,
     obs_p : ndarray[tuple[dim_obs_p], np.float64]
         PE-local vector of observations
 
-        The array dimension `dim_obs_p` is Dimension of PE-local observation vector
+        The array dimension `dim_obs_p` is Dimension of PE-local observation vector.
     A_p : ndarray[tuple[dim_obs_p, ncol], np.float64]
         Input matrix
 
-        The 1st-th dimension dim_obs_p is Dimension of PE-local observation vector
-        The 2nd-th dimension ncol is Number of columns in A_p and C_p
+        The1st-th dimension dim_obs_p is Dimension of PE-local observation vector;
+        the2nd-th dimension ncol is Number of columns in A_p and C_p.
     C_p : ndarray[tuple[dim_obs_p, ncol], np.float64]
         Output matrix
 
-        The 1st-th dimension dim_obs_p is Dimension of PE-local observation vector
-        The 2nd-th dimension ncol is Number of columns in A_p and C_p
+        The1st-th dimension dim_obs_p is Dimension of PE-local observation vector;
+        the2nd-th dimension ncol is Number of columns in A_p and C_p.
 
     Returns
     -------
@@ -20552,11 +20587,11 @@ def omi_likelihood_cb (int step,
     obs : ndarray[tuple[dim_obs], np.float64]
         PE-local vector of observations
 
-        The array dimension `dim_obs` is PE-local dimension of obs. vector
+        The array dimension `dim_obs` is PE-local dimension of obs. vector.
     resid : ndarray[tuple[dim_obs], np.float64]
         Input vector of residuum
 
-        The array dimension `dim_obs` is PE-local dimension of obs. vector
+        The array dimension `dim_obs` is PE-local dimension of obs. vector.
     lhood : float
         Output vector - log likelihood
 
@@ -20590,8 +20625,8 @@ def omi_add_obs_error_cb (int step,
     C_p : ndarray[tuple[dim_obs_p, dim_obs_p], np.float64]
         Matrix to which R is added
 
-        The 1st-th dimension dim_obs_p is Dimension of PE-local observation vector
-        The 2nd-th dimension dim_obs_p is Dimension of PE-local observation vector
+        The1st-th dimension dim_obs_p is Dimension of PE-local observation vector;
+        the2nd-th dimension dim_obs_p is Dimension of PE-local observation vector.
 
     Returns
     -------
@@ -20630,12 +20665,12 @@ def omi_init_obscovar_cb (int step,
     covar : ndarray[tuple[dim_obs, dim_obs], np.float64]
         Observation error covar. matrix
 
-        The 1st-th dimension dim_obs is Dimension of observation vector
-        The 2nd-th dimension dim_obs is Dimension of observation vector
+        The1st-th dimension dim_obs is Dimension of observation vector;
+        the2nd-th dimension dim_obs is Dimension of observation vector.
     m_state_p : ndarray[tuple[dim_obs_p], np.float64]
         Observation vector
 
-        The array dimension `dim_obs_p` is PE-local dimension of obs. vector
+        The array dimension `dim_obs_p` is PE-local dimension of obs. vector.
     isdiag : bool
         Whether matrix R is diagonal
 
@@ -20677,11 +20712,11 @@ def omi_init_obserr_f_cb (int step,
     obs_f : ndarray[tuple[dim_obs_f], np.float64]
         Full observation vector
 
-        The array dimension `dim_obs_f` is Full dimension of observation vector
+        The array dimension `dim_obs_f` is Full dimension of observation vector.
     obserr_f : ndarray[tuple[dim_obs_f], np.float64]
         Full observation error stddev
 
-        The array dimension `dim_obs_f` is Full dimension of observation vector
+        The array dimension `dim_obs_f` is Full dimension of observation vector.
 
     Returns
     -------
@@ -20723,19 +20758,19 @@ def omi_prodRinvA_hyb_l_cb (int domain_p,
     obs_l : ndarray[tuple[dim_obs_l], np.float64]
         Local vector of observations
 
-        The array dimension `dim_obs_l` is Dimension of local observation vector
+        The array dimension `dim_obs_l` is Dimension of local observation vector.
     alpha : float
         Hybrid weight
     A_l : ndarray[tuple[dim_obs_l, rank], np.float64]
         Input matrix
 
-        The 1st-th dimension dim_obs_l is Dimension of local observation vector
-        The 2nd-th dimension rank is Rank of initial covariance matrix
+        The1st-th dimension dim_obs_l is Dimension of local observation vector;
+        the2nd-th dimension rank is Rank of initial covariance matrix.
     C_l : ndarray[tuple[dim_obs_l, rank], np.float64]
         Output matrix
 
-        The 1st-th dimension dim_obs_l is Dimension of local observation vector
-        The 2nd-th dimension rank is Rank of initial covariance matrix
+        The1st-th dimension dim_obs_l is Dimension of local observation vector;
+        the2nd-th dimension rank is Rank of initial covariance matrix.
 
     Returns
     -------
@@ -20786,11 +20821,11 @@ def omi_likelihood_hyb_l_cb (int domain_p,
     obs_l : ndarray[tuple[dim_obs_l], np.float64]
         PE-local vector of observations
 
-        The array dimension `dim_obs_l` is PE-local dimension of obs. vector
+        The array dimension `dim_obs_l` is PE-local dimension of obs. vector.
     resid_l : ndarray[tuple[dim_obs_l], np.float64]
         Input vector of residuum
 
-        The array dimension `dim_obs_l` is PE-local dimension of obs. vector
+        The array dimension `dim_obs_l` is PE-local dimension of obs. vector.
     alpha : float
         Hybrid weight
     lhood_l : float
@@ -20854,26 +20889,26 @@ def omi_weights_l (int verbose,
     cradius : ndarray[tuple[nobs_l], np.float64]
         Vector of localization cut-off radii; observation weight=0 if distance > cradius
 
-        The array dimension `nobs_l` is Number of local observations
+        The array dimension `nobs_l` is Number of local observations.
     sradius : ndarray[tuple[nobs_l], np.float64]
         Vector of support radii of localization function.
         It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
         weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
 
-        The array dimension `nobs_l` is Number of local observations
+        The array dimension `nobs_l` is Number of local observations.
     matA : ndarray[tuple[nobs_l, ncols], np.float64]
         input matrix
 
-        The 1st-th dimension nobs_l is Number of local observations
-        The 2nd-th dimension ncols is the number of columns
+        The1st-th dimension nobs_l is Number of local observations;
+        the2nd-th dimension ncols is the number of columns.
     ivar_obs_l : ndarray[tuple[nobs_l], np.float64]
         Local vector of inverse obs. variances (nobs_l)
 
-        The array dimension `nobs_l` is Number of local observations
+        The array dimension `nobs_l` is Number of local observations.
     dist_l : ndarray[tuple[nobs_l], np.float64]
         Local vector of obs. distances (nobs_l)
 
-        The array dimension `nobs_l` is Number of local observations
+        The array dimension `nobs_l` is Number of local observations.
 
     Returns
     -------
@@ -20934,16 +20969,16 @@ def omi_weights_l_sgnl (int verbose,
     matA : ndarray[tuple[nobs_l, ncols], np.float64]
         input matrix
 
-        The 1st-th dimension nobs_l is Number of local observations
-        The 2nd-th dimension ncols is number of columns
+        The1st-th dimension nobs_l is Number of local observations;
+        the2nd-th dimension ncols is number of columns.
     ivar_obs_l : ndarray[tuple[nobs_l], np.float64]
         Local vector of inverse obs. variances (nobs_l)
 
-        The array dimension `nobs_l` is Number of local observations
+        The array dimension `nobs_l` is Number of local observations.
     dist_l : ndarray[tuple[nobs_l], np.float64]
         Local vector of obs. distances (nobs_l)
 
-        The array dimension `nobs_l` is Number of local observations
+        The array dimension `nobs_l` is Number of local observations.
 
     Returns
     -------
@@ -21030,7 +21065,7 @@ def omi_init_dim_obs_l_iso (int i_obs,
     coords_l : ndarray[tuple[ncoord], np.float64]
         Coordinates of current analysis domain
 
-        The array dimension `ncoord` is number of coordinate dimension
+        The array dimension `ncoord` is number of coordinate dimension.
     locweight : int
         Types of localization function
         0) unit weight; 1) exponential; 2) 5-th order polynomial;
@@ -21081,7 +21116,7 @@ def omi_init_dim_obs_l_noniso (int i_obs,
     coords_l : ndarray[tuple[ncoord], np.float64]
         Coordinates of current analysis domain
 
-        The array dimension `ncoord` is number of coordinate dimension
+        The array dimension `ncoord` is number of coordinate dimension.
     locweight : int
         Types of localization function
         0) unit weight; 1) exponential; 2) 5-th order polynomial;
@@ -21090,13 +21125,13 @@ def omi_init_dim_obs_l_noniso (int i_obs,
     cradius : ndarray[tuple[ncoord], np.float64]
         Vector of localization cut-off radii; observation weight=0 if distance > cradius
 
-        The array dimension `ncoord` is number of coordinate dimension
+        The array dimension `ncoord` is number of coordinate dimension.
     sradius : ndarray[tuple[ncoord], np.float64]
         Vector of support radii of localization function.
         It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
         weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
 
-        The array dimension `ncoord` is number of coordinate dimension
+        The array dimension `ncoord` is number of coordinate dimension.
     cnt_obs_l : int
         Local dimension of current observation vector
 
@@ -21136,7 +21171,7 @@ def omi_init_dim_obs_l_noniso_locweights (int i_obs,
     coords_l : ndarray[tuple[ncoord], np.float64]
         Coordinates of current analysis domain
 
-        The array dimension `ncoord` is number of coordinate dimension
+        The array dimension `ncoord` is number of coordinate dimension.
     locweights : ndarray[tuple[2], np.intc]
         Types of localization function
         0) unit weight; 1) exponential; 2) 5-th order polynomial;
@@ -21147,13 +21182,13 @@ def omi_init_dim_obs_l_noniso_locweights (int i_obs,
     cradius : ndarray[tuple[ncoord], np.float64]
         Vector of localization cut-off radii for each dimension; observation weight=0 if distance > cradius
 
-        The array dimension `ncoord` is number of coordinate dimension
+        The array dimension `ncoord` is number of coordinate dimension.
     sradius : ndarray[tuple[ncoord], np.float64]
         Vector of support radii of localization function for each dimension.
         It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
         weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
 
-        The array dimension `ncoord` is number of coordinate dimension
+        The array dimension `ncoord` is number of coordinate dimension.
     cnt_obs_l : int
         Local dimension of current observation vector
 
@@ -21205,18 +21240,18 @@ def omi_localize_covar_iso (int i_obs,
     coords : ndarray[tuple[ncoord, dim_p], np.float64]
         Coordinates of state vector elements
 
-        The 1st-th dimension ncoord is number of coordinate dimension
-        The 2nd-th dimension dim_p is State dimension
+        The1st-th dimension ncoord is number of coordinate dimension;
+        the2nd-th dimension dim_p is State dimension.
     HP : ndarray[tuple[dim_obs, dim_p], np.float64]
         Matrix HP, dimension (nobs, dim)
 
-        The 1st-th dimension dim_obs is Observation dimension
-        The 2nd-th dimension dim_p is State dimension
+        The1st-th dimension dim_obs is Observation dimension;
+        the2nd-th dimension dim_p is State dimension.
     HPH : ndarray[tuple[dim_obs, dim_obs], np.float64]
         Matrix HPH, dimension (nobs, nobs)
 
-        The 1st-th dimension dim_obs is Observation dimension
-        The 2nd-th dimension dim_obs is Observation dimension
+        The1st-th dimension dim_obs is Observation dimension;
+        the2nd-th dimension dim_obs is Observation dimension.
 
     Returns
     -------
@@ -21277,28 +21312,28 @@ def omi_localize_covar_noniso (int i_obs,
     cradius : ndarray[tuple[ncoord], np.float64]
         Vector of localization cut-off radii for each dimension; observation weight=0 if distance > cradius
 
-        The array dimension `ncoord` is number of coordinate dimension
+        The array dimension `ncoord` is number of coordinate dimension.
     sradius : ndarray[tuple[ncoord], np.float64]
         Vector of support radii of localization function for each dimension.
         It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
         weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
 
-        The array dimension `ncoord` is number of coordinate dimension
+        The array dimension `ncoord` is number of coordinate dimension.
     coords : ndarray[tuple[ncoord, dim_p], np.float64]
         Coordinates of state vector elements
 
-        The 1st-th dimension ncoord is number of coordinate dimension
-        The 2nd-th dimension dim_p is State dimension
+        The1st-th dimension ncoord is number of coordinate dimension;
+        the2nd-th dimension dim_p is State dimension.
     HP : ndarray[tuple[dim_obs, dim_p], np.float64]
         Matrix HP, dimension (nobs, dim)
 
-        The 1st-th dimension dim_obs is Observation dimension
-        The 2nd-th dimension dim_p is State dimension
+        The1st-th dimension dim_obs is Observation dimension;
+        the2nd-th dimension dim_p is State dimension.
     HPH : ndarray[tuple[dim_obs, dim_obs], np.float64]
         Matrix HPH, dimension (nobs, nobs)
 
-        The 1st-th dimension dim_obs is Observation dimension
-        The 2nd-th dimension dim_obs is Observation dimension
+        The1st-th dimension dim_obs is Observation dimension;
+        the2nd-th dimension dim_obs is Observation dimension.
 
     Returns
     -------
@@ -21361,28 +21396,28 @@ def omi_localize_covar_noniso_locweights (int i_obs,
     cradius : ndarray[tuple[ncoord], np.float64]
         Vector of localization cut-off radii for each dimension; observation weight=0 if distance > cradius
 
-        The array dimension `ncoord` is number of coordinate dimension
+        The array dimension `ncoord` is number of coordinate dimension.
     sradius : ndarray[tuple[ncoord], np.float64]
         Vector of support radii of localization function for each dimension.
         It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
         weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
 
-        The array dimension `ncoord` is number of coordinate dimension
+        The array dimension `ncoord` is number of coordinate dimension.
     coords : ndarray[tuple[ncoord, dim_p], np.float64]
         Coordinates of state vector elements
 
-        The 1st-th dimension ncoord is number of coordinate dimension
-        The 2nd-th dimension dim_p is State dimension
+        The1st-th dimension ncoord is number of coordinate dimension;
+        the2nd-th dimension dim_p is State dimension.
     HP : ndarray[tuple[dim_obs, dim_p], np.float64]
         Matrix HP, dimension (nobs, dim)
 
-        The 1st-th dimension dim_obs is Observation dimension
-        The 2nd-th dimension dim_p is State dimension
+        The1st-th dimension dim_obs is Observation dimension;
+        the2nd-th dimension dim_p is State dimension.
     HPH : ndarray[tuple[dim_obs, dim_obs], np.float64]
         Matrix HPH, dimension (nobs, nobs)
 
-        The 1st-th dimension dim_obs is Observation dimension
-        The 2nd-th dimension dim_obs is Observation dimension
+        The1st-th dimension dim_obs is Observation dimension;
+        the2nd-th dimension dim_obs is Observation dimension.
 
     Returns
     -------
@@ -21437,11 +21472,11 @@ def omi_omit_by_inno_l_cb (int domain_p,
     resid_l : ndarray[tuple[dim_obs_l], np.float64]
         Input vector of residuum
 
-        The array dimension `dim_obs_l` is PE-local dimension of obs. vector
+        The array dimension `dim_obs_l` is PE-local dimension of obs. vector.
     obs_l : ndarray[tuple[dim_obs_l], np.float64]
         Input vector of local observations
 
-        The array dimension `dim_obs_l` is PE-local dimension of obs. vector
+        The array dimension `dim_obs_l` is PE-local dimension of obs. vector.
 
     Returns
     -------
@@ -21476,11 +21511,11 @@ def omi_omit_by_inno_cb (int dim_obs_f,
     resid_f : ndarray[tuple[dim_obs_f], np.float64]
         Input vector of residuum
 
-        The array dimension `dim_obs_f` is Full dimension of obs. vector
+        The array dimension `dim_obs_f` is Full dimension of obs. vector.
     obs_f : ndarray[tuple[dim_obs_f], np.float64]
         Input vector of full observations
 
-        The array dimension `dim_obs_f` is Full dimension of obs. vector
+        The array dimension `dim_obs_f` is Full dimension of obs. vector.
 
     Returns
     -------
@@ -21553,13 +21588,13 @@ def omi_set_localization_noniso (int i_obs,
     cradius : ndarray[tuple[nradii], np.float64]
         Vector of localization cut-off radii; observation weight=0 if distance > cradius
 
-        The array dimension `nradii` is Number of radii to consider for localization
+        The array dimension `nradii` is Number of radii to consider for localization.
     sradius : ndarray[tuple[nradii], np.float64]
         Vector of support radii of localization function.
         It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
         weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
 
-        The array dimension `nradii` is Number of radii to consider for localization
+        The array dimension `nradii` is Number of radii to consider for localization.
     locweight : int
         Types of localization function
         0) unit weight; 1) exponential; 2) 5-th order polynomial;
@@ -28743,7 +28778,7 @@ def local_set_indices (int[::1] map
     map : ndarray[tuple[dim_l], np.intc]
         Index array for mapping between local and global state vector
 
-        The array dimension `dim_l` is Dimension of local state vector
+        The array dimension `dim_l` is Dimension of local state vector.
     """
 
     cdef int dim_l
@@ -28763,7 +28798,7 @@ def local_set_increment_weights (double[::1] weights
     weights : ndarray[tuple[dim_l], np.float64]
         Weights array
 
-        The array dimension `dim_l` is Dimension of local state vector
+        The array dimension `dim_l` is Dimension of local state vector.
     """
 
     cdef int dim_l
@@ -28801,13 +28836,13 @@ def local_g2l_cb (int step,
     state_p : ndarray[tuple[dim_p], np.float64]
         PE-local full state vector
 
-        The array dimension `dim_p` is PE-local full state dimension
+        The array dimension `dim_p` is PE-local full state dimension.
     dim_l : int
         Local state dimension
     state_l : ndarray[tuple[dim_l], np.float64]
         State vector on local analysis domain
 
-        The array dimension `dim_l` is Local state dimension
+        The array dimension `dim_l` is Local state dimension.
 
     Returns
     -------
@@ -28850,13 +28885,13 @@ def local_l2g_cb (int step,
     state_l : ndarray[tuple[dim_l], np.float64]
         State vector on local analysis domain
 
-        The array dimension `dim_l` is Local state dimension
+        The array dimension `dim_l` is Local state dimension.
     dim_p : int
         PE-local full state dimension
     state_p : ndarray[tuple[dim_p], np.float64]
         PE-local full state vector
 
-        The array dimension `dim_p` is PE-local full state dimension
+        The array dimension `dim_p` is PE-local full state dimension.
 
     Returns
     -------

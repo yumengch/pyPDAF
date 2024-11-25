@@ -380,9 +380,6 @@ def write_user_Cython(f:typing.TextIO, arg_info: dict[str, dict[str, str|list[st
         if info['type'] == 'procedure':
             s = ' '*4 + f'c__PDAFcython.{info["kind"][3:]} = <void*>py{info["kind"][1:]}\n'
             f.write(s)
-            if argname.lower() == 'u_init_ens':
-                s = ' '*4 + 'c__PDAFcython.init_ens_pdaf_single_member = <void*>py__init_ens_pdaf\n'
-                f.write(s)
             count += 1
     f.write('\n' if count > 0 else '')
 
@@ -409,19 +406,7 @@ def write_return_def(f:typing.TextIO, arg_info: dict[str, dict[str, str|list[str
 
 def write_func_call(f:typing.TextIO, subroutine_name:str, arg_info: dict[str, dict[str, str|list[str]]]) -> None:
     # special treatment for init subroutine
-    # because init_ens_pdaf uses a different interface
-    if subroutine_name.lower() == 'c__pdaf_init':
-        s = ' '*4 + f'if (filtertype == 0) or (filtertype == 200 and subtype == 0):\n'
-        s += ' '*8 + 'c__pdaf_init (&filtertype, &subtype, &stepnull,\n'
-        s += ' '*8 + '              &param_int[0], &dim_pint,\n'
-        s += ' '*8 + '              &param_real[0], &dim_preal,\n'
-        s += ' '*8 + '              &COMM_model, &COMM_filter, &COMM_couple,\n'
-        s += ' '*8 + '              &task_id, &n_modeltasks, &in_filterpe,\n'
-        s += ' '*8 + '              c__PDAFcython.c__init_ens_pdaf_single_member,\n'
-        s += ' '*8 + '              &in_screen, &flag)\n'
-        s += ' '*4 + 'else:\n'
-        f.write(s)
-    indent = ' '*4 if subroutine_name.lower() != 'c__pdaf_init' else ' '*8
+    indent = ' '*4
     # call the actual subroutine
     s = indent + f'{subroutine_name.lower()} ('
     indent = ' '*len(s)
