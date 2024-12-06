@@ -1,4 +1,4 @@
-# Developer Guide for pyPDAF
+# Developer Guide
 
 The following guide explains the structure, implementation details, and mechanisms used in `pyPDAF`, a Python interface to the PDAF (Parallel Data Assimilation Framework) Fortran library. This guide is aimed at developers who wish to understand the existing framework, make modifications, or contribute to its development. Please refer to (installation from source code)[install] if you'd like to further develop pyPDAF.
 
