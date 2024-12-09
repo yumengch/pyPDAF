@@ -114,31 +114,46 @@ docstrings['get_obsmemberid'] = "This function returns the ensemble member id wh
 docstrings['get_smootherens'] = "This function returns the smoothed ensemble in earlier time steps. " \
                                 "It is only used when the smoother options is used ."
 
-docstrings['get_state'] = "Post-processing the analysis and distributing state vector back to the model.\n\n    " \
-                          "This function also sets the next model step for assimilation, or end the entire assimilation.\n\n    " \
-                          "The function executes the user-supplied function in the following sequence:\n\n    " \
-                          "1. py__prepoststep_state_pdaf\n\n    " \
-                          "2. py__distribute_state_pdaf\n\n    " \
-                          "3. py__next_observation_pdaf"
+docstrings['get_state'] = \
+    "Distributing post-processed state vector back to the model." \
+    "\n\n    " \
+    "This function processing the ensemble " \
+    "\n    " \
+    "array stored in PDAF when it is called first time" \
+    "\n    " \
+    "in an online PDAF system. This is controlled by an internal" \
+    "\n    " \
+    "`firsttime` variable in PDAF. Afterwards, the ensemble " \
+    "\n    " \
+    "is distributed to the model. This function then specifies the" \
+    "\n    " \
+    "the number of forecast time steps until\n    " \
+    "the next assimilation step, or exit the assimilation cycle." \
+    "\n    " \
+    "The function executes the user-supplied function in the following sequence:\n\n    " \
+    "1. py__prepoststep_state_pdaf\n\n    " \
+    "2. py__distribute_state_pdaf\n\n    " \
+    "3. py__next_observation_pdaf"
 
-docstrings['init'] = "This function initialises the PDAF system.\n\n    " \
-                     "It is called once at the beginning of the assimilation.\n    " \
-                     "The function specifies the type of DA methods, \n    " \
-                     "parameters of the filters, the MPI communicators, and other parallel options.\n    " \
-                     "The user-supplied function :func:`py__init_ens_pdaf`\n    " \
-                     "provides an initial ensemble to the internal PDAF ensemble array.\n    " \
-                     "The internal PDAF ensemble can be distribute to the model by\n    " \
-                     ":func:`pyPDAF.PDAF.get_state`.\n\n    " \
-                     "The filter options including `filtertype`, `subtype`, `param_int`, and `param_real`\n    " \
-                     "are introduced in\n    " \
-                     "`PDAF filter options wiki page <https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF>`_.\n\n    " \
-                     "The MPI communicators are defined in\n    " \
-                     "`pyPDAF example page <https://github.com/yumengch/pyPDAF/blob/main/example/parallelisation.py>`_.\n    " \
-                     "The example script is based on the parallelisation strategy of PDAF\n    " \
-                     "which is available at\n    " \
-                     "`PDAF parallelisation strategy wiki page <https://pdaf.awi.de/trac/wiki/ImplementationConceptOnline#Parallelizationofthedataassimilationprogram>`_\n    " \
-                     "and `PDAF parallelisation adaptation wiki page <https://pdaf.awi.de/trac/wiki/AdaptParallelization>`_.\n    " \
-                     "In most cases, the user does not need to change the parallelisation script.\n\n    " \
+docstrings['init'] = \
+    "This function initialises the PDAF system.\n\n    " \
+    "It is called once at the beginning of the assimilation.\n    " \
+    "The function specifies the type of DA methods, \n    " \
+    "parameters of the filters, the MPI communicators, and other parallel options.\n    " \
+    "The user-supplied function :func:`py__init_ens_pdaf`\n    " \
+    "provides an initial ensemble to the internal PDAF ensemble array.\n    " \
+    "The internal PDAF ensemble can be distribute to the model by\n    " \
+    ":func:`pyPDAF.PDAF.get_state`.\n\n    " \
+    "The filter options including `filtertype`, `subtype`, `param_int`, and `param_real`\n    " \
+    "are introduced in\n    " \
+    "`PDAF filter options wiki page <https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF>`_.\n\n    " \
+    "The MPI communicators are defined in\n    " \
+    "`pyPDAF example page <https://github.com/yumengch/pyPDAF/blob/main/example/parallelisation.py>`_.\n    " \
+    "The example script is based on the parallelisation strategy of PDAF\n    " \
+    "which is available at\n    " \
+    "`PDAF parallelisation strategy wiki page <https://pdaf.awi.de/trac/wiki/ImplementationConceptOnline#Parallelizationofthedataassimilationprogram>`_\n    " \
+    "and `PDAF parallelisation adaptation wiki page <https://pdaf.awi.de/trac/wiki/AdaptParallelization>`_.\n    " \
+    "In most cases, the user does not need to change the parallelisation script.\n\n    " \
 
 docstrings['local_weight'] = "The function is used for localisation in the analysis step of a filter " \
                              "and computes a weight according to the specified distance " \
@@ -238,46 +253,64 @@ docstrings['omit_obs_omi'] = "This function computes innovation and omit corresp
                              "This function is used by some of the global filters, e.g. EnKF, LEnKF, PF, NETF, with OMI."
 
 
-docstrings['omi_init'] = "Allocating an array of `obs_f` derived types instances.\n\n    " \
-                         "This function initialises the number of observation types.\n    " \
-                         "This should be called at the start of the DA system after :func:`pyPDAF.PDAF.init`."
-docstrings['omi_set_doassim'] = "Setting the `doassim` attribute of `obs_f`.\n\n    " \
-                                "Properties of `obs_f` are typically set in user-supplied function\n    " \
-                                "`py__init_dim_obs_pdaf`.\n\n    " \
-                                "If `doassim` is set to 0,\n    " \
-                                "the given type of observation is not assimilated in the DA system. "
-docstrings['omi_set_disttype'] = "Setting the `doassim` attribute of `obs_f`.\n\n    " \
-                                 "Properties of `obs_f` are typically set in user-supplied function\n    " \
-                                 "`py__init_dim_obs_pdaf`.\n\n    " \
-                                 "The `disttype` determines the way the distance\n    " \
-                                 "between observation and model grid is calculated in OMI.\n    " \
-                                 "See https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsdisttype."
-docstrings['omi_set_ncoord'] = "This function sets the `ncoord` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. " \
-                               "This is the dimension of coordinates of the observation. "
-docstrings['omi_set_id_obs_p'] = "Setting the `id_obs_p` attribute of `obs_f`.\n\n    " \
-                                 "The function is typically used in user-supplied function `py__init_dim_obs_pdaf`.\n\n    " \
-                                 "Here, `id_obs_p(nrows, dim_obs_p)` is a 2D array of integers.\n    " \
-                                 "The value of `nrows` depends on the observation operator used for an observation.\n\n    " \
-                                 "Examples:\n\n    " \
-                                 "- `nrows=1`: observations are located on model grid point.\n    "\
-                                 "  In this case, " \
-                                 "`id_obs_p` stores the index of the state vector (starting from 1) corresponds to the observations,\n    " \
-                                 "  e.g. `id_obs_p[0, j] = i` means that the location and variable of the `i`-th element of the state vector\n    " \
-                                 "  is the same as the `j`-th observation.\n\n    " \
-                                 "- `nrows=4`: each observation corresponds to 4 indices of elements in the state vector.\n    "\
-                                 "   In this case,\n    " \
-                                 "   the location of these elements is used to perform bi-linear interpolation\n    "\
-                                 "   from model grid to observation location.\n    " \
-                                 "   This information is used in the :func:`pyPDAF.PDAF.omi_obs_op_gridavg`\n    "\
-                                 "   and :func:`pyPDAF.PDAF.omi_obs_op_interp_lin` functions.\n    " \
-                                 "   When interpolation is needed,\n    "\
-                                 "   the weighting of the interpolation is done\n    "\
-                                 "   in the :func:`pyPDAF.PDAF.omi_get_interp_coeff_lin`,\n    " \
-                                 "   :func:`pyPDAF.PDAF.omi_get_interp_coeff_lin1D`,\n    "\
-                                 "   and :func:`pyPDAF.PDAF.omi_get_interp_coeff_tri` functions.\n    " \
-                                 "   The details of interpolation setup can be found at\n    " \
-                                 "   `PDAF wiki page " \
-                                 "<https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Initializinginterpolationcoefficients>`_.\n"
+docstrings['omi_init'] = \
+    "Allocating an array of `obs_f` derived types instances.\n\n    " \
+    "This function initialises the number of observation types,\n    " \
+    "which should be called at the start of the DA system\n    " \
+    "after :func:`pyPDAF.PDAF.init`."
+
+docstrings['omi_set_doassim'] = \
+    "Setting the `doassim` attribute of `obs_f`.\n\n    " \
+    "Properties of `obs_f` are typically set in user-supplied function\n    " \
+    "`py__init_dim_obs_pdaf`.\n\n    " \
+    "If `doassim` is set to 0,\n    " \
+    "the given type of observation is not assimilated in the DA system. "
+
+docstrings['omi_set_disttype'] = \
+    "Setting the `disttype` attribute of `obs_f`.\n\n    " \
+    "Properties of `obs_f` are typically set in user-supplied function\n    " \
+    "`py__init_dim_obs_pdaf`.\n\n    " \
+    "`disttype` determines the way the distance\n    " \
+    "between observation and model grid is calculated in OMI.\n    " \
+    "See `PDAF distance computation " \
+    "<https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsdisttype>`_."
+
+docstrings['omi_set_ncoord'] = \
+    "Setting the `ncoord` attribute of `obs_f`.\n\n    " \
+    "Properties of `obs_f` are typically set in user-supplied function\n    " \
+    "`py__init_dim_obs_pdaf`.\n\n    " \
+    "`disttype` gives the coordinate dimension of the observation."
+
+
+docstrings['omi_set_id_obs_p'] = \
+    "Setting the `id_obs_p` attribute of `obs_f`.\n\n    " \
+    "The function is typically used in user-supplied\n    " \
+    "function `py__init_dim_obs_pdaf`.\n\n    " \
+    "Here, `id_obs_p(nrows, dim_obs_p)` is a 2D array of integers.\n    " \
+    "The value of `nrows` depends on the observation operator\n    " \
+    "used for an observation.\n\n    " \
+    "Examples:\n\n    " \
+    "- `nrows=1`: observations are located on model grid point.\n    "\
+    "  In this case,\n    " \
+    "  `id_obs_p` stores the index of the state vector\n    " \
+    "  (starting from 1) corresponds to the observations,\n    " \
+    "  e.g. `id_obs_p[0, j] = i` means that the location\n    " \
+    "  and variable of the `i`-th element of the state vector\n    " \
+    "  is the same as the `j`-th observation.\n\n    " \
+    "- `nrows=4`: each observation corresponds to 4 indices of elements in the state vector.\n    "\
+    "  In this case,\n    " \
+    "  the location of these elements is used to perform bi-linear interpolation\n    "\
+    "  from model grid to observation location.\n    " \
+    "  This information is used in the :func:`pyPDAF.PDAF.omi_obs_op_gridavg`\n    "\
+    "  and :func:`pyPDAF.PDAF.omi_obs_op_interp_lin` functions.\n    " \
+    "  When interpolation is needed,\n    "\
+    "  the weighting of the interpolation is done\n    "\
+    "  in the :func:`pyPDAF.PDAF.omi_get_interp_coeff_lin`,\n    " \
+    "  :func:`pyPDAF.PDAF.omi_get_interp_coeff_lin1D`,\n    "\
+    "  and :func:`pyPDAF.PDAF.omi_get_interp_coeff_tri` functions.\n    " \
+    "  The details of interpolation setup can be found at\n    " \
+    "  `PDAF wiki page " \
+    "<https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Initializinginterpolationcoefficients>`_.\n"
 docstrings['omi_set_icoeff_p'] = "This function sets the `icoeff_p` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. " \
                                  "`icoeff_p(nrows, dim_obs_p)` is a 2D array of real number used to implement\n    " \
                                  "interpolations. This is used in tandem with `id_obs_p`. " \
@@ -306,10 +339,25 @@ docstrings['omi_set_inno_omit'] = "This function sets the `inno_omit` attribute 
 docstrings['omi_set_inno_omit_ivar'] = "This function sets the `inno_omit_ivar` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. " \
                                        "This is used to specify the inverse of the observations variance to omit the observation. " \
                                        "By default it is `1e-12` for a large observation error, but users can adjust this value to ensure that the observation is omitted based on applications\n    "
-docstrings['omi_gather_obs'] = "This function is typically called in the user-supplied function `py__init_dim_obs_pdaf`. " \
-                               "This function returns the full observation dimensioin from process-local observations. " \
-                               "It also sets the observation vector, its coordinates, and the inverse of the observation variance. " \
-                               "This function furtuer sets the localisation radius in OMI."
+docstrings['omi_gather_obs'] = \
+    "Gather the dimension of a given type of observation across\n    " \
+    "multiple local domains/filter processors.\n\n    " \
+    "This function can be used in the user-supplied function of" \
+    "\n    " \
+    ":func:`py__init_dim_obs_f_pdaf`.\n\n    " \
+    "This function does three things:\n    " \
+    "    1. Receiving observation dimension on each local process." \
+    "\n    " \
+    "    2. Gather the total dimension of given observation type\n    " \
+    "       across local process and the displacement of PE-local" \
+    "\n    " \
+    "       observations relative to the total observation vector" \
+    "\n    " \
+    "    3. Set the observation vector, observation coordinates, " \
+    "\n    " \
+    "       and the inverse of the observation variance" \
+    "\n\n    " \
+
 docstrings['omi_gather_obsstate'] = "This function is used to implement custom observation operators. " \
                                     "See https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Implementingyourownobservationoperator"
 docstrings['omi_set_domain_limits'] = "This is used to set the domain limits for the use of `pyPDAF.PDAF.omi_set_use_global_obs`." \

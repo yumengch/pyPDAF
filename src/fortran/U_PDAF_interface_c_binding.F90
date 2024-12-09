@@ -16,23 +16,39 @@ abstract interface
    SUBROUTINE c__init_ens_pdaf(filtertype, dim_p, dim_ens, state_p, uinv, ens_p, flag) bind(c)
       use iso_c_binding, only: c_double, c_int
       implicit none
-      ! type of filter to initialize
+      ! filter type given in PDAF_init
       integer(c_int), intent(in) :: filtertype
-      ! pe-local state dimension
+      ! PE-local state dimension
       integer(c_int), intent(in) :: dim_p
-      ! size of ensemble
+      ! number of ensemble members
       integer(c_int), intent(in) :: dim_ens
-      ! pe-local model state
+      ! PE-local model state
+      ! This array must be filled with the initial
+      ! state of the model for SEEK, but it is not
+      ! used for ensemble-based filters.
+      !
+      ! One can still make use of this array within
+      ! this function.
       real(c_double), intent(inout) :: state_p(dim_p)
-      ! array not referenced for ensemble filters
-      ! The dimension of this array depends on the
-      ! filtertype
+      ! This array is the inverse of matrix
+      ! formed by right singular vectors of error
+      ! covariance matrix of ensemble perturbations.
+      !
+      ! This array has to be filled in SEEK, but it is
+      ! not used for ensemble-based filters.
+      ! Nevertheless, one can still make use of this
+      ! array within this function e.g.,
+      ! for generating an initial ensemble perturbation
+      ! from a given covariance matrix.
+      !
+      ! Dimension of this array is determined by the
+      ! filter type.
       !
       ! - (dim_ens, dim_ens) for (L)ETKF, (L)NETF, (L)KNETF, and SEEK
       ! - (dim_ens - 1, dim_ens - 1) for (L)SEIK, (L)ESTKF, and 3DVar using ensemble
       ! - (1, 1) for (L)EnKF, particle filters and gen_obs
       real(c_double), intent(inout) :: uinv(:, :)
-      ! pe-local state ensemble
+      ! PE-local ensemble
       real(c_double), intent(inout) :: ens_p(dim_p, dim_ens)
       ! pdaf status flag
       integer(c_int), intent(inout) :: flag
@@ -42,9 +58,12 @@ abstract interface
    subroutine c__next_observation_pdaf(stepnow, nsteps, doexit, time) bind(c)
       use iso_c_binding, only: c_double, c_int
       implicit none
-      ! number of the current time step
+      ! the current time step
       integer(c_int), intent(in)  :: stepnow
-      ! number of time steps until next obs
+      ! number of forecast time steps until next obs;
+      ! this can also be interpreted as
+      ! number of assimilation function calls
+      ! to perform a new assimilation
       integer(c_int), intent(out) :: nsteps
       ! whether to exit forecasting (1 for exit)
       integer(c_int), intent(out) :: doexit
@@ -65,33 +84,39 @@ abstract interface
    subroutine c__distribute_state_pdaf(dim_p, state_p) bind(c)
       use iso_c_binding, only: c_double, c_int
       implicit none
-      ! pe-local state dimension
+      ! PE-local state dimension
       integer(c_int), intent(in) :: dim_p
-      ! local state vector
+      ! PE-local state vector
       real(c_double), intent(inout) :: state_p(dim_p)
    end subroutine c__distribute_state_pdaf
 
-   subroutine c__prepoststep_pdaf(step, dim_p, dim_ens, dim_ens_p, dim_obs_p, state_p, uinv, ens_p, flag) bind(c)
+   subroutine c__prepoststep_pdaf(step, dim_p, dim_ens, dim_ens_l, &
+      dim_obs_p, state_p, uinv, ens_p, flag) bind(c)
       use iso_c_binding, only: c_double, c_int
       implicit none
-      ! current time step (negative for call after forecast)
+      ! current time step
+      ! (negative for call before analysis/preprocessing)
       integer(c_int), intent(in) :: step
-      ! pe-local state dimension
+      ! PE-local state vector dimension
       integer(c_int), intent(in) :: dim_p
-      ! size of state ensemble
+      ! number of ensemble members
       integer(c_int), intent(in) :: dim_ens
-      ! pe-local size of ensemble
-      integer(c_int), intent(in) :: dim_ens_p
-      ! pe-local dimension of observation vector
+      ! number of ensemble members run serially
+      ! on each model task
+      integer(c_int), intent(in) :: dim_ens_l
+      ! PE-local dimension of observation vector
       integer(c_int), intent(in) :: dim_obs_p
       ! pe-local forecast/analysis state
-      ! (the array 'state_p' is not generally not
-      ! initialized in the case of seik.
-      ! it can be used freely here.)
+      ! (the array 'state_p' is generally not
+      ! initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+      ! so it can be used freely here.)
       real(c_double), intent(inout) :: state_p(dim_p)
-      ! inverse of matrix u
+      ! Inverse of the transformation matrix in ETKF and ESKTF;
+      ! inverse of matrix formed by right singular vectors of error
+      ! covariance matrix of ensemble perturbations in SEIK/SEEK.
+      ! not used in EnKF.
       real(c_double), intent(inout) :: uinv(dim_ens-1, dim_ens-1)
-      ! pe-local state ensemble
+      ! PE-local ensemble
       real(c_double), intent(inout) :: ens_p(dim_p, dim_ens)
       ! pdaf status flag
       integer(c_int), intent(in) :: flag

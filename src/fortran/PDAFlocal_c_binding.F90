@@ -68,11 +68,15 @@ contains
       next_observation_pdaf, outflag) bind(c)
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
-      ! Routine to distribute a state vector
+      ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
-      ! Provide time step, time and dimension of next observation
+      ! Routine to provide number of forecast time steps until
+      ! next assimilations, model physical time and
+      ! end of assimilation cycles
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide number of local analysis domains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
@@ -100,11 +104,15 @@ contains
       prepoststep_pdaf, next_observation_pdaf, outflag) bind(c)
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
-      ! Routine to distribute a state vector
+      ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
-      ! Provide time step, time and dimension of next observation
+      ! Routine to provide number of forecast time steps until
+      ! next assimilations, model physical time and
+      ! end of assimilation cycles
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Apply control vector transform matrix to control vector
       procedure(c__cvt_ens_pdaf) :: cvt_ens_pdaf
@@ -141,11 +149,15 @@ contains
       prepoststep_pdaf, next_observation_pdaf, outflag) bind(c)
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
-      ! Routine to distribute a state vector
+      ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
-      ! Provide time step, time and dimension of next observation
+      ! Routine to provide number of forecast time steps until
+      ! next assimilations, model physical time and
+      ! end of assimilation cycles
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Apply control vector transform matrix to control vector
       procedure(c__cvt_ens_pdaf) :: cvt_ens_pdaf
@@ -186,11 +198,15 @@ contains
       prepoststep_pdaf, next_observation_pdaf, outflag) bind(c)
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
-      ! Routine to distribute a state vector
+      ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
-      ! Provide time step, time and dimension of next observation
+      ! Routine to provide number of forecast time steps until
+      ! next assimilations, model physical time and
+      ! end of assimilation cycles
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Apply control vector transform matrix to control vector
       procedure(c__cvt_ens_pdaf) :: cvt_ens_pdaf
@@ -231,11 +247,15 @@ contains
       prepoststep_pdaf, next_observation_pdaf, outflag) bind(c)
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
-      ! Routine to distribute a state vector
+      ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
-      ! Provide time step, time and dimension of next observation
+      ! Routine to provide number of forecast time steps until
+      ! next assimilations, model physical time and
+      ! end of assimilation cycles
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Apply control vector transform matrix to control vector
       procedure(c__cvt_ens_pdaf) :: cvt_ens_pdaf
@@ -279,11 +299,15 @@ contains
       next_observation_pdaf, outflag) bind(c)
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
-      ! Routine to distribute a state vector
+      ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
-      ! Provide time step, time and dimension of next observation
+      ! Routine to provide number of forecast time steps until
+      ! next assimilations, model physical time and
+      ! end of assimilation cycles
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide number of local analysis domains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
@@ -318,11 +342,15 @@ contains
       next_observation_pdaf, outflag) bind(c)
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
-      ! Routine to distribute a state vector
+      ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
-      ! Provide time step, time and dimension of next observation
+      ! Routine to provide number of forecast time steps until
+      ! next assimilations, model physical time and
+      ! end of assimilation cycles
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide number of local analysis domains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
@@ -350,11 +378,15 @@ contains
       next_observation_pdaf, outflag) bind(c)
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
-      ! Routine to distribute a state vector
+      ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
-      ! Provide time step, time and dimension of next observation
+      ! Routine to provide number of forecast time steps until
+      ! next assimilations, model physical time and
+      ! end of assimilation cycles
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide number of local analysis domains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
@@ -381,7 +413,9 @@ contains
       outflag) bind(c)
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide number of local analysis domains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
@@ -407,7 +441,9 @@ contains
       prepoststep_pdaf, outflag) bind(c)
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Apply control vector transform matrix to control vector
       procedure(c__cvt_ens_pdaf) :: cvt_ens_pdaf
@@ -443,7 +479,9 @@ contains
       prepoststep_pdaf, outflag) bind(c)
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Apply control vector transform matrix to control vector
       procedure(c__cvt_ens_pdaf) :: cvt_ens_pdaf
@@ -483,7 +521,9 @@ contains
       prepoststep_pdaf, outflag) bind(c)
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Apply control vector transform matrix to control vector
       procedure(c__cvt_ens_pdaf) :: cvt_ens_pdaf
@@ -524,7 +564,9 @@ contains
       prepoststep_pdaf, outflag) bind(c)
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Apply control vector transform matrix to control vector
       procedure(c__cvt_ens_pdaf) :: cvt_ens_pdaf
@@ -569,7 +611,9 @@ contains
       outflag) bind(c)
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide number of local analysis domains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
@@ -604,7 +648,9 @@ contains
       outflag) bind(c)
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide number of local analysis domains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
@@ -632,7 +678,9 @@ contains
       outflag) bind(c)
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide number of local analysis domains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
@@ -671,13 +719,17 @@ contains
       procedure(c__init_obsvar_pdaf) :: U_init_obsvar
       ! Initialize observation vector
       procedure(c__init_obs_pdaf) :: U_init_obs
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Provide product R^-1 A
       procedure(c__prodRinvA_pdaf) :: U_prodRinvA
-      ! Routine to provide time step, time and dimension of next observation
+      ! Routine to provide number of forecast time steps until
+      ! next assimilations, model physical time and
+      ! end of assimilation cycles
       procedure(c__next_observation_pdaf) :: U_next_observation
-      ! Routine to distribute a state vector
+      ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Apply control vector transform matrix (ensemble)
       procedure(c__cvt_ens_pdaf) :: U_cvt_ens
@@ -735,13 +787,17 @@ contains
       procedure(c__init_obsvar_pdaf) :: U_init_obsvar
       ! Initialize observation vector
       procedure(c__init_obs_pdaf) :: U_init_obs
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Provide product R^-1 A
       procedure(c__prodRinvA_pdaf) :: U_prodRinvA
-      ! Routine to provide time step, time and dimension of next observation
+      ! Routine to provide number of forecast time steps until
+      ! next assimilations, model physical time and
+      ! end of assimilation cycles
       procedure(c__next_observation_pdaf) :: U_next_observation
-      ! Routine to distribute a state vector
+      ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Apply control vector transform matrix (ensemble)
       procedure(c__cvt_ens_pdaf) :: U_cvt_ens
@@ -815,11 +871,15 @@ contains
       procedure(c__g2l_obs_pdaf) :: U_g2l_obs
       ! Provide product R^-1 A on local analysis domain
       procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: U_prepoststep
-      ! Routine to provide time step, time and dimension of next observation
+      ! Routine to provide number of forecast time steps until
+      ! next assimilations, model physical time and
+      ! end of assimilation cycles
       procedure(c__next_observation_pdaf) :: U_next_observation
-      ! Routine to distribute a state vector
+      ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Status flag
       integer(c_int), INTENT(out) :: outflag
@@ -859,11 +919,15 @@ contains
       procedure(c__g2l_obs_pdaf) :: U_g2l_obs
       ! Provide product R^-1 A on local analysis domain
       procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: U_prepoststep
-      ! Routine to provide time step, time and dimension of next observation
+      ! Routine to provide number of forecast time steps until
+      ! next assimilations, model physical time and
+      ! end of assimilation cycles
       procedure(c__next_observation_pdaf) :: U_next_observation
-      ! Routine to distribute a state vector
+      ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Status flag
       integer(c_int), INTENT(out) :: outflag
@@ -911,11 +975,15 @@ contains
       procedure(c__likelihood_l_pdaf) :: U_likelihood_l
       ! Compute likelihood with hybrid weight
       procedure(c__likelihood_hyb_l_pdaf) :: U_likelihood_hyb_l
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: U_prepoststep
-      ! Routine to provide time step, time and dimension of next observation
+      ! Routine to provide number of forecast time steps until
+      ! next assimilations, model physical time and
+      ! end of assimilation cycles
       procedure(c__next_observation_pdaf) :: U_next_observation
-      ! Routine to distribute a state vector
+      ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Status flag
       integer(c_int), INTENT(out) :: outflag
@@ -950,11 +1018,15 @@ contains
       procedure(c__g2l_obs_pdaf) :: U_g2l_obs
       ! Compute observation likelihood for an ensemble member
       procedure(c__likelihood_l_pdaf) :: U_likelihood_l
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: U_prepoststep
-      ! Routine to provide time step, time and dimension of next observation
+      ! Routine to provide number of forecast time steps until
+      ! next assimilations, model physical time and
+      ! end of assimilation cycles
       procedure(c__next_observation_pdaf) :: U_next_observation
-      ! Routine to distribute a state vector
+      ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Status flag
       integer(c_int), INTENT(out) :: outflag
@@ -993,11 +1065,15 @@ contains
       procedure(c__g2l_obs_pdaf) :: U_g2l_obs
       ! Provide product R^-1 A on local analysis domain
       procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: U_prepoststep
-      ! Routine to provide time step, time and dimension of next observation
+      ! Routine to provide number of forecast time steps until
+      ! next assimilations, model physical time and
+      ! end of assimilation cycles
       procedure(c__next_observation_pdaf) :: U_next_observation
-      ! Routine to distribute a state vector
+      ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: U_distribute_state
       ! Status flag
       integer(c_int), INTENT(out) :: outflag
@@ -1024,7 +1100,9 @@ contains
       procedure(c__obs_op_pdaf) :: U_obs_op
       ! Initialize observation vector
       procedure(c__init_obs_pdaf) :: U_init_obs
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Provide product R^-1 A
       procedure(c__prodRinvA_pdaf) :: U_prodRinvA
@@ -1084,7 +1162,9 @@ contains
       procedure(c__obs_op_pdaf) :: U_obs_op
       ! Initialize observation vector
       procedure(c__init_obs_pdaf) :: U_init_obs
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Provide product R^-1 A
       procedure(c__prodRinvA_pdaf) :: U_prodRinvA
@@ -1161,7 +1241,9 @@ contains
       procedure(c__g2l_obs_pdaf) :: U_g2l_obs
       ! Provide product R^-1 A on local analysis domain
       procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Status flag
       integer(c_int), INTENT(out) :: outflag
@@ -1199,7 +1281,9 @@ contains
       procedure(c__g2l_obs_pdaf) :: U_g2l_obs
       ! Provide product R^-1 A on local analysis domain
       procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Status flag
       integer(c_int), INTENT(out) :: outflag
@@ -1244,7 +1328,9 @@ contains
       procedure(c__likelihood_l_pdaf) :: U_likelihood_l
       ! Compute likelihood with hybrid weight
       procedure(c__likelihood_hyb_l_pdaf) :: U_likelihood_hyb_l
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Status flag
       integer(c_int), INTENT(out) :: outflag
@@ -1277,7 +1363,9 @@ contains
       procedure(c__g2l_obs_pdaf) :: U_g2l_obs
       ! Compute observation likelihood for an ensemble member
       procedure(c__likelihood_l_pdaf) :: U_likelihood_l
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Status flag
       integer(c_int), INTENT(out) :: outflag
@@ -1315,7 +1403,9 @@ contains
       procedure(c__g2l_obs_pdaf) :: U_g2l_obs
       ! Provide product R^-1 A on local analysis domain
       procedure(c__prodRinvA_l_pdaf) :: U_prodRinvA_l
-      ! User supplied pre/poststep routine
+      ! Preprocesse the ensemble before analysis
+      ! and postprocess the ensemble before
+      ! distributing to the model for next forecast
       procedure(c__prepoststep_pdaf) :: U_prepoststep
       ! Status flag
       integer(c_int), INTENT(out) :: outflag
