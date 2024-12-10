@@ -14,7 +14,7 @@ build:
 requirements:
   host:
     - python {{python}}
-    - intel-fortran-rt=2024.2.0=h2466b09_978 # [win]
+    - intel-fortran-rt=2025.0.0=h2466b09_1162 # [win]
     - setuptools
     - pip
     - cython
@@ -33,7 +33,7 @@ requirements:
     - numpy {{ numpy }}
     - mpi4py {{ mpi4py }}
     - {{ mpi }}
-    - intel-fortran-rt==2024.2.0=h2466b09_978 # [win]
+    - intel-fortran-rt==2025.0.0=h2466b09_1162 # [win]
     - blas-devel=*=*openblas*
     - liblapack=*=*openblas*
 

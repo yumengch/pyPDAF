@@ -1,5 +1,4 @@
 python:
-    - 3.9
     - 3.10
     - 3.11
     - 3.12
@@ -12,22 +11,18 @@ numpy:
     - 2.2.0
 
 mpi4py:
-    - 4.0.1=py39hf9c7f05_0  # [win]
     - 4.0.1=py310h741f8d3_0 # [win]
     - 4.0.1=py311h04a8612_0 # [win]
     - 4.0.1=py312h880a0dc_0 # [win]
     - 4.0.1=py313h5ecaadf_0 # [win]
-    - 4.0.1=py39h0c5f232_0 # [osx and arm64]
     - 4.0.1=py310h9e472cc_0 # [osx and arm64]
     - 4.0.1=py311h3f9ec3c_0 # [osx and arm64]
     - 4.0.1=py312h5450814_0 # [osx and arm64]
     - 4.0.1=py313h41ff552_0 # [osx and arm64]
-    - 4.0.1=py39h4963b48_0 # [osx and x86_64]
     - 4.0.1=py310h7afbf91_0 # [osx and x86_64]
     - 4.0.1=py311hb5d555c_0 # [osx and x86_64]
     - 4.0.1=py312h017ff69_0 # [osx and x86_64]
     - 4.0.1=py313h9b2bcec_0 # [osx and x86_64]
-    - 4.0.1=py39hbe247c9_0 # [linux]
     - 4.0.1=py310hc9139ab_0 # [linux]
     - 4.0.1=py311h0799f86_0 # [linux]
     - 4.0.1=py312h0a6c937_0 # [linux]
