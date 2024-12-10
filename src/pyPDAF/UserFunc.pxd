@@ -30,7 +30,7 @@ cdef void*  prepoststep_pdaf = NULL;
 cdef void c__prepoststep_pdaf (int* step,
                                int* dim_p,
                                int* dim_ens,
-                               int* dim_ens_p,
+                               int* dim_ens_l,
                                int* dim_obs_p,
                                double* state_p,
                                double* uinv,

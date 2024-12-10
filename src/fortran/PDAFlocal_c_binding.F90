@@ -66,7 +66,7 @@ contains
       init_dim_obs_f_pdaf, obs_op_f_pdaf, prepoststep_pdaf, init_n_domains_pdaf, &
       init_dim_l_pdaf, init_dim_obs_l_pdaf,  &
       next_observation_pdaf, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
@@ -82,7 +82,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
-      ! Initialize dimension of full observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
       procedure(c__obs_op_pdaf) :: obs_op_f_pdaf
@@ -102,7 +109,7 @@ contains
       cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, &
       init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdaf, &
       prepoststep_pdaf, next_observation_pdaf, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
@@ -126,7 +133,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
-      ! Initialize dimension of full observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
       procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
@@ -147,7 +161,7 @@ contains
       cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
       prodRinvA_l_pdafomi, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdafomi, &
       prepoststep_pdaf, next_observation_pdaf, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
@@ -167,7 +181,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
-      ! Initialize dimension of full observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
       ! Full observation operator
       procedure(c__obs_op_pdaf) :: obs_op_pdafomi
@@ -196,7 +217,7 @@ contains
       cvt_ens_pdaf, cvt_adj_ens_pdaf, cvt_pdaf, cvt_adj_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, &
       init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdaf, &
       prepoststep_pdaf, next_observation_pdaf, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
@@ -224,7 +245,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
-      ! Initialize dimension of full observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
       procedure(c__obs_op_pdaf) :: obs_op_f_pdaf
@@ -245,7 +273,7 @@ contains
       cvt_ens_pdaf, cvt_adj_ens_pdaf, cvt_pdaf, cvt_adj_pdaf, obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
       prodRinvA_l_pdafomi, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdafomi, &
       prepoststep_pdaf, next_observation_pdaf, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
@@ -269,7 +297,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
-      ! Initialize dimension of full observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
       ! Full observation operator
       procedure(c__obs_op_pdaf) :: obs_op_pdafomi
@@ -297,7 +332,7 @@ contains
       init_dim_l_pdaf, init_dim_obs_l_pdafomi, prodRinvA_l_pdafomi, prodRinvA_hyb_l_pdafomi, &
       likelihood_l_pdafomi, likelihood_hyb_l_pdafomi,  &
       next_observation_pdaf, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
@@ -313,7 +348,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
-      ! Initialize dimension of full observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
       ! Full observation operator
       procedure(c__obs_op_pdaf) :: obs_op_pdafomi
@@ -340,7 +382,7 @@ contains
       init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, init_n_domains_pdaf, &
       init_dim_l_pdaf, init_dim_obs_l_pdafomi, likelihood_l_pdafomi,  &
       next_observation_pdaf, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
@@ -356,7 +398,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
-      ! Initialize dimension of full observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
       ! Full observation operator
       procedure(c__obs_op_pdaf) :: obs_op_pdafomi
@@ -376,7 +425,7 @@ contains
       init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, init_n_domains_pdaf, &
       init_dim_l_pdaf, init_dim_obs_l_pdafomi, prodRinvA_l_pdafomi, &
       next_observation_pdaf, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! distribute a state vector from pdaf to the model/any arrays
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
@@ -392,7 +441,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
-      ! Initialize dimension of full observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
       ! Full observation operator
       procedure(c__obs_op_pdaf) :: obs_op_pdafomi
@@ -411,7 +467,7 @@ contains
    subroutine c__PDAFlocalomi_put_state(collect_state_pdaf, init_dim_obs_f_pdaf, obs_op_f_pdaf, &
       prepoststep_pdaf, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdaf, &
       outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Preprocesse the ensemble before analysis
       ! and postprocess the ensemble before
@@ -421,7 +477,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
-      ! Initialize dimension of full observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
       procedure(c__obs_op_pdaf) :: obs_op_f_pdaf
@@ -439,7 +502,7 @@ contains
       cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, &
       init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdaf, &
       prepoststep_pdaf, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Preprocesse the ensemble before analysis
       ! and postprocess the ensemble before
@@ -457,7 +520,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
-      ! Initialize dimension of full observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
       procedure(c__obs_op_pdaf) :: obs_op_f_pdaf
@@ -477,7 +547,7 @@ contains
       cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
       prodRinvA_l_pdafomi, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdafomi, &
       prepoststep_pdaf, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Preprocesse the ensemble before analysis
       ! and postprocess the ensemble before
@@ -491,7 +561,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
-      ! Initialize dimension of full observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
       ! Full observation operator
       procedure(c__obs_op_pdaf) :: obs_op_pdafomi
@@ -519,7 +596,7 @@ contains
       cvt_ens_pdaf, cvt_adj_ens_pdaf, cvt_pdaf, cvt_adj_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, &
       init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdaf, &
       prepoststep_pdaf, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Preprocesse the ensemble before analysis
       ! and postprocess the ensemble before
@@ -541,7 +618,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
-      ! Initialize dimension of full observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
       procedure(c__obs_op_pdaf) :: obs_op_f_pdaf
@@ -562,7 +646,7 @@ contains
       obs_op_lin_pdafomi, obs_op_adj_pdafomi, &
       prodRinvA_l_pdafomi, init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdafomi, &
       prepoststep_pdaf, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Preprocesse the ensemble before analysis
       ! and postprocess the ensemble before
@@ -580,7 +664,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
-      ! Initialize dimension of full observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
       ! Full observation operator
       procedure(c__obs_op_pdaf) :: obs_op_pdafomi
@@ -609,7 +700,7 @@ contains
       init_dim_l_pdaf, init_dim_obs_l_pdafomi, prodRinvA_l_pdafomi, prodRinvA_hyb_l_pdafomi, &
       likelihood_l_pdafomi, likelihood_hyb_l_pdafomi,  &
       outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Preprocesse the ensemble before analysis
       ! and postprocess the ensemble before
@@ -619,7 +710,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
-      ! Initialize dimension of full observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
       ! Full observation operator
       procedure(c__obs_op_pdaf) :: obs_op_pdafomi
@@ -646,7 +744,7 @@ contains
       init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, init_n_domains_pdaf, &
       init_dim_l_pdaf, init_dim_obs_l_pdafomi, likelihood_l_pdafomi,  &
       outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Preprocesse the ensemble before analysis
       ! and postprocess the ensemble before
@@ -656,7 +754,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
-      ! Initialize dimension of full observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
       ! Full observation operator
       procedure(c__obs_op_pdaf) :: obs_op_pdafomi
@@ -676,7 +781,7 @@ contains
       init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf, init_n_domains_pdaf, &
       init_dim_l_pdaf, init_dim_obs_l_pdafomi, prodRinvA_l_pdafomi, &
       outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Preprocesse the ensemble before analysis
       ! and postprocess the ensemble before
@@ -686,7 +791,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
-      ! Initialize dimension of full observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
       ! Full observation operator
       procedure(c__obs_op_pdaf) :: obs_op_pdafomi
@@ -709,9 +821,16 @@ contains
       U_init_n_domains_p, U_init_dim_l, U_init_dim_obs_l,  &
       U_g2l_obs, U_init_obsvar, U_init_obsvar_l, &
       U_prepoststep, U_next_observation, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: U_collect_state
-      ! Initialize dimension of observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
       procedure(c__obs_op_pdaf) :: U_obs_op
@@ -777,9 +896,16 @@ contains
       U_init_n_domains_p, U_init_dim_l, U_init_dim_obs_l,  &
       U_g2l_obs, U_init_obsvar, U_init_obsvar_l, &
       U_prepoststep, U_next_observation, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: U_collect_state
-      ! Initialize dimension of observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
       procedure(c__obs_op_pdaf) :: U_obs_op
@@ -847,7 +973,7 @@ contains
       U_prodRinvA_l, U_init_n_domains_p, U_init_dim_l, U_init_dim_obs_l, &
       U_g2l_obs, U_init_obsvar, U_init_obsvar_l, &
       U_next_observation, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: U_collect_state
       ! Observation operator
       procedure(c__obs_op_pdaf) :: U_obs_op
@@ -855,7 +981,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: U_init_dim_l
-      ! Initialize dimension of observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize dim. of obs. vector for local ana. domain
       procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
@@ -895,7 +1028,7 @@ contains
       U_prodRinvA_l, U_init_n_domains_p, U_init_dim_l, U_init_dim_obs_l, &
       U_g2l_obs, U_init_obsvar, U_init_obsvar_l, &
       U_next_observation, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: U_collect_state
       ! Observation operator
       procedure(c__obs_op_pdaf) :: U_obs_op
@@ -903,7 +1036,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: U_init_dim_l
-      ! Initialize dimension of observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize dim. of obs. vector for local ana. domain
       procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
@@ -945,7 +1085,7 @@ contains
       U_g2l_obs, U_init_obsvar, U_init_obsvar_l, &
       U_likelihood_l, U_likelihood_hyb_l, &
       U_next_observation, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: U_collect_state
       ! Observation operator
       procedure(c__obs_op_pdaf) :: U_obs_op
@@ -953,7 +1093,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: U_init_dim_l
-      ! Initialize dimension of observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize dim. of obs. vector for local ana. domain
       procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
@@ -1000,7 +1147,7 @@ contains
       U_init_dim_obs, U_obs_op, U_init_obs_l, U_prepoststep, &
       U_likelihood_l, U_init_n_domains_p, U_init_dim_l, U_init_dim_obs_l, &
       U_g2l_obs, U_next_observation, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: U_collect_state
       ! Observation operator
       procedure(c__obs_op_pdaf) :: U_obs_op
@@ -1008,7 +1155,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: U_init_dim_l
-      ! Initialize dimension of observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize dim. of obs. vector for local ana. domain
       procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
@@ -1041,7 +1195,7 @@ contains
       U_prodRinvA_l, U_init_n_domains_p, U_init_dim_l, U_init_dim_obs_l, &
       U_g2l_obs, U_init_obsvar, U_init_obsvar_l, &
       U_next_observation, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: U_collect_state
       ! Observation operator
       procedure(c__obs_op_pdaf) :: U_obs_op
@@ -1049,7 +1203,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: U_init_dim_l
-      ! Initialize dimension of observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize dim. of obs. vector for local ana. domain
       procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
@@ -1092,9 +1253,16 @@ contains
       U_init_n_domains_p, U_init_dim_l, U_init_dim_obs_l, &
       U_g2l_obs, U_init_obsvar, U_init_obsvar_l, &
       U_prepoststep, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: U_collect_state
-      ! Initialize dimension of observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
       procedure(c__obs_op_pdaf) :: U_obs_op
@@ -1154,9 +1322,16 @@ contains
       U_init_n_domains_p, U_init_dim_l, U_init_dim_obs_l, &
       U_g2l_obs, U_init_obsvar, U_init_obsvar_l, &
       U_prepoststep, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: U_collect_state
-      ! Initialize dimension of observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Observation operator
       procedure(c__obs_op_pdaf) :: U_obs_op
@@ -1217,7 +1392,7 @@ contains
       U_init_obs, U_init_obs_l, U_prepoststep, U_prodRinvA_l, U_init_n_domains_p, &
       U_init_dim_l, U_init_dim_obs_l, U_g2l_obs, &
       U_init_obsvar, U_init_obsvar_l, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: U_collect_state
       ! Observation operator
       procedure(c__obs_op_pdaf) :: U_obs_op
@@ -1225,7 +1400,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: U_init_dim_l
-      ! Initialize dimension of observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize dim. of obs. vector for local ana. domain
       procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
@@ -1257,7 +1439,7 @@ contains
       U_init_obs, U_init_obs_l, U_prepoststep, U_prodRinvA_l, U_init_n_domains_p, &
       U_init_dim_l, U_init_dim_obs_l, U_g2l_obs, &
       U_init_obsvar, U_init_obsvar_l, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: U_collect_state
       ! Observation operator
       procedure(c__obs_op_pdaf) :: U_obs_op
@@ -1265,7 +1447,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: U_init_dim_l
-      ! Initialize dimension of observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize dim. of obs. vector for local ana. domain
       procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
@@ -1298,7 +1487,7 @@ contains
       U_init_n_domains_p, &
       U_init_dim_l, U_init_dim_obs_l, U_g2l_obs, &
       U_init_obsvar, U_init_obsvar_l, U_likelihood_l, U_likelihood_hyb_l, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: U_collect_state
       ! Observation operator
       procedure(c__obs_op_pdaf) :: U_obs_op
@@ -1306,7 +1495,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: U_init_dim_l
-      ! Initialize dimension of observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize dim. of obs. vector for local ana. domain
       procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
@@ -1345,7 +1541,7 @@ contains
       U_init_obs_l, U_prepoststep, U_likelihood_l, U_init_n_domains_p, &
       U_init_dim_l, U_init_dim_obs_l, U_g2l_obs, &
       outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: U_collect_state
       ! Observation operator
       procedure(c__obs_op_pdaf) :: U_obs_op
@@ -1353,7 +1549,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: U_init_dim_l
-      ! Initialize dimension of observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize dim. of obs. vector for local ana. domain
       procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l
@@ -1379,7 +1582,7 @@ contains
       U_init_obs, U_init_obs_l, U_prepoststep, U_prodRinvA_l, U_init_n_domains_p, &
       U_init_dim_l, U_init_dim_obs_l, U_g2l_obs, &
       U_init_obsvar, U_init_obsvar_l, outflag) bind(c)
-      ! Routine to collect a state vector
+      ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: U_collect_state
       ! Observation operator
       procedure(c__obs_op_pdaf) :: U_obs_op
@@ -1387,7 +1590,14 @@ contains
       procedure(c__init_n_domains_p_pdaf) :: U_init_n_domains_p
       ! Init state dimension for local ana. domain
       procedure(c__init_dim_l_pdaf) :: U_init_dim_l
-      ! Initialize dimension of observation vector
+      ! The primary purpose of this function is to
+      ! obtain the dimension of the observation vector.
+      ! In OMI, in this function, one also sets the properties
+      ! of `obs_f`, read the observation vector from
+      ! files, setting the observation error variance
+      ! when diagonal observation error covariance matrix
+      ! is used. The `pyPDAF.PDAF.omi_gather_obs` function
+      ! is also called here.
       procedure(c__init_dim_obs_pdaf) :: U_init_dim_obs
       ! Initialize dim. of obs. vector for local ana. domain
       procedure(c__init_dim_obs_l_pdaf) :: U_init_dim_obs_l

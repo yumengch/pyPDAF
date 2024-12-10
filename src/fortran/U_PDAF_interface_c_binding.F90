@@ -18,7 +18,7 @@ abstract interface
       implicit none
       ! filter type given in PDAF_init
       integer(c_int), intent(in) :: filtertype
-      ! PE-local state dimension
+      ! PE-local state dimension given by PDAF_init
       integer(c_int), intent(in) :: dim_p
       ! number of ensemble members
       integer(c_int), intent(in) :: dim_ens
@@ -58,9 +58,9 @@ abstract interface
    subroutine c__next_observation_pdaf(stepnow, nsteps, doexit, time) bind(c)
       use iso_c_binding, only: c_double, c_int
       implicit none
-      ! the current time step
+      ! the current time step given by PDAF
       integer(c_int), intent(in)  :: stepnow
-      ! number of forecast time steps until next obs;
+      ! number of forecast time steps until next assimilation;
       ! this can also be interpreted as
       ! number of assimilation function calls
       ! to perform a new assimilation
@@ -205,13 +205,15 @@ abstract interface
       implicit none
       ! Current time step
       integer(c_int), intent(in) :: step
-      ! Size of state vector (local part in case of parallel decomposed state)
+      ! Size of state vector
+      ! (local part in case of parallel decomposed state)
       integer(c_int), intent(in) :: dim_p
-      ! Size of observation vector
+      ! Size of PE-local observation vector
       integer(c_int), intent(in) :: dim_obs_p
       ! Model state vector
       real(c_double), intent(in), dimension(dim_p) :: state_p
-      ! Observed state vector (i.e. the result after applying the observation operator to state_p)
+      ! Observed state vector
+      ! (i.e. the result after applying the observation operator to state_p)
       real(c_double), intent(out), dimension(dim_obs_p) :: m_state_p
    END SUBROUTINE c__obs_op_pdaf
 

@@ -30,6 +30,10 @@ as efficient as in PDAF. Note that, for computational
 intensive user-supplied functions, the efficiency can be improved by using just-in-time compilation
 tools such as `numba`.
 
-Here, we will provide a suite of examples and tutorials to demonstrate how to use pyPDAF. Currently, two examples are provided:
-  - `A serial ensemble DA system using a simple wave model <https://github.com/yumengch/pyPDAF/blob/main/tutorials/tutorial1_serial.ipynb>`_
-  - `A parallel ensemble DA system using a simple wave model <https://github.com/yumengch/pyPDAF/tree/main/example>`_
+To get started, we highly recommend to start from the Jupyter notebook
+example for
+`a serial ensemble DA system using a simple wave model <https://github.com/yumengch/pyPDAF/blob/main/tutorials/tutorial1_serial.ipynb>`_.
+
+We also provide more structured offline and online examples. One can adapt these examples based on their needs
+  - `A parallel online ensemble DA system using a simple wave model <https://github.com/yumengch/pyPDAF/tree/main/example/online>`_
+  - `A parallel offline ensemble DA system using a simple wave model <https://github.com/yumengch/pyPDAF/tree/main/example/offline>`_

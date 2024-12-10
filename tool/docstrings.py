@@ -15,13 +15,14 @@ docstrings = {**assimilate_docstrings, **diag_docstrings, **
               **omi_assimilate_docstrings, **omi_put_state_docstrings}
 
 
-docstrings['deallocate'] = "Finalise the PDAF systems\n    " \
-                           "including freeing some of\n    " \
-                           "the memory used by PDAF.\n\n    " \
-                           "This function cannot be used to\n    " \
-                           "free all allocated PDAF memory.\n    " \
-                           "Therefore, one should not use\n    " \
-                           ":func:`pyPDAF.PDAF.init` afterwards."
+docstrings['deallocate'] = \
+    "Finalise the PDAF systems\n    " \
+    "including freeing some of\n    " \
+    "the memory used by PDAF.\n\n    " \
+    "This function cannot be used to\n    " \
+    "free all allocated PDAF memory.\n    " \
+    "Therefore, one should not use\n    " \
+    ":func:`pyPDAF.PDAF.init` afterwards."
 
 docstrings['eofcovar'] = \
     "EOF analysis of an ensemble of state vectors " \
@@ -115,45 +116,82 @@ docstrings['get_smootherens'] = "This function returns the smoothed ensemble in 
                                 "It is only used when the smoother options is used ."
 
 docstrings['get_state'] = \
-    "Distributing post-processed state vector back to the model." \
+    "Distributing analysis state vector to an array.\n\n    " \
+    "The primary purpose of this function is to distribute\n    " \
+    "the analysis state vector to the model.\n    " \
+    "This is attained by the user-supplied function\n    " \
+    ":func:`py__distribute_state_pdaf`.\n    " \
+    "One can also use this function to get the state vector\n    " \
+    "for other purposes, e.g. to write the state vector to a file." \
     "\n\n    " \
-    "This function processing the ensemble " \
+    "In this function, the user-supplied function\n    " \
+    ":func:`py__next_observation_pdaf` is executed\n    " \
+    "to specify the number of forecast time steps\n    " \
+    "until the next assimilation step.\n    " \
+    "One can also use the user-supplied function to\n    " \
+    "end the assimilation.\n\n    " \
+    "In an online DA system, this function also execute\n    " \
+    "the user-supplied function :func:`py__prepoststep_state_pdaf`," \
     "\n    " \
-    "array stored in PDAF when it is called first time" \
+    "when this function is first called. The purpose of this design" \
     "\n    " \
-    "in an online PDAF system. This is controlled by an internal" \
+    "is to call this function right after :func:`pyPDAF.PDAF.init`" \
     "\n    " \
-    "`firsttime` variable in PDAF. Afterwards, the ensemble " \
-    "\n    " \
-    "is distributed to the model. This function then specifies the" \
-    "\n    " \
-    "the number of forecast time steps until\n    " \
-    "the next assimilation step, or exit the assimilation cycle." \
-    "\n    " \
-    "The function executes the user-supplied function in the following sequence:\n\n    " \
-    "1. py__prepoststep_state_pdaf\n\n    " \
-    "2. py__distribute_state_pdaf\n\n    " \
-    "3. py__next_observation_pdaf"
+    "to process the initial ensemble before using it to\n    " \
+    "initialse model forecast. This user-supplied function\n    " \
+    "will not be called afterwards.\n\n    " \
+    "This function is also used in flexible parallel system\n    " \
+    "where the number of ensemble members are greater than\n    " \
+    "the parallel model tasks. In this case, this function\n    " \
+    "is called multiple times to distribute the analysis ensemble." \
+    "\n\n    " \
+    "User-supplied function are executed in the following sequence:" \
+    "\n\n    " \
+    "    1. py__prepoststep_state_pdaf\n    " \
+    "       (only in online system when first called)\n    " \
+    "    2. py__distribute_state_pdaf\n    " \
+    "    3. py__next_observation_pdaf"
 
 docstrings['init'] = \
     "This function initialises the PDAF system.\n\n    " \
-    "It is called once at the beginning of the assimilation.\n    " \
-    "The function specifies the type of DA methods, \n    " \
-    "parameters of the filters, the MPI communicators, and other parallel options.\n    " \
-    "The user-supplied function :func:`py__init_ens_pdaf`\n    " \
-    "provides an initial ensemble to the internal PDAF ensemble array.\n    " \
-    "The internal PDAF ensemble can be distribute to the model by\n    " \
-    ":func:`pyPDAF.PDAF.get_state`.\n\n    " \
-    "The filter options including `filtertype`, `subtype`, `param_int`, and `param_real`\n    " \
+    "It is called once at the beginning of the assimilation.\n\n    " \
+    "The function specifies the type of DA methods,\n    " \
+    "parameters of the filters, the MPI communicators,\n    " \
+    "and other parallel options.\n    " \
+    "The filter options including `filtertype`, `subtype`,\n    " \
+    "`param_int`, and `param_real`\n    " \
     "are introduced in\n    " \
-    "`PDAF filter options wiki page <https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF>`_.\n\n    " \
-    "The MPI communicators are defined in\n    " \
-    "`pyPDAF example page <https://github.com/yumengch/pyPDAF/blob/main/example/parallelisation.py>`_.\n    " \
-    "The example script is based on the parallelisation strategy of PDAF\n    " \
-    "which is available at\n    " \
-    "`PDAF parallelisation strategy wiki page <https://pdaf.awi.de/trac/wiki/ImplementationConceptOnline#Parallelizationofthedataassimilationprogram>`_\n    " \
-    "and `PDAF parallelisation adaptation wiki page <https://pdaf.awi.de/trac/wiki/AdaptParallelization>`_.\n    " \
-    "In most cases, the user does not need to change the parallelisation script.\n\n    " \
+    "`PDAF filter options wiki page" \
+    " <https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF>`_." \
+    "\n    " \
+    "Note that the size of `param_int` and `param_real` depends on" \
+    "\n    " \
+    "the filter type and subtype. However, for most filters,\n    " \
+    "they require at least the state vector size and ensemble size" \
+    "\n    " \
+    "for `param_int`, and the forgetting factor for `param_real`." \
+    "\n\n    " \
+    "The MPI communicators asked by this function depends on\n    " \
+    "the parallelisation strategy.\n    " \
+    "For the default parallelisation strategy, the user\n    " \
+    "can use the parallelisation module\n    " \
+    "provided under in `example directory " \
+    "<https://github.com/yumengch/pyPDAF/blob/main/example>`_\n    " \
+    "without modifications.\n    " \
+    "The parallelisation can differ based on online and offline cases.\n    " \
+    "Users can also refer to `parallelisation documentation " \
+    "<https://yumengch.github.io/pyPDAF/parallel.html>`_ for\n    " \
+    "explanations or modifications.\n\n    " \
+    "This function also asks for a user-supplied function\n    " \
+    ":func:`py__init_ens_pdaf`.\n    " \
+    "This function is designed to provides an initial ensemble\n    " \
+    "to the internal PDAF ensemble array.\n    " \
+    "The internal PDAF ensemble then can be distributed to\n    " \
+    "initialise the model forecast using\n    " \
+    ":func:`pyPDAF.PDAF.get_state`.\n    " \
+    "This user-supplied function can be empty if the model\n    " \
+    "has already read the ensemble from restart files." \
+
 
 docstrings['local_weight'] = "The function is used for localisation in the analysis step of a filter " \
                              "and computes a weight according to the specified distance " \
@@ -164,12 +202,9 @@ docstrings['local_weight'] = "The function is used for localisation in the analy
                              "in the `py__localize_covar_pdaf`. \n    " \
                              "This function is usually only used in user-codes that do not use PDAF-OMI."
 
-docstrings['print_info'] = "Printing the wallclock time and memory measured by PDAF.\n\n    " \
-                           "This is called at the end of the DA program.\n\n    " \
-                           "The function displays the following information:\n    " \
-                           "    - Memory required for the ensemble array, state vector, and transform matrix\n    " \
-                           "    - Memory required by the analysis step\n    " \
-                           "    - Memory required to perform the ensemble transformation"
+docstrings['print_info'] = \
+    "Printing the wallclock time and memory measured by PDAF.\n\n    " \
+    "This is called at the end of the DA program."
 
 docstrings['reset_forget'] = "This function allows a user to reset the forgetting factor manually during the assimilation process. " \
                              "For the local ensemble Kalman filters the forgetting factor can be set either globally of differently " \
@@ -297,7 +332,8 @@ docstrings['omi_set_id_obs_p'] = \
     "  e.g. `id_obs_p[0, j] = i` means that the location\n    " \
     "  and variable of the `i`-th element of the state vector\n    " \
     "  is the same as the `j`-th observation.\n\n    " \
-    "- `nrows=4`: each observation corresponds to 4 indices of elements in the state vector.\n    "\
+    "- `nrows=4`: each observation corresponds to\n    " \
+    "  4 indices of elements in the state vector.\n    "\
     "  In this case,\n    " \
     "  the location of these elements is used to perform bi-linear interpolation\n    "\
     "  from model grid to observation location.\n    " \
@@ -311,6 +347,7 @@ docstrings['omi_set_id_obs_p'] = \
     "  The details of interpolation setup can be found at\n    " \
     "  `PDAF wiki page " \
     "<https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Initializinginterpolationcoefficients>`_.\n"
+
 docstrings['omi_set_icoeff_p'] = "This function sets the `icoeff_p` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. " \
                                  "`icoeff_p(nrows, dim_obs_p)` is a 2D array of real number used to implement\n    " \
                                  "interpolations. This is used in tandem with `id_obs_p`. " \
@@ -355,7 +392,9 @@ docstrings['omi_gather_obs'] = \
     "\n    " \
     "    3. Set the observation vector, observation coordinates, " \
     "\n    " \
-    "       and the inverse of the observation variance" \
+    "       the inverse of the observation variance, and localisation" \
+    "\n    " \
+    "       radius for this observation type.\n\n    " \
     "\n\n    " \
 
 docstrings['omi_gather_obsstate'] = "This function is used to implement custom observation operators. " \
@@ -364,11 +403,20 @@ docstrings['omi_set_domain_limits'] = "This is used to set the domain limits for
                                       "Currently, it only supports 2D limitations. See https://pdaf.awi.de/trac/wiki/PDAFomi_additional_functionality#PDAFomi_set_domain_limit\n    "
 docstrings['omi_set_debug_flag'] = "This sets the debug flag for OMI. If set to 1, debug information is printed to the screen.\n    " \
                                    "The debug flag can be set to 0 to stop the debugging. See https://pdaf.awi.de/trac/wiki/OMI_debugging"
-docstrings['omi_deallocate_obs'] = "It deallocates teh OMI-internal obsrevation arrays but this should not be called as it is called internally in PDAF."
-docstrings['omi_obs_op_gridpoint'] = "A (partial) identity observation operator\n\n    " \
-                                     "This observation operator is used when observations and model use the same grid. \n\n    " \
-                                     "The observations operator selects state vectors where observations are present. \n\n    " \
-                                     "The function is used in the user-supplied function `py__obs_op_pdaf`. \n\n    "
+docstrings['omi_deallocate_obs'] = \
+    "Deallocate OMI-internal obsrevation arrays\n\n    " \
+    "This function should not be called by users\n    " \
+    "because it is called internally in PDAF."
+docstrings['omi_obs_op_gridpoint'] = \
+    "A (partial) identity observation operator\n\n    " \
+    "This observation operator is used\n    " \
+    "when observations and model use the same grid. \n\n    " \
+    "The observations operator selects state vectors\n    " \
+    "where observations are present based on properties given\n    " \
+    "in `obs_f`, e.g., `id_obs_p`.\n\n    " \
+    "The function is used in\n    " \
+    "the user-supplied function :func:`py__obs_op_pdaf`."
+
 docstrings['omi_obs_op_gridavg'] = "Observation operator that average values on given model grid points.\n\n    " \
                                    "The averaged model grid points are specified in `id_obs_p` property of `obs_f`,\n    " \
                                    "which can be set in :func:`pyPDAF.PDAF.omi_set_id_obs_p`.\n\n    "  \

@@ -92,7 +92,7 @@ cdef void c__distribute_state_pdaf (int* dim_p, double* state_p) noexcept:
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__prepoststep_pdaf (int* step, int* dim_p, int* dim_ens, int* dim_ens_p, int* dim_obs_p, double* state_p, double* uinv, double* ens_p, int* flag) noexcept:
+cdef void c__prepoststep_pdaf (int* step, int* dim_p, int* dim_ens, int* dim_ens_l, int* dim_obs_p, double* state_p, double* uinv, double* ens_p, int* flag) noexcept:
 
     cdef double[::1] state_p_np = np.asarray(<double[:dim_p[0]]> state_p)
 
@@ -101,7 +101,7 @@ cdef void c__prepoststep_pdaf (int* step, int* dim_p, int* dim_ens, int* dim_ens
     cdef double[::1,:] uinv_np = np.asarray(<double[:dim_ens[0]-1:1,:dim_ens[0]-1]> uinv, order='F')
     cdef double[::1,:] ens_p_np = np.asarray(<double[:dim_p[0]:1,:dim_ens[0]]> ens_p, order='F')
 
-    state_p_np, uinv_np, ens_p_np = (<object>prepoststep_pdaf)(step[0], dim_p[0], dim_ens[0], dim_ens_p[0], dim_obs_p[0], state_p_np.base, uinv_np.base, ens_p_np.base, flag[0])
+    state_p_np, uinv_np, ens_p_np = (<object>prepoststep_pdaf)(step[0], dim_p[0], dim_ens[0], dim_ens_l[0], dim_obs_p[0], state_p_np.base, uinv_np.base, ens_p_np.base, flag[0])
 
 
     cdef double[::1] state_p_new
