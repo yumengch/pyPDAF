@@ -31,18 +31,20 @@ class prepost:
 
     Attributes
     ----------
-    model : `model.model`
+    model : `model.model_grid`
         model object
     pe : `parallelisation.parallelisation`
         parallelisation object
     -------
     """
-    def __init__(self, model_t: model.model, pe:parallelisation.parallelisation) -> None:
-        self.model:model.model = model_t
+    def __init__(self, model_grid: model.model_grid,
+                  pe:parallelisation.parallelisation) -> None:
+        self.model_grid:model.model_grid = model_grid
         self.pe:parallelisation.parallelisation = pe
-        os.makedirs('outputs', exist_ok=True)
+        os.makedirs('outputs_offline', exist_ok=True)
 
-    def get_full_ens(self, dim_p:int, dim_ens:int, ens_p:np.ndarray) -> typing.Union[np.ndarray, None]:
+    def get_full_ens(self, dim_p:int, dim_ens:int, ens_p:np.ndarray
+                     ) -> typing.Union[np.ndarray, None]:
         """Gather total ensemble from each local processors
         """
         if self.pe.npes_filter == 1: return ens_p
@@ -85,11 +87,15 @@ class prepost:
             # (following the PDAF tutorial)
             # we need to reorder the array after merging from different processors
             displ = np.insert(np.cumsum(all_dim_p), 0, 0)[1:]
-            ens_tmp = ens[:displ[0]].reshape(self.model.ny, self.model.nx_p, dim_ens)
+            ens_tmp = ens[:displ[0]].reshape(self.model_grid.ny,
+                                             self.model_grid.nx_p,
+                                             dim_ens)
             if len(displ) > 0:
                 for c0, c1 in zip(displ[:-1], displ[1:]):
                     ens_tmp = np.concatenate([ens_tmp,
-                            ens[c0:c1].reshape(self.model.ny, self.model.nx_p, dim_ens)], axis=1)
+                            ens[c0:c1].reshape(self.model_grid.ny,
+                                               self.model_grid.nx_p,
+                                               dim_ens)], axis=1)
             ens = ens_tmp.reshape(dim, dim_ens)
 
         return ens
@@ -111,10 +117,19 @@ class prepost:
         ens = self.get_full_ens(dim_p, dim_ens, ens_p)
         if self.pe.mype_filter == 0:
             assert isinstance(ens, np.ndarray), 'ens should be a numpy array'
-            log.logger.info (f'Forecast RMS error according to sampled variance: {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}')
-            os.makedirs('outputs', exist_ok=True)
+            log.logger.info ('Forecast RMS error according to sampled variance:'
+                             f' {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}'
+                             )
+            os.makedirs('outputs_offline', exist_ok=True)
             for i in range(dim_ens):
-                np.savetxt(os.path.join('outputs', f'ens_{i+1}_step{-step}_for.txt') , ens[:, i].reshape(self.model.ny, self.model.nx) )
+                np.savetxt(
+                    os.path.join(
+                        'outputs_offline',
+                        f'ens_{i+1}_step{-step}_for.txt'
+                    ),
+                    ens[:, i].reshape(self.model_grid.ny,
+                                        self.model_grid.nx)
+                )
 
     def postprocess(self, step:int, dim_p:int, dim_ens:int, ens_p:np.ndarray) -> None:
         """initial processing of the ensemble before it is distributed to model fields
@@ -122,14 +137,24 @@ class prepost:
         ens = self.get_full_ens(dim_p, dim_ens, ens_p)
         if self.pe.mype_filter == 0:
             assert isinstance(ens, np.ndarray), 'ens should be a numpy array'
-            log.logger.info (f'Analysis RMS error according to sampled variance: {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}')
-            os.makedirs('outputs', exist_ok=True)
+            log.logger.info (f'Analysis RMS error according to sampled variance:'
+                             f' {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}'
+                             )
+            os.makedirs('outputs_offline', exist_ok=True)
             for i in range(dim_ens):
-                np.savetxt(os.path.join('outputs', f'ens_{i+1}_step{step}_ana.txt') , ens[:, i].reshape(self.model.ny, self.model.nx) )
+                np.savetxt(
+                    os.path.join(
+                        'outputs_offline',
+                        f'ens_{i+1}_step{step}_ana.txt'
+                        ),
+                    ens[:, i].reshape(self.model_grid.ny,
+                                        self.model_grid.nx)
+                )
 
     def prepostprocess(self, step:int, dim_p:int, dim_ens:int, dim_ens_p:int,
                        dim_obs_p:int, state_p:np.ndarray, uinv:np.ndarray,
-                       ens_p:np.ndarray, flag:int) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+                       ens_p:np.ndarray, flag:int
+                       ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
         """pre-/post-processing of the ensemble as user-supplied functions
         """
         if step < 0:

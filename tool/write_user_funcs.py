@@ -1,8 +1,10 @@
+import os
 import typing
 import re
 
 pyconv:dict[str, str] = {'integer' : 'int', 'logical': 'bool', 'real': 'float', 'character':'str'}
 conv = {'integer' : 'int', 'logical': 'bint', 'real': 'double', 'character':'CFI_cdesc_t'}
+special_functions = ['c__init_ens_pdaf', ]
 
 def extract_dimension_name(s:str) -> str | None:
     """extract dimension names from dimension
@@ -289,6 +291,15 @@ def check_output_array_memory(f:typing.TextIO, subroutine_name:str,
         f.write(s)
 
 
+def write_special_functions(f:typing.TextIO, subroutine_name: str) -> None:
+    f_code:typing.TextIO = open(os.path.join('special_functions',
+                                             f'{subroutine_name}.pyx'),
+                                             'r'
+                                             )
+    for line in f_code:
+        f.write(line)
+    f_code.close()
+
 def writeUserCalls(filename:str, func_info:dict[str, dict[str, dict[str, str|list[str]]]]) -> None:
     with open(filename, 'w') as f:
         s = 'import numpy as np\n'
@@ -303,11 +314,20 @@ def writeUserCalls(filename:str, func_info:dict[str, dict[str, dict[str, str|lis
         #     f.write(s+'\n\n\n')
 
         for subroutine_name in func_info:
-            write_C_user_def(f, subroutine_name, func_info[subroutine_name])
-            arg_dims = write_array_conversion(f, func_info[subroutine_name])
-            write_C_U_calls(f, subroutine_name, func_info[subroutine_name])
+            if subroutine_name in special_functions:
+                write_special_functions(f, subroutine_name)
+                f.write('\n\n')
+                continue
+
+            write_C_user_def(f, subroutine_name,
+                             func_info[subroutine_name])
+            arg_dims = write_array_conversion(
+                f, func_info[subroutine_name])
+            write_C_U_calls(f, subroutine_name,
+                            func_info[subroutine_name])
             f.write('\n')
-            check_output_array_memory(f, subroutine_name, arg_dims, func_info[subroutine_name])
+            check_output_array_memory(f, subroutine_name, arg_dims,
+                                      func_info[subroutine_name])
             f.write('\n\n')
 
 if __name__ == '__main__':

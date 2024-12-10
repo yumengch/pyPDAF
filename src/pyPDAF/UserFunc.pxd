@@ -12,15 +12,6 @@ cdef void c__init_ens_pdaf (int* filtertype,
                             double* ens_p,
                             int* flag
                            ) noexcept;
-cdef void*  init_ens_pdaf_single_member = NULL;
-cdef void c__init_ens_pdaf_single_member (int* filtertype,
-                                          int* dim_p,
-                                          int* dim_ens,
-                                          double* state_p,
-                                          double* uinv,
-                                          double* ens_p,
-                                          int* flag
-                                         ) noexcept;
 cdef void*  next_observation_pdaf = NULL;
 cdef void c__next_observation_pdaf (int* stepnow,
                                     int* nsteps,
@@ -39,7 +30,7 @@ cdef void*  prepoststep_pdaf = NULL;
 cdef void c__prepoststep_pdaf (int* step,
                                int* dim_p,
                                int* dim_ens,
-                               int* dim_ens_p,
+                               int* dim_ens_l,
                                int* dim_obs_p,
                                double* state_p,
                                double* uinv,
