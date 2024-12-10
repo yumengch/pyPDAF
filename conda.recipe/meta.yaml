@@ -14,15 +14,17 @@ build:
 requirements:
   host:
     - python {{python}}
-    - intel-fortran-rt=2025.0.0=h2466b09_1162 # [win]
+    - intel-fortran-rt==2024.2.0=h2466b09_978 # [win]
     - setuptools
     - pip
     - cython
     - numpy {{ numpy }}
     - mpi4py {{ mpi4py }}
     - {{ mpi }}
-    - blas-devel=*=*openblas*
-    - liblapack=*=*openblas*
+    - blas-devel=*=*mkl* # [win]
+    - liblapack=*=*mkl* # [win]
+    - blas-devel=*=*openblas* # [not win]
+    - liblapack=*=*openblas* # [not win]
   build:
     - {{ compiler('c') }}
     - {{ compiler('fortran') }}  # [not win]
@@ -33,9 +35,11 @@ requirements:
     - numpy {{ numpy }}
     - mpi4py {{ mpi4py }}
     - {{ mpi }}
-    - intel-fortran-rt==2025.0.0=h2466b09_1162 # [win]
-    - blas-devel=*=*openblas*
-    - liblapack=*=*openblas*
+    - intel-fortran-rt==2024.2.0=h2466b09_978 # [win]
+    - blas-devel=*=*mkl* # [win]
+    - liblapack=*=*mkl* # [win]
+    - blas-devel=*=*openblas* # [not win]
+    - liblapack=*=*openblas* # [not win]
 
 about:
   home: https://github.com/yumengch/pyPDAF

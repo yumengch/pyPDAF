@@ -31,7 +31,7 @@ mpi4py:
 
 mpi:
     - mpich=4.2.3    # [not win]
-    - msmpi=10.1.2=h3502643_2    # [win]
+    - msmpi=10.1.1=h3502643_7    # [win]
 
 zip_keys:
     - python

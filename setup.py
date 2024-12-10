@@ -110,7 +110,7 @@ if use_MKL == 'True':
 
     if os.name == 'nt':
         if MKLROOT != '': library_dirs+=[MKLROOT,]
-        libraries += ['mkl_core', 'mkl_sequential', 'mkl_intel_lp64']
+        libraries += ['mkl_core_dll', 'mkl_sequential_dll', 'mkl_intel_lp64_dll']
     elif sys.platform == "linux" or sys.platform == "linux2":
         if condaBuild == 'True': MKLROOT = os.path.join(os.environ['PREFIX'], 'lib')
         extra_objects+=['-Wl,--start-group',
