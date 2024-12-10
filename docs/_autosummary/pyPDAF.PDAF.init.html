@@ -7,10 +7,10 @@
 
     <title>pyPDAF.PDAF.init &#8212; pyPDAF  documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
-    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=8e461078" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=df3fedd5" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -39,90 +39,136 @@
 <dt class="sig sig-object py" id="pyPDAF.PDAF.init">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.init" title="Link to this definition">¶</a></dt>
 <dd><p>This function initialises the PDAF system.</p>
-<p>It is called once at the beginning of the assimilation.
-The function specifies the type of DA methods,
-parameters of the filters, the MPI communicators, and other parallel options.
-The user-supplied function <code class="xref py py-func docutils literal notranslate"><span class="pre">py__init_ens_pdaf()</span></code>
-provides an initial ensemble to the internal PDAF ensemble array.
-The internal PDAF ensemble can be distribute to the model by
-<a class="reference internal" href="pyPDAF.PDAF.get_state.html#pyPDAF.PDAF.get_state" title="pyPDAF.PDAF.get_state"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_state()</span></code></a>.</p>
-<p>The filter options including <cite>filtertype</cite>, <cite>subtype</cite>, <cite>param_int</cite>, and <cite>param_real</cite>
+<p>It is called once at the beginning of the assimilation.</p>
+<p>The function specifies the type of DA methods,
+parameters of the filters, the MPI communicators,
+and other parallel options.
+The filter options including <cite>filtertype</cite>, <cite>subtype</cite>,
+<cite>param_int</cite>, and <cite>param_real</cite>
 are introduced in
-<a class="reference external" href="https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF">PDAF filter options wiki page</a>.</p>
-<p>The MPI communicators are defined in
-<a class="reference external" href="https://github.com/yumengch/pyPDAF/blob/main/example/parallelisation.py">pyPDAF example page</a>.
-The example script is based on the parallelisation strategy of PDAF
-which is available at
-<a class="reference external" href="https://pdaf.awi.de/trac/wiki/ImplementationConceptOnline#Parallelizationofthedataassimilationprogram">PDAF parallelisation strategy wiki page</a>
-and <a class="reference external" href="https://pdaf.awi.de/trac/wiki/AdaptParallelization">PDAF parallelisation adaptation wiki page</a>.
-In most cases, the user does not need to change the parallelisation script.</p>
+<a class="reference external" href="https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF">PDAF filter options wiki page</a>.
+Note that the size of <cite>param_int</cite> and <cite>param_real</cite> depends on
+the filter type and subtype. However, for most filters,
+they require at least the state vector size and ensemble size
+for <cite>param_int</cite>, and the forgetting factor for <cite>param_real</cite>.</p>
+<p>The MPI communicators asked by this function depends on
+the parallelisation strategy.
+For the default parallelisation strategy, the user
+can use the parallelisation module
+provided under in <a class="reference external" href="https://github.com/yumengch/pyPDAF/blob/main/example">example directory</a>
+without modifications.
+The parallelisation can differ based on online and offline cases.
+Users can also refer to <a class="reference external" href="https://yumengch.github.io/pyPDAF/parallel.html">parallelisation documentation</a> for
+explanations or modifications.</p>
+<p>This function also asks for a user-supplied function
+<code class="xref py py-func docutils literal notranslate"><span class="pre">py__init_ens_pdaf()</span></code>.
+This function is designed to provides an initial ensemble
+to the internal PDAF ensemble array.
+The internal PDAF ensemble then can be distributed to
+initialise the model forecast using
+<a class="reference internal" href="pyPDAF.PDAF.get_state.html#pyPDAF.PDAF.get_state" title="pyPDAF.PDAF.get_state"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_state()</span></code></a>.
+This user-supplied function can be empty if the model
+has already read the ensemble from restart files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filtertype</strong> (<em>int</em>) – type of filter</p></li>
 <li><p><strong>subtype</strong> (<em>int</em>) – sub-type of filter</p></li>
 <li><p><strong>stepnull</strong> (<em>int</em>) – initial time step of assimilation</p></li>
-<li><p><strong>param_int</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_pint</em><em>]</em><em>, </em><em>np.intc</em><em>]</em>) – <p>filter parameters in integer</p>
-<p>The array dimension <cite>dim_pint</cite> is the number of integer parameters which depends on
-the type of filters and required non-default options</p>
+<li><p><strong>param_int</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_pint</em><em>]</em><em>, </em><em>np.intc</em><em>]</em>) – <p>integer filter parameters
+in all available filters,
+the size of state vector, and
+number of ensemble members must be given;
+additional required parameters are filter specific
+See <a class="reference external" href="https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF">pyPDAF filter parameters</a></p>
+<p>The array dimension <cite>dim_pint</cite> is dimension of <cite>param_int</cite>.</p>
 </p></li>
-<li><p><strong>param_real</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_preal</em><em>]</em><em>, </em><em>np.float64</em><em>]</em>) – <p>filter parameters in float/real values</p>
-<p>The array dimension <cite>dim_preal</cite> is number of real parameter which depends on
-the type of filters and required non-default options</p>
+<li><p><strong>param_real</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_preal</em><em>]</em><em>, </em><em>np.float64</em><em>]</em>) – <p>real/float filter parameters
+the forgetting factor must be given;
+additional required parameters are filter specific
+See <a class="reference external" href="https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF">pyPDAF filter parameters</a></p>
+<p>The array dimension <cite>dim_preal</cite> is dimension of <cite>param_real</cite>.</p>
 </p></li>
 <li><p><strong>COMM_model</strong> (<em>int</em>) – model MPI communicator</p></li>
 <li><p><strong>COMM_filter</strong> (<em>int</em>) – filter MPI communicator</p></li>
 <li><p><strong>COMM_couple</strong> (<em>int</em>) – coupling MPI communicator</p></li>
-<li><p><strong>task_id</strong> (<em>int</em>) – index of parallel model task starting from 1</p></li>
-<li><p><strong>n_modeltasks</strong> (<em>int</em>) – number of parallel model tasks</p></li>
+<li><p><strong>task_id</strong> (<em>int</em>) – index of parallel model task on current process;
+the index starts from 1</p></li>
+<li><p><strong>n_modeltasks</strong> (<em>int</em>) – number of parallel model tasks
+See [pyPDAF parallel strategy](<a class="reference external" href="https://yumengch.github.io/pyPDAF/parallel.html">https://yumengch.github.io/pyPDAF/parallel.html</a>)</p></li>
 <li><p><strong>in_filterpe</strong> (<em>bool</em>) – True if the current PE is a filter PE else False</p></li>
-<li><p><strong>py__init_ens_pdaf</strong> (<em>Callable</em><em>[</em><em>filtertype:int</em><em>, </em><em>dim_p:int</em><em>, </em><em>dim_ens:int</em><em>, </em><em>state_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>uinv : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_ens-1</em><em>, </em><em>dim_ens-1</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>ens_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_p</em><em>, </em><em>dim_ens</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>flag:int</em><em>]</em>) – <p>initialise PDAF internal ensemble array</p>
-<dl class="simple">
+<li><p><strong>py__init_ens_pdaf</strong> (<em>Callable</em><em>[</em><em>filtertype:int</em><em>, </em><em>dim_p:int</em><em>, </em><em>dim_ens:int</em><em>, </em><em>state_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>uinv : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>:</em><em>, </em><em>:</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>ens_p : ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_p</em><em>, </em><em>dim_ens</em><em>]</em><em>, </em><em>np.float64</em><em>]</em><em>, </em><em>flag:int</em><em>]</em>) – <p>initialise PDAF internal ensemble array <cite>ens_p</cite>;
+for SEEK, one also need to fill <cite>uinv</cite>;
+this function is called by processes
+with <cite>filterpe = .true.</cite> only</p>
+<dl>
 <dt><strong>Callback Parameters</strong></dt><dd><ul>
 <li><dl class="simple">
-<dt><strong>filtertype</strong><span class="classifier">int</span></dt><dd><ul>
-<li><p>type of filter to initialize</p></li>
+<dt><strong>filtertype</strong><span class="classifier">int</span></dt><dd><ul class="simple">
+<li><p>filter type given in PDAF_init</p></li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt><strong>dim_p</strong><span class="classifier">int</span></dt><dd><ul>
-<li><p>pe-local state dimension</p></li>
+<dt><strong>dim_p</strong><span class="classifier">int</span></dt><dd><ul class="simple">
+<li><p>PE-local state dimension given by PDAF_init</p></li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt><strong>dim_ens</strong><span class="classifier">int</span></dt><dd><ul>
-<li><p>size of ensemble</p></li>
+<dt><strong>dim_ens</strong><span class="classifier">int</span></dt><dd><ul class="simple">
+<li><p>number of ensemble members</p></li>
 </ul>
 </dd>
 </dl>
 </li>
-<li><dl class="simple">
+<li><dl>
 <dt><strong>state_p</strong><span class="classifier">ndarray[tuple[dim_p], np.float64]</span></dt><dd><ul>
-<li><p>pe-local model state</p></li>
+<li><p>PE-local model state
+This array must be filled with the initial
+state of the model for SEEK, but it is not
+used for ensemble-based filters.</p>
+<p>One can still make use of this array within
+this function.</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt><strong>uinv</strong><span class="classifier">ndarray[tuple[:, :], np.float64]</span></dt><dd><ul>
+<li><p>This array is the inverse of matrix
+formed by right singular vectors of error
+covariance matrix of ensemble perturbations.</p>
+<p>This array has to be filled in SEEK, but it is
+not used for ensemble-based filters.
+Nevertheless, one can still make use of this
+array within this function e.g.,
+for generating an initial ensemble perturbation
+from a given covariance matrix.</p>
+<p>Dimension of this array is determined by the
+filter type.</p>
+<ul class="simple">
+<li><p>(dim_ens, dim_ens) for (L)ETKF, (L)NETF, (L)KNETF, and SEEK</p></li>
+<li><p>(dim_ens - 1, dim_ens - 1) for (L)SEIK, (L)ESTKF, and 3DVar using ensemble</p></li>
+<li><p>(1, 1) for (L)EnKF, particle filters and gen_obs</p></li>
+</ul>
+</li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt><strong>uinv</strong><span class="classifier">ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]</span></dt><dd><ul>
-<li><p>array not referenced for ensemble filters</p></li>
+<dt><strong>ens_p</strong><span class="classifier">ndarray[tuple[dim_p, dim_ens], np.float64]</span></dt><dd><ul class="simple">
+<li><p>PE-local ensemble</p></li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt><strong>ens_p</strong><span class="classifier">ndarray[tuple[dim_p, dim_ens], np.float64]</span></dt><dd><ul>
-<li><p>pe-local state ensemble</p></li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt><strong>flag</strong><span class="classifier">int</span></dt><dd><ul>
+<dt><strong>flag</strong><span class="classifier">int</span></dt><dd><ul class="simple">
 <li><p>pdaf status flag</p></li>
 </ul>
 </dd>
@@ -131,29 +177,51 @@ the type of filters and required non-default options</p>
 </ul>
 </dd>
 <dt><strong>Callback Returns</strong></dt><dd><ul>
-<li><dl class="simple">
+<li><dl>
 <dt><strong>state_p</strong><span class="classifier">ndarray[tuple[dim_p], np.float64]</span></dt><dd><ul>
-<li><p>pe-local model state</p></li>
+<li><p>PE-local model state
+This array must be filled with the initial
+state of the model for SEEK, but it is not
+used for ensemble-based filters.</p>
+<p>One can still make use of this array within
+this function.</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt><strong>uinv</strong><span class="classifier">ndarray[tuple[:, :], np.float64]</span></dt><dd><ul>
+<li><p>This array is the inverse of matrix
+formed by right singular vectors of error
+covariance matrix of ensemble perturbations.</p>
+<p>This array has to be filled in SEEK, but it is
+not used for ensemble-based filters.
+Nevertheless, one can still make use of this
+array within this function e.g.,
+for generating an initial ensemble perturbation
+from a given covariance matrix.</p>
+<p>Dimension of this array is determined by the
+filter type.</p>
+<ul class="simple">
+<li><p>(dim_ens, dim_ens) for (L)ETKF, (L)NETF, (L)KNETF, and SEEK</p></li>
+<li><p>(dim_ens - 1, dim_ens - 1) for (L)SEIK, (L)ESTKF, and 3DVar using ensemble</p></li>
+<li><p>(1, 1) for (L)EnKF, particle filters and gen_obs</p></li>
+</ul>
+</li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt><strong>uinv</strong><span class="classifier">ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]</span></dt><dd><ul>
-<li><p>array not referenced for ensemble filters</p></li>
+<dt><strong>ens_p</strong><span class="classifier">ndarray[tuple[dim_p, dim_ens], np.float64]</span></dt><dd><ul class="simple">
+<li><p>PE-local ensemble</p></li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt><strong>ens_p</strong><span class="classifier">ndarray[tuple[dim_p, dim_ens], np.float64]</span></dt><dd><ul>
-<li><p>pe-local state ensemble</p></li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt><strong>flag</strong><span class="classifier">int</span></dt><dd><ul>
+<dt><strong>flag</strong><span class="classifier">int</span></dt><dd><ul class="simple">
 <li><p>pdaf status flag</p></li>
 </ul>
 </dd>
@@ -168,13 +236,19 @@ the type of filters and required non-default options</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul>
-<li><p><strong>param_int</strong> (<em>ndarray[tuple[dim_pint], np.intc]</em>) – filter parameters in integer</p>
-<p>The array dimension <cite>dim_pint</cite> is the number of integer parameters which depends on
-the type of filters and required non-default options</p>
+<li><p><strong>param_int</strong> (<em>ndarray[tuple[dim_pint], np.intc]</em>) – integer filter parameters
+in all available filters,
+the size of state vector, and
+number of ensemble members must be given;
+additional required parameters are filter specific
+See <a class="reference external" href="https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF">pyPDAF filter parameters</a></p>
+<p>The array dimension <cite>dim_pint</cite> is dimension of <cite>param_int</cite></p>
 </li>
-<li><p><strong>param_real</strong> (<em>ndarray[tuple[dim_preal], np.float64]</em>) – filter parameters in float/real values</p>
-<p>The array dimension <cite>dim_preal</cite> is number of real parameter which depends on
-the type of filters and required non-default options</p>
+<li><p><strong>param_real</strong> (<em>ndarray[tuple[dim_preal], np.float64]</em>) – real/float filter parameters
+the forgetting factor must be given;
+additional required parameters are filter specific
+See <a class="reference external" href="https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF">pyPDAF filter parameters</a></p>
+<p>The array dimension <cite>dim_preal</cite> is dimension of <cite>param_real</cite></p>
 </li>
 <li><p><strong>flag</strong> (<em>int</em>) – Status flag, 0: no error, error codes:</p></li>
 </ul>
@@ -224,8 +298,7 @@ the type of filters and required non-default options</p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallelisation Strategy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Manual.html">Userguide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../implementation.html">Design Details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../develop.html">Developer Guide</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../API.html">API</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../API.html#initialisation-and-finalisation">Initialisation and finalisation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#fully-parallel-da-algorithms"><cite>Fully parallel</cite> DA algorithms</a></li>
@@ -267,7 +340,7 @@ the type of filters and required non-default options</p>
       &#169;2022 University of Reading and National Centre for Earth Observation.
       
       |
-      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.0.2</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
       &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
       |

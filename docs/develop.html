@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Developer Guide &#8212; pyPDAF  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=df3fedd5" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API" href="API.html" />
+    <link rel="prev" title="Parallelisation Strategy" href="parallel.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="developer-guide">
+<h1>Developer Guide<a class="headerlink" href="#developer-guide" title="Link to this heading">¶</a></h1>
+<p>The following guide explains the structure, implementation details, and mechanisms used in <code class="docutils literal notranslate"><span class="pre">pyPDAF</span></code>, a Python interface to the PDAF (Parallel Data Assimilation Framework) Fortran library. This guide is aimed at developers who wish to understand the existing framework, make modifications, or contribute to its development. Please refer to (installation from source code)[install] if you’d like to further develop pyPDAF.</p>
+<hr class="docutils" />
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">pyPDAF</span></code> bridges Python and Fortran by leveraging the <code class="docutils literal notranslate"><span class="pre">Cython</span></code> library for seamless interaction. As Python is implemented in C, any interaction between Python and Fortran is effectively handled as C-to-Fortran communication. The Fortran 2003 standard facilitates this through the <code class="docutils literal notranslate"><span class="pre">iso_c_binding</span></code> module, which ensures compatibility between Fortran and C datatypes.</p>
+<p><code class="docutils literal notranslate"><span class="pre">pyPDAF</span></code> relies on wrapper functions and automated code generation to handle interactions between Python and Fortran efficiently. Contributions to the library can include raising issues, suggesting features, or submitting pull requests with code enhancements.</p>
+</section>
+<hr class="docutils" />
+<section id="implementation-details">
+<h2>Implementation Details<a class="headerlink" href="#implementation-details" title="Link to this heading">¶</a></h2>
+<section id="source-code-structure">
+<h3>Source Code Structure<a class="headerlink" href="#source-code-structure" title="Link to this heading">¶</a></h3>
+<p>The core Python code of <code class="docutils literal notranslate"><span class="pre">pyPDAF</span></code> resides in the <code class="docutils literal notranslate"><span class="pre">src/pyPDAF</span></code> directory. To simplify the development process and avoid manually writing numerous subroutine wrappers, the library includes automated code generation scripts located in the <code class="docutils literal notranslate"><span class="pre">tools</span></code> directory:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">write_PDAF_funcs.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">write_user_funcs.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">write_PDAF_pyi.py</span></code></p></li>
+</ul>
+<section id="purpose-of-the-scripts">
+<h4>Purpose of the Scripts<a class="headerlink" href="#purpose-of-the-scripts" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p><strong>Analyse Fortran Subroutines:</strong> Parse subroutine names, arguments, and properties from Fortran files in <code class="docutils literal notranslate"><span class="pre">src/fortran</span></code>.</p></li>
+<li><p><strong>Extract Documentation:</strong> Retrieve comments for each argument to generate API documentation.</p></li>
+<li><p><strong>Generate Wrapper Code:</strong> Write Python-compatible code for <code class="docutils literal notranslate"><span class="pre">pyPDAF</span></code>.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Note:</strong> These scripts are tailored specifically for <code class="docutils literal notranslate"><span class="pre">pyPDAF</span></code> and are not general-purpose Fortran-to-Cython parsers. Outputs must be carefully reviewed to ensure correctness.</p>
+</div></blockquote>
+</section>
+</section>
+<hr class="docutils" />
+<section id="fortran-subroutines-and-wrappers">
+<h3>Fortran Subroutines and Wrappers<a class="headerlink" href="#fortran-subroutines-and-wrappers" title="Link to this heading">¶</a></h3>
+<section id="interoperability-with-bind-c">
+<h4>Interoperability with <code class="docutils literal notranslate"><span class="pre">bind(c)</span></code><a class="headerlink" href="#interoperability-with-bind-c" title="Link to this heading">¶</a></h4>
+<p>Fortran subroutines use the <code class="docutils literal notranslate"><span class="pre">bind(c)</span></code> keyword for compatibility with C. Since PDAF does not use this keyword, <code class="docutils literal notranslate"><span class="pre">pyPDAF</span></code> provides its own wrapper subroutines that:</p>
+<ol class="arabic simple">
+<li><p>Begin with the prefix <code class="docutils literal notranslate"><span class="pre">c__</span></code> to denote compatibility.</p></li>
+<li><p>Include argument-level comments above the argument definition formatted using Sphinx syntax for API documentation.</p></li>
+<li><p>Follow specific naming conventions and formatting rules.</p></li>
+</ol>
+</section>
+<section id="example-wrapper-subroutine">
+<h4>Example Wrapper Subroutine<a class="headerlink" href="#example-wrapper-subroutine" title="Link to this heading">¶</a></h4>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">c__PDAFomi_set_doassim</span><span class="p">(</span><span class="n">i_obs</span><span class="p">,</span><span class="w"> </span><span class="n">doassim</span><span class="p">)</span><span class="w"> </span><span class="k">bind</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="w">   </span><span class="c">! Index of observation types</span>
+<span class="w">   </span><span class="kt">integer</span><span class="p">(</span><span class="kt">c_int</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i_obs</span>
+<span class="w">   </span><span class="c">! Flag to determine assimilation (0: no, 1: yes)</span>
+<span class="w">   </span><span class="kt">integer</span><span class="p">(</span><span class="kt">c_int</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">doassim</span>
+<span class="w">   </span><span class="n">thisobs</span><span class="p">(</span><span class="n">i_obs</span><span class="p">)%</span><span class="n">doassim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">doassim</span>
+<span class="k">end subroutine </span><span class="n">c__PDAFomi_set_doassim</span>
+</pre></div>
+</div>
+</section>
+<section id="additional-features">
+<h4>Additional Features<a class="headerlink" href="#additional-features" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p><strong>Setter Subroutines:</strong> For PDAF-OMI modules, setters for derived types (<code class="docutils literal notranslate"><span class="pre">obs_f</span></code>, <code class="docutils literal notranslate"><span class="pre">obs_l</span></code>) are implemented to handle complex structures.</p></li>
+<li><p><strong>Explicit Interfaces:</strong> User-defined callback subroutines are declared in <code class="docutils literal notranslate"><span class="pre">src/Fortran/U_PDAF_interface_c_binding.F90</span></code> to ensure type safety and compatibility.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="cython-integration">
+<h3>Cython Integration<a class="headerlink" href="#cython-integration" title="Link to this heading">¶</a></h3>
+<section id="cython-declarations">
+<h4>Cython Declarations<a class="headerlink" href="#cython-declarations" title="Link to this heading">¶</a></h4>
+<p>To call Fortran subroutines in Python, <code class="docutils literal notranslate"><span class="pre">pyPDAF</span></code> uses Cython declarations defined in <code class="docutils literal notranslate"><span class="pre">.pxd</span></code> files (e.g., <code class="docutils literal notranslate"><span class="pre">src/pyPDAF/PDAF.pxd</span></code>). Example:</p>
+<div class="highlight-cython notranslate"><div class="highlight"><pre><span></span><span class="k">cdef</span> <span class="kr">extern</span> <span class="kt">void</span> <span class="nf">c__pdaf_eofcovar</span> <span class="p">(</span>
+    <span class="nb">int</span><span class="o">*</span> <span class="n">dim_state</span><span class="p">,</span> <span class="nb">int</span><span class="o">*</span> <span class="n">nstates</span><span class="p">,</span> <span class="nb">int</span><span class="o">*</span> <span class="n">nfields</span><span class="p">,</span> <span class="nb">int</span><span class="o">*</span> <span class="n">dim_fields</span><span class="p">,</span>
+    <span class="nb">int</span><span class="o">*</span> <span class="n">offsets</span><span class="p">,</span> <span class="nb">int</span><span class="o">*</span> <span class="n">remove_mstate</span><span class="p">,</span> <span class="nb">int</span><span class="o">*</span> <span class="n">do_mv</span><span class="p">,</span> <span class="n">double</span><span class="o">*</span> <span class="n">states</span><span class="p">,</span>
+    <span class="n">double</span><span class="o">*</span> <span class="n">stddev</span><span class="p">,</span> <span class="n">double</span><span class="o">*</span> <span class="n">svals</span><span class="p">,</span> <span class="n">double</span><span class="o">*</span> <span class="n">svec</span><span class="p">,</span> <span class="n">double</span><span class="o">*</span> <span class="n">meanstate</span><span class="p">,</span>
+    <span class="nb">int</span><span class="o">*</span> <span class="n">verbose</span><span class="p">,</span> <span class="nb">int</span><span class="o">*</span> <span class="n">status</span><span class="p">)</span> <span class="n">noexcept</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="python-wrappers">
+<h4>Python Wrappers<a class="headerlink" href="#python-wrappers" title="Link to this heading">¶</a></h4>
+<p>These Cython declarations are wrapped into Python functions to make them accessible to users. Wrappers simplify argument handling by:</p>
+<ol class="arabic simple">
+<li><p>Removing arguments that can be inferred (e.g., array dimensions).</p></li>
+<li><p>Removing arguments that have <code class="docutils literal notranslate"><span class="pre">intent(out)</span></code> property.</p></li>
+<li><p>Returning all <code class="docutils literal notranslate"><span class="pre">intent(out)</span></code> or <code class="docutils literal notranslate"><span class="pre">intent(inout)</span></code> arguments in Python-friendly structures.</p></li>
+</ol>
+<p>Example:</p>
+<div class="highlight-cython notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">eofcovar</span><span class="p">(</span><span class="nb">int</span><span class="p">[::</span><span class="mf">1</span><span class="p">]</span> <span class="n">dim_fields</span><span class="p">,</span> <span class="nb">int</span><span class="p">[::</span><span class="mf">1</span><span class="p">]</span> <span class="n">offsets</span><span class="p">,</span> <span class="nb">int</span> <span class="n">remove_mstate</span><span class="p">,</span> <span class="nb">int</span> <span class="n">do_mv</span><span class="p">,</span> 
+             <span class="n">double</span><span class="p">[:,:]</span> <span class="n">states</span><span class="p">,</span> <span class="n">double</span><span class="p">[::</span><span class="mf">1</span><span class="p">]</span> <span class="n">meanstate</span><span class="p">,</span> <span class="nb">int</span> <span class="n">verbose</span><span class="p">):</span>
+    <span class="c"># Convert inputs to Fortran-compatible format</span>
+    <span class="k">cdef</span> <span class="kt">double</span>[<span class="p">::</span><span class="mf">1</span><span class="p">]</span> <span class="n">states_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asfortranarray</span><span class="p">(</span><span class="n">states</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s">&quot;F&quot;</span><span class="p">)</span>
+    <span class="k">cdef</span> <span class="kt">int</span> <span class="nf">dim_state</span> <span class="o">=</span> <span class="n">states</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span>
+    <span class="k">cdef</span> <span class="kt">int</span> <span class="nf">nstates</span> <span class="o">=</span> <span class="n">states</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span>
+    <span class="k">cdef</span> <span class="kt">int</span> <span class="nf">nfields</span> <span class="o">=</span> <span class="n">dim_fields</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span>
+
+    <span class="c"># Allocate output arrays</span>
+    <span class="k">cdef</span> <span class="kt">double</span>[<span class="p">::</span><span class="mf">1</span><span class="p">]</span> <span class="n">stddev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nfields</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">cdef</span> <span class="kt">double</span>[<span class="p">::</span><span class="mf">1</span><span class="p">]</span> <span class="n">svals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nstates</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">cdef</span> <span class="kt">double</span>[<span class="p">::</span><span class="mf">1</span><span class="p">]</span> <span class="n">svec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">dim_state</span><span class="p">,</span> <span class="n">nstates</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">cdef</span> <span class="kt">int</span> <span class="nf">status</span>
+
+    <span class="c"># Call the Fortran subroutine</span>
+    <span class="n">c__pdaf_eofcovar</span><span class="p">(</span><span class="o">&amp;</span><span class="n">dim_state</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">nstates</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">nfields</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dim_fields</span><span class="p">[</span><span class="mf">0</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">offsets</span><span class="p">[</span><span class="mf">0</span><span class="p">],</span> 
+                     <span class="o">&amp;</span><span class="n">remove_mstate</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">do_mv</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">states_f</span><span class="p">[</span><span class="mf">0</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">stddev</span><span class="p">[</span><span class="mf">0</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">svals</span><span class="p">[</span><span class="mf">0</span><span class="p">],</span> 
+                     <span class="o">&amp;</span><span class="n">svec</span><span class="p">[</span><span class="mf">0</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">meanstate</span><span class="p">[</span><span class="mf">0</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">verbose</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">status</span><span class="p">)</span>
+
+    <span class="c"># Return results in Python-friendly format</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">states</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">dim_state</span><span class="p">,</span> <span class="n">nstates</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">stddev</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">svals</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">svec</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">meanstate</span><span class="p">),</span>
+        <span class="n">status</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="handling-callback-functions">
+<h3>Handling Callback Functions<a class="headerlink" href="#handling-callback-functions" title="Link to this heading">¶</a></h3>
+<p>Callback functions allow users to define custom routines for data assimilation. However, Fortran expects these routines to follow specific interfaces. To resolve this, <code class="docutils literal notranslate"><span class="pre">pyPDAF</span></code> provides:</p>
+<ul class="simple">
+<li><p><strong>Fortran Interface Declarations:</strong> Defined in <code class="docutils literal notranslate"><span class="pre">U_PDAF_interface_c_binding.F90</span></code>.</p></li>
+<li><p><strong>Python-to-C Bridge:</strong> Implemented in <code class="docutils literal notranslate"><span class="pre">src/pyPDAF/UserFunc.pyx</span></code>.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-cython notranslate"><div class="highlight"><pre><span></span><span class="n">state_p_np</span><span class="p">,</span> <span class="n">uinv_np</span><span class="p">,</span> <span class="n">ens_p_np</span><span class="p">,</span> <span class="n">flag</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(&lt;</span><span class="kt">object</span><span class="p">&gt;</span><span class="n">init_ens_pdaf</span><span class="p">)(</span>
+    <span class="n">filtertype</span><span class="p">[</span><span class="mf">0</span><span class="p">],</span> <span class="n">dim_p</span><span class="p">[</span><span class="mf">0</span><span class="p">],</span> <span class="n">dim_ens</span><span class="p">[</span><span class="mf">0</span><span class="p">],</span> <span class="n">state_p_np</span><span class="o">.</span><span class="n">base</span><span class="p">,</span> <span class="n">uinv_np</span><span class="o">.</span><span class="n">base</span><span class="p">,</span> 
+    <span class="n">ens_p_np</span><span class="o">.</span><span class="n">base</span><span class="p">,</span> <span class="n">flag</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">init_ens_pdaf</span></code> is defined in <code class="docutils literal notranslate"><span class="pre">src/pyPDAF/UserFunc.pxd</span></code> as a pointer: <code class="docutils literal notranslate"><span class="pre">cdef</span> <span class="pre">void*</span>&#160; <span class="pre">init_ens_pdaf</span> <span class="pre">=</span> <span class="pre">NULL;</span></code>. The pointer is associated in <code class="docutils literal notranslate"><span class="pre">src/pyPDAF/PDAF.pyx</span></code>:</p>
+<div class="highlight-cython notranslate"><div class="highlight"><pre><span></span><span class="k">from</span> <span class="nn">.</span> <span class="k">cimport</span> <span class="n">UserFunc</span> <span class="k">as</span> <span class="n">c__PDAFcython</span>
+<span class="n">c__PDAFcython</span><span class="o">.</span><span class="n">init_ens_pdaf</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">void</span><span class="o">*&gt;</span><span class="n">py__init_ens_pdaf</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">py__init_ens_pdaf</span></code> is the Python call-back function.</p>
+</section>
+<section id="caveats">
+<h3>Caveats<a class="headerlink" href="#caveats" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Pass-by-Reference in Fortran:</strong> Fortran passes arguments by reference, while Python’s behavior depends on the object type.</p></li>
+<li><p><strong>Maintaining Consistency:</strong> When Python functions modify arguments, ensure the original reference is preserved.</p></li>
+</ol>
+<p>Example Safety Check:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">cdef</span> <span class="n">double</span><span class="p">[::</span><span class="mi">1</span><span class="p">]</span> <span class="n">state_p_new</span>
+    <span class="k">if</span> <span class="n">state_p</span> <span class="o">!=</span> <span class="o">&amp;</span><span class="n">state_p_np</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">state_p_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="o">&lt;</span><span class="n">double</span><span class="p">[:</span><span class="n">dim_p</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">&gt;</span> <span class="n">state_p</span><span class="p">)</span>
+        <span class="n">state_p_new</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">state_p_np</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;The memory address of state_p is changed in c__init_ens_pdaf.&quot;</span> 
+         <span class="s2">&quot;The values are copied to the original Fortran array, and can slow-down the system.&quot;</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="special-considerations-for-pdaf-omi">
+<h3>Special Considerations for PDAF-OMI<a class="headerlink" href="#special-considerations-for-pdaf-omi" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Allocatable Arrays:</strong> Explicit sizes are provided in wrappers to avoid interoperability issues, as Fortran 2018 support for assumed-size arrays is still evolving.</p></li>
+<li><p><strong>Derived Types:</strong> Setter routines are implemented for fields in derived types like <code class="docutils literal notranslate"><span class="pre">obs_f</span></code> and <code class="docutils literal notranslate"><span class="pre">obs_l</span></code> to simplify usage.</p></li>
+</ul>
+<hr class="docutils" />
+<p>This guide provides an in-depth understanding of <code class="docutils literal notranslate"><span class="pre">pyPDAF</span></code>’s structure, implementation details, and best practices for contributing. Developers are encouraged to verify all generated code and follow the documented conventions for consistency and reliability.</p>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">pyPDAF</a></h1>
+
+
+
+<p class="blurb">A Python interface to Parallel Data Assimilation Framework.</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=yumengch&repo=pyPDAF&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Parallelisation Strategy</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Developer Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#implementation-details">Implementation Details</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API_legacy.html">API (legacy)</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="parallel.html" title="previous chapter">Parallelisation Strategy</a></li>
+      <li>Next: <a href="API.html" title="next chapter">API</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2022 University of Reading and National Centre for Earth Observation.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/develop.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
