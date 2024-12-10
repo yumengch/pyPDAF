@@ -32,7 +32,7 @@ supported methods can be found
 ## Getting Started
 It is recommended to install pyPDAF via `conda`:
 ```bash
-conda -n pypdaf -c conda-forge yumengch::pypdaf==1.0.1
+conda create -n pypdaf -c conda-forge yumengch::pypdaf==1.0.1
 ```
 You can also install locally from the source code using `pip`
 by setting up `setup.cfg` and `cmake` configurations
