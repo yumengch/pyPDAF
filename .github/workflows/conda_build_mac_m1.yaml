@@ -27,7 +27,8 @@ jobs:
         shell: bash -el {0}
         run: |
           conda install -y -c conda-forge --use-local pypdaf
-          mpiexec -n 4 python -u example/main.py 
+          cd example
+          mpiexec -n 4 python -u online/main.py 
 
       - name: Setup tmate session
         if: ${{ failure() }}

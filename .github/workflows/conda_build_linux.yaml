@@ -23,7 +23,8 @@ jobs:
           conda  config --set anaconda_upload yes
           conda-build -c conda-forge conda.recipe/
           conda install -y -c conda-forge --use-local pypdaf
-          mpiexec -n 4 python -u example/main.py 
+          cd example
+          mpiexec -n 4 python -u online/main.py 
 
       - name: Setup tmate session
         if: ${{ failure() }}
