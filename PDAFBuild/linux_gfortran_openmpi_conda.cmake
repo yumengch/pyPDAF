@@ -4,7 +4,7 @@ set(PDAF_NAME "pdaf-var")
 # set compiler executable
 set(CMAKE_Fortran_COMPILER "mpif90")
 # Set compiler flags for Release/Production configurations
-set(CMAKE_Fortran_FLAGS_RELEASE "-O3 -ffree-line-length-none -fdefault-real-8 -fPIC")
+set(CMAKE_Fortran_FLAGS_RELEASE "-O3 -ffree-line-length-none -fdefault-real-8 -fPIC -fopenmp")
 # Set compiler flags for Debug configurations
 set(CMAKE_Fortran_FLAGS_DEBUG "-O0 -Wall -Wextra -g -pedantic -fcheck=all -fbacktrace -ffree-line-length-none -fdefault-real-8 -fPIC")
 

@@ -3,35 +3,40 @@ python:
     - 3.10
     - 3.11
     - 3.12
+    - 3.13
 
 c_compiler:
     - vs2022   # [win]
 
 numpy:
-    - 2.0.1
+    - 2.2.0
 
 mpi4py:
-    - 3.1.6=py39hbbf3f12_1  # [win]
-    - 3.1.6=py310h9c05390_1 # [win]
-    - 3.1.6=py311hab2a8a2_1 # [win]
-    - 3.1.6=py312ha74b32c_1 # [win]
-    - 3.1.6=py39hcfe1006_1 # [osx and arm64]
-    - 3.1.6=py310h779c158_1 # [osx and arm64]
-    - 3.1.6=py311h71a66b3_1 # [osx and arm64]
-    - 3.1.6=py312h66645bf_1 # [osx and arm64]
-    - 3.1.6=py39h00386b6_1 # [osx and x86_64]
-    - 3.1.6=py310h9dc04dd_1 # [osx and x86_64]
-    - 3.1.6=py311hb0f2903_1 # [osx and x86_64]
-    - 3.1.6=py312h908beef_1 # [osx and x86_64]
-    - 3.1.6=py39he4b388a_1 # [linux]
-    - 3.1.6=py310hcb86253_1 # [linux]
-    - 3.1.6=py311h0b14fea_1 # [linux]
-    - 3.1.6=py312h60e9011_1 # [linux]
+    - 4.0.1=py39hf9c7f05_0  # [win]
+    - 4.0.1=py310h741f8d3_0 # [win]
+    - 4.0.1=py311h04a8612_0 # [win]
+    - 4.0.1=py312h880a0dc_0 # [win]
+    - 4.0.1=py313h5ecaadf_0 # [win]
+    - 4.0.1=py39h0c5f232_0 # [osx and arm64]
+    - 4.0.1=py310h9e472cc_0 # [osx and arm64]
+    - 4.0.1=py311h3f9ec3c_0 # [osx and arm64]
+    - 4.0.1=py312h5450814_0 # [osx and arm64]
+    - 4.0.1=py313h41ff552_0 # [osx and arm64]
+    - 4.0.1=py39h4963b48_0 # [osx and x86_64]
+    - 4.0.1=py310h7afbf91_0 # [osx and x86_64]
+    - 4.0.1=py311hb5d555c_0 # [osx and x86_64]
+    - 4.0.1=py312h017ff69_0 # [osx and x86_64]
+    - 4.0.1=py313h9b2bcec_0 # [osx and x86_64]
+    - 4.0.1=py39hbe247c9_0 # [linux]
+    - 4.0.1=py310hc9139ab_0 # [linux]
+    - 4.0.1=py311h0799f86_0 # [linux]
+    - 4.0.1=py312h0a6c937_0 # [linux]
+    - 4.0.1=py313h7246b6a_0 # [linux]
     
 
 mpi:
-    - mpich=4.2.2    # [not win]
-    - msmpi=10.1.1=h3502643_7    # [win]
+    - mpich=4.2.3    # [not win]
+    - msmpi=10.1.2=h3502643_2    # [win]
 
 zip_keys:
     - python

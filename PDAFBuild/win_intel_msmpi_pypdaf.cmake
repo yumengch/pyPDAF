@@ -19,6 +19,6 @@ set_source_files_properties(${MPI_Fortran_MODULE_SRC_FILE} PROPERTIES COMPILE_FL
 
 # ideally, we should provide compiler options based on target or source files, 
 # but this will force us to use multiple config files or encode it in the CMakelist.txt file
-set(CMAKE_Fortran_FLAGS_RELEASE "/O2 /4R8 /Qdiag-disable:10448 /Qdiag-disable:10423" CACHE STRING "RELEASE FLAGS" FORCE)
+set(CMAKE_Fortran_FLAGS_RELEASE "/O2 /openmp /4R8 /Qdiag-disable:10448 /Qdiag-disable:10423" CACHE STRING "RELEASE FLAGS" FORCE)
 # Set compiler flags for Debug configurations
 set(CMAKE_Fortran_FLAGS_DEBUG "/Od /debug:full /traceback /check:all /Qtrapuv /4R8 /Qdiag-disable:10448 /Qdiag-disable:10423" CACHE STRING "DEBUG FLAGS" FORCE)

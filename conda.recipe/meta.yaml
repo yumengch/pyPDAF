@@ -1,8 +1,8 @@
-{% set version = "1.0.0" %}
+{% set version = "1.0.1" %}
 
 package:
   name: pypdaf
-  version: 1.0.0
+  version: 1.0.1
 
 source:
   noarch: python
@@ -21,10 +21,8 @@ requirements:
     - numpy {{ numpy }}
     - mpi4py {{ mpi4py }}
     - {{ mpi }}
-    - mkl-static=2024.2.0=h66d3029_663 # [win]
-    - mkl-static=2024.2.0=ha770c72_665 # [linux]
-    - blas-devel=*=*netlib*      # [osx]
-    - liblapack=*=*netlib*       # [osx]
+    - blas-devel=*=*openblas*
+    - liblapack=*=*openblas*
   build:
     - {{ compiler('c') }}
     - {{ compiler('fortran') }}  # [not win]
@@ -36,8 +34,8 @@ requirements:
     - mpi4py {{ mpi4py }}
     - {{ mpi }}
     - intel-fortran-rt==2024.2.0=h2466b09_978 # [win]
-    - blas-devel=*=*netlib* # [osx]
-    - liblapack=*=*netlib* # [osx]
+    - blas-devel=*=*openblas*
+    - liblapack=*=*openblas*
 
 about:
   home: https://github.com/yumengch/pyPDAF

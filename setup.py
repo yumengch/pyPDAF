@@ -63,8 +63,8 @@ assert fortran_compiler in ['gfortran', 'ifort'], f'{fortran_compiler} is not a 
 logging.info (f'....using {fortran_compiler} compiler for C language....')
 if c_compiler == 'icc': os.environ["LDSHARED"] = "mpiicc -shared"
 
-extra_compile_args : list[str] =['-O3','-funroll-loops']
-extra_link_args : list[str] = []
+extra_compile_args : list[str] =['-O3','-funroll-loops', '-fopenmp']
+extra_link_args : list[str] = ['-fopenmp',]
 extra_objects : list[str] = []
 library_dirs : list[str]=[]
 libraries : list[str] = []
