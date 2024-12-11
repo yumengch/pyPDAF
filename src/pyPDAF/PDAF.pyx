@@ -145,19 +145,19 @@ def assimilate_3dvar (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -182,8 +182,8 @@ def assimilate_3dvar (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -274,26 +274,26 @@ def assimilate_3dvar (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -302,14 +302,14 @@ def assimilate_3dvar (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -322,9 +322,9 @@ def assimilate_3dvar (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -333,9 +333,9 @@ def assimilate_3dvar (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -362,20 +362,21 @@ def assimilate_3dvar (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaf_assimilate_3dvar (c__PDAFcython.c__collect_state_pdaf,
-                              c__PDAFcython.c__distribute_state_pdaf,
-                              c__PDAFcython.c__init_dim_obs_pdaf,
-                              c__PDAFcython.c__obs_op_pdaf,
-                              c__PDAFcython.c__init_obs_pdaf,
-                              c__PDAFcython.c__prodRinvA_pdaf,
-                              c__PDAFcython.c__cvt_pdaf,
-                              c__PDAFcython.c__cvt_adj_pdaf,
-                              c__PDAFcython.c__obs_op_lin_pdaf,
-                              c__PDAFcython.c__obs_op_adj_pdaf,
-                              c__PDAFcython.c__prepoststep_pdaf,
-                              c__PDAFcython.c__next_observation_pdaf,
-                              &outflag
-                             )
+    with nogil:
+        c__pdaf_assimilate_3dvar (c__PDAFcython.c__collect_state_pdaf,
+                                  c__PDAFcython.c__distribute_state_pdaf,
+                                  c__PDAFcython.c__init_dim_obs_pdaf,
+                                  c__PDAFcython.c__obs_op_pdaf,
+                                  c__PDAFcython.c__init_obs_pdaf,
+                                  c__PDAFcython.c__prodRinvA_pdaf,
+                                  c__PDAFcython.c__cvt_pdaf,
+                                  c__PDAFcython.c__cvt_adj_pdaf,
+                                  c__PDAFcython.c__obs_op_lin_pdaf,
+                                  c__PDAFcython.c__obs_op_adj_pdaf,
+                                  c__PDAFcython.c__prepoststep_pdaf,
+                                  c__PDAFcython.c__next_observation_pdaf,
+                                  &outflag
+                                 )
 
     return outflag
 
@@ -499,19 +500,19 @@ def assimilate_en3dvar_estkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -536,8 +537,8 @@ def assimilate_en3dvar_estkf (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -652,26 +653,26 @@ def assimilate_en3dvar_estkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -680,14 +681,14 @@ def assimilate_en3dvar_estkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -700,9 +701,9 @@ def assimilate_en3dvar_estkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -711,9 +712,9 @@ def assimilate_en3dvar_estkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -741,21 +742,22 @@ def assimilate_en3dvar_estkf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaf_assimilate_en3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
-                                      c__PDAFcython.c__distribute_state_pdaf,
-                                      c__PDAFcython.c__init_dim_obs_pdaf,
-                                      c__PDAFcython.c__obs_op_pdaf,
-                                      c__PDAFcython.c__init_obs_pdaf,
-                                      c__PDAFcython.c__prodRinvA_pdaf,
-                                      c__PDAFcython.c__cvt_ens_pdaf,
-                                      c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                      c__PDAFcython.c__obs_op_lin_pdaf,
-                                      c__PDAFcython.c__obs_op_adj_pdaf,
-                                      c__PDAFcython.c__init_obsvar_pdaf,
-                                      c__PDAFcython.c__prepoststep_pdaf,
-                                      c__PDAFcython.c__next_observation_pdaf,
-                                      &outflag
-                                     )
+    with nogil:
+        c__pdaf_assimilate_en3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
+                                          c__PDAFcython.c__distribute_state_pdaf,
+                                          c__PDAFcython.c__init_dim_obs_pdaf,
+                                          c__PDAFcython.c__obs_op_pdaf,
+                                          c__PDAFcython.c__init_obs_pdaf,
+                                          c__PDAFcython.c__prodRinvA_pdaf,
+                                          c__PDAFcython.c__cvt_ens_pdaf,
+                                          c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                          c__PDAFcython.c__obs_op_lin_pdaf,
+                                          c__PDAFcython.c__obs_op_adj_pdaf,
+                                          c__PDAFcython.c__init_obsvar_pdaf,
+                                          c__PDAFcython.c__prepoststep_pdaf,
+                                          c__PDAFcython.c__next_observation_pdaf,
+                                          &outflag
+                                         )
 
     return outflag
 
@@ -910,19 +912,19 @@ def assimilate_en3dvar_lestkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -947,8 +949,8 @@ def assimilate_en3dvar_lestkf (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -1111,7 +1113,7 @@ def assimilate_en3dvar_lestkf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -1272,26 +1274,26 @@ def assimilate_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -1300,14 +1302,14 @@ def assimilate_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -1320,9 +1322,9 @@ def assimilate_en3dvar_lestkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -1331,9 +1333,9 @@ def assimilate_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -1373,33 +1375,34 @@ def assimilate_en3dvar_lestkf (py__collect_state_pdaf,
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
-    c__pdaf_assimilate_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                                       c__PDAFcython.c__distribute_state_pdaf,
-                                       c__PDAFcython.c__init_dim_obs_pdaf,
-                                       c__PDAFcython.c__obs_op_pdaf,
-                                       c__PDAFcython.c__init_obs_pdaf,
-                                       c__PDAFcython.c__prodRinvA_pdaf,
-                                       c__PDAFcython.c__cvt_ens_pdaf,
-                                       c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                       c__PDAFcython.c__obs_op_lin_pdaf,
-                                       c__PDAFcython.c__obs_op_adj_pdaf,
-                                       c__PDAFcython.c__init_dim_obs_f_pdaf,
-                                       c__PDAFcython.c__obs_op_f_pdaf,
-                                       c__PDAFcython.c__init_obs_f_pdaf,
-                                       c__PDAFcython.c__init_obs_l_pdaf,
-                                       c__PDAFcython.c__prodRinvA_l_pdaf,
-                                       c__PDAFcython.c__init_n_domains_p_pdaf,
-                                       c__PDAFcython.c__init_dim_l_pdaf,
-                                       c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                       c__PDAFcython.c__g2l_state_pdaf,
-                                       c__PDAFcython.c__l2g_state_pdaf,
-                                       c__PDAFcython.c__g2l_obs_pdaf,
-                                       c__PDAFcython.c__init_obsvar_pdaf,
-                                       c__PDAFcython.c__init_obsvar_l_pdaf,
-                                       c__PDAFcython.c__prepoststep_pdaf,
-                                       c__PDAFcython.c__next_observation_pdaf,
-                                       &outflag
-                                      )
+    with nogil:
+        c__pdaf_assimilate_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                           c__PDAFcython.c__distribute_state_pdaf,
+                                           c__PDAFcython.c__init_dim_obs_pdaf,
+                                           c__PDAFcython.c__obs_op_pdaf,
+                                           c__PDAFcython.c__init_obs_pdaf,
+                                           c__PDAFcython.c__prodRinvA_pdaf,
+                                           c__PDAFcython.c__cvt_ens_pdaf,
+                                           c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                           c__PDAFcython.c__obs_op_lin_pdaf,
+                                           c__PDAFcython.c__obs_op_adj_pdaf,
+                                           c__PDAFcython.c__init_dim_obs_f_pdaf,
+                                           c__PDAFcython.c__obs_op_f_pdaf,
+                                           c__PDAFcython.c__init_obs_f_pdaf,
+                                           c__PDAFcython.c__init_obs_l_pdaf,
+                                           c__PDAFcython.c__prodRinvA_l_pdaf,
+                                           c__PDAFcython.c__init_n_domains_p_pdaf,
+                                           c__PDAFcython.c__init_dim_l_pdaf,
+                                           c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                           c__PDAFcython.c__g2l_state_pdaf,
+                                           c__PDAFcython.c__l2g_state_pdaf,
+                                           c__PDAFcython.c__g2l_obs_pdaf,
+                                           c__PDAFcython.c__init_obsvar_pdaf,
+                                           c__PDAFcython.c__init_obsvar_l_pdaf,
+                                           c__PDAFcython.c__prepoststep_pdaf,
+                                           c__PDAFcython.c__next_observation_pdaf,
+                                           &outflag
+                                          )
 
     return outflag
 
@@ -1508,19 +1511,19 @@ def assimilate_enkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -1543,26 +1546,26 @@ def assimilate_enkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -1571,14 +1574,14 @@ def assimilate_enkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__add_obs_err_pdaf : Callable[step:int, dim_obs_p:int, C_p : ndarray[tuple[dim_obs_p, dim_obs_p], np.float64]]
@@ -1627,9 +1630,9 @@ def assimilate_enkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -1638,9 +1641,9 @@ def assimilate_enkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -1664,17 +1667,18 @@ def assimilate_enkf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_assimilate_enkf (c__PDAFcython.c__collect_state_pdaf,
-                             c__PDAFcython.c__distribute_state_pdaf,
-                             c__PDAFcython.c__init_dim_obs_pdaf,
-                             c__PDAFcython.c__obs_op_pdaf,
-                             c__PDAFcython.c__init_obs_pdaf,
-                             c__PDAFcython.c__prepoststep_pdaf,
-                             c__PDAFcython.c__add_obs_err_pdaf,
-                             c__PDAFcython.c__init_obs_covar_pdaf,
-                             c__PDAFcython.c__next_observation_pdaf,
-                             &flag
-                            )
+    with nogil:
+        c__pdaf_assimilate_enkf (c__PDAFcython.c__collect_state_pdaf,
+                                 c__PDAFcython.c__distribute_state_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_pdaf,
+                                 c__PDAFcython.c__obs_op_pdaf,
+                                 c__PDAFcython.c__init_obs_pdaf,
+                                 c__PDAFcython.c__prepoststep_pdaf,
+                                 c__PDAFcython.c__add_obs_err_pdaf,
+                                 c__PDAFcython.c__init_obs_covar_pdaf,
+                                 c__PDAFcython.c__next_observation_pdaf,
+                                 &flag
+                                )
 
     return flag
 
@@ -1786,19 +1790,19 @@ def assimilate_estkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -1821,26 +1825,26 @@ def assimilate_estkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -1849,14 +1853,14 @@ def assimilate_estkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
@@ -1869,8 +1873,8 @@ def assimilate_estkf (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -1907,9 +1911,9 @@ def assimilate_estkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -1918,9 +1922,9 @@ def assimilate_estkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -1944,17 +1948,18 @@ def assimilate_estkf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_assimilate_estkf (c__PDAFcython.c__collect_state_pdaf,
-                              c__PDAFcython.c__distribute_state_pdaf,
-                              c__PDAFcython.c__init_dim_obs_pdaf,
-                              c__PDAFcython.c__obs_op_pdaf,
-                              c__PDAFcython.c__init_obs_pdaf,
-                              c__PDAFcython.c__prepoststep_pdaf,
-                              c__PDAFcython.c__prodRinvA_pdaf,
-                              c__PDAFcython.c__init_obsvar_pdaf,
-                              c__PDAFcython.c__next_observation_pdaf,
-                              &flag
-                             )
+    with nogil:
+        c__pdaf_assimilate_estkf (c__PDAFcython.c__collect_state_pdaf,
+                                  c__PDAFcython.c__distribute_state_pdaf,
+                                  c__PDAFcython.c__init_dim_obs_pdaf,
+                                  c__PDAFcython.c__obs_op_pdaf,
+                                  c__PDAFcython.c__init_obs_pdaf,
+                                  c__PDAFcython.c__prepoststep_pdaf,
+                                  c__PDAFcython.c__prodRinvA_pdaf,
+                                  c__PDAFcython.c__init_obsvar_pdaf,
+                                  c__PDAFcython.c__next_observation_pdaf,
+                                  &flag
+                                 )
 
     return flag
 
@@ -2070,19 +2075,19 @@ def assimilate_etkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -2105,26 +2110,26 @@ def assimilate_etkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -2133,14 +2138,14 @@ def assimilate_etkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
@@ -2153,8 +2158,8 @@ def assimilate_etkf (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -2191,9 +2196,9 @@ def assimilate_etkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -2202,9 +2207,9 @@ def assimilate_etkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -2228,17 +2233,18 @@ def assimilate_etkf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_assimilate_etkf (c__PDAFcython.c__collect_state_pdaf,
-                             c__PDAFcython.c__distribute_state_pdaf,
-                             c__PDAFcython.c__init_dim_obs_pdaf,
-                             c__PDAFcython.c__obs_op_pdaf,
-                             c__PDAFcython.c__init_obs_pdaf,
-                             c__PDAFcython.c__prepoststep_pdaf,
-                             c__PDAFcython.c__prodRinvA_pdaf,
-                             c__PDAFcython.c__init_obsvar_pdaf,
-                             c__PDAFcython.c__next_observation_pdaf,
-                             &flag
-                            )
+    with nogil:
+        c__pdaf_assimilate_etkf (c__PDAFcython.c__collect_state_pdaf,
+                                 c__PDAFcython.c__distribute_state_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_pdaf,
+                                 c__PDAFcython.c__obs_op_pdaf,
+                                 c__PDAFcython.c__init_obs_pdaf,
+                                 c__PDAFcython.c__prepoststep_pdaf,
+                                 c__PDAFcython.c__prodRinvA_pdaf,
+                                 c__PDAFcython.c__init_obsvar_pdaf,
+                                 c__PDAFcython.c__next_observation_pdaf,
+                                 &flag
+                                )
 
     return flag
 
@@ -2371,19 +2377,19 @@ def assimilate_hyb3dvar_estkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -2408,8 +2414,8 @@ def assimilate_hyb3dvar_estkf (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -2560,26 +2566,26 @@ def assimilate_hyb3dvar_estkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -2588,14 +2594,14 @@ def assimilate_hyb3dvar_estkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -2608,9 +2614,9 @@ def assimilate_hyb3dvar_estkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -2619,9 +2625,9 @@ def assimilate_hyb3dvar_estkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -2651,23 +2657,24 @@ def assimilate_hyb3dvar_estkf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaf_assimilate_hyb3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
-                                       c__PDAFcython.c__distribute_state_pdaf,
-                                       c__PDAFcython.c__init_dim_obs_pdaf,
-                                       c__PDAFcython.c__obs_op_pdaf,
-                                       c__PDAFcython.c__init_obs_pdaf,
-                                       c__PDAFcython.c__prodRinvA_pdaf,
-                                       c__PDAFcython.c__cvt_ens_pdaf,
-                                       c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                       c__PDAFcython.c__cvt_pdaf,
-                                       c__PDAFcython.c__cvt_adj_pdaf,
-                                       c__PDAFcython.c__obs_op_lin_pdaf,
-                                       c__PDAFcython.c__obs_op_adj_pdaf,
-                                       c__PDAFcython.c__init_obsvar_pdaf,
-                                       c__PDAFcython.c__prepoststep_pdaf,
-                                       c__PDAFcython.c__next_observation_pdaf,
-                                       &outflag
-                                      )
+    with nogil:
+        c__pdaf_assimilate_hyb3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
+                                           c__PDAFcython.c__distribute_state_pdaf,
+                                           c__PDAFcython.c__init_dim_obs_pdaf,
+                                           c__PDAFcython.c__obs_op_pdaf,
+                                           c__PDAFcython.c__init_obs_pdaf,
+                                           c__PDAFcython.c__prodRinvA_pdaf,
+                                           c__PDAFcython.c__cvt_ens_pdaf,
+                                           c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                           c__PDAFcython.c__cvt_pdaf,
+                                           c__PDAFcython.c__cvt_adj_pdaf,
+                                           c__PDAFcython.c__obs_op_lin_pdaf,
+                                           c__PDAFcython.c__obs_op_adj_pdaf,
+                                           c__PDAFcython.c__init_obsvar_pdaf,
+                                           c__PDAFcython.c__prepoststep_pdaf,
+                                           c__PDAFcython.c__next_observation_pdaf,
+                                           &outflag
+                                          )
 
     return outflag
 
@@ -2827,19 +2834,19 @@ def assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -2864,8 +2871,8 @@ def assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -3064,7 +3071,7 @@ def assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -3225,26 +3232,26 @@ def assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -3253,14 +3260,14 @@ def assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -3273,9 +3280,9 @@ def assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -3284,9 +3291,9 @@ def assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -3328,35 +3335,36 @@ def assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaf_assimilate_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                                        c__PDAFcython.c__distribute_state_pdaf,
-                                        c__PDAFcython.c__init_dim_obs_pdaf,
-                                        c__PDAFcython.c__obs_op_pdaf,
-                                        c__PDAFcython.c__init_obs_pdaf,
-                                        c__PDAFcython.c__prodRinvA_pdaf,
-                                        c__PDAFcython.c__cvt_ens_pdaf,
-                                        c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                        c__PDAFcython.c__cvt_pdaf,
-                                        c__PDAFcython.c__cvt_adj_pdaf,
-                                        c__PDAFcython.c__obs_op_lin_pdaf,
-                                        c__PDAFcython.c__obs_op_adj_pdaf,
-                                        c__PDAFcython.c__init_dim_obs_f_pdaf,
-                                        c__PDAFcython.c__obs_op_f_pdaf,
-                                        c__PDAFcython.c__init_obs_f_pdaf,
-                                        c__PDAFcython.c__init_obs_l_pdaf,
-                                        c__PDAFcython.c__prodRinvA_l_pdaf,
-                                        c__PDAFcython.c__init_n_domains_p_pdaf,
-                                        c__PDAFcython.c__init_dim_l_pdaf,
-                                        c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                        c__PDAFcython.c__g2l_state_pdaf,
-                                        c__PDAFcython.c__l2g_state_pdaf,
-                                        c__PDAFcython.c__g2l_obs_pdaf,
-                                        c__PDAFcython.c__init_obsvar_pdaf,
-                                        c__PDAFcython.c__init_obsvar_l_pdaf,
-                                        c__PDAFcython.c__prepoststep_pdaf,
-                                        c__PDAFcython.c__next_observation_pdaf,
-                                        &outflag
-                                       )
+    with nogil:
+        c__pdaf_assimilate_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                            c__PDAFcython.c__distribute_state_pdaf,
+                                            c__PDAFcython.c__init_dim_obs_pdaf,
+                                            c__PDAFcython.c__obs_op_pdaf,
+                                            c__PDAFcython.c__init_obs_pdaf,
+                                            c__PDAFcython.c__prodRinvA_pdaf,
+                                            c__PDAFcython.c__cvt_ens_pdaf,
+                                            c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                            c__PDAFcython.c__cvt_pdaf,
+                                            c__PDAFcython.c__cvt_adj_pdaf,
+                                            c__PDAFcython.c__obs_op_lin_pdaf,
+                                            c__PDAFcython.c__obs_op_adj_pdaf,
+                                            c__PDAFcython.c__init_dim_obs_f_pdaf,
+                                            c__PDAFcython.c__obs_op_f_pdaf,
+                                            c__PDAFcython.c__init_obs_f_pdaf,
+                                            c__PDAFcython.c__init_obs_l_pdaf,
+                                            c__PDAFcython.c__prodRinvA_l_pdaf,
+                                            c__PDAFcython.c__init_n_domains_p_pdaf,
+                                            c__PDAFcython.c__init_dim_l_pdaf,
+                                            c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                            c__PDAFcython.c__g2l_state_pdaf,
+                                            c__PDAFcython.c__l2g_state_pdaf,
+                                            c__PDAFcython.c__g2l_obs_pdaf,
+                                            c__PDAFcython.c__init_obsvar_pdaf,
+                                            c__PDAFcython.c__init_obsvar_l_pdaf,
+                                            c__PDAFcython.c__prepoststep_pdaf,
+                                            c__PDAFcython.c__next_observation_pdaf,
+                                            &outflag
+                                           )
 
     return outflag
 
@@ -3471,19 +3479,19 @@ def assimilate_lenkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -3506,26 +3514,26 @@ def assimilate_lenkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -3534,14 +3542,14 @@ def assimilate_lenkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__localize_covar_pdaf : Callable[dim_p:int, dim_obs:int, hp_p : ndarray[tuple[dim_obs, dim_p], np.float64], hph : ndarray[tuple[dim_obs, dim_obs], np.float64]]
@@ -3608,9 +3616,9 @@ def assimilate_lenkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -3619,9 +3627,9 @@ def assimilate_lenkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -3646,18 +3654,19 @@ def assimilate_lenkf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_assimilate_lenkf (c__PDAFcython.c__collect_state_pdaf,
-                              c__PDAFcython.c__distribute_state_pdaf,
-                              c__PDAFcython.c__init_dim_obs_pdaf,
-                              c__PDAFcython.c__obs_op_pdaf,
-                              c__PDAFcython.c__init_obs_pdaf,
-                              c__PDAFcython.c__prepoststep_pdaf,
-                              c__PDAFcython.c__localize_covar_pdaf,
-                              c__PDAFcython.c__add_obs_err_pdaf,
-                              c__PDAFcython.c__init_obs_covar_pdaf,
-                              c__PDAFcython.c__next_observation_pdaf,
-                              &flag
-                             )
+    with nogil:
+        c__pdaf_assimilate_lenkf (c__PDAFcython.c__collect_state_pdaf,
+                                  c__PDAFcython.c__distribute_state_pdaf,
+                                  c__PDAFcython.c__init_dim_obs_pdaf,
+                                  c__PDAFcython.c__obs_op_pdaf,
+                                  c__PDAFcython.c__init_obs_pdaf,
+                                  c__PDAFcython.c__prepoststep_pdaf,
+                                  c__PDAFcython.c__localize_covar_pdaf,
+                                  c__PDAFcython.c__add_obs_err_pdaf,
+                                  c__PDAFcython.c__init_obs_covar_pdaf,
+                                  c__PDAFcython.c__next_observation_pdaf,
+                                  &flag
+                                 )
 
     return flag
 
@@ -3792,19 +3801,19 @@ def assimilate_lestkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize PE-local observation vector
 
@@ -3843,26 +3852,26 @@ def assimilate_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -3871,14 +3880,14 @@ def assimilate_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, rank:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], A_l : ndarray[tuple[dim_obs_l, rank], np.float64], C_l : ndarray[tuple[dim_obs_l, rank], np.float64]]
@@ -3893,7 +3902,7 @@ def assimilate_lestkf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -4056,9 +4065,9 @@ def assimilate_lestkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -4067,9 +4076,9 @@ def assimilate_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -4101,25 +4110,26 @@ def assimilate_lestkf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_assimilate_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                               c__PDAFcython.c__distribute_state_pdaf,
-                               c__PDAFcython.c__init_dim_obs_pdaf,
-                               c__PDAFcython.c__obs_op_pdaf,
-                               c__PDAFcython.c__init_obs_pdaf,
-                               c__PDAFcython.c__init_obs_l_pdaf,
-                               c__PDAFcython.c__prepoststep_pdaf,
-                               c__PDAFcython.c__prodRinvA_l_pdaf,
-                               c__PDAFcython.c__init_n_domains_p_pdaf,
-                               c__PDAFcython.c__init_dim_l_pdaf,
-                               c__PDAFcython.c__init_dim_obs_l_pdaf,
-                               c__PDAFcython.c__g2l_state_pdaf,
-                               c__PDAFcython.c__l2g_state_pdaf,
-                               c__PDAFcython.c__g2l_obs_pdaf,
-                               c__PDAFcython.c__init_obsvar_pdaf,
-                               c__PDAFcython.c__init_obsvar_l_pdaf,
-                               c__PDAFcython.c__next_observation_pdaf,
-                               &flag
-                              )
+    with nogil:
+        c__pdaf_assimilate_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                   c__PDAFcython.c__distribute_state_pdaf,
+                                   c__PDAFcython.c__init_dim_obs_pdaf,
+                                   c__PDAFcython.c__obs_op_pdaf,
+                                   c__PDAFcython.c__init_obs_pdaf,
+                                   c__PDAFcython.c__init_obs_l_pdaf,
+                                   c__PDAFcython.c__prepoststep_pdaf,
+                                   c__PDAFcython.c__prodRinvA_l_pdaf,
+                                   c__PDAFcython.c__init_n_domains_p_pdaf,
+                                   c__PDAFcython.c__init_dim_l_pdaf,
+                                   c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                   c__PDAFcython.c__g2l_state_pdaf,
+                                   c__PDAFcython.c__l2g_state_pdaf,
+                                   c__PDAFcython.c__g2l_obs_pdaf,
+                                   c__PDAFcython.c__init_obsvar_pdaf,
+                                   c__PDAFcython.c__init_obsvar_l_pdaf,
+                                   c__PDAFcython.c__next_observation_pdaf,
+                                   &flag
+                                  )
 
     return flag
 
@@ -4259,19 +4269,19 @@ def assimilate_letkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize PE-local observation vector
 
@@ -4310,26 +4320,26 @@ def assimilate_letkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -4338,14 +4348,14 @@ def assimilate_letkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, rank:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], A_l : ndarray[tuple[dim_obs_l, rank], np.float64], C_l : ndarray[tuple[dim_obs_l, rank], np.float64]]
@@ -4360,7 +4370,7 @@ def assimilate_letkf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -4523,9 +4533,9 @@ def assimilate_letkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -4534,9 +4544,9 @@ def assimilate_letkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -4568,25 +4578,26 @@ def assimilate_letkf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_assimilate_letkf (c__PDAFcython.c__collect_state_pdaf,
-                              c__PDAFcython.c__distribute_state_pdaf,
-                              c__PDAFcython.c__init_dim_obs_pdaf,
-                              c__PDAFcython.c__obs_op_pdaf,
-                              c__PDAFcython.c__init_obs_pdaf,
-                              c__PDAFcython.c__init_obs_l_pdaf,
-                              c__PDAFcython.c__prepoststep_pdaf,
-                              c__PDAFcython.c__prodRinvA_l_pdaf,
-                              c__PDAFcython.c__init_n_domains_p_pdaf,
-                              c__PDAFcython.c__init_dim_l_pdaf,
-                              c__PDAFcython.c__init_dim_obs_l_pdaf,
-                              c__PDAFcython.c__g2l_state_pdaf,
-                              c__PDAFcython.c__l2g_state_pdaf,
-                              c__PDAFcython.c__g2l_obs_pdaf,
-                              c__PDAFcython.c__init_obsvar_pdaf,
-                              c__PDAFcython.c__init_obsvar_l_pdaf,
-                              c__PDAFcython.c__next_observation_pdaf,
-                              &flag
-                             )
+    with nogil:
+        c__pdaf_assimilate_letkf (c__PDAFcython.c__collect_state_pdaf,
+                                  c__PDAFcython.c__distribute_state_pdaf,
+                                  c__PDAFcython.c__init_dim_obs_pdaf,
+                                  c__PDAFcython.c__obs_op_pdaf,
+                                  c__PDAFcython.c__init_obs_pdaf,
+                                  c__PDAFcython.c__init_obs_l_pdaf,
+                                  c__PDAFcython.c__prepoststep_pdaf,
+                                  c__PDAFcython.c__prodRinvA_l_pdaf,
+                                  c__PDAFcython.c__init_n_domains_p_pdaf,
+                                  c__PDAFcython.c__init_dim_l_pdaf,
+                                  c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                  c__PDAFcython.c__g2l_state_pdaf,
+                                  c__PDAFcython.c__l2g_state_pdaf,
+                                  c__PDAFcython.c__g2l_obs_pdaf,
+                                  c__PDAFcython.c__init_obsvar_pdaf,
+                                  c__PDAFcython.c__init_obsvar_l_pdaf,
+                                  c__PDAFcython.c__next_observation_pdaf,
+                                  &flag
+                                 )
 
     return flag
 
@@ -4711,19 +4722,19 @@ def assimilate_lnetf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, observation_l : ndarray[tuple[dim_obs_l], np.float64]]
         Init. observation vector on local analysis domain
 
@@ -4748,26 +4759,26 @@ def assimilate_lnetf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -4776,14 +4787,14 @@ def assimilate_lnetf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__likelihood_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], resid_l : ndarray[tuple[dim_obs_l], np.float64], likely_l:float]
@@ -4922,9 +4933,9 @@ def assimilate_lnetf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -4933,9 +4944,9 @@ def assimilate_lnetf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -4964,22 +4975,23 @@ def assimilate_lnetf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_assimilate_lnetf (c__PDAFcython.c__collect_state_pdaf,
-                              c__PDAFcython.c__distribute_state_pdaf,
-                              c__PDAFcython.c__init_dim_obs_pdaf,
-                              c__PDAFcython.c__obs_op_pdaf,
-                              c__PDAFcython.c__init_obs_l_pdaf,
-                              c__PDAFcython.c__prepoststep_pdaf,
-                              c__PDAFcython.c__likelihood_l_pdaf,
-                              c__PDAFcython.c__init_n_domains_p_pdaf,
-                              c__PDAFcython.c__init_dim_l_pdaf,
-                              c__PDAFcython.c__init_dim_obs_l_pdaf,
-                              c__PDAFcython.c__g2l_state_pdaf,
-                              c__PDAFcython.c__l2g_state_pdaf,
-                              c__PDAFcython.c__g2l_obs_pdaf,
-                              c__PDAFcython.c__next_observation_pdaf,
-                              &flag
-                             )
+    with nogil:
+        c__pdaf_assimilate_lnetf (c__PDAFcython.c__collect_state_pdaf,
+                                  c__PDAFcython.c__distribute_state_pdaf,
+                                  c__PDAFcython.c__init_dim_obs_pdaf,
+                                  c__PDAFcython.c__obs_op_pdaf,
+                                  c__PDAFcython.c__init_obs_l_pdaf,
+                                  c__PDAFcython.c__prepoststep_pdaf,
+                                  c__PDAFcython.c__likelihood_l_pdaf,
+                                  c__PDAFcython.c__init_n_domains_p_pdaf,
+                                  c__PDAFcython.c__init_dim_l_pdaf,
+                                  c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                  c__PDAFcython.c__g2l_state_pdaf,
+                                  c__PDAFcython.c__l2g_state_pdaf,
+                                  c__PDAFcython.c__g2l_obs_pdaf,
+                                  c__PDAFcython.c__next_observation_pdaf,
+                                  &flag
+                                 )
 
     return flag
 
@@ -5130,19 +5142,19 @@ def assimilate_lknetf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize PE-local observation vector
 
@@ -5181,26 +5193,26 @@ def assimilate_lknetf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -5209,14 +5221,14 @@ def assimilate_lknetf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, rank:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], A_l : ndarray[tuple[dim_obs_l, rank], np.float64], C_l : ndarray[tuple[dim_obs_l, rank], np.float64]]
@@ -5231,7 +5243,7 @@ def assimilate_lknetf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -5460,9 +5472,9 @@ def assimilate_lknetf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -5471,9 +5483,9 @@ def assimilate_lknetf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -5508,28 +5520,29 @@ def assimilate_lknetf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_assimilate_lknetf (c__PDAFcython.c__collect_state_pdaf,
-                               c__PDAFcython.c__distribute_state_pdaf,
-                               c__PDAFcython.c__init_dim_obs_pdaf,
-                               c__PDAFcython.c__obs_op_pdaf,
-                               c__PDAFcython.c__init_obs_pdaf,
-                               c__PDAFcython.c__init_obs_l_pdaf,
-                               c__PDAFcython.c__prepoststep_pdaf,
-                               c__PDAFcython.c__prodRinvA_l_pdaf,
-                               c__PDAFcython.c__prodRinvA_hyb_l_pdaf,
-                               c__PDAFcython.c__init_n_domains_p_pdaf,
-                               c__PDAFcython.c__init_dim_l_pdaf,
-                               c__PDAFcython.c__init_dim_obs_l_pdaf,
-                               c__PDAFcython.c__g2l_state_pdaf,
-                               c__PDAFcython.c__l2g_state_pdaf,
-                               c__PDAFcython.c__g2l_obs_pdaf,
-                               c__PDAFcython.c__init_obsvar_pdaf,
-                               c__PDAFcython.c__init_obsvar_l_pdaf,
-                               c__PDAFcython.c__likelihood_l_pdaf,
-                               c__PDAFcython.c__likelihood_hyb_l_pdaf,
-                               c__PDAFcython.c__next_observation_pdaf,
-                               &flag
-                              )
+    with nogil:
+        c__pdaf_assimilate_lknetf (c__PDAFcython.c__collect_state_pdaf,
+                                   c__PDAFcython.c__distribute_state_pdaf,
+                                   c__PDAFcython.c__init_dim_obs_pdaf,
+                                   c__PDAFcython.c__obs_op_pdaf,
+                                   c__PDAFcython.c__init_obs_pdaf,
+                                   c__PDAFcython.c__init_obs_l_pdaf,
+                                   c__PDAFcython.c__prepoststep_pdaf,
+                                   c__PDAFcython.c__prodRinvA_l_pdaf,
+                                   c__PDAFcython.c__prodRinvA_hyb_l_pdaf,
+                                   c__PDAFcython.c__init_n_domains_p_pdaf,
+                                   c__PDAFcython.c__init_dim_l_pdaf,
+                                   c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                   c__PDAFcython.c__g2l_state_pdaf,
+                                   c__PDAFcython.c__l2g_state_pdaf,
+                                   c__PDAFcython.c__g2l_obs_pdaf,
+                                   c__PDAFcython.c__init_obsvar_pdaf,
+                                   c__PDAFcython.c__init_obsvar_l_pdaf,
+                                   c__PDAFcython.c__likelihood_l_pdaf,
+                                   c__PDAFcython.c__likelihood_hyb_l_pdaf,
+                                   c__PDAFcython.c__next_observation_pdaf,
+                                   &flag
+                                  )
 
     return flag
 
@@ -5662,19 +5675,19 @@ def assimilate_lseik (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize PE-local observation vector
 
@@ -5713,26 +5726,26 @@ def assimilate_lseik (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -5741,14 +5754,14 @@ def assimilate_lseik (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, rank:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], A_l : ndarray[tuple[dim_obs_l, rank], np.float64], C_l : ndarray[tuple[dim_obs_l, rank], np.float64]]
@@ -5763,7 +5776,7 @@ def assimilate_lseik (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -5926,9 +5939,9 @@ def assimilate_lseik (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -5937,9 +5950,9 @@ def assimilate_lseik (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -5971,25 +5984,26 @@ def assimilate_lseik (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_assimilate_lseik (c__PDAFcython.c__collect_state_pdaf,
-                              c__PDAFcython.c__distribute_state_pdaf,
-                              c__PDAFcython.c__init_dim_obs_pdaf,
-                              c__PDAFcython.c__obs_op_pdaf,
-                              c__PDAFcython.c__init_obs_pdaf,
-                              c__PDAFcython.c__init_obs_l_pdaf,
-                              c__PDAFcython.c__prepoststep_pdaf,
-                              c__PDAFcython.c__prodRinvA_l_pdaf,
-                              c__PDAFcython.c__init_n_domains_p_pdaf,
-                              c__PDAFcython.c__init_dim_l_pdaf,
-                              c__PDAFcython.c__init_dim_obs_l_pdaf,
-                              c__PDAFcython.c__g2l_state_pdaf,
-                              c__PDAFcython.c__l2g_state_pdaf,
-                              c__PDAFcython.c__g2l_obs_pdaf,
-                              c__PDAFcython.c__init_obsvar_pdaf,
-                              c__PDAFcython.c__init_obsvar_l_pdaf,
-                              c__PDAFcython.c__next_observation_pdaf,
-                              &flag
-                             )
+    with nogil:
+        c__pdaf_assimilate_lseik (c__PDAFcython.c__collect_state_pdaf,
+                                  c__PDAFcython.c__distribute_state_pdaf,
+                                  c__PDAFcython.c__init_dim_obs_pdaf,
+                                  c__PDAFcython.c__obs_op_pdaf,
+                                  c__PDAFcython.c__init_obs_pdaf,
+                                  c__PDAFcython.c__init_obs_l_pdaf,
+                                  c__PDAFcython.c__prepoststep_pdaf,
+                                  c__PDAFcython.c__prodRinvA_l_pdaf,
+                                  c__PDAFcython.c__init_n_domains_p_pdaf,
+                                  c__PDAFcython.c__init_dim_l_pdaf,
+                                  c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                  c__PDAFcython.c__g2l_state_pdaf,
+                                  c__PDAFcython.c__l2g_state_pdaf,
+                                  c__PDAFcython.c__g2l_obs_pdaf,
+                                  c__PDAFcython.c__init_obsvar_pdaf,
+                                  c__PDAFcython.c__init_obsvar_l_pdaf,
+                                  c__PDAFcython.c__next_observation_pdaf,
+                                  &flag
+                                 )
 
     return flag
 
@@ -6101,19 +6115,19 @@ def assimilate_netf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -6136,26 +6150,26 @@ def assimilate_netf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -6164,14 +6178,14 @@ def assimilate_netf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__likelihood_pdaf : Callable[step:int, dim_obs_p:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], resid : ndarray[tuple[dim_obs_p], np.float64], likely:float]
@@ -6202,9 +6216,9 @@ def assimilate_netf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -6213,9 +6227,9 @@ def assimilate_netf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -6238,16 +6252,17 @@ def assimilate_netf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_assimilate_netf (c__PDAFcython.c__collect_state_pdaf,
-                             c__PDAFcython.c__distribute_state_pdaf,
-                             c__PDAFcython.c__init_dim_obs_pdaf,
-                             c__PDAFcython.c__obs_op_pdaf,
-                             c__PDAFcython.c__init_obs_pdaf,
-                             c__PDAFcython.c__prepoststep_pdaf,
-                             c__PDAFcython.c__likelihood_pdaf,
-                             c__PDAFcython.c__next_observation_pdaf,
-                             &flag
-                            )
+    with nogil:
+        c__pdaf_assimilate_netf (c__PDAFcython.c__collect_state_pdaf,
+                                 c__PDAFcython.c__distribute_state_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_pdaf,
+                                 c__PDAFcython.c__obs_op_pdaf,
+                                 c__PDAFcython.c__init_obs_pdaf,
+                                 c__PDAFcython.c__prepoststep_pdaf,
+                                 c__PDAFcython.c__likelihood_pdaf,
+                                 c__PDAFcython.c__next_observation_pdaf,
+                                 &flag
+                                )
 
     return flag
 
@@ -6357,19 +6372,19 @@ def assimilate_pf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -6392,26 +6407,26 @@ def assimilate_pf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -6420,14 +6435,14 @@ def assimilate_pf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__likelihood_pdaf : Callable[step:int, dim_obs_p:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], resid : ndarray[tuple[dim_obs_p], np.float64], likely:float]
@@ -6458,9 +6473,9 @@ def assimilate_pf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -6469,9 +6484,9 @@ def assimilate_pf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -6494,16 +6509,17 @@ def assimilate_pf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_assimilate_pf (c__PDAFcython.c__collect_state_pdaf,
-                           c__PDAFcython.c__distribute_state_pdaf,
-                           c__PDAFcython.c__init_dim_obs_pdaf,
-                           c__PDAFcython.c__obs_op_pdaf,
-                           c__PDAFcython.c__init_obs_pdaf,
-                           c__PDAFcython.c__prepoststep_pdaf,
-                           c__PDAFcython.c__likelihood_pdaf,
-                           c__PDAFcython.c__next_observation_pdaf,
-                           &flag
-                          )
+    with nogil:
+        c__pdaf_assimilate_pf (c__PDAFcython.c__collect_state_pdaf,
+                               c__PDAFcython.c__distribute_state_pdaf,
+                               c__PDAFcython.c__init_dim_obs_pdaf,
+                               c__PDAFcython.c__obs_op_pdaf,
+                               c__PDAFcython.c__init_obs_pdaf,
+                               c__PDAFcython.c__prepoststep_pdaf,
+                               c__PDAFcython.c__likelihood_pdaf,
+                               c__PDAFcython.c__next_observation_pdaf,
+                               &flag
+                              )
 
     return flag
 
@@ -6612,19 +6628,19 @@ def assimilate_seek (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -6647,26 +6663,26 @@ def assimilate_seek (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -6675,14 +6691,14 @@ def assimilate_seek (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
@@ -6695,8 +6711,8 @@ def assimilate_seek (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -6717,9 +6733,9 @@ def assimilate_seek (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -6728,9 +6744,9 @@ def assimilate_seek (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -6753,16 +6769,17 @@ def assimilate_seek (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_assimilate_seek (c__PDAFcython.c__collect_state_pdaf,
-                             c__PDAFcython.c__distribute_state_pdaf,
-                             c__PDAFcython.c__init_dim_obs_pdaf,
-                             c__PDAFcython.c__obs_op_pdaf,
-                             c__PDAFcython.c__init_obs_pdaf,
-                             c__PDAFcython.c__prepoststep_pdaf,
-                             c__PDAFcython.c__prodRinvA_pdaf,
-                             c__PDAFcython.c__next_observation_pdaf,
-                             &flag
-                            )
+    with nogil:
+        c__pdaf_assimilate_seek (c__PDAFcython.c__collect_state_pdaf,
+                                 c__PDAFcython.c__distribute_state_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_pdaf,
+                                 c__PDAFcython.c__obs_op_pdaf,
+                                 c__PDAFcython.c__init_obs_pdaf,
+                                 c__PDAFcython.c__prepoststep_pdaf,
+                                 c__PDAFcython.c__prodRinvA_pdaf,
+                                 c__PDAFcython.c__next_observation_pdaf,
+                                 &flag
+                                )
 
     return flag
 
@@ -6872,19 +6889,19 @@ def assimilate_seik (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -6907,26 +6924,26 @@ def assimilate_seik (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -6935,14 +6952,14 @@ def assimilate_seik (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
@@ -6955,8 +6972,8 @@ def assimilate_seik (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -6977,9 +6994,9 @@ def assimilate_seik (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -6988,9 +7005,9 @@ def assimilate_seik (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -7013,16 +7030,17 @@ def assimilate_seik (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_assimilate_seik (c__PDAFcython.c__collect_state_pdaf,
-                             c__PDAFcython.c__distribute_state_pdaf,
-                             c__PDAFcython.c__init_dim_obs_pdaf,
-                             c__PDAFcython.c__obs_op_pdaf,
-                             c__PDAFcython.c__init_obs_pdaf,
-                             c__PDAFcython.c__prepoststep_pdaf,
-                             c__PDAFcython.c__prodRinvA_pdaf,
-                             c__PDAFcython.c__next_observation_pdaf,
-                             &flag
-                            )
+    with nogil:
+        c__pdaf_assimilate_seik (c__PDAFcython.c__collect_state_pdaf,
+                                 c__PDAFcython.c__distribute_state_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_pdaf,
+                                 c__PDAFcython.c__obs_op_pdaf,
+                                 c__PDAFcython.c__init_obs_pdaf,
+                                 c__PDAFcython.c__prepoststep_pdaf,
+                                 c__PDAFcython.c__prodRinvA_pdaf,
+                                 c__PDAFcython.c__next_observation_pdaf,
+                                 &flag
+                                )
 
     return flag
 
@@ -7083,26 +7101,26 @@ def assimilate_prepost (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -7111,14 +7129,14 @@ def assimilate_prepost (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -7131,9 +7149,9 @@ def assimilate_prepost (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -7142,9 +7160,9 @@ def assimilate_prepost (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -7163,12 +7181,13 @@ def assimilate_prepost (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_assimilate_prepost (c__PDAFcython.c__collect_state_pdaf,
-                                c__PDAFcython.c__distribute_state_pdaf,
-                                c__PDAFcython.c__prepoststep_pdaf,
-                                c__PDAFcython.c__next_observation_pdaf,
-                                &flag
-                               )
+    with nogil:
+        c__pdaf_assimilate_prepost (c__PDAFcython.c__collect_state_pdaf,
+                                    c__PDAFcython.c__distribute_state_pdaf,
+                                    c__PDAFcython.c__prepoststep_pdaf,
+                                    c__PDAFcython.c__next_observation_pdaf,
+                                    &flag
+                                   )
 
     return flag
 
@@ -7184,7 +7203,8 @@ def deallocate ():
 
     """
 
-    c__pdaf_deallocate ()
+    with nogil:
+        c__pdaf_deallocate ()
 
 def diag_effsample (double[::1] weights
                    ):
@@ -7232,10 +7252,11 @@ def diag_effsample (double[::1] weights
 
     cdef double effSample
 
-    c__pdaf_diag_effsample (&dim_sample,
-                            &weights[0],
-                            &effSample
-                           )
+    with nogil:
+        c__pdaf_diag_effsample (&dim_sample,
+                                &weights[0],
+                                &effSample
+                               )
 
     return effSample
 
@@ -7291,15 +7312,16 @@ def diag_ensstats (int element,
     cdef double kurtosis
     cdef int status
 
-    c__pdaf_diag_ensstats (&dim,
-                           &dim_ens,
-                           &element,
-                           &state[0],
-                           &ens_f[0],
-                           &skewness,
-                           &kurtosis,
-                           &status
-                          )
+    with nogil:
+        c__pdaf_diag_ensstats (&dim,
+                               &dim_ens,
+                               &element,
+                               &state[0],
+                               &ens_f[0],
+                               &skewness,
+                               &kurtosis,
+                               &status
+                              )
 
     return skewness, kurtosis, status
 
@@ -7369,16 +7391,17 @@ def diag_histogram (int ncall,
     cdef double delta
     cdef int status
 
-    c__pdaf_diag_histogram (&ncall,
-                            &dim,
-                            &dim_ens,
-                            &element,
-                            &state[0],
-                            &ens_f[0],
-                            &hist[0],
-                            &delta,
-                            &status
-                           )
+    with nogil:
+        c__pdaf_diag_histogram (&ncall,
+                                &dim,
+                                &dim_ens,
+                                &element,
+                                &state[0],
+                                &ens_f[0],
+                                &hist[0],
+                                &delta,
+                                &status
+                               )
 
     return np.asarray(hist).reshape((dim_ens+1), order='F'), delta, status
 
@@ -7512,21 +7535,22 @@ def eofcovar (int[::1] dim_fields,
     cdef double [::1] svec = np.zeros((dim_state, nstates), dtype=np.float64).ravel()
     cdef int status
 
-    c__pdaf_eofcovar (&dim_state,
-                      &nstates,
-                      &nfields,
-                      &dim_fields[0],
-                      &offsets[0],
-                      &remove_mstate,
-                      &do_mv,
-                      &states_f[0],
-                      &stddev[0],
-                      &svals[0],
-                      &svec[0],
-                      &meanstate[0],
-                      &verbose,
-                      &status
-                     )
+    with nogil:
+        c__pdaf_eofcovar (&dim_state,
+                          &nstates,
+                          &nfields,
+                          &dim_fields[0],
+                          &offsets[0],
+                          &remove_mstate,
+                          &do_mv,
+                          &states_f[0],
+                          &stddev[0],
+                          &svals[0],
+                          &svec[0],
+                          &meanstate[0],
+                          &verbose,
+                          &status
+                         )
 
     return np.asarray(states).reshape((dim_state, nstates), order='F'), np.asarray(stddev).reshape((nfields), order='F'), np.asarray(svals).reshape((nstates), order='F'), np.asarray(svec).reshape((dim_state, nstates), order='F'), np.asarray(meanstate).reshape((dim_state), order='F'), status
 
@@ -7567,9 +7591,10 @@ def gather_dim_obs_f (int dim_obs_p
 
     cdef int dim_obs_f
 
-    c__pdaf_gather_dim_obs_f (&dim_obs_p,
-                              &dim_obs_f
-                             )
+    with nogil:
+        c__pdaf_gather_dim_obs_f (&dim_obs_p,
+                                  &dim_obs_f
+                                 )
 
     return dim_obs_f
 
@@ -7607,12 +7632,13 @@ def gather_obs_f (double[::1] obs_p,
     cdef double [::1] obs_f = np.zeros((dimobs_f), dtype=np.float64).ravel()
     cdef int status
 
-    c__pdaf_gather_obs_f (&obs_p[0],
-                          &dimobs_p,
-                          &obs_f[0],
-                          &dimobs_f,
-                          &status
-                         )
+    with nogil:
+        c__pdaf_gather_obs_f (&obs_p[0],
+                              &dimobs_p,
+                              &obs_f[0],
+                              &dimobs_f,
+                              &status
+                             )
 
     return np.asarray(obs_f).reshape((dimobs_f), order='F'), status
 
@@ -7655,13 +7681,14 @@ def gather_obs_f2 (double[:,:] coords_p,
     cdef double [::1] coords_f = np.zeros((nrows, dimobs_f), dtype=np.float64).ravel()
     cdef int status
 
-    c__pdaf_gather_obs_f2 (&coords_p_f[0],
-                           &dimobs_p,
-                           &coords_f[0],
-                           &dimobs_f,
-                           &nrows,
-                           &status
-                          )
+    with nogil:
+        c__pdaf_gather_obs_f2 (&coords_p_f[0],
+                               &dimobs_p,
+                               &coords_f[0],
+                               &dimobs_f,
+                               &nrows,
+                               &status
+                              )
 
     return np.asarray(coords_f).reshape((nrows, dimobs_f), order='F'), status
 
@@ -7760,19 +7787,19 @@ def generate_obs (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__get_obs_f_pdaf : Callable[step:int, dim_obs_f:int, observation_f : ndarray[tuple[dim_obs_f], np.float64]]
         Provide observation vector to user
 
@@ -7811,26 +7838,26 @@ def generate_obs (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -7839,14 +7866,14 @@ def generate_obs (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -7859,9 +7886,9 @@ def generate_obs (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -7870,9 +7897,9 @@ def generate_obs (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -7895,16 +7922,17 @@ def generate_obs (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_generate_obs (c__PDAFcython.c__collect_state_pdaf,
-                          c__PDAFcython.c__distribute_state_pdaf,
-                          c__PDAFcython.c__init_dim_obs_pdaf,
-                          c__PDAFcython.c__obs_op_pdaf,
-                          c__PDAFcython.c__get_obs_f_pdaf,
-                          c__PDAFcython.c__init_obserr_f_pdaf,
-                          c__PDAFcython.c__prepoststep_pdaf,
-                          c__PDAFcython.c__next_observation_pdaf,
-                          &flag
-                         )
+    with nogil:
+        c__pdaf_generate_obs (c__PDAFcython.c__collect_state_pdaf,
+                              c__PDAFcython.c__distribute_state_pdaf,
+                              c__PDAFcython.c__init_dim_obs_pdaf,
+                              c__PDAFcython.c__obs_op_pdaf,
+                              c__PDAFcython.c__get_obs_f_pdaf,
+                              c__PDAFcython.c__init_obserr_f_pdaf,
+                              c__PDAFcython.c__prepoststep_pdaf,
+                              c__PDAFcython.c__next_observation_pdaf,
+                              &flag
+                             )
 
     return flag
 
@@ -7920,8 +7948,9 @@ def get_assim_flag ():
 
     cdef int did_assim
 
-    c__pdaf_get_assim_flag (&did_assim
-                           )
+    with nogil:
+        c__pdaf_get_assim_flag (&did_assim
+                               )
 
     return did_assim
 
@@ -7947,11 +7976,12 @@ def get_ensstats ():
     cdef double* c_kurt_ptr
     cdef int status
 
-    c__pdaf_get_ensstats (&dims[0],
-                          &c_skew_ptr,
-                          &c_kurt_ptr,
-                          &status
-                         )
+    with nogil:
+        c__pdaf_get_ensstats (&dims[0],
+                              &c_skew_ptr,
+                              &c_kurt_ptr,
+                              &status
+                             )
 
     dims = np.asarray(dims)
     return np.asarray(<double[:np.prod(dims)]> c_skew_ptr).reshape(dims, order='F'), \
@@ -7970,8 +8000,9 @@ def get_localfilter ():
 
     cdef int lfilter
 
-    c__pdaf_get_localfilter (&lfilter
-                            )
+    with nogil:
+        c__pdaf_get_localfilter (&lfilter
+                                )
 
     return lfilter
 
@@ -7991,8 +8022,9 @@ def get_memberid (int memberid
         Index in the local ensemble
     """
 
-    c__pdaf_get_memberid (&memberid
-                         )
+    with nogil:
+        c__pdaf_get_memberid (&memberid
+                             )
 
     return memberid
 
@@ -8012,8 +8044,9 @@ def get_obsmemberid (int memberid
         Index in the local observed ensemble
     """
 
-    c__pdaf_get_obsmemberid (&memberid
-                            )
+    with nogil:
+        c__pdaf_get_obsmemberid (&memberid
+                                )
 
     return memberid
 
@@ -8039,11 +8072,12 @@ def get_smootherens ():
     cdef int [::1] dims = np.zeros((3), dtype=np.intc).ravel()
     cdef int status
 
-    c__pdaf_get_smootherens (&c_sens_point,
-                             &maxlag,
-                             &dims[0],
-                             &status
-                            )
+    with nogil:
+        c__pdaf_get_smootherens (&c_sens_point,
+                                 &maxlag,
+                                 &dims[0],
+                                 &status
+                                )
 
     dims = np.asarray(dims)
     return np.asarray(<double[:np.prod(dims)]> c_sens_point).reshape(dims, order='F'), \
@@ -8109,9 +8143,9 @@ def get_state (int steps,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -8120,9 +8154,9 @@ def get_state (int steps,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -8147,26 +8181,26 @@ def get_state (int steps,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -8175,14 +8209,14 @@ def get_state (int steps,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     flag : int
@@ -8207,14 +8241,15 @@ def get_state (int steps,
 
     cdef double time
 
-    c__pdaf_get_state (&steps,
-                       &time,
-                       &doexit,
-                       c__PDAFcython.c__next_observation_pdaf,
-                       c__PDAFcython.c__distribute_state_pdaf,
-                       c__PDAFcython.c__prepoststep_pdaf,
-                       &flag
-                      )
+    with nogil:
+        c__pdaf_get_state (&steps,
+                           &time,
+                           &doexit,
+                           c__PDAFcython.c__next_observation_pdaf,
+                           c__PDAFcython.c__distribute_state_pdaf,
+                           c__PDAFcython.c__prepoststep_pdaf,
+                           &flag
+                          )
 
     return steps, time, doexit, flag
 
@@ -8321,30 +8356,30 @@ def init (int filtertype,
                 * number of ensemble members
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * PE-local model state
-                  This array must be filled with the initial
-                  state of the model for SEEK, but it is not
-                  used for ensemble-based filters.
-                  
-                  One can still make use of this array within
-                  this function.
+                   This array must be filled with the initial
+                   state of the model for SEEK, but it is not
+                   used for ensemble-based filters.
+                   
+                   One can still make use of this array within
+                   this function.
             * **uinv** : ndarray[tuple[:, :], np.float64]
                 * This array is the inverse of matrix
-                  formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations.
-                  
-                  This array has to be filled in SEEK, but it is
-                  not used for ensemble-based filters.
-                  Nevertheless, one can still make use of this
-                  array within this function e.g.,
-                  for generating an initial ensemble perturbation
-                  from a given covariance matrix.
-                  
-                  Dimension of this array is determined by the
-                  filter type.
-                  
-                  - (dim_ens, dim_ens) for (L)ETKF, (L)NETF, (L)KNETF, and SEEK
-                  - (dim_ens - 1, dim_ens - 1) for (L)SEIK, (L)ESTKF, and 3DVar using ensemble
-                  - (1, 1) for (L)EnKF, particle filters and gen_obs
+                   formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations.
+                   
+                   This array has to be filled in SEEK, but it is
+                   not used for ensemble-based filters.
+                   Nevertheless, one can still make use of this
+                   array within this function e.g.,
+                   for generating an initial ensemble perturbation
+                   from a given covariance matrix.
+                   
+                   Dimension of this array is determined by the
+                   filter type.
+                   
+                   - (dim_ens, dim_ens) for (L)ETKF, (L)NETF, (L)KNETF, and SEEK
+                   - (dim_ens - 1, dim_ens - 1) for (L)SEIK, (L)ESTKF, and 3DVar using ensemble
+                   - (1, 1) for (L)EnKF, particle filters and gen_obs
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -8353,30 +8388,30 @@ def init (int filtertype,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * PE-local model state
-                  This array must be filled with the initial
-                  state of the model for SEEK, but it is not
-                  used for ensemble-based filters.
-                  
-                  One can still make use of this array within
-                  this function.
+                   This array must be filled with the initial
+                   state of the model for SEEK, but it is not
+                   used for ensemble-based filters.
+                   
+                   One can still make use of this array within
+                   this function.
             * **uinv** : ndarray[tuple[:, :], np.float64]
                 * This array is the inverse of matrix
-                  formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations.
-                  
-                  This array has to be filled in SEEK, but it is
-                  not used for ensemble-based filters.
-                  Nevertheless, one can still make use of this
-                  array within this function e.g.,
-                  for generating an initial ensemble perturbation
-                  from a given covariance matrix.
-                  
-                  Dimension of this array is determined by the
-                  filter type.
-                  
-                  - (dim_ens, dim_ens) for (L)ETKF, (L)NETF, (L)KNETF, and SEEK
-                  - (dim_ens - 1, dim_ens - 1) for (L)SEIK, (L)ESTKF, and 3DVar using ensemble
-                  - (1, 1) for (L)EnKF, particle filters and gen_obs
+                   formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations.
+                   
+                   This array has to be filled in SEEK, but it is
+                   not used for ensemble-based filters.
+                   Nevertheless, one can still make use of this
+                   array within this function e.g.,
+                   for generating an initial ensemble perturbation
+                   from a given covariance matrix.
+                   
+                   Dimension of this array is determined by the
+                   filter type.
+                   
+                   - (dim_ens, dim_ens) for (L)ETKF, (L)NETF, (L)KNETF, and SEEK
+                   - (dim_ens - 1, dim_ens - 1) for (L)SEIK, (L)ESTKF, and 3DVar using ensemble
+                   - (1, 1) for (L)EnKF, particle filters and gen_obs
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -8414,23 +8449,24 @@ def init (int filtertype,
 
     cdef int flag
 
-    c__pdaf_init (&filtertype,
-                  &subtype,
-                  &stepnull,
-                  &param_int[0],
-                  &dim_pint,
-                  &param_real[0],
-                  &dim_preal,
-                  &COMM_model,
-                  &COMM_filter,
-                  &COMM_couple,
-                  &task_id,
-                  &n_modeltasks,
-                  &in_filterpe,
-                  c__PDAFcython.c__init_ens_pdaf,
-                  &in_screen,
-                  &flag
-                 )
+    with nogil:
+        c__pdaf_init (&filtertype,
+                      &subtype,
+                      &stepnull,
+                      &param_int[0],
+                      &dim_pint,
+                      &param_real[0],
+                      &dim_preal,
+                      &COMM_model,
+                      &COMM_filter,
+                      &COMM_couple,
+                      &task_id,
+                      &n_modeltasks,
+                      &in_filterpe,
+                      c__PDAFcython.c__init_ens_pdaf,
+                      &in_screen,
+                      &flag
+                     )
 
     return np.asarray(param_int).reshape((dim_pint), order='F'), np.asarray(param_real).reshape((dim_preal), order='F'), flag
 
@@ -8481,18 +8517,19 @@ def local_weight (int wtype,
 
     cdef double weight
 
-    c__pdaf_local_weight (&wtype,
-                          &rtype,
-                          &cradius,
-                          &sradius,
-                          &distance,
-                          &nrows,
-                          &ncols,
-                          &A_f[0],
-                          &var_obs,
-                          &weight,
-                          &verbose
-                         )
+    with nogil:
+        c__pdaf_local_weight (&wtype,
+                              &rtype,
+                              &cradius,
+                              &sradius,
+                              &distance,
+                              &nrows,
+                              &ncols,
+                              &A_f[0],
+                              &var_obs,
+                              &weight,
+                              &verbose
+                             )
 
     return weight
 
@@ -8520,8 +8557,9 @@ def print_info (int printtype
                 - Memory required to perform the ensemble transformation
     """
 
-    c__pdaf_print_info (&printtype
-                       )
+    with nogil:
+        c__pdaf_print_info (&printtype
+                           )
 
 def put_state_3dvar (py__collect_state_pdaf,
                      py__init_dim_obs_pdaf,
@@ -8620,19 +8658,19 @@ def put_state_3dvar (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -8657,8 +8695,8 @@ def put_state_3dvar (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -8749,26 +8787,26 @@ def put_state_3dvar (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -8777,14 +8815,14 @@ def put_state_3dvar (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
 
@@ -8807,18 +8845,19 @@ def put_state_3dvar (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaf_put_state_3dvar (c__PDAFcython.c__collect_state_pdaf,
-                             c__PDAFcython.c__init_dim_obs_pdaf,
-                             c__PDAFcython.c__obs_op_pdaf,
-                             c__PDAFcython.c__init_obs_pdaf,
-                             c__PDAFcython.c__prodRinvA_pdaf,
-                             c__PDAFcython.c__cvt_pdaf,
-                             c__PDAFcython.c__cvt_adj_pdaf,
-                             c__PDAFcython.c__obs_op_lin_pdaf,
-                             c__PDAFcython.c__obs_op_adj_pdaf,
-                             c__PDAFcython.c__prepoststep_pdaf,
-                             &outflag
-                            )
+    with nogil:
+        c__pdaf_put_state_3dvar (c__PDAFcython.c__collect_state_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_pdaf,
+                                 c__PDAFcython.c__obs_op_pdaf,
+                                 c__PDAFcython.c__init_obs_pdaf,
+                                 c__PDAFcython.c__prodRinvA_pdaf,
+                                 c__PDAFcython.c__cvt_pdaf,
+                                 c__PDAFcython.c__cvt_adj_pdaf,
+                                 c__PDAFcython.c__obs_op_lin_pdaf,
+                                 c__PDAFcython.c__obs_op_adj_pdaf,
+                                 c__PDAFcython.c__prepoststep_pdaf,
+                                 &outflag
+                                )
 
     return outflag
 
@@ -8933,19 +8972,19 @@ def put_state_en3dvar_estkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -8970,8 +9009,8 @@ def put_state_en3dvar_estkf (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -9086,26 +9125,26 @@ def put_state_en3dvar_estkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -9114,14 +9153,14 @@ def put_state_en3dvar_estkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
 
@@ -9145,19 +9184,20 @@ def put_state_en3dvar_estkf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaf_put_state_en3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
-                                     c__PDAFcython.c__init_dim_obs_pdaf,
-                                     c__PDAFcython.c__obs_op_pdaf,
-                                     c__PDAFcython.c__init_obs_pdaf,
-                                     c__PDAFcython.c__prodRinvA_pdaf,
-                                     c__PDAFcython.c__cvt_ens_pdaf,
-                                     c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                     c__PDAFcython.c__obs_op_lin_pdaf,
-                                     c__PDAFcython.c__obs_op_adj_pdaf,
-                                     c__PDAFcython.c__init_obsvar_pdaf,
-                                     c__PDAFcython.c__prepoststep_pdaf,
-                                     &outflag
-                                    )
+    with nogil:
+        c__pdaf_put_state_en3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
+                                         c__PDAFcython.c__init_dim_obs_pdaf,
+                                         c__PDAFcython.c__obs_op_pdaf,
+                                         c__PDAFcython.c__init_obs_pdaf,
+                                         c__PDAFcython.c__prodRinvA_pdaf,
+                                         c__PDAFcython.c__cvt_ens_pdaf,
+                                         c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                         c__PDAFcython.c__obs_op_lin_pdaf,
+                                         c__PDAFcython.c__obs_op_adj_pdaf,
+                                         c__PDAFcython.c__init_obsvar_pdaf,
+                                         c__PDAFcython.c__prepoststep_pdaf,
+                                         &outflag
+                                        )
 
     return outflag
 
@@ -9300,19 +9340,19 @@ def put_state_en3dvar_lestkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -9337,8 +9377,8 @@ def put_state_en3dvar_lestkf (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -9501,7 +9541,7 @@ def put_state_en3dvar_lestkf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -9662,26 +9702,26 @@ def put_state_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -9690,14 +9730,14 @@ def put_state_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
 
@@ -9733,31 +9773,32 @@ def put_state_en3dvar_lestkf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaf_put_state_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                                      c__PDAFcython.c__init_dim_obs_pdaf,
-                                      c__PDAFcython.c__obs_op_pdaf,
-                                      c__PDAFcython.c__init_obs_pdaf,
-                                      c__PDAFcython.c__prodRinvA_pdaf,
-                                      c__PDAFcython.c__cvt_ens_pdaf,
-                                      c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                      c__PDAFcython.c__obs_op_lin_pdaf,
-                                      c__PDAFcython.c__obs_op_adj_pdaf,
-                                      c__PDAFcython.c__init_dim_obs_f_pdaf,
-                                      c__PDAFcython.c__obs_op_f_pdaf,
-                                      c__PDAFcython.c__init_obs_f_pdaf,
-                                      c__PDAFcython.c__init_obs_l_pdaf,
-                                      c__PDAFcython.c__prodRinvA_l_pdaf,
-                                      c__PDAFcython.c__init_n_domains_p_pdaf,
-                                      c__PDAFcython.c__init_dim_l_pdaf,
-                                      c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                      c__PDAFcython.c__g2l_state_pdaf,
-                                      c__PDAFcython.c__l2g_state_pdaf,
-                                      c__PDAFcython.c__g2l_obs_pdaf,
-                                      c__PDAFcython.c__init_obsvar_pdaf,
-                                      c__PDAFcython.c__init_obsvar_l_pdaf,
-                                      c__PDAFcython.c__prepoststep_pdaf,
-                                      &outflag
-                                     )
+    with nogil:
+        c__pdaf_put_state_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                          c__PDAFcython.c__init_dim_obs_pdaf,
+                                          c__PDAFcython.c__obs_op_pdaf,
+                                          c__PDAFcython.c__init_obs_pdaf,
+                                          c__PDAFcython.c__prodRinvA_pdaf,
+                                          c__PDAFcython.c__cvt_ens_pdaf,
+                                          c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                          c__PDAFcython.c__obs_op_lin_pdaf,
+                                          c__PDAFcython.c__obs_op_adj_pdaf,
+                                          c__PDAFcython.c__init_dim_obs_f_pdaf,
+                                          c__PDAFcython.c__obs_op_f_pdaf,
+                                          c__PDAFcython.c__init_obs_f_pdaf,
+                                          c__PDAFcython.c__init_obs_l_pdaf,
+                                          c__PDAFcython.c__prodRinvA_l_pdaf,
+                                          c__PDAFcython.c__init_n_domains_p_pdaf,
+                                          c__PDAFcython.c__init_dim_l_pdaf,
+                                          c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                          c__PDAFcython.c__g2l_state_pdaf,
+                                          c__PDAFcython.c__l2g_state_pdaf,
+                                          c__PDAFcython.c__g2l_obs_pdaf,
+                                          c__PDAFcython.c__init_obsvar_pdaf,
+                                          c__PDAFcython.c__init_obsvar_l_pdaf,
+                                          c__PDAFcython.c__prepoststep_pdaf,
+                                          &outflag
+                                         )
 
     return outflag
 
@@ -9858,19 +9899,19 @@ def put_state_enkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -9893,26 +9934,26 @@ def put_state_enkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -9921,14 +9962,14 @@ def put_state_enkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__add_obs_err_pdaf : Callable[step:int, dim_obs_p:int, C_p : ndarray[tuple[dim_obs_p, dim_obs_p], np.float64]]
@@ -9984,15 +10025,16 @@ def put_state_enkf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_put_state_enkf (c__PDAFcython.c__collect_state_pdaf,
-                            c__PDAFcython.c__init_dim_obs_pdaf,
-                            c__PDAFcython.c__obs_op_pdaf,
-                            c__PDAFcython.c__init_obs_pdaf,
-                            c__PDAFcython.c__prepoststep_pdaf,
-                            c__PDAFcython.c__add_obs_err_pdaf,
-                            c__PDAFcython.c__init_obs_covar_pdaf,
-                            &flag
-                           )
+    with nogil:
+        c__pdaf_put_state_enkf (c__PDAFcython.c__collect_state_pdaf,
+                                c__PDAFcython.c__init_dim_obs_pdaf,
+                                c__PDAFcython.c__obs_op_pdaf,
+                                c__PDAFcython.c__init_obs_pdaf,
+                                c__PDAFcython.c__prepoststep_pdaf,
+                                c__PDAFcython.c__add_obs_err_pdaf,
+                                c__PDAFcython.c__init_obs_covar_pdaf,
+                                &flag
+                               )
 
     return flag
 
@@ -10096,19 +10138,19 @@ def put_state_estkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -10131,26 +10173,26 @@ def put_state_estkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -10159,14 +10201,14 @@ def put_state_estkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
@@ -10179,8 +10221,8 @@ def put_state_estkf (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -10224,15 +10266,16 @@ def put_state_estkf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_put_state_estkf (c__PDAFcython.c__collect_state_pdaf,
-                             c__PDAFcython.c__init_dim_obs_pdaf,
-                             c__PDAFcython.c__obs_op_pdaf,
-                             c__PDAFcython.c__init_obs_pdaf,
-                             c__PDAFcython.c__prepoststep_pdaf,
-                             c__PDAFcython.c__prodRinvA_pdaf,
-                             c__PDAFcython.c__init_obsvar_pdaf,
-                             &flag
-                            )
+    with nogil:
+        c__pdaf_put_state_estkf (c__PDAFcython.c__collect_state_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_pdaf,
+                                 c__PDAFcython.c__obs_op_pdaf,
+                                 c__PDAFcython.c__init_obs_pdaf,
+                                 c__PDAFcython.c__prepoststep_pdaf,
+                                 c__PDAFcython.c__prodRinvA_pdaf,
+                                 c__PDAFcython.c__init_obsvar_pdaf,
+                                 &flag
+                                )
 
     return flag
 
@@ -10337,19 +10380,19 @@ def put_state_etkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -10372,26 +10415,26 @@ def put_state_etkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -10400,14 +10443,14 @@ def put_state_etkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
@@ -10420,8 +10463,8 @@ def put_state_etkf (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -10465,15 +10508,16 @@ def put_state_etkf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_put_state_etkf (c__PDAFcython.c__collect_state_pdaf,
-                            c__PDAFcython.c__init_dim_obs_pdaf,
-                            c__PDAFcython.c__obs_op_pdaf,
-                            c__PDAFcython.c__init_obs_pdaf,
-                            c__PDAFcython.c__prepoststep_pdaf,
-                            c__PDAFcython.c__prodRinvA_pdaf,
-                            c__PDAFcython.c__init_obsvar_pdaf,
-                            &flag
-                           )
+    with nogil:
+        c__pdaf_put_state_etkf (c__PDAFcython.c__collect_state_pdaf,
+                                c__PDAFcython.c__init_dim_obs_pdaf,
+                                c__PDAFcython.c__obs_op_pdaf,
+                                c__PDAFcython.c__init_obs_pdaf,
+                                c__PDAFcython.c__prepoststep_pdaf,
+                                c__PDAFcython.c__prodRinvA_pdaf,
+                                c__PDAFcython.c__init_obsvar_pdaf,
+                                &flag
+                               )
 
     return flag
 
@@ -10564,19 +10608,19 @@ def put_state_generate_obs (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__get_obs_f_pdaf : Callable[step:int, dim_obs_f:int, observation_f : ndarray[tuple[dim_obs_f], np.float64]]
         Provide observation vector to user
 
@@ -10615,26 +10659,26 @@ def put_state_generate_obs (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -10643,14 +10687,14 @@ def put_state_generate_obs (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
 
@@ -10669,14 +10713,15 @@ def put_state_generate_obs (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_put_state_generate_obs (c__PDAFcython.c__collect_state_pdaf,
-                                    c__PDAFcython.c__init_dim_obs_pdaf,
-                                    c__PDAFcython.c__obs_op_pdaf,
-                                    c__PDAFcython.c__get_obs_f_pdaf,
-                                    c__PDAFcython.c__init_obserr_f_pdaf,
-                                    c__PDAFcython.c__prepoststep_pdaf,
-                                    &flag
-                                   )
+    with nogil:
+        c__pdaf_put_state_generate_obs (c__PDAFcython.c__collect_state_pdaf,
+                                        c__PDAFcython.c__init_dim_obs_pdaf,
+                                        c__PDAFcython.c__obs_op_pdaf,
+                                        c__PDAFcython.c__get_obs_f_pdaf,
+                                        c__PDAFcython.c__init_obserr_f_pdaf,
+                                        c__PDAFcython.c__prepoststep_pdaf,
+                                        &flag
+                                       )
 
     return flag
 
@@ -10801,19 +10846,19 @@ def put_state_hyb3dvar_estkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -10838,8 +10883,8 @@ def put_state_hyb3dvar_estkf (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -10990,26 +11035,26 @@ def put_state_hyb3dvar_estkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -11018,14 +11063,14 @@ def put_state_hyb3dvar_estkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
 
@@ -11051,21 +11096,22 @@ def put_state_hyb3dvar_estkf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaf_put_state_hyb3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
-                                      c__PDAFcython.c__init_dim_obs_pdaf,
-                                      c__PDAFcython.c__obs_op_pdaf,
-                                      c__PDAFcython.c__init_obs_pdaf,
-                                      c__PDAFcython.c__prodRinvA_pdaf,
-                                      c__PDAFcython.c__cvt_pdaf,
-                                      c__PDAFcython.c__cvt_adj_pdaf,
-                                      c__PDAFcython.c__cvt_ens_pdaf,
-                                      c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                      c__PDAFcython.c__obs_op_lin_pdaf,
-                                      c__PDAFcython.c__obs_op_adj_pdaf,
-                                      c__PDAFcython.c__init_obsvar_pdaf,
-                                      c__PDAFcython.c__prepoststep_pdaf,
-                                      &outflag
-                                     )
+    with nogil:
+        c__pdaf_put_state_hyb3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
+                                          c__PDAFcython.c__init_dim_obs_pdaf,
+                                          c__PDAFcython.c__obs_op_pdaf,
+                                          c__PDAFcython.c__init_obs_pdaf,
+                                          c__PDAFcython.c__prodRinvA_pdaf,
+                                          c__PDAFcython.c__cvt_pdaf,
+                                          c__PDAFcython.c__cvt_adj_pdaf,
+                                          c__PDAFcython.c__cvt_ens_pdaf,
+                                          c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                          c__PDAFcython.c__obs_op_lin_pdaf,
+                                          c__PDAFcython.c__obs_op_adj_pdaf,
+                                          c__PDAFcython.c__init_obsvar_pdaf,
+                                          c__PDAFcython.c__prepoststep_pdaf,
+                                          &outflag
+                                         )
 
     return outflag
 
@@ -11219,19 +11265,19 @@ def put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -11256,8 +11302,8 @@ def put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -11456,7 +11502,7 @@ def put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -11617,26 +11663,26 @@ def put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -11645,14 +11691,14 @@ def put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
 
@@ -11690,33 +11736,34 @@ def put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaf_put_state_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                                       c__PDAFcython.c__init_dim_obs_pdaf,
-                                       c__PDAFcython.c__obs_op_pdaf,
-                                       c__PDAFcython.c__init_obs_pdaf,
-                                       c__PDAFcython.c__prodRinvA_pdaf,
-                                       c__PDAFcython.c__cvt_ens_pdaf,
-                                       c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                       c__PDAFcython.c__cvt_pdaf,
-                                       c__PDAFcython.c__cvt_adj_pdaf,
-                                       c__PDAFcython.c__obs_op_lin_pdaf,
-                                       c__PDAFcython.c__obs_op_adj_pdaf,
-                                       c__PDAFcython.c__init_dim_obs_f_pdaf,
-                                       c__PDAFcython.c__obs_op_f_pdaf,
-                                       c__PDAFcython.c__init_obs_f_pdaf,
-                                       c__PDAFcython.c__init_obs_l_pdaf,
-                                       c__PDAFcython.c__prodRinvA_l_pdaf,
-                                       c__PDAFcython.c__init_n_domains_p_pdaf,
-                                       c__PDAFcython.c__init_dim_l_pdaf,
-                                       c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                       c__PDAFcython.c__g2l_state_pdaf,
-                                       c__PDAFcython.c__l2g_state_pdaf,
-                                       c__PDAFcython.c__g2l_obs_pdaf,
-                                       c__PDAFcython.c__init_obsvar_pdaf,
-                                       c__PDAFcython.c__init_obsvar_l_pdaf,
-                                       c__PDAFcython.c__prepoststep_pdaf,
-                                       &outflag
-                                      )
+    with nogil:
+        c__pdaf_put_state_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                           c__PDAFcython.c__init_dim_obs_pdaf,
+                                           c__PDAFcython.c__obs_op_pdaf,
+                                           c__PDAFcython.c__init_obs_pdaf,
+                                           c__PDAFcython.c__prodRinvA_pdaf,
+                                           c__PDAFcython.c__cvt_ens_pdaf,
+                                           c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                           c__PDAFcython.c__cvt_pdaf,
+                                           c__PDAFcython.c__cvt_adj_pdaf,
+                                           c__PDAFcython.c__obs_op_lin_pdaf,
+                                           c__PDAFcython.c__obs_op_adj_pdaf,
+                                           c__PDAFcython.c__init_dim_obs_f_pdaf,
+                                           c__PDAFcython.c__obs_op_f_pdaf,
+                                           c__PDAFcython.c__init_obs_f_pdaf,
+                                           c__PDAFcython.c__init_obs_l_pdaf,
+                                           c__PDAFcython.c__prodRinvA_l_pdaf,
+                                           c__PDAFcython.c__init_n_domains_p_pdaf,
+                                           c__PDAFcython.c__init_dim_l_pdaf,
+                                           c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                           c__PDAFcython.c__g2l_state_pdaf,
+                                           c__PDAFcython.c__l2g_state_pdaf,
+                                           c__PDAFcython.c__g2l_obs_pdaf,
+                                           c__PDAFcython.c__init_obsvar_pdaf,
+                                           c__PDAFcython.c__init_obsvar_l_pdaf,
+                                           c__PDAFcython.c__prepoststep_pdaf,
+                                           &outflag
+                                          )
 
     return outflag
 
@@ -11823,19 +11870,19 @@ def put_state_lenkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -11858,26 +11905,26 @@ def put_state_lenkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -11886,14 +11933,14 @@ def put_state_lenkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__localize_covar_pdaf : Callable[dim_p:int, dim_obs:int, hp_p : ndarray[tuple[dim_obs, dim_p], np.float64], hph : ndarray[tuple[dim_obs, dim_obs], np.float64]]
@@ -11968,16 +12015,17 @@ def put_state_lenkf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_put_state_lenkf (c__PDAFcython.c__collect_state_pdaf,
-                             c__PDAFcython.c__init_dim_obs_pdaf,
-                             c__PDAFcython.c__obs_op_pdaf,
-                             c__PDAFcython.c__init_obs_pdaf,
-                             c__PDAFcython.c__prepoststep_pdaf,
-                             c__PDAFcython.c__localize_covar_pdaf,
-                             c__PDAFcython.c__add_obs_err_pdaf,
-                             c__PDAFcython.c__init_obs_covar_pdaf,
-                             &flag
-                            )
+    with nogil:
+        c__pdaf_put_state_lenkf (c__PDAFcython.c__collect_state_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_pdaf,
+                                 c__PDAFcython.c__obs_op_pdaf,
+                                 c__PDAFcython.c__init_obs_pdaf,
+                                 c__PDAFcython.c__prepoststep_pdaf,
+                                 c__PDAFcython.c__localize_covar_pdaf,
+                                 c__PDAFcython.c__add_obs_err_pdaf,
+                                 c__PDAFcython.c__init_obs_covar_pdaf,
+                                 &flag
+                                )
 
     return flag
 
@@ -12103,19 +12151,19 @@ def put_state_lestkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize PE-local observation vector
 
@@ -12154,26 +12202,26 @@ def put_state_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -12182,14 +12230,14 @@ def put_state_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, rank:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], A_l : ndarray[tuple[dim_obs_l, rank], np.float64], C_l : ndarray[tuple[dim_obs_l, rank], np.float64]]
@@ -12204,7 +12252,7 @@ def put_state_lestkf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -12382,23 +12430,24 @@ def put_state_lestkf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_put_state_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                              c__PDAFcython.c__init_dim_obs_pdaf,
-                              c__PDAFcython.c__obs_op_pdaf,
-                              c__PDAFcython.c__init_obs_pdaf,
-                              c__PDAFcython.c__init_obs_l_pdaf,
-                              c__PDAFcython.c__prepoststep_pdaf,
-                              c__PDAFcython.c__prodRinvA_l_pdaf,
-                              c__PDAFcython.c__init_n_domains_p_pdaf,
-                              c__PDAFcython.c__init_dim_l_pdaf,
-                              c__PDAFcython.c__init_dim_obs_l_pdaf,
-                              c__PDAFcython.c__g2l_state_pdaf,
-                              c__PDAFcython.c__l2g_state_pdaf,
-                              c__PDAFcython.c__g2l_obs_pdaf,
-                              c__PDAFcython.c__init_obsvar_pdaf,
-                              c__PDAFcython.c__init_obsvar_l_pdaf,
-                              &flag
-                             )
+    with nogil:
+        c__pdaf_put_state_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                  c__PDAFcython.c__init_dim_obs_pdaf,
+                                  c__PDAFcython.c__obs_op_pdaf,
+                                  c__PDAFcython.c__init_obs_pdaf,
+                                  c__PDAFcython.c__init_obs_l_pdaf,
+                                  c__PDAFcython.c__prepoststep_pdaf,
+                                  c__PDAFcython.c__prodRinvA_l_pdaf,
+                                  c__PDAFcython.c__init_n_domains_p_pdaf,
+                                  c__PDAFcython.c__init_dim_l_pdaf,
+                                  c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                  c__PDAFcython.c__g2l_state_pdaf,
+                                  c__PDAFcython.c__l2g_state_pdaf,
+                                  c__PDAFcython.c__g2l_obs_pdaf,
+                                  c__PDAFcython.c__init_obsvar_pdaf,
+                                  c__PDAFcython.c__init_obsvar_l_pdaf,
+                                  &flag
+                                 )
 
     return flag
 
@@ -12531,19 +12580,19 @@ def put_state_letkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize PE-local observation vector
 
@@ -12582,26 +12631,26 @@ def put_state_letkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -12610,14 +12659,14 @@ def put_state_letkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, rank:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], A_l : ndarray[tuple[dim_obs_l, rank], np.float64], C_l : ndarray[tuple[dim_obs_l, rank], np.float64]]
@@ -12632,7 +12681,7 @@ def put_state_letkf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -12810,23 +12859,24 @@ def put_state_letkf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_put_state_letkf (c__PDAFcython.c__collect_state_pdaf,
-                             c__PDAFcython.c__init_dim_obs_pdaf,
-                             c__PDAFcython.c__obs_op_pdaf,
-                             c__PDAFcython.c__init_obs_pdaf,
-                             c__PDAFcython.c__init_obs_l_pdaf,
-                             c__PDAFcython.c__prepoststep_pdaf,
-                             c__PDAFcython.c__prodRinvA_l_pdaf,
-                             c__PDAFcython.c__init_n_domains_p_pdaf,
-                             c__PDAFcython.c__init_dim_l_pdaf,
-                             c__PDAFcython.c__init_dim_obs_l_pdaf,
-                             c__PDAFcython.c__g2l_state_pdaf,
-                             c__PDAFcython.c__l2g_state_pdaf,
-                             c__PDAFcython.c__g2l_obs_pdaf,
-                             c__PDAFcython.c__init_obsvar_pdaf,
-                             c__PDAFcython.c__init_obsvar_l_pdaf,
-                             &flag
-                            )
+    with nogil:
+        c__pdaf_put_state_letkf (c__PDAFcython.c__collect_state_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_pdaf,
+                                 c__PDAFcython.c__obs_op_pdaf,
+                                 c__PDAFcython.c__init_obs_pdaf,
+                                 c__PDAFcython.c__init_obs_l_pdaf,
+                                 c__PDAFcython.c__prepoststep_pdaf,
+                                 c__PDAFcython.c__prodRinvA_l_pdaf,
+                                 c__PDAFcython.c__init_n_domains_p_pdaf,
+                                 c__PDAFcython.c__init_dim_l_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                 c__PDAFcython.c__g2l_state_pdaf,
+                                 c__PDAFcython.c__l2g_state_pdaf,
+                                 c__PDAFcython.c__g2l_obs_pdaf,
+                                 c__PDAFcython.c__init_obsvar_pdaf,
+                                 c__PDAFcython.c__init_obsvar_l_pdaf,
+                                 &flag
+                                )
 
     return flag
 
@@ -12942,19 +12992,19 @@ def put_state_lnetf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, observation_l : ndarray[tuple[dim_obs_l], np.float64]]
         Init. observation vector on local analysis domain
 
@@ -12979,26 +13029,26 @@ def put_state_lnetf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -13007,14 +13057,14 @@ def put_state_lnetf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__likelihood_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], resid_l : ndarray[tuple[dim_obs_l], np.float64], likely_l:float]
@@ -13165,20 +13215,21 @@ def put_state_lnetf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaf_put_state_lnetf (c__PDAFcython.c__collect_state_pdaf,
-                             c__PDAFcython.c__init_dim_obs_pdaf,
-                             c__PDAFcython.c__obs_op_pdaf,
-                             c__PDAFcython.c__init_obs_l_pdaf,
-                             c__PDAFcython.c__prepoststep_pdaf,
-                             c__PDAFcython.c__likelihood_l_pdaf,
-                             c__PDAFcython.c__init_n_domains_p_pdaf,
-                             c__PDAFcython.c__init_dim_l_pdaf,
-                             c__PDAFcython.c__init_dim_obs_l_pdaf,
-                             c__PDAFcython.c__g2l_state_pdaf,
-                             c__PDAFcython.c__l2g_state_pdaf,
-                             c__PDAFcython.c__g2l_obs_pdaf,
-                             &outflag
-                            )
+    with nogil:
+        c__pdaf_put_state_lnetf (c__PDAFcython.c__collect_state_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_pdaf,
+                                 c__PDAFcython.c__obs_op_pdaf,
+                                 c__PDAFcython.c__init_obs_l_pdaf,
+                                 c__PDAFcython.c__prepoststep_pdaf,
+                                 c__PDAFcython.c__likelihood_l_pdaf,
+                                 c__PDAFcython.c__init_n_domains_p_pdaf,
+                                 c__PDAFcython.c__init_dim_l_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                 c__PDAFcython.c__g2l_state_pdaf,
+                                 c__PDAFcython.c__l2g_state_pdaf,
+                                 c__PDAFcython.c__g2l_obs_pdaf,
+                                 &outflag
+                                )
 
     return outflag
 
@@ -13314,19 +13365,19 @@ def put_state_lknetf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize PE-local observation vector
 
@@ -13363,26 +13414,26 @@ def put_state_lknetf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -13391,14 +13442,14 @@ def put_state_lknetf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, rank:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], A_l : ndarray[tuple[dim_obs_l, rank], np.float64], C_l : ndarray[tuple[dim_obs_l, rank], np.float64]]
@@ -13413,7 +13464,7 @@ def put_state_lknetf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -13660,26 +13711,27 @@ def put_state_lknetf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaf_put_state_lknetf (c__PDAFcython.c__collect_state_pdaf,
-                              c__PDAFcython.c__init_dim_obs_pdaf,
-                              c__PDAFcython.c__obs_op_pdaf,
-                              c__PDAFcython.c__init_obs_pdaf,
-                              c__PDAFcython.c__init_obs_l_pdaf,
-                              c__PDAFcython.c__prepoststep_pdaf,
-                              c__PDAFcython.c__prodRinvA_l_pdaf,
-                              c__PDAFcython.c__prodRinvA_hyb_l_pdaf,
-                              c__PDAFcython.c__init_n_domains_p_pdaf,
-                              c__PDAFcython.c__init_dim_l_pdaf,
-                              c__PDAFcython.c__init_dim_obs_l_pdaf,
-                              c__PDAFcython.c__g2l_state_pdaf,
-                              c__PDAFcython.c__l2g_state_pdaf,
-                              c__PDAFcython.c__g2l_obs_pdaf,
-                              c__PDAFcython.c__init_obsvar_pdaf,
-                              c__PDAFcython.c__init_obsvar_l_pdaf,
-                              c__PDAFcython.c__likelihood_l_pdaf,
-                              c__PDAFcython.c__likelihood_hyb_l_pdaf,
-                              &outflag
-                             )
+    with nogil:
+        c__pdaf_put_state_lknetf (c__PDAFcython.c__collect_state_pdaf,
+                                  c__PDAFcython.c__init_dim_obs_pdaf,
+                                  c__PDAFcython.c__obs_op_pdaf,
+                                  c__PDAFcython.c__init_obs_pdaf,
+                                  c__PDAFcython.c__init_obs_l_pdaf,
+                                  c__PDAFcython.c__prepoststep_pdaf,
+                                  c__PDAFcython.c__prodRinvA_l_pdaf,
+                                  c__PDAFcython.c__prodRinvA_hyb_l_pdaf,
+                                  c__PDAFcython.c__init_n_domains_p_pdaf,
+                                  c__PDAFcython.c__init_dim_l_pdaf,
+                                  c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                  c__PDAFcython.c__g2l_state_pdaf,
+                                  c__PDAFcython.c__l2g_state_pdaf,
+                                  c__PDAFcython.c__g2l_obs_pdaf,
+                                  c__PDAFcython.c__init_obsvar_pdaf,
+                                  c__PDAFcython.c__init_obsvar_l_pdaf,
+                                  c__PDAFcython.c__likelihood_l_pdaf,
+                                  c__PDAFcython.c__likelihood_hyb_l_pdaf,
+                                  &outflag
+                                 )
 
     return outflag
 
@@ -13803,19 +13855,19 @@ def put_state_lseik (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize PE-local observation vector
 
@@ -13854,26 +13906,26 @@ def put_state_lseik (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -13882,14 +13934,14 @@ def put_state_lseik (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, rank:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], A_l : ndarray[tuple[dim_obs_l, rank], np.float64], C_l : ndarray[tuple[dim_obs_l, rank], np.float64]]
@@ -13904,7 +13956,7 @@ def put_state_lseik (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -14082,23 +14134,24 @@ def put_state_lseik (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_put_state_lseik (c__PDAFcython.c__collect_state_pdaf,
-                             c__PDAFcython.c__init_dim_obs_pdaf,
-                             c__PDAFcython.c__obs_op_pdaf,
-                             c__PDAFcython.c__init_obs_pdaf,
-                             c__PDAFcython.c__init_obs_l_pdaf,
-                             c__PDAFcython.c__prepoststep_pdaf,
-                             c__PDAFcython.c__prodRinvA_l_pdaf,
-                             c__PDAFcython.c__init_n_domains_p_pdaf,
-                             c__PDAFcython.c__init_dim_l_pdaf,
-                             c__PDAFcython.c__init_dim_obs_l_pdaf,
-                             c__PDAFcython.c__g2l_state_pdaf,
-                             c__PDAFcython.c__l2g_state_pdaf,
-                             c__PDAFcython.c__g2l_obs_pdaf,
-                             c__PDAFcython.c__init_obsvar_pdaf,
-                             c__PDAFcython.c__init_obsvar_l_pdaf,
-                             &flag
-                            )
+    with nogil:
+        c__pdaf_put_state_lseik (c__PDAFcython.c__collect_state_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_pdaf,
+                                 c__PDAFcython.c__obs_op_pdaf,
+                                 c__PDAFcython.c__init_obs_pdaf,
+                                 c__PDAFcython.c__init_obs_l_pdaf,
+                                 c__PDAFcython.c__prepoststep_pdaf,
+                                 c__PDAFcython.c__prodRinvA_l_pdaf,
+                                 c__PDAFcython.c__init_n_domains_p_pdaf,
+                                 c__PDAFcython.c__init_dim_l_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                 c__PDAFcython.c__g2l_state_pdaf,
+                                 c__PDAFcython.c__l2g_state_pdaf,
+                                 c__PDAFcython.c__g2l_obs_pdaf,
+                                 c__PDAFcython.c__init_obsvar_pdaf,
+                                 c__PDAFcython.c__init_obsvar_l_pdaf,
+                                 &flag
+                                )
 
     return flag
 
@@ -14202,19 +14255,19 @@ def put_state_netf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -14237,26 +14290,26 @@ def put_state_netf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -14265,14 +14318,14 @@ def put_state_netf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__likelihood_pdaf : Callable[step:int, dim_obs_p:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], resid : ndarray[tuple[dim_obs_p], np.float64], likely:float]
@@ -14309,14 +14362,15 @@ def put_state_netf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_put_state_netf (c__PDAFcython.c__collect_state_pdaf,
-                            c__PDAFcython.c__init_dim_obs_pdaf,
-                            c__PDAFcython.c__obs_op_pdaf,
-                            c__PDAFcython.c__init_obs_pdaf,
-                            c__PDAFcython.c__prepoststep_pdaf,
-                            c__PDAFcython.c__likelihood_pdaf,
-                            &flag
-                           )
+    with nogil:
+        c__pdaf_put_state_netf (c__PDAFcython.c__collect_state_pdaf,
+                                c__PDAFcython.c__init_dim_obs_pdaf,
+                                c__PDAFcython.c__obs_op_pdaf,
+                                c__PDAFcython.c__init_obs_pdaf,
+                                c__PDAFcython.c__prepoststep_pdaf,
+                                c__PDAFcython.c__likelihood_pdaf,
+                                &flag
+                               )
 
     return flag
 
@@ -14419,19 +14473,19 @@ def put_state_pf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -14454,26 +14508,26 @@ def put_state_pf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -14482,14 +14536,14 @@ def put_state_pf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__likelihood_pdaf : Callable[step:int, dim_obs_p:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], resid : ndarray[tuple[dim_obs_p], np.float64], likely:float]
@@ -14526,14 +14580,15 @@ def put_state_pf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_put_state_pf (c__PDAFcython.c__collect_state_pdaf,
-                          c__PDAFcython.c__init_dim_obs_pdaf,
-                          c__PDAFcython.c__obs_op_pdaf,
-                          c__PDAFcython.c__init_obs_pdaf,
-                          c__PDAFcython.c__prepoststep_pdaf,
-                          c__PDAFcython.c__likelihood_pdaf,
-                          &flag
-                         )
+    with nogil:
+        c__pdaf_put_state_pf (c__PDAFcython.c__collect_state_pdaf,
+                              c__PDAFcython.c__init_dim_obs_pdaf,
+                              c__PDAFcython.c__obs_op_pdaf,
+                              c__PDAFcython.c__init_obs_pdaf,
+                              c__PDAFcython.c__prepoststep_pdaf,
+                              c__PDAFcython.c__likelihood_pdaf,
+                              &flag
+                             )
 
     return flag
 
@@ -14576,26 +14631,26 @@ def put_state_prepost (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -14604,14 +14659,14 @@ def put_state_prepost (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
 
@@ -14626,10 +14681,11 @@ def put_state_prepost (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_put_state_prepost (c__PDAFcython.c__collect_state_pdaf,
-                               c__PDAFcython.c__prepoststep_pdaf,
-                               &flag
-                              )
+    with nogil:
+        c__pdaf_put_state_prepost (c__PDAFcython.c__collect_state_pdaf,
+                                   c__PDAFcython.c__prepoststep_pdaf,
+                                   &flag
+                                  )
 
     return flag
 
@@ -14726,19 +14782,19 @@ def put_state_seek (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -14761,26 +14817,26 @@ def put_state_seek (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -14789,14 +14845,14 @@ def put_state_seek (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
@@ -14809,8 +14865,8 @@ def put_state_seek (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -14837,14 +14893,15 @@ def put_state_seek (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_put_state_seek (c__PDAFcython.c__collect_state_pdaf,
-                            c__PDAFcython.c__init_dim_obs_pdaf,
-                            c__PDAFcython.c__obs_op_pdaf,
-                            c__PDAFcython.c__init_obs_pdaf,
-                            c__PDAFcython.c__prepoststep_pdaf,
-                            c__PDAFcython.c__prodRinvA_pdaf,
-                            &flag
-                           )
+    with nogil:
+        c__pdaf_put_state_seek (c__PDAFcython.c__collect_state_pdaf,
+                                c__PDAFcython.c__init_dim_obs_pdaf,
+                                c__PDAFcython.c__obs_op_pdaf,
+                                c__PDAFcython.c__init_obs_pdaf,
+                                c__PDAFcython.c__prepoststep_pdaf,
+                                c__PDAFcython.c__prodRinvA_pdaf,
+                                &flag
+                               )
 
     return flag
 
@@ -14948,19 +15005,19 @@ def put_state_seik (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -14983,26 +15040,26 @@ def put_state_seik (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -15011,14 +15068,14 @@ def put_state_seik (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
@@ -15031,8 +15088,8 @@ def put_state_seik (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -15076,15 +15133,16 @@ def put_state_seik (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdaf_put_state_seik (c__PDAFcython.c__collect_state_pdaf,
-                            c__PDAFcython.c__init_dim_obs_pdaf,
-                            c__PDAFcython.c__obs_op_pdaf,
-                            c__PDAFcython.c__init_obs_pdaf,
-                            c__PDAFcython.c__prepoststep_pdaf,
-                            c__PDAFcython.c__prodRinvA_pdaf,
-                            c__PDAFcython.c__init_obsvar_pdaf,
-                            &flag
-                           )
+    with nogil:
+        c__pdaf_put_state_seik (c__PDAFcython.c__collect_state_pdaf,
+                                c__PDAFcython.c__init_dim_obs_pdaf,
+                                c__PDAFcython.c__obs_op_pdaf,
+                                c__PDAFcython.c__init_obs_pdaf,
+                                c__PDAFcython.c__prepoststep_pdaf,
+                                c__PDAFcython.c__prodRinvA_pdaf,
+                                c__PDAFcython.c__init_obsvar_pdaf,
+                                &flag
+                               )
 
     return flag
 
@@ -15098,8 +15156,9 @@ def reset_forget (double forget_in
         New value of forgetting factor
     """
 
-    c__pdaf_reset_forget (&forget_in
-                         )
+    with nogil:
+        c__pdaf_reset_forget (&forget_in
+                             )
 
 def SampleEns (double[:,:] modes,
                double[::1] svals,
@@ -15154,15 +15213,16 @@ def SampleEns (double[:,:] modes,
 
     cdef double [::1] ens = np.zeros((dim, dim_ens), dtype=np.float64).ravel()
 
-    c__pdaf_sampleens (&dim,
-                       &dim_ens,
-                       &modes_f[0],
-                       &svals[0],
-                       &state[0],
-                       &ens[0],
-                       &verbose,
-                       &flag
-                      )
+    with nogil:
+        c__pdaf_sampleens (&dim,
+                           &dim_ens,
+                           &modes_f[0],
+                           &svals[0],
+                           &state[0],
+                           &ens[0],
+                           &verbose,
+                           &flag
+                          )
 
     return np.asarray(modes).reshape((dim, dim_ens-1), order='F'), np.asarray(state).reshape((dim), order='F'), np.asarray(ens).reshape((dim, dim_ens), order='F'), flag
 
@@ -15177,8 +15237,9 @@ def set_debug_flag (int debugval
         Value of debugging flag; print debug information for >0
     """
 
-    c__pdaf_set_debug_flag (&debugval
-                           )
+    with nogil:
+        c__pdaf_set_debug_flag (&debugval
+                               )
 
 def set_ens_pointer ():
     r"""This function returns the ensemble array in a numpy array where the internal array data has the same memoery address as PDAF ensemble array.
@@ -15199,10 +15260,11 @@ def set_ens_pointer ():
     cdef int [::1] dims = np.zeros((2), dtype=np.intc).ravel()
     cdef int status
 
-    c__pdaf_set_ens_pointer (&c_ens_point,
-                             &dims[0],
-                             &status
-                            )
+    with nogil:
+        c__pdaf_set_ens_pointer (&c_ens_point,
+                                 &dims[0],
+                                 &status
+                                )
 
     dims = np.asarray(dims)
     return np.asarray(<double[:np.prod(dims)]> c_ens_point).reshape(dims, order='F'), \
@@ -15232,11 +15294,12 @@ def set_smootherens (int maxlag
     cdef int [::1] dims = np.zeros((3), dtype=np.intc).ravel()
     cdef int status
 
-    c__pdaf_set_smootherens (&c_sens_point,
-                             &maxlag,
-                             &dims[0],
-                             &status
-                            )
+    with nogil:
+        c__pdaf_set_smootherens (&c_sens_point,
+                                 &maxlag,
+                                 &dims[0],
+                                 &status
+                                )
 
     dims = np.asarray(dims)
     return np.asarray(<double[:np.prod(dims)]> c_sens_point).reshape(dims, order='F'), \
@@ -15271,11 +15334,12 @@ def seik_TtimesA (double[:,:] A
 
     cdef double [::1] B = np.zeros((rank+1, dim_col), dtype=np.float64).ravel()
 
-    c__pdaf_seik_ttimesa (&rank,
-                          &dim_col,
-                          &A_f[0],
-                          &B[0]
-                         )
+    with nogil:
+        c__pdaf_seik_ttimesa (&rank,
+                              &dim_col,
+                              &A_f[0],
+                              &B[0]
+                             )
 
     return np.asarray(B).reshape((rank+1, dim_col), order='F')
 
@@ -15307,10 +15371,11 @@ def etkf_Tleft (double[:,:] A
     dim_ens = A.shape[0]
     dim = A.shape[1]
 
-    c__pdaf_etkf_tleft (&dim_ens,
-                        &dim,
-                        &A_f[0]
-                       )
+    with nogil:
+        c__pdaf_etkf_tleft (&dim_ens,
+                            &dim,
+                            &A_f[0]
+                           )
 
     return np.asarray(A).reshape((dim_ens, dim), order='F')
 
@@ -15343,11 +15408,12 @@ def estkf_OmegaA (double[:,:] A
 
     cdef double [::1] B = np.zeros((rank+1, dim_col), dtype=np.float64).ravel()
 
-    c__pdaf_estkf_omegaa (&rank,
-                          &dim_col,
-                          &A_f[0],
-                          &B[0]
-                         )
+    with nogil:
+        c__pdaf_estkf_omegaa (&rank,
+                              &dim_col,
+                              &A_f[0],
+                              &B[0]
+                             )
 
     return np.asarray(B).reshape((rank+1, dim_col), order='F')
 
@@ -15399,14 +15465,15 @@ def enkf_omega (int[::1] seed,
     dim_ens = omega.shape[0]
     r = omega.shape[1]
 
-    c__pdaf_enkf_omega (&seed[0],
-                        &r,
-                        &dim_ens,
-                        &omega_f[0],
-                        &norm,
-                        &otype,
-                        &screen
-                       )
+    with nogil:
+        c__pdaf_enkf_omega (&seed[0],
+                            &r,
+                            &dim_ens,
+                            &omega_f[0],
+                            &norm,
+                            &otype,
+                            &screen
+                           )
 
     return np.asarray(omega).reshape((dim_ens, r), order='F'), norm
 
@@ -15443,11 +15510,12 @@ def seik_omega (double[:,:] omega,
     _ = omega.shape[1]
     rank = rank - 1
 
-    c__pdaf_seik_omega (&rank,
-                        &omega_f[0],
-                        &omegatype,
-                        &screen
-                       )
+    with nogil:
+        c__pdaf_seik_omega (&rank,
+                            &omega_f[0],
+                            &omegatype,
+                            &screen
+                           )
 
     return np.asarray(omega).reshape((rank+1, rank), order='F')
 
@@ -15478,9 +15546,10 @@ def incremental (int steps,
 
     c__PDAFcython.dist_stateinc_pdaf = <void*>py__dist_stateinc_pdaf
 
-    c__pdaf_incremental (&steps,
-                         c__PDAFcython.c__dist_stateinc_pdaf
-                        )
+    with nogil:
+        c__pdaf_incremental (&steps,
+                             c__PDAFcython.c__dist_stateinc_pdaf
+                            )
 
 def add_increment (double[::1] state_p
                   ):
@@ -15504,9 +15573,10 @@ def add_increment (double[::1] state_p
     cdef int dim_p
     dim_p = state_p.shape[0]
 
-    c__pdaf_add_increment (&dim_p,
-                           &state_p[0]
-                          )
+    with nogil:
+        c__pdaf_add_increment (&dim_p,
+                               &state_p[0]
+                              )
 
     return np.asarray(state_p).reshape((dim_p), order='F')
 
@@ -15549,14 +15619,15 @@ def local_weights (int wtype,
 
     cdef double [::1] weight = np.zeros((dim), dtype=np.float64).ravel()
 
-    c__pdaf_local_weights (&wtype,
-                           &cradius,
-                           &sradius,
-                           &dim,
-                           &distance[0],
-                           &weight[0],
-                           &verbose
-                          )
+    with nogil:
+        c__pdaf_local_weights (&wtype,
+                               &cradius,
+                               &sradius,
+                               &dim,
+                               &distance[0],
+                               &weight[0],
+                               &verbose
+                              )
 
     return np.asarray(weight).reshape((dim), order='F')
 
@@ -15616,17 +15687,18 @@ def diag_CRPS (int element,
     cdef double uncert
     cdef int status
 
-    c__pdaf_diag_crps (&dim,
-                       &dim_ens,
-                       &element,
-                       &oens_f[0],
-                       &obs[0],
-                       &CRPS,
-                       &reli,
-                       &resol,
-                       &uncert,
-                       &status
-                      )
+    with nogil:
+        c__pdaf_diag_crps (&dim,
+                           &dim_ens,
+                           &element,
+                           &oens_f[0],
+                           &obs[0],
+                           &CRPS,
+                           &reli,
+                           &resol,
+                           &uncert,
+                           &status
+                          )
 
     return CRPS, reli, resol, uncert, status
 
@@ -15636,7 +15708,8 @@ def force_analysis ():
 
     """
 
-    c__pdaf_force_analysis ()
+    with nogil:
+        c__pdaf_force_analysis ()
 
 def gather_obs_f2_flex (int dim_obs_f,
                         double[:,:] coords_p
@@ -15674,13 +15747,14 @@ def gather_obs_f2_flex (int dim_obs_f,
     cdef double [::1] coords_f = np.zeros((nrows, dim_obs_f), dtype=np.float64).ravel()
     cdef int status
 
-    c__pdaf_gather_obs_f2_flex (&dim_obs_p,
-                                &dim_obs_f,
-                                &coords_p_f[0],
-                                &coords_f[0],
-                                &nrows,
-                                &status
-                               )
+    with nogil:
+        c__pdaf_gather_obs_f2_flex (&dim_obs_p,
+                                    &dim_obs_f,
+                                    &coords_p_f[0],
+                                    &coords_f[0],
+                                    &nrows,
+                                    &status
+                                   )
 
     return np.asarray(coords_f).reshape((nrows, dim_obs_f), order='F'), status
 
@@ -15715,12 +15789,13 @@ def gather_obs_f_flex (int dim_obs_f,
     cdef double [::1] obs_f = np.zeros((dim_obs_f), dtype=np.float64).ravel()
     cdef int status
 
-    c__pdaf_gather_obs_f_flex (&dim_obs_p,
-                               &dim_obs_f,
-                               &obs_p[0],
-                               &obs_f[0],
-                               &status
-                              )
+    with nogil:
+        c__pdaf_gather_obs_f_flex (&dim_obs_p,
+                                   &dim_obs_f,
+                                   &obs_p[0],
+                                   &obs_f[0],
+                                   &status
+                                  )
 
     return np.asarray(obs_f).reshape((dim_obs_f), order='F'), status
 
@@ -15772,26 +15847,26 @@ def prepost (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -15800,14 +15875,14 @@ def prepost (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -15820,9 +15895,9 @@ def prepost (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -15831,9 +15906,9 @@ def prepost (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -15852,12 +15927,13 @@ def prepost (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaf_prepost (c__PDAFcython.c__collect_state_pdaf,
-                     c__PDAFcython.c__distribute_state_pdaf,
-                     c__PDAFcython.c__prepoststep_pdaf,
-                     c__PDAFcython.c__next_observation_pdaf,
-                     &outflag
-                    )
+    with nogil:
+        c__pdaf_prepost (c__PDAFcython.c__collect_state_pdaf,
+                         c__PDAFcython.c__distribute_state_pdaf,
+                         c__PDAFcython.c__prepoststep_pdaf,
+                         c__PDAFcython.c__next_observation_pdaf,
+                         &outflag
+                        )
 
     return outflag
 
@@ -15876,8 +15952,9 @@ def set_memberid (int memberid
         Index in the local ensemble
     """
 
-    c__pdaf_set_memberid (&memberid
-                         )
+    with nogil:
+        c__pdaf_set_memberid (&memberid
+                             )
 
     return memberid
 
@@ -15894,8 +15971,9 @@ def set_comm_pdaf (int in_COMM_pdaf
         MPI communicator used by PDAF
     """
 
-    c__pdaf_set_comm_pdaf (&in_COMM_pdaf
-                          )
+    with nogil:
+        c__pdaf_set_comm_pdaf (&in_COMM_pdaf
+                              )
 
 def set_offline_mode (int screen
                      ):
@@ -15907,8 +15985,9 @@ def set_offline_mode (int screen
         Verbosity flag
     """
 
-    c__pdaf_set_offline_mode (&screen
-                             )
+    with nogil:
+        c__pdaf_set_offline_mode (&screen
+                                 )
 
 def print_domain_stats (int n_domains_p
                        ):
@@ -15920,15 +15999,17 @@ def print_domain_stats (int n_domains_p
         Number of PE-local analysis domains
     """
 
-    c__pdaf_print_domain_stats (&n_domains_p
-                               )
+    with nogil:
+        c__pdaf_print_domain_stats (&n_domains_p
+                                   )
 
 def init_local_obsstats ():
     r"""This function initialise the observation statistics of local domain. This statistics can be updated by `pyPDAF.PDAF.incr_local_obsstats`, and can be viewed by `pyPDAF.PDAF.print_local_obsstats`.
 
     """
 
-    c__pdaf_init_local_obsstats ()
+    with nogil:
+        c__pdaf_init_local_obsstats ()
 
 def incr_local_obsstats (int dim_obs_l
                         ):
@@ -15940,8 +16021,9 @@ def incr_local_obsstats (int dim_obs_l
         Number of locally assimilated observations
     """
 
-    c__pdaf_incr_local_obsstats (&dim_obs_l
-                                )
+    with nogil:
+        c__pdaf_incr_local_obsstats (&dim_obs_l
+                                    )
 
 def print_local_obsstats (int screen
                          ):
@@ -15960,9 +16042,10 @@ def print_local_obsstats (int screen
 
     cdef int n_domains_with_obs
 
-    c__pdaf_print_local_obsstats (&screen,
-                                  &n_domains_with_obs
-                                 )
+    with nogil:
+        c__pdaf_print_local_obsstats (&screen,
+                                      &n_domains_with_obs
+                                     )
 
     return n_domains_with_obs
 
@@ -16013,19 +16096,19 @@ def omit_obs_omi (double[::1] state_p,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     compute_mean : int
         (1) compute mean; (0) state_p holds mean
     screen : int
@@ -16052,17 +16135,18 @@ def omit_obs_omi (double[::1] state_p,
     c__PDAFcython.init_obs_pdaf = <void*>py__init_obs_pdaf
     c__PDAFcython.obs_op_pdaf = <void*>py__obs_op_pdaf
 
-    c__pdaf_omit_obs_omi (&dim_p,
-                          &dim_obs_p,
-                          &dim_ens,
-                          &state_p[0],
-                          &ens_p_f[0],
-                          &obs_p[0],
-                          c__PDAFcython.c__init_obs_pdaf,
-                          c__PDAFcython.c__obs_op_pdaf,
-                          &compute_mean,
-                          &screen
-                         )
+    with nogil:
+        c__pdaf_omit_obs_omi (&dim_p,
+                              &dim_obs_p,
+                              &dim_ens,
+                              &state_p[0],
+                              &ens_p_f[0],
+                              &obs_p[0],
+                              c__PDAFcython.c__init_obs_pdaf,
+                              c__PDAFcython.c__obs_op_pdaf,
+                              &compute_mean,
+                              &screen
+                             )
 
     return np.asarray(state_p).reshape((dim_p), order='F'), np.asarray(obs_p).reshape((dim_obs_p), order='F')
 
@@ -16124,17 +16208,18 @@ def diag_CRPS_nompi (int element,
     cdef double uncert
     cdef int status
 
-    c__pdaf_diag_crps_nompi (&dim,
-                             &dim_ens,
-                             &element,
-                             &oens_f[0],
-                             &obs[0],
-                             &CRPS,
-                             &reli,
-                             &resol,
-                             &uncert,
-                             &status
-                            )
+    with nogil:
+        c__pdaf_diag_crps_nompi (&dim,
+                                 &dim_ens,
+                                 &element,
+                                 &oens_f[0],
+                                 &obs[0],
+                                 &CRPS,
+                                 &reli,
+                                 &resol,
+                                 &uncert,
+                                 &status
+                                )
 
     return CRPS, reli, resol, uncert, status
 
@@ -16152,8 +16237,22 @@ def omi_init (int n_obs
         number of observations
     """
 
-    c__pdafomi_init (&n_obs
-                    )
+    with nogil:
+        c__pdafomi_init (&n_obs
+                        )
+
+def omi_init_local ():
+    r"""Allocating an array of `obs_l` derived types instances.
+
+    This function initialises the number of observation types
+    for each local analysis domain,
+    which should be called at the start of the local analysis loop
+    in :func:`py__init_dim_obs_l_pdaf`.
+
+    """
+
+    with nogil:
+        c__pdafomi_init_local ()
 
 def omi_set_doassim (int i_obs,
                      int doassim
@@ -16175,9 +16274,10 @@ def omi_set_doassim (int i_obs,
         1) assimilate the observation type
     """
 
-    c__pdafomi_set_doassim (&i_obs,
-                            &doassim
-                           )
+    with nogil:
+        c__pdafomi_set_doassim (&i_obs,
+                                &doassim
+                               )
 
 def omi_set_disttype (int i_obs,
                       int disttype
@@ -16205,9 +16305,10 @@ def omi_set_disttype (int i_obs,
         13) Same as 3) for horizontal distance but vertical distance is in units chosen by users
     """
 
-    c__pdafomi_set_disttype (&i_obs,
-                             &disttype
-                            )
+    with nogil:
+        c__pdafomi_set_disttype (&i_obs,
+                                 &disttype
+                                )
 
 def omi_set_ncoord (int i_obs,
                     int ncoord
@@ -16227,9 +16328,10 @@ def omi_set_ncoord (int i_obs,
         Dimension of the observation coordinate
     """
 
-    c__pdafomi_set_ncoord (&i_obs,
-                           &ncoord
-                          )
+    with nogil:
+        c__pdafomi_set_ncoord (&i_obs,
+                               &ncoord
+                              )
 
 def omi_set_id_obs_p (int i_obs,
                       int[:,:] id_obs_p
@@ -16285,11 +16387,12 @@ def omi_set_id_obs_p (int i_obs,
     nrows = id_obs_p.shape[0]
     dim_obs_p = id_obs_p.shape[1]
 
-    c__pdafomi_set_id_obs_p (&i_obs,
-                             &nrows,
-                             &dim_obs_p,
-                             &id_obs_p_f[0]
-                            )
+    with nogil:
+        c__pdafomi_set_id_obs_p (&i_obs,
+                                 &nrows,
+                                 &dim_obs_p,
+                                 &id_obs_p_f[0]
+                                )
 
 def omi_set_icoeff_p (int i_obs,
                       double[:,:] icoeff_p
@@ -16313,11 +16416,12 @@ def omi_set_icoeff_p (int i_obs,
     nrows = icoeff_p.shape[0]
     dim_obs_p = icoeff_p.shape[1]
 
-    c__pdafomi_set_icoeff_p (&i_obs,
-                             &nrows,
-                             &dim_obs_p,
-                             &icoeff_p_f[0]
-                            )
+    with nogil:
+        c__pdafomi_set_icoeff_p (&i_obs,
+                                 &nrows,
+                                 &dim_obs_p,
+                                 &icoeff_p_f[0]
+                                )
 
 def omi_set_domainsize (int i_obs,
                         double[::1] domainsize
@@ -16337,10 +16441,11 @@ def omi_set_domainsize (int i_obs,
     cdef int ncoord
     ncoord = domainsize.shape[0]
 
-    c__pdafomi_set_domainsize (&i_obs,
-                               &ncoord,
-                               &domainsize[0]
-                              )
+    with nogil:
+        c__pdafomi_set_domainsize (&i_obs,
+                                   &ncoord,
+                                   &domainsize[0]
+                                  )
 
 def omi_set_obs_err_type (int i_obs,
                           int obs_err_type
@@ -16355,9 +16460,10 @@ def omi_set_obs_err_type (int i_obs,
         0) Gaussian (default); 1) double exponential (Laplacian)
     """
 
-    c__pdafomi_set_obs_err_type (&i_obs,
-                                 &obs_err_type
-                                )
+    with nogil:
+        c__pdafomi_set_obs_err_type (&i_obs,
+                                     &obs_err_type
+                                    )
 
 def omi_set_use_global_obs (int i_obs,
                             int use_global_obs
@@ -16373,9 +16479,10 @@ def omi_set_use_global_obs (int i_obs,
         0) Using process-local observations; 1) using cross-process observations (default)
     """
 
-    c__pdafomi_set_use_global_obs (&i_obs,
-                                   &use_global_obs
-                                  )
+    with nogil:
+        c__pdafomi_set_use_global_obs (&i_obs,
+                                       &use_global_obs
+                                      )
 
 def omi_set_inno_omit (int i_obs,
                        double inno_omit
@@ -16391,9 +16498,10 @@ def omi_set_inno_omit (int i_obs,
         Threshold of innovation to be omitted
     """
 
-    c__pdafomi_set_inno_omit (&i_obs,
-                              &inno_omit
-                             )
+    with nogil:
+        c__pdafomi_set_inno_omit (&i_obs,
+                                  &inno_omit
+                                 )
 
 def omi_set_inno_omit_ivar (int i_obs,
                             double inno_omit_ivar
@@ -16409,9 +16517,10 @@ def omi_set_inno_omit_ivar (int i_obs,
         Inverse of observation variance for omiited observations
     """
 
-    c__pdafomi_set_inno_omit_ivar (&i_obs,
-                                   &inno_omit_ivar
-                                  )
+    with nogil:
+        c__pdafomi_set_inno_omit_ivar (&i_obs,
+                                       &inno_omit_ivar
+                                      )
 
 def omi_gather_obs (int i_obs,
                     double[::1] obs_p,
@@ -16470,14 +16579,15 @@ def omi_gather_obs (int i_obs,
 
     cdef int dim_obs
 
-    c__pdafomi_gather_obs (&i_obs,
-                           &dim_obs_p,
-                           &obs_p[0],
-                           &ivar_obs_p[0],
-                           &ocoord_p_f[0],
-                           &cradius,
-                           &dim_obs
-                          )
+    with nogil:
+        c__pdafomi_gather_obs (&i_obs,
+                               &dim_obs_p,
+                               &obs_p[0],
+                               &ivar_obs_p[0],
+                               &ocoord_p_f[0],
+                               &cradius,
+                               &dim_obs
+                              )
 
     return dim_obs
 
@@ -16510,11 +16620,12 @@ def omi_gather_obsstate (int i_obs,
     cdef int nobs_f_all
     nobs_f_all = obsstate_f.shape[0]
 
-    c__pdafomi_gather_obsstate (&i_obs,
-                                &obsstate_p[0],
-                                &obsstate_f[0],
-                                &nobs_f_all
-                               )
+    with nogil:
+        c__pdafomi_gather_obsstate (&i_obs,
+                                    &obsstate_p[0],
+                                    &obsstate_f[0],
+                                    &nobs_f_all
+                                   )
 
     return np.asarray(obsstate_f).reshape((nobs_f_all), order='F')
 
@@ -16531,8 +16642,9 @@ def omi_set_domain_limits (double[:,:] lim_coords
     """
 
     cdef double[::1] lim_coords_f = np.asfortranarray(lim_coords).ravel(order="F")
-    c__pdafomi_set_domain_limits (&lim_coords_f[0]
-                                 )
+    with nogil:
+        c__pdafomi_set_domain_limits (&lim_coords_f[0]
+                                     )
 
 def omi_set_debug_flag (int debugval
                        ):
@@ -16545,8 +16657,9 @@ def omi_set_debug_flag (int debugval
         Value for debugging flag
     """
 
-    c__pdafomi_set_debug_flag (&debugval
-                              )
+    with nogil:
+        c__pdafomi_set_debug_flag (&debugval
+                                  )
 
 def omi_deallocate_obs (int i_obs
                        ):
@@ -16561,8 +16674,9 @@ def omi_deallocate_obs (int i_obs
         index of observations
     """
 
-    c__pdafomi_deallocate_obs (&i_obs
-                              )
+    with nogil:
+        c__pdafomi_deallocate_obs (&i_obs
+                                  )
 
 def omi_obs_op_gridpoint (int i_obs,
                           double[::1] state_p,
@@ -16605,12 +16719,13 @@ def omi_obs_op_gridpoint (int i_obs,
     dim_p = state_p.shape[0]
     nobs_f_all = obs_f_all.shape[0]
 
-    c__pdafomi_obs_op_gridpoint (&i_obs,
-                                 &state_p[0],
-                                 &dim_p,
-                                 &obs_f_all[0],
-                                 &nobs_f_all
-                                )
+    with nogil:
+        c__pdafomi_obs_op_gridpoint (&i_obs,
+                                     &state_p[0],
+                                     &dim_p,
+                                     &obs_f_all[0],
+                                     &nobs_f_all
+                                    )
 
     return np.asarray(obs_f_all).reshape((nobs_f_all), order='F')
 
@@ -16653,13 +16768,14 @@ def omi_obs_op_gridavg (int i_obs,
     dim_p = state_p.shape[0]
     nobs_f_all = obs_f_all.shape[0]
 
-    c__pdafomi_obs_op_gridavg (&i_obs,
-                               &nrows,
-                               &state_p[0],
-                               &dim_p,
-                               &obs_f_all[0],
-                               &nobs_f_all
-                              )
+    with nogil:
+        c__pdafomi_obs_op_gridavg (&i_obs,
+                                   &nrows,
+                                   &state_p[0],
+                                   &dim_p,
+                                   &obs_f_all[0],
+                                   &nobs_f_all
+                                  )
 
     return np.asarray(obs_f_all).reshape((nobs_f_all), order='F')
 
@@ -16712,13 +16828,14 @@ def omi_obs_op_interp_lin (int i_obs,
     dim_p = state_p.shape[0]
     nobs_f_all = obs_f_all.shape[0]
 
-    c__pdafomi_obs_op_interp_lin (&i_obs,
-                                  &nrows,
-                                  &state_p[0],
-                                  &dim_p,
-                                  &obs_f_all[0],
-                                  &nobs_f_all
-                                 )
+    with nogil:
+        c__pdafomi_obs_op_interp_lin (&i_obs,
+                                      &nrows,
+                                      &state_p[0],
+                                      &dim_p,
+                                      &obs_f_all[0],
+                                      &nobs_f_all
+                                     )
 
     return np.asarray(obs_f_all).reshape((nobs_f_all), order='F')
 
@@ -16756,13 +16873,14 @@ def omi_obs_op_adj_gridavg (int i_obs,
     dim_p = state_p.shape[0]
     nobs_f_all = obs_f_all.shape[0]
 
-    c__pdafomi_obs_op_adj_gridavg (&i_obs,
-                                   &nrows,
-                                   &state_p[0],
-                                   &dim_p,
-                                   &obs_f_all[0],
-                                   &nobs_f_all
-                                  )
+    with nogil:
+        c__pdafomi_obs_op_adj_gridavg (&i_obs,
+                                       &nrows,
+                                       &state_p[0],
+                                       &dim_p,
+                                       &obs_f_all[0],
+                                       &nobs_f_all
+                                      )
 
     return np.asarray(state_p).reshape((dim_p), order='F')
 
@@ -16797,12 +16915,13 @@ def omi_obs_op_adj_gridpoint (int i_obs,
     dim_p = state_p.shape[0]
     nobs_f_all = obs_f_all.shape[0]
 
-    c__pdafomi_obs_op_adj_gridpoint (&i_obs,
-                                     &state_p[0],
-                                     &dim_p,
-                                     &obs_f_all[0],
-                                     &nobs_f_all
-                                    )
+    with nogil:
+        c__pdafomi_obs_op_adj_gridpoint (&i_obs,
+                                         &state_p[0],
+                                         &dim_p,
+                                         &obs_f_all[0],
+                                         &nobs_f_all
+                                        )
 
     return np.asarray(state_p).reshape((dim_p), order='F')
 
@@ -16840,13 +16959,14 @@ def omi_obs_op_adj_interp_lin (int i_obs,
     dim_p = state_p.shape[0]
     nobs_f_all = obs_f_all.shape[0]
 
-    c__pdafomi_obs_op_adj_interp_lin (&i_obs,
-                                      &nrows,
-                                      &state_p[0],
-                                      &dim_p,
-                                      &obs_f_all[0],
-                                      &nobs_f_all
-                                     )
+    with nogil:
+        c__pdafomi_obs_op_adj_interp_lin (&i_obs,
+                                          &nrows,
+                                          &state_p[0],
+                                          &dim_p,
+                                          &obs_f_all[0],
+                                          &nobs_f_all
+                                         )
 
     return np.asarray(state_p).reshape((dim_p), order='F')
 
@@ -16885,10 +17005,11 @@ def omi_get_interp_coeff_tri (double[:,:] gpc,
     """
 
     cdef double[::1] gpc_f = np.asfortranarray(gpc).ravel(order="F")
-    c__pdafomi_get_interp_coeff_tri (&gpc_f[0],
-                                     &oc[0],
-                                     &icoeff[0]
-                                    )
+    with nogil:
+        c__pdafomi_get_interp_coeff_tri (&gpc_f[0],
+                                         &oc[0],
+                                         &icoeff[0]
+                                        )
 
     return np.asarray(icoeff).reshape((3), order='F')
 
@@ -16920,10 +17041,11 @@ def omi_get_interp_coeff_lin1D (double[::1] gpc,
 
     """
 
-    c__pdafomi_get_interp_coeff_lin1d (&gpc[0],
-                                       &oc,
-                                       &icoeff[0]
-                                      )
+    with nogil:
+        c__pdafomi_get_interp_coeff_lin1d (&gpc[0],
+                                           &oc,
+                                           &icoeff[0]
+                                          )
 
     return np.asarray(icoeff).reshape((2), order='F')
 
@@ -16970,12 +17092,13 @@ def omi_get_interp_coeff_lin (double[:,:] gpc,
     num_gp = gpc.shape[0]
     n_dim = gpc.shape[1]
 
-    c__pdafomi_get_interp_coeff_lin (&num_gp,
-                                     &n_dim,
-                                     &gpc_f[0],
-                                     &oc[0],
-                                     &icoeff[0]
-                                    )
+    with nogil:
+        c__pdafomi_get_interp_coeff_lin (&num_gp,
+                                         &n_dim,
+                                         &gpc_f[0],
+                                         &oc[0],
+                                         &icoeff[0]
+                                        )
 
     return np.asarray(icoeff).reshape((num_gp), order='F')
 
@@ -17076,19 +17199,19 @@ def omi_assimilate_3dvar (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__cvt_pdaf : Callable[iter:int, dim_p:int, dim_cvec:int, cv_p : ndarray[tuple[dim_cvec], np.float64], Vv_p : ndarray[tuple[dim_p], np.float64]]
         Apply control vector transform matrix to control vector
 
@@ -17169,26 +17292,26 @@ def omi_assimilate_3dvar (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -17197,14 +17320,14 @@ def omi_assimilate_3dvar (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -17217,9 +17340,9 @@ def omi_assimilate_3dvar (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -17228,9 +17351,9 @@ def omi_assimilate_3dvar (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -17255,18 +17378,19 @@ def omi_assimilate_3dvar (py__collect_state_pdaf,
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
-    c__pdafomi_assimilate_3dvar (c__PDAFcython.c__collect_state_pdaf,
-                                 c__PDAFcython.c__distribute_state_pdaf,
-                                 c__PDAFcython.c__init_dim_obs_pdaf,
-                                 c__PDAFcython.c__obs_op_pdaf,
-                                 c__PDAFcython.c__cvt_pdaf,
-                                 c__PDAFcython.c__cvt_adj_pdaf,
-                                 c__PDAFcython.c__obs_op_lin_pdaf,
-                                 c__PDAFcython.c__obs_op_adj_pdaf,
-                                 c__PDAFcython.c__prepoststep_pdaf,
-                                 c__PDAFcython.c__next_observation_pdaf,
-                                 &outflag
-                                )
+    with nogil:
+        c__pdafomi_assimilate_3dvar (c__PDAFcython.c__collect_state_pdaf,
+                                     c__PDAFcython.c__distribute_state_pdaf,
+                                     c__PDAFcython.c__init_dim_obs_pdaf,
+                                     c__PDAFcython.c__obs_op_pdaf,
+                                     c__PDAFcython.c__cvt_pdaf,
+                                     c__PDAFcython.c__cvt_adj_pdaf,
+                                     c__PDAFcython.c__obs_op_lin_pdaf,
+                                     c__PDAFcython.c__obs_op_adj_pdaf,
+                                     c__PDAFcython.c__prepoststep_pdaf,
+                                     c__PDAFcython.c__next_observation_pdaf,
+                                     &outflag
+                                    )
 
     return outflag
 
@@ -17372,19 +17496,19 @@ def omi_assimilate_en3dvar_estkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__cvt_ens_pdaf : Callable[iter:int, dim_p:int, dim_ens:int, dim_cvec_ens:int, ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], v_p : ndarray[tuple[dim_cvec_ens], np.float64], Vv_p : ndarray[tuple[dim_p], np.float64]]
         Apply control vector transform matrix to control vector
 
@@ -17473,26 +17597,26 @@ def omi_assimilate_en3dvar_estkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -17501,14 +17625,14 @@ def omi_assimilate_en3dvar_estkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -17521,9 +17645,9 @@ def omi_assimilate_en3dvar_estkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -17532,9 +17656,9 @@ def omi_assimilate_en3dvar_estkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -17559,18 +17683,19 @@ def omi_assimilate_en3dvar_estkf (py__collect_state_pdaf,
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
-    c__pdafomi_assimilate_en3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
-                                         c__PDAFcython.c__distribute_state_pdaf,
-                                         c__PDAFcython.c__init_dim_obs_pdaf,
-                                         c__PDAFcython.c__obs_op_pdaf,
-                                         c__PDAFcython.c__cvt_ens_pdaf,
-                                         c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                         c__PDAFcython.c__obs_op_lin_pdaf,
-                                         c__PDAFcython.c__obs_op_adj_pdaf,
-                                         c__PDAFcython.c__prepoststep_pdaf,
-                                         c__PDAFcython.c__next_observation_pdaf,
-                                         &outflag
-                                        )
+    with nogil:
+        c__pdafomi_assimilate_en3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
+                                             c__PDAFcython.c__distribute_state_pdaf,
+                                             c__PDAFcython.c__init_dim_obs_pdaf,
+                                             c__PDAFcython.c__obs_op_pdaf,
+                                             c__PDAFcython.c__cvt_ens_pdaf,
+                                             c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                             c__PDAFcython.c__obs_op_lin_pdaf,
+                                             c__PDAFcython.c__obs_op_adj_pdaf,
+                                             c__PDAFcython.c__prepoststep_pdaf,
+                                             c__PDAFcython.c__next_observation_pdaf,
+                                             &outflag
+                                            )
 
     return outflag
 
@@ -17696,19 +17821,19 @@ def omi_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__cvt_ens_pdaf : Callable[iter:int, dim_p:int, dim_ens:int, dim_cvec_ens:int, ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], v_p : ndarray[tuple[dim_cvec_ens], np.float64], Vv_p : ndarray[tuple[dim_p], np.float64]]
         Apply control vector transform matrix to control vector
 
@@ -17879,26 +18004,26 @@ def omi_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -17907,14 +18032,14 @@ def omi_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -17927,9 +18052,9 @@ def omi_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -17938,9 +18063,9 @@ def omi_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -17970,23 +18095,24 @@ def omi_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
-    c__pdafomi_assimilate_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                                          c__PDAFcython.c__distribute_state_pdaf,
-                                          c__PDAFcython.c__init_dim_obs_pdaf,
-                                          c__PDAFcython.c__obs_op_pdaf,
-                                          c__PDAFcython.c__cvt_ens_pdaf,
-                                          c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                          c__PDAFcython.c__obs_op_lin_pdaf,
-                                          c__PDAFcython.c__obs_op_adj_pdaf,
-                                          c__PDAFcython.c__init_n_domains_p_pdaf,
-                                          c__PDAFcython.c__init_dim_l_pdaf,
-                                          c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                          c__PDAFcython.c__g2l_state_pdaf,
-                                          c__PDAFcython.c__l2g_state_pdaf,
-                                          c__PDAFcython.c__prepoststep_pdaf,
-                                          c__PDAFcython.c__next_observation_pdaf,
-                                          &outflag
-                                         )
+    with nogil:
+        c__pdafomi_assimilate_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                              c__PDAFcython.c__distribute_state_pdaf,
+                                              c__PDAFcython.c__init_dim_obs_pdaf,
+                                              c__PDAFcython.c__obs_op_pdaf,
+                                              c__PDAFcython.c__cvt_ens_pdaf,
+                                              c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                              c__PDAFcython.c__obs_op_lin_pdaf,
+                                              c__PDAFcython.c__obs_op_adj_pdaf,
+                                              c__PDAFcython.c__init_n_domains_p_pdaf,
+                                              c__PDAFcython.c__init_dim_l_pdaf,
+                                              c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                              c__PDAFcython.c__g2l_state_pdaf,
+                                              c__PDAFcython.c__l2g_state_pdaf,
+                                              c__PDAFcython.c__prepoststep_pdaf,
+                                              c__PDAFcython.c__next_observation_pdaf,
+                                              &outflag
+                                             )
 
     return outflag
 
@@ -18099,19 +18225,19 @@ def omi_assimilate_global (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -18120,26 +18246,26 @@ def omi_assimilate_global (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -18148,14 +18274,14 @@ def omi_assimilate_global (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -18168,9 +18294,9 @@ def omi_assimilate_global (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -18179,9 +18305,9 @@ def omi_assimilate_global (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -18202,14 +18328,15 @@ def omi_assimilate_global (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdafomi_assimilate_global (c__PDAFcython.c__collect_state_pdaf,
-                                  c__PDAFcython.c__distribute_state_pdaf,
-                                  c__PDAFcython.c__init_dim_obs_pdaf,
-                                  c__PDAFcython.c__obs_op_pdaf,
-                                  c__PDAFcython.c__prepoststep_pdaf,
-                                  c__PDAFcython.c__next_observation_pdaf,
-                                  &flag
-                                 )
+    with nogil:
+        c__pdafomi_assimilate_global (c__PDAFcython.c__collect_state_pdaf,
+                                      c__PDAFcython.c__distribute_state_pdaf,
+                                      c__PDAFcython.c__init_dim_obs_pdaf,
+                                      c__PDAFcython.c__obs_op_pdaf,
+                                      c__PDAFcython.c__prepoststep_pdaf,
+                                      c__PDAFcython.c__next_observation_pdaf,
+                                      &flag
+                                     )
 
     return flag
 
@@ -18325,19 +18452,19 @@ def omi_assimilate_hyb3dvar_estkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__cvt_ens_pdaf : Callable[iter:int, dim_p:int, dim_ens:int, dim_cvec_ens:int, ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], v_p : ndarray[tuple[dim_cvec_ens], np.float64], Vv_p : ndarray[tuple[dim_p], np.float64]]
         Apply ensemble control vector transform matrix to control vector
 
@@ -18462,26 +18589,26 @@ def omi_assimilate_hyb3dvar_estkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -18490,14 +18617,14 @@ def omi_assimilate_hyb3dvar_estkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -18510,9 +18637,9 @@ def omi_assimilate_hyb3dvar_estkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -18521,9 +18648,9 @@ def omi_assimilate_hyb3dvar_estkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -18550,20 +18677,21 @@ def omi_assimilate_hyb3dvar_estkf (py__collect_state_pdaf,
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
-    c__pdafomi_assimilate_hyb3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
-                                          c__PDAFcython.c__distribute_state_pdaf,
-                                          c__PDAFcython.c__init_dim_obs_pdaf,
-                                          c__PDAFcython.c__obs_op_pdaf,
-                                          c__PDAFcython.c__cvt_ens_pdaf,
-                                          c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                          c__PDAFcython.c__cvt_pdaf,
-                                          c__PDAFcython.c__cvt_adj_pdaf,
-                                          c__PDAFcython.c__obs_op_lin_pdaf,
-                                          c__PDAFcython.c__obs_op_adj_pdaf,
-                                          c__PDAFcython.c__prepoststep_pdaf,
-                                          c__PDAFcython.c__next_observation_pdaf,
-                                          &outflag
-                                         )
+    with nogil:
+        c__pdafomi_assimilate_hyb3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
+                                              c__PDAFcython.c__distribute_state_pdaf,
+                                              c__PDAFcython.c__init_dim_obs_pdaf,
+                                              c__PDAFcython.c__obs_op_pdaf,
+                                              c__PDAFcython.c__cvt_ens_pdaf,
+                                              c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                              c__PDAFcython.c__cvt_pdaf,
+                                              c__PDAFcython.c__cvt_adj_pdaf,
+                                              c__PDAFcython.c__obs_op_lin_pdaf,
+                                              c__PDAFcython.c__obs_op_adj_pdaf,
+                                              c__PDAFcython.c__prepoststep_pdaf,
+                                              c__PDAFcython.c__next_observation_pdaf,
+                                              &outflag
+                                             )
 
     return outflag
 
@@ -18697,19 +18825,19 @@ def omi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__cvt_ens_pdaf : Callable[iter:int, dim_p:int, dim_ens:int, dim_cvec_ens:int, ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], v_p : ndarray[tuple[dim_cvec_ens], np.float64], Vv_p : ndarray[tuple[dim_p], np.float64]]
         Apply control vector transform matrix to control vector
 
@@ -18916,26 +19044,26 @@ def omi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -18944,14 +19072,14 @@ def omi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -18964,9 +19092,9 @@ def omi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -18975,9 +19103,9 @@ def omi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -19009,25 +19137,26 @@ def omi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
-    c__pdafomi_assimilate_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                                           c__PDAFcython.c__distribute_state_pdaf,
-                                           c__PDAFcython.c__init_dim_obs_pdaf,
-                                           c__PDAFcython.c__obs_op_pdaf,
-                                           c__PDAFcython.c__cvt_ens_pdaf,
-                                           c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                           c__PDAFcython.c__cvt_pdaf,
-                                           c__PDAFcython.c__cvt_adj_pdaf,
-                                           c__PDAFcython.c__obs_op_lin_pdaf,
-                                           c__PDAFcython.c__obs_op_adj_pdaf,
-                                           c__PDAFcython.c__init_n_domains_p_pdaf,
-                                           c__PDAFcython.c__init_dim_l_pdaf,
-                                           c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                           c__PDAFcython.c__g2l_state_pdaf,
-                                           c__PDAFcython.c__l2g_state_pdaf,
-                                           c__PDAFcython.c__prepoststep_pdaf,
-                                           c__PDAFcython.c__next_observation_pdaf,
-                                           &outflag
-                                          )
+    with nogil:
+        c__pdafomi_assimilate_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                               c__PDAFcython.c__distribute_state_pdaf,
+                                               c__PDAFcython.c__init_dim_obs_pdaf,
+                                               c__PDAFcython.c__obs_op_pdaf,
+                                               c__PDAFcython.c__cvt_ens_pdaf,
+                                               c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                               c__PDAFcython.c__cvt_pdaf,
+                                               c__PDAFcython.c__cvt_adj_pdaf,
+                                               c__PDAFcython.c__obs_op_lin_pdaf,
+                                               c__PDAFcython.c__obs_op_adj_pdaf,
+                                               c__PDAFcython.c__init_n_domains_p_pdaf,
+                                               c__PDAFcython.c__init_dim_l_pdaf,
+                                               c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                               c__PDAFcython.c__g2l_state_pdaf,
+                                               c__PDAFcython.c__l2g_state_pdaf,
+                                               c__PDAFcython.c__prepoststep_pdaf,
+                                               c__PDAFcython.c__next_observation_pdaf,
+                                               &outflag
+                                              )
 
     return outflag
 
@@ -19126,19 +19255,19 @@ def omi_assimilate_lenkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -19147,26 +19276,26 @@ def omi_assimilate_lenkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -19175,14 +19304,14 @@ def omi_assimilate_lenkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__localize_covar_pdaf : Callable[dim_p:int, dim_obs:int, hp_p : ndarray[tuple[dim_obs, dim_p], np.float64], hph : ndarray[tuple[dim_obs, dim_obs], np.float64]]
@@ -19213,9 +19342,9 @@ def omi_assimilate_lenkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -19224,9 +19353,9 @@ def omi_assimilate_lenkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -19248,15 +19377,16 @@ def omi_assimilate_lenkf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdafomi_assimilate_lenkf (c__PDAFcython.c__collect_state_pdaf,
-                                 c__PDAFcython.c__distribute_state_pdaf,
-                                 c__PDAFcython.c__init_dim_obs_pdaf,
-                                 c__PDAFcython.c__obs_op_pdaf,
-                                 c__PDAFcython.c__prepoststep_pdaf,
-                                 c__PDAFcython.c__localize_covar_pdaf,
-                                 c__PDAFcython.c__next_observation_pdaf,
-                                 &flag
-                                )
+    with nogil:
+        c__pdafomi_assimilate_lenkf (c__PDAFcython.c__collect_state_pdaf,
+                                     c__PDAFcython.c__distribute_state_pdaf,
+                                     c__PDAFcython.c__init_dim_obs_pdaf,
+                                     c__PDAFcython.c__obs_op_pdaf,
+                                     c__PDAFcython.c__prepoststep_pdaf,
+                                     c__PDAFcython.c__localize_covar_pdaf,
+                                     c__PDAFcython.c__next_observation_pdaf,
+                                     &flag
+                                    )
 
     return flag
 
@@ -19382,19 +19512,19 @@ def omi_assimilate_local (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -19403,26 +19533,26 @@ def omi_assimilate_local (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -19431,14 +19561,14 @@ def omi_assimilate_local (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__init_n_domains_p_pdaf : Callable[step:int, n_domains_p:int]
@@ -19533,9 +19663,9 @@ def omi_assimilate_local (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -19544,9 +19674,9 @@ def omi_assimilate_local (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -19572,19 +19702,20 @@ def omi_assimilate_local (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdafomi_assimilate_local (c__PDAFcython.c__collect_state_pdaf,
-                                 c__PDAFcython.c__distribute_state_pdaf,
-                                 c__PDAFcython.c__init_dim_obs_pdaf,
-                                 c__PDAFcython.c__obs_op_pdaf,
-                                 c__PDAFcython.c__prepoststep_pdaf,
-                                 c__PDAFcython.c__init_n_domains_p_pdaf,
-                                 c__PDAFcython.c__init_dim_l_pdaf,
-                                 c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                 c__PDAFcython.c__g2l_state_pdaf,
-                                 c__PDAFcython.c__l2g_state_pdaf,
-                                 c__PDAFcython.c__next_observation_pdaf,
-                                 &flag
-                                )
+    with nogil:
+        c__pdafomi_assimilate_local (c__PDAFcython.c__collect_state_pdaf,
+                                     c__PDAFcython.c__distribute_state_pdaf,
+                                     c__PDAFcython.c__init_dim_obs_pdaf,
+                                     c__PDAFcython.c__obs_op_pdaf,
+                                     c__PDAFcython.c__prepoststep_pdaf,
+                                     c__PDAFcython.c__init_n_domains_p_pdaf,
+                                     c__PDAFcython.c__init_dim_l_pdaf,
+                                     c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                     c__PDAFcython.c__g2l_state_pdaf,
+                                     c__PDAFcython.c__l2g_state_pdaf,
+                                     c__PDAFcython.c__next_observation_pdaf,
+                                     &flag
+                                    )
 
     return flag
 
@@ -19680,19 +19811,19 @@ def omi_generate_obs (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__get_obs_f_pdaf : Callable[step:int, dim_obs_f:int, observation_f : ndarray[tuple[dim_obs_f], np.float64]]
         Provide observation vector to user
 
@@ -19715,26 +19846,26 @@ def omi_generate_obs (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -19743,14 +19874,14 @@ def omi_generate_obs (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -19763,9 +19894,9 @@ def omi_generate_obs (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -19774,9 +19905,9 @@ def omi_generate_obs (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -19798,15 +19929,16 @@ def omi_generate_obs (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdafomi_generate_obs (c__PDAFcython.c__collect_state_pdaf,
-                             c__PDAFcython.c__distribute_state_pdaf,
-                             c__PDAFcython.c__init_dim_obs_pdaf,
-                             c__PDAFcython.c__obs_op_pdaf,
-                             c__PDAFcython.c__get_obs_f_pdaf,
-                             c__PDAFcython.c__prepoststep_pdaf,
-                             c__PDAFcython.c__next_observation_pdaf,
-                             &flag
-                            )
+    with nogil:
+        c__pdafomi_generate_obs (c__PDAFcython.c__collect_state_pdaf,
+                                 c__PDAFcython.c__distribute_state_pdaf,
+                                 c__PDAFcython.c__init_dim_obs_pdaf,
+                                 c__PDAFcython.c__obs_op_pdaf,
+                                 c__PDAFcython.c__get_obs_f_pdaf,
+                                 c__PDAFcython.c__prepoststep_pdaf,
+                                 c__PDAFcython.c__next_observation_pdaf,
+                                 &flag
+                                )
 
     return flag
 
@@ -19897,19 +20029,19 @@ def omi_put_state_3dvar (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__cvt_pdaf : Callable[iter:int, dim_p:int, dim_cvec:int, cv_p : ndarray[tuple[dim_cvec], np.float64], Vv_p : ndarray[tuple[dim_p], np.float64]]
         Apply control vector transform matrix to control vector
 
@@ -19990,26 +20122,26 @@ def omi_put_state_3dvar (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -20018,14 +20150,14 @@ def omi_put_state_3dvar (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     outflag : int
@@ -20046,16 +20178,17 @@ def omi_put_state_3dvar (py__collect_state_pdaf,
     c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
-    c__pdafomi_put_state_3dvar (c__PDAFcython.c__collect_state_pdaf,
-                                c__PDAFcython.c__init_dim_obs_pdaf,
-                                c__PDAFcython.c__obs_op_pdaf,
-                                c__PDAFcython.c__cvt_pdaf,
-                                c__PDAFcython.c__cvt_adj_pdaf,
-                                c__PDAFcython.c__obs_op_lin_pdaf,
-                                c__PDAFcython.c__obs_op_adj_pdaf,
-                                c__PDAFcython.c__prepoststep_pdaf,
-                                &outflag
-                               )
+    with nogil:
+        c__pdafomi_put_state_3dvar (c__PDAFcython.c__collect_state_pdaf,
+                                    c__PDAFcython.c__init_dim_obs_pdaf,
+                                    c__PDAFcython.c__obs_op_pdaf,
+                                    c__PDAFcython.c__cvt_pdaf,
+                                    c__PDAFcython.c__cvt_adj_pdaf,
+                                    c__PDAFcython.c__obs_op_lin_pdaf,
+                                    c__PDAFcython.c__obs_op_adj_pdaf,
+                                    c__PDAFcython.c__prepoststep_pdaf,
+                                    &outflag
+                                   )
 
     return outflag
 
@@ -20156,19 +20289,19 @@ def omi_put_state_en3dvar_estkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__cvt_ens_pdaf : Callable[iter:int, dim_p:int, dim_ens:int, dim_cvec_ens:int, ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], v_p : ndarray[tuple[dim_cvec_ens], np.float64], Vv_p : ndarray[tuple[dim_p], np.float64]]
         Apply control vector transform matrix to control vector
 
@@ -20257,26 +20390,26 @@ def omi_put_state_en3dvar_estkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -20285,14 +20418,14 @@ def omi_put_state_en3dvar_estkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     outflag : int
@@ -20313,16 +20446,17 @@ def omi_put_state_en3dvar_estkf (py__collect_state_pdaf,
     c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
-    c__pdafomi_put_state_en3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
-                                        c__PDAFcython.c__init_dim_obs_pdaf,
-                                        c__PDAFcython.c__obs_op_pdaf,
-                                        c__PDAFcython.c__cvt_ens_pdaf,
-                                        c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                        c__PDAFcython.c__obs_op_lin_pdaf,
-                                        c__PDAFcython.c__obs_op_adj_pdaf,
-                                        c__PDAFcython.c__prepoststep_pdaf,
-                                        &outflag
-                                       )
+    with nogil:
+        c__pdafomi_put_state_en3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
+                                            c__PDAFcython.c__init_dim_obs_pdaf,
+                                            c__PDAFcython.c__obs_op_pdaf,
+                                            c__PDAFcython.c__cvt_ens_pdaf,
+                                            c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                            c__PDAFcython.c__obs_op_lin_pdaf,
+                                            c__PDAFcython.c__obs_op_adj_pdaf,
+                                            c__PDAFcython.c__prepoststep_pdaf,
+                                            &outflag
+                                           )
 
     return outflag
 
@@ -20442,19 +20576,19 @@ def omi_put_state_en3dvar_lestkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__cvt_ens_pdaf : Callable[iter:int, dim_p:int, dim_ens:int, dim_cvec_ens:int, ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], v_p : ndarray[tuple[dim_cvec_ens], np.float64], Vv_p : ndarray[tuple[dim_p], np.float64]]
         Apply control vector transform matrix to control vector
 
@@ -20625,26 +20759,26 @@ def omi_put_state_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -20653,14 +20787,14 @@ def omi_put_state_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     outflag : int
@@ -20686,21 +20820,22 @@ def omi_put_state_en3dvar_lestkf (py__collect_state_pdaf,
     c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
-    c__pdafomi_put_state_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                                         c__PDAFcython.c__init_dim_obs_pdaf,
-                                         c__PDAFcython.c__obs_op_pdaf,
-                                         c__PDAFcython.c__cvt_ens_pdaf,
-                                         c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                         c__PDAFcython.c__obs_op_lin_pdaf,
-                                         c__PDAFcython.c__obs_op_adj_pdaf,
-                                         c__PDAFcython.c__init_n_domains_p_pdaf,
-                                         c__PDAFcython.c__init_dim_l_pdaf,
-                                         c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                         c__PDAFcython.c__g2l_state_pdaf,
-                                         c__PDAFcython.c__l2g_state_pdaf,
-                                         c__PDAFcython.c__prepoststep_pdaf,
-                                         &outflag
-                                        )
+    with nogil:
+        c__pdafomi_put_state_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                             c__PDAFcython.c__init_dim_obs_pdaf,
+                                             c__PDAFcython.c__obs_op_pdaf,
+                                             c__PDAFcython.c__cvt_ens_pdaf,
+                                             c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                             c__PDAFcython.c__obs_op_lin_pdaf,
+                                             c__PDAFcython.c__obs_op_adj_pdaf,
+                                             c__PDAFcython.c__init_n_domains_p_pdaf,
+                                             c__PDAFcython.c__init_dim_l_pdaf,
+                                             c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                             c__PDAFcython.c__g2l_state_pdaf,
+                                             c__PDAFcython.c__l2g_state_pdaf,
+                                             c__PDAFcython.c__prepoststep_pdaf,
+                                             &outflag
+                                            )
 
     return outflag
 
@@ -20789,19 +20924,19 @@ def omi_put_state_generate_obs (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__get_obs_f_pdaf : Callable[step:int, dim_obs_f:int, observation_f : ndarray[tuple[dim_obs_f], np.float64]]
         Provide observation vector to user
 
@@ -20824,26 +20959,26 @@ def omi_put_state_generate_obs (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -20852,14 +20987,14 @@ def omi_put_state_generate_obs (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
 
@@ -20877,13 +21012,14 @@ def omi_put_state_generate_obs (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdafomi_put_state_generate_obs (c__PDAFcython.c__collect_state_pdaf,
-                                       c__PDAFcython.c__init_dim_obs_pdaf,
-                                       c__PDAFcython.c__obs_op_pdaf,
-                                       c__PDAFcython.c__get_obs_f_pdaf,
-                                       c__PDAFcython.c__prepoststep_pdaf,
-                                       &flag
-                                      )
+    with nogil:
+        c__pdafomi_put_state_generate_obs (c__PDAFcython.c__collect_state_pdaf,
+                                           c__PDAFcython.c__init_dim_obs_pdaf,
+                                           c__PDAFcython.c__obs_op_pdaf,
+                                           c__PDAFcython.c__get_obs_f_pdaf,
+                                           c__PDAFcython.c__prepoststep_pdaf,
+                                           &flag
+                                          )
 
     return flag
 
@@ -21005,19 +21141,19 @@ def omi_put_state_global (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -21026,26 +21162,26 @@ def omi_put_state_global (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -21054,14 +21190,14 @@ def omi_put_state_global (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
 
@@ -21078,12 +21214,13 @@ def omi_put_state_global (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdafomi_put_state_global (c__PDAFcython.c__collect_state_pdaf,
-                                 c__PDAFcython.c__init_dim_obs_pdaf,
-                                 c__PDAFcython.c__obs_op_pdaf,
-                                 c__PDAFcython.c__prepoststep_pdaf,
-                                 &flag
-                                )
+    with nogil:
+        c__pdafomi_put_state_global (c__PDAFcython.c__collect_state_pdaf,
+                                     c__PDAFcython.c__init_dim_obs_pdaf,
+                                     c__PDAFcython.c__obs_op_pdaf,
+                                     c__PDAFcython.c__prepoststep_pdaf,
+                                     &flag
+                                    )
 
     return flag
 
@@ -21196,19 +21333,19 @@ def omi_put_state_hyb3dvar_estkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__cvt_ens_pdaf : Callable[iter:int, dim_p:int, dim_ens:int, dim_cvec_ens:int, ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], v_p : ndarray[tuple[dim_cvec_ens], np.float64], Vv_p : ndarray[tuple[dim_p], np.float64]]
         Apply ensemble control vector transform matrix to control vector
 
@@ -21333,26 +21470,26 @@ def omi_put_state_hyb3dvar_estkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -21361,14 +21498,14 @@ def omi_put_state_hyb3dvar_estkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     outflag : int
@@ -21391,18 +21528,19 @@ def omi_put_state_hyb3dvar_estkf (py__collect_state_pdaf,
     c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
-    c__pdafomi_put_state_hyb3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
-                                         c__PDAFcython.c__init_dim_obs_pdaf,
-                                         c__PDAFcython.c__obs_op_pdaf,
-                                         c__PDAFcython.c__cvt_ens_pdaf,
-                                         c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                         c__PDAFcython.c__cvt_pdaf,
-                                         c__PDAFcython.c__cvt_adj_pdaf,
-                                         c__PDAFcython.c__obs_op_lin_pdaf,
-                                         c__PDAFcython.c__obs_op_adj_pdaf,
-                                         c__PDAFcython.c__prepoststep_pdaf,
-                                         &outflag
-                                        )
+    with nogil:
+        c__pdafomi_put_state_hyb3dvar_estkf (c__PDAFcython.c__collect_state_pdaf,
+                                             c__PDAFcython.c__init_dim_obs_pdaf,
+                                             c__PDAFcython.c__obs_op_pdaf,
+                                             c__PDAFcython.c__cvt_ens_pdaf,
+                                             c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                             c__PDAFcython.c__cvt_pdaf,
+                                             c__PDAFcython.c__cvt_adj_pdaf,
+                                             c__PDAFcython.c__obs_op_lin_pdaf,
+                                             c__PDAFcython.c__obs_op_adj_pdaf,
+                                             c__PDAFcython.c__prepoststep_pdaf,
+                                             &outflag
+                                            )
 
     return outflag
 
@@ -21531,19 +21669,19 @@ def omi_put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__cvt_ens_pdaf : Callable[iter:int, dim_p:int, dim_ens:int, dim_cvec_ens:int, ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], v_p : ndarray[tuple[dim_cvec_ens], np.float64], Vv_p : ndarray[tuple[dim_p], np.float64]]
         Apply control vector transform matrix to control vector
 
@@ -21750,26 +21888,26 @@ def omi_put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -21778,14 +21916,14 @@ def omi_put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     outflag : int
@@ -21813,23 +21951,24 @@ def omi_put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
     c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
-    c__pdafomi_put_state_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                                          c__PDAFcython.c__init_dim_obs_pdaf,
-                                          c__PDAFcython.c__obs_op_pdaf,
-                                          c__PDAFcython.c__cvt_ens_pdaf,
-                                          c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                          c__PDAFcython.c__cvt_pdaf,
-                                          c__PDAFcython.c__cvt_adj_pdaf,
-                                          c__PDAFcython.c__obs_op_lin_pdaf,
-                                          c__PDAFcython.c__obs_op_adj_pdaf,
-                                          c__PDAFcython.c__init_n_domains_p_pdaf,
-                                          c__PDAFcython.c__init_dim_l_pdaf,
-                                          c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                          c__PDAFcython.c__g2l_state_pdaf,
-                                          c__PDAFcython.c__l2g_state_pdaf,
-                                          c__PDAFcython.c__prepoststep_pdaf,
-                                          &outflag
-                                         )
+    with nogil:
+        c__pdafomi_put_state_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                              c__PDAFcython.c__init_dim_obs_pdaf,
+                                              c__PDAFcython.c__obs_op_pdaf,
+                                              c__PDAFcython.c__cvt_ens_pdaf,
+                                              c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                              c__PDAFcython.c__cvt_pdaf,
+                                              c__PDAFcython.c__cvt_adj_pdaf,
+                                              c__PDAFcython.c__obs_op_lin_pdaf,
+                                              c__PDAFcython.c__obs_op_adj_pdaf,
+                                              c__PDAFcython.c__init_n_domains_p_pdaf,
+                                              c__PDAFcython.c__init_dim_l_pdaf,
+                                              c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                              c__PDAFcython.c__g2l_state_pdaf,
+                                              c__PDAFcython.c__l2g_state_pdaf,
+                                              c__PDAFcython.c__prepoststep_pdaf,
+                                              &outflag
+                                             )
 
     return outflag
 
@@ -21924,19 +22063,19 @@ def omi_put_state_lenkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -21945,26 +22084,26 @@ def omi_put_state_lenkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -21973,14 +22112,14 @@ def omi_put_state_lenkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__localize_covar_pdaf : Callable[dim_p:int, dim_obs:int, hp_p : ndarray[tuple[dim_obs, dim_p], np.float64], hph : ndarray[tuple[dim_obs, dim_obs], np.float64]]
@@ -22016,13 +22155,14 @@ def omi_put_state_lenkf (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdafomi_put_state_lenkf (c__PDAFcython.c__collect_state_pdaf,
-                                c__PDAFcython.c__init_dim_obs_pdaf,
-                                c__PDAFcython.c__obs_op_pdaf,
-                                c__PDAFcython.c__prepoststep_pdaf,
-                                c__PDAFcython.c__localize_covar_pdaf,
-                                &flag
-                               )
+    with nogil:
+        c__pdafomi_put_state_lenkf (c__PDAFcython.c__collect_state_pdaf,
+                                    c__PDAFcython.c__init_dim_obs_pdaf,
+                                    c__PDAFcython.c__obs_op_pdaf,
+                                    c__PDAFcython.c__prepoststep_pdaf,
+                                    c__PDAFcython.c__localize_covar_pdaf,
+                                    &flag
+                                   )
 
     return flag
 
@@ -22145,19 +22285,19 @@ def omi_put_state_local (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -22166,26 +22306,26 @@ def omi_put_state_local (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -22194,14 +22334,14 @@ def omi_put_state_local (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__init_n_domains_p_pdaf : Callable[step:int, n_domains_p:int]
@@ -22305,17 +22445,18 @@ def omi_put_state_local (py__collect_state_pdaf,
 
     cdef int flag
 
-    c__pdafomi_put_state_local (c__PDAFcython.c__collect_state_pdaf,
-                                c__PDAFcython.c__init_dim_obs_pdaf,
-                                c__PDAFcython.c__obs_op_pdaf,
-                                c__PDAFcython.c__prepoststep_pdaf,
-                                c__PDAFcython.c__init_n_domains_p_pdaf,
-                                c__PDAFcython.c__init_dim_l_pdaf,
-                                c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                c__PDAFcython.c__g2l_state_pdaf,
-                                c__PDAFcython.c__l2g_state_pdaf,
-                                &flag
-                               )
+    with nogil:
+        c__pdafomi_put_state_local (c__PDAFcython.c__collect_state_pdaf,
+                                    c__PDAFcython.c__init_dim_obs_pdaf,
+                                    c__PDAFcython.c__obs_op_pdaf,
+                                    c__PDAFcython.c__prepoststep_pdaf,
+                                    c__PDAFcython.c__init_n_domains_p_pdaf,
+                                    c__PDAFcython.c__init_dim_l_pdaf,
+                                    c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                    c__PDAFcython.c__g2l_state_pdaf,
+                                    c__PDAFcython.c__l2g_state_pdaf,
+                                    &flag
+                                   )
 
     return flag
 
@@ -22344,10 +22485,11 @@ def omi_init_obs_f_cb (int step,
         The array dimension `dim_obs_f` is Dimension of full observation vector
     """
 
-    c__pdafomi_init_obs_f_cb (&step,
-                              &dim_obs_f,
-                              &observation_f[0]
-                             )
+    with nogil:
+        c__pdafomi_init_obs_f_cb (&step,
+                                  &dim_obs_f,
+                                  &observation_f[0]
+                                 )
 
     return np.asarray(observation_f).reshape((dim_obs_f), order='F')
 
@@ -22377,11 +22519,12 @@ def omi_init_obsvar_cb (int step,
         Mean observation error variance
     """
 
-    c__pdafomi_init_obsvar_cb (&step,
-                               &dim_obs_p,
-                               &obs_p[0],
-                               &meanvar
-                              )
+    with nogil:
+        c__pdafomi_init_obsvar_cb (&step,
+                                   &dim_obs_p,
+                                   &obs_p[0],
+                                   &meanvar
+                                  )
 
     return meanvar
 
@@ -22422,13 +22565,14 @@ def omi_g2l_obs_cb (int domain_p,
         The array dimension `dim_obs_l` is Dimension of local observation vector
     """
 
-    c__pdafomi_g2l_obs_cb (&domain_p,
-                           &step,
-                           &dim_obs_f,
-                           &dim_obs_l,
-                           &ostate_f[0],
-                           &ostate_l[0]
-                          )
+    with nogil:
+        c__pdafomi_g2l_obs_cb (&domain_p,
+                               &step,
+                               &dim_obs_f,
+                               &dim_obs_l,
+                               &ostate_f[0],
+                               &ostate_l[0]
+                              )
 
     return np.asarray(ostate_l).reshape((dim_obs_l), order='F')
 
@@ -22460,11 +22604,12 @@ def omi_init_obs_l_cb (int domain_p,
         The array dimension `dim_obs_l` is Local dimension of observation vector
     """
 
-    c__pdafomi_init_obs_l_cb (&domain_p,
-                              &step,
-                              &dim_obs_l,
-                              &observation_l[0]
-                             )
+    with nogil:
+        c__pdafomi_init_obs_l_cb (&domain_p,
+                                  &step,
+                                  &dim_obs_l,
+                                  &observation_l[0]
+                                 )
 
     return np.asarray(observation_l).reshape((dim_obs_l), order='F')
 
@@ -22497,12 +22642,13 @@ def omi_init_obsvar_l_cb (int domain_p,
         Mean local observation error variance
     """
 
-    c__pdafomi_init_obsvar_l_cb (&domain_p,
-                                 &step,
-                                 &dim_obs_l,
-                                 &obs_l[0],
-                                 &meanvar_l
-                                )
+    with nogil:
+        c__pdafomi_init_obsvar_l_cb (&domain_p,
+                                     &step,
+                                     &dim_obs_l,
+                                     &obs_l[0],
+                                     &meanvar_l
+                                    )
 
     return meanvar_l
 
@@ -22557,14 +22703,15 @@ def omi_prodRinvA_l_cb (int domain_p,
 
     cdef double[::1] A_l_f = np.asfortranarray(A_l).ravel(order="F")
     cdef double[::1] C_l_f = np.asfortranarray(C_l).ravel(order="F")
-    c__pdafomi_prodrinva_l_cb (&domain_p,
-                               &step,
-                               &dim_obs_l,
-                               &rank,
-                               &obs_l[0],
-                               &A_l_f[0],
-                               &C_l_f[0]
-                              )
+    with nogil:
+        c__pdafomi_prodrinva_l_cb (&domain_p,
+                                   &step,
+                                   &dim_obs_l,
+                                   &rank,
+                                   &obs_l[0],
+                                   &A_l_f[0],
+                                   &C_l_f[0]
+                                  )
 
     return np.asarray(A_l).reshape((dim_obs_l, rank), order='F'), np.asarray(C_l).reshape((dim_obs_l, rank), order='F')
 
@@ -22606,13 +22753,14 @@ def omi_likelihood_l_cb (int domain_p,
         Output vector - log likelihood
     """
 
-    c__pdafomi_likelihood_l_cb (&domain_p,
-                                &step,
-                                &dim_obs_l,
-                                &obs_l[0],
-                                &resid_l[0],
-                                &lhood_l
-                               )
+    with nogil:
+        c__pdafomi_likelihood_l_cb (&domain_p,
+                                    &step,
+                                    &dim_obs_l,
+                                    &obs_l[0],
+                                    &resid_l[0],
+                                    &lhood_l
+                                   )
 
     return np.asarray(resid_l).reshape((dim_obs_l), order='F'), lhood_l
 
@@ -22659,13 +22807,14 @@ def omi_prodRinvA_cb (int step,
 
     cdef double[::1] A_p_f = np.asfortranarray(A_p).ravel(order="F")
     cdef double[::1] C_p_f = np.asfortranarray(C_p).ravel(order="F")
-    c__pdafomi_prodrinva_cb (&step,
-                             &dim_obs_p,
-                             &ncol,
-                             &obs_p[0],
-                             &A_p_f[0],
-                             &C_p_f[0]
-                            )
+    with nogil:
+        c__pdafomi_prodrinva_cb (&step,
+                                 &dim_obs_p,
+                                 &ncol,
+                                 &obs_p[0],
+                                 &A_p_f[0],
+                                 &C_p_f[0]
+                                )
 
     return np.asarray(C_p).reshape((dim_obs_p, ncol), order='F')
 
@@ -22700,12 +22849,13 @@ def omi_likelihood_cb (int step,
         Output vector - log likelihood
     """
 
-    c__pdafomi_likelihood_cb (&step,
-                              &dim_obs,
-                              &obs[0],
-                              &resid[0],
-                              &lhood
-                             )
+    with nogil:
+        c__pdafomi_likelihood_cb (&step,
+                                  &dim_obs,
+                                  &obs[0],
+                                  &resid[0],
+                                  &lhood
+                                 )
 
     return lhood
 
@@ -22737,10 +22887,11 @@ def omi_add_obs_error_cb (int step,
     """
 
     cdef double[::1] C_p_f = np.asfortranarray(C_p).ravel(order="F")
-    c__pdafomi_add_obs_error_cb (&step,
-                                 &dim_obs_p,
-                                 &C_p_f[0]
-                                )
+    with nogil:
+        c__pdafomi_add_obs_error_cb (&step,
+                                     &dim_obs_p,
+                                     &C_p_f[0]
+                                    )
 
     return np.asarray(C_p).reshape((dim_obs_p, dim_obs_p), order='F')
 
@@ -22785,13 +22936,14 @@ def omi_init_obscovar_cb (int step,
     """
 
     cdef double[::1] covar_f = np.asfortranarray(covar).ravel(order="F")
-    c__pdafomi_init_obscovar_cb (&step,
-                                 &dim_obs,
-                                 &dim_obs_p,
-                                 &covar_f[0],
-                                 &m_state_p[0],
-                                 &isdiag
-                                )
+    with nogil:
+        c__pdafomi_init_obscovar_cb (&step,
+                                     &dim_obs,
+                                     &dim_obs_p,
+                                     &covar_f[0],
+                                     &m_state_p[0],
+                                     &isdiag
+                                    )
 
     return np.asarray(covar).reshape((dim_obs, dim_obs), order='F'), isdiag
 
@@ -22825,11 +22977,12 @@ def omi_init_obserr_f_cb (int step,
         The array dimension `dim_obs_f` is Full dimension of observation vector
     """
 
-    c__pdafomi_init_obserr_f_cb (&step,
-                                 &dim_obs_f,
-                                 &obs_f[0],
-                                 &obserr_f[0]
-                                )
+    with nogil:
+        c__pdafomi_init_obserr_f_cb (&step,
+                                     &dim_obs_f,
+                                     &obs_f[0],
+                                     &obserr_f[0]
+                                    )
 
     return np.asarray(obserr_f).reshape((dim_obs_f), order='F')
 
@@ -22887,15 +23040,16 @@ def omi_prodRinvA_hyb_l_cb (int domain_p,
 
     cdef double[::1] A_l_f = np.asfortranarray(A_l).ravel(order="F")
     cdef double[::1] C_l_f = np.asfortranarray(C_l).ravel(order="F")
-    c__pdafomi_prodrinva_hyb_l_cb (&domain_p,
-                                   &step,
-                                   &dim_obs_l,
-                                   &rank,
-                                   &obs_l[0],
-                                   &alpha,
-                                   &A_l_f[0],
-                                   &C_l_f[0]
-                                  )
+    with nogil:
+        c__pdafomi_prodrinva_hyb_l_cb (&domain_p,
+                                       &step,
+                                       &dim_obs_l,
+                                       &rank,
+                                       &obs_l[0],
+                                       &alpha,
+                                       &A_l_f[0],
+                                       &C_l_f[0]
+                                      )
 
     return np.asarray(A_l).reshape((dim_obs_l, rank), order='F'), np.asarray(C_l).reshape((dim_obs_l, rank), order='F')
 
@@ -22940,14 +23094,15 @@ def omi_likelihood_hyb_l_cb (int domain_p,
         Output vector - log likelihood
     """
 
-    c__pdafomi_likelihood_hyb_l_cb (&domain_p,
-                                    &step,
-                                    &dim_obs_l,
-                                    &obs_l[0],
-                                    &resid_l[0],
-                                    &alpha,
-                                    &lhood_l
-                                   )
+    with nogil:
+        c__pdafomi_likelihood_hyb_l_cb (&domain_p,
+                                        &step,
+                                        &dim_obs_l,
+                                        &obs_l[0],
+                                        &resid_l[0],
+                                        &alpha,
+                                        &lhood_l
+                                       )
 
     return np.asarray(resid_l).reshape((dim_obs_l), order='F'), lhood_l
 
@@ -22961,8 +23116,9 @@ def omi_obsstats_l (int screen
         Verbosity flag
     """
 
-    c__pdafomi_obsstats_l (&screen
-                          )
+    with nogil:
+        c__pdafomi_obsstats_l (&screen
+                              )
 
 def omi_weights_l (int verbose,
                    int locweight,
@@ -23024,17 +23180,18 @@ def omi_weights_l (int verbose,
 
     cdef double [::1] weight_l = np.zeros((nobs_l), dtype=np.float64).ravel()
 
-    c__pdafomi_weights_l (&verbose,
-                          &nobs_l,
-                          &ncols,
-                          &locweight,
-                          &cradius[0],
-                          &sradius[0],
-                          &matA_f[0],
-                          &ivar_obs_l[0],
-                          &dist_l[0],
-                          &weight_l[0]
-                         )
+    with nogil:
+        c__pdafomi_weights_l (&verbose,
+                              &nobs_l,
+                              &ncols,
+                              &locweight,
+                              &cradius[0],
+                              &sradius[0],
+                              &matA_f[0],
+                              &ivar_obs_l[0],
+                              &dist_l[0],
+                              &weight_l[0]
+                             )
 
     return np.asarray(weight_l).reshape((nobs_l), order='F')
 
@@ -23094,17 +23251,18 @@ def omi_weights_l_sgnl (int verbose,
 
     cdef double [::1] weight_l = np.zeros((nobs_l), dtype=np.float64).ravel()
 
-    c__pdafomi_weights_l_sgnl (&verbose,
-                               &nobs_l,
-                               &ncols,
-                               &locweight,
-                               &cradius,
-                               &sradius,
-                               &matA_f[0],
-                               &ivar_obs_l[0],
-                               &dist_l[0],
-                               &weight_l[0]
-                              )
+    with nogil:
+        c__pdafomi_weights_l_sgnl (&verbose,
+                                   &nobs_l,
+                                   &ncols,
+                                   &locweight,
+                                   &cradius,
+                                   &sradius,
+                                   &matA_f[0],
+                                   &ivar_obs_l[0],
+                                   &dist_l[0],
+                                   &weight_l[0]
+                                  )
 
     return np.asarray(weight_l).reshape((nobs_l), order='F')
 
@@ -23123,8 +23281,9 @@ def omi_check_error (int flag
         Error flag
     """
 
-    c__pdafomi_check_error (&flag
-                           )
+    with nogil:
+        c__pdafomi_check_error (&flag
+                               )
 
     return flag
 
@@ -23133,7 +23292,8 @@ def omi_gather_obsdims ():
 
     """
 
-    c__pdafomi_gather_obsdims ()
+    with nogil:
+        c__pdafomi_gather_obsdims ()
 
 def omi_obsstats (int screen
                  ):
@@ -23145,8 +23305,9 @@ def omi_obsstats (int screen
         Verbosity flag
     """
 
-    c__pdafomi_obsstats (&screen
-                        )
+    with nogil:
+        c__pdafomi_obsstats (&screen
+                            )
 
 def omi_init_dim_obs_l_iso (int i_obs,
                             double[::1] coords_l,
@@ -23188,14 +23349,15 @@ def omi_init_dim_obs_l_iso (int i_obs,
     cdef int ncoord
     ncoord = coords_l.shape[0]
 
-    c__pdafomi_init_dim_obs_l_iso (&i_obs,
-                                   &ncoord,
-                                   &coords_l[0],
-                                   &locweight,
-                                   &cradius,
-                                   &sradius,
-                                   &cnt_obs_l
-                                  )
+    with nogil:
+        c__pdafomi_init_dim_obs_l_iso (&i_obs,
+                                       &ncoord,
+                                       &coords_l[0],
+                                       &locweight,
+                                       &cradius,
+                                       &sradius,
+                                       &cnt_obs_l
+                                      )
 
     return cnt_obs_l
 
@@ -23243,14 +23405,15 @@ def omi_init_dim_obs_l_noniso (int i_obs,
     cdef int ncoord
     ncoord = coords_l.shape[0]
 
-    c__pdafomi_init_dim_obs_l_noniso (&i_obs,
-                                      &ncoord,
-                                      &coords_l[0],
-                                      &locweight,
-                                      &cradius[0],
-                                      &sradius[0],
-                                      &cnt_obs_l
-                                     )
+    with nogil:
+        c__pdafomi_init_dim_obs_l_noniso (&i_obs,
+                                          &ncoord,
+                                          &coords_l[0],
+                                          &locweight,
+                                          &cradius[0],
+                                          &sradius[0],
+                                          &cnt_obs_l
+                                         )
 
     return cnt_obs_l
 
@@ -23300,14 +23463,15 @@ def omi_init_dim_obs_l_noniso_locweights (int i_obs,
     cdef int ncoord
     ncoord = coords_l.shape[0]
 
-    c__pdafomi_init_dim_obs_l_noniso_locweights (&i_obs,
-                                                 &ncoord,
-                                                 &coords_l[0],
-                                                 &locweights[0],
-                                                 &cradius[0],
-                                                 &sradius[0],
-                                                 &cnt_obs_l
-                                                )
+    with nogil:
+        c__pdafomi_init_dim_obs_l_noniso_locweights (&i_obs,
+                                                     &ncoord,
+                                                     &coords_l[0],
+                                                     &locweights[0],
+                                                     &cradius[0],
+                                                     &sradius[0],
+                                                     &cnt_obs_l
+                                                    )
 
     return cnt_obs_l
 
@@ -23375,17 +23539,18 @@ def omi_localize_covar_iso (int i_obs,
     dim_obs = HP.shape[0]
     _ = HP.shape[1]
 
-    c__pdafomi_localize_covar_iso (&i_obs,
-                                   &dim_p,
-                                   &dim_obs,
-                                   &ncoord,
-                                   &locweight,
-                                   &cradius,
-                                   &sradius,
-                                   &coords_f[0],
-                                   &HP_f[0],
-                                   &HPH_f[0]
-                                  )
+    with nogil:
+        c__pdafomi_localize_covar_iso (&i_obs,
+                                       &dim_p,
+                                       &dim_obs,
+                                       &ncoord,
+                                       &locweight,
+                                       &cradius,
+                                       &sradius,
+                                       &coords_f[0],
+                                       &HP_f[0],
+                                       &HPH_f[0]
+                                      )
 
     return np.asarray(HP).reshape((dim_obs, dim_p), order='F'), np.asarray(HPH).reshape((dim_obs, dim_obs), order='F')
 
@@ -23457,17 +23622,18 @@ def omi_localize_covar_noniso (int i_obs,
     dim_obs = HP.shape[0]
     _ = HP.shape[1]
 
-    c__pdafomi_localize_covar_noniso (&i_obs,
-                                      &dim_p,
-                                      &dim_obs,
-                                      &ncoord,
-                                      &locweight,
-                                      &cradius[0],
-                                      &sradius[0],
-                                      &coords_f[0],
-                                      &HP_f[0],
-                                      &HPH_f[0]
-                                     )
+    with nogil:
+        c__pdafomi_localize_covar_noniso (&i_obs,
+                                          &dim_p,
+                                          &dim_obs,
+                                          &ncoord,
+                                          &locweight,
+                                          &cradius[0],
+                                          &sradius[0],
+                                          &coords_f[0],
+                                          &HP_f[0],
+                                          &HPH_f[0]
+                                         )
 
     return np.asarray(HP).reshape((dim_obs, dim_p), order='F'), np.asarray(HPH).reshape((dim_obs, dim_obs), order='F')
 
@@ -23541,17 +23707,18 @@ def omi_localize_covar_noniso_locweights (int i_obs,
     dim_obs = HP.shape[0]
     _ = HP.shape[1]
 
-    c__pdafomi_localize_covar_noniso_locweights (&i_obs,
-                                                 &dim_p,
-                                                 &dim_obs,
-                                                 &ncoord,
-                                                 &locweights[0],
-                                                 &cradius[0],
-                                                 &sradius[0],
-                                                 &coords_f[0],
-                                                 &HP_f[0],
-                                                 &HPH_f[0]
-                                                )
+    with nogil:
+        c__pdafomi_localize_covar_noniso_locweights (&i_obs,
+                                                     &dim_p,
+                                                     &dim_obs,
+                                                     &ncoord,
+                                                     &locweights[0],
+                                                     &cradius[0],
+                                                     &sradius[0],
+                                                     &coords_f[0],
+                                                     &HP_f[0],
+                                                     &HPH_f[0]
+                                                    )
 
     return np.asarray(HP).reshape((dim_obs, dim_p), order='F'), np.asarray(HPH).reshape((dim_obs, dim_obs), order='F')
 
@@ -23589,11 +23756,12 @@ def omi_omit_by_inno_l_cb (int domain_p,
         The array dimension `dim_obs_l` is PE-local dimension of obs. vector
     """
 
-    c__pdafomi_omit_by_inno_l_cb (&domain_p,
-                                  &dim_obs_l,
-                                  &resid_l[0],
-                                  &obs_l[0]
-                                 )
+    with nogil:
+        c__pdafomi_omit_by_inno_l_cb (&domain_p,
+                                      &dim_obs_l,
+                                      &resid_l[0],
+                                      &obs_l[0]
+                                     )
 
     return np.asarray(resid_l).reshape((dim_obs_l), order='F'), np.asarray(obs_l).reshape((dim_obs_l), order='F')
 
@@ -23628,10 +23796,11 @@ def omi_omit_by_inno_cb (int dim_obs_f,
         The array dimension `dim_obs_f` is Full dimension of obs. vector
     """
 
-    c__pdafomi_omit_by_inno_cb (&dim_obs_f,
-                                &resid_f[0],
-                                &obs_f[0]
-                               )
+    with nogil:
+        c__pdafomi_omit_by_inno_cb (&dim_obs_f,
+                                    &resid_f[0],
+                                    &obs_f[0]
+                                   )
 
     return np.asarray(resid_f).reshape((dim_obs_f), order='F'), np.asarray(obs_f).reshape((dim_obs_f), order='F')
 
@@ -23664,11 +23833,12 @@ def omi_set_localization (int i_obs,
         Observation type index
     """
 
-    c__pdafomi_set_localization (&i_obs,
-                                 &cradius,
-                                 &sradius,
-                                 &locweight
-                                )
+    with nogil:
+        c__pdafomi_set_localization (&i_obs,
+                                     &cradius,
+                                     &sradius,
+                                     &locweight
+                                    )
 
     return i_obs
 
@@ -23711,13 +23881,14 @@ def omi_set_localization_noniso (int i_obs,
     cdef int nradii
     nradii = cradius.shape[0]
 
-    c__pdafomi_set_localization_noniso (&i_obs,
-                                        &nradii,
-                                        &cradius[0],
-                                        &sradius[0],
-                                        &locweight,
-                                        &locweight_v
-                                       )
+    with nogil:
+        c__pdafomi_set_localization_noniso (&i_obs,
+                                            &nradii,
+                                            &cradius[0],
+                                            &sradius[0],
+                                            &locweight,
+                                            &locweight_v
+                                           )
 
     return i_obs
 
@@ -23746,10 +23917,11 @@ def omi_set_dim_obs_l (int i_obs,
         Local dimension of single observation type vector
     """
 
-    c__pdafomi_set_dim_obs_l (&i_obs,
-                              &cnt_obs_l_all,
-                              &cnt_obs_l
-                             )
+    with nogil:
+        c__pdafomi_set_dim_obs_l (&i_obs,
+                                  &cnt_obs_l_all,
+                                  &cnt_obs_l
+                                 )
 
     return i_obs, cnt_obs_l_all, cnt_obs_l
 
@@ -23788,13 +23960,14 @@ def omi_store_obs_l_index (int i_obs,
         Type of observation index
     """
 
-    c__pdafomi_store_obs_l_index (&i_obs,
-                                  &idx,
-                                  &id_obs_l,
-                                  &distance,
-                                  &cradius_l,
-                                  &sradius_l
-                                 )
+    with nogil:
+        c__pdafomi_store_obs_l_index (&i_obs,
+                                      &idx,
+                                      &id_obs_l,
+                                      &distance,
+                                      &cradius_l,
+                                      &sradius_l
+                                     )
 
     return i_obs
 
@@ -23834,14 +24007,15 @@ def omi_store_obs_l_index_vdist (int i_obs,
         Type of observation index
     """
 
-    c__pdafomi_store_obs_l_index_vdist (&i_obs,
-                                        &idx,
-                                        &id_obs_l,
-                                        &distance,
-                                        &cradius_l,
-                                        &sradius_l,
-                                        &vdist
-                                       )
+    with nogil:
+        c__pdafomi_store_obs_l_index_vdist (&i_obs,
+                                            &idx,
+                                            &id_obs_l,
+                                            &distance,
+                                            &cradius_l,
+                                            &sradius_l,
+                                            &vdist
+                                           )
 
     return i_obs
 
@@ -23945,19 +24119,19 @@ def omi_assimilate_3dvar_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
         Provide product R^-1 A
 
@@ -23968,8 +24142,8 @@ def omi_assimilate_3dvar_nondiagR (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -24060,26 +24234,26 @@ def omi_assimilate_3dvar_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -24088,14 +24262,14 @@ def omi_assimilate_3dvar_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -24108,9 +24282,9 @@ def omi_assimilate_3dvar_nondiagR (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -24119,9 +24293,9 @@ def omi_assimilate_3dvar_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -24147,19 +24321,20 @@ def omi_assimilate_3dvar_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
-    c__pdafomi_assimilate_3dvar_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                          c__PDAFcython.c__distribute_state_pdaf,
-                                          c__PDAFcython.c__init_dim_obs_pdaf,
-                                          c__PDAFcython.c__obs_op_pdaf,
-                                          c__PDAFcython.c__prodRinvA_pdaf,
-                                          c__PDAFcython.c__cvt_pdaf,
-                                          c__PDAFcython.c__cvt_adj_pdaf,
-                                          c__PDAFcython.c__obs_op_lin_pdaf,
-                                          c__PDAFcython.c__obs_op_adj_pdaf,
-                                          c__PDAFcython.c__prepoststep_pdaf,
-                                          c__PDAFcython.c__next_observation_pdaf,
-                                          &outflag
-                                         )
+    with nogil:
+        c__pdafomi_assimilate_3dvar_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                              c__PDAFcython.c__distribute_state_pdaf,
+                                              c__PDAFcython.c__init_dim_obs_pdaf,
+                                              c__PDAFcython.c__obs_op_pdaf,
+                                              c__PDAFcython.c__prodRinvA_pdaf,
+                                              c__PDAFcython.c__cvt_pdaf,
+                                              c__PDAFcython.c__cvt_adj_pdaf,
+                                              c__PDAFcython.c__obs_op_lin_pdaf,
+                                              c__PDAFcython.c__obs_op_adj_pdaf,
+                                              c__PDAFcython.c__prepoststep_pdaf,
+                                              c__PDAFcython.c__next_observation_pdaf,
+                                              &outflag
+                                             )
 
     return outflag
 
@@ -24269,19 +24444,19 @@ def omi_assimilate_en3dvar_estkf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
         Provide product R^-1 A
 
@@ -24292,8 +24467,8 @@ def omi_assimilate_en3dvar_estkf_nondiagR (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -24392,26 +24567,26 @@ def omi_assimilate_en3dvar_estkf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -24420,14 +24595,14 @@ def omi_assimilate_en3dvar_estkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -24440,9 +24615,9 @@ def omi_assimilate_en3dvar_estkf_nondiagR (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -24451,9 +24626,9 @@ def omi_assimilate_en3dvar_estkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -24479,19 +24654,20 @@ def omi_assimilate_en3dvar_estkf_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
-    c__pdafomi_assimilate_en3dvar_estkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                                  c__PDAFcython.c__distribute_state_pdaf,
-                                                  c__PDAFcython.c__init_dim_obs_pdaf,
-                                                  c__PDAFcython.c__obs_op_pdaf,
-                                                  c__PDAFcython.c__prodRinvA_pdaf,
-                                                  c__PDAFcython.c__cvt_ens_pdaf,
-                                                  c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                                  c__PDAFcython.c__obs_op_lin_pdaf,
-                                                  c__PDAFcython.c__obs_op_adj_pdaf,
-                                                  c__PDAFcython.c__prepoststep_pdaf,
-                                                  c__PDAFcython.c__next_observation_pdaf,
-                                                  &outflag
-                                                 )
+    with nogil:
+        c__pdafomi_assimilate_en3dvar_estkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                                      c__PDAFcython.c__distribute_state_pdaf,
+                                                      c__PDAFcython.c__init_dim_obs_pdaf,
+                                                      c__PDAFcython.c__obs_op_pdaf,
+                                                      c__PDAFcython.c__prodRinvA_pdaf,
+                                                      c__PDAFcython.c__cvt_ens_pdaf,
+                                                      c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                                      c__PDAFcython.c__obs_op_lin_pdaf,
+                                                      c__PDAFcython.c__obs_op_adj_pdaf,
+                                                      c__PDAFcython.c__prepoststep_pdaf,
+                                                      c__PDAFcython.c__next_observation_pdaf,
+                                                      &outflag
+                                                     )
 
     return outflag
 
@@ -24621,19 +24797,19 @@ def omi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
         Provide product R^-1 A
 
@@ -24644,8 +24820,8 @@ def omi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -24748,7 +24924,7 @@ def omi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -24849,26 +25025,26 @@ def omi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -24877,14 +25053,14 @@ def omi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -24897,9 +25073,9 @@ def omi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -24908,9 +25084,9 @@ def omi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -24942,25 +25118,26 @@ def omi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
-    c__pdafomi_assimilate_en3dvar_lestkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                                   c__PDAFcython.c__distribute_state_pdaf,
-                                                   c__PDAFcython.c__init_dim_obs_pdaf,
-                                                   c__PDAFcython.c__obs_op_pdaf,
-                                                   c__PDAFcython.c__prodRinvA_pdaf,
-                                                   c__PDAFcython.c__cvt_ens_pdaf,
-                                                   c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                                   c__PDAFcython.c__obs_op_lin_pdaf,
-                                                   c__PDAFcython.c__obs_op_adj_pdaf,
-                                                   c__PDAFcython.c__prodRinvA_l_pdaf,
-                                                   c__PDAFcython.c__init_n_domains_p_pdaf,
-                                                   c__PDAFcython.c__init_dim_l_pdaf,
-                                                   c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                                   c__PDAFcython.c__g2l_state_pdaf,
-                                                   c__PDAFcython.c__l2g_state_pdaf,
-                                                   c__PDAFcython.c__prepoststep_pdaf,
-                                                   c__PDAFcython.c__next_observation_pdaf,
-                                                   &outflag
-                                                  )
+    with nogil:
+        c__pdafomi_assimilate_en3dvar_lestkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                                       c__PDAFcython.c__distribute_state_pdaf,
+                                                       c__PDAFcython.c__init_dim_obs_pdaf,
+                                                       c__PDAFcython.c__obs_op_pdaf,
+                                                       c__PDAFcython.c__prodRinvA_pdaf,
+                                                       c__PDAFcython.c__cvt_ens_pdaf,
+                                                       c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                                       c__PDAFcython.c__obs_op_lin_pdaf,
+                                                       c__PDAFcython.c__obs_op_adj_pdaf,
+                                                       c__PDAFcython.c__prodRinvA_l_pdaf,
+                                                       c__PDAFcython.c__init_n_domains_p_pdaf,
+                                                       c__PDAFcython.c__init_dim_l_pdaf,
+                                                       c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                                       c__PDAFcython.c__g2l_state_pdaf,
+                                                       c__PDAFcython.c__l2g_state_pdaf,
+                                                       c__PDAFcython.c__prepoststep_pdaf,
+                                                       c__PDAFcython.c__next_observation_pdaf,
+                                                       &outflag
+                                                      )
 
     return outflag
 
@@ -25055,19 +25232,19 @@ def omi_assimilate_enkf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__add_obs_err_pdaf : Callable[step:int, dim_obs_p:int, C_p : ndarray[tuple[dim_obs_p, dim_obs_p], np.float64]]
         Add obs error covariance R to HPH in EnKF
 
@@ -25110,26 +25287,26 @@ def omi_assimilate_enkf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -25138,14 +25315,14 @@ def omi_assimilate_enkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -25156,9 +25333,9 @@ def omi_assimilate_enkf_nondiagR (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -25167,9 +25344,9 @@ def omi_assimilate_enkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -25192,16 +25369,17 @@ def omi_assimilate_enkf_nondiagR (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdafomi_assimilate_enkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                         c__PDAFcython.c__distribute_state_pdaf,
-                                         c__PDAFcython.c__init_dim_obs_pdaf,
-                                         c__PDAFcython.c__obs_op_pdaf,
-                                         c__PDAFcython.c__add_obs_err_pdaf,
-                                         c__PDAFcython.c__init_obs_covar_pdaf,
-                                         c__PDAFcython.c__prepoststep_pdaf,
-                                         c__PDAFcython.c__next_observation_pdaf,
-                                         &outflag
-                                        )
+    with nogil:
+        c__pdafomi_assimilate_enkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                             c__PDAFcython.c__distribute_state_pdaf,
+                                             c__PDAFcython.c__init_dim_obs_pdaf,
+                                             c__PDAFcython.c__obs_op_pdaf,
+                                             c__PDAFcython.c__add_obs_err_pdaf,
+                                             c__PDAFcython.c__init_obs_covar_pdaf,
+                                             c__PDAFcython.c__prepoststep_pdaf,
+                                             c__PDAFcython.c__next_observation_pdaf,
+                                             &outflag
+                                            )
 
     return outflag
 
@@ -25301,19 +25479,19 @@ def omi_assimilate_global_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
         Provide product R^-1 A
 
@@ -25324,8 +25502,8 @@ def omi_assimilate_global_nondiagR (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -25344,26 +25522,26 @@ def omi_assimilate_global_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -25372,14 +25550,14 @@ def omi_assimilate_global_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -25392,9 +25570,9 @@ def omi_assimilate_global_nondiagR (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -25403,9 +25581,9 @@ def omi_assimilate_global_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -25427,15 +25605,16 @@ def omi_assimilate_global_nondiagR (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdafomi_assimilate_global_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                           c__PDAFcython.c__distribute_state_pdaf,
-                                           c__PDAFcython.c__init_dim_obs_pdaf,
-                                           c__PDAFcython.c__obs_op_pdaf,
-                                           c__PDAFcython.c__prodRinvA_pdaf,
-                                           c__PDAFcython.c__prepoststep_pdaf,
-                                           c__PDAFcython.c__next_observation_pdaf,
-                                           &outflag
-                                          )
+    with nogil:
+        c__pdafomi_assimilate_global_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                               c__PDAFcython.c__distribute_state_pdaf,
+                                               c__PDAFcython.c__init_dim_obs_pdaf,
+                                               c__PDAFcython.c__obs_op_pdaf,
+                                               c__PDAFcython.c__prodRinvA_pdaf,
+                                               c__PDAFcython.c__prepoststep_pdaf,
+                                               c__PDAFcython.c__next_observation_pdaf,
+                                               &outflag
+                                              )
 
     return outflag
 
@@ -25555,19 +25734,19 @@ def omi_assimilate_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
         Provide product R^-1 A
 
@@ -25578,8 +25757,8 @@ def omi_assimilate_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -25714,26 +25893,26 @@ def omi_assimilate_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -25742,14 +25921,14 @@ def omi_assimilate_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -25762,9 +25941,9 @@ def omi_assimilate_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -25773,9 +25952,9 @@ def omi_assimilate_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -25803,21 +25982,22 @@ def omi_assimilate_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
-    c__pdafomi_assimilate_hyb3dvar_estkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                                   c__PDAFcython.c__distribute_state_pdaf,
-                                                   c__PDAFcython.c__init_dim_obs_pdaf,
-                                                   c__PDAFcython.c__obs_op_pdaf,
-                                                   c__PDAFcython.c__prodRinvA_pdaf,
-                                                   c__PDAFcython.c__cvt_ens_pdaf,
-                                                   c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                                   c__PDAFcython.c__cvt_pdaf,
-                                                   c__PDAFcython.c__cvt_adj_pdaf,
-                                                   c__PDAFcython.c__obs_op_lin_pdaf,
-                                                   c__PDAFcython.c__obs_op_adj_pdaf,
-                                                   c__PDAFcython.c__prepoststep_pdaf,
-                                                   c__PDAFcython.c__next_observation_pdaf,
-                                                   &outflag
-                                                  )
+    with nogil:
+        c__pdafomi_assimilate_hyb3dvar_estkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                                       c__PDAFcython.c__distribute_state_pdaf,
+                                                       c__PDAFcython.c__init_dim_obs_pdaf,
+                                                       c__PDAFcython.c__obs_op_pdaf,
+                                                       c__PDAFcython.c__prodRinvA_pdaf,
+                                                       c__PDAFcython.c__cvt_ens_pdaf,
+                                                       c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                                       c__PDAFcython.c__cvt_pdaf,
+                                                       c__PDAFcython.c__cvt_adj_pdaf,
+                                                       c__PDAFcython.c__obs_op_lin_pdaf,
+                                                       c__PDAFcython.c__obs_op_adj_pdaf,
+                                                       c__PDAFcython.c__prepoststep_pdaf,
+                                                       c__PDAFcython.c__next_observation_pdaf,
+                                                       &outflag
+                                                      )
 
     return outflag
 
@@ -25955,19 +26135,19 @@ def omi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
         Provide product R^-1 A
 
@@ -25978,8 +26158,8 @@ def omi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -26118,7 +26298,7 @@ def omi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -26219,26 +26399,26 @@ def omi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -26247,14 +26427,14 @@ def omi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -26267,9 +26447,9 @@ def omi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -26278,9 +26458,9 @@ def omi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -26314,27 +26494,28 @@ def omi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
-    c__pdafomi_assimilate_hyb3dvar_lestkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                                    c__PDAFcython.c__distribute_state_pdaf,
-                                                    c__PDAFcython.c__init_dim_obs_pdaf,
-                                                    c__PDAFcython.c__obs_op_pdaf,
-                                                    c__PDAFcython.c__prodRinvA_pdaf,
-                                                    c__PDAFcython.c__cvt_ens_pdaf,
-                                                    c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                                    c__PDAFcython.c__cvt_pdaf,
-                                                    c__PDAFcython.c__cvt_adj_pdaf,
-                                                    c__PDAFcython.c__obs_op_lin_pdaf,
-                                                    c__PDAFcython.c__obs_op_adj_pdaf,
-                                                    c__PDAFcython.c__prodRinvA_l_pdaf,
-                                                    c__PDAFcython.c__init_n_domains_p_pdaf,
-                                                    c__PDAFcython.c__init_dim_l_pdaf,
-                                                    c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                                    c__PDAFcython.c__g2l_state_pdaf,
-                                                    c__PDAFcython.c__l2g_state_pdaf,
-                                                    c__PDAFcython.c__prepoststep_pdaf,
-                                                    c__PDAFcython.c__next_observation_pdaf,
-                                                    &outflag
-                                                   )
+    with nogil:
+        c__pdafomi_assimilate_hyb3dvar_lestkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                                        c__PDAFcython.c__distribute_state_pdaf,
+                                                        c__PDAFcython.c__init_dim_obs_pdaf,
+                                                        c__PDAFcython.c__obs_op_pdaf,
+                                                        c__PDAFcython.c__prodRinvA_pdaf,
+                                                        c__PDAFcython.c__cvt_ens_pdaf,
+                                                        c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                                        c__PDAFcython.c__cvt_pdaf,
+                                                        c__PDAFcython.c__cvt_adj_pdaf,
+                                                        c__PDAFcython.c__obs_op_lin_pdaf,
+                                                        c__PDAFcython.c__obs_op_adj_pdaf,
+                                                        c__PDAFcython.c__prodRinvA_l_pdaf,
+                                                        c__PDAFcython.c__init_n_domains_p_pdaf,
+                                                        c__PDAFcython.c__init_dim_l_pdaf,
+                                                        c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                                        c__PDAFcython.c__g2l_state_pdaf,
+                                                        c__PDAFcython.c__l2g_state_pdaf,
+                                                        c__PDAFcython.c__prepoststep_pdaf,
+                                                        c__PDAFcython.c__next_observation_pdaf,
+                                                        &outflag
+                                                       )
 
     return outflag
 
@@ -26438,19 +26619,19 @@ def omi_assimilate_lenkf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -26459,26 +26640,26 @@ def omi_assimilate_lenkf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -26487,14 +26668,14 @@ def omi_assimilate_lenkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__localize_covar_pdaf : Callable[dim_p:int, dim_obs:int, hp_p : ndarray[tuple[dim_obs, dim_p], np.float64], hph : ndarray[tuple[dim_obs, dim_obs], np.float64]]
@@ -26561,9 +26742,9 @@ def omi_assimilate_lenkf_nondiagR (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -26572,9 +26753,9 @@ def omi_assimilate_lenkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -26598,17 +26779,18 @@ def omi_assimilate_lenkf_nondiagR (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdafomi_assimilate_lenkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                          c__PDAFcython.c__distribute_state_pdaf,
-                                          c__PDAFcython.c__init_dim_obs_pdaf,
-                                          c__PDAFcython.c__obs_op_pdaf,
-                                          c__PDAFcython.c__prepoststep_pdaf,
-                                          c__PDAFcython.c__localize_covar_pdaf,
-                                          c__PDAFcython.c__add_obs_err_pdaf,
-                                          c__PDAFcython.c__init_obs_covar_pdaf,
-                                          c__PDAFcython.c__next_observation_pdaf,
-                                          &outflag
-                                         )
+    with nogil:
+        c__pdafomi_assimilate_lenkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                              c__PDAFcython.c__distribute_state_pdaf,
+                                              c__PDAFcython.c__init_dim_obs_pdaf,
+                                              c__PDAFcython.c__obs_op_pdaf,
+                                              c__PDAFcython.c__prepoststep_pdaf,
+                                              c__PDAFcython.c__localize_covar_pdaf,
+                                              c__PDAFcython.c__add_obs_err_pdaf,
+                                              c__PDAFcython.c__init_obs_covar_pdaf,
+                                              c__PDAFcython.c__next_observation_pdaf,
+                                              &outflag
+                                             )
 
     return outflag
 
@@ -26734,19 +26916,19 @@ def omi_assimilate_lknetf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -26755,26 +26937,26 @@ def omi_assimilate_lknetf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -26783,14 +26965,14 @@ def omi_assimilate_lknetf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__init_n_domains_p_pdaf : Callable[step:int, n_domains_p:int]
@@ -26847,7 +27029,7 @@ def omi_assimilate_lknetf_nondiagR (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -26974,9 +27156,9 @@ def omi_assimilate_lknetf_nondiagR (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -26985,9 +27167,9 @@ def omi_assimilate_lknetf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -27017,23 +27199,24 @@ def omi_assimilate_lknetf_nondiagR (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdafomi_assimilate_lknetf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                           c__PDAFcython.c__distribute_state_pdaf,
-                                           c__PDAFcython.c__init_dim_obs_pdaf,
-                                           c__PDAFcython.c__obs_op_pdaf,
-                                           c__PDAFcython.c__prepoststep_pdaf,
-                                           c__PDAFcython.c__init_n_domains_p_pdaf,
-                                           c__PDAFcython.c__init_dim_l_pdaf,
-                                           c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                           c__PDAFcython.c__prodRinvA_l_pdaf,
-                                           c__PDAFcython.c__prodRinvA_hyb_l_pdaf,
-                                           c__PDAFcython.c__likelihood_l_pdaf,
-                                           c__PDAFcython.c__likelihood_hyb_l_pdaf,
-                                           c__PDAFcython.c__g2l_state_pdaf,
-                                           c__PDAFcython.c__l2g_state_pdaf,
-                                           c__PDAFcython.c__next_observation_pdaf,
-                                           &outflag
-                                          )
+    with nogil:
+        c__pdafomi_assimilate_lknetf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                               c__PDAFcython.c__distribute_state_pdaf,
+                                               c__PDAFcython.c__init_dim_obs_pdaf,
+                                               c__PDAFcython.c__obs_op_pdaf,
+                                               c__PDAFcython.c__prepoststep_pdaf,
+                                               c__PDAFcython.c__init_n_domains_p_pdaf,
+                                               c__PDAFcython.c__init_dim_l_pdaf,
+                                               c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                               c__PDAFcython.c__prodRinvA_l_pdaf,
+                                               c__PDAFcython.c__prodRinvA_hyb_l_pdaf,
+                                               c__PDAFcython.c__likelihood_l_pdaf,
+                                               c__PDAFcython.c__likelihood_hyb_l_pdaf,
+                                               c__PDAFcython.c__g2l_state_pdaf,
+                                               c__PDAFcython.c__l2g_state_pdaf,
+                                               c__PDAFcython.c__next_observation_pdaf,
+                                               &outflag
+                                              )
 
     return outflag
 
@@ -27150,19 +27333,19 @@ def omi_assimilate_lnetf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -27171,26 +27354,26 @@ def omi_assimilate_lnetf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -27199,14 +27382,14 @@ def omi_assimilate_lnetf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__init_n_domains_p_pdaf : Callable[step:int, n_domains_p:int]
@@ -27321,9 +27504,9 @@ def omi_assimilate_lnetf_nondiagR (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -27332,9 +27515,9 @@ def omi_assimilate_lnetf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -27361,20 +27544,21 @@ def omi_assimilate_lnetf_nondiagR (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdafomi_assimilate_lnetf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                          c__PDAFcython.c__distribute_state_pdaf,
-                                          c__PDAFcython.c__init_dim_obs_pdaf,
-                                          c__PDAFcython.c__obs_op_pdaf,
-                                          c__PDAFcython.c__prepoststep_pdaf,
-                                          c__PDAFcython.c__init_n_domains_p_pdaf,
-                                          c__PDAFcython.c__init_dim_l_pdaf,
-                                          c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                          c__PDAFcython.c__likelihood_l_pdaf,
-                                          c__PDAFcython.c__g2l_state_pdaf,
-                                          c__PDAFcython.c__l2g_state_pdaf,
-                                          c__PDAFcython.c__next_observation_pdaf,
-                                          &outflag
-                                         )
+    with nogil:
+        c__pdafomi_assimilate_lnetf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                              c__PDAFcython.c__distribute_state_pdaf,
+                                              c__PDAFcython.c__init_dim_obs_pdaf,
+                                              c__PDAFcython.c__obs_op_pdaf,
+                                              c__PDAFcython.c__prepoststep_pdaf,
+                                              c__PDAFcython.c__init_n_domains_p_pdaf,
+                                              c__PDAFcython.c__init_dim_l_pdaf,
+                                              c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                              c__PDAFcython.c__likelihood_l_pdaf,
+                                              c__PDAFcython.c__g2l_state_pdaf,
+                                              c__PDAFcython.c__l2g_state_pdaf,
+                                              c__PDAFcython.c__next_observation_pdaf,
+                                              &outflag
+                                             )
 
     return outflag
 
@@ -27491,19 +27675,19 @@ def omi_assimilate_local_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -27512,26 +27696,26 @@ def omi_assimilate_local_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -27540,14 +27724,14 @@ def omi_assimilate_local_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__init_n_domains_p_pdaf : Callable[step:int, n_domains_p:int]
@@ -27604,7 +27788,7 @@ def omi_assimilate_local_nondiagR (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -27665,9 +27849,9 @@ def omi_assimilate_local_nondiagR (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -27676,9 +27860,9 @@ def omi_assimilate_local_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -27705,20 +27889,21 @@ def omi_assimilate_local_nondiagR (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdafomi_assimilate_local_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                          c__PDAFcython.c__distribute_state_pdaf,
-                                          c__PDAFcython.c__init_dim_obs_pdaf,
-                                          c__PDAFcython.c__obs_op_pdaf,
-                                          c__PDAFcython.c__prepoststep_pdaf,
-                                          c__PDAFcython.c__init_n_domains_p_pdaf,
-                                          c__PDAFcython.c__init_dim_l_pdaf,
-                                          c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                          c__PDAFcython.c__prodRinvA_l_pdaf,
-                                          c__PDAFcython.c__g2l_state_pdaf,
-                                          c__PDAFcython.c__l2g_state_pdaf,
-                                          c__PDAFcython.c__next_observation_pdaf,
-                                          &outflag
-                                         )
+    with nogil:
+        c__pdafomi_assimilate_local_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                              c__PDAFcython.c__distribute_state_pdaf,
+                                              c__PDAFcython.c__init_dim_obs_pdaf,
+                                              c__PDAFcython.c__obs_op_pdaf,
+                                              c__PDAFcython.c__prepoststep_pdaf,
+                                              c__PDAFcython.c__init_n_domains_p_pdaf,
+                                              c__PDAFcython.c__init_dim_l_pdaf,
+                                              c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                              c__PDAFcython.c__prodRinvA_l_pdaf,
+                                              c__PDAFcython.c__g2l_state_pdaf,
+                                              c__PDAFcython.c__l2g_state_pdaf,
+                                              c__PDAFcython.c__next_observation_pdaf,
+                                              &outflag
+                                             )
 
     return outflag
 
@@ -27821,19 +28006,19 @@ def omi_assimilate_nonlin_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__likelihood_pdaf : Callable[step:int, dim_obs_p:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], resid : ndarray[tuple[dim_obs_p], np.float64], likely:float]
         Compute observation likelihood for an ensemble member
 
@@ -27860,26 +28045,26 @@ def omi_assimilate_nonlin_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -27888,14 +28073,14 @@ def omi_assimilate_nonlin_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -27908,9 +28093,9 @@ def omi_assimilate_nonlin_nondiagR (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -27919,9 +28104,9 @@ def omi_assimilate_nonlin_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -27943,15 +28128,16 @@ def omi_assimilate_nonlin_nondiagR (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdafomi_assimilate_nonlin_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                           c__PDAFcython.c__distribute_state_pdaf,
-                                           c__PDAFcython.c__init_dim_obs_pdaf,
-                                           c__PDAFcython.c__obs_op_pdaf,
-                                           c__PDAFcython.c__likelihood_pdaf,
-                                           c__PDAFcython.c__prepoststep_pdaf,
-                                           c__PDAFcython.c__next_observation_pdaf,
-                                           &outflag
-                                          )
+    with nogil:
+        c__pdafomi_assimilate_nonlin_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                               c__PDAFcython.c__distribute_state_pdaf,
+                                               c__PDAFcython.c__init_dim_obs_pdaf,
+                                               c__PDAFcython.c__obs_op_pdaf,
+                                               c__PDAFcython.c__likelihood_pdaf,
+                                               c__PDAFcython.c__prepoststep_pdaf,
+                                               c__PDAFcython.c__next_observation_pdaf,
+                                               &outflag
+                                              )
 
     return outflag
 
@@ -28047,19 +28233,19 @@ def omi_put_state_3dvar_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
         Provide product R^-1 A
 
@@ -28070,8 +28256,8 @@ def omi_put_state_3dvar_nondiagR (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -28162,26 +28348,26 @@ def omi_put_state_3dvar_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -28190,14 +28376,14 @@ def omi_put_state_3dvar_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     outflag : int
@@ -28219,17 +28405,18 @@ def omi_put_state_3dvar_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
-    c__pdafomi_put_state_3dvar_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                         c__PDAFcython.c__init_dim_obs_pdaf,
-                                         c__PDAFcython.c__obs_op_pdaf,
-                                         c__PDAFcython.c__prodRinvA_pdaf,
-                                         c__PDAFcython.c__cvt_pdaf,
-                                         c__PDAFcython.c__cvt_adj_pdaf,
-                                         c__PDAFcython.c__obs_op_lin_pdaf,
-                                         c__PDAFcython.c__obs_op_adj_pdaf,
-                                         c__PDAFcython.c__prepoststep_pdaf,
-                                         &outflag
-                                        )
+    with nogil:
+        c__pdafomi_put_state_3dvar_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                             c__PDAFcython.c__init_dim_obs_pdaf,
+                                             c__PDAFcython.c__obs_op_pdaf,
+                                             c__PDAFcython.c__prodRinvA_pdaf,
+                                             c__PDAFcython.c__cvt_pdaf,
+                                             c__PDAFcython.c__cvt_adj_pdaf,
+                                             c__PDAFcython.c__obs_op_lin_pdaf,
+                                             c__PDAFcython.c__obs_op_adj_pdaf,
+                                             c__PDAFcython.c__prepoststep_pdaf,
+                                             &outflag
+                                            )
 
     return outflag
 
@@ -28333,19 +28520,19 @@ def omi_put_state_en3dvar_estkf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
         Provide product R^-1 A
 
@@ -28356,8 +28543,8 @@ def omi_put_state_en3dvar_estkf_nondiagR (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -28456,26 +28643,26 @@ def omi_put_state_en3dvar_estkf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -28484,14 +28671,14 @@ def omi_put_state_en3dvar_estkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     outflag : int
@@ -28513,17 +28700,18 @@ def omi_put_state_en3dvar_estkf_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
-    c__pdafomi_put_state_en3dvar_estkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                                 c__PDAFcython.c__init_dim_obs_pdaf,
-                                                 c__PDAFcython.c__obs_op_pdaf,
-                                                 c__PDAFcython.c__prodRinvA_pdaf,
-                                                 c__PDAFcython.c__cvt_ens_pdaf,
-                                                 c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                                 c__PDAFcython.c__obs_op_lin_pdaf,
-                                                 c__PDAFcython.c__obs_op_adj_pdaf,
-                                                 c__PDAFcython.c__prepoststep_pdaf,
-                                                 &outflag
-                                                )
+    with nogil:
+        c__pdafomi_put_state_en3dvar_estkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                                     c__PDAFcython.c__init_dim_obs_pdaf,
+                                                     c__PDAFcython.c__obs_op_pdaf,
+                                                     c__PDAFcython.c__prodRinvA_pdaf,
+                                                     c__PDAFcython.c__cvt_ens_pdaf,
+                                                     c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                                     c__PDAFcython.c__obs_op_lin_pdaf,
+                                                     c__PDAFcython.c__obs_op_adj_pdaf,
+                                                     c__PDAFcython.c__prepoststep_pdaf,
+                                                     &outflag
+                                                    )
 
     return outflag
 
@@ -28648,19 +28836,19 @@ def omi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
         Provide product R^-1 A
 
@@ -28671,8 +28859,8 @@ def omi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -28775,7 +28963,7 @@ def omi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -28876,26 +29064,26 @@ def omi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -28904,14 +29092,14 @@ def omi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     outflag : int
@@ -28939,23 +29127,24 @@ def omi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
-    c__pdafomi_put_state_en3dvar_lestkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                                  c__PDAFcython.c__init_dim_obs_pdaf,
-                                                  c__PDAFcython.c__obs_op_pdaf,
-                                                  c__PDAFcython.c__prodRinvA_pdaf,
-                                                  c__PDAFcython.c__cvt_ens_pdaf,
-                                                  c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                                  c__PDAFcython.c__obs_op_lin_pdaf,
-                                                  c__PDAFcython.c__obs_op_adj_pdaf,
-                                                  c__PDAFcython.c__prodRinvA_l_pdaf,
-                                                  c__PDAFcython.c__init_n_domains_p_pdaf,
-                                                  c__PDAFcython.c__init_dim_l_pdaf,
-                                                  c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                                  c__PDAFcython.c__g2l_state_pdaf,
-                                                  c__PDAFcython.c__l2g_state_pdaf,
-                                                  c__PDAFcython.c__prepoststep_pdaf,
-                                                  &outflag
-                                                 )
+    with nogil:
+        c__pdafomi_put_state_en3dvar_lestkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                                      c__PDAFcython.c__init_dim_obs_pdaf,
+                                                      c__PDAFcython.c__obs_op_pdaf,
+                                                      c__PDAFcython.c__prodRinvA_pdaf,
+                                                      c__PDAFcython.c__cvt_ens_pdaf,
+                                                      c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                                      c__PDAFcython.c__obs_op_lin_pdaf,
+                                                      c__PDAFcython.c__obs_op_adj_pdaf,
+                                                      c__PDAFcython.c__prodRinvA_l_pdaf,
+                                                      c__PDAFcython.c__init_n_domains_p_pdaf,
+                                                      c__PDAFcython.c__init_dim_l_pdaf,
+                                                      c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                                      c__PDAFcython.c__g2l_state_pdaf,
+                                                      c__PDAFcython.c__l2g_state_pdaf,
+                                                      c__PDAFcython.c__prepoststep_pdaf,
+                                                      &outflag
+                                                     )
 
     return outflag
 
@@ -29051,19 +29240,19 @@ def omi_put_state_enkf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__add_obs_err_pdaf : Callable[step:int, dim_obs_p:int, C_p : ndarray[tuple[dim_obs_p, dim_obs_p], np.float64]]
         Add obs error covariance R to HPH in EnKF
 
@@ -29108,26 +29297,26 @@ def omi_put_state_enkf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -29136,14 +29325,14 @@ def omi_put_state_enkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
 
@@ -29162,14 +29351,15 @@ def omi_put_state_enkf_nondiagR (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdafomi_put_state_enkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                        c__PDAFcython.c__init_dim_obs_pdaf,
-                                        c__PDAFcython.c__obs_op_pdaf,
-                                        c__PDAFcython.c__add_obs_err_pdaf,
-                                        c__PDAFcython.c__init_obs_covar_pdaf,
-                                        c__PDAFcython.c__prepoststep_pdaf,
-                                        &outflag
-                                       )
+    with nogil:
+        c__pdafomi_put_state_enkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                            c__PDAFcython.c__init_dim_obs_pdaf,
+                                            c__PDAFcython.c__obs_op_pdaf,
+                                            c__PDAFcython.c__add_obs_err_pdaf,
+                                            c__PDAFcython.c__init_obs_covar_pdaf,
+                                            c__PDAFcython.c__prepoststep_pdaf,
+                                            &outflag
+                                           )
 
     return outflag
 
@@ -29265,19 +29455,19 @@ def omi_put_state_global_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
         Provide product R^-1 A
 
@@ -29288,8 +29478,8 @@ def omi_put_state_global_nondiagR (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -29308,26 +29498,26 @@ def omi_put_state_global_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -29336,14 +29526,14 @@ def omi_put_state_global_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
 
@@ -29361,13 +29551,14 @@ def omi_put_state_global_nondiagR (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdafomi_put_state_global_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                          c__PDAFcython.c__init_dim_obs_pdaf,
-                                          c__PDAFcython.c__obs_op_pdaf,
-                                          c__PDAFcython.c__prodRinvA_pdaf,
-                                          c__PDAFcython.c__prepoststep_pdaf,
-                                          &outflag
-                                         )
+    with nogil:
+        c__pdafomi_put_state_global_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                              c__PDAFcython.c__init_dim_obs_pdaf,
+                                              c__PDAFcython.c__obs_op_pdaf,
+                                              c__PDAFcython.c__prodRinvA_pdaf,
+                                              c__PDAFcython.c__prepoststep_pdaf,
+                                              &outflag
+                                             )
 
     return outflag
 
@@ -29482,19 +29673,19 @@ def omi_put_state_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
         Provide product R^-1 A
 
@@ -29505,8 +29696,8 @@ def omi_put_state_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -29641,26 +29832,26 @@ def omi_put_state_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -29669,14 +29860,14 @@ def omi_put_state_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     outflag : int
@@ -29700,19 +29891,20 @@ def omi_put_state_hyb3dvar_estkf_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.obs_op_adj_pdaf = <void*>py__obs_op_adj_pdaf
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
-    c__pdafomi_put_state_hyb3dvar_estkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                                  c__PDAFcython.c__init_dim_obs_pdaf,
-                                                  c__PDAFcython.c__obs_op_pdaf,
-                                                  c__PDAFcython.c__prodRinvA_pdaf,
-                                                  c__PDAFcython.c__cvt_ens_pdaf,
-                                                  c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                                  c__PDAFcython.c__cvt_pdaf,
-                                                  c__PDAFcython.c__cvt_adj_pdaf,
-                                                  c__PDAFcython.c__obs_op_lin_pdaf,
-                                                  c__PDAFcython.c__obs_op_adj_pdaf,
-                                                  c__PDAFcython.c__prepoststep_pdaf,
-                                                  &outflag
-                                                 )
+    with nogil:
+        c__pdafomi_put_state_hyb3dvar_estkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                                      c__PDAFcython.c__init_dim_obs_pdaf,
+                                                      c__PDAFcython.c__obs_op_pdaf,
+                                                      c__PDAFcython.c__prodRinvA_pdaf,
+                                                      c__PDAFcython.c__cvt_ens_pdaf,
+                                                      c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                                      c__PDAFcython.c__cvt_pdaf,
+                                                      c__PDAFcython.c__cvt_adj_pdaf,
+                                                      c__PDAFcython.c__obs_op_lin_pdaf,
+                                                      c__PDAFcython.c__obs_op_adj_pdaf,
+                                                      c__PDAFcython.c__prepoststep_pdaf,
+                                                      &outflag
+                                                     )
 
     return outflag
 
@@ -29845,19 +30037,19 @@ def omi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
         Provide product R^-1 A
 
@@ -29868,8 +30060,8 @@ def omi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -30008,7 +30200,7 @@ def omi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -30109,26 +30301,26 @@ def omi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -30137,14 +30329,14 @@ def omi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     outflag : int
@@ -30174,25 +30366,26 @@ def omi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.l2g_state_pdaf = <void*>py__l2g_state_pdaf
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
-    c__pdafomi_put_state_hyb3dvar_lestkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                                   c__PDAFcython.c__init_dim_obs_pdaf,
-                                                   c__PDAFcython.c__obs_op_pdaf,
-                                                   c__PDAFcython.c__prodRinvA_pdaf,
-                                                   c__PDAFcython.c__cvt_ens_pdaf,
-                                                   c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                                   c__PDAFcython.c__cvt_pdaf,
-                                                   c__PDAFcython.c__cvt_adj_pdaf,
-                                                   c__PDAFcython.c__obs_op_lin_pdaf,
-                                                   c__PDAFcython.c__obs_op_adj_pdaf,
-                                                   c__PDAFcython.c__prodRinvA_l_pdaf,
-                                                   c__PDAFcython.c__init_n_domains_p_pdaf,
-                                                   c__PDAFcython.c__init_dim_l_pdaf,
-                                                   c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                                   c__PDAFcython.c__g2l_state_pdaf,
-                                                   c__PDAFcython.c__l2g_state_pdaf,
-                                                   c__PDAFcython.c__prepoststep_pdaf,
-                                                   &outflag
-                                                  )
+    with nogil:
+        c__pdafomi_put_state_hyb3dvar_lestkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                                       c__PDAFcython.c__init_dim_obs_pdaf,
+                                                       c__PDAFcython.c__obs_op_pdaf,
+                                                       c__PDAFcython.c__prodRinvA_pdaf,
+                                                       c__PDAFcython.c__cvt_ens_pdaf,
+                                                       c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                                       c__PDAFcython.c__cvt_pdaf,
+                                                       c__PDAFcython.c__cvt_adj_pdaf,
+                                                       c__PDAFcython.c__obs_op_lin_pdaf,
+                                                       c__PDAFcython.c__obs_op_adj_pdaf,
+                                                       c__PDAFcython.c__prodRinvA_l_pdaf,
+                                                       c__PDAFcython.c__init_n_domains_p_pdaf,
+                                                       c__PDAFcython.c__init_dim_l_pdaf,
+                                                       c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                                       c__PDAFcython.c__g2l_state_pdaf,
+                                                       c__PDAFcython.c__l2g_state_pdaf,
+                                                       c__PDAFcython.c__prepoststep_pdaf,
+                                                       &outflag
+                                                      )
 
     return outflag
 
@@ -30292,19 +30485,19 @@ def omi_put_state_lenkf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -30313,26 +30506,26 @@ def omi_put_state_lenkf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -30341,14 +30534,14 @@ def omi_put_state_lenkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__localize_covar_pdaf : Callable[dim_p:int, dim_obs:int, hp_p : ndarray[tuple[dim_obs, dim_p], np.float64], hph : ndarray[tuple[dim_obs, dim_obs], np.float64]]
@@ -30422,15 +30615,16 @@ def omi_put_state_lenkf_nondiagR (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdafomi_put_state_lenkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                         c__PDAFcython.c__init_dim_obs_pdaf,
-                                         c__PDAFcython.c__obs_op_pdaf,
-                                         c__PDAFcython.c__prepoststep_pdaf,
-                                         c__PDAFcython.c__localize_covar_pdaf,
-                                         c__PDAFcython.c__add_obs_err_pdaf,
-                                         c__PDAFcython.c__init_obs_covar_pdaf,
-                                         &outflag
-                                        )
+    with nogil:
+        c__pdafomi_put_state_lenkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                             c__PDAFcython.c__init_dim_obs_pdaf,
+                                             c__PDAFcython.c__obs_op_pdaf,
+                                             c__PDAFcython.c__prepoststep_pdaf,
+                                             c__PDAFcython.c__localize_covar_pdaf,
+                                             c__PDAFcython.c__add_obs_err_pdaf,
+                                             c__PDAFcython.c__init_obs_covar_pdaf,
+                                             &outflag
+                                            )
 
     return outflag
 
@@ -30553,19 +30747,19 @@ def omi_put_state_lknetf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -30574,26 +30768,26 @@ def omi_put_state_lknetf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -30602,14 +30796,14 @@ def omi_put_state_lknetf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__init_n_domains_p_pdaf : Callable[step:int, n_domains_p:int]
@@ -30666,7 +30860,7 @@ def omi_put_state_lknetf_nondiagR (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -30806,21 +31000,22 @@ def omi_put_state_lknetf_nondiagR (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdafomi_put_state_lknetf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                          c__PDAFcython.c__init_dim_obs_pdaf,
-                                          c__PDAFcython.c__obs_op_pdaf,
-                                          c__PDAFcython.c__prepoststep_pdaf,
-                                          c__PDAFcython.c__init_n_domains_p_pdaf,
-                                          c__PDAFcython.c__init_dim_l_pdaf,
-                                          c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                          c__PDAFcython.c__prodRinvA_l_pdaf,
-                                          c__PDAFcython.c__prodRinvA_hyb_l_pdaf,
-                                          c__PDAFcython.c__likelihood_l_pdaf,
-                                          c__PDAFcython.c__likelihood_hyb_l_pdaf,
-                                          c__PDAFcython.c__g2l_state_pdaf,
-                                          c__PDAFcython.c__l2g_state_pdaf,
-                                          &outflag
-                                         )
+    with nogil:
+        c__pdafomi_put_state_lknetf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                              c__PDAFcython.c__init_dim_obs_pdaf,
+                                              c__PDAFcython.c__obs_op_pdaf,
+                                              c__PDAFcython.c__prepoststep_pdaf,
+                                              c__PDAFcython.c__init_n_domains_p_pdaf,
+                                              c__PDAFcython.c__init_dim_l_pdaf,
+                                              c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                              c__PDAFcython.c__prodRinvA_l_pdaf,
+                                              c__PDAFcython.c__prodRinvA_hyb_l_pdaf,
+                                              c__PDAFcython.c__likelihood_l_pdaf,
+                                              c__PDAFcython.c__likelihood_hyb_l_pdaf,
+                                              c__PDAFcython.c__g2l_state_pdaf,
+                                              c__PDAFcython.c__l2g_state_pdaf,
+                                              &outflag
+                                             )
 
     return outflag
 
@@ -30934,19 +31129,19 @@ def omi_put_state_lnetf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -30955,26 +31150,26 @@ def omi_put_state_lnetf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -30983,14 +31178,14 @@ def omi_put_state_lnetf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__init_n_domains_p_pdaf : Callable[step:int, n_domains_p:int]
@@ -31115,18 +31310,19 @@ def omi_put_state_lnetf_nondiagR (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdafomi_put_state_lnetf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                         c__PDAFcython.c__init_dim_obs_pdaf,
-                                         c__PDAFcython.c__obs_op_pdaf,
-                                         c__PDAFcython.c__prepoststep_pdaf,
-                                         c__PDAFcython.c__init_n_domains_p_pdaf,
-                                         c__PDAFcython.c__init_dim_l_pdaf,
-                                         c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                         c__PDAFcython.c__likelihood_l_pdaf,
-                                         c__PDAFcython.c__g2l_state_pdaf,
-                                         c__PDAFcython.c__l2g_state_pdaf,
-                                         &outflag
-                                        )
+    with nogil:
+        c__pdafomi_put_state_lnetf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                             c__PDAFcython.c__init_dim_obs_pdaf,
+                                             c__PDAFcython.c__obs_op_pdaf,
+                                             c__PDAFcython.c__prepoststep_pdaf,
+                                             c__PDAFcython.c__init_n_domains_p_pdaf,
+                                             c__PDAFcython.c__init_dim_l_pdaf,
+                                             c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                             c__PDAFcython.c__likelihood_l_pdaf,
+                                             c__PDAFcython.c__g2l_state_pdaf,
+                                             c__PDAFcython.c__l2g_state_pdaf,
+                                             &outflag
+                                            )
 
     return outflag
 
@@ -31239,19 +31435,19 @@ def omi_put_state_local_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -31260,26 +31456,26 @@ def omi_put_state_local_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -31288,14 +31484,14 @@ def omi_put_state_local_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__init_n_domains_p_pdaf : Callable[step:int, n_domains_p:int]
@@ -31352,7 +31548,7 @@ def omi_put_state_local_nondiagR (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -31423,18 +31619,19 @@ def omi_put_state_local_nondiagR (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdafomi_put_state_local_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                         c__PDAFcython.c__init_dim_obs_pdaf,
-                                         c__PDAFcython.c__obs_op_pdaf,
-                                         c__PDAFcython.c__prepoststep_pdaf,
-                                         c__PDAFcython.c__init_n_domains_p_pdaf,
-                                         c__PDAFcython.c__init_dim_l_pdaf,
-                                         c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                         c__PDAFcython.c__prodRinvA_l_pdaf,
-                                         c__PDAFcython.c__g2l_state_pdaf,
-                                         c__PDAFcython.c__l2g_state_pdaf,
-                                         &outflag
-                                        )
+    with nogil:
+        c__pdafomi_put_state_local_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                             c__PDAFcython.c__init_dim_obs_pdaf,
+                                             c__PDAFcython.c__obs_op_pdaf,
+                                             c__PDAFcython.c__prepoststep_pdaf,
+                                             c__PDAFcython.c__init_n_domains_p_pdaf,
+                                             c__PDAFcython.c__init_dim_l_pdaf,
+                                             c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                             c__PDAFcython.c__prodRinvA_l_pdaf,
+                                             c__PDAFcython.c__g2l_state_pdaf,
+                                             c__PDAFcython.c__l2g_state_pdaf,
+                                             &outflag
+                                            )
 
     return outflag
 
@@ -31535,19 +31732,19 @@ def omi_put_state_nonlin_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__likelihood_pdaf : Callable[step:int, dim_obs_p:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], resid : ndarray[tuple[dim_obs_p], np.float64], likely:float]
         Compute observation likelihood for an ensemble member
 
@@ -31574,26 +31771,26 @@ def omi_put_state_nonlin_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -31602,14 +31799,14 @@ def omi_put_state_nonlin_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
 
@@ -31627,13 +31824,14 @@ def omi_put_state_nonlin_nondiagR (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdafomi_put_state_nonlin_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                          c__PDAFcython.c__init_dim_obs_pdaf,
-                                          c__PDAFcython.c__obs_op_pdaf,
-                                          c__PDAFcython.c__likelihood_pdaf,
-                                          c__PDAFcython.c__prepoststep_pdaf,
-                                          &outflag
-                                         )
+    with nogil:
+        c__pdafomi_put_state_nonlin_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                              c__PDAFcython.c__init_dim_obs_pdaf,
+                                              c__PDAFcython.c__obs_op_pdaf,
+                                              c__PDAFcython.c__likelihood_pdaf,
+                                              c__PDAFcython.c__prepoststep_pdaf,
+                                              &outflag
+                                             )
 
     return outflag
 
@@ -31652,9 +31850,10 @@ def local_set_indices (int[::1] map
     cdef int dim_l
     dim_l = map.shape[0]
 
-    c__pdaflocal_set_indices (&dim_l,
-                              &map[0]
-                             )
+    with nogil:
+        c__pdaflocal_set_indices (&dim_l,
+                                  &map[0]
+                                 )
 
 def local_set_increment_weights (double[::1] weights
                                 ):
@@ -31672,16 +31871,18 @@ def local_set_increment_weights (double[::1] weights
     cdef int dim_l
     dim_l = weights.shape[0]
 
-    c__pdaflocal_set_increment_weights (&dim_l,
-                                        &weights[0]
-                                       )
+    with nogil:
+        c__pdaflocal_set_increment_weights (&dim_l,
+                                            &weights[0]
+                                           )
 
 def local_clear_increment_weights ():
     r"""This function deallocates the local increment weight vector in `pyPDAF.PDAF.local_set_increment_weights` if it is allocated
 
     """
 
-    c__pdaflocal_clear_increment_weights ()
+    with nogil:
+        c__pdaflocal_clear_increment_weights ()
 
 def local_g2l_cb (int step,
                   int domain_p,
@@ -31720,13 +31921,14 @@ def local_g2l_cb (int step,
         The array dimension `dim_l` is Local state dimension
     """
 
-    c__pdaflocal_g2l_cb (&step,
-                         &domain_p,
-                         &dim_p,
-                         &state_p[0],
-                         &dim_l,
-                         &state_l[0]
-                        )
+    with nogil:
+        c__pdaflocal_g2l_cb (&step,
+                             &domain_p,
+                             &dim_p,
+                             &state_p[0],
+                             &dim_l,
+                             &state_l[0]
+                            )
 
     return np.asarray(state_l).reshape((dim_l), order='F')
 
@@ -31769,13 +31971,14 @@ def local_l2g_cb (int step,
         The array dimension `dim_p` is PE-local full state dimension
     """
 
-    c__pdaflocal_l2g_cb (&step,
-                         &domain_p,
-                         &dim_l,
-                         &state_l[0],
-                         &dim_p,
-                         &state_p[0]
-                        )
+    with nogil:
+        c__pdaflocal_l2g_cb (&step,
+                             &domain_p,
+                             &dim_l,
+                             &state_l[0],
+                             &dim_p,
+                             &state_p[0]
+                            )
 
     return np.asarray(state_p).reshape((dim_p), order='F')
 
@@ -31883,19 +32086,19 @@ def localomi_assimilate (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -31904,26 +32107,26 @@ def localomi_assimilate (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -31932,14 +32135,14 @@ def localomi_assimilate (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__init_n_domains_p_pdaf : Callable[step:int, n_domains_p:int]
@@ -31994,9 +32197,9 @@ def localomi_assimilate (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -32005,9 +32208,9 @@ def localomi_assimilate (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -32031,17 +32234,18 @@ def localomi_assimilate (py__collect_state_pdaf,
     c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
     c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
-    c__pdaflocalomi_assimilate (c__PDAFcython.c__collect_state_pdaf,
-                                c__PDAFcython.c__distribute_state_pdaf,
-                                c__PDAFcython.c__init_dim_obs_pdaf,
-                                c__PDAFcython.c__obs_op_pdaf,
-                                c__PDAFcython.c__prepoststep_pdaf,
-                                c__PDAFcython.c__init_n_domains_p_pdaf,
-                                c__PDAFcython.c__init_dim_l_pdaf,
-                                c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                c__PDAFcython.c__next_observation_pdaf,
-                                &outflag
-                               )
+    with nogil:
+        c__pdaflocalomi_assimilate (c__PDAFcython.c__collect_state_pdaf,
+                                    c__PDAFcython.c__distribute_state_pdaf,
+                                    c__PDAFcython.c__init_dim_obs_pdaf,
+                                    c__PDAFcython.c__obs_op_pdaf,
+                                    c__PDAFcython.c__prepoststep_pdaf,
+                                    c__PDAFcython.c__init_n_domains_p_pdaf,
+                                    c__PDAFcython.c__init_dim_l_pdaf,
+                                    c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                    c__PDAFcython.c__next_observation_pdaf,
+                                    &outflag
+                                   )
 
     return outflag
 
@@ -32291,26 +32495,26 @@ def localomi_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -32319,14 +32523,14 @@ def localomi_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -32339,9 +32543,9 @@ def localomi_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -32350,9 +32554,9 @@ def localomi_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -32380,21 +32584,22 @@ def localomi_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
-    c__pdaflocalomi_assimilate_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                                               c__PDAFcython.c__distribute_state_pdaf,
-                                               c__PDAFcython.c__init_dim_obs_pdaf,
-                                               c__PDAFcython.c__obs_op_f_pdaf,
-                                               c__PDAFcython.c__cvt_ens_pdaf,
-                                               c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                               c__PDAFcython.c__obs_op_lin_pdaf,
-                                               c__PDAFcython.c__obs_op_adj_pdaf,
-                                               c__PDAFcython.c__init_n_domains_p_pdaf,
-                                               c__PDAFcython.c__init_dim_l_pdaf,
-                                               c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                               c__PDAFcython.c__prepoststep_pdaf,
-                                               c__PDAFcython.c__next_observation_pdaf,
-                                               &outflag
-                                              )
+    with nogil:
+        c__pdaflocalomi_assimilate_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                                   c__PDAFcython.c__distribute_state_pdaf,
+                                                   c__PDAFcython.c__init_dim_obs_pdaf,
+                                                   c__PDAFcython.c__obs_op_f_pdaf,
+                                                   c__PDAFcython.c__cvt_ens_pdaf,
+                                                   c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                                   c__PDAFcython.c__obs_op_lin_pdaf,
+                                                   c__PDAFcython.c__obs_op_adj_pdaf,
+                                                   c__PDAFcython.c__init_n_domains_p_pdaf,
+                                                   c__PDAFcython.c__init_dim_l_pdaf,
+                                                   c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                                   c__PDAFcython.c__prepoststep_pdaf,
+                                                   c__PDAFcython.c__next_observation_pdaf,
+                                                   &outflag
+                                                  )
 
     return outflag
 
@@ -32509,19 +32714,19 @@ def localomi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
         Provide product R^-1 A
 
@@ -32532,8 +32737,8 @@ def localomi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -32636,7 +32841,7 @@ def localomi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -32697,26 +32902,26 @@ def localomi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -32725,14 +32930,14 @@ def localomi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -32745,9 +32950,9 @@ def localomi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -32756,9 +32961,9 @@ def localomi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -32788,23 +32993,24 @@ def localomi_assimilate_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
-    c__pdaflocalomi_assimilate_en3dvar_lestkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                                        c__PDAFcython.c__distribute_state_pdaf,
-                                                        c__PDAFcython.c__init_dim_obs_pdaf,
-                                                        c__PDAFcython.c__obs_op_pdaf,
-                                                        c__PDAFcython.c__prodRinvA_pdaf,
-                                                        c__PDAFcython.c__cvt_ens_pdaf,
-                                                        c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                                        c__PDAFcython.c__obs_op_lin_pdaf,
-                                                        c__PDAFcython.c__obs_op_adj_pdaf,
-                                                        c__PDAFcython.c__prodRinvA_l_pdaf,
-                                                        c__PDAFcython.c__init_n_domains_p_pdaf,
-                                                        c__PDAFcython.c__init_dim_l_pdaf,
-                                                        c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                                        c__PDAFcython.c__prepoststep_pdaf,
-                                                        c__PDAFcython.c__next_observation_pdaf,
-                                                        &outflag
-                                                       )
+    with nogil:
+        c__pdaflocalomi_assimilate_en3dvar_lestkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                                            c__PDAFcython.c__distribute_state_pdaf,
+                                                            c__PDAFcython.c__init_dim_obs_pdaf,
+                                                            c__PDAFcython.c__obs_op_pdaf,
+                                                            c__PDAFcython.c__prodRinvA_pdaf,
+                                                            c__PDAFcython.c__cvt_ens_pdaf,
+                                                            c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                                            c__PDAFcython.c__obs_op_lin_pdaf,
+                                                            c__PDAFcython.c__obs_op_adj_pdaf,
+                                                            c__PDAFcython.c__prodRinvA_l_pdaf,
+                                                            c__PDAFcython.c__init_n_domains_p_pdaf,
+                                                            c__PDAFcython.c__init_dim_l_pdaf,
+                                                            c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                                            c__PDAFcython.c__prepoststep_pdaf,
+                                                            c__PDAFcython.c__next_observation_pdaf,
+                                                            &outflag
+                                                           )
 
     return outflag
 
@@ -32922,19 +33128,19 @@ def localomi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__cvt_ens_pdaf : Callable[iter:int, dim_p:int, dim_ens:int, dim_cvec_ens:int, ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], v_p : ndarray[tuple[dim_cvec_ens], np.float64], Vv_p : ndarray[tuple[dim_p], np.float64]]
         Apply control vector transform matrix to control vector
 
@@ -33101,26 +33307,26 @@ def localomi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -33129,14 +33335,14 @@ def localomi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -33149,9 +33355,9 @@ def localomi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -33160,9 +33366,9 @@ def localomi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -33192,23 +33398,24 @@ def localomi_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
-    c__pdaflocalomi_assimilate_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                                                c__PDAFcython.c__distribute_state_pdaf,
-                                                c__PDAFcython.c__init_dim_obs_pdaf,
-                                                c__PDAFcython.c__obs_op_pdaf,
-                                                c__PDAFcython.c__cvt_ens_pdaf,
-                                                c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                                c__PDAFcython.c__cvt_pdaf,
-                                                c__PDAFcython.c__cvt_adj_pdaf,
-                                                c__PDAFcython.c__obs_op_lin_pdaf,
-                                                c__PDAFcython.c__obs_op_adj_pdaf,
-                                                c__PDAFcython.c__init_n_domains_p_pdaf,
-                                                c__PDAFcython.c__init_dim_l_pdaf,
-                                                c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                                c__PDAFcython.c__prepoststep_pdaf,
-                                                c__PDAFcython.c__next_observation_pdaf,
-                                                &outflag
-                                               )
+    with nogil:
+        c__pdaflocalomi_assimilate_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                                    c__PDAFcython.c__distribute_state_pdaf,
+                                                    c__PDAFcython.c__init_dim_obs_pdaf,
+                                                    c__PDAFcython.c__obs_op_pdaf,
+                                                    c__PDAFcython.c__cvt_ens_pdaf,
+                                                    c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                                    c__PDAFcython.c__cvt_pdaf,
+                                                    c__PDAFcython.c__cvt_adj_pdaf,
+                                                    c__PDAFcython.c__obs_op_lin_pdaf,
+                                                    c__PDAFcython.c__obs_op_adj_pdaf,
+                                                    c__PDAFcython.c__init_n_domains_p_pdaf,
+                                                    c__PDAFcython.c__init_dim_l_pdaf,
+                                                    c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                                    c__PDAFcython.c__prepoststep_pdaf,
+                                                    c__PDAFcython.c__next_observation_pdaf,
+                                                    &outflag
+                                                   )
 
     return outflag
 
@@ -33330,19 +33537,19 @@ def localomi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
         Provide product R^-1 A
 
@@ -33353,8 +33560,8 @@ def localomi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -33493,7 +33700,7 @@ def localomi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -33554,26 +33761,26 @@ def localomi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -33582,14 +33789,14 @@ def localomi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -33602,9 +33809,9 @@ def localomi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -33613,9 +33820,9 @@ def localomi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -33647,25 +33854,26 @@ def localomi_assimilate_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
-    c__pdaflocalomi_assimilate_hyb3dvar_lestkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                                         c__PDAFcython.c__distribute_state_pdaf,
-                                                         c__PDAFcython.c__init_dim_obs_pdaf,
-                                                         c__PDAFcython.c__obs_op_pdaf,
-                                                         c__PDAFcython.c__prodRinvA_pdaf,
-                                                         c__PDAFcython.c__cvt_ens_pdaf,
-                                                         c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                                         c__PDAFcython.c__cvt_pdaf,
-                                                         c__PDAFcython.c__cvt_adj_pdaf,
-                                                         c__PDAFcython.c__obs_op_lin_pdaf,
-                                                         c__PDAFcython.c__obs_op_adj_pdaf,
-                                                         c__PDAFcython.c__prodRinvA_l_pdaf,
-                                                         c__PDAFcython.c__init_n_domains_p_pdaf,
-                                                         c__PDAFcython.c__init_dim_l_pdaf,
-                                                         c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                                         c__PDAFcython.c__prepoststep_pdaf,
-                                                         c__PDAFcython.c__next_observation_pdaf,
-                                                         &outflag
-                                                        )
+    with nogil:
+        c__pdaflocalomi_assimilate_hyb3dvar_lestkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                                             c__PDAFcython.c__distribute_state_pdaf,
+                                                             c__PDAFcython.c__init_dim_obs_pdaf,
+                                                             c__PDAFcython.c__obs_op_pdaf,
+                                                             c__PDAFcython.c__prodRinvA_pdaf,
+                                                             c__PDAFcython.c__cvt_ens_pdaf,
+                                                             c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                                             c__PDAFcython.c__cvt_pdaf,
+                                                             c__PDAFcython.c__cvt_adj_pdaf,
+                                                             c__PDAFcython.c__obs_op_lin_pdaf,
+                                                             c__PDAFcython.c__obs_op_adj_pdaf,
+                                                             c__PDAFcython.c__prodRinvA_l_pdaf,
+                                                             c__PDAFcython.c__init_n_domains_p_pdaf,
+                                                             c__PDAFcython.c__init_dim_l_pdaf,
+                                                             c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                                             c__PDAFcython.c__prepoststep_pdaf,
+                                                             c__PDAFcython.c__next_observation_pdaf,
+                                                             &outflag
+                                                            )
 
     return outflag
 
@@ -33777,19 +33985,19 @@ def localomi_assimilate_lknetf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -33798,26 +34006,26 @@ def localomi_assimilate_lknetf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -33826,14 +34034,14 @@ def localomi_assimilate_lknetf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__init_n_domains_p_pdaf : Callable[step:int, n_domains_p:int]
@@ -33890,7 +34098,7 @@ def localomi_assimilate_lknetf_nondiagR (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -33977,9 +34185,9 @@ def localomi_assimilate_lknetf_nondiagR (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -33988,9 +34196,9 @@ def localomi_assimilate_lknetf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -34018,21 +34226,22 @@ def localomi_assimilate_lknetf_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.likelihood_hyb_l_pdaf = <void*>py__likelihood_hyb_l_pdaf
     c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
-    c__pdaflocalomi_assimilate_lknetf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                                c__PDAFcython.c__distribute_state_pdaf,
-                                                c__PDAFcython.c__init_dim_obs_pdaf,
-                                                c__PDAFcython.c__obs_op_pdaf,
-                                                c__PDAFcython.c__prepoststep_pdaf,
-                                                c__PDAFcython.c__init_n_domains_p_pdaf,
-                                                c__PDAFcython.c__init_dim_l_pdaf,
-                                                c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                                c__PDAFcython.c__prodRinvA_l_pdaf,
-                                                c__PDAFcython.c__prodRinvA_hyb_l_pdaf,
-                                                c__PDAFcython.c__likelihood_l_pdaf,
-                                                c__PDAFcython.c__likelihood_hyb_l_pdaf,
-                                                c__PDAFcython.c__next_observation_pdaf,
-                                                &outflag
-                                               )
+    with nogil:
+        c__pdaflocalomi_assimilate_lknetf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                                    c__PDAFcython.c__distribute_state_pdaf,
+                                                    c__PDAFcython.c__init_dim_obs_pdaf,
+                                                    c__PDAFcython.c__obs_op_pdaf,
+                                                    c__PDAFcython.c__prepoststep_pdaf,
+                                                    c__PDAFcython.c__init_n_domains_p_pdaf,
+                                                    c__PDAFcython.c__init_dim_l_pdaf,
+                                                    c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                                    c__PDAFcython.c__prodRinvA_l_pdaf,
+                                                    c__PDAFcython.c__prodRinvA_hyb_l_pdaf,
+                                                    c__PDAFcython.c__likelihood_l_pdaf,
+                                                    c__PDAFcython.c__likelihood_hyb_l_pdaf,
+                                                    c__PDAFcython.c__next_observation_pdaf,
+                                                    &outflag
+                                                   )
 
     return outflag
 
@@ -34135,19 +34344,19 @@ def localomi_assimilate_lnetf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -34156,26 +34365,26 @@ def localomi_assimilate_lnetf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -34184,14 +34393,14 @@ def localomi_assimilate_lnetf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__init_n_domains_p_pdaf : Callable[step:int, n_domains_p:int]
@@ -34266,9 +34475,9 @@ def localomi_assimilate_lnetf_nondiagR (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -34277,9 +34486,9 @@ def localomi_assimilate_lnetf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -34304,18 +34513,19 @@ def localomi_assimilate_lnetf_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.likelihood_l_pdaf = <void*>py__likelihood_l_pdaf
     c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
-    c__pdaflocalomi_assimilate_lnetf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                               c__PDAFcython.c__distribute_state_pdaf,
-                                               c__PDAFcython.c__init_dim_obs_pdaf,
-                                               c__PDAFcython.c__obs_op_pdaf,
-                                               c__PDAFcython.c__prepoststep_pdaf,
-                                               c__PDAFcython.c__init_n_domains_p_pdaf,
-                                               c__PDAFcython.c__init_dim_l_pdaf,
-                                               c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                               c__PDAFcython.c__likelihood_l_pdaf,
-                                               c__PDAFcython.c__next_observation_pdaf,
-                                               &outflag
-                                              )
+    with nogil:
+        c__pdaflocalomi_assimilate_lnetf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                                   c__PDAFcython.c__distribute_state_pdaf,
+                                                   c__PDAFcython.c__init_dim_obs_pdaf,
+                                                   c__PDAFcython.c__obs_op_pdaf,
+                                                   c__PDAFcython.c__prepoststep_pdaf,
+                                                   c__PDAFcython.c__init_n_domains_p_pdaf,
+                                                   c__PDAFcython.c__init_dim_l_pdaf,
+                                                   c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                                   c__PDAFcython.c__likelihood_l_pdaf,
+                                                   c__PDAFcython.c__next_observation_pdaf,
+                                                   &outflag
+                                                  )
 
     return outflag
 
@@ -34417,19 +34627,19 @@ def localomi_assimilate_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -34438,26 +34648,26 @@ def localomi_assimilate_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -34466,14 +34676,14 @@ def localomi_assimilate_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__init_n_domains_p_pdaf : Callable[step:int, n_domains_p:int]
@@ -34530,7 +34740,7 @@ def localomi_assimilate_nondiagR (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -34551,9 +34761,9 @@ def localomi_assimilate_nondiagR (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -34562,9 +34772,9 @@ def localomi_assimilate_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -34589,18 +34799,19 @@ def localomi_assimilate_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.prodRinvA_l_pdaf = <void*>py__prodRinvA_l_pdaf
     c__PDAFcython.next_observation_pdaf = <void*>py__next_observation_pdaf
 
-    c__pdaflocalomi_assimilate_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                         c__PDAFcython.c__distribute_state_pdaf,
-                                         c__PDAFcython.c__init_dim_obs_pdaf,
-                                         c__PDAFcython.c__obs_op_pdaf,
-                                         c__PDAFcython.c__prepoststep_pdaf,
-                                         c__PDAFcython.c__init_n_domains_p_pdaf,
-                                         c__PDAFcython.c__init_dim_l_pdaf,
-                                         c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                         c__PDAFcython.c__prodRinvA_l_pdaf,
-                                         c__PDAFcython.c__next_observation_pdaf,
-                                         &outflag
-                                        )
+    with nogil:
+        c__pdaflocalomi_assimilate_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                             c__PDAFcython.c__distribute_state_pdaf,
+                                             c__PDAFcython.c__init_dim_obs_pdaf,
+                                             c__PDAFcython.c__obs_op_pdaf,
+                                             c__PDAFcython.c__prepoststep_pdaf,
+                                             c__PDAFcython.c__init_n_domains_p_pdaf,
+                                             c__PDAFcython.c__init_dim_l_pdaf,
+                                             c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                             c__PDAFcython.c__prodRinvA_l_pdaf,
+                                             c__PDAFcython.c__next_observation_pdaf,
+                                             &outflag
+                                            )
 
     return outflag
 
@@ -34704,19 +34915,19 @@ def localomi_put_state (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -34725,26 +34936,26 @@ def localomi_put_state (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -34753,14 +34964,14 @@ def localomi_put_state (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__init_n_domains_p_pdaf : Callable[step:int, n_domains_p:int]
@@ -34822,15 +35033,16 @@ def localomi_put_state (py__collect_state_pdaf,
     c__PDAFcython.init_dim_l_pdaf = <void*>py__init_dim_l_pdaf
     c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
 
-    c__pdaflocalomi_put_state (c__PDAFcython.c__collect_state_pdaf,
-                               c__PDAFcython.c__init_dim_obs_pdaf,
-                               c__PDAFcython.c__obs_op_pdaf,
-                               c__PDAFcython.c__prepoststep_pdaf,
-                               c__PDAFcython.c__init_n_domains_p_pdaf,
-                               c__PDAFcython.c__init_dim_l_pdaf,
-                               c__PDAFcython.c__init_dim_obs_l_pdaf,
-                               &outflag
-                              )
+    with nogil:
+        c__pdaflocalomi_put_state (c__PDAFcython.c__collect_state_pdaf,
+                                   c__PDAFcython.c__init_dim_obs_pdaf,
+                                   c__PDAFcython.c__obs_op_pdaf,
+                                   c__PDAFcython.c__prepoststep_pdaf,
+                                   c__PDAFcython.c__init_n_domains_p_pdaf,
+                                   c__PDAFcython.c__init_dim_l_pdaf,
+                                   c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                   &outflag
+                                  )
 
     return outflag
 
@@ -34934,19 +35146,19 @@ def localomi_put_state_en3dvar_lestkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__cvt_ens_pdaf : Callable[iter:int, dim_p:int, dim_ens:int, dim_cvec_ens:int, ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], v_p : ndarray[tuple[dim_cvec_ens], np.float64], Vv_p : ndarray[tuple[dim_p], np.float64]]
         Apply control vector transform matrix to control vector
 
@@ -35077,26 +35289,26 @@ def localomi_put_state_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -35105,14 +35317,14 @@ def localomi_put_state_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     outflag : int
@@ -35136,19 +35348,20 @@ def localomi_put_state_en3dvar_lestkf (py__collect_state_pdaf,
     c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
-    c__pdaflocalomi_put_state_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                                              c__PDAFcython.c__init_dim_obs_pdaf,
-                                              c__PDAFcython.c__obs_op_pdaf,
-                                              c__PDAFcython.c__cvt_ens_pdaf,
-                                              c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                              c__PDAFcython.c__obs_op_lin_pdaf,
-                                              c__PDAFcython.c__obs_op_adj_pdaf,
-                                              c__PDAFcython.c__init_n_domains_p_pdaf,
-                                              c__PDAFcython.c__init_dim_l_pdaf,
-                                              c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                              c__PDAFcython.c__prepoststep_pdaf,
-                                              &outflag
-                                             )
+    with nogil:
+        c__pdaflocalomi_put_state_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                                  c__PDAFcython.c__init_dim_obs_pdaf,
+                                                  c__PDAFcython.c__obs_op_pdaf,
+                                                  c__PDAFcython.c__cvt_ens_pdaf,
+                                                  c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                                  c__PDAFcython.c__obs_op_lin_pdaf,
+                                                  c__PDAFcython.c__obs_op_adj_pdaf,
+                                                  c__PDAFcython.c__init_n_domains_p_pdaf,
+                                                  c__PDAFcython.c__init_dim_l_pdaf,
+                                                  c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                                  c__PDAFcython.c__prepoststep_pdaf,
+                                                  &outflag
+                                                 )
 
     return outflag
 
@@ -35257,19 +35470,19 @@ def localomi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
         Provide product R^-1 A
 
@@ -35280,8 +35493,8 @@ def localomi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -35384,7 +35597,7 @@ def localomi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -35445,26 +35658,26 @@ def localomi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -35473,14 +35686,14 @@ def localomi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     outflag : int
@@ -35506,21 +35719,22 @@ def localomi_put_state_en3dvar_lestkf_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
-    c__pdaflocalomi_put_state_en3dvar_lestkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                                       c__PDAFcython.c__init_dim_obs_pdaf,
-                                                       c__PDAFcython.c__obs_op_pdaf,
-                                                       c__PDAFcython.c__prodRinvA_pdaf,
-                                                       c__PDAFcython.c__cvt_ens_pdaf,
-                                                       c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                                       c__PDAFcython.c__obs_op_lin_pdaf,
-                                                       c__PDAFcython.c__obs_op_adj_pdaf,
-                                                       c__PDAFcython.c__prodRinvA_l_pdaf,
-                                                       c__PDAFcython.c__init_n_domains_p_pdaf,
-                                                       c__PDAFcython.c__init_dim_l_pdaf,
-                                                       c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                                       c__PDAFcython.c__prepoststep_pdaf,
-                                                       &outflag
-                                                      )
+    with nogil:
+        c__pdaflocalomi_put_state_en3dvar_lestkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                                           c__PDAFcython.c__init_dim_obs_pdaf,
+                                                           c__PDAFcython.c__obs_op_pdaf,
+                                                           c__PDAFcython.c__prodRinvA_pdaf,
+                                                           c__PDAFcython.c__cvt_ens_pdaf,
+                                                           c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                                           c__PDAFcython.c__obs_op_lin_pdaf,
+                                                           c__PDAFcython.c__obs_op_adj_pdaf,
+                                                           c__PDAFcython.c__prodRinvA_l_pdaf,
+                                                           c__PDAFcython.c__init_n_domains_p_pdaf,
+                                                           c__PDAFcython.c__init_dim_l_pdaf,
+                                                           c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                                           c__PDAFcython.c__prepoststep_pdaf,
+                                                           &outflag
+                                                          )
 
     return outflag
 
@@ -35633,19 +35847,19 @@ def localomi_put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__cvt_ens_pdaf : Callable[iter:int, dim_p:int, dim_ens:int, dim_cvec_ens:int, ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], v_p : ndarray[tuple[dim_cvec_ens], np.float64], Vv_p : ndarray[tuple[dim_p], np.float64]]
         Apply control vector transform matrix to control vector
 
@@ -35812,26 +36026,26 @@ def localomi_put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -35840,14 +36054,14 @@ def localomi_put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     outflag : int
@@ -35873,21 +36087,22 @@ def localomi_put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
     c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
-    c__pdaflocalomi_put_state_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                                               c__PDAFcython.c__init_dim_obs_pdaf,
-                                               c__PDAFcython.c__obs_op_pdaf,
-                                               c__PDAFcython.c__cvt_ens_pdaf,
-                                               c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                               c__PDAFcython.c__cvt_pdaf,
-                                               c__PDAFcython.c__cvt_adj_pdaf,
-                                               c__PDAFcython.c__obs_op_lin_pdaf,
-                                               c__PDAFcython.c__obs_op_adj_pdaf,
-                                               c__PDAFcython.c__init_n_domains_p_pdaf,
-                                               c__PDAFcython.c__init_dim_l_pdaf,
-                                               c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                               c__PDAFcython.c__prepoststep_pdaf,
-                                               &outflag
-                                              )
+    with nogil:
+        c__pdaflocalomi_put_state_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                                   c__PDAFcython.c__init_dim_obs_pdaf,
+                                                   c__PDAFcython.c__obs_op_pdaf,
+                                                   c__PDAFcython.c__cvt_ens_pdaf,
+                                                   c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                                   c__PDAFcython.c__cvt_pdaf,
+                                                   c__PDAFcython.c__cvt_adj_pdaf,
+                                                   c__PDAFcython.c__obs_op_lin_pdaf,
+                                                   c__PDAFcython.c__obs_op_adj_pdaf,
+                                                   c__PDAFcython.c__init_n_domains_p_pdaf,
+                                                   c__PDAFcython.c__init_dim_l_pdaf,
+                                                   c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                                   c__PDAFcython.c__prepoststep_pdaf,
+                                                   &outflag
+                                                  )
 
     return outflag
 
@@ -36004,19 +36219,19 @@ def localomi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prodRinvA_pdaf : Callable[step:int, dim_obs_p:int, rank:int, obs_p : ndarray[tuple[dim_obs_p], np.float64], A_p : ndarray[tuple[dim_obs_p, rank], np.float64], C_p : ndarray[tuple[dim_obs_p, rank], np.float64]]
         Provide product R^-1 A
 
@@ -36027,8 +36242,8 @@ def localomi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -36167,7 +36382,7 @@ def localomi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -36228,26 +36443,26 @@ def localomi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -36256,14 +36471,14 @@ def localomi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     outflag : int
@@ -36291,23 +36506,24 @@ def localomi_put_state_hyb3dvar_lestkf_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
     c__PDAFcython.prepoststep_pdaf = <void*>py__prepoststep_pdaf
 
-    c__pdaflocalomi_put_state_hyb3dvar_lestkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                                        c__PDAFcython.c__init_dim_obs_pdaf,
-                                                        c__PDAFcython.c__obs_op_pdaf,
-                                                        c__PDAFcython.c__prodRinvA_pdaf,
-                                                        c__PDAFcython.c__cvt_ens_pdaf,
-                                                        c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                                        c__PDAFcython.c__cvt_pdaf,
-                                                        c__PDAFcython.c__cvt_adj_pdaf,
-                                                        c__PDAFcython.c__obs_op_lin_pdaf,
-                                                        c__PDAFcython.c__obs_op_adj_pdaf,
-                                                        c__PDAFcython.c__prodRinvA_l_pdaf,
-                                                        c__PDAFcython.c__init_n_domains_p_pdaf,
-                                                        c__PDAFcython.c__init_dim_l_pdaf,
-                                                        c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                                        c__PDAFcython.c__prepoststep_pdaf,
-                                                        &outflag
-                                                       )
+    with nogil:
+        c__pdaflocalomi_put_state_hyb3dvar_lestkf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                                            c__PDAFcython.c__init_dim_obs_pdaf,
+                                                            c__PDAFcython.c__obs_op_pdaf,
+                                                            c__PDAFcython.c__prodRinvA_pdaf,
+                                                            c__PDAFcython.c__cvt_ens_pdaf,
+                                                            c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                                            c__PDAFcython.c__cvt_pdaf,
+                                                            c__PDAFcython.c__cvt_adj_pdaf,
+                                                            c__PDAFcython.c__obs_op_lin_pdaf,
+                                                            c__PDAFcython.c__obs_op_adj_pdaf,
+                                                            c__PDAFcython.c__prodRinvA_l_pdaf,
+                                                            c__PDAFcython.c__init_n_domains_p_pdaf,
+                                                            c__PDAFcython.c__init_dim_l_pdaf,
+                                                            c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                                            c__PDAFcython.c__prepoststep_pdaf,
+                                                            &outflag
+                                                           )
 
     return outflag
 
@@ -36415,19 +36631,19 @@ def localomi_put_state_lknetf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -36436,26 +36652,26 @@ def localomi_put_state_lknetf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -36464,14 +36680,14 @@ def localomi_put_state_lknetf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__init_n_domains_p_pdaf : Callable[step:int, n_domains_p:int]
@@ -36528,7 +36744,7 @@ def localomi_put_state_lknetf_nondiagR (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -36626,19 +36842,20 @@ def localomi_put_state_lknetf_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.likelihood_l_pdaf = <void*>py__likelihood_l_pdaf
     c__PDAFcython.likelihood_hyb_l_pdaf = <void*>py__likelihood_hyb_l_pdaf
 
-    c__pdaflocalomi_put_state_lknetf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                               c__PDAFcython.c__init_dim_obs_pdaf,
-                                               c__PDAFcython.c__obs_op_pdaf,
-                                               c__PDAFcython.c__prepoststep_pdaf,
-                                               c__PDAFcython.c__init_n_domains_p_pdaf,
-                                               c__PDAFcython.c__init_dim_l_pdaf,
-                                               c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                               c__PDAFcython.c__prodRinvA_l_pdaf,
-                                               c__PDAFcython.c__prodRinvA_hyb_l_pdaf,
-                                               c__PDAFcython.c__likelihood_l_pdaf,
-                                               c__PDAFcython.c__likelihood_hyb_l_pdaf,
-                                               &outflag
-                                              )
+    with nogil:
+        c__pdaflocalomi_put_state_lknetf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                                   c__PDAFcython.c__init_dim_obs_pdaf,
+                                                   c__PDAFcython.c__obs_op_pdaf,
+                                                   c__PDAFcython.c__prepoststep_pdaf,
+                                                   c__PDAFcython.c__init_n_domains_p_pdaf,
+                                                   c__PDAFcython.c__init_dim_l_pdaf,
+                                                   c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                                   c__PDAFcython.c__prodRinvA_l_pdaf,
+                                                   c__PDAFcython.c__prodRinvA_hyb_l_pdaf,
+                                                   c__PDAFcython.c__likelihood_l_pdaf,
+                                                   c__PDAFcython.c__likelihood_hyb_l_pdaf,
+                                                   &outflag
+                                                  )
 
     return outflag
 
@@ -36737,19 +36954,19 @@ def localomi_put_state_lnetf_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -36758,26 +36975,26 @@ def localomi_put_state_lnetf_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -36786,14 +37003,14 @@ def localomi_put_state_lnetf_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__init_n_domains_p_pdaf : Callable[step:int, n_domains_p:int]
@@ -36876,16 +37093,17 @@ def localomi_put_state_lnetf_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
     c__PDAFcython.likelihood_l_pdaf = <void*>py__likelihood_l_pdaf
 
-    c__pdaflocalomi_put_state_lnetf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                              c__PDAFcython.c__init_dim_obs_pdaf,
-                                              c__PDAFcython.c__obs_op_pdaf,
-                                              c__PDAFcython.c__prepoststep_pdaf,
-                                              c__PDAFcython.c__init_n_domains_p_pdaf,
-                                              c__PDAFcython.c__init_dim_l_pdaf,
-                                              c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                              c__PDAFcython.c__likelihood_l_pdaf,
-                                              &outflag
-                                             )
+    with nogil:
+        c__pdaflocalomi_put_state_lnetf_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                                  c__PDAFcython.c__init_dim_obs_pdaf,
+                                                  c__PDAFcython.c__obs_op_pdaf,
+                                                  c__PDAFcython.c__prepoststep_pdaf,
+                                                  c__PDAFcython.c__init_n_domains_p_pdaf,
+                                                  c__PDAFcython.c__init_dim_l_pdaf,
+                                                  c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                                  c__PDAFcython.c__likelihood_l_pdaf,
+                                                  &outflag
+                                                 )
 
     return outflag
 
@@ -36983,19 +37201,19 @@ def localomi_put_state_nondiagR (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__prepoststep_pdaf : Callable[step:int, dim_p:int, dim_ens:int, dim_ens_l:int, dim_obs_p:int, state_p : ndarray[tuple[dim_p], np.float64], uinv : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64], ens_p : ndarray[tuple[dim_p, dim_ens], np.float64], flag:int]
         Preprocesse the ensemble before analysis
         and postprocess the ensemble before
@@ -37004,26 +37222,26 @@ def localomi_put_state_nondiagR (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -37032,14 +37250,14 @@ def localomi_put_state_nondiagR (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__init_n_domains_p_pdaf : Callable[step:int, n_domains_p:int]
@@ -37096,7 +37314,7 @@ def localomi_put_state_nondiagR (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -37125,16 +37343,17 @@ def localomi_put_state_nondiagR (py__collect_state_pdaf,
     c__PDAFcython.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
     c__PDAFcython.prodRinvA_l_pdaf = <void*>py__prodRinvA_l_pdaf
 
-    c__pdaflocalomi_put_state_nondiagr (c__PDAFcython.c__collect_state_pdaf,
-                                        c__PDAFcython.c__init_dim_obs_pdaf,
-                                        c__PDAFcython.c__obs_op_pdaf,
-                                        c__PDAFcython.c__prepoststep_pdaf,
-                                        c__PDAFcython.c__init_n_domains_p_pdaf,
-                                        c__PDAFcython.c__init_dim_l_pdaf,
-                                        c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                        c__PDAFcython.c__prodRinvA_l_pdaf,
-                                        &outflag
-                                       )
+    with nogil:
+        c__pdaflocalomi_put_state_nondiagr (c__PDAFcython.c__collect_state_pdaf,
+                                            c__PDAFcython.c__init_dim_obs_pdaf,
+                                            c__PDAFcython.c__obs_op_pdaf,
+                                            c__PDAFcython.c__prepoststep_pdaf,
+                                            c__PDAFcython.c__init_n_domains_p_pdaf,
+                                            c__PDAFcython.c__init_dim_l_pdaf,
+                                            c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                            c__PDAFcython.c__prodRinvA_l_pdaf,
+                                            &outflag
+                                           )
 
     return outflag
 
@@ -37280,19 +37499,19 @@ def local_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -37317,8 +37536,8 @@ def local_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -37481,7 +37700,7 @@ def local_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -37602,26 +37821,26 @@ def local_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -37630,14 +37849,14 @@ def local_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -37650,9 +37869,9 @@ def local_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -37661,9 +37880,9 @@ def local_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -37701,31 +37920,32 @@ def local_assimilate_en3dvar_lestkf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaflocal_assimilate_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                                            c__PDAFcython.c__distribute_state_pdaf,
-                                            c__PDAFcython.c__init_dim_obs_pdaf,
-                                            c__PDAFcython.c__obs_op_pdaf,
-                                            c__PDAFcython.c__init_obs_pdaf,
-                                            c__PDAFcython.c__prodRinvA_pdaf,
-                                            c__PDAFcython.c__cvt_ens_pdaf,
-                                            c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                            c__PDAFcython.c__obs_op_lin_pdaf,
-                                            c__PDAFcython.c__obs_op_adj_pdaf,
-                                            c__PDAFcython.c__init_dim_obs_f_pdaf,
-                                            c__PDAFcython.c__obs_op_f_pdaf,
-                                            c__PDAFcython.c__init_obs_f_pdaf,
-                                            c__PDAFcython.c__init_obs_l_pdaf,
-                                            c__PDAFcython.c__prodRinvA_l_pdaf,
-                                            c__PDAFcython.c__init_n_domains_p_pdaf,
-                                            c__PDAFcython.c__init_dim_l_pdaf,
-                                            c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                            c__PDAFcython.c__g2l_obs_pdaf,
-                                            c__PDAFcython.c__init_obsvar_pdaf,
-                                            c__PDAFcython.c__init_obsvar_l_pdaf,
-                                            c__PDAFcython.c__prepoststep_pdaf,
-                                            c__PDAFcython.c__next_observation_pdaf,
-                                            &outflag
-                                           )
+    with nogil:
+        c__pdaflocal_assimilate_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                                c__PDAFcython.c__distribute_state_pdaf,
+                                                c__PDAFcython.c__init_dim_obs_pdaf,
+                                                c__PDAFcython.c__obs_op_pdaf,
+                                                c__PDAFcython.c__init_obs_pdaf,
+                                                c__PDAFcython.c__prodRinvA_pdaf,
+                                                c__PDAFcython.c__cvt_ens_pdaf,
+                                                c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                                c__PDAFcython.c__obs_op_lin_pdaf,
+                                                c__PDAFcython.c__obs_op_adj_pdaf,
+                                                c__PDAFcython.c__init_dim_obs_f_pdaf,
+                                                c__PDAFcython.c__obs_op_f_pdaf,
+                                                c__PDAFcython.c__init_obs_f_pdaf,
+                                                c__PDAFcython.c__init_obs_l_pdaf,
+                                                c__PDAFcython.c__prodRinvA_l_pdaf,
+                                                c__PDAFcython.c__init_n_domains_p_pdaf,
+                                                c__PDAFcython.c__init_dim_l_pdaf,
+                                                c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                                c__PDAFcython.c__g2l_obs_pdaf,
+                                                c__PDAFcython.c__init_obsvar_pdaf,
+                                                c__PDAFcython.c__init_obsvar_l_pdaf,
+                                                c__PDAFcython.c__prepoststep_pdaf,
+                                                c__PDAFcython.c__next_observation_pdaf,
+                                                &outflag
+                                               )
 
     return outflag
 
@@ -37880,19 +38100,19 @@ def local_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -37917,8 +38137,8 @@ def local_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -38117,7 +38337,7 @@ def local_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -38238,26 +38458,26 @@ def local_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -38266,14 +38486,14 @@ def local_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__next_observation_pdaf : Callable[stepnow:int, nsteps:int, doexit:int, time:float]
@@ -38286,9 +38506,9 @@ def local_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -38297,9 +38517,9 @@ def local_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -38339,33 +38559,34 @@ def local_assimilate_hyb3dvar_lestkf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaflocal_assimilate_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                                             c__PDAFcython.c__distribute_state_pdaf,
-                                             c__PDAFcython.c__init_dim_obs_pdaf,
-                                             c__PDAFcython.c__obs_op_pdaf,
-                                             c__PDAFcython.c__init_obs_pdaf,
-                                             c__PDAFcython.c__prodRinvA_pdaf,
-                                             c__PDAFcython.c__cvt_ens_pdaf,
-                                             c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                             c__PDAFcython.c__cvt_pdaf,
-                                             c__PDAFcython.c__cvt_adj_pdaf,
-                                             c__PDAFcython.c__obs_op_lin_pdaf,
-                                             c__PDAFcython.c__obs_op_adj_pdaf,
-                                             c__PDAFcython.c__init_dim_obs_f_pdaf,
-                                             c__PDAFcython.c__obs_op_f_pdaf,
-                                             c__PDAFcython.c__init_obs_f_pdaf,
-                                             c__PDAFcython.c__init_obs_l_pdaf,
-                                             c__PDAFcython.c__prodRinvA_l_pdaf,
-                                             c__PDAFcython.c__init_n_domains_p_pdaf,
-                                             c__PDAFcython.c__init_dim_l_pdaf,
-                                             c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                             c__PDAFcython.c__g2l_obs_pdaf,
-                                             c__PDAFcython.c__init_obsvar_pdaf,
-                                             c__PDAFcython.c__init_obsvar_l_pdaf,
-                                             c__PDAFcython.c__prepoststep_pdaf,
-                                             c__PDAFcython.c__next_observation_pdaf,
-                                             &outflag
-                                            )
+    with nogil:
+        c__pdaflocal_assimilate_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                                 c__PDAFcython.c__distribute_state_pdaf,
+                                                 c__PDAFcython.c__init_dim_obs_pdaf,
+                                                 c__PDAFcython.c__obs_op_pdaf,
+                                                 c__PDAFcython.c__init_obs_pdaf,
+                                                 c__PDAFcython.c__prodRinvA_pdaf,
+                                                 c__PDAFcython.c__cvt_ens_pdaf,
+                                                 c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                                 c__PDAFcython.c__cvt_pdaf,
+                                                 c__PDAFcython.c__cvt_adj_pdaf,
+                                                 c__PDAFcython.c__obs_op_lin_pdaf,
+                                                 c__PDAFcython.c__obs_op_adj_pdaf,
+                                                 c__PDAFcython.c__init_dim_obs_f_pdaf,
+                                                 c__PDAFcython.c__obs_op_f_pdaf,
+                                                 c__PDAFcython.c__init_obs_f_pdaf,
+                                                 c__PDAFcython.c__init_obs_l_pdaf,
+                                                 c__PDAFcython.c__prodRinvA_l_pdaf,
+                                                 c__PDAFcython.c__init_n_domains_p_pdaf,
+                                                 c__PDAFcython.c__init_dim_l_pdaf,
+                                                 c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                                 c__PDAFcython.c__g2l_obs_pdaf,
+                                                 c__PDAFcython.c__init_obsvar_pdaf,
+                                                 c__PDAFcython.c__init_obsvar_l_pdaf,
+                                                 c__PDAFcython.c__prepoststep_pdaf,
+                                                 c__PDAFcython.c__next_observation_pdaf,
+                                                 &outflag
+                                                )
 
     return outflag
 
@@ -38495,19 +38716,19 @@ def local_assimilate_lestkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize PE-local observation vector
 
@@ -38546,26 +38767,26 @@ def local_assimilate_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -38574,14 +38795,14 @@ def local_assimilate_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, rank:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], A_l : ndarray[tuple[dim_obs_l, rank], np.float64], C_l : ndarray[tuple[dim_obs_l, rank], np.float64]]
@@ -38596,7 +38817,7 @@ def local_assimilate_lestkf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -38719,9 +38940,9 @@ def local_assimilate_lestkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -38730,9 +38951,9 @@ def local_assimilate_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -38762,23 +38983,24 @@ def local_assimilate_lestkf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaflocal_assimilate_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                                    c__PDAFcython.c__distribute_state_pdaf,
-                                    c__PDAFcython.c__init_dim_obs_pdaf,
-                                    c__PDAFcython.c__obs_op_pdaf,
-                                    c__PDAFcython.c__init_obs_pdaf,
-                                    c__PDAFcython.c__init_obs_l_pdaf,
-                                    c__PDAFcython.c__prepoststep_pdaf,
-                                    c__PDAFcython.c__prodRinvA_l_pdaf,
-                                    c__PDAFcython.c__init_n_domains_p_pdaf,
-                                    c__PDAFcython.c__init_dim_l_pdaf,
-                                    c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                    c__PDAFcython.c__g2l_obs_pdaf,
-                                    c__PDAFcython.c__init_obsvar_pdaf,
-                                    c__PDAFcython.c__init_obsvar_l_pdaf,
-                                    c__PDAFcython.c__next_observation_pdaf,
-                                    &outflag
-                                   )
+    with nogil:
+        c__pdaflocal_assimilate_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                        c__PDAFcython.c__distribute_state_pdaf,
+                                        c__PDAFcython.c__init_dim_obs_pdaf,
+                                        c__PDAFcython.c__obs_op_pdaf,
+                                        c__PDAFcython.c__init_obs_pdaf,
+                                        c__PDAFcython.c__init_obs_l_pdaf,
+                                        c__PDAFcython.c__prepoststep_pdaf,
+                                        c__PDAFcython.c__prodRinvA_l_pdaf,
+                                        c__PDAFcython.c__init_n_domains_p_pdaf,
+                                        c__PDAFcython.c__init_dim_l_pdaf,
+                                        c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                        c__PDAFcython.c__g2l_obs_pdaf,
+                                        c__PDAFcython.c__init_obsvar_pdaf,
+                                        c__PDAFcython.c__init_obsvar_l_pdaf,
+                                        c__PDAFcython.c__next_observation_pdaf,
+                                        &outflag
+                                       )
 
     return outflag
 
@@ -38913,19 +39135,19 @@ def local_assimilate_letkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize PE-local observation vector
 
@@ -38964,26 +39186,26 @@ def local_assimilate_letkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -38992,14 +39214,14 @@ def local_assimilate_letkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, rank:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], A_l : ndarray[tuple[dim_obs_l, rank], np.float64], C_l : ndarray[tuple[dim_obs_l, rank], np.float64]]
@@ -39014,7 +39236,7 @@ def local_assimilate_letkf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -39137,9 +39359,9 @@ def local_assimilate_letkf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -39148,9 +39370,9 @@ def local_assimilate_letkf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -39180,23 +39402,24 @@ def local_assimilate_letkf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaflocal_assimilate_letkf (c__PDAFcython.c__collect_state_pdaf,
-                                   c__PDAFcython.c__distribute_state_pdaf,
-                                   c__PDAFcython.c__init_dim_obs_pdaf,
-                                   c__PDAFcython.c__obs_op_pdaf,
-                                   c__PDAFcython.c__init_obs_pdaf,
-                                   c__PDAFcython.c__init_obs_l_pdaf,
-                                   c__PDAFcython.c__prepoststep_pdaf,
-                                   c__PDAFcython.c__prodRinvA_l_pdaf,
-                                   c__PDAFcython.c__init_n_domains_p_pdaf,
-                                   c__PDAFcython.c__init_dim_l_pdaf,
-                                   c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                   c__PDAFcython.c__g2l_obs_pdaf,
-                                   c__PDAFcython.c__init_obsvar_pdaf,
-                                   c__PDAFcython.c__init_obsvar_l_pdaf,
-                                   c__PDAFcython.c__next_observation_pdaf,
-                                   &outflag
-                                  )
+    with nogil:
+        c__pdaflocal_assimilate_letkf (c__PDAFcython.c__collect_state_pdaf,
+                                       c__PDAFcython.c__distribute_state_pdaf,
+                                       c__PDAFcython.c__init_dim_obs_pdaf,
+                                       c__PDAFcython.c__obs_op_pdaf,
+                                       c__PDAFcython.c__init_obs_pdaf,
+                                       c__PDAFcython.c__init_obs_l_pdaf,
+                                       c__PDAFcython.c__prepoststep_pdaf,
+                                       c__PDAFcython.c__prodRinvA_l_pdaf,
+                                       c__PDAFcython.c__init_n_domains_p_pdaf,
+                                       c__PDAFcython.c__init_dim_l_pdaf,
+                                       c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                       c__PDAFcython.c__g2l_obs_pdaf,
+                                       c__PDAFcython.c__init_obsvar_pdaf,
+                                       c__PDAFcython.c__init_obsvar_l_pdaf,
+                                       c__PDAFcython.c__next_observation_pdaf,
+                                       &outflag
+                                      )
 
     return outflag
 
@@ -39343,19 +39566,19 @@ def local_assimilate_lknetf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize PE-local observation vector
 
@@ -39394,26 +39617,26 @@ def local_assimilate_lknetf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -39422,14 +39645,14 @@ def local_assimilate_lknetf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, rank:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], A_l : ndarray[tuple[dim_obs_l, rank], np.float64], C_l : ndarray[tuple[dim_obs_l, rank], np.float64]]
@@ -39444,7 +39667,7 @@ def local_assimilate_lknetf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -39633,9 +39856,9 @@ def local_assimilate_lknetf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -39644,9 +39867,9 @@ def local_assimilate_lknetf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -39679,26 +39902,27 @@ def local_assimilate_lknetf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaflocal_assimilate_lknetf (c__PDAFcython.c__collect_state_pdaf,
-                                    c__PDAFcython.c__distribute_state_pdaf,
-                                    c__PDAFcython.c__init_dim_obs_pdaf,
-                                    c__PDAFcython.c__obs_op_pdaf,
-                                    c__PDAFcython.c__init_obs_pdaf,
-                                    c__PDAFcython.c__init_obs_l_pdaf,
-                                    c__PDAFcython.c__prepoststep_pdaf,
-                                    c__PDAFcython.c__prodRinvA_l_pdaf,
-                                    c__PDAFcython.c__prodRinvA_hyb_l_pdaf,
-                                    c__PDAFcython.c__init_n_domains_p_pdaf,
-                                    c__PDAFcython.c__init_dim_l_pdaf,
-                                    c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                    c__PDAFcython.c__g2l_obs_pdaf,
-                                    c__PDAFcython.c__init_obsvar_pdaf,
-                                    c__PDAFcython.c__init_obsvar_l_pdaf,
-                                    c__PDAFcython.c__likelihood_l_pdaf,
-                                    c__PDAFcython.c__likelihood_hyb_l_pdaf,
-                                    c__PDAFcython.c__next_observation_pdaf,
-                                    &outflag
-                                   )
+    with nogil:
+        c__pdaflocal_assimilate_lknetf (c__PDAFcython.c__collect_state_pdaf,
+                                        c__PDAFcython.c__distribute_state_pdaf,
+                                        c__PDAFcython.c__init_dim_obs_pdaf,
+                                        c__PDAFcython.c__obs_op_pdaf,
+                                        c__PDAFcython.c__init_obs_pdaf,
+                                        c__PDAFcython.c__init_obs_l_pdaf,
+                                        c__PDAFcython.c__prepoststep_pdaf,
+                                        c__PDAFcython.c__prodRinvA_l_pdaf,
+                                        c__PDAFcython.c__prodRinvA_hyb_l_pdaf,
+                                        c__PDAFcython.c__init_n_domains_p_pdaf,
+                                        c__PDAFcython.c__init_dim_l_pdaf,
+                                        c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                        c__PDAFcython.c__g2l_obs_pdaf,
+                                        c__PDAFcython.c__init_obsvar_pdaf,
+                                        c__PDAFcython.c__init_obsvar_l_pdaf,
+                                        c__PDAFcython.c__likelihood_l_pdaf,
+                                        c__PDAFcython.c__likelihood_hyb_l_pdaf,
+                                        c__PDAFcython.c__next_observation_pdaf,
+                                        &outflag
+                                       )
 
     return outflag
 
@@ -39819,19 +40043,19 @@ def local_assimilate_lnetf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, observation_l : ndarray[tuple[dim_obs_l], np.float64]]
         Init. observation vector on local analysis domain
 
@@ -39856,26 +40080,26 @@ def local_assimilate_lnetf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -39884,14 +40108,14 @@ def local_assimilate_lnetf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__likelihood_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], resid_l : ndarray[tuple[dim_obs_l], np.float64], likely_l:float]
@@ -39990,9 +40214,9 @@ def local_assimilate_lnetf (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -40001,9 +40225,9 @@ def local_assimilate_lnetf (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -40030,20 +40254,21 @@ def local_assimilate_lnetf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaflocal_assimilate_lnetf (c__PDAFcython.c__collect_state_pdaf,
-                                   c__PDAFcython.c__distribute_state_pdaf,
-                                   c__PDAFcython.c__init_dim_obs_pdaf,
-                                   c__PDAFcython.c__obs_op_pdaf,
-                                   c__PDAFcython.c__init_obs_l_pdaf,
-                                   c__PDAFcython.c__prepoststep_pdaf,
-                                   c__PDAFcython.c__likelihood_l_pdaf,
-                                   c__PDAFcython.c__init_n_domains_p_pdaf,
-                                   c__PDAFcython.c__init_dim_l_pdaf,
-                                   c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                   c__PDAFcython.c__g2l_obs_pdaf,
-                                   c__PDAFcython.c__next_observation_pdaf,
-                                   &outflag
-                                  )
+    with nogil:
+        c__pdaflocal_assimilate_lnetf (c__PDAFcython.c__collect_state_pdaf,
+                                       c__PDAFcython.c__distribute_state_pdaf,
+                                       c__PDAFcython.c__init_dim_obs_pdaf,
+                                       c__PDAFcython.c__obs_op_pdaf,
+                                       c__PDAFcython.c__init_obs_l_pdaf,
+                                       c__PDAFcython.c__prepoststep_pdaf,
+                                       c__PDAFcython.c__likelihood_l_pdaf,
+                                       c__PDAFcython.c__init_n_domains_p_pdaf,
+                                       c__PDAFcython.c__init_dim_l_pdaf,
+                                       c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                       c__PDAFcython.c__g2l_obs_pdaf,
+                                       c__PDAFcython.c__next_observation_pdaf,
+                                       &outflag
+                                      )
 
     return outflag
 
@@ -40171,19 +40396,19 @@ def local_assimilate_lseik (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize PE-local observation vector
 
@@ -40222,26 +40447,26 @@ def local_assimilate_lseik (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -40250,14 +40475,14 @@ def local_assimilate_lseik (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, rank:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], A_l : ndarray[tuple[dim_obs_l, rank], np.float64], C_l : ndarray[tuple[dim_obs_l, rank], np.float64]]
@@ -40272,7 +40497,7 @@ def local_assimilate_lseik (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -40395,9 +40620,9 @@ def local_assimilate_lseik (py__collect_state_pdaf,
                 * the current time step given by PDAF
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -40406,9 +40631,9 @@ def local_assimilate_lseik (py__collect_state_pdaf,
         **Callback Returns**
             * **nsteps** : int
                 * number of forecast time steps until next assimilation;
-                  this can also be interpreted as
-                  number of assimilation function calls
-                  to perform a new assimilation
+                   this can also be interpreted as
+                   number of assimilation function calls
+                   to perform a new assimilation
             * **doexit** : int
                 * whether to exit forecasting (1 for exit)
             * **time** : float
@@ -40438,23 +40663,24 @@ def local_assimilate_lseik (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaflocal_assimilate_lseik (c__PDAFcython.c__collect_state_pdaf,
-                                   c__PDAFcython.c__distribute_state_pdaf,
-                                   c__PDAFcython.c__init_dim_obs_pdaf,
-                                   c__PDAFcython.c__obs_op_pdaf,
-                                   c__PDAFcython.c__init_obs_pdaf,
-                                   c__PDAFcython.c__init_obs_l_pdaf,
-                                   c__PDAFcython.c__prepoststep_pdaf,
-                                   c__PDAFcython.c__prodRinvA_l_pdaf,
-                                   c__PDAFcython.c__init_n_domains_p_pdaf,
-                                   c__PDAFcython.c__init_dim_l_pdaf,
-                                   c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                   c__PDAFcython.c__g2l_obs_pdaf,
-                                   c__PDAFcython.c__init_obsvar_pdaf,
-                                   c__PDAFcython.c__init_obsvar_l_pdaf,
-                                   c__PDAFcython.c__next_observation_pdaf,
-                                   &outflag
-                                  )
+    with nogil:
+        c__pdaflocal_assimilate_lseik (c__PDAFcython.c__collect_state_pdaf,
+                                       c__PDAFcython.c__distribute_state_pdaf,
+                                       c__PDAFcython.c__init_dim_obs_pdaf,
+                                       c__PDAFcython.c__obs_op_pdaf,
+                                       c__PDAFcython.c__init_obs_pdaf,
+                                       c__PDAFcython.c__init_obs_l_pdaf,
+                                       c__PDAFcython.c__prepoststep_pdaf,
+                                       c__PDAFcython.c__prodRinvA_l_pdaf,
+                                       c__PDAFcython.c__init_n_domains_p_pdaf,
+                                       c__PDAFcython.c__init_dim_l_pdaf,
+                                       c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                       c__PDAFcython.c__g2l_obs_pdaf,
+                                       c__PDAFcython.c__init_obsvar_pdaf,
+                                       c__PDAFcython.c__init_obsvar_l_pdaf,
+                                       c__PDAFcython.c__next_observation_pdaf,
+                                       &outflag
+                                      )
 
     return outflag
 
@@ -40594,19 +40820,19 @@ def local_put_state_en3dvar_lestkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -40631,8 +40857,8 @@ def local_put_state_en3dvar_lestkf (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -40795,7 +41021,7 @@ def local_put_state_en3dvar_lestkf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -40916,26 +41142,26 @@ def local_put_state_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -40944,14 +41170,14 @@ def local_put_state_en3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
 
@@ -40985,29 +41211,30 @@ def local_put_state_en3dvar_lestkf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaflocal_put_state_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                                           c__PDAFcython.c__init_dim_obs_pdaf,
-                                           c__PDAFcython.c__obs_op_pdaf,
-                                           c__PDAFcython.c__init_obs_pdaf,
-                                           c__PDAFcython.c__prodRinvA_pdaf,
-                                           c__PDAFcython.c__cvt_ens_pdaf,
-                                           c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                           c__PDAFcython.c__obs_op_lin_pdaf,
-                                           c__PDAFcython.c__obs_op_adj_pdaf,
-                                           c__PDAFcython.c__init_dim_obs_f_pdaf,
-                                           c__PDAFcython.c__obs_op_f_pdaf,
-                                           c__PDAFcython.c__init_obs_f_pdaf,
-                                           c__PDAFcython.c__init_obs_l_pdaf,
-                                           c__PDAFcython.c__prodRinvA_l_pdaf,
-                                           c__PDAFcython.c__init_n_domains_p_pdaf,
-                                           c__PDAFcython.c__init_dim_l_pdaf,
-                                           c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                           c__PDAFcython.c__g2l_obs_pdaf,
-                                           c__PDAFcython.c__init_obsvar_pdaf,
-                                           c__PDAFcython.c__init_obsvar_l_pdaf,
-                                           c__PDAFcython.c__prepoststep_pdaf,
-                                           &outflag
-                                          )
+    with nogil:
+        c__pdaflocal_put_state_en3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                               c__PDAFcython.c__init_dim_obs_pdaf,
+                                               c__PDAFcython.c__obs_op_pdaf,
+                                               c__PDAFcython.c__init_obs_pdaf,
+                                               c__PDAFcython.c__prodRinvA_pdaf,
+                                               c__PDAFcython.c__cvt_ens_pdaf,
+                                               c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                               c__PDAFcython.c__obs_op_lin_pdaf,
+                                               c__PDAFcython.c__obs_op_adj_pdaf,
+                                               c__PDAFcython.c__init_dim_obs_f_pdaf,
+                                               c__PDAFcython.c__obs_op_f_pdaf,
+                                               c__PDAFcython.c__init_obs_f_pdaf,
+                                               c__PDAFcython.c__init_obs_l_pdaf,
+                                               c__PDAFcython.c__prodRinvA_l_pdaf,
+                                               c__PDAFcython.c__init_n_domains_p_pdaf,
+                                               c__PDAFcython.c__init_dim_l_pdaf,
+                                               c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                               c__PDAFcython.c__g2l_obs_pdaf,
+                                               c__PDAFcython.c__init_obsvar_pdaf,
+                                               c__PDAFcython.c__init_obsvar_l_pdaf,
+                                               c__PDAFcython.c__prepoststep_pdaf,
+                                               &outflag
+                                              )
 
     return outflag
 
@@ -41158,19 +41385,19 @@ def local_put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize observation vector
 
@@ -41195,8 +41422,8 @@ def local_put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * Number of observations at current time step (i.e. the size of the observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one
-                  (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one
+                   (or the rank of the initial covariance matrix)
             * **obs_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Vector of observations
             * **A_p** : ndarray[tuple[dim_obs_p, rank], np.float64]
@@ -41395,7 +41622,7 @@ def local_put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -41516,26 +41743,26 @@ def local_put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -41544,14 +41771,14 @@ def local_put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
 
@@ -41587,31 +41814,32 @@ def local_put_state_hyb3dvar_lestkf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaflocal_put_state_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                                            c__PDAFcython.c__init_dim_obs_pdaf,
-                                            c__PDAFcython.c__obs_op_pdaf,
-                                            c__PDAFcython.c__init_obs_pdaf,
-                                            c__PDAFcython.c__prodRinvA_pdaf,
-                                            c__PDAFcython.c__cvt_ens_pdaf,
-                                            c__PDAFcython.c__cvt_adj_ens_pdaf,
-                                            c__PDAFcython.c__cvt_pdaf,
-                                            c__PDAFcython.c__cvt_adj_pdaf,
-                                            c__PDAFcython.c__obs_op_lin_pdaf,
-                                            c__PDAFcython.c__obs_op_adj_pdaf,
-                                            c__PDAFcython.c__init_dim_obs_f_pdaf,
-                                            c__PDAFcython.c__obs_op_f_pdaf,
-                                            c__PDAFcython.c__init_obs_f_pdaf,
-                                            c__PDAFcython.c__init_obs_l_pdaf,
-                                            c__PDAFcython.c__prodRinvA_l_pdaf,
-                                            c__PDAFcython.c__init_n_domains_p_pdaf,
-                                            c__PDAFcython.c__init_dim_l_pdaf,
-                                            c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                            c__PDAFcython.c__g2l_obs_pdaf,
-                                            c__PDAFcython.c__init_obsvar_pdaf,
-                                            c__PDAFcython.c__init_obsvar_l_pdaf,
-                                            c__PDAFcython.c__prepoststep_pdaf,
-                                            &outflag
-                                           )
+    with nogil:
+        c__pdaflocal_put_state_hyb3dvar_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                                c__PDAFcython.c__init_dim_obs_pdaf,
+                                                c__PDAFcython.c__obs_op_pdaf,
+                                                c__PDAFcython.c__init_obs_pdaf,
+                                                c__PDAFcython.c__prodRinvA_pdaf,
+                                                c__PDAFcython.c__cvt_ens_pdaf,
+                                                c__PDAFcython.c__cvt_adj_ens_pdaf,
+                                                c__PDAFcython.c__cvt_pdaf,
+                                                c__PDAFcython.c__cvt_adj_pdaf,
+                                                c__PDAFcython.c__obs_op_lin_pdaf,
+                                                c__PDAFcython.c__obs_op_adj_pdaf,
+                                                c__PDAFcython.c__init_dim_obs_f_pdaf,
+                                                c__PDAFcython.c__obs_op_f_pdaf,
+                                                c__PDAFcython.c__init_obs_f_pdaf,
+                                                c__PDAFcython.c__init_obs_l_pdaf,
+                                                c__PDAFcython.c__prodRinvA_l_pdaf,
+                                                c__PDAFcython.c__init_n_domains_p_pdaf,
+                                                c__PDAFcython.c__init_dim_l_pdaf,
+                                                c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                                c__PDAFcython.c__g2l_obs_pdaf,
+                                                c__PDAFcython.c__init_obsvar_pdaf,
+                                                c__PDAFcython.c__init_obsvar_l_pdaf,
+                                                c__PDAFcython.c__prepoststep_pdaf,
+                                                &outflag
+                                               )
 
     return outflag
 
@@ -41735,19 +41963,19 @@ def local_put_state_lestkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize PE-local observation vector
 
@@ -41786,26 +42014,26 @@ def local_put_state_lestkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -41814,14 +42042,14 @@ def local_put_state_lestkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, rank:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], A_l : ndarray[tuple[dim_obs_l, rank], np.float64], C_l : ndarray[tuple[dim_obs_l, rank], np.float64]]
@@ -41836,7 +42064,7 @@ def local_put_state_lestkf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -41972,21 +42200,22 @@ def local_put_state_lestkf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaflocal_put_state_lestkf (c__PDAFcython.c__collect_state_pdaf,
-                                   c__PDAFcython.c__init_dim_obs_pdaf,
-                                   c__PDAFcython.c__obs_op_pdaf,
-                                   c__PDAFcython.c__init_obs_pdaf,
-                                   c__PDAFcython.c__init_obs_l_pdaf,
-                                   c__PDAFcython.c__prepoststep_pdaf,
-                                   c__PDAFcython.c__prodRinvA_l_pdaf,
-                                   c__PDAFcython.c__init_n_domains_p_pdaf,
-                                   c__PDAFcython.c__init_dim_l_pdaf,
-                                   c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                   c__PDAFcython.c__g2l_obs_pdaf,
-                                   c__PDAFcython.c__init_obsvar_pdaf,
-                                   c__PDAFcython.c__init_obsvar_l_pdaf,
-                                   &outflag
-                                  )
+    with nogil:
+        c__pdaflocal_put_state_lestkf (c__PDAFcython.c__collect_state_pdaf,
+                                       c__PDAFcython.c__init_dim_obs_pdaf,
+                                       c__PDAFcython.c__obs_op_pdaf,
+                                       c__PDAFcython.c__init_obs_pdaf,
+                                       c__PDAFcython.c__init_obs_l_pdaf,
+                                       c__PDAFcython.c__prepoststep_pdaf,
+                                       c__PDAFcython.c__prodRinvA_l_pdaf,
+                                       c__PDAFcython.c__init_n_domains_p_pdaf,
+                                       c__PDAFcython.c__init_dim_l_pdaf,
+                                       c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                       c__PDAFcython.c__g2l_obs_pdaf,
+                                       c__PDAFcython.c__init_obsvar_pdaf,
+                                       c__PDAFcython.c__init_obsvar_l_pdaf,
+                                       &outflag
+                                      )
 
     return outflag
 
@@ -42115,19 +42344,19 @@ def local_put_state_letkf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize PE-local observation vector
 
@@ -42166,26 +42395,26 @@ def local_put_state_letkf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -42194,14 +42423,14 @@ def local_put_state_letkf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, rank:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], A_l : ndarray[tuple[dim_obs_l, rank], np.float64], C_l : ndarray[tuple[dim_obs_l, rank], np.float64]]
@@ -42216,7 +42445,7 @@ def local_put_state_letkf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -42352,21 +42581,22 @@ def local_put_state_letkf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaflocal_put_state_letkf (c__PDAFcython.c__collect_state_pdaf,
-                                  c__PDAFcython.c__init_dim_obs_pdaf,
-                                  c__PDAFcython.c__obs_op_pdaf,
-                                  c__PDAFcython.c__init_obs_pdaf,
-                                  c__PDAFcython.c__init_obs_l_pdaf,
-                                  c__PDAFcython.c__prepoststep_pdaf,
-                                  c__PDAFcython.c__prodRinvA_l_pdaf,
-                                  c__PDAFcython.c__init_n_domains_p_pdaf,
-                                  c__PDAFcython.c__init_dim_l_pdaf,
-                                  c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                  c__PDAFcython.c__g2l_obs_pdaf,
-                                  c__PDAFcython.c__init_obsvar_pdaf,
-                                  c__PDAFcython.c__init_obsvar_l_pdaf,
-                                  &outflag
-                                 )
+    with nogil:
+        c__pdaflocal_put_state_letkf (c__PDAFcython.c__collect_state_pdaf,
+                                      c__PDAFcython.c__init_dim_obs_pdaf,
+                                      c__PDAFcython.c__obs_op_pdaf,
+                                      c__PDAFcython.c__init_obs_pdaf,
+                                      c__PDAFcython.c__init_obs_l_pdaf,
+                                      c__PDAFcython.c__prepoststep_pdaf,
+                                      c__PDAFcython.c__prodRinvA_l_pdaf,
+                                      c__PDAFcython.c__init_n_domains_p_pdaf,
+                                      c__PDAFcython.c__init_dim_l_pdaf,
+                                      c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                      c__PDAFcython.c__g2l_obs_pdaf,
+                                      c__PDAFcython.c__init_obsvar_pdaf,
+                                      c__PDAFcython.c__init_obsvar_l_pdaf,
+                                      &outflag
+                                     )
 
     return outflag
 
@@ -42506,19 +42736,19 @@ def local_put_state_lknetf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize PE-local observation vector
 
@@ -42557,26 +42787,26 @@ def local_put_state_lknetf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -42585,14 +42815,14 @@ def local_put_state_lknetf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, rank:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], A_l : ndarray[tuple[dim_obs_l, rank], np.float64], C_l : ndarray[tuple[dim_obs_l, rank], np.float64]]
@@ -42607,7 +42837,7 @@ def local_put_state_lknetf (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -42812,24 +43042,25 @@ def local_put_state_lknetf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaflocal_put_state_lknetf (c__PDAFcython.c__collect_state_pdaf,
-                                   c__PDAFcython.c__init_dim_obs_pdaf,
-                                   c__PDAFcython.c__obs_op_pdaf,
-                                   c__PDAFcython.c__init_obs_pdaf,
-                                   c__PDAFcython.c__init_obs_l_pdaf,
-                                   c__PDAFcython.c__prepoststep_pdaf,
-                                   c__PDAFcython.c__prodRinvA_l_pdaf,
-                                   c__PDAFcython.c__prodRinvA_hyb_l_pdaf,
-                                   c__PDAFcython.c__init_n_domains_p_pdaf,
-                                   c__PDAFcython.c__init_dim_l_pdaf,
-                                   c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                   c__PDAFcython.c__g2l_obs_pdaf,
-                                   c__PDAFcython.c__init_obsvar_pdaf,
-                                   c__PDAFcython.c__init_obsvar_l_pdaf,
-                                   c__PDAFcython.c__likelihood_l_pdaf,
-                                   c__PDAFcython.c__likelihood_hyb_l_pdaf,
-                                   &outflag
-                                  )
+    with nogil:
+        c__pdaflocal_put_state_lknetf (c__PDAFcython.c__collect_state_pdaf,
+                                       c__PDAFcython.c__init_dim_obs_pdaf,
+                                       c__PDAFcython.c__obs_op_pdaf,
+                                       c__PDAFcython.c__init_obs_pdaf,
+                                       c__PDAFcython.c__init_obs_l_pdaf,
+                                       c__PDAFcython.c__prepoststep_pdaf,
+                                       c__PDAFcython.c__prodRinvA_l_pdaf,
+                                       c__PDAFcython.c__prodRinvA_hyb_l_pdaf,
+                                       c__PDAFcython.c__init_n_domains_p_pdaf,
+                                       c__PDAFcython.c__init_dim_l_pdaf,
+                                       c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                       c__PDAFcython.c__g2l_obs_pdaf,
+                                       c__PDAFcython.c__init_obsvar_pdaf,
+                                       c__PDAFcython.c__init_obsvar_l_pdaf,
+                                       c__PDAFcython.c__likelihood_l_pdaf,
+                                       c__PDAFcython.c__likelihood_hyb_l_pdaf,
+                                       &outflag
+                                      )
 
     return outflag
 
@@ -42942,19 +43173,19 @@ def local_put_state_lnetf (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, observation_l : ndarray[tuple[dim_obs_l], np.float64]]
         Init. observation vector on local analysis domain
 
@@ -42979,26 +43210,26 @@ def local_put_state_lnetf (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -43007,14 +43238,14 @@ def local_put_state_lnetf (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__likelihood_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], resid_l : ndarray[tuple[dim_obs_l], np.float64], likely_l:float]
@@ -43123,18 +43354,19 @@ def local_put_state_lnetf (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaflocal_put_state_lnetf (c__PDAFcython.c__collect_state_pdaf,
-                                  c__PDAFcython.c__init_dim_obs_pdaf,
-                                  c__PDAFcython.c__obs_op_pdaf,
-                                  c__PDAFcython.c__init_obs_l_pdaf,
-                                  c__PDAFcython.c__prepoststep_pdaf,
-                                  c__PDAFcython.c__likelihood_l_pdaf,
-                                  c__PDAFcython.c__init_n_domains_p_pdaf,
-                                  c__PDAFcython.c__init_dim_l_pdaf,
-                                  c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                  c__PDAFcython.c__g2l_obs_pdaf,
-                                  &outflag
-                                 )
+    with nogil:
+        c__pdaflocal_put_state_lnetf (c__PDAFcython.c__collect_state_pdaf,
+                                      c__PDAFcython.c__init_dim_obs_pdaf,
+                                      c__PDAFcython.c__obs_op_pdaf,
+                                      c__PDAFcython.c__init_obs_l_pdaf,
+                                      c__PDAFcython.c__prepoststep_pdaf,
+                                      c__PDAFcython.c__likelihood_l_pdaf,
+                                      c__PDAFcython.c__init_n_domains_p_pdaf,
+                                      c__PDAFcython.c__init_dim_l_pdaf,
+                                      c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                      c__PDAFcython.c__g2l_obs_pdaf,
+                                      &outflag
+                                     )
 
     return outflag
 
@@ -43255,19 +43487,19 @@ def local_put_state_lseik (py__collect_state_pdaf,
                 * Current time step
             * **dim_p** : int
                 * Size of state vector
-                  (local part in case of parallel decomposed state)
+                   (local part in case of parallel decomposed state)
             * **dim_obs_p** : int
                 * Size of PE-local observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * Model state vector
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
 
         **Callback Returns**
             * **m_state_p** : ndarray[tuple[dim_obs_p], np.float64]
                 * Observed state vector
-                  (i.e. the result after applying the observation operator to state_p)
+                   (i.e. the result after applying the observation operator to state_p)
     py__init_obs_pdaf : Callable[step:int, dim_obs_p:int, observation_p : ndarray[tuple[dim_obs_p], np.float64]]
         Initialize PE-local observation vector
 
@@ -43306,26 +43538,26 @@ def local_put_state_lseik (py__collect_state_pdaf,
         **Callback Parameters**
             * **step** : int
                 * current time step
-                  (negative for call before analysis/preprocessing)
+                   (negative for call before analysis/preprocessing)
             * **dim_p** : int
                 * PE-local state vector dimension
             * **dim_ens** : int
                 * number of ensemble members
             * **dim_ens_l** : int
                 * number of ensemble members run serially
-                  on each model task
+                   on each model task
             * **dim_obs_p** : int
                 * PE-local dimension of observation vector
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
             * **flag** : int
@@ -43334,14 +43566,14 @@ def local_put_state_lseik (py__collect_state_pdaf,
         **Callback Returns**
             * **state_p** : ndarray[tuple[dim_p], np.float64]
                 * pe-local forecast/analysis state
-                  (the array 'state_p' is generally not
-                  initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                  so it can be used freely here.)
+                   (the array 'state_p' is generally not
+                   initialised in the case of ESTKF/ETKF/EnKF/SEIK,
+                   so it can be used freely here.)
             * **uinv** : ndarray[tuple[dim_ens-1, dim_ens-1], np.float64]
                 * Inverse of the transformation matrix in ETKF and ESKTF;
-                  inverse of matrix formed by right singular vectors of error
-                  covariance matrix of ensemble perturbations in SEIK/SEEK.
-                  not used in EnKF.
+                   inverse of matrix formed by right singular vectors of error
+                   covariance matrix of ensemble perturbations in SEIK/SEEK.
+                   not used in EnKF.
             * **ens_p** : ndarray[tuple[dim_p, dim_ens], np.float64]
                 * PE-local ensemble
     py__prodRinvA_l_pdaf : Callable[domain_p:int, step:int, dim_obs_l:int, rank:int, obs_l : ndarray[tuple[dim_obs_l], np.float64], A_l : ndarray[tuple[dim_obs_l, rank], np.float64], C_l : ndarray[tuple[dim_obs_l, rank], np.float64]]
@@ -43356,7 +43588,7 @@ def local_put_state_lseik (py__collect_state_pdaf,
                 * Number of local observations at current time step (i.e. the size of the local observation vector)
             * **rank** : int
                 * Number of the columns in the matrix processes here.
-                  This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
+                   This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
             * **obs_l** : ndarray[tuple[dim_obs_l], np.float64]
                 * Local vector of observations
             * **A_l** : ndarray[tuple[dim_obs_l, rank], np.float64]
@@ -43492,21 +43724,22 @@ def local_put_state_lseik (py__collect_state_pdaf,
 
     cdef int outflag
 
-    c__pdaflocal_put_state_lseik (c__PDAFcython.c__collect_state_pdaf,
-                                  c__PDAFcython.c__init_dim_obs_pdaf,
-                                  c__PDAFcython.c__obs_op_pdaf,
-                                  c__PDAFcython.c__init_obs_pdaf,
-                                  c__PDAFcython.c__init_obs_l_pdaf,
-                                  c__PDAFcython.c__prepoststep_pdaf,
-                                  c__PDAFcython.c__prodRinvA_l_pdaf,
-                                  c__PDAFcython.c__init_n_domains_p_pdaf,
-                                  c__PDAFcython.c__init_dim_l_pdaf,
-                                  c__PDAFcython.c__init_dim_obs_l_pdaf,
-                                  c__PDAFcython.c__g2l_obs_pdaf,
-                                  c__PDAFcython.c__init_obsvar_pdaf,
-                                  c__PDAFcython.c__init_obsvar_l_pdaf,
-                                  &outflag
-                                 )
+    with nogil:
+        c__pdaflocal_put_state_lseik (c__PDAFcython.c__collect_state_pdaf,
+                                      c__PDAFcython.c__init_dim_obs_pdaf,
+                                      c__PDAFcython.c__obs_op_pdaf,
+                                      c__PDAFcython.c__init_obs_pdaf,
+                                      c__PDAFcython.c__init_obs_l_pdaf,
+                                      c__PDAFcython.c__prepoststep_pdaf,
+                                      c__PDAFcython.c__prodRinvA_l_pdaf,
+                                      c__PDAFcython.c__init_n_domains_p_pdaf,
+                                      c__PDAFcython.c__init_dim_l_pdaf,
+                                      c__PDAFcython.c__init_dim_obs_l_pdaf,
+                                      c__PDAFcython.c__g2l_obs_pdaf,
+                                      c__PDAFcython.c__init_obsvar_pdaf,
+                                      c__PDAFcython.c__init_obsvar_l_pdaf,
+                                      &outflag
+                                     )
 
     return outflag
 

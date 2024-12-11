@@ -1,4 +1,4 @@
-cdef void c__init_ens_pdaf (int* filtertype, int* dim_p, int* dim_ens, double* state_p, double* uinv, double* ens_p, int* flag) noexcept:
+cdef void c__init_ens_pdaf (int* filtertype, int* dim_p, int* dim_ens, double* state_p, double* uinv, double* ens_p, int* flag) noexcept with gil:
 
     cdef double[::1] state_p_np = np.asarray(<double[:dim_p[0]]> state_p)
 

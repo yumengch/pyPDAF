@@ -1,8 +1,10 @@
-conv:dict[str, str] = {'integer' : 'int', 'logical': 'bint', 'real': 'double', 'procedure':'void', 'character':'CFI_cdesc_t', 'type':'double*'}
+conv: dict[str, str] = {'integer': 'int', 'logical': 'bint', 'real': 'double',
+                        'procedure': 'void', 'character': 'CFI_cdesc_t', 'type': 'double*'}
 
-def write_Pxd_file(filename:str,
-                   func_info:dict[str, dict[str, dict[str, str|list[str]]]],
-                   user_func_info:dict[str, dict[str, dict[str, str|list[str]]]]) -> None:
+
+def write_Pxd_file(filename: str,
+                   func_info: dict[str, dict[str, dict[str, str | list[str]]]],
+                   user_func_info: dict[str, dict[str, dict[str, str | list[str]]]]) -> None:
     """
     A function that writes the content of the func_info dictionary to a .pxd file with specific formatting.
 
@@ -15,10 +17,10 @@ def write_Pxd_file(filename:str,
     user_func_info : dict
         a dictionary containing additional user-defined function information
     """
-    s : str
-    indent : str
-    routine_name : str
-    argname : str
+    s: str
+    indent: str
+    routine_name: str
+    argname: str
     with open(filename, 'w') as f:
         for routine_name in func_info:
             # Declare pointer to Python user-supplied callback functions
@@ -37,15 +39,19 @@ def write_Pxd_file(filename:str,
 
             # write the function arguments
             for argname, arginfo in func_info[routine_name].items():
-                assert type(arginfo['type']) is str, f"type in info {arginfo['type']} is not a str"
+                assert type(arginfo['type']) is str, \
+                    f"type in info {arginfo['type']} is not a str"
                 if arginfo["type"] == 'procedure':
                     # write the user-supplied function interface
-                    user_arg_info = [user_func_info[user_func_name]
-                            for user_func_name in user_func_info if user_func_name == arginfo['kind']][0]
+                    user_arg_info = [
+                        user_func_info[user_func_name]
+                        for user_func_name in user_func_info
+                        if user_func_name == arginfo['kind']][0]
                     s = f'void (*{arginfo['kind']})('
                     indent2 = indent + ' '*len(s)
                     for _, u_info in user_arg_info.items():
-                        assert type(u_info['type']) is str, f"type in info {u_info['type']} is not a str"
+                        assert type(u_info['type']) is str, \
+                            f"type in info {u_info['type']} is not a str"
                         s += f'{conv[u_info["type"]]}*'
                         s += f',\n{indent2}'
 
@@ -55,9 +61,12 @@ def write_Pxd_file(filename:str,
                     # simply write the argument type and name
                     s = f'{conv[arginfo["type"]]}* {argname}'
 
-                s += f'\n{indent[:-1]}' if argname == list(func_info[routine_name])[-1] else f',\n{indent}'
+                s += f'\n{indent[:-1]}' if argname == list(
+                    func_info[routine_name])[-1] else f',\n{indent}'
                 f.write(s)
 
-            s = ') noexcept;'
+            if func_info == user_func_info:
+                s = ') noexcept with gil;'
+            else:
+                s = ') noexcept nogil;'
             f.write(s+'\n')
-
