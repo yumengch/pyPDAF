@@ -21792,6 +21792,17 @@ def omi_init (n_obs: int) -> None:
     """
     ...
 
+def omi_init_local () -> None:
+    r"""Allocating an array of `obs_l` derived types instances.
+
+    This function initialises the number of observation types
+    for each local analysis domain,
+    which should be called at the start of the local analysis loop
+    in :func:`py__init_dim_obs_l_pdaf`.
+
+    """
+    ...
+
 def omi_set_doassim (i_obs: int,doassim: int) -> None:
     r"""Setting the `doassim` attribute of `obs_f`.
 

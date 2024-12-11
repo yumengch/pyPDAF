@@ -294,6 +294,13 @@ docstrings['omi_init'] = \
     "which should be called at the start of the DA system\n    " \
     "after :func:`pyPDAF.PDAF.init`."
 
+docstrings['omi_init_local'] = \
+    "Allocating an array of `obs_l` derived types instances.\n\n    " \
+    "This function initialises the number of observation types\n    " \
+    "for each local analysis domain,\n    " \
+    "which should be called at the start of the local analysis loop\n    " \
+    "in :func:`py__init_dim_obs_l_pdaf`."
+
 docstrings['omi_set_doassim'] = \
     "Setting the `doassim` attribute of `obs_f`.\n\n    " \
     "Properties of `obs_f` are typically set in user-supplied function\n    " \
