@@ -6,13 +6,22 @@ implicit none
 
 type(obs_f), allocatable, target :: thisobs(:)
 type(obs_l), allocatable, target :: thisobs_l(:)
+integer :: n_obs_omi
+
+!$OMP THREADPRIVATE(thisobs_l)
+
 contains
    subroutine c__PDAFomi_init(n_obs) bind(c)
       ! number of observations
       integer(c_int), intent(in) :: n_obs
+      n_obs_omi = n_obs
       if (.not. allocated(thisobs)) allocate(thisobs(n_obs))
       if (.not. allocated(thisobs_l)) allocate(thisobs_l(n_obs))
    end subroutine c__PDAFomi_init
+
+   subroutine c__PDAFomi_init_local() bind(c)
+      if (.not. allocated(thisobs_l)) allocate(thisobs_l(n_obs_omi))
+   end subroutine c__PDAFomi_init_local
 
    subroutine c__PDAFomi_set_doassim(i_obs, doassim) bind(c)
       ! index of observation types

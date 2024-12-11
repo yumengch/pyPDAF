@@ -2,7 +2,7 @@ import numpy as np
 import warnings
 
 
-cdef void c__add_obs_err_pdaf (int* step, int* dim_obs_p, double* C_p) noexcept:
+cdef void c__add_obs_err_pdaf (int* step, int* dim_obs_p, double* C_p) noexcept with gil:
 
     cdef double[::1,:] C_p_np = np.asarray(<double[:dim_obs_p[0]:1,:dim_obs_p[0]]> C_p, order='F')
 
@@ -17,7 +17,7 @@ cdef void c__add_obs_err_pdaf (int* step, int* dim_obs_p, double* C_p) noexcept:
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__init_ens_pdaf (int* filtertype, int* dim_p, int* dim_ens, double* state_p, double* uinv, double* ens_p, int* flag) noexcept:
+cdef void c__init_ens_pdaf (int* filtertype, int* dim_p, int* dim_ens, double* state_p, double* uinv, double* ens_p, int* flag) noexcept with gil:
 
     cdef double[::1] state_p_np = np.asarray(<double[:dim_p[0]]> state_p)
 
@@ -56,13 +56,13 @@ cdef void c__init_ens_pdaf (int* filtertype, int* dim_p, int* dim_ens, double* s
         warnings.warn("The memory address of ens_p is changed in c__init_ens_pdaf."
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
-cdef void c__next_observation_pdaf (int* stepnow, int* nsteps, int* doexit, double* time) noexcept:
+cdef void c__next_observation_pdaf (int* stepnow, int* nsteps, int* doexit, double* time) noexcept with gil:
 
     nsteps[0], doexit[0], time[0] = (<object>next_observation_pdaf)(stepnow[0], nsteps[0], doexit[0], time[0])
 
 
 
-cdef void c__collect_state_pdaf (int* dim_p, double* state_p) noexcept:
+cdef void c__collect_state_pdaf (int* dim_p, double* state_p) noexcept with gil:
 
     cdef double[::1] state_p_np = np.asarray(<double[:dim_p[0]]> state_p)
 
@@ -71,13 +71,13 @@ cdef void c__collect_state_pdaf (int* dim_p, double* state_p) noexcept:
 
     cdef double[::1] state_p_new
     if state_p != &state_p_np[0]:
-        state_p_new = np.asarray(<double[:dim_p[0]]> state_p)
+        state_p_new = np.asarray(<double [: dim_p [0]]> state_p)
         state_p_new[...] = state_p_np
         warnings.warn("The memory address of state_p is changed in c__collect_state_pdaf." 
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__distribute_state_pdaf (int* dim_p, double* state_p) noexcept:
+cdef void c__distribute_state_pdaf (int* dim_p, double* state_p) noexcept with gil:
 
     cdef double[::1] state_p_np = np.asarray(<double[:dim_p[0]]> state_p)
 
@@ -86,13 +86,13 @@ cdef void c__distribute_state_pdaf (int* dim_p, double* state_p) noexcept:
 
     cdef double[::1] state_p_new
     if state_p != &state_p_np[0]:
-        state_p_new = np.asarray(<double[:dim_p[0]]> state_p)
+        state_p_new = np.asarray(<double [: dim_p [0]]> state_p)
         state_p_new[...] = state_p_np
         warnings.warn("The memory address of state_p is changed in c__distribute_state_pdaf." 
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__prepoststep_pdaf (int* step, int* dim_p, int* dim_ens, int* dim_ens_l, int* dim_obs_p, double* state_p, double* uinv, double* ens_p, int* flag) noexcept:
+cdef void c__prepoststep_pdaf (int* step, int* dim_p, int* dim_ens, int* dim_ens_l, int* dim_obs_p, double* state_p, double* uinv, double* ens_p, int* flag) noexcept with gil:
 
     cdef double[::1] state_p_np = np.asarray(<double[:dim_p[0]]> state_p)
 
@@ -106,7 +106,7 @@ cdef void c__prepoststep_pdaf (int* step, int* dim_p, int* dim_ens, int* dim_ens
 
     cdef double[::1] state_p_new
     if state_p != &state_p_np[0]:
-        state_p_new = np.asarray(<double[:dim_p[0]]> state_p)
+        state_p_new = np.asarray(<double [: dim_p [0]]> state_p)
         state_p_new[...] = state_p_np
         warnings.warn("The memory address of state_p is changed in c__prepoststep_pdaf." 
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
@@ -126,19 +126,19 @@ cdef void c__prepoststep_pdaf (int* step, int* dim_p, int* dim_ens, int* dim_ens
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__init_dim_obs_pdaf (int* step, int* dim_obs_p) noexcept:
+cdef void c__init_dim_obs_pdaf (int* step, int* dim_obs_p) noexcept with gil:
 
     dim_obs_p[0] = (<object>init_dim_obs_pdaf)(step[0], dim_obs_p[0])
 
 
 
-cdef void c__init_dim_obs_f_pdaf (int* step, int* dim_obs_p) noexcept:
+cdef void c__init_dim_obs_f_pdaf (int* step, int* dim_obs_p) noexcept with gil:
 
     dim_obs_p[0] = (<object>init_dim_obs_f_pdaf)(step[0], dim_obs_p[0])
 
 
 
-cdef void c__init_obs_pdaf (int* step, int* dim_obs_p, double* observation_p) noexcept:
+cdef void c__init_obs_pdaf (int* step, int* dim_obs_p, double* observation_p) noexcept with gil:
 
     cdef double[::1] observation_p_np = np.asarray(<double[:dim_obs_p[0]]> observation_p)
 
@@ -147,13 +147,13 @@ cdef void c__init_obs_pdaf (int* step, int* dim_obs_p, double* observation_p) no
 
     cdef double[::1] observation_p_new
     if observation_p != &observation_p_np[0]:
-        observation_p_new = np.asarray(<double[:dim_obs_p[0]]> observation_p)
+        observation_p_new = np.asarray(<double [: dim_obs_p [0]]> observation_p)
         observation_p_new[...] = observation_p_np
         warnings.warn("The memory address of observation_p is changed in c__init_obs_pdaf." 
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__init_obs_covar_pdaf (int* step, int* dim_obs, int* dim_obs_p, double* covar, double* obs_p, bint* isdiag) noexcept:
+cdef void c__init_obs_covar_pdaf (int* step, int* dim_obs, int* dim_obs_p, double* covar, double* obs_p, bint* isdiag) noexcept with gil:
 
     cdef double[::1] obs_p_np = np.asarray(<double[:dim_obs_p[0]]> obs_p)
 
@@ -161,7 +161,7 @@ cdef void c__init_obs_covar_pdaf (int* step, int* dim_obs, int* dim_obs_p, doubl
 
 
 
-cdef void c__init_obsvar_pdaf (int* step, int* dim_obs_p, double* obs_p, double* meanvar) noexcept:
+cdef void c__init_obsvar_pdaf (int* step, int* dim_obs_p, double* obs_p, double* meanvar) noexcept with gil:
 
     cdef double[::1] obs_p_np = np.asarray(<double[:dim_obs_p[0]]> obs_p)
 
@@ -169,7 +169,7 @@ cdef void c__init_obsvar_pdaf (int* step, int* dim_obs_p, double* obs_p, double*
 
 
 
-cdef void c__prodRinvA_pdaf (int* step, int* dim_obs_p, int* rank, double* obs_p, double* A_p, double* C_p) noexcept:
+cdef void c__prodRinvA_pdaf (int* step, int* dim_obs_p, int* rank, double* obs_p, double* A_p, double* C_p) noexcept with gil:
 
     cdef double[::1] obs_p_np = np.asarray(<double[:dim_obs_p[0]]> obs_p)
     cdef double[::1,:] A_p_np = np.asarray(<double[:dim_obs_p[0]:1,:rank[0]]> A_p, order='F')
@@ -186,7 +186,7 @@ cdef void c__prodRinvA_pdaf (int* step, int* dim_obs_p, int* rank, double* obs_p
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__obs_op_pdaf (int* step, int* dim_p, int* dim_obs_p, double* state_p, double* m_state_p) noexcept:
+cdef void c__obs_op_pdaf (int* step, int* dim_p, int* dim_obs_p, double* state_p, double* m_state_p) noexcept with gil:
 
     cdef double[::1] state_p_np = np.asarray(<double[:dim_p[0]]> state_p)
     cdef double[::1] m_state_p_np = np.asarray(<double[:dim_obs_p[0]]> m_state_p)
@@ -196,13 +196,13 @@ cdef void c__obs_op_pdaf (int* step, int* dim_p, int* dim_obs_p, double* state_p
 
     cdef double[::1] m_state_p_new
     if m_state_p != &m_state_p_np[0]:
-        m_state_p_new = np.asarray(<double[:dim_obs_p[0]]> m_state_p)
+        m_state_p_new = np.asarray(<double [: dim_obs_p [0]]> m_state_p)
         m_state_p_new[...] = m_state_p_np
         warnings.warn("The memory address of m_state_p is changed in c__obs_op_pdaf." 
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__obs_op_f_pdaf (int* step, int* dim_p, int* dim_obs_p, double* state_p, double* m_state_p) noexcept:
+cdef void c__obs_op_f_pdaf (int* step, int* dim_p, int* dim_obs_p, double* state_p, double* m_state_p) noexcept with gil:
 
     cdef double[::1] state_p_np = np.asarray(<double[:dim_p[0]]> state_p)
     cdef double[::1] m_state_p_np = np.asarray(<double[:dim_obs_p[0]]> m_state_p)
@@ -212,13 +212,13 @@ cdef void c__obs_op_f_pdaf (int* step, int* dim_p, int* dim_obs_p, double* state
 
     cdef double[::1] m_state_p_new
     if m_state_p != &m_state_p_np[0]:
-        m_state_p_new = np.asarray(<double[:dim_obs_p[0]]> m_state_p)
+        m_state_p_new = np.asarray(<double [: dim_obs_p [0]]> m_state_p)
         m_state_p_new[...] = m_state_p_np
         warnings.warn("The memory address of m_state_p is changed in c__obs_op_f_pdaf." 
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__g2l_obs_pdaf (int* domain_p, int* step, int* dim_obs_f, int* dim_obs_l, int* mstate_f, int* dim_p, int* mstate_l, int* dim_l) noexcept:
+cdef void c__g2l_obs_pdaf (int* domain_p, int* step, int* dim_obs_f, int* dim_obs_l, int* mstate_f, int* dim_p, int* mstate_l, int* dim_l) noexcept with gil:
 
     cdef int[::1] mstate_f_np = np.asarray(<int[:dim_p[0]]> mstate_f)
     cdef int[::1] mstate_l_np = np.asarray(<int[:dim_l[0]]> mstate_l)
@@ -228,13 +228,13 @@ cdef void c__g2l_obs_pdaf (int* domain_p, int* step, int* dim_obs_f, int* dim_ob
 
     cdef int[::1] mstate_l_new
     if mstate_l != &mstate_l_np[0]:
-        mstate_l_new = np.asarray(<int[:dim_l[0]]> mstate_l)
+        mstate_l_new = np.asarray(<int [: dim_l [0]]> mstate_l)
         mstate_l_new[...] = mstate_l_np
         warnings.warn("The memory address of mstate_l is changed in c__g2l_obs_pdaf." 
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__g2l_state_pdaf (int* step, int* domain_p, int* dim_p, double* state_p, int* dim_l, double* state_l) noexcept:
+cdef void c__g2l_state_pdaf (int* step, int* domain_p, int* dim_p, double* state_p, int* dim_l, double* state_l) noexcept with gil:
 
     cdef double[::1] state_p_np = np.asarray(<double[:dim_p[0]]> state_p)
     cdef double[::1] state_l_np = np.asarray(<double[:dim_l[0]]> state_l)
@@ -244,31 +244,31 @@ cdef void c__g2l_state_pdaf (int* step, int* domain_p, int* dim_p, double* state
 
     cdef double[::1] state_l_new
     if state_l != &state_l_np[0]:
-        state_l_new = np.asarray(<double[:dim_l[0]]> state_l)
+        state_l_new = np.asarray(<double [: dim_l [0]]> state_l)
         state_l_new[...] = state_l_np
         warnings.warn("The memory address of state_l is changed in c__g2l_state_pdaf." 
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__init_dim_l_pdaf (int* step, int* domain_p, int* dim_l) noexcept:
+cdef void c__init_dim_l_pdaf (int* step, int* domain_p, int* dim_l) noexcept with gil:
 
     dim_l[0] = (<object>init_dim_l_pdaf)(step[0], domain_p[0], dim_l[0])
 
 
 
-cdef void c__init_dim_obs_l_pdaf (int* domain_p, int* step, int* dim_obs_f, int* dim_obs_l) noexcept:
+cdef void c__init_dim_obs_l_pdaf (int* domain_p, int* step, int* dim_obs_f, int* dim_obs_l) noexcept with gil:
 
     dim_obs_l[0] = (<object>init_dim_obs_l_pdaf)(domain_p[0], step[0], dim_obs_f[0], dim_obs_l[0])
 
 
 
-cdef void c__init_n_domains_p_pdaf (int* step, int* n_domains_p) noexcept:
+cdef void c__init_n_domains_p_pdaf (int* step, int* n_domains_p) noexcept with gil:
 
     n_domains_p[0] = (<object>init_n_domains_p_pdaf)(step[0], n_domains_p[0])
 
 
 
-cdef void c__init_obs_f_pdaf (int* step, int* dim_obs_f, double* observation_f) noexcept:
+cdef void c__init_obs_f_pdaf (int* step, int* dim_obs_f, double* observation_f) noexcept with gil:
 
     cdef double[::1] observation_f_np = np.asarray(<double[:dim_obs_f[0]]> observation_f)
 
@@ -277,13 +277,13 @@ cdef void c__init_obs_f_pdaf (int* step, int* dim_obs_f, double* observation_f) 
 
     cdef double[::1] observation_f_new
     if observation_f != &observation_f_np[0]:
-        observation_f_new = np.asarray(<double[:dim_obs_f[0]]> observation_f)
+        observation_f_new = np.asarray(<double [: dim_obs_f [0]]> observation_f)
         observation_f_new[...] = observation_f_np
         warnings.warn("The memory address of observation_f is changed in c__init_obs_f_pdaf." 
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__init_obs_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* observation_l) noexcept:
+cdef void c__init_obs_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* observation_l) noexcept with gil:
 
     cdef double[::1] observation_l_np = np.asarray(<double[:dim_obs_l[0]]> observation_l)
 
@@ -292,13 +292,13 @@ cdef void c__init_obs_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* 
 
     cdef double[::1] observation_l_new
     if observation_l != &observation_l_np[0]:
-        observation_l_new = np.asarray(<double[:dim_obs_l[0]]> observation_l)
+        observation_l_new = np.asarray(<double [: dim_obs_l [0]]> observation_l)
         observation_l_new[...] = observation_l_np
         warnings.warn("The memory address of observation_l is changed in c__init_obs_l_pdaf." 
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__init_obsvar_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* obs_l, int* dim_obs_p, double* meanvar_l) noexcept:
+cdef void c__init_obsvar_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* obs_l, int* dim_obs_p, double* meanvar_l) noexcept with gil:
 
     cdef double[::1] obs_l_np = np.asarray(<double[:dim_obs_p[0]]> obs_l)
 
@@ -306,7 +306,7 @@ cdef void c__init_obsvar_l_pdaf (int* domain_p, int* step, int* dim_obs_l, doubl
 
 
 
-cdef void c__init_obserr_f_pdaf (int* step, int* dim_obs_f, double* obs_f, double* obserr_f) noexcept:
+cdef void c__init_obserr_f_pdaf (int* step, int* dim_obs_f, double* obs_f, double* obserr_f) noexcept with gil:
 
     cdef double[::1] obs_f_np = np.asarray(<double[:dim_obs_f[0]]> obs_f)
     cdef double[::1] obserr_f_np = np.asarray(<double[:dim_obs_f[0]]> obserr_f)
@@ -316,13 +316,13 @@ cdef void c__init_obserr_f_pdaf (int* step, int* dim_obs_f, double* obs_f, doubl
 
     cdef double[::1] obserr_f_new
     if obserr_f != &obserr_f_np[0]:
-        obserr_f_new = np.asarray(<double[:dim_obs_f[0]]> obserr_f)
+        obserr_f_new = np.asarray(<double [: dim_obs_f [0]]> obserr_f)
         obserr_f_new[...] = obserr_f_np
         warnings.warn("The memory address of obserr_f is changed in c__init_obserr_f_pdaf." 
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__l2g_state_pdaf (int* step, int* domain_p, int* dim_l, double* state_l, int* dim_p, double* state_p) noexcept:
+cdef void c__l2g_state_pdaf (int* step, int* domain_p, int* dim_l, double* state_l, int* dim_p, double* state_p) noexcept with gil:
 
     cdef double[::1] state_l_np = np.asarray(<double[:dim_l[0]]> state_l)
     cdef double[::1] state_p_np = np.asarray(<double[:dim_p[0]]> state_p)
@@ -332,13 +332,13 @@ cdef void c__l2g_state_pdaf (int* step, int* domain_p, int* dim_l, double* state
 
     cdef double[::1] state_p_new
     if state_p != &state_p_np[0]:
-        state_p_new = np.asarray(<double[:dim_p[0]]> state_p)
+        state_p_new = np.asarray(<double [: dim_p [0]]> state_p)
         state_p_new[...] = state_p_np
         warnings.warn("The memory address of state_p is changed in c__l2g_state_pdaf." 
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__prodRinvA_l_pdaf (int* domain_p, int* step, int* dim_obs_l, int* rank, double* obs_l, double* A_l, double* C_l) noexcept:
+cdef void c__prodRinvA_l_pdaf (int* domain_p, int* step, int* dim_obs_l, int* rank, double* obs_l, double* A_l, double* C_l) noexcept with gil:
 
     cdef double[::1] obs_l_np = np.asarray(<double[:dim_obs_l[0]]> obs_l)
     cdef double[::1,:] A_l_np = np.asarray(<double[:dim_obs_l[0]:1,:rank[0]]> A_l, order='F')
@@ -355,7 +355,7 @@ cdef void c__prodRinvA_l_pdaf (int* domain_p, int* step, int* dim_obs_l, int* ra
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__localize_covar_pdaf (int* dim_p, int* dim_obs, double* hp_p, double* hph) noexcept:
+cdef void c__localize_covar_pdaf (int* dim_p, int* dim_obs, double* hp_p, double* hph) noexcept with gil:
 
     cdef double[::1,:] hp_p_np = np.asarray(<double[:dim_obs[0]:1,:dim_p[0]]> hp_p, order='F')
     cdef double[::1,:] hph_np = np.asarray(<double[:dim_obs[0]:1,:dim_obs[0]]> hph, order='F')
@@ -378,7 +378,7 @@ cdef void c__localize_covar_pdaf (int* dim_p, int* dim_obs, double* hp_p, double
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__likelihood_pdaf (int* step, int* dim_obs_p, double* obs_p, double* resid, double* likely) noexcept:
+cdef void c__likelihood_pdaf (int* step, int* dim_obs_p, double* obs_p, double* resid, double* likely) noexcept with gil:
 
     cdef double[::1] obs_p_np = np.asarray(<double[:dim_obs_p[0]]> obs_p)
     cdef double[::1] resid_np = np.asarray(<double[:dim_obs_p[0]]> resid)
@@ -387,7 +387,7 @@ cdef void c__likelihood_pdaf (int* step, int* dim_obs_p, double* obs_p, double* 
 
 
 
-cdef void c__likelihood_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* obs_l, double* resid_l, double* likely_l) noexcept:
+cdef void c__likelihood_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* obs_l, double* resid_l, double* likely_l) noexcept with gil:
 
     cdef double[::1] obs_l_np = np.asarray(<double[:dim_obs_l[0]]> obs_l)
     cdef double[::1] resid_l_np = np.asarray(<double[:dim_obs_l[0]]> resid_l)
@@ -396,7 +396,7 @@ cdef void c__likelihood_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double
 
 
 
-cdef void c__get_obs_f_pdaf (int* step, int* dim_obs_f, double* observation_f) noexcept:
+cdef void c__get_obs_f_pdaf (int* step, int* dim_obs_f, double* observation_f) noexcept with gil:
 
     cdef double[::1] observation_f_np = np.asarray(<double[:dim_obs_f[0]]> observation_f)
 
@@ -405,13 +405,13 @@ cdef void c__get_obs_f_pdaf (int* step, int* dim_obs_f, double* observation_f) n
 
     cdef double[::1] observation_f_new
     if observation_f != &observation_f_np[0]:
-        observation_f_new = np.asarray(<double[:dim_obs_f[0]]> observation_f)
+        observation_f_new = np.asarray(<double [: dim_obs_f [0]]> observation_f)
         observation_f_new[...] = observation_f_np
         warnings.warn("The memory address of observation_f is changed in c__get_obs_f_pdaf." 
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__cvt_adj_ens_pdaf (int* iter, int* dim_p, int* dim_ens, int* dim_cv_ens_p, double* ens_p, double* Vcv_p, double* cv_p) noexcept:
+cdef void c__cvt_adj_ens_pdaf (int* iter, int* dim_p, int* dim_ens, int* dim_cv_ens_p, double* ens_p, double* Vcv_p, double* cv_p) noexcept with gil:
 
     cdef double[::1,:] ens_p_np = np.asarray(<double[:dim_p[0]:1,:dim_ens[0]]> ens_p, order='F')
     cdef double[::1] Vcv_p_np = np.asarray(<double[:dim_p[0]]> Vcv_p)
@@ -422,13 +422,13 @@ cdef void c__cvt_adj_ens_pdaf (int* iter, int* dim_p, int* dim_ens, int* dim_cv_
 
     cdef double[::1] cv_p_new
     if cv_p != &cv_p_np[0]:
-        cv_p_new = np.asarray(<double[:dim_cv_ens_p[0]]> cv_p)
+        cv_p_new = np.asarray(<double [: dim_cv_ens_p [0]]> cv_p)
         cv_p_new[...] = cv_p_np
         warnings.warn("The memory address of cv_p is changed in c__cvt_adj_ens_pdaf." 
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__cvt_adj_pdaf (int* iter, int* dim_p, int* dim_cvec, double* Vcv_p, double* cv_p) noexcept:
+cdef void c__cvt_adj_pdaf (int* iter, int* dim_p, int* dim_cvec, double* Vcv_p, double* cv_p) noexcept with gil:
 
     cdef double[::1] Vcv_p_np = np.asarray(<double[:dim_p[0]]> Vcv_p)
     cdef double[::1] cv_p_np = np.asarray(<double[:dim_cvec[0]]> cv_p)
@@ -438,13 +438,13 @@ cdef void c__cvt_adj_pdaf (int* iter, int* dim_p, int* dim_cvec, double* Vcv_p, 
 
     cdef double[::1] cv_p_new
     if cv_p != &cv_p_np[0]:
-        cv_p_new = np.asarray(<double[:dim_cvec[0]]> cv_p)
+        cv_p_new = np.asarray(<double [: dim_cvec [0]]> cv_p)
         cv_p_new[...] = cv_p_np
         warnings.warn("The memory address of cv_p is changed in c__cvt_adj_pdaf." 
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__cvt_pdaf (int* iter, int* dim_p, int* dim_cvec, double* cv_p, double* Vv_p) noexcept:
+cdef void c__cvt_pdaf (int* iter, int* dim_p, int* dim_cvec, double* cv_p, double* Vv_p) noexcept with gil:
 
     cdef double[::1] cv_p_np = np.asarray(<double[:dim_cvec[0]]> cv_p)
     cdef double[::1] Vv_p_np = np.asarray(<double[:dim_p[0]]> Vv_p)
@@ -454,13 +454,13 @@ cdef void c__cvt_pdaf (int* iter, int* dim_p, int* dim_cvec, double* cv_p, doubl
 
     cdef double[::1] Vv_p_new
     if Vv_p != &Vv_p_np[0]:
-        Vv_p_new = np.asarray(<double[:dim_p[0]]> Vv_p)
+        Vv_p_new = np.asarray(<double [: dim_p [0]]> Vv_p)
         Vv_p_new[...] = Vv_p_np
         warnings.warn("The memory address of Vv_p is changed in c__cvt_pdaf." 
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__cvt_ens_pdaf (int* iter, int* dim_p, int* dim_ens, int* dim_cvec_ens, double* ens_p, double* v_p, double* Vv_p) noexcept:
+cdef void c__cvt_ens_pdaf (int* iter, int* dim_p, int* dim_ens, int* dim_cvec_ens, double* ens_p, double* v_p, double* Vv_p) noexcept with gil:
 
     cdef double[::1,:] ens_p_np = np.asarray(<double[:dim_p[0]:1,:dim_ens[0]]> ens_p, order='F')
     cdef double[::1] v_p_np = np.asarray(<double[:dim_cvec_ens[0]]> v_p)
@@ -471,13 +471,13 @@ cdef void c__cvt_ens_pdaf (int* iter, int* dim_p, int* dim_ens, int* dim_cvec_en
 
     cdef double[::1] Vv_p_new
     if Vv_p != &Vv_p_np[0]:
-        Vv_p_new = np.asarray(<double[:dim_p[0]]> Vv_p)
+        Vv_p_new = np.asarray(<double [: dim_p [0]]> Vv_p)
         Vv_p_new[...] = Vv_p_np
         warnings.warn("The memory address of Vv_p is changed in c__cvt_ens_pdaf." 
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__obs_op_adj_pdaf (int* step, int* dim_p, int* dim_obs_p, double* state_p, double* m_state_p) noexcept:
+cdef void c__obs_op_adj_pdaf (int* step, int* dim_p, int* dim_obs_p, double* state_p, double* m_state_p) noexcept with gil:
 
     cdef double[::1] state_p_np = np.asarray(<double[:dim_p[0]]> state_p)
     cdef double[::1] m_state_p_np = np.asarray(<double[:dim_obs_p[0]]> m_state_p)
@@ -487,13 +487,13 @@ cdef void c__obs_op_adj_pdaf (int* step, int* dim_p, int* dim_obs_p, double* sta
 
     cdef double[::1] state_p_new
     if state_p != &state_p_np[0]:
-        state_p_new = np.asarray(<double[:dim_p[0]]> state_p)
+        state_p_new = np.asarray(<double [: dim_p [0]]> state_p)
         state_p_new[...] = state_p_np
         warnings.warn("The memory address of state_p is changed in c__obs_op_adj_pdaf." 
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__obs_op_lin_pdaf (int* step, int* dim_p, int* dim_obs_p, double* state_p, double* m_state_p) noexcept:
+cdef void c__obs_op_lin_pdaf (int* step, int* dim_p, int* dim_obs_p, double* state_p, double* m_state_p) noexcept with gil:
 
     cdef double[::1] state_p_np = np.asarray(<double[:dim_p[0]]> state_p)
     cdef double[::1] m_state_p_np = np.asarray(<double[:dim_obs_p[0]]> m_state_p)
@@ -503,13 +503,13 @@ cdef void c__obs_op_lin_pdaf (int* step, int* dim_p, int* dim_obs_p, double* sta
 
     cdef double[::1] m_state_p_new
     if m_state_p != &m_state_p_np[0]:
-        m_state_p_new = np.asarray(<double[:dim_obs_p[0]]> m_state_p)
+        m_state_p_new = np.asarray(<double [: dim_obs_p [0]]> m_state_p)
         m_state_p_new[...] = m_state_p_np
         warnings.warn("The memory address of m_state_p is changed in c__obs_op_lin_pdaf." 
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
 
 
-cdef void c__dist_stateinc_pdaf (int* dim_p, double* state_inc_p, int* first, int* steps) noexcept:
+cdef void c__dist_stateinc_pdaf (int* dim_p, double* state_inc_p, int* first, int* steps) noexcept with gil:
 
     cdef double[::1] state_inc_p_np = np.asarray(<double[:dim_p[0]]> state_inc_p)
 
@@ -517,7 +517,7 @@ cdef void c__dist_stateinc_pdaf (int* dim_p, double* state_inc_p, int* first, in
 
 
 
-cdef void c__likelihood_hyb_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* obs_l, double* resid_l, double* gamma, double* likely_l) noexcept:
+cdef void c__likelihood_hyb_l_pdaf (int* domain_p, int* step, int* dim_obs_l, double* obs_l, double* resid_l, double* gamma, double* likely_l) noexcept with gil:
 
     cdef double[::1] obs_l_np = np.asarray(<double[:dim_obs_l[0]]> obs_l)
     cdef double[::1] resid_l_np = np.asarray(<double[:dim_obs_l[0]]> resid_l)
@@ -526,7 +526,7 @@ cdef void c__likelihood_hyb_l_pdaf (int* domain_p, int* step, int* dim_obs_l, do
 
 
 
-cdef void c__prodRinvA_hyb_l_pdaf (int* domain_p, int* step, int* dim_obs_l, int* dim_ens, double* obs_l, double* gamma, double* A_l, double* C_l) noexcept:
+cdef void c__prodRinvA_hyb_l_pdaf (int* domain_p, int* step, int* dim_obs_l, int* dim_ens, double* obs_l, double* gamma, double* A_l, double* C_l) noexcept with gil:
 
     cdef double[::1] obs_l_np = np.asarray(<double[:dim_obs_l[0]]> obs_l)
     cdef double[::1,:] A_l_np = np.asarray(<double[:dim_obs_l[0]:1,:dim_ens[0]]> A_l, order='F')
