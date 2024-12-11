@@ -64,7 +64,7 @@ cdef extern void c__pdaf_assimilate_3dvar (void (*c__collect_state_pdaf)(int*,
                                                                             double*
                                                                            ),
                                            int* outflag
-                                          ) noexcept;
+                                          ) noexcept nogil;
 cdef extern void c__pdaf_assimilate_en3dvar_estkf (void (*c__collect_state_pdaf)(int*,
                                                                                  double*
                                                                                 ),
@@ -140,7 +140,7 @@ cdef extern void c__pdaf_assimilate_en3dvar_estkf (void (*c__collect_state_pdaf)
                                                                                     double*
                                                                                    ),
                                                    int* outflag
-                                                  ) noexcept;
+                                                  ) noexcept nogil;
 cdef extern void c__pdaf_assimilate_en3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                                   double*
                                                                                  ),
@@ -284,7 +284,7 @@ cdef extern void c__pdaf_assimilate_en3dvar_lestkf (void (*c__collect_state_pdaf
                                                                                      double*
                                                                                     ),
                                                     int* outflag
-                                                   ) noexcept;
+                                                   ) noexcept nogil;
 cdef extern void c__pdaf_assimilate_enkf (void (*c__collect_state_pdaf)(int*,
                                                                         double*
                                                                        ),
@@ -331,7 +331,7 @@ cdef extern void c__pdaf_assimilate_enkf (void (*c__collect_state_pdaf)(int*,
                                                                            double*
                                                                           ),
                                           int* flag
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdaf_assimilate_estkf (void (*c__collect_state_pdaf)(int*,
                                                                          double*
                                                                         ),
@@ -379,7 +379,7 @@ cdef extern void c__pdaf_assimilate_estkf (void (*c__collect_state_pdaf)(int*,
                                                                             double*
                                                                            ),
                                            int* flag
-                                          ) noexcept;
+                                          ) noexcept nogil;
 cdef extern void c__pdaf_assimilate_etkf (void (*c__collect_state_pdaf)(int*,
                                                                         double*
                                                                        ),
@@ -427,7 +427,7 @@ cdef extern void c__pdaf_assimilate_etkf (void (*c__collect_state_pdaf)(int*,
                                                                            double*
                                                                           ),
                                           int* flag
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdaf_assimilate_hyb3dvar_estkf (void (*c__collect_state_pdaf)(int*,
                                                                                   double*
                                                                                  ),
@@ -515,7 +515,7 @@ cdef extern void c__pdaf_assimilate_hyb3dvar_estkf (void (*c__collect_state_pdaf
                                                                                      double*
                                                                                     ),
                                                     int* outflag
-                                                   ) noexcept;
+                                                   ) noexcept nogil;
 cdef extern void c__pdaf_assimilate_hyb3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                                    double*
                                                                                   ),
@@ -671,7 +671,7 @@ cdef extern void c__pdaf_assimilate_hyb3dvar_lestkf (void (*c__collect_state_pda
                                                                                       double*
                                                                                      ),
                                                      int* outflag
-                                                    ) noexcept;
+                                                    ) noexcept nogil;
 cdef extern void c__pdaf_assimilate_lenkf (void (*c__collect_state_pdaf)(int*,
                                                                          double*
                                                                         ),
@@ -723,7 +723,7 @@ cdef extern void c__pdaf_assimilate_lenkf (void (*c__collect_state_pdaf)(int*,
                                                                             double*
                                                                            ),
                                            int* flag
-                                          ) noexcept;
+                                          ) noexcept nogil;
 cdef extern void c__pdaf_assimilate_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                           double*
                                                                          ),
@@ -819,7 +819,7 @@ cdef extern void c__pdaf_assimilate_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                              double*
                                                                             ),
                                             int* flag
-                                           ) noexcept;
+                                           ) noexcept nogil;
 cdef extern void c__pdaf_assimilate_letkf (void (*c__collect_state_pdaf)(int*,
                                                                          double*
                                                                         ),
@@ -915,7 +915,7 @@ cdef extern void c__pdaf_assimilate_letkf (void (*c__collect_state_pdaf)(int*,
                                                                             double*
                                                                            ),
                                            int* flag
-                                          ) noexcept;
+                                          ) noexcept nogil;
 cdef extern void c__pdaf_assimilate_lnetf (void (*c__collect_state_pdaf)(int*,
                                                                          double*
                                                                         ),
@@ -994,7 +994,7 @@ cdef extern void c__pdaf_assimilate_lnetf (void (*c__collect_state_pdaf)(int*,
                                                                             double*
                                                                            ),
                                            int* flag
-                                          ) noexcept;
+                                          ) noexcept nogil;
 cdef extern void c__pdaf_assimilate_lknetf (void (*c__collect_state_pdaf)(int*,
                                                                           double*
                                                                          ),
@@ -1114,7 +1114,7 @@ cdef extern void c__pdaf_assimilate_lknetf (void (*c__collect_state_pdaf)(int*,
                                                                              double*
                                                                             ),
                                             int* flag
-                                           ) noexcept;
+                                           ) noexcept nogil;
 cdef extern void c__pdaf_assimilate_lseik (void (*c__collect_state_pdaf)(int*,
                                                                          double*
                                                                         ),
@@ -1210,7 +1210,7 @@ cdef extern void c__pdaf_assimilate_lseik (void (*c__collect_state_pdaf)(int*,
                                                                             double*
                                                                            ),
                                            int* flag
-                                          ) noexcept;
+                                          ) noexcept nogil;
 cdef extern void c__pdaf_assimilate_netf (void (*c__collect_state_pdaf)(int*,
                                                                         double*
                                                                        ),
@@ -1252,7 +1252,7 @@ cdef extern void c__pdaf_assimilate_netf (void (*c__collect_state_pdaf)(int*,
                                                                            double*
                                                                           ),
                                           int* flag
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdaf_assimilate_pf (void (*c__collect_state_pdaf)(int*,
                                                                       double*
                                                                      ),
@@ -1294,7 +1294,7 @@ cdef extern void c__pdaf_assimilate_pf (void (*c__collect_state_pdaf)(int*,
                                                                          double*
                                                                         ),
                                         int* flag
-                                       ) noexcept;
+                                       ) noexcept nogil;
 cdef extern void c__pdaf_assimilate_seek (void (*c__collect_state_pdaf)(int*,
                                                                         double*
                                                                        ),
@@ -1337,7 +1337,7 @@ cdef extern void c__pdaf_assimilate_seek (void (*c__collect_state_pdaf)(int*,
                                                                            double*
                                                                           ),
                                           int* flag
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdaf_assimilate_seik (void (*c__collect_state_pdaf)(int*,
                                                                         double*
                                                                        ),
@@ -1380,7 +1380,7 @@ cdef extern void c__pdaf_assimilate_seik (void (*c__collect_state_pdaf)(int*,
                                                                            double*
                                                                           ),
                                           int* flag
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdaf_assimilate_prepost (void (*c__collect_state_pdaf)(int*,
                                                                            double*
                                                                           ),
@@ -1403,12 +1403,12 @@ cdef extern void c__pdaf_assimilate_prepost (void (*c__collect_state_pdaf)(int*,
                                                                               double*
                                                                              ),
                                              int* flag
-                                            ) noexcept;
-cdef extern void c__pdaf_deallocate () noexcept;
+                                            ) noexcept nogil;
+cdef extern void c__pdaf_deallocate () noexcept nogil;
 cdef extern void c__pdaf_diag_effsample (int* dim_sample,
                                          double* weights,
                                          double* effSample
-                                        ) noexcept;
+                                        ) noexcept nogil;
 cdef extern void c__pdaf_diag_ensstats (int* dim,
                                         int* dim_ens,
                                         int* element,
@@ -1417,7 +1417,7 @@ cdef extern void c__pdaf_diag_ensstats (int* dim,
                                         double* skewness,
                                         double* kurtosis,
                                         int* status
-                                       ) noexcept;
+                                       ) noexcept nogil;
 cdef extern void c__pdaf_diag_histogram (int* ncall,
                                          int* dim,
                                          int* dim_ens,
@@ -1427,7 +1427,7 @@ cdef extern void c__pdaf_diag_histogram (int* ncall,
                                          int* hist,
                                          double* delta,
                                          int* status
-                                        ) noexcept;
+                                        ) noexcept nogil;
 cdef extern void c__pdaf_eofcovar (int* dim_state,
                                    int* nstates,
                                    int* nfields,
@@ -1442,23 +1442,23 @@ cdef extern void c__pdaf_eofcovar (int* dim_state,
                                    double* meanstate,
                                    int* verbose,
                                    int* status
-                                  ) noexcept;
+                                  ) noexcept nogil;
 cdef extern void c__pdaf_gather_dim_obs_f (int* dim_obs_p,
                                            int* dim_obs_f
-                                          ) noexcept;
+                                          ) noexcept nogil;
 cdef extern void c__pdaf_gather_obs_f (double* obs_p,
                                        int* dimobs_p,
                                        double* obs_f,
                                        int* dimobs_f,
                                        int* status
-                                      ) noexcept;
+                                      ) noexcept nogil;
 cdef extern void c__pdaf_gather_obs_f2 (double* coords_p,
                                         int* dimobs_p,
                                         double* coords_f,
                                         int* dimobs_f,
                                         int* nrows,
                                         int* status
-                                       ) noexcept;
+                                       ) noexcept nogil;
 cdef extern void c__pdaf_generate_obs (void (*c__collect_state_pdaf)(int*,
                                                                      double*
                                                                     ),
@@ -1499,25 +1499,25 @@ cdef extern void c__pdaf_generate_obs (void (*c__collect_state_pdaf)(int*,
                                                                         double*
                                                                        ),
                                        int* flag
-                                      ) noexcept;
+                                      ) noexcept nogil;
 cdef extern void c__pdaf_get_assim_flag (int* did_assim
-                                        ) noexcept;
+                                        ) noexcept nogil;
 cdef extern void c__pdaf_get_ensstats (int* dims,
                                        double** c_skew_ptr,
                                        double** c_kurt_ptr,
                                        int* status
-                                      ) noexcept;
+                                      ) noexcept nogil;
 cdef extern void c__pdaf_get_localfilter (int* lfilter
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdaf_get_memberid (int* memberid
-                                      ) noexcept;
+                                      ) noexcept nogil;
 cdef extern void c__pdaf_get_obsmemberid (int* memberid
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdaf_get_smootherens (double** c_sens_point,
                                           int* maxlag,
                                           int* dims,
                                           int* status
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdaf_get_state (int* steps,
                                     double* time,
                                     int* doexit,
@@ -1540,7 +1540,7 @@ cdef extern void c__pdaf_get_state (int* steps,
                                                                 int*
                                                                ),
                                     int* flag
-                                   ) noexcept;
+                                   ) noexcept nogil;
 cdef extern void c__pdaf_init (int* filtertype,
                                int* subtype,
                                int* stepnull,
@@ -1564,7 +1564,7 @@ cdef extern void c__pdaf_init (int* filtertype,
                                                        ),
                                int* in_screen,
                                int* flag
-                              ) noexcept;
+                              ) noexcept nogil;
 cdef extern void c__pdaf_local_weight (int* wtype,
                                        int* rtype,
                                        double* cradius,
@@ -1576,9 +1576,9 @@ cdef extern void c__pdaf_local_weight (int* wtype,
                                        double* var_obs,
                                        double* weight,
                                        int* verbose
-                                      ) noexcept;
+                                      ) noexcept nogil;
 cdef extern void c__pdaf_print_info (int* printtype
-                                    ) noexcept;
+                                    ) noexcept nogil;
 cdef extern void c__pdaf_put_state_3dvar (void (*c__collect_state_pdaf)(int*,
                                                                         double*
                                                                        ),
@@ -1637,7 +1637,7 @@ cdef extern void c__pdaf_put_state_3dvar (void (*c__collect_state_pdaf)(int*,
                                                                       int*
                                                                      ),
                                           int* outflag
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdaf_put_state_en3dvar_estkf (void (*c__collect_state_pdaf)(int*,
                                                                                 double*
                                                                                ),
@@ -1705,7 +1705,7 @@ cdef extern void c__pdaf_put_state_en3dvar_estkf (void (*c__collect_state_pdaf)(
                                                                               int*
                                                                              ),
                                                   int* outflag
-                                                 ) noexcept;
+                                                 ) noexcept nogil;
 cdef extern void c__pdaf_put_state_en3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                                  double*
                                                                                 ),
@@ -1841,7 +1841,7 @@ cdef extern void c__pdaf_put_state_en3dvar_lestkf (void (*c__collect_state_pdaf)
                                                                                int*
                                                                               ),
                                                    int* outflag
-                                                  ) noexcept;
+                                                  ) noexcept nogil;
 cdef extern void c__pdaf_put_state_enkf (void (*c__collect_state_pdaf)(int*,
                                                                        double*
                                                                       ),
@@ -1880,7 +1880,7 @@ cdef extern void c__pdaf_put_state_enkf (void (*c__collect_state_pdaf)(int*,
                                                                         bint*
                                                                        ),
                                          int* flag
-                                        ) noexcept;
+                                        ) noexcept nogil;
 cdef extern void c__pdaf_put_state_estkf (void (*c__collect_state_pdaf)(int*,
                                                                         double*
                                                                        ),
@@ -1920,7 +1920,7 @@ cdef extern void c__pdaf_put_state_estkf (void (*c__collect_state_pdaf)(int*,
                                                                       double*
                                                                      ),
                                           int* flag
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdaf_put_state_etkf (void (*c__collect_state_pdaf)(int*,
                                                                        double*
                                                                       ),
@@ -1960,7 +1960,7 @@ cdef extern void c__pdaf_put_state_etkf (void (*c__collect_state_pdaf)(int*,
                                                                      double*
                                                                     ),
                                          int* flag
-                                        ) noexcept;
+                                        ) noexcept nogil;
 cdef extern void c__pdaf_put_state_generate_obs (void (*c__collect_state_pdaf)(int*,
                                                                                double*
                                                                               ),
@@ -1993,7 +1993,7 @@ cdef extern void c__pdaf_put_state_generate_obs (void (*c__collect_state_pdaf)(i
                                                                              int*
                                                                             ),
                                                  int* flag
-                                                ) noexcept;
+                                                ) noexcept nogil;
 cdef extern void c__pdaf_put_state_hyb3dvar_estkf (void (*c__collect_state_pdaf)(int*,
                                                                                  double*
                                                                                 ),
@@ -2073,7 +2073,7 @@ cdef extern void c__pdaf_put_state_hyb3dvar_estkf (void (*c__collect_state_pdaf)
                                                                                int*
                                                                               ),
                                                    int* outflag
-                                                  ) noexcept;
+                                                  ) noexcept nogil;
 cdef extern void c__pdaf_put_state_hyb3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                                   double*
                                                                                  ),
@@ -2221,7 +2221,7 @@ cdef extern void c__pdaf_put_state_hyb3dvar_lestkf (void (*c__collect_state_pdaf
                                                                                 int*
                                                                                ),
                                                     int* outflag
-                                                   ) noexcept;
+                                                   ) noexcept nogil;
 cdef extern void c__pdaf_put_state_lenkf (void (*c__collect_state_pdaf)(int*,
                                                                         double*
                                                                        ),
@@ -2265,7 +2265,7 @@ cdef extern void c__pdaf_put_state_lenkf (void (*c__collect_state_pdaf)(int*,
                                                                          bint*
                                                                         ),
                                           int* flag
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdaf_put_state_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                          double*
                                                                         ),
@@ -2353,7 +2353,7 @@ cdef extern void c__pdaf_put_state_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                          double*
                                                                         ),
                                            int* flag
-                                          ) noexcept;
+                                          ) noexcept nogil;
 cdef extern void c__pdaf_put_state_letkf (void (*c__collect_state_pdaf)(int*,
                                                                         double*
                                                                        ),
@@ -2441,7 +2441,7 @@ cdef extern void c__pdaf_put_state_letkf (void (*c__collect_state_pdaf)(int*,
                                                                         double*
                                                                        ),
                                           int* flag
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdaf_put_state_lnetf (void (*c__collect_state_pdaf)(int*,
                                                                         double*
                                                                        ),
@@ -2512,7 +2512,7 @@ cdef extern void c__pdaf_put_state_lnetf (void (*c__collect_state_pdaf)(int*,
                                                                   int*
                                                                  ),
                                           int* outflag
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdaf_put_state_lknetf (void (*c__collect_state_pdaf)(int*,
                                                                          double*
                                                                         ),
@@ -2624,7 +2624,7 @@ cdef extern void c__pdaf_put_state_lknetf (void (*c__collect_state_pdaf)(int*,
                                                                             double*
                                                                            ),
                                            int* outflag
-                                          ) noexcept;
+                                          ) noexcept nogil;
 cdef extern void c__pdaf_put_state_lseik (void (*c__collect_state_pdaf)(int*,
                                                                         double*
                                                                        ),
@@ -2712,7 +2712,7 @@ cdef extern void c__pdaf_put_state_lseik (void (*c__collect_state_pdaf)(int*,
                                                                         double*
                                                                        ),
                                           int* flag
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdaf_put_state_netf (void (*c__collect_state_pdaf)(int*,
                                                                        double*
                                                                       ),
@@ -2746,7 +2746,7 @@ cdef extern void c__pdaf_put_state_netf (void (*c__collect_state_pdaf)(int*,
                                                                     double*
                                                                    ),
                                          int* flag
-                                        ) noexcept;
+                                        ) noexcept nogil;
 cdef extern void c__pdaf_put_state_pf (void (*c__collect_state_pdaf)(int*,
                                                                      double*
                                                                     ),
@@ -2780,7 +2780,7 @@ cdef extern void c__pdaf_put_state_pf (void (*c__collect_state_pdaf)(int*,
                                                                   double*
                                                                  ),
                                        int* flag
-                                      ) noexcept;
+                                      ) noexcept nogil;
 cdef extern void c__pdaf_put_state_prepost (void (*c__collect_state_pdaf)(int*,
                                                                           double*
                                                                          ),
@@ -2795,7 +2795,7 @@ cdef extern void c__pdaf_put_state_prepost (void (*c__collect_state_pdaf)(int*,
                                                                         int*
                                                                        ),
                                             int* flag
-                                           ) noexcept;
+                                           ) noexcept nogil;
 cdef extern void c__pdaf_put_state_seek (void (*c__collect_state_pdaf)(int*,
                                                                        double*
                                                                       ),
@@ -2830,7 +2830,7 @@ cdef extern void c__pdaf_put_state_seek (void (*c__collect_state_pdaf)(int*,
                                                                    double*
                                                                   ),
                                          int* flag
-                                        ) noexcept;
+                                        ) noexcept nogil;
 cdef extern void c__pdaf_put_state_seik (void (*c__collect_state_pdaf)(int*,
                                                                        double*
                                                                       ),
@@ -2870,9 +2870,9 @@ cdef extern void c__pdaf_put_state_seik (void (*c__collect_state_pdaf)(int*,
                                                                      double*
                                                                     ),
                                          int* flag
-                                        ) noexcept;
+                                        ) noexcept nogil;
 cdef extern void c__pdaf_reset_forget (double* forget_in
-                                      ) noexcept;
+                                      ) noexcept nogil;
 cdef extern void c__pdaf_sampleens (int* dim,
                                     int* dim_ens,
                                     double* modes,
@@ -2881,32 +2881,32 @@ cdef extern void c__pdaf_sampleens (int* dim,
                                     double* ens,
                                     int* verbose,
                                     int* flag
-                                   ) noexcept;
+                                   ) noexcept nogil;
 cdef extern void c__pdaf_set_debug_flag (int* debugval
-                                        ) noexcept;
+                                        ) noexcept nogil;
 cdef extern void c__pdaf_set_ens_pointer (double** c_ens_point,
                                           int* dims,
                                           int* status
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdaf_set_smootherens (double** c_sens_point,
                                           int* maxlag,
                                           int* dims,
                                           int* status
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdaf_seik_ttimesa (int* rank,
                                        int* dim_col,
                                        double* A,
                                        double* B
-                                      ) noexcept;
+                                      ) noexcept nogil;
 cdef extern void c__pdaf_etkf_tleft (int* dim_ens,
                                      int* dim,
                                      double* A
-                                    ) noexcept;
+                                    ) noexcept nogil;
 cdef extern void c__pdaf_estkf_omegaa (int* rank,
                                        int* dim_col,
                                        double* A,
                                        double* B
-                                      ) noexcept;
+                                      ) noexcept nogil;
 cdef extern void c__pdaf_enkf_omega (int* seed,
                                      int* r,
                                      int* dim_ens,
@@ -2914,22 +2914,22 @@ cdef extern void c__pdaf_enkf_omega (int* seed,
                                      double* norm,
                                      int* otype,
                                      int* screen
-                                    ) noexcept;
+                                    ) noexcept nogil;
 cdef extern void c__pdaf_seik_omega (int* rank,
                                      double* omega,
                                      int* omegatype,
                                      int* screen
-                                    ) noexcept;
+                                    ) noexcept nogil;
 cdef extern void c__pdaf_incremental (int* steps,
                                       void (*c__dist_stateinc_pdaf)(int*,
                                                                     double*,
                                                                     int*,
                                                                     int*
                                                                    )
-                                     ) noexcept;
+                                     ) noexcept nogil;
 cdef extern void c__pdaf_add_increment (int* dim_p,
                                         double* state_p
-                                       ) noexcept;
+                                       ) noexcept nogil;
 cdef extern void c__pdaf_local_weights (int* wtype,
                                         double* cradius,
                                         double* sradius,
@@ -2937,7 +2937,7 @@ cdef extern void c__pdaf_local_weights (int* wtype,
                                         double* distance,
                                         double* weight,
                                         int* verbose
-                                       ) noexcept;
+                                       ) noexcept nogil;
 cdef extern void c__pdaf_diag_crps (int* dim,
                                     int* dim_ens,
                                     int* element,
@@ -2948,21 +2948,21 @@ cdef extern void c__pdaf_diag_crps (int* dim,
                                     double* resol,
                                     double* uncert,
                                     int* status
-                                   ) noexcept;
-cdef extern void c__pdaf_force_analysis () noexcept;
+                                   ) noexcept nogil;
+cdef extern void c__pdaf_force_analysis () noexcept nogil;
 cdef extern void c__pdaf_gather_obs_f2_flex (int* dim_obs_p,
                                              int* dim_obs_f,
                                              double* coords_p,
                                              double* coords_f,
                                              int* nrows,
                                              int* status
-                                            ) noexcept;
+                                            ) noexcept nogil;
 cdef extern void c__pdaf_gather_obs_f_flex (int* dim_obs_p,
                                             int* dim_obs_f,
                                             double* obs_p,
                                             double* obs_f,
                                             int* status
-                                           ) noexcept;
+                                           ) noexcept nogil;
 cdef extern void c__pdaf_prepost (void (*c__collect_state_pdaf)(int*,
                                                                 double*
                                                                ),
@@ -2985,21 +2985,21 @@ cdef extern void c__pdaf_prepost (void (*c__collect_state_pdaf)(int*,
                                                                    double*
                                                                   ),
                                   int* outflag
-                                 ) noexcept;
+                                 ) noexcept nogil;
 cdef extern void c__pdaf_set_memberid (int* memberid
-                                      ) noexcept;
+                                      ) noexcept nogil;
 cdef extern void c__pdaf_set_comm_pdaf (int* in_COMM_pdaf
-                                       ) noexcept;
+                                       ) noexcept nogil;
 cdef extern void c__pdaf_set_offline_mode (int* screen
-                                          ) noexcept;
+                                          ) noexcept nogil;
 cdef extern void c__pdaf_print_domain_stats (int* n_domains_p
-                                            ) noexcept;
-cdef extern void c__pdaf_init_local_obsstats () noexcept;
+                                            ) noexcept nogil;
+cdef extern void c__pdaf_init_local_obsstats () noexcept nogil;
 cdef extern void c__pdaf_incr_local_obsstats (int* dim_obs_l
-                                             ) noexcept;
+                                             ) noexcept nogil;
 cdef extern void c__pdaf_print_local_obsstats (int* screen,
                                                int* n_domains_with_obs
-                                              ) noexcept;
+                                              ) noexcept nogil;
 cdef extern void c__pdaf_omit_obs_omi (int* dim_p,
                                        int* dim_obs_p,
                                        int* dim_ens,
@@ -3018,7 +3018,7 @@ cdef extern void c__pdaf_omit_obs_omi (int* dim_p,
                                                              ),
                                        int* compute_mean,
                                        int* screen
-                                      ) noexcept;
+                                      ) noexcept nogil;
 cdef extern void c__pdaf_diag_crps_nompi (int* dim,
                                           int* dim_ens,
                                           int* element,
@@ -3029,44 +3029,45 @@ cdef extern void c__pdaf_diag_crps_nompi (int* dim,
                                           double* resol,
                                           double* uncert,
                                           int* status
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdafomi_init (int* n_obs
-                                 ) noexcept;
+                                 ) noexcept nogil;
+cdef extern void c__pdafomi_init_local () noexcept nogil;
 cdef extern void c__pdafomi_set_doassim (int* i_obs,
                                          int* doassim
-                                        ) noexcept;
+                                        ) noexcept nogil;
 cdef extern void c__pdafomi_set_disttype (int* i_obs,
                                           int* disttype
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdafomi_set_ncoord (int* i_obs,
                                         int* ncoord
-                                       ) noexcept;
+                                       ) noexcept nogil;
 cdef extern void c__pdafomi_set_id_obs_p (int* i_obs,
                                           int* nrows,
                                           int* dim_obs_p,
                                           int* id_obs_p
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdafomi_set_icoeff_p (int* i_obs,
                                           int* nrows,
                                           int* dim_obs_p,
                                           double* icoeff_p
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdafomi_set_domainsize (int* i_obs,
                                             int* ncoord,
                                             double* domainsize
-                                           ) noexcept;
+                                           ) noexcept nogil;
 cdef extern void c__pdafomi_set_obs_err_type (int* i_obs,
                                               int* obs_err_type
-                                             ) noexcept;
+                                             ) noexcept nogil;
 cdef extern void c__pdafomi_set_use_global_obs (int* i_obs,
                                                 int* use_global_obs
-                                               ) noexcept;
+                                               ) noexcept nogil;
 cdef extern void c__pdafomi_set_inno_omit (int* i_obs,
                                            double* inno_omit
-                                          ) noexcept;
+                                          ) noexcept nogil;
 cdef extern void c__pdafomi_set_inno_omit_ivar (int* i_obs,
                                                 double* inno_omit_ivar
-                                               ) noexcept;
+                                               ) noexcept nogil;
 cdef extern void c__pdafomi_gather_obs (int* i_obs,
                                         int* dim_obs_p,
                                         double* obs_p,
@@ -3074,72 +3075,72 @@ cdef extern void c__pdafomi_gather_obs (int* i_obs,
                                         double* ocoord_p,
                                         double* cradius,
                                         int* dim_obs
-                                       ) noexcept;
+                                       ) noexcept nogil;
 cdef extern void c__pdafomi_gather_obsstate (int* i_obs,
                                              double* obsstate_p,
                                              double* obsstate_f,
                                              int* nobs_f_all
-                                            ) noexcept;
+                                            ) noexcept nogil;
 cdef extern void c__pdafomi_set_domain_limits (double* lim_coords
-                                              ) noexcept;
+                                              ) noexcept nogil;
 cdef extern void c__pdafomi_set_debug_flag (int* debugval
-                                           ) noexcept;
+                                           ) noexcept nogil;
 cdef extern void c__pdafomi_deallocate_obs (int* i_obs
-                                           ) noexcept;
+                                           ) noexcept nogil;
 cdef extern void c__pdafomi_obs_op_gridpoint (int* i_obs,
                                               double* state_p,
                                               int* dim_p,
                                               double* obs_f_all,
                                               int* nobs_f_all
-                                             ) noexcept;
+                                             ) noexcept nogil;
 cdef extern void c__pdafomi_obs_op_gridavg (int* i_obs,
                                             int* nrows,
                                             double* state_p,
                                             int* dim_p,
                                             double* obs_f_all,
                                             int* nobs_f_all
-                                           ) noexcept;
+                                           ) noexcept nogil;
 cdef extern void c__pdafomi_obs_op_interp_lin (int* i_obs,
                                                int* nrows,
                                                double* state_p,
                                                int* dim_p,
                                                double* obs_f_all,
                                                int* nobs_f_all
-                                              ) noexcept;
+                                              ) noexcept nogil;
 cdef extern void c__pdafomi_obs_op_adj_gridavg (int* i_obs,
                                                 int* nrows,
                                                 double* state_p,
                                                 int* dim_p,
                                                 double* obs_f_all,
                                                 int* nobs_f_all
-                                               ) noexcept;
+                                               ) noexcept nogil;
 cdef extern void c__pdafomi_obs_op_adj_gridpoint (int* i_obs,
                                                   double* state_p,
                                                   int* dim_p,
                                                   double* obs_f_all,
                                                   int* nobs_f_all
-                                                 ) noexcept;
+                                                 ) noexcept nogil;
 cdef extern void c__pdafomi_obs_op_adj_interp_lin (int* i_obs,
                                                    int* nrows,
                                                    double* state_p,
                                                    int* dim_p,
                                                    double* obs_f_all,
                                                    int* nobs_f_all
-                                                  ) noexcept;
+                                                  ) noexcept nogil;
 cdef extern void c__pdafomi_get_interp_coeff_tri (double* gpc,
                                                   double* oc,
                                                   double* icoeff
-                                                 ) noexcept;
+                                                 ) noexcept nogil;
 cdef extern void c__pdafomi_get_interp_coeff_lin1d (double* gpc,
                                                     double* oc,
                                                     double* icoeff
-                                                   ) noexcept;
+                                                   ) noexcept nogil;
 cdef extern void c__pdafomi_get_interp_coeff_lin (int* num_gp,
                                                   int* n_dim,
                                                   double* gpc,
                                                   double* oc,
                                                   double* icoeff
-                                                 ) noexcept;
+                                                 ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_3dvar (void (*c__collect_state_pdaf)(int*,
                                                                             double*
                                                                            ),
@@ -3195,7 +3196,7 @@ cdef extern void c__pdafomi_assimilate_3dvar (void (*c__collect_state_pdaf)(int*
                                                                                double*
                                                                               ),
                                               int* outflag
-                                             ) noexcept;
+                                             ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_en3dvar_estkf (void (*c__collect_state_pdaf)(int*,
                                                                                     double*
                                                                                    ),
@@ -3255,7 +3256,7 @@ cdef extern void c__pdafomi_assimilate_en3dvar_estkf (void (*c__collect_state_pd
                                                                                        double*
                                                                                       ),
                                                       int* outflag
-                                                     ) noexcept;
+                                                     ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_en3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                                      double*
                                                                                     ),
@@ -3341,7 +3342,7 @@ cdef extern void c__pdafomi_assimilate_en3dvar_lestkf (void (*c__collect_state_p
                                                                                         double*
                                                                                        ),
                                                        int* outflag
-                                                      ) noexcept;
+                                                      ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_global (void (*c__collect_state_pdaf)(int*,
                                                                              double*
                                                                             ),
@@ -3373,7 +3374,7 @@ cdef extern void c__pdafomi_assimilate_global (void (*c__collect_state_pdaf)(int
                                                                                 double*
                                                                                ),
                                                int* flag
-                                              ) noexcept;
+                                              ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_hyb3dvar_estkf (void (*c__collect_state_pdaf)(int*,
                                                                                      double*
                                                                                     ),
@@ -3445,7 +3446,7 @@ cdef extern void c__pdafomi_assimilate_hyb3dvar_estkf (void (*c__collect_state_p
                                                                                         double*
                                                                                        ),
                                                        int* outflag
-                                                      ) noexcept;
+                                                      ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_hyb3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                                       double*
                                                                                      ),
@@ -3543,7 +3544,7 @@ cdef extern void c__pdafomi_assimilate_hyb3dvar_lestkf (void (*c__collect_state_
                                                                                          double*
                                                                                         ),
                                                         int* outflag
-                                                       ) noexcept;
+                                                       ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_lenkf (void (*c__collect_state_pdaf)(int*,
                                                                             double*
                                                                            ),
@@ -3580,7 +3581,7 @@ cdef extern void c__pdafomi_assimilate_lenkf (void (*c__collect_state_pdaf)(int*
                                                                                double*
                                                                               ),
                                               int* flag
-                                             ) noexcept;
+                                             ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_local (void (*c__collect_state_pdaf)(int*,
                                                                             double*
                                                                            ),
@@ -3638,7 +3639,7 @@ cdef extern void c__pdafomi_assimilate_local (void (*c__collect_state_pdaf)(int*
                                                                                double*
                                                                               ),
                                               int* flag
-                                             ) noexcept;
+                                             ) noexcept nogil;
 cdef extern void c__pdafomi_generate_obs (void (*c__collect_state_pdaf)(int*,
                                                                         double*
                                                                        ),
@@ -3674,7 +3675,7 @@ cdef extern void c__pdafomi_generate_obs (void (*c__collect_state_pdaf)(int*,
                                                                            double*
                                                                           ),
                                           int* flag
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_3dvar (void (*c__collect_state_pdaf)(int*,
                                                                            double*
                                                                           ),
@@ -3722,7 +3723,7 @@ cdef extern void c__pdafomi_put_state_3dvar (void (*c__collect_state_pdaf)(int*,
                                                                          int*
                                                                         ),
                                              int* outflag
-                                            ) noexcept;
+                                            ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_en3dvar_estkf (void (*c__collect_state_pdaf)(int*,
                                                                                    double*
                                                                                   ),
@@ -3774,7 +3775,7 @@ cdef extern void c__pdafomi_put_state_en3dvar_estkf (void (*c__collect_state_pda
                                                                                  int*
                                                                                 ),
                                                      int* outflag
-                                                    ) noexcept;
+                                                    ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_en3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                                     double*
                                                                                    ),
@@ -3852,7 +3853,7 @@ cdef extern void c__pdafomi_put_state_en3dvar_lestkf (void (*c__collect_state_pd
                                                                                   int*
                                                                                  ),
                                                       int* outflag
-                                                     ) noexcept;
+                                                     ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_generate_obs (void (*c__collect_state_pdaf)(int*,
                                                                                   double*
                                                                                  ),
@@ -3880,7 +3881,7 @@ cdef extern void c__pdafomi_put_state_generate_obs (void (*c__collect_state_pdaf
                                                                                 int*
                                                                                ),
                                                     int* flag
-                                                   ) noexcept;
+                                                   ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_global (void (*c__collect_state_pdaf)(int*,
                                                                             double*
                                                                            ),
@@ -3904,7 +3905,7 @@ cdef extern void c__pdafomi_put_state_global (void (*c__collect_state_pdaf)(int*
                                                                           int*
                                                                          ),
                                               int* flag
-                                             ) noexcept;
+                                             ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_hyb3dvar_estkf (void (*c__collect_state_pdaf)(int*,
                                                                                     double*
                                                                                    ),
@@ -3968,7 +3969,7 @@ cdef extern void c__pdafomi_put_state_hyb3dvar_estkf (void (*c__collect_state_pd
                                                                                   int*
                                                                                  ),
                                                       int* outflag
-                                                     ) noexcept;
+                                                     ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_hyb3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                                      double*
                                                                                     ),
@@ -4058,7 +4059,7 @@ cdef extern void c__pdafomi_put_state_hyb3dvar_lestkf (void (*c__collect_state_p
                                                                                    int*
                                                                                   ),
                                                        int* outflag
-                                                      ) noexcept;
+                                                      ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_lenkf (void (*c__collect_state_pdaf)(int*,
                                                                            double*
                                                                           ),
@@ -4087,7 +4088,7 @@ cdef extern void c__pdafomi_put_state_lenkf (void (*c__collect_state_pdaf)(int*,
                                                                             double*
                                                                            ),
                                              int* flag
-                                            ) noexcept;
+                                            ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_local (void (*c__collect_state_pdaf)(int*,
                                                                            double*
                                                                           ),
@@ -4137,34 +4138,34 @@ cdef extern void c__pdafomi_put_state_local (void (*c__collect_state_pdaf)(int*,
                                                                        double*
                                                                       ),
                                              int* flag
-                                            ) noexcept;
+                                            ) noexcept nogil;
 cdef extern void c__pdafomi_init_obs_f_cb (int* step,
                                            int* dim_obs_f,
                                            double* observation_f
-                                          ) noexcept;
+                                          ) noexcept nogil;
 cdef extern void c__pdafomi_init_obsvar_cb (int* step,
                                             int* dim_obs_p,
                                             double* obs_p,
                                             double* meanvar
-                                           ) noexcept;
+                                           ) noexcept nogil;
 cdef extern void c__pdafomi_g2l_obs_cb (int* domain_p,
                                         int* step,
                                         int* dim_obs_f,
                                         int* dim_obs_l,
                                         double* ostate_f,
                                         double* ostate_l
-                                       ) noexcept;
+                                       ) noexcept nogil;
 cdef extern void c__pdafomi_init_obs_l_cb (int* domain_p,
                                            int* step,
                                            int* dim_obs_l,
                                            double* observation_l
-                                          ) noexcept;
+                                          ) noexcept nogil;
 cdef extern void c__pdafomi_init_obsvar_l_cb (int* domain_p,
                                               int* step,
                                               int* dim_obs_l,
                                               double* obs_l,
                                               double* meanvar_l
-                                             ) noexcept;
+                                             ) noexcept nogil;
 cdef extern void c__pdafomi_prodrinva_l_cb (int* domain_p,
                                             int* step,
                                             int* dim_obs_l,
@@ -4172,43 +4173,43 @@ cdef extern void c__pdafomi_prodrinva_l_cb (int* domain_p,
                                             double* obs_l,
                                             double* A_l,
                                             double* C_l
-                                           ) noexcept;
+                                           ) noexcept nogil;
 cdef extern void c__pdafomi_likelihood_l_cb (int* domain_p,
                                              int* step,
                                              int* dim_obs_l,
                                              double* obs_l,
                                              double* resid_l,
                                              double* lhood_l
-                                            ) noexcept;
+                                            ) noexcept nogil;
 cdef extern void c__pdafomi_prodrinva_cb (int* step,
                                           int* dim_obs_p,
                                           int* ncol,
                                           double* obs_p,
                                           double* A_p,
                                           double* C_p
-                                         ) noexcept;
+                                         ) noexcept nogil;
 cdef extern void c__pdafomi_likelihood_cb (int* step,
                                            int* dim_obs,
                                            double* obs,
                                            double* resid,
                                            double* lhood
-                                          ) noexcept;
+                                          ) noexcept nogil;
 cdef extern void c__pdafomi_add_obs_error_cb (int* step,
                                               int* dim_obs_p,
                                               double* C_p
-                                             ) noexcept;
+                                             ) noexcept nogil;
 cdef extern void c__pdafomi_init_obscovar_cb (int* step,
                                               int* dim_obs,
                                               int* dim_obs_p,
                                               double* covar,
                                               double* m_state_p,
                                               bint* isdiag
-                                             ) noexcept;
+                                             ) noexcept nogil;
 cdef extern void c__pdafomi_init_obserr_f_cb (int* step,
                                               int* dim_obs_f,
                                               double* obs_f,
                                               double* obserr_f
-                                             ) noexcept;
+                                             ) noexcept nogil;
 cdef extern void c__pdafomi_prodrinva_hyb_l_cb (int* domain_p,
                                                 int* step,
                                                 int* dim_obs_l,
@@ -4217,7 +4218,7 @@ cdef extern void c__pdafomi_prodrinva_hyb_l_cb (int* domain_p,
                                                 double* alpha,
                                                 double* A_l,
                                                 double* C_l
-                                               ) noexcept;
+                                               ) noexcept nogil;
 cdef extern void c__pdafomi_likelihood_hyb_l_cb (int* domain_p,
                                                  int* step,
                                                  int* dim_obs_l,
@@ -4225,9 +4226,9 @@ cdef extern void c__pdafomi_likelihood_hyb_l_cb (int* domain_p,
                                                  double* resid_l,
                                                  double* alpha,
                                                  double* lhood_l
-                                                ) noexcept;
+                                                ) noexcept nogil;
 cdef extern void c__pdafomi_obsstats_l (int* screen
-                                       ) noexcept;
+                                       ) noexcept nogil;
 cdef extern void c__pdafomi_weights_l (int* verbose,
                                        int* nobs_l,
                                        int* ncols,
@@ -4238,7 +4239,7 @@ cdef extern void c__pdafomi_weights_l (int* verbose,
                                        double* ivar_obs_l,
                                        double* dist_l,
                                        double* weight_l
-                                      ) noexcept;
+                                      ) noexcept nogil;
 cdef extern void c__pdafomi_weights_l_sgnl (int* verbose,
                                             int* nobs_l,
                                             int* ncols,
@@ -4249,12 +4250,12 @@ cdef extern void c__pdafomi_weights_l_sgnl (int* verbose,
                                             double* ivar_obs_l,
                                             double* dist_l,
                                             double* weight_l
-                                           ) noexcept;
+                                           ) noexcept nogil;
 cdef extern void c__pdafomi_check_error (int* flag
-                                        ) noexcept;
-cdef extern void c__pdafomi_gather_obsdims () noexcept;
+                                        ) noexcept nogil;
+cdef extern void c__pdafomi_gather_obsdims () noexcept nogil;
 cdef extern void c__pdafomi_obsstats (int* screen
-                                     ) noexcept;
+                                     ) noexcept nogil;
 cdef extern void c__pdafomi_init_dim_obs_l_iso (int* i_obs,
                                                 int* ncoord,
                                                 double* coords_l,
@@ -4262,7 +4263,7 @@ cdef extern void c__pdafomi_init_dim_obs_l_iso (int* i_obs,
                                                 double* cradius,
                                                 double* sradius,
                                                 int* cnt_obs_l
-                                               ) noexcept;
+                                               ) noexcept nogil;
 cdef extern void c__pdafomi_init_dim_obs_l_noniso (int* i_obs,
                                                    int* ncoord,
                                                    double* coords_l,
@@ -4270,7 +4271,7 @@ cdef extern void c__pdafomi_init_dim_obs_l_noniso (int* i_obs,
                                                    double* cradius,
                                                    double* sradius,
                                                    int* cnt_obs_l
-                                                  ) noexcept;
+                                                  ) noexcept nogil;
 cdef extern void c__pdafomi_init_dim_obs_l_noniso_locweights (int* i_obs,
                                                               int* ncoord,
                                                               double* coords_l,
@@ -4278,7 +4279,7 @@ cdef extern void c__pdafomi_init_dim_obs_l_noniso_locweights (int* i_obs,
                                                               double* cradius,
                                                               double* sradius,
                                                               int* cnt_obs_l
-                                                             ) noexcept;
+                                                             ) noexcept nogil;
 cdef extern void c__pdafomi_localize_covar_iso (int* i_obs,
                                                 int* dim_p,
                                                 int* dim_obs,
@@ -4289,7 +4290,7 @@ cdef extern void c__pdafomi_localize_covar_iso (int* i_obs,
                                                 double* coords,
                                                 double* HP,
                                                 double* HPH
-                                               ) noexcept;
+                                               ) noexcept nogil;
 cdef extern void c__pdafomi_localize_covar_noniso (int* i_obs,
                                                    int* dim_p,
                                                    int* dim_obs,
@@ -4300,7 +4301,7 @@ cdef extern void c__pdafomi_localize_covar_noniso (int* i_obs,
                                                    double* coords,
                                                    double* HP,
                                                    double* HPH
-                                                  ) noexcept;
+                                                  ) noexcept nogil;
 cdef extern void c__pdafomi_localize_covar_noniso_locweights (int* i_obs,
                                                               int* dim_p,
                                                               int* dim_obs,
@@ -4311,39 +4312,39 @@ cdef extern void c__pdafomi_localize_covar_noniso_locweights (int* i_obs,
                                                               double* coords,
                                                               double* HP,
                                                               double* HPH
-                                                             ) noexcept;
+                                                             ) noexcept nogil;
 cdef extern void c__pdafomi_omit_by_inno_l_cb (int* domain_p,
                                                int* dim_obs_l,
                                                double* resid_l,
                                                double* obs_l
-                                              ) noexcept;
+                                              ) noexcept nogil;
 cdef extern void c__pdafomi_omit_by_inno_cb (int* dim_obs_f,
                                              double* resid_f,
                                              double* obs_f
-                                            ) noexcept;
+                                            ) noexcept nogil;
 cdef extern void c__pdafomi_set_localization (int* i_obs,
                                               double* cradius,
                                               double* sradius,
                                               int* locweight
-                                             ) noexcept;
+                                             ) noexcept nogil;
 cdef extern void c__pdafomi_set_localization_noniso (int* i_obs,
                                                      int* nradii,
                                                      double* cradius,
                                                      double* sradius,
                                                      int* locweight,
                                                      int* locweight_v
-                                                    ) noexcept;
+                                                    ) noexcept nogil;
 cdef extern void c__pdafomi_set_dim_obs_l (int* i_obs,
                                            int* cnt_obs_l_all,
                                            int* cnt_obs_l
-                                          ) noexcept;
+                                          ) noexcept nogil;
 cdef extern void c__pdafomi_store_obs_l_index (int* i_obs,
                                                int* idx,
                                                int* id_obs_l,
                                                double* distance,
                                                double* cradius_l,
                                                double* sradius_l
-                                              ) noexcept;
+                                              ) noexcept nogil;
 cdef extern void c__pdafomi_store_obs_l_index_vdist (int* i_obs,
                                                      int* idx,
                                                      int* id_obs_l,
@@ -4351,7 +4352,7 @@ cdef extern void c__pdafomi_store_obs_l_index_vdist (int* i_obs,
                                                      double* cradius_l,
                                                      double* sradius_l,
                                                      double* vdist
-                                                    ) noexcept;
+                                                    ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_3dvar_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                      double*
                                                                                     ),
@@ -4414,7 +4415,7 @@ cdef extern void c__pdafomi_assimilate_3dvar_nondiagr (void (*c__collect_state_p
                                                                                         double*
                                                                                        ),
                                                        int* outflag
-                                                      ) noexcept;
+                                                      ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_en3dvar_estkf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                              double*
                                                                                             ),
@@ -4481,7 +4482,7 @@ cdef extern void c__pdafomi_assimilate_en3dvar_estkf_nondiagr (void (*c__collect
                                                                                                 double*
                                                                                                ),
                                                                int* outflag
-                                                              ) noexcept;
+                                                              ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_en3dvar_lestkf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                               double*
                                                                                              ),
@@ -4582,7 +4583,7 @@ cdef extern void c__pdafomi_assimilate_en3dvar_lestkf_nondiagr (void (*c__collec
                                                                                                  double*
                                                                                                 ),
                                                                 int* outflag
-                                                               ) noexcept;
+                                                               ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_enkf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                     double*
                                                                                    ),
@@ -4625,7 +4626,7 @@ cdef extern void c__pdafomi_assimilate_enkf_nondiagr (void (*c__collect_state_pd
                                                                                        double*
                                                                                       ),
                                                       int* outflag
-                                                     ) noexcept;
+                                                     ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_global_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                       double*
                                                                                      ),
@@ -4664,7 +4665,7 @@ cdef extern void c__pdafomi_assimilate_global_nondiagr (void (*c__collect_state_
                                                                                          double*
                                                                                         ),
                                                         int* outflag
-                                                       ) noexcept;
+                                                       ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_hyb3dvar_estkf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                               double*
                                                                                              ),
@@ -4743,7 +4744,7 @@ cdef extern void c__pdafomi_assimilate_hyb3dvar_estkf_nondiagr (void (*c__collec
                                                                                                  double*
                                                                                                 ),
                                                                 int* outflag
-                                                               ) noexcept;
+                                                               ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_hyb3dvar_lestkf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                                double*
                                                                                               ),
@@ -4856,7 +4857,7 @@ cdef extern void c__pdafomi_assimilate_hyb3dvar_lestkf_nondiagr (void (*c__colle
                                                                                                   double*
                                                                                                  ),
                                                                  int* outflag
-                                                                ) noexcept;
+                                                                ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_lenkf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                      double*
                                                                                     ),
@@ -4904,7 +4905,7 @@ cdef extern void c__pdafomi_assimilate_lenkf_nondiagr (void (*c__collect_state_p
                                                                                         double*
                                                                                        ),
                                                        int* outflag
-                                                      ) noexcept;
+                                                      ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_lknetf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                       double*
                                                                                      ),
@@ -4994,7 +4995,7 @@ cdef extern void c__pdafomi_assimilate_lknetf_nondiagr (void (*c__collect_state_
                                                                                          double*
                                                                                         ),
                                                         int* outflag
-                                                       ) noexcept;
+                                                       ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_lnetf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                      double*
                                                                                     ),
@@ -5059,7 +5060,7 @@ cdef extern void c__pdafomi_assimilate_lnetf_nondiagr (void (*c__collect_state_p
                                                                                         double*
                                                                                        ),
                                                        int* outflag
-                                                      ) noexcept;
+                                                      ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_local_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                      double*
                                                                                     ),
@@ -5125,7 +5126,7 @@ cdef extern void c__pdafomi_assimilate_local_nondiagr (void (*c__collect_state_p
                                                                                         double*
                                                                                        ),
                                                        int* outflag
-                                                      ) noexcept;
+                                                      ) noexcept nogil;
 cdef extern void c__pdafomi_assimilate_nonlin_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                       double*
                                                                                      ),
@@ -5163,7 +5164,7 @@ cdef extern void c__pdafomi_assimilate_nonlin_nondiagr (void (*c__collect_state_
                                                                                          double*
                                                                                         ),
                                                         int* outflag
-                                                       ) noexcept;
+                                                       ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_3dvar_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                     double*
                                                                                    ),
@@ -5218,7 +5219,7 @@ cdef extern void c__pdafomi_put_state_3dvar_nondiagr (void (*c__collect_state_pd
                                                                                   int*
                                                                                  ),
                                                       int* outflag
-                                                     ) noexcept;
+                                                     ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_en3dvar_estkf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                             double*
                                                                                            ),
@@ -5277,7 +5278,7 @@ cdef extern void c__pdafomi_put_state_en3dvar_estkf_nondiagr (void (*c__collect_
                                                                                           int*
                                                                                          ),
                                                               int* outflag
-                                                             ) noexcept;
+                                                             ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_en3dvar_lestkf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                              double*
                                                                                             ),
@@ -5370,7 +5371,7 @@ cdef extern void c__pdafomi_put_state_en3dvar_lestkf_nondiagr (void (*c__collect
                                                                                            int*
                                                                                           ),
                                                                int* outflag
-                                                              ) noexcept;
+                                                              ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_enkf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                    double*
                                                                                   ),
@@ -5405,7 +5406,7 @@ cdef extern void c__pdafomi_put_state_enkf_nondiagr (void (*c__collect_state_pda
                                                                                  int*
                                                                                 ),
                                                      int* outflag
-                                                    ) noexcept;
+                                                    ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_global_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                      double*
                                                                                     ),
@@ -5436,7 +5437,7 @@ cdef extern void c__pdafomi_put_state_global_nondiagr (void (*c__collect_state_p
                                                                                    int*
                                                                                   ),
                                                        int* outflag
-                                                      ) noexcept;
+                                                      ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_hyb3dvar_estkf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                              double*
                                                                                             ),
@@ -5507,7 +5508,7 @@ cdef extern void c__pdafomi_put_state_hyb3dvar_estkf_nondiagr (void (*c__collect
                                                                                            int*
                                                                                           ),
                                                                int* outflag
-                                                              ) noexcept;
+                                                              ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_hyb3dvar_lestkf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                               double*
                                                                                              ),
@@ -5612,7 +5613,7 @@ cdef extern void c__pdafomi_put_state_hyb3dvar_lestkf_nondiagr (void (*c__collec
                                                                                             int*
                                                                                            ),
                                                                 int* outflag
-                                                               ) noexcept;
+                                                               ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_lenkf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                     double*
                                                                                    ),
@@ -5652,7 +5653,7 @@ cdef extern void c__pdafomi_put_state_lenkf_nondiagr (void (*c__collect_state_pd
                                                                                      bint*
                                                                                     ),
                                                       int* outflag
-                                                     ) noexcept;
+                                                     ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_lknetf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                      double*
                                                                                     ),
@@ -5734,7 +5735,7 @@ cdef extern void c__pdafomi_put_state_lknetf_nondiagr (void (*c__collect_state_p
                                                                                  double*
                                                                                 ),
                                                        int* outflag
-                                                      ) noexcept;
+                                                      ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_lnetf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                     double*
                                                                                    ),
@@ -5791,7 +5792,7 @@ cdef extern void c__pdafomi_put_state_lnetf_nondiagr (void (*c__collect_state_pd
                                                                                 double*
                                                                                ),
                                                       int* outflag
-                                                     ) noexcept;
+                                                     ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_local_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                     double*
                                                                                    ),
@@ -5849,7 +5850,7 @@ cdef extern void c__pdafomi_put_state_local_nondiagr (void (*c__collect_state_pd
                                                                                 double*
                                                                                ),
                                                       int* outflag
-                                                     ) noexcept;
+                                                     ) noexcept nogil;
 cdef extern void c__pdafomi_put_state_nonlin_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                      double*
                                                                                     ),
@@ -5879,28 +5880,28 @@ cdef extern void c__pdafomi_put_state_nonlin_nondiagr (void (*c__collect_state_p
                                                                                    int*
                                                                                   ),
                                                        int* outflag
-                                                      ) noexcept;
+                                                      ) noexcept nogil;
 cdef extern void c__pdaflocal_set_indices (int* dim_l,
                                            int* map
-                                          ) noexcept;
+                                          ) noexcept nogil;
 cdef extern void c__pdaflocal_set_increment_weights (int* dim_l,
                                                      double* weights
-                                                    ) noexcept;
-cdef extern void c__pdaflocal_clear_increment_weights () noexcept;
+                                                    ) noexcept nogil;
+cdef extern void c__pdaflocal_clear_increment_weights () noexcept nogil;
 cdef extern void c__pdaflocal_g2l_cb (int* step,
                                       int* domain_p,
                                       int* dim_p,
                                       double* state_p,
                                       int* dim_l,
                                       double* state_l
-                                     ) noexcept;
+                                     ) noexcept nogil;
 cdef extern void c__pdaflocal_l2g_cb (int* step,
                                       int* domain_p,
                                       int* dim_l,
                                       double* state_l,
                                       int* dim_p,
                                       double* state_p
-                                     ) noexcept;
+                                     ) noexcept nogil;
 cdef extern void c__pdaflocalomi_assimilate (void (*c__collect_state_pdaf)(int*,
                                                                            double*
                                                                           ),
@@ -5944,7 +5945,7 @@ cdef extern void c__pdaflocalomi_assimilate (void (*c__collect_state_pdaf)(int*,
                                                                               double*
                                                                              ),
                                              int* outflag
-                                            ) noexcept;
+                                            ) noexcept nogil;
 cdef extern void c__pdaflocalomi_assimilate_en3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                                           double*
                                                                                          ),
@@ -6016,7 +6017,7 @@ cdef extern void c__pdaflocalomi_assimilate_en3dvar_lestkf (void (*c__collect_st
                                                                                              double*
                                                                                             ),
                                                             int* outflag
-                                                           ) noexcept;
+                                                           ) noexcept nogil;
 cdef extern void c__pdaflocalomi_assimilate_en3dvar_lestkf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                                    double*
                                                                                                   ),
@@ -6103,7 +6104,7 @@ cdef extern void c__pdaflocalomi_assimilate_en3dvar_lestkf_nondiagr (void (*c__c
                                                                                                       double*
                                                                                                      ),
                                                                      int* outflag
-                                                                    ) noexcept;
+                                                                    ) noexcept nogil;
 cdef extern void c__pdaflocalomi_assimilate_hyb3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                                            double*
                                                                                           ),
@@ -6187,7 +6188,7 @@ cdef extern void c__pdaflocalomi_assimilate_hyb3dvar_lestkf (void (*c__collect_s
                                                                                               double*
                                                                                              ),
                                                              int* outflag
-                                                            ) noexcept;
+                                                            ) noexcept nogil;
 cdef extern void c__pdaflocalomi_assimilate_hyb3dvar_lestkf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                                     double*
                                                                                                    ),
@@ -6286,7 +6287,7 @@ cdef extern void c__pdaflocalomi_assimilate_hyb3dvar_lestkf_nondiagr (void (*c__
                                                                                                        double*
                                                                                                       ),
                                                                       int* outflag
-                                                                     ) noexcept;
+                                                                     ) noexcept nogil;
 cdef extern void c__pdaflocalomi_assimilate_lknetf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                            double*
                                                                                           ),
@@ -6362,7 +6363,7 @@ cdef extern void c__pdaflocalomi_assimilate_lknetf_nondiagr (void (*c__collect_s
                                                                                               double*
                                                                                              ),
                                                              int* outflag
-                                                            ) noexcept;
+                                                            ) noexcept nogil;
 cdef extern void c__pdaflocalomi_assimilate_lnetf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                           double*
                                                                                          ),
@@ -6413,7 +6414,7 @@ cdef extern void c__pdaflocalomi_assimilate_lnetf_nondiagr (void (*c__collect_st
                                                                                              double*
                                                                                             ),
                                                             int* outflag
-                                                           ) noexcept;
+                                                           ) noexcept nogil;
 cdef extern void c__pdaflocalomi_assimilate_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                     double*
                                                                                    ),
@@ -6465,7 +6466,7 @@ cdef extern void c__pdaflocalomi_assimilate_nondiagr (void (*c__collect_state_pd
                                                                                        double*
                                                                                       ),
                                                       int* outflag
-                                                     ) noexcept;
+                                                     ) noexcept nogil;
 cdef extern void c__pdaflocalomi_put_state (void (*c__collect_state_pdaf)(int*,
                                                                           double*
                                                                          ),
@@ -6501,7 +6502,7 @@ cdef extern void c__pdaflocalomi_put_state (void (*c__collect_state_pdaf)(int*,
                                                                            int*
                                                                           ),
                                             int* outflag
-                                           ) noexcept;
+                                           ) noexcept nogil;
 cdef extern void c__pdaflocalomi_put_state_en3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                                          double*
                                                                                         ),
@@ -6565,7 +6566,7 @@ cdef extern void c__pdaflocalomi_put_state_en3dvar_lestkf (void (*c__collect_sta
                                                                                        int*
                                                                                       ),
                                                            int* outflag
-                                                          ) noexcept;
+                                                          ) noexcept nogil;
 cdef extern void c__pdaflocalomi_put_state_en3dvar_lestkf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                                   double*
                                                                                                  ),
@@ -6644,7 +6645,7 @@ cdef extern void c__pdaflocalomi_put_state_en3dvar_lestkf_nondiagr (void (*c__co
                                                                                                 int*
                                                                                                ),
                                                                     int* outflag
-                                                                   ) noexcept;
+                                                                   ) noexcept nogil;
 cdef extern void c__pdaflocalomi_put_state_hyb3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                                           double*
                                                                                          ),
@@ -6720,7 +6721,7 @@ cdef extern void c__pdaflocalomi_put_state_hyb3dvar_lestkf (void (*c__collect_st
                                                                                         int*
                                                                                        ),
                                                             int* outflag
-                                                           ) noexcept;
+                                                           ) noexcept nogil;
 cdef extern void c__pdaflocalomi_put_state_hyb3dvar_lestkf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                                    double*
                                                                                                   ),
@@ -6811,7 +6812,7 @@ cdef extern void c__pdaflocalomi_put_state_hyb3dvar_lestkf_nondiagr (void (*c__c
                                                                                                  int*
                                                                                                 ),
                                                                      int* outflag
-                                                                    ) noexcept;
+                                                                    ) noexcept nogil;
 cdef extern void c__pdaflocalomi_put_state_lknetf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                           double*
                                                                                          ),
@@ -6879,7 +6880,7 @@ cdef extern void c__pdaflocalomi_put_state_lknetf_nondiagr (void (*c__collect_st
                                                                                              double*
                                                                                             ),
                                                             int* outflag
-                                                           ) noexcept;
+                                                           ) noexcept nogil;
 cdef extern void c__pdaflocalomi_put_state_lnetf_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                          double*
                                                                                         ),
@@ -6922,7 +6923,7 @@ cdef extern void c__pdaflocalomi_put_state_lnetf_nondiagr (void (*c__collect_sta
                                                                                         double*
                                                                                        ),
                                                            int* outflag
-                                                          ) noexcept;
+                                                          ) noexcept nogil;
 cdef extern void c__pdaflocalomi_put_state_nondiagr (void (*c__collect_state_pdaf)(int*,
                                                                                    double*
                                                                                   ),
@@ -6966,7 +6967,7 @@ cdef extern void c__pdaflocalomi_put_state_nondiagr (void (*c__collect_state_pda
                                                                                  double*
                                                                                 ),
                                                      int* outflag
-                                                    ) noexcept;
+                                                    ) noexcept nogil;
 cdef extern void c__pdaflocal_assimilate_en3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                                        double*
                                                                                       ),
@@ -7096,7 +7097,7 @@ cdef extern void c__pdaflocal_assimilate_en3dvar_lestkf (void (*c__collect_state
                                                                                           double*
                                                                                          ),
                                                          int* outflag
-                                                        ) noexcept;
+                                                        ) noexcept nogil;
 cdef extern void c__pdaflocal_assimilate_hyb3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                                         double*
                                                                                        ),
@@ -7238,7 +7239,7 @@ cdef extern void c__pdaflocal_assimilate_hyb3dvar_lestkf (void (*c__collect_stat
                                                                                            double*
                                                                                           ),
                                                           int* outflag
-                                                         ) noexcept;
+                                                         ) noexcept nogil;
 cdef extern void c__pdaflocal_assimilate_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                                double*
                                                                               ),
@@ -7320,7 +7321,7 @@ cdef extern void c__pdaflocal_assimilate_lestkf (void (*c__collect_state_pdaf)(i
                                                                                   double*
                                                                                  ),
                                                  int* outflag
-                                                ) noexcept;
+                                                ) noexcept nogil;
 cdef extern void c__pdaflocal_assimilate_letkf (void (*c__collect_state_pdaf)(int*,
                                                                               double*
                                                                              ),
@@ -7402,7 +7403,7 @@ cdef extern void c__pdaflocal_assimilate_letkf (void (*c__collect_state_pdaf)(in
                                                                                  double*
                                                                                 ),
                                                 int* outflag
-                                               ) noexcept;
+                                               ) noexcept nogil;
 cdef extern void c__pdaflocal_assimilate_lknetf (void (*c__collect_state_pdaf)(int*,
                                                                                double*
                                                                               ),
@@ -7508,7 +7509,7 @@ cdef extern void c__pdaflocal_assimilate_lknetf (void (*c__collect_state_pdaf)(i
                                                                                   double*
                                                                                  ),
                                                  int* outflag
-                                                ) noexcept;
+                                                ) noexcept nogil;
 cdef extern void c__pdaflocal_assimilate_lnetf (void (*c__collect_state_pdaf)(int*,
                                                                               double*
                                                                              ),
@@ -7573,7 +7574,7 @@ cdef extern void c__pdaflocal_assimilate_lnetf (void (*c__collect_state_pdaf)(in
                                                                                  double*
                                                                                 ),
                                                 int* outflag
-                                               ) noexcept;
+                                               ) noexcept nogil;
 cdef extern void c__pdaflocal_assimilate_lseik (void (*c__collect_state_pdaf)(int*,
                                                                               double*
                                                                              ),
@@ -7655,7 +7656,7 @@ cdef extern void c__pdaflocal_assimilate_lseik (void (*c__collect_state_pdaf)(in
                                                                                  double*
                                                                                 ),
                                                 int* outflag
-                                               ) noexcept;
+                                               ) noexcept nogil;
 cdef extern void c__pdaflocal_put_state_en3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                                       double*
                                                                                      ),
@@ -7777,7 +7778,7 @@ cdef extern void c__pdaflocal_put_state_en3dvar_lestkf (void (*c__collect_state_
                                                                                     int*
                                                                                    ),
                                                         int* outflag
-                                                       ) noexcept;
+                                                       ) noexcept nogil;
 cdef extern void c__pdaflocal_put_state_hyb3dvar_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                                        double*
                                                                                       ),
@@ -7911,7 +7912,7 @@ cdef extern void c__pdaflocal_put_state_hyb3dvar_lestkf (void (*c__collect_state
                                                                                      int*
                                                                                     ),
                                                          int* outflag
-                                                        ) noexcept;
+                                                        ) noexcept nogil;
 cdef extern void c__pdaflocal_put_state_lestkf (void (*c__collect_state_pdaf)(int*,
                                                                               double*
                                                                              ),
@@ -7985,7 +7986,7 @@ cdef extern void c__pdaflocal_put_state_lestkf (void (*c__collect_state_pdaf)(in
                                                                               double*
                                                                              ),
                                                 int* outflag
-                                               ) noexcept;
+                                               ) noexcept nogil;
 cdef extern void c__pdaflocal_put_state_letkf (void (*c__collect_state_pdaf)(int*,
                                                                              double*
                                                                             ),
@@ -8059,7 +8060,7 @@ cdef extern void c__pdaflocal_put_state_letkf (void (*c__collect_state_pdaf)(int
                                                                              double*
                                                                             ),
                                                int* outflag
-                                              ) noexcept;
+                                              ) noexcept nogil;
 cdef extern void c__pdaflocal_put_state_lknetf (void (*c__collect_state_pdaf)(int*,
                                                                               double*
                                                                              ),
@@ -8157,7 +8158,7 @@ cdef extern void c__pdaflocal_put_state_lknetf (void (*c__collect_state_pdaf)(in
                                                                                  double*
                                                                                 ),
                                                 int* outflag
-                                               ) noexcept;
+                                               ) noexcept nogil;
 cdef extern void c__pdaflocal_put_state_lnetf (void (*c__collect_state_pdaf)(int*,
                                                                              double*
                                                                             ),
@@ -8214,7 +8215,7 @@ cdef extern void c__pdaflocal_put_state_lnetf (void (*c__collect_state_pdaf)(int
                                                                        int*
                                                                       ),
                                                int* outflag
-                                              ) noexcept;
+                                              ) noexcept nogil;
 cdef extern void c__pdaflocal_put_state_lseik (void (*c__collect_state_pdaf)(int*,
                                                                              double*
                                                                             ),
@@ -8288,4 +8289,4 @@ cdef extern void c__pdaflocal_put_state_lseik (void (*c__collect_state_pdaf)(int
                                                                              double*
                                                                             ),
                                                int* outflag
-                                              ) noexcept;
+                                              ) noexcept nogil;
