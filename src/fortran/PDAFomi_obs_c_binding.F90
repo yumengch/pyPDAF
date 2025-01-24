@@ -35,13 +35,23 @@ contains
    subroutine c__PDAFomi_set_disttype(i_obs, disttype) bind(c)
       ! index of observations
       integer(c_int), intent(in) :: i_obs
-      ! 0) Cartesian; 1) Cartesian periodic
-      ! 2) Approximation to geographic distance in metres using latitude and longitude expressed in radians
-      ! 3) Using Haversine formula to compute distance in metres between two points on the surface of a sphere
-      ! 10) 3D Cartesian distance for 2D+1D factorised localisation where horizontal and vertical distances are treated separately
-      ! 11) 3D Cartesian periodic distance for 2D+1D factorised localisation where horizontal and vertical distances are treated separately
-      ! 12) Same as 2) for horizontal distance but vertical distance is in units chosen by users
-      ! 13) Same as 3) for horizontal distance but vertical distance is in units chosen by users
+      ! Type of distance used for localisation
+      !     0) Cartesian (any units)
+      !     1) Cartesian periodic (any units)
+      !     2) Approximation to geographic distance in metres using
+      !        latitude and longitude expressed in radians
+      !     3) Using Haversine formula to compute distance in metres
+      !        between two points on the surface of a sphere
+      !     10) 3D Cartesian distance where horizontal and vertical
+      !          distances are treated separately
+      !     11) 3D Cartesian periodic distance where horizontal and
+      !         vertical distances are treated separately
+      !     12) Same as 2) for horizontal distance but vertical
+      !         distance is in units chosen by users where the horizontal
+      !         and vertical distances are treated separately
+      !     13) Same as 3) for horizontal distance but vertical
+      !         distance is in units chosen by users where the horizontal
+      !         and vertical distances are treated separately
       integer(c_int), intent(in)  :: disttype
       thisobs(i_obs)%disttype = disttype
    end subroutine c__PDAFomi_set_disttype
@@ -57,7 +67,7 @@ contains
    subroutine c__PDAFomi_set_id_obs_p(i_obs, nrows, dim_obs_p, id_obs_p) bind(c)
       ! index of observations
       integer(c_int), intent(in) :: i_obs
-      ! Number of values to be averaged or used for interpolation
+      ! number of values to be averaged or used for interpolation
       integer(c_int), intent(in)  :: nrows
       ! dimension of PE local obs
       integer(c_int), intent(in)  :: dim_obs_p
@@ -70,7 +80,8 @@ contains
    subroutine c__PDAFomi_set_icoeff_p(i_obs, nrows, dim_obs_p, icoeff_p) bind(c)
       ! index of observations
       integer(c_int), intent(in) :: i_obs
-      ! Number of values to be averaged
+      ! number of state vector used to interpolate
+      ! to one observation location
       integer(c_int), intent(in)  :: nrows
       ! dimension of PE local obs
       integer(c_int), intent(in)  :: dim_obs_p
@@ -94,7 +105,9 @@ contains
    subroutine c__PDAFomi_set_obs_err_type(i_obs, obs_err_type) bind(c)
       ! index of observations
       integer(c_int), intent(in) :: i_obs
-      ! 0) Gaussian (default); 1) double exponential (Laplacian)
+      ! type of observation error distribution
+      !     0) Gaussian (default)
+      !     1) double exponential (Laplacian)
       integer(c_int), intent(in)  :: obs_err_type
       thisobs(i_obs)%obs_err_type = obs_err_type
    end subroutine c__PDAFomi_set_obs_err_type
@@ -102,7 +115,9 @@ contains
    subroutine c__PDAFomi_set_use_global_obs(i_obs, use_global_obs) bind(c)
       ! index of observations
       integer(c_int), intent(in) :: i_obs
-      ! 0) Using process-local observations; 1) using cross-process observations (default)
+      ! Swith to use global observations or not
+      !     0) Using process-local observations;
+      !     1) using cross-process observations (default)
       integer(c_int), intent(in)  :: use_global_obs
       thisobs(i_obs)%use_global_obs = use_global_obs
    end subroutine c__PDAFomi_set_use_global_obs

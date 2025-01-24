@@ -49,8 +49,9 @@ docstrings['eofcovar'] = \
     "all fields in the state vectors have unit variance.\n\n    " \
     "It can be useful to store more EOFs than one finally\n    " \
     "might want to use to have the flexibility\n    " \
-    "to carry the ensemble size.\n\n    " \
-    "See also\n    " \
+    "to carry the ensemble size.\n\n\n    " \
+    "See Also\n    " \
+    "--------\n    " \
     "`PDAF webpage <https://pdaf.awi.de/trac/wiki/EnsembleGeneration>`_"
 
 docstrings['gather_dim_obs_f'] = \
@@ -88,7 +89,8 @@ docstrings['gather_obs_f'] = \
     "Further, the related routine `pyPDAF.PDAF.gather_obs_f2` is used to\n    " \
     "gather the associated 2D observation coordinates\n    "
 
-docstrings['gather_obs_f2'] = "In the local filters (LESKTF, LETKF, LSEIK, LNETF)\n    " \
+docstrings['gather_obs_f2'] = \
+    "In the local filters (LESKTF, LETKF, LSEIK, LNETF)\n    " \
     "this function returns the full observation coordinates " \
     "from process-local observation coordinates. " \
     "The function depends on " \
@@ -98,8 +100,10 @@ docstrings['gather_obs_f2'] = "In the local filters (LESKTF, LETKF, LSEIK, LNETF
     "The routine is typically used in the routines `py__init_dim_obs_f_pdaf` " \
     "if the analysis step of the local filters is parallelized."
 
-docstrings['get_assim_flag'] = "This function returns the flag that indicates if the DA is performed in the last time step. " \
-                               "It only works for online DA systems. "
+docstrings['get_assim_flag'] = \
+    "This function returns the flag that\n    " \
+    "indicates if the DA is performed in the last time step.\n    " \
+    "It only works for online DA systems. "
 
 docstrings['get_ensstats'] = "This is a diagnotics function for LKNETF which returns the skewness and kutosis used there. "
 
@@ -302,30 +306,45 @@ docstrings['omi_init_local'] = \
     "in :func:`py__init_dim_obs_l_pdaf`."
 
 docstrings['omi_set_doassim'] = \
-    "Setting the `doassim` attribute of `obs_f`.\n\n    " \
+    "Setting the `doassim` attribute of `obs_f`\n    " \
+    "for `i`-th observation type. This property must be\n    " \
+    "explicitly set for OMI functionality.\n\n    " \
     "Properties of `obs_f` are typically set in user-supplied function\n    " \
     "`py__init_dim_obs_pdaf`.\n\n    " \
-    "If `doassim` is set to 0,\n    " \
-    "the given type of observation is not assimilated in the DA system. "
+    "This is by default set to 0, which means that\n    " \
+    "the given type of observation is not assimilated in the DA system."
 
 docstrings['omi_set_disttype'] = \
-    "Setting the `disttype` attribute of `obs_f`.\n\n    " \
+    "Setting the observation localisation distance\n    " \
+    "calculation method\n    " \
+    "for `i`-th observation type. This is a mandatory property\n    " \
+    "for OMI functionality.\n\n    " \
     "Properties of `obs_f` are typically set in user-supplied function\n    " \
     "`py__init_dim_obs_pdaf`.\n\n    " \
     "`disttype` determines the way the distance\n    " \
     "between observation and model grid is calculated in OMI.\n    " \
-    "See `PDAF distance computation " \
+    "To perform distance computation, the observation coordinates" \
+    "should be given by `ocoord_p` argument\n    " \
+    "when :func:`pyPDAF.PDAF.omi_gather_obs` is called." \
+    "\n\n    " \
+    "See also `PDAF distance computation " \
     "<https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsdisttype>`_."
 
 docstrings['omi_set_ncoord'] = \
-    "Setting the `ncoord` attribute of `obs_f`.\n\n    " \
+    "Setting the number of spatial dimensions of observations\n    " \
+    "for `i`-th observation type. This is a mandatory property\n    " \
+    "for OMI functionality.\n\n    " \
     "Properties of `obs_f` are typically set in user-supplied function\n    " \
     "`py__init_dim_obs_pdaf`.\n\n    " \
-    "`disttype` gives the coordinate dimension of the observation."
-
+    "`ncoord` gives the coordinate dimension of the observation.\n    " \
+    "This information is used by observation distance computation\n    " \
+    "for localisation.\n    " \
+    "For example, `ncoord=2` for 2D observation coordinates."
 
 docstrings['omi_set_id_obs_p'] = \
-    "Setting the `id_obs_p` attribute of `obs_f`.\n\n    " \
+    "Setting the `id_obs_p` attribute of `obs_f`\n    " \
+    "for `i`-th observation type. This is a mandatory property\n    " \
+    "for OMI functionality.\n\n    " \
     "The function is typically used in user-supplied\n    " \
     "function `py__init_dim_obs_pdaf`.\n\n    " \
     "Here, `id_obs_p(nrows, dim_obs_p)` is a 2D array of integers.\n    " \
@@ -344,8 +363,11 @@ docstrings['omi_set_id_obs_p'] = \
     "  In this case,\n    " \
     "  the location of these elements is used to perform bi-linear interpolation\n    "\
     "  from model grid to observation location.\n    " \
-    "  This information is used in the :func:`pyPDAF.PDAF.omi_obs_op_gridavg`\n    "\
-    "  and :func:`pyPDAF.PDAF.omi_obs_op_interp_lin` functions.\n    " \
+    "  For interpolation, this information is used in the\n    "\
+    "  :func:`pyPDAF.PDAF.omi_obs_op_interp_lin` functions.\n    " \
+    "  This information can also be used to\n    " \
+    "  perform a state vector averaging operator as\n    " \
+    "  observation operator in :func:`pyPDAF.PDAF.omi_obs_op_gridavg`" \
     "  When interpolation is needed,\n    "\
     "  the weighting of the interpolation is done\n    "\
     "  in the :func:`pyPDAF.PDAF.omi_get_interp_coeff_lin`,\n    " \
@@ -353,28 +375,86 @@ docstrings['omi_set_id_obs_p'] = \
     "  and :func:`pyPDAF.PDAF.omi_get_interp_coeff_tri` functions.\n    " \
     "  The details of interpolation setup can be found at\n    " \
     "  `PDAF wiki page " \
-    "<https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Initializinginterpolationcoefficients>`_.\n"
+    "<https://pdaf.awi.de/trac/wiki/OMI_observation_operators" \
+    "#Initializinginterpolationcoefficients>`_.\n"
 
-docstrings['omi_set_icoeff_p'] = "This function sets the `icoeff_p` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. " \
-                                 "`icoeff_p(nrows, dim_obs_p)` is a 2D array of real number used to implement\n    " \
-                                 "interpolations. This is used in tandem with `id_obs_p`. " \
-                                 "Checking the documentation of `pyPDAF.PDAF.omi_set_id_obs_p` for some details. " \
-                                 "Also, see https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Initializinginterpolationcoefficients for setting these values."
-docstrings['omi_set_domainsize'] = "This function sets the `domainsize` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. " \
-                                   "`domainsize(ncoord)` is the size of the domain in each spatial dimension. " \
-                                   "This information is used to compute the Cartesian disance with periodic boundary. " \
-                                   "If the value of one dimension is `<=0`, no periodicity is assumed in that dimension. "
-docstrings['omi_set_obs_err_type'] = "This function sets the `obs_err_type` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. " \
-                                     "`obs_err_type` is an integer that specifies the type of observation error. "
-docstrings['omi_set_use_global_obs'] = "This function sets the `use_global_obs` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. " \
-                                       "In the domain-localized filters (LESTK, LETKF, LSEIK, LNETF) " \
-                                       "observations are assimilated that are located within the localization around some grid point. " \
-                                       "When a model uses parallelisation with domain-decomposition some of these observations might belong to a different process-domain. " \
-                                       "In the default mode (use_global_obs=1) PDAF-OMI gathers all globally available observations so that each process has access to all observations.\n    " \
-                                       "It can be more efficient to limit the observations on a process-domain to those observations that are located inside the domain or within the localization radius around it. " \
-                                       "Then, in the local analyses less observations have to be checked for their distance. " \
-                                       "Setting use_global_obs=0 activates this feature. However, it needs additional preparations to make PDAF-OMI aware of the limiting coordinates of a process sub-domain. " \
-                                       "See https://pdaf.awi.de/trac/wiki/OMI_use_global_obs for the use of `pyPDAF.PDAF.omi_set_domain_limits`."
+docstrings['omi_set_icoeff_p'] = \
+    "Setting the observation interpolation coefficient\n    " \
+    "for `i`-th observation type. This property is optional\n    " \
+    "unless interpolations needed in observation operators\n    " \
+    "operator.\n\n    " \
+    "The function is typically used in user-supplied\n    " \
+    "function `py__init_dim_obs_pdaf`.\n\n    " \
+    "`icoeff_p(nrows, dim_obs_p)` is a 2D array of real number\n    " \
+    "used to interpolate state vector to point-wise observation grid.\n    " \
+    "The `nrows` is the number of state vector used to interpolate\n    " \
+    "to one observation location.\n\n    " \
+    "A suite of functions are provided to obtain these coefficients,\n    " \
+    "which depend on `obs_f` attribute of `id_obs_p` and\n    " \
+    "observation coordinates; see also\n    " \
+    ":func:`pyPDAF.PDAF.set_id_obs_p`:\n    " \
+    "    - :func:`pyPDAF.PDAF.omi_get_interp_coeff_lin1D`\n    " \
+    "      1D interpolation coefficient\n    " \
+    "    - :func:`pyPDAF.PDAF.omi_get_interp_coeff_lin`\n    " \
+    "      linear interpolation coefficient for 1, 2 and 3D rectangular grids\n    " \
+    "    - :func:`pyPDAF.PDAF.omi_get_interp_coeff_tri`\n    " \
+    "      2D linear interpolation for triangular grids\n\n    " \
+    "See also `PDAF documentation for OMI interpolations " \
+    "<https://pdaf.awi.de/trac/wiki/OMI_observation_operators" \
+    "#Initializinginterpolationcoefficients>'_."
+
+docstrings['omi_set_domainsize'] = \
+    "Setting the domain periodicity\n    " \
+    "attribute of `obs_f`\n    " \
+    "for `i`-th observation type. This property is optional\n    " \
+    "unless localisation is used.\n\n    " \
+    "The function is typically used in user-supplied\n    " \
+    "function `py__init_dim_obs_pdaf`.\n\n    " \
+    "`domainsize(ncoord)` specifies the size of the domain\n    " \
+    "in each spatial dimension.\n    " \
+    "This information is used to compute the Cartesian disance\n    " \
+    "with periodic boundary. That is `disttype = 1 or 11`\n    " \
+    "Domain size must be positive.\n    " \
+    "If the value of one dimension is `<=0`,\n    " \
+    "no periodicity is assumed in that dimension. "
+
+docstrings['omi_set_obs_err_type'] = \
+    "Setting the type of observation error distribution\n    " \
+    "for `i`-th observation type. This property is optional\n    " \
+    "unless a laplacian observation error distribution is used.\n\n    " \
+    "The function is typically used in user-supplied\n    " \
+    "function `py__init_dim_obs_pdaf`."
+
+docstrings['omi_set_use_global_obs'] = \
+    "Switch for only assimilating process-local observations\n    " \
+    "for `i`-th observation type.\n\n    " \
+    "The function is typically used in user-supplied\n    " \
+    "function `py__init_dim_obs_pdaf`.\n\n    " \
+    "The filters can be performed in parallel\n    " \
+    "based on the filtering communicator, `comm_filter`.\n    " \
+    "This is typically the case for the domain-localised filters,\n    " \
+    "e.g., LESTK, LETKF, LSEIK, LNETF.\n    " \
+    "In this case, observation vectors are stored in\n    " \
+    "process-local vectors, `obs_p`. Each local\n    " \
+    "process (`obs_p`) only stores a section of the full\n    " \
+    "observation vector. This typically corresponds to the\n    " \
+    "local domain corresponding to the filtering process,\n    " \
+    "based on model domain decomposition.\n\n    " \
+    "By default, `use_global_obs=1`. This means that\n    " \
+    "PDAF-OMI assimilates the entire observation vector.\n    " \
+    "One can choose to only assimilate observations\n    " \
+    "in local process by setting `use_global_obs=0`.\n    " \
+    "This can save computational cost used for\n    " \
+    "observation distance calculations.\n\n   " \
+    "However, it needs additional preparations to make\n    " \
+    "PDAF-OMI aware of the limiting coordinates\n    " \
+    "of a process sub-domain using\n    " \
+    ":func:`pyPDAF.PDAF.omi_set_domain_limits` or\n    " \
+    ":func:`pyPDAF.PDAF.omi_set_domain_limits_unstruc`.\n\n\n    " \
+    "See Also\n    " \
+    "--------\n    " \
+    "https://pdaf.awi.de/trac/wiki/OMI_use_global_obs"
+
 docstrings['omi_set_inno_omit'] = "This function sets the `inno_omit` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. " \
                                   "Setting this variable to a value > 0.0 activates the functionality that observations are omitted (made irrelevant) from the analysis update " \
                                   "if the difference of their value and the ensemble mean to too large. " \

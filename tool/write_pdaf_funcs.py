@@ -264,7 +264,7 @@ def write_docstring(
             s_dtype = npyconv[info['type'].lower()]
             s += f'ndarray[tuple[{s_dims}], {s_dtype}]\n'
             # comments of the array
-            s += 2*indent + info['comment'] + '\n\n'
+            s += 2*indent + info['comment'] + '.\n\n'
             # adding documentation for array dimensions
             if len(info['dimension']) > 1:
                 i = 0
@@ -274,7 +274,7 @@ def write_docstring(
                         i += 1
                         s += 2*indent
                         s += 'The' if i == 1 else 'the'
-                        s += f'{make_ordinal(i)}-th dimension {dim0}' \
+                        s += f' {make_ordinal(i)}-th dimension {dim0}' \
                             f' is {arg_info[dim0]["comment"]}'
                         s += ';\n' if i == 1 else '.\n'
             else:
