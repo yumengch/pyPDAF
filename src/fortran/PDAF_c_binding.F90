@@ -1136,7 +1136,7 @@ contains
    SUBROUTINE c__PDAF_generate_obs(U_collect_state, U_distribute_state, &
          U_init_dim_obs_f, U_obs_op_f, U_get_obs_f, U_init_obserr_f, U_prepoststep, &
          U_next_observation, flag) bind(c)
-      ! Status flag
+      ! status flag
       INTEGER(c_int), INTENT(out) :: flag
       ! Collect state vector from model/any arrays to pdaf arrays
       procedure(c__collect_state_pdaf) :: U_collect_state
@@ -1172,7 +1172,7 @@ contains
    END SUBROUTINE c__PDAF_generate_obs
 
    SUBROUTINE c__PDAF_get_assim_flag(did_assim) bind(c)
-      ! Flag: (1) for assimilation; (0) else
+      ! flag: (1) for assimilation; (0) else
       INTEGER(c_int),INTENT(out) :: did_assim
 
       CALL PDAF_get_assim_flag(did_assim)
@@ -1181,11 +1181,11 @@ contains
    SUBROUTINE c__PDAF_get_ensstats(dims, c_skew_ptr, c_kurt_ptr, status) bind(c)
       ! dimension of pointer
       INTEGER(c_int), intent(out) :: dims(1)
-      ! Skewness array
+      ! skewness array
       type(c_ptr), INTENT(out) :: c_skew_ptr
       ! kurtosis array
       type(c_ptr), INTENT(out) :: c_kurt_ptr
-      ! Status flag
+      ! status flag
       INTEGER(c_int), INTENT(out)       :: status
 
       REAL, POINTER :: skew_ptr(:)
@@ -1198,34 +1198,34 @@ contains
    END SUBROUTINE c__PDAF_get_ensstats
 
    SUBROUTINE c__PDAF_get_localfilter(lfilter) bind(c)
-      ! Whether the filter is domain-localized (1) or not (0)
+      ! whether the filter is domain-localized (1) or not (0)
       INTEGER(c_int), INTENT(out) :: lfilter
 
       CALL PDAF_get_localfilter(lfilter)
    END SUBROUTINE c__PDAF_get_localfilter
 
    SUBROUTINE c__PDAF_get_memberid(memberid) bind(c)
-      ! Index in the local ensemble
+      ! index in the local ensemble
       INTEGER(c_int),INTENT(inout) :: memberid
 
       CALL PDAF_get_memberid(memberid)
    END SUBROUTINE c__PDAF_get_memberid
 
    SUBROUTINE c__PDAF_get_obsmemberid(memberid) bind(c)
-      ! Index in the local observed ensemble
+      ! index in the local observed ensemble
       INTEGER(c_int),INTENT(inout) :: memberid
 
       CALL PDAF_get_obsmemberid(memberid)
    END SUBROUTINE c__PDAF_get_obsmemberid
 
    SUBROUTINE c__PDAF_get_smootherens(c_sens_point, maxlag, dims, status) bind(c)
-      ! A smoother array
+      ! a smoother array
       type(c_ptr), intent(out) :: c_sens_point
-      ! Number of past timesteps processed in sens
+      ! number of past timesteps processed in sens
       INTEGER(c_int), INTENT(out) :: maxlag
-      ! dimension of pointer
+      ! dimension of smoother array/pointer
       INTEGER(c_int), intent(out) :: dims(3)
-      ! Status flag
+      ! status flag
       INTEGER(c_int), INTENT(out) :: status
 
       REAL, POINTER :: sens_point(:, :, :)
@@ -1324,27 +1324,39 @@ contains
 
    SUBROUTINE c__PDAF_local_weight(wtype, rtype, cradius, sradius, distance, &
          nrows, ncols, A, var_obs, weight, verbose) bind(c)
-      ! Type of weight function
+      ! type of weight function
+      !     0. unit weight
+      !        (`weight=1` up to distance=cradius)
+      !     1. exponential decrease
+      !        (`weight=1/e` at distance=sradius;
+      !        `weight=0` for distance>cradius)
+      !     2. 5th order polynomial
+      !        (Gaspari&Cohn 1999; `weight=0` for distance>cradius)
       INTEGER(c_int), INTENT(in) :: wtype
-      ! Type of regulated weighting
+      ! type of regulated weighting
+      !     0. no regulation
+      !     1. regulation using mean variance
+      !     2. regulation using variance of single observation point
       INTEGER(c_int), INTENT(in) :: rtype
-      ! Cut-off radius (check `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
+      ! cut-off radius (check `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
       REAL(c_double), INTENT(in) :: cradius
-      ! Support radius (check `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
+      ! support radius (check `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
       REAL(c_double), INTENT(in) :: sradius
-      ! Distance to observation
+      ! distance to observation
       REAL(c_double), INTENT(in) :: distance
-      ! Number of rows in matrix A
+      ! number of rows in matrix A
       INTEGER(c_int), INTENT(in) :: nrows
-      ! Number of columns in matrix A
+      ! number of columns in matrix A
       INTEGER(c_int), INTENT(in) :: ncols
-      ! Input matrix
+      ! ensemble perturbation/anomaly matrix;
+      ! this matrix is used when weighting is regulated
+      ! by mean variance, i.e., rtype = 1
       REAL(c_double), INTENT(in) :: A(nrows, ncols)
-      ! Observation variance
+      ! observation variance
       REAL(c_double), INTENT(in) :: var_obs
-      ! Weights
+      ! weights
       REAL(c_double), INTENT(out) :: weight
-      ! Verbosity flag
+      ! verbosity flag
       INTEGER(c_int), INTENT(in) :: verbose
 
       CALL PDAF_local_weight(wtype, rtype, cradius, sradius, distance, &
@@ -2209,19 +2221,19 @@ contains
    END SUBROUTINE c__PDAF_put_state_seik
 
    subroutine c__PDAF_reset_forget(forget_in) bind(c)
-      ! New value of forgetting factor
+      ! new value of forgetting factor
       REAL(c_double), INTENT(in) :: forget_in
       call PDAF_reset_forget(forget_in)
    END subroutine c__PDAF_reset_forget
 
    SUBROUTINE c__PDAF_SampleEns(dim, dim_ens, modes, svals, state, ens, verbose, flag) bind(c)
-      ! Size of state vector
+      ! size of state vector
       INTEGER(c_int), INTENT(in) :: dim
-      ! Size of ensemble
+      ! size of ensemble
       INTEGER(c_int), INTENT(in) :: dim_ens
-      ! Array of EOF modes
+      ! array of EOF modes/matrix of singular vectors
       REAL(c_double), INTENT(inout) :: modes(dim, dim_ens-1)
-      ! Vector of singular values
+      ! singular values
       REAL(c_double), INTENT(in) :: svals(dim_ens-1)
       ! PE-local model mean state
       REAL(c_double), INTENT(inout) :: state(dim)
@@ -2236,19 +2248,20 @@ contains
    END SUBROUTINE c__PDAF_SampleEns
 
    SUBROUTINE c__PDAF_set_debug_flag(debugval) bind(c)
-      ! Value of debugging flag; print debug information for >0
+      ! value of debugging flag;
+      ! print debug information for debugval > 0
       INTEGER(c_int), INTENT(in)        :: debugval
       call PDAF_set_debug_flag(debugval)
    END SUBROUTINE c__PDAF_set_debug_flag
 
    SUBROUTINE c__PDAF_set_ens_pointer(c_ens_point, dims, status) bind(c)
-      ! Pointer to smoother array
+      ! pointer to smoother array
       type(c_ptr), intent(out) :: c_ens_point
       ! dimension of the pointer
       integer(c_int), intent(out) :: dims(2)
-      ! Status flag
+      ! status flag
       INTEGER(c_int), INTENT(out) :: status
-      ! Pointer to smoother array
+      ! pointer to smoother array
       REAL, POINTER :: ens_point(:,:)
       CALL PDAF_set_ens_pointer(ens_point, status)
       c_ens_point = c_loc(ens_point(1,1))
@@ -2256,15 +2269,15 @@ contains
    END SUBROUTINE c__PDAF_set_ens_pointer
 
    SUBROUTINE c__PDAF_set_smootherens(c_sens_point, maxlag, dims, status) bind(c)
-      ! Pointer to smoother array
+      ! pointer to smoother array
       type(c_ptr), INTENT(out) :: c_sens_point
-      ! Number of past timesteps processed in sens
+      ! number of past timesteps processed in sens
       INTEGER(c_int), INTENT(in) :: maxlag
       ! dimension of the pointer
       integer(c_int), intent(out) :: dims(3)
-      ! Status flag
+      ! status flag
       INTEGER(c_int), INTENT(out) :: status
-      ! Pointer to smoother array
+      ! pointer to smoother array
       REAL, POINTER :: sens_point(:,:,:)
 
       CALL PDAF_set_smootherens(sens_point, maxlag, status)
@@ -2273,13 +2286,13 @@ contains
    END SUBROUTINE c__PDAF_set_smootherens
 
    SUBROUTINE c__PDAF_seik_TtimesA(rank, dim_col, A, B) bind(c)
-      ! Rank of initial covariance matrix
+      ! rank of initial covariance matrix
       INTEGER(c_int), INTENT(in) :: rank
-      ! Number of columns in A and B
+      ! number of columns in A and B
       INTEGER(c_int), INTENT(in) :: dim_col
-      ! Input matrix
+      ! input matrix
       REAL(c_double), INTENT(in) :: A(rank, dim_col)
-      ! Output matrix (TA)
+      ! output matrix (TA)
       REAL(c_double), INTENT(out) :: B(rank+1, dim_col)
 
       CALL PDAF_seik_TtimesA(rank, dim_col, A, B)
