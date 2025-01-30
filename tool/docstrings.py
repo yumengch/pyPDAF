@@ -55,7 +55,7 @@ docstrings['eofcovar'] = \
     "`PDAF webpage <https://pdaf.awi.de/trac/wiki/EnsembleGeneration>`_"
 
 docstrings['gather_dim_obs_f'] = \
-    "Gathers the dimension of observation vector\n    " \
+    "Gather the dimension of observation vector\n    " \
     "across multiple local domains/filter processors.\n\n    " \
     "This function is typically used in deprecated PDAF functions" \
     "\n    " \
@@ -101,26 +101,36 @@ docstrings['gather_obs_f2'] = \
     "if the analysis step of the local filters is parallelized."
 
 docstrings['get_assim_flag'] = \
-    "This function returns the flag that\n    " \
+    "Return the flag that\n    " \
     "indicates if the DA is performed in the last time step.\n    " \
     "It only works for online DA systems. "
 
-docstrings['get_ensstats'] = "This is a diagnotics function for LKNETF which returns the skewness and kutosis used there. "
+docstrings['get_ensstats'] = \
+    "Return the skewness and kutosis used in LKNETF. "
 
-docstrings['get_localfilter'] = "This function returns whether a local filter is used. "
+docstrings['get_localfilter'] = \
+    "Return whether a local filter is used. "
 
-docstrings['get_memberid'] = "This function returns the ensemble member id on the current process. \n    " \
-                             "For example, it can be called during the ensemble integration if ensemble-specific forcing is applied. " \
-                             "It can also be used in the user-supplied functions such as `py__collect_state_pdaf` and `py__distribute_state_pdaf`."
+docstrings['get_memberid'] = \
+    "Return the ensemble member id on the current process.\n\n    " \
+    "For example, it can be called during the ensemble\n    " \
+    "integration if ensemble-specific forcing is read.\n    " \
+    "It can also be used in the user-supplied functions\n    " \
+    "such as :func:`py__collect_state_pdaf` and\n    " \
+    ":func:`py__distribute_state_pdaf`."
 
-docstrings['get_obsmemberid'] = "This function returns the ensemble member id when observation operator is being applied. \n    " \
-                                "This function is used specifically for user-supplied function `py__obs_op_pdaf`."
+docstrings['get_obsmemberid'] = \
+    "Return the ensemble member id\n    " \
+    "when observation operator is being applied.\n\n    " \
+    "This function is used specifically for\n    " \
+    "user-supplied function :func:`py__obs_op_pdaf`."
 
-docstrings['get_smootherens'] = "This function returns the smoothed ensemble in earlier time steps. " \
-                                "It is only used when the smoother options is used ."
+docstrings['get_smootherens'] = \
+    "Return the smoothed ensemble in earlier time steps.\n\n    " \
+    "It is only used when the smoother options is used ."
 
 docstrings['get_state'] = \
-    "Distributing analysis state vector to an array.\n\n    " \
+    "Distribute analysis state vector to an array.\n\n    " \
     "The primary purpose of this function is to distribute\n    " \
     "the analysis state vector to the model.\n    " \
     "This is attained by the user-supplied function\n    " \
@@ -157,7 +167,7 @@ docstrings['get_state'] = \
     "    3. py__next_observation_pdaf"
 
 docstrings['init'] = \
-    "This function initialises the PDAF system.\n\n    " \
+    "Initialise the PDAF system.\n\n    " \
     "It is called once at the beginning of the assimilation.\n\n    " \
     "The function specifies the type of DA methods,\n    " \
     "parameters of the filters, the MPI communicators,\n    " \
@@ -197,47 +207,87 @@ docstrings['init'] = \
     "has already read the ensemble from restart files." \
 
 
-docstrings['local_weight'] = "The function is used for localisation in the analysis step of a filter " \
-                             "and computes a weight according to the specified distance " \
-                             "and the settings for the localising function. " \
-                             "Typically the function is called in `py__prodRinvA_l_pdaf` " \
-                             "in the domain-localised filters. " \
-                             "Also, the function is typically called for the LEnKF " \
-                             "in the `py__localize_covar_pdaf`. \n    " \
-                             "This function is usually only used in user-codes that do not use PDAF-OMI."
+docstrings['local_weight'] = \
+    "Get localisation weight for given distance,\n    " \
+    "cut-off radius, support radius, weighting type,\n    " \
+    "and weighting function.\n\n    " \
+    "This function is used in the analysis step of a filter\n    " \
+    "to computes a localisation weight.\n\n    " \
+    "Typically, in domain-localised filters, the function\n    " \
+    "is called in user-supplied :func:`py__prodRinvA_l_pdaf`.\n    " \
+    "In LEnKF, this function is called\n    " \
+    "in user-supplied :func:`py__localize_covar_pdaf`.\n\n    " \
+    "This function is usually only used without PDAF-OMI."
 
 docstrings['print_info'] = \
-    "Printing the wallclock time and memory measured by PDAF.\n\n    " \
-    "This is called at the end of the DA program."
+    "Print the wallclock time and memory measured by PDAF.\n\n    " \
+    "This should be called at the end of the DA program."
 
-docstrings['reset_forget'] = "This function allows a user to reset the forgetting factor manually during the assimilation process. " \
-                             "For the local ensemble Kalman filters the forgetting factor can be set either globally of differently " \
-                             "for each local analysis domain. " \
-                             "For the LNETF and the global filters only a global setting of the forgeting factor is possible. " \
-                             "In addition, the implementation of adaptive choices for the forgetting factor (beyond what is implemented in PDAF) are possible."
+docstrings['reset_forget'] = \
+    "Reset the forgetting factor manually\n    " \
+    "during the assimilation process.\n\n    " \
+    "For the local ensemble Kalman filters\n    " \
+    "the forgetting factor can be set either globally\n    " \
+    "if this function is called outside of the loop over\n    " \
+    "local domains,\n    " \
+    "or\n    " \
+    "the forgetting factor can be set differently\n    " \
+    "for each local analysis domain within the loop over\n    " \
+    "local domains.\n\n    " \
+    "For the LNETF and the global filters\n    " \
+    "only a global setting of the forgeting factor is possible.\n    " \
+    "In addition, the implementation of adaptive choices\n    " \
+    "for the forgetting factor (beyond what is implemented in PDAF) are possible."
 
-docstrings['SampleEns'] = "This function generates an ensemble from singular values and their vectors (EOF modes) centred on given mean state. " \
-                          "The singular values and vectors are derived from the ensemble anomalies which can be obtained from a long model trajectory using " \
-                          "`pyPDAF.PDAF.eofcovar`."
+docstrings['SampleEns'] = \
+    "Generate an ensemble from singular values and\n    " \
+    "their vectors (EOF modes) of an ensemble anomaly matrix.\n\n    " \
+    "The singular values and vectors are derived from\n    " \
+    "the ensemble anomalies. This ensemble anomaly can be\n    " \
+    "obtained from a time anomaly of a model trajectory using\n    " \
+    ":func:`pyPDAF.PDAF.eofcovar`."
 
-docstrings['set_debug_flag'] = "This function activates the debug output of the PDAF. Starting from the use of this function, the debug infomation is " \
-                               "sent to screen output.  The screen output end when the debug flag is set to 0. " \
-                               "We recommend using debugging output for single local domain, e.g. `if domain_p = 1: pyPDAF.PDAF.set_debug_flag(1)`.\n    "
+docstrings['set_debug_flag'] = \
+    "Activate the debug output of the PDAF.\n\n    " \
+    "Starting from the use of this function,\n    " \
+    "the debug infomation is sent to screen output.\n    " \
+    "The screen output end when the debug flag is\n    " \
+    "set to 0 by this function.\n\n    " \
+    "For the sake of simplicity,\n    " \
+    "we recommend using debugging output for\n    " \
+    "a single local domain, e.g.\n    " \
+    "`if domain_p == 1: pyPDAF.PDAF.set_debug_flag(1)`"
 
-docstrings['set_ens_pointer'] = "This function returns the ensemble array in a numpy array where the internal array data has the same memoery address as PDAF ensemble array."
+docstrings['set_ens_pointer'] = \
+    "Return the ensemble in a numpy array.\n\n" \
+    "Here the internal array data has the same memoery address\n    " \
+    "as PDAF ensemble array allowing for manual ensemble modification."
 
-docstrings['set_smootherens'] = "This function can be used in the offline implementation when a smoother is used. " \
-                                "It is typically called in `py__init_ens_pdaf` in the call to `pyPDAF.PDAF.PDAF_init`. " \
-                                "The function `pyPDAF.PDAF.set_smootherens` is used when the smoother extension of a filter is used. " \
-                                "In this case, the smoothed ensemble states at earlier times are stored in an internal array of PDAF. " \
-                                "To be able to smooth post times, the smoother algorithm must have access to the past ensembles. " \
-                                "In the offline mode the user has to manually fill the smoother ensemble array from ensembles read in from files. " \
-                                "In the online mode, the smoother array is filled automatically during the cycles of forecast phases and analysis steps. "
+docstrings['set_smootherens'] = \
+    "Get a pointer to smoother ensemble.\n\n    " \
+    "When smoother is used, the smoothed ensemble states\n    " \
+    "at earlier times are stored in an internal array of PDAF.\n    " \
+    "To be able to smooth post times,\n    " \
+    "the smoother algorithm must have access to the past ensembles.\n\n    " \
+    "In this function, the user can obtain a numpy array of\n    " \
+    "smoother ensemble. This array has the same memory address\n    " \
+    "as the internal PDAF smoother ensemble array.\n    " \
+    "This allows for manual modification of the smoother ensemble.\n\n    " \
+    "In the offline mode the user has to manually\n    " \
+    "fill the smoother ensemble array\n    " \
+    "from ensembles read in from files.\n    " \
+    "This function is typically called in\n    " \
+    ":func:`py__init_ens_pdaf` in the call to\n    " \
+    ":func:`pyPDAF.PDAF.PDAF_init`.\n\n    " \
+    "In the online mode, the smoother array is filled\n    " \
+    "automatically during the cycles of forecast phases and analysis steps."
 
-docstrings['seik_TtimesA'] = "This is an internal function in PDAF where it perform matrix calculation of B = TA. This allows for two types of T matrix. " \
-                             "The resulting matrix B is the transformation matrix act on the full forecast ensemble. " \
-                             "Mathematical description of the function is the second term of Eq. (23) and the T matrix is defined in Eq. (13) in\n    " \
-                             "Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). A unification of ensemble square root Kalman filters. Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1\n    "
+docstrings['seik_TtimesA'] = \
+    "Perform matrix calculation of B = TA.\n\n    " \
+    "This allows for two types of T matrix. " \
+    "The resulting matrix B is the transformation matrix act on the full forecast ensemble. " \
+    "Mathematical description of the function is the second term of Eq. (23) and the T matrix is defined in Eq. (13) in\n    " \
+    "Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). A unification of ensemble square root Kalman filters. Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1\n    "
 docstrings['etkf_Tleft'] = "This is an internal function in PDAF where it perform matrix calculation of B = TA. " \
                            "This function performs the second term of Eq. (34) i\n    " \
                            "Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). A unification of ensemble square root Kalman filters. Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1\n    "
@@ -455,14 +505,28 @@ docstrings['omi_set_use_global_obs'] = \
     "--------\n    " \
     "https://pdaf.awi.de/trac/wiki/OMI_use_global_obs"
 
-docstrings['omi_set_inno_omit'] = "This function sets the `inno_omit` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. " \
-                                  "Setting this variable to a value > 0.0 activates the functionality that observations are omitted (made irrelevant) from the analysis update " \
-                                  "if the difference of their value and the ensemble mean to too large. " \
-                                  "If inno_omit=2.0, an observation would be omitted if the squared difference between the observed ensemble mean state and the observation value is larger than 2 times the observation error variance\n    " \
-                                  "See https://pdaf.awi.de/trac/wiki/PDAFomi_additional_functionality#Omittingobservationsthatarepotentialoutliers"
-docstrings['omi_set_inno_omit_ivar'] = "This function sets the `inno_omit_ivar` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. " \
-                                       "This is used to specify the inverse of the observations variance to omit the observation. " \
-                                       "By default it is `1e-12` for a large observation error, but users can adjust this value to ensure that the observation is omitted based on applications\n    "
+docstrings['omi_set_inno_omit'] = \
+    "Setting innovation threshold for removing observation\n    " \
+    "outliers. By default, no observations are omitted.\n\n    " \
+    "This function is typically used in user-supplied\n    " \
+    "function :func:`py__init_dim_obs_pdaf`.\n\n    " \
+    "The observation omission is only activated when it is > 0.0.\n    " \
+    "PDAF will omit observations where their squared\n    " \
+    "the innovation of the ensemble mean is larger than\n    " \
+    "the product of `inno_omit` and observation error variance.\n\n    " \
+    "The observations are omitted by setting a very large\n    " \
+    "observation error variance, i.e., a very small\n    " \
+    "inverse of the observation error variance,  `inno_omit_ivar`.\n    " \
+    "This can be set by :func:`pyPDAF.PDAF.omi_set_inno_omit_ivar`."
+
+docstrings['omi_set_inno_omit_ivar'] = \
+    "Setting the inverse of observation error variance for\n    " \
+    "omitted observations.\n\n    " \
+    "This should be set to a very small value relative to\n    " \
+    "assimilated observations. By default, it is set to `1e-12`.\n\n    " \
+    "This function is typically used in user-supplied function\n    " \
+    ":func:`py__init_dim_obs_pdaf`."
+
 docstrings['omi_gather_obs'] = \
     "Gather the dimension of a given type of observation across\n    " \
     "multiple local domains/filter processors.\n\n    " \
