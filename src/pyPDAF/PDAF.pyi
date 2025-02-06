@@ -10496,7 +10496,9 @@ def eofcovar (dim_fields: np.ndarray[tuple[int], np.dtype[np.intc]],offsets: np.
     might want to use to have the flexibility
     to carry the ensemble size.
 
-    See also
+
+    See Also
+    --------
     `PDAF webpage <https://pdaf.awi.de/trac/wiki/EnsembleGeneration>`_
 
     Parameters
@@ -10582,7 +10584,7 @@ def eofcovar (dim_fields: np.ndarray[tuple[int], np.dtype[np.intc]],offsets: np.
     ...
 
 def gather_dim_obs_f (dim_obs_p: int) -> int:
-    r"""Gathers the dimension of observation vector
+    r"""Gather the dimension of observation vector
     across multiple local domains/filter processors.
 
     This function is typically used in deprecated PDAF functions
@@ -11001,24 +11003,26 @@ def generate_obs (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int],
     Returns
     -------
     flag : int
-        Status flag
+        status flag
     """
     ...
 
 def get_assim_flag () -> int:
-    r"""This function returns the flag that indicates if the DA is performed in the last time step. It only works for online DA systems. 
+    r"""Return the flag that
+    indicates if the DA is performed in the last time step.
+    It only works for online DA systems. 
 
 
     Returns
     -------
     did_assim : int
-        Flag: (1) for assimilation; (0) else
+        flag: (1) for assimilation; (0) else
     """
     ...
 
 def get_ensstats () -> tuple[np.ndarray[tuple[int, ], np.dtype[float]], np.ndarray[tuple[int, ], np.dtype[float]], 
                    int]:
-    r"""This is a diagnotics function for LKNETF which returns the skewness and kutosis used there. 
+    r"""Return the skewness and kutosis used in LKNETF. 
 
 
     Returns
@@ -11027,72 +11031,82 @@ def get_ensstats () -> tuple[np.ndarray[tuple[int, ], np.dtype[float]], np.ndarr
          dimension of pointer
 
     c_skew_ptr : ndarray[float]
-        Skewness array
+        skewness array
     c_kurt_ptr : ndarray[float]
         kurtosis array
     status : int
-        Status flag
+        status flag
     """
     ...
 
 def get_localfilter () -> int:
-    r"""This function returns whether a local filter is used. 
+    r"""Return whether a local filter is used. 
 
 
     Returns
     -------
     lfilter : int
-        Whether the filter is domain-localized (1) or not (0)
+        whether the filter is domain-localized (1) or not (0)
     """
     ...
 
 def get_memberid (memberid: int) -> int:
-    r"""This function returns the ensemble member id on the current process. 
-    For example, it can be called during the ensemble integration if ensemble-specific forcing is applied. It can also be used in the user-supplied functions such as `py__collect_state_pdaf` and `py__distribute_state_pdaf`.
+    r"""Return the ensemble member id on the current process.
+
+    For example, it can be called during the ensemble
+    integration if ensemble-specific forcing is read.
+    It can also be used in the user-supplied functions
+    such as :func:`py__collect_state_pdaf` and
+    :func:`py__distribute_state_pdaf`.
 
     Parameters
     ----------
     memberid : int
-        Index in the local ensemble
+        index in the local ensemble
 
     Returns
     -------
     memberid : int
-        Index in the local ensemble
+        index in the local ensemble
     """
     ...
 
 def get_obsmemberid (memberid: int) -> int:
-    r"""This function returns the ensemble member id when observation operator is being applied. 
-    This function is used specifically for user-supplied function `py__obs_op_pdaf`.
+    r"""Return the ensemble member id
+    when observation operator is being applied.
+
+    This function is used specifically for
+    user-supplied function :func:`py__obs_op_pdaf`.
 
     Parameters
     ----------
     memberid : int
-        Index in the local observed ensemble
+        index in the local observed ensemble
 
     Returns
     -------
     memberid : int
-        Index in the local observed ensemble
+        index in the local observed ensemble
     """
     ...
 
 def get_smootherens () -> tuple[np.ndarray[tuple[int, ], np.dtype[float]], int, int]:
-    r"""This function returns the smoothed ensemble in earlier time steps. It is only used when the smoother options is used .
+    r"""Return the smoothed ensemble in earlier time steps.
+
+    It is only used when the smoother options is used .
 
 
     Returns
     -------
     c_sens_point : ndarray[float]
-        A smoother array
+        a smoother array
     maxlag : int
-        Number of past timesteps processed in sens
+        number of past timesteps processed in sens
     dims : ndarray[tuple[3], np.intc]
-         dimension of pointer
+         dimension of smoother array/pointer
 
     status : int
-        Status flag
+        status flag
     """
     ...
 
@@ -11111,7 +11125,7 @@ def get_state (steps: int,doexit: int,py__next_observation_pdaf : Callable[[int,
                                                 np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                                 np.ndarray[tuple[int, int], np.dtype[np.float64]]]],
                flag: int) -> tuple[int, float, int, int]:
-    r"""Distributing analysis state vector to an array.
+    r"""Distribute analysis state vector to an array.
 
     The primary purpose of this function is to distribute
     the analysis state vector to the model.
@@ -11320,7 +11334,7 @@ def init (filtertype: int,subtype: int,stepnull: int,param_int: np.ndarray[tuple
                                                           int]],
           in_screen: int) -> tuple[np.ndarray[tuple[int], np.dtype[np.intc]], np.ndarray[tuple[int], np.dtype[np.float64]], 
                          int]:
-    r"""This function initialises the PDAF system.
+    r"""Initialise the PDAF system.
 
     It is called once at the beginning of the assimilation.
 
@@ -11520,41 +11534,64 @@ def init (filtertype: int,subtype: int,stepnull: int,param_int: np.ndarray[tuple
 def local_weight (wtype: int,rtype: int,cradius: float,sradius: float,distance: float,
                   A: np.ndarray[tuple[int, int], np.dtype[np.float64]],
                   var_obs: float,verbose: int) -> float:
-    r"""The function is used for localisation in the analysis step of a filter and computes a weight according to the specified distance and the settings for the localising function. Typically the function is called in `py__prodRinvA_l_pdaf` in the domain-localised filters. Also, the function is typically called for the LEnKF in the `py__localize_covar_pdaf`. 
-    This function is usually only used in user-codes that do not use PDAF-OMI.
+    r"""Get localisation weight for given distance,
+    cut-off radius, support radius, weighting type,
+    and weighting function.
+
+    This function is used in the analysis step of a filter
+    to computes a localisation weight.
+
+    Typically, in domain-localised filters, the function
+    is called in user-supplied :func:`py__prodRinvA_l_pdaf`.
+    In LEnKF, this function is called
+    in user-supplied :func:`py__localize_covar_pdaf`.
+
+    This function is usually only used without PDAF-OMI.
 
     Parameters
     ----------
     wtype : int
-        Type of weight function
+        type of weight function
+            0. unit weight
+               (`weight=1` up to distance=cradius)
+            1. exponential decrease
+               (`weight=1/e` at distance=sradius;
+               `weight=0` for distance>cradius)
+            2. 5th order polynomial
+               (Gaspari&Cohn 1999; `weight=0` for distance>cradius)
     rtype : int
-        Type of regulated weighting
+        type of regulated weighting
+            0. no regulation
+            1. regulation using mean variance
+            2. regulation using variance of single observation point
     cradius : float
-        Cut-off radius (check `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
+        cut-off radius (check `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
     sradius : float
-        Support radius (check `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
+        support radius (check `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
     distance : float
-        Distance to observation
+        distance to observation
     A : ndarray[tuple[nrows, ncols], np.float64]
-        Input matrix
-        The 1st-th dimension nrows is Number of rows in matrix A
-        The 2nd-th dimension ncols is Number of columns in matrix A
+        ensemble perturbation/anomaly matrix;
+        this matrix is used when weighting is regulated
+        by mean variance, i.e., rtype = 1
+        The 1st-th dimension nrows is number of rows in matrix A
+        The 2nd-th dimension ncols is number of columns in matrix A
     var_obs : float
-        Observation variance
+        observation variance
     verbose : int
-        Verbosity flag
+        verbosity flag
 
     Returns
     -------
     weight : float
-        Weights
+        weights
     """
     ...
 
 def print_info (printtype: int) -> None:
-    r"""Printing the wallclock time and memory measured by PDAF.
+    r"""Print the wallclock time and memory measured by PDAF.
 
-    This is called at the end of the DA program.
+    This should be called at the end of the DA program.
 
     Parameters
     ----------
@@ -20955,12 +20992,27 @@ def put_state_seik (py__collect_state_pdaf : Callable[[int, np.ndarray[tuple[int
     ...
 
 def reset_forget (forget_in: float) -> None:
-    r"""This function allows a user to reset the forgetting factor manually during the assimilation process. For the local ensemble Kalman filters the forgetting factor can be set either globally of differently for each local analysis domain. For the LNETF and the global filters only a global setting of the forgeting factor is possible. In addition, the implementation of adaptive choices for the forgetting factor (beyond what is implemented in PDAF) are possible.
+    r"""Reset the forgetting factor manually
+    during the assimilation process.
+
+    For the local ensemble Kalman filters
+    the forgetting factor can be set either globally
+    if this function is called outside of the loop over
+    local domains,
+    or
+    the forgetting factor can be set differently
+    for each local analysis domain within the loop over
+    local domains.
+
+    For the LNETF and the global filters
+    only a global setting of the forgeting factor is possible.
+    In addition, the implementation of adaptive choices
+    for the forgetting factor (beyond what is implemented in PDAF) are possible.
 
     Parameters
     ----------
     forget_in : float
-        New value of forgetting factor
+        new value of forgetting factor
     """
     ...
 
@@ -20969,18 +21021,24 @@ def SampleEns (modes: np.ndarray[tuple[int, int], np.dtype[np.float64]],
                verbose: int,flag: int) -> tuple[np.ndarray[tuple[int, int], np.dtype[np.float64]], np.ndarray[tuple[int], np.dtype[np.float64]], 
                                       np.ndarray[tuple[int, int], np.dtype[np.float64]], 
                                       int]:
-    r"""This function generates an ensemble from singular values and their vectors (EOF modes) centred on given mean state. The singular values and vectors are derived from the ensemble anomalies which can be obtained from a long model trajectory using `pyPDAF.PDAF.eofcovar`.
+    r"""Generate an ensemble from singular values and
+    their vectors (EOF modes) of an ensemble anomaly matrix.
+
+    The singular values and vectors are derived from
+    the ensemble anomalies. This ensemble anomaly can be
+    obtained from a time anomaly of a model trajectory using
+    :func:`pyPDAF.PDAF.eofcovar`.
 
     Parameters
     ----------
     modes : ndarray[tuple[dim, dim_ens-1], np.float64]
-        Array of EOF modes
-        The 1st-th dimension dim is Size of state vector
+        array of EOF modes/matrix of singular vectors
+        The 1st-th dimension dim is size of state vector
     svals : ndarray[tuple[dim_ens-1], np.float64]
-        Vector of singular values
+        singular values
     state : ndarray[tuple[dim], np.float64]
         PE-local model mean state
-        The array dimension `dim` is Size of state vector
+        The array dimension `dim` is size of state vector
     verbose : int
         Verbosity flag
     flag : int
@@ -20989,139 +21047,211 @@ def SampleEns (modes: np.ndarray[tuple[int, int], np.dtype[np.float64]],
     Returns
     -------
     modes : ndarray[tuple[dim, dim_ens-1], np.float64]
-         Array of EOF modes
+         array of EOF modes/matrix of singular vectors
 
-        The 1st-th dimension dim is Size of state vector
+        The 1st-th dimension dim is size of state vector
     state : ndarray[tuple[dim], np.float64]
          PE-local model mean state
 
-        The array dimension `dim` is Size of state vector
+        The array dimension `dim` is size of state vector
     ens : ndarray[tuple[dim, dim_ens], np.float64]
          State ensemble
 
-        The 1st-th dimension dim is Size of state vector
-        The 2nd-th dimension dim_ens is Size of ensemble
+        The 1st-th dimension dim is size of state vector
+        The 2nd-th dimension dim_ens is size of ensemble
     flag : int
         Status flag
     """
     ...
 
 def set_debug_flag (debugval: int) -> None:
-    r"""This function activates the debug output of the PDAF. Starting from the use of this function, the debug infomation is sent to screen output.  The screen output end when the debug flag is set to 0. We recommend using debugging output for single local domain, e.g. `if domain_p = 1: pyPDAF.PDAF.set_debug_flag(1)`.
-    
+    r"""Activate the debug output of the PDAF.
+
+    Starting from the use of this function,
+    the debug infomation is sent to screen output.
+    The screen output end when the debug flag is
+    set to 0 by this function.
+
+    For the sake of simplicity,
+    we recommend using debugging output for
+    a single local domain, e.g.
+    `if domain_p == 1: pyPDAF.PDAF.set_debug_flag(1)`
 
     Parameters
     ----------
     debugval : int
-        Value of debugging flag; print debug information for >0
+        value of debugging flag;
+        print debug information for debugval > 0
     """
     ...
 
 def set_ens_pointer () -> tuple[np.ndarray[tuple[int, ], np.dtype[float]], int]:
-    r"""This function returns the ensemble array in a numpy array where the internal array data has the same memoery address as PDAF ensemble array.
+    r"""Return the ensemble in a numpy array.
+
+    Here the internal array data has the same memoery address
+    as PDAF ensemble array allowing for manual ensemble modification.
 
 
     Returns
     -------
     c_ens_point : ndarray[float]
-        Pointer to smoother array
+        pointer to smoother array
     dims : ndarray[tuple[2], np.intc]
          dimension of the pointer
 
     status : int
-        Status flag
+        status flag
     """
     ...
 
 def set_smootherens (maxlag: int) -> tuple[np.ndarray[tuple[int, ], np.dtype[float]], int]:
-    r"""This function can be used in the offline implementation when a smoother is used. It is typically called in `py__init_ens_pdaf` in the call to `pyPDAF.PDAF.PDAF_init`. The function `pyPDAF.PDAF.set_smootherens` is used when the smoother extension of a filter is used. In this case, the smoothed ensemble states at earlier times are stored in an internal array of PDAF. To be able to smooth post times, the smoother algorithm must have access to the past ensembles. In the offline mode the user has to manually fill the smoother ensemble array from ensembles read in from files. In the online mode, the smoother array is filled automatically during the cycles of forecast phases and analysis steps. 
+    r"""Get a pointer to smoother ensemble.
+
+    When smoother is used, the smoothed ensemble states
+    at earlier times are stored in an internal array of PDAF.
+    To be able to smooth post times,
+    the smoother algorithm must have access to the past ensembles.
+
+    In this function, the user can obtain a numpy array of
+    smoother ensemble. This array has the same memory address
+    as the internal PDAF smoother ensemble array.
+    This allows for manual modification of the smoother ensemble.
+
+    In the offline mode the user has to manually
+    fill the smoother ensemble array
+    from ensembles read in from files.
+    This function is typically called in
+    :func:`py__init_ens_pdaf` in the call to
+    :func:`pyPDAF.PDAF.PDAF_init`.
+
+    In the online mode, the smoother array is filled
+    automatically during the cycles of forecast phases and analysis steps.
 
     Parameters
     ----------
     maxlag : int
-        Number of past timesteps processed in sens
+        number of past timesteps processed in sens
 
     Returns
     -------
     c_sens_point : ndarray[float]
-        Pointer to smoother array
+        pointer to smoother array
     dims : ndarray[tuple[3], np.intc]
          dimension of the pointer
 
     status : int
-        Status flag
+        status flag
     """
     ...
 
 def seik_TtimesA (A: np.ndarray[tuple[int, int], np.dtype[np.float64]]
                  ) -> np.ndarray[tuple[int, int], np.dtype[np.float64]]:
-    r"""This is an internal function in PDAF where it perform matrix calculation of B = TA. This allows for two types of T matrix. The resulting matrix B is the transformation matrix act on the full forecast ensemble. Mathematical description of the function is the second term of Eq. (23) and the T matrix is defined in Eq. (13) in
-    Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). A unification of ensemble square root Kalman filters. Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
-    
+    r"""Perform matrix calculation of B = TA.
+
+    In this function, the input matrix A is
+    left multiplies by a matrix T.
+    The T matrix is
+    .. math::
+
+        M = \begin{bmatrix}
+            1 - \frac{1}{N} & - \frac{1}{N} &  \dots & - \frac{1}{N} & - \frac{1}{N} \\
+            - \frac{1}{N} & 1 - \frac{1}{N} &  \dots & - \frac{1}{N} & - \frac{1}{N}  \\
+            \dots  & \dots  &  \dots & \dots & \dots   \\
+            - \frac{1}{N} & - \frac{1}{N} &  \dots & 1 - \frac{1}{N} & \dots  \\
+            - \frac{1}{N} & - \frac{1}{N} &  \dots & - \frac{1}{N} & - \frac{1}{N}  \\
+            \end{bmatrix}
+
+    In the context of the SEIK filter, this operation
+    is partially the second term of Eq. (23) in [1]_
+    and the T matrix is in Eq. (15)
+
+    References
+    ----------
+    .. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
 
     Parameters
     ----------
     A : ndarray[tuple[rank, dim_col], np.float64]
-        Input matrix
-        The 1st-th dimension rank is Rank of initial covariance matrix
-        The 2nd-th dimension dim_col is Number of columns in A and B
+        input matrix
+        The 1st-th dimension rank is rank of initial covariance matrix (ensemble size)
+        The 2nd-th dimension dim_col is number of columns in A and B (size of state vector)
 
     Returns
     -------
     B : ndarray[tuple[rank+1, dim_col], np.float64]
-         Output matrix (TA)
+         output matrix (TA)
 
-        The 1st-th dimension dim_col is Number of columns in A and B
+        The 1st-th dimension dim_col is number of columns in A and B (size of state vector)
     """
     ...
 
 def etkf_Tleft (A: np.ndarray[tuple[int, int], np.dtype[np.float64]]) -> np.ndarray[tuple[int, int], np.dtype[np.float64]]:
-    r"""This is an internal function in PDAF where it perform matrix calculation of B = TA. This function performs the second term of Eq. (34) i
-    Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). A unification of ensemble square root Kalman filters. Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
-    
+    r"""Remove column mean (ensemble mean).
+
+    This function provides the ensemble anomaly of matrix A
+    if it is an ensemble of state vectors.
+    This function partially performs the second term of
+    Eq. (34) with T defined as Eq. (31) in [1]_.
+
+    References
+    ----------
+    .. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
 
     Parameters
     ----------
     A : ndarray[tuple[dim_ens, dim], np.float64]
         Input/output matrix
-        The 1st-th dimension dim_ens is Rank of initial covariance matrix
-        The 2nd-th dimension dim is Number of columns in A and B
+        The 1st-th dimension dim_ens is number of ensemble members
+        The 2nd-th dimension dim is number of columns in A
 
     Returns
     -------
     A : ndarray[tuple[dim_ens, dim], np.float64]
          Input/output matrix
 
-        The 1st-th dimension dim_ens is Rank of initial covariance matrix
-        The 2nd-th dimension dim is Number of columns in A and B
+        The 1st-th dimension dim_ens is number of ensemble members
+        The 2nd-th dimension dim is number of columns in A
     """
     ...
 
 def estkf_OmegaA (A: np.ndarray[tuple[int, int], np.dtype[np.float64]]
                  ) -> np.ndarray[tuple[int, int], np.dtype[np.float64]]:
-    r"""This function is an internal function in PDAF. This function performs the second term of Eq. (29) i
-    Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). A unification of ensemble square root Kalman filters. Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
-    
+    r"""Get left Householder transformation of A.
+
+    This function partially performs the second term of Eq. (29)
+    and the Householder matrix Omega is given in Eq. (24) in [1]_
+
+    References
+    ----------
+    .. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). 
+           A unification of ensemble square root Kalman filters. 
+           Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1
 
     Parameters
     ----------
     A : ndarray[tuple[rank, dim_col], np.float64]
         Input matrix
-        The 1st-th dimension rank is Rank of initial covariance matrix
-        The 2nd-th dimension dim_col is Number of columns in A and B
+        The 1st-th dimension rank is Rank of covariance matrix (ensemble size)
+        The 2nd-th dimension dim_col is Number of columns in A and B (size of state vector)
 
     Returns
     -------
     B : ndarray[tuple[rank+1, dim_col], np.float64]
          Output matrix (TA)
 
-        The 1st-th dimension dim_col is Number of columns in A and B
+        The 1st-th dimension dim_col is Number of columns in A and B (size of state vector)
     """
     ...
 
 def enkf_omega (seed: np.ndarray[tuple[int], np.dtype[np.intc]],omega: np.ndarray[tuple[int, int], np.dtype[np.float64]],
                 norm: float,otype: int,screen: int) -> tuple[np.ndarray[tuple[int, int], np.dtype[np.float64]], float]:
-    r"""Generation of a random matrix with orthogonal basis following SEEK approach for EnKF with given properties.
+    r"""Generation of a random matrix with orthogonal basis.
+
+    This function can be used to initialise an ensemble.
 
     Parameters
     ----------
@@ -21134,14 +21264,15 @@ def enkf_omega (seed: np.ndarray[tuple[int], np.dtype[np.intc]],omega: np.ndarra
     norm : float
         Norm for ensemble transformation
     otype : int
-        Type of Omega:
-        (1) Simple Gaussian random matrix
-        (2) Columns of unit norm
-        (3) Columns of norm dim_ens^(-1/2)
-        (4) Projection orthogonal (1,..,1)^T
-        (6) Combination of 2 and 4
-        (7) Combination of 3 and 4
-        (8) Rows of sum 0 and variance 1
+        Type of random matrix:
+            - (1) Random column vector from standard Gaussian
+            - (2) Columns of unit norm correcting sampling error in option 1
+            - (3) Columns of norm dim_ens^(-1/2) correcting sampling error in option 1
+            - (4) Projection orthogonal (1,..,1)^T ensuring that A*Omega
+              leads to the column mean of A
+            - (6) Combination of 2 and 4
+            - (7) Combination of 3 and 4
+            - (8) Rows of sum 0 and variance 1
     screen : int
         Verbosity flag
 
@@ -21804,13 +21935,15 @@ def omi_init_local () -> None:
     ...
 
 def omi_set_doassim (i_obs: int,doassim: int) -> None:
-    r"""Setting the `doassim` attribute of `obs_f`.
+    r"""Setting the `doassim` attribute of `obs_f`
+    for `i`-th observation type. This property must be
+    explicitly set for OMI functionality.
 
     Properties of `obs_f` are typically set in user-supplied function
     `py__init_dim_obs_pdaf`.
 
-    If `doassim` is set to 0,
-    the given type of observation is not assimilated in the DA system. 
+    This is by default set to 0, which means that
+    the given type of observation is not assimilated in the DA system.
 
     Parameters
     ----------
@@ -21823,37 +21956,58 @@ def omi_set_doassim (i_obs: int,doassim: int) -> None:
     ...
 
 def omi_set_disttype (i_obs: int,disttype: int) -> None:
-    r"""Setting the `disttype` attribute of `obs_f`.
+    r"""Setting the observation localisation distance
+    calculation method
+    for `i`-th observation type. This is a mandatory property
+    for OMI functionality.
 
     Properties of `obs_f` are typically set in user-supplied function
     `py__init_dim_obs_pdaf`.
 
     `disttype` determines the way the distance
     between observation and model grid is calculated in OMI.
-    See `PDAF distance computation <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsdisttype>`_.
+    To perform distance computation, the observation coordinatesshould be given by `ocoord_p` argument
+    when :func:`pyPDAF.PDAF.omi_gather_obs` is called.
+
+    See also `PDAF distance computation <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsdisttype>`_.
 
     Parameters
     ----------
     i_obs : int
         index of observations
     disttype : int
-        0) Cartesian; 1) Cartesian periodic
-        2) Approximation to geographic distance in metres using latitude and longitude expressed in radians
-        3) Using Haversine formula to compute distance in metres between two points on the surface of a sphere
-        10) 3D Cartesian distance for 2D+1D factorised localisation where horizontal and vertical distances are treated separately
-        11) 3D Cartesian periodic distance for 2D+1D factorised localisation where horizontal and vertical distances are treated separately
-        12) Same as 2) for horizontal distance but vertical distance is in units chosen by users
-        13) Same as 3) for horizontal distance but vertical distance is in units chosen by users
+        Type of distance used for localisation
+            - 0) Cartesian (any units)
+            - 1) Cartesian periodic (any units)
+            - 2) Approximation to geographic distance in metres using
+              latitude and longitude expressed in radians
+            - 3) Using Haversine formula to compute distance in metres
+              between two points on the surface of a sphere
+            - 10) 3D Cartesian distance where horizontal and vertical
+              distances are treated separately
+            - 11) 3D Cartesian periodic distance where horizontal and
+              vertical distances are treated separately
+            - 12) Same as 2) for horizontal distance but vertical
+              distance is in units chosen by users where the horizontal
+              and vertical distances are treated separately
+            - 13) Same as 3) for horizontal distance but vertical
+              distance is in units chosen by users where the horizontal
+              and vertical distances are treated separately
     """
     ...
 
 def omi_set_ncoord (i_obs: int,ncoord: int) -> None:
-    r"""Setting the `ncoord` attribute of `obs_f`.
+    r"""Setting the number of spatial dimensions of observations
+    for `i`-th observation type. This is a mandatory property
+    for OMI functionality.
 
     Properties of `obs_f` are typically set in user-supplied function
     `py__init_dim_obs_pdaf`.
 
-    `disttype` gives the coordinate dimension of the observation.
+    `ncoord` gives the coordinate dimension of the observation.
+    This information is used by observation distance computation
+    for localisation.
+    For example, `ncoord=2` for 2D observation coordinates.
 
     Parameters
     ----------
@@ -21866,7 +22020,9 @@ def omi_set_ncoord (i_obs: int,ncoord: int) -> None:
 
 def omi_set_id_obs_p (i_obs: int,id_obs_p: np.ndarray[tuple[int, int], np.dtype[np.intc]]
                      ) -> None:
-    r"""Setting the `id_obs_p` attribute of `obs_f`.
+    r"""Setting the `id_obs_p` attribute of `obs_f`
+    for `i`-th observation type. This is a mandatory property
+    for OMI functionality.
 
     The function is typically used in user-supplied
     function `py__init_dim_obs_pdaf`.
@@ -21890,9 +22046,11 @@ def omi_set_id_obs_p (i_obs: int,id_obs_p: np.ndarray[tuple[int, int], np.dtype[
       In this case,
       the location of these elements is used to perform bi-linear interpolation
       from model grid to observation location.
-      This information is used in the :func:`pyPDAF.PDAF.omi_obs_op_gridavg`
-      and :func:`pyPDAF.PDAF.omi_obs_op_interp_lin` functions.
-      When interpolation is needed,
+      For interpolation, this information is used in the
+      :func:`pyPDAF.PDAF.omi_obs_op_interp_lin` functions.
+      This information can also be used to
+      perform a state vector averaging operator as
+      observation operator in :func:`pyPDAF.PDAF.omi_obs_op_gridavg`  When interpolation is needed,
       the weighting of the interpolation is done
       in the :func:`pyPDAF.PDAF.omi_get_interp_coeff_lin`,
       :func:`pyPDAF.PDAF.omi_get_interp_coeff_lin1D`,
@@ -21907,15 +22065,39 @@ def omi_set_id_obs_p (i_obs: int,id_obs_p: np.ndarray[tuple[int, int], np.dtype[
         index of observations
     id_obs_p : ndarray[tuple[nrows, dim_obs_p], np.intc]
         indice corresponds to observations in the state vector
-        The 1st-th dimension nrows is Number of values to be averaged or used for interpolation
+        The 1st-th dimension nrows is number of values to be averaged or used for interpolation
         The 2nd-th dimension dim_obs_p is dimension of PE local obs
     """
     ...
 
 def omi_set_icoeff_p (i_obs: int,icoeff_p: np.ndarray[tuple[int, int], np.dtype[np.float64]]
                      ) -> None:
-    r"""This function sets the `icoeff_p` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. `icoeff_p(nrows, dim_obs_p)` is a 2D array of real number used to implement
-    interpolations. This is used in tandem with `id_obs_p`. Checking the documentation of `pyPDAF.PDAF.omi_set_id_obs_p` for some details. Also, see https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Initializinginterpolationcoefficients for setting these values.
+    r"""Setting the observation interpolation coefficient
+    for `i`-th observation type. This property is optional
+    unless interpolations needed in observation operators
+    operator.
+
+    The function is typically used in user-supplied
+    function `py__init_dim_obs_pdaf`.
+
+    `icoeff_p(nrows, dim_obs_p)` is a 2D array of real number
+    used to interpolate state vector to point-wise observation grid.
+    The `nrows` is the number of state vector used to interpolate
+    to one observation location.
+
+    A suite of functions are provided to obtain these coefficients,
+    which depend on `obs_f` attribute of `id_obs_p` and
+    observation coordinates.
+
+    See also :func:`pyPDAF.PDAF.set_id_obs_p`:
+        - :func:`pyPDAF.PDAF.omi_get_interp_coeff_lin1D`
+          1D interpolation coefficient
+        - :func:`pyPDAF.PDAF.omi_get_interp_coeff_lin`
+          linear interpolation coefficient for 1, 2 and 3D rectangular grids
+        - :func:`pyPDAF.PDAF.omi_get_interp_coeff_tri`
+          2D linear interpolation for triangular grids
+
+    See also `PDAF documentation for OMI interpolations <https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Initializinginterpolationcoefficients>`_.
 
     Parameters
     ----------
@@ -21923,14 +22105,29 @@ def omi_set_icoeff_p (i_obs: int,icoeff_p: np.ndarray[tuple[int, int], np.dtype[
         index of observations
     icoeff_p : ndarray[tuple[nrows, dim_obs_p], np.float64]
         weighting coefficients for interpolations
-        The 1st-th dimension nrows is Number of values to be averaged
+        The 1st-th dimension nrows is number of state vector used to interpolate
+        to one observation location
         The 2nd-th dimension dim_obs_p is dimension of PE local obs
     """
     ...
 
 def omi_set_domainsize (i_obs: int,domainsize: np.ndarray[tuple[int], np.dtype[np.float64]]
                        ) -> None:
-    r"""This function sets the `domainsize` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. `domainsize(ncoord)` is the size of the domain in each spatial dimension. This information is used to compute the Cartesian disance with periodic boundary. If the value of one dimension is `<=0`, no periodicity is assumed in that dimension. 
+    r"""Setting the domain periodicity
+    attribute of `obs_f`
+    for `i`-th observation type. This property is optional
+    unless localisation is used.
+
+    The function is typically used in user-supplied
+    function `py__init_dim_obs_pdaf`.
+
+    `domainsize(ncoord)` specifies the size of the domain
+    in each spatial dimension.
+    This information is used to compute the Cartesian disance
+    with periodic boundary. That is `disttype = 1 or 11`
+    Domain size must be positive.
+    If the value of one dimension is `<=0`,
+    no periodicity is assumed in that dimension. 
 
     Parameters
     ----------
@@ -21943,33 +22140,87 @@ def omi_set_domainsize (i_obs: int,domainsize: np.ndarray[tuple[int], np.dtype[n
     ...
 
 def omi_set_obs_err_type (i_obs: int,obs_err_type: int) -> None:
-    r"""This function sets the `obs_err_type` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. `obs_err_type` is an integer that specifies the type of observation error. 
+    r"""Setting the type of observation error distribution
+    for `i`-th observation type. This property is optional
+    unless a laplacian observation error distribution is used.
+
+    The function is typically used in user-supplied
+    function `py__init_dim_obs_pdaf`.
 
     Parameters
     ----------
     i_obs : int
         index of observations
     obs_err_type : int
-        0) Gaussian (default); 1) double exponential (Laplacian)
+        type of observation error distribution
+            0) Gaussian (default)
+            1) double exponential (Laplacian)
     """
     ...
 
 def omi_set_use_global_obs (i_obs: int,use_global_obs: int) -> None:
-    r"""This function sets the `use_global_obs` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. In the domain-localized filters (LESTK, LETKF, LSEIK, LNETF) observations are assimilated that are located within the localization around some grid point. When a model uses parallelisation with domain-decomposition some of these observations might belong to a different process-domain. In the default mode (use_global_obs=1) PDAF-OMI gathers all globally available observations so that each process has access to all observations.
-    It can be more efficient to limit the observations on a process-domain to those observations that are located inside the domain or within the localization radius around it. Then, in the local analyses less observations have to be checked for their distance. Setting use_global_obs=0 activates this feature. However, it needs additional preparations to make PDAF-OMI aware of the limiting coordinates of a process sub-domain. See https://pdaf.awi.de/trac/wiki/OMI_use_global_obs for the use of `pyPDAF.PDAF.omi_set_domain_limits`.
+    r"""Switch for only assimilating process-local observations
+    for `i`-th observation type.
+
+    The function is typically used in user-supplied
+    function `py__init_dim_obs_pdaf`.
+
+    The filters can be performed in parallel
+    based on the filtering communicator, `comm_filter`.
+    This is typically the case for the domain-localised filters,
+    e.g., LESTK, LETKF, LSEIK, LNETF.
+    In this case, observation vectors are stored in
+    process-local vectors, `obs_p`. Each local
+    process (`obs_p`) only stores a section of the full
+    observation vector. This typically corresponds to the
+    local domain corresponding to the filtering process,
+    based on model domain decomposition.
+
+    By default, `use_global_obs=1`. This means that
+    PDAF-OMI assimilates the entire observation vector.
+    One can choose to only assimilate observations
+    in local process by setting `use_global_obs=0`.
+    This can save computational cost used for
+    observation distance calculations.
+
+    However, it needs additional preparations to make
+    PDAF-OMI aware of the limiting coordinates
+    of a process sub-domain using
+    :func:`pyPDAF.PDAF.omi_set_domain_limits` or
+    :func:`pyPDAF.PDAF.omi_set_domain_limits_unstruc`.
+
+
+    See Also
+    --------
+    https://pdaf.awi.de/trac/wiki/OMI_use_global_obs
 
     Parameters
     ----------
     i_obs : int
         index of observations
     use_global_obs : int
-        0) Using process-local observations; 1) using cross-process observations (default)
+        Swith to use global observations or not
+            0) Using process-local observations;
+            1) using cross-process observations (default)
     """
     ...
 
 def omi_set_inno_omit (i_obs: int,inno_omit: float) -> None:
-    r"""This function sets the `inno_omit` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. Setting this variable to a value > 0.0 activates the functionality that observations are omitted (made irrelevant) from the analysis update if the difference of their value and the ensemble mean to too large. If inno_omit=2.0, an observation would be omitted if the squared difference between the observed ensemble mean state and the observation value is larger than 2 times the observation error variance
-    See https://pdaf.awi.de/trac/wiki/PDAFomi_additional_functionality#Omittingobservationsthatarepotentialoutliers
+    r"""Setting innovation threshold for removing observation
+    outliers. By default, no observations are omitted.
+
+    This function is typically used in user-supplied
+    function :func:`py__init_dim_obs_pdaf`.
+
+    The observation omission is only activated when it is > 0.0.
+    PDAF will omit observations where their squared
+    the innovation of the ensemble mean is larger than
+    the product of `inno_omit` and observation error variance.
+
+    The observations are omitted by setting a very large
+    observation error variance, i.e., a very small
+    inverse of the observation error variance,  `inno_omit_ivar`.
+    This can be set by :func:`pyPDAF.PDAF.omi_set_inno_omit_ivar`.
 
     Parameters
     ----------
@@ -21981,8 +22232,14 @@ def omi_set_inno_omit (i_obs: int,inno_omit: float) -> None:
     ...
 
 def omi_set_inno_omit_ivar (i_obs: int,inno_omit_ivar: float) -> None:
-    r"""This function sets the `inno_omit_ivar` attribute of `obs_f` typically used in user-supplied function `py__init_dim_obs_pdaf`. This is used to specify the inverse of the observations variance to omit the observation. By default it is `1e-12` for a large observation error, but users can adjust this value to ensure that the observation is omitted based on applications
-    
+    r"""Setting the inverse of observation error variance for
+    omitted observations.
+
+    This should be set to a very small value relative to
+    assimilated observations. By default, it is set to `1e-12`.
+
+    This function is typically used in user-supplied function
+    :func:`py__init_dim_obs_pdaf`.
 
     Parameters
     ----------
