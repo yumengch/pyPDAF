@@ -36,22 +36,22 @@ contains
       ! index of observations
       integer(c_int), intent(in) :: i_obs
       ! Type of distance used for localisation
-      !     0) Cartesian (any units)
-      !     1) Cartesian periodic (any units)
-      !     2) Approximation to geographic distance in metres using
-      !        latitude and longitude expressed in radians
-      !     3) Using Haversine formula to compute distance in metres
-      !        between two points on the surface of a sphere
-      !     10) 3D Cartesian distance where horizontal and vertical
-      !          distances are treated separately
-      !     11) 3D Cartesian periodic distance where horizontal and
-      !         vertical distances are treated separately
-      !     12) Same as 2) for horizontal distance but vertical
-      !         distance is in units chosen by users where the horizontal
-      !         and vertical distances are treated separately
-      !     13) Same as 3) for horizontal distance but vertical
-      !         distance is in units chosen by users where the horizontal
-      !         and vertical distances are treated separately
+      !     - 0) Cartesian (any units)
+      !     - 1) Cartesian periodic (any units)
+      !     - 2) Approximation to geographic distance in metres using
+      !       latitude and longitude expressed in radians
+      !     - 3) Using Haversine formula to compute distance in metres
+      !       between two points on the surface of a sphere
+      !     - 10) 3D Cartesian distance where horizontal and vertical
+      !       distances are treated separately
+      !     - 11) 3D Cartesian periodic distance where horizontal and
+      !       vertical distances are treated separately
+      !     - 12) Same as 2) for horizontal distance but vertical
+      !       distance is in units chosen by users where the horizontal
+      !       and vertical distances are treated separately
+      !     - 13) Same as 3) for horizontal distance but vertical
+      !       distance is in units chosen by users where the horizontal
+      !       and vertical distances are treated separately
       integer(c_int), intent(in)  :: disttype
       thisobs(i_obs)%disttype = disttype
    end subroutine c__PDAFomi_set_disttype

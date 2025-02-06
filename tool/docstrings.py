@@ -259,7 +259,7 @@ docstrings['set_debug_flag'] = \
     "`if domain_p == 1: pyPDAF.PDAF.set_debug_flag(1)`"
 
 docstrings['set_ens_pointer'] = \
-    "Return the ensemble in a numpy array.\n\n" \
+    "Return the ensemble in a numpy array.\n\n    " \
     "Here the internal array data has the same memoery address\n    " \
     "as PDAF ensemble array allowing for manual ensemble modification."
 
@@ -284,16 +284,56 @@ docstrings['set_smootherens'] = \
 
 docstrings['seik_TtimesA'] = \
     "Perform matrix calculation of B = TA.\n\n    " \
-    "This allows for two types of T matrix. " \
-    "The resulting matrix B is the transformation matrix act on the full forecast ensemble. " \
-    "Mathematical description of the function is the second term of Eq. (23) and the T matrix is defined in Eq. (13) in\n    " \
-    "Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). A unification of ensemble square root Kalman filters. Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1\n    "
-docstrings['etkf_Tleft'] = "This is an internal function in PDAF where it perform matrix calculation of B = TA. " \
-                           "This function performs the second term of Eq. (34) i\n    " \
-                           "Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). A unification of ensemble square root Kalman filters. Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1\n    "
-docstrings['estkf_OmegaA'] = "This function is an internal function in PDAF. This function performs the second term of Eq. (29) i\n    " \
-    "Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). A unification of ensemble square root Kalman filters. Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1\n    "
-docstrings['enkf_omega'] = "Generation of a random matrix with orthogonal basis following SEEK approach for EnKF with given properties."
+    "In this function, the input matrix A is\n    " \
+    "left multiplies by a matrix T.\n    " \
+    "The T matrix is\n    " \
+    r".. math::""\n\n    " \
+    r"    M = \begin{bmatrix}""\n    " \
+    r"        1 - \frac{1}{N} & - \frac{1}{N} &  \dots & - \frac{1}{N} & - \frac{1}{N} \\""\n    " \
+    r"        - \frac{1}{N} & 1 - \frac{1}{N} &  \dots & - \frac{1}{N} & - \frac{1}{N}  \\""\n    " \
+    r"        \dots  & \dots  &  \dots & \dots & \dots   \\""\n    " \
+    r"        - \frac{1}{N} & - \frac{1}{N} &  \dots & 1 - \frac{1}{N} & \dots  \\""\n    " \
+    r"        - \frac{1}{N} & - \frac{1}{N} &  \dots & - \frac{1}{N} & - \frac{1}{N}  \\""\n    " \
+    r"        \end{bmatrix}" \
+    "\n\n    " \
+    "In the context of the SEIK filter, this operation\n    " \
+    "is partially the second term of Eq. (23) in [1]_\n    " \
+    "and the T matrix is in Eq. (15)" \
+    "\n\n    " \
+    "References\n    " \
+    "----------\n    " \
+    ".. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). \n    " \
+    "       A unification of ensemble square root Kalman filters. \n    " \
+    "       Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1"
+
+docstrings['etkf_Tleft'] = \
+    "Remove column mean (ensemble mean).\n\n    " \
+    "This function provides the ensemble anomaly of matrix A\n    " \
+    "if it is an ensemble of state vectors.\n    " \
+    "This function partially performs the second term of\n    " \
+    "Eq. (34) with T defined as Eq. (31) in [1]_." \
+    "\n\n    " \
+    "References\n    " \
+    "----------\n    " \
+    ".. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). \n    " \
+    "       A unification of ensemble square root Kalman filters. \n    " \
+    "       Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1"
+
+docstrings['estkf_OmegaA'] = \
+    "Get left Householder transformation of A.\n\n    "\
+    "This function partially performs the second term of Eq. (29)\n    " \
+    "and the Householder matrix Omega is given in Eq. (24) in [1]_" \
+    "\n\n    " \
+    "References\n    " \
+    "----------\n    " \
+    ".. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). \n    " \
+    "       A unification of ensemble square root Kalman filters. \n    " \
+    "       Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1"
+
+docstrings['enkf_omega'] = \
+    "Generation of a random matrix with orthogonal basis.\n\n    " \
+    "This function can be used to initialise an ensemble."
+
 docstrings['seik_omega'] = "Generation of a random matrix with orthogonal basis following SEIK approach."
 docstrings['incremental'] = "This is a helper function to apply analysis increment to model state in model forecast phase. It simply calls the user-supplied function. "
 docstrings['add_increment'] = "This function directly adds analysis increment to given state vector without the need for user-supplied functions."
@@ -441,8 +481,8 @@ docstrings['omi_set_icoeff_p'] = \
     "to one observation location.\n\n    " \
     "A suite of functions are provided to obtain these coefficients,\n    " \
     "which depend on `obs_f` attribute of `id_obs_p` and\n    " \
-    "observation coordinates; see also\n    " \
-    ":func:`pyPDAF.PDAF.set_id_obs_p`:\n    " \
+    "observation coordinates.\n\n    " \
+    "See also :func:`pyPDAF.PDAF.set_id_obs_p`:\n    " \
     "    - :func:`pyPDAF.PDAF.omi_get_interp_coeff_lin1D`\n    " \
     "      1D interpolation coefficient\n    " \
     "    - :func:`pyPDAF.PDAF.omi_get_interp_coeff_lin`\n    " \
@@ -451,7 +491,7 @@ docstrings['omi_set_icoeff_p'] = \
     "      2D linear interpolation for triangular grids\n\n    " \
     "See also `PDAF documentation for OMI interpolations " \
     "<https://pdaf.awi.de/trac/wiki/OMI_observation_operators" \
-    "#Initializinginterpolationcoefficients>'_."
+    "#Initializinginterpolationcoefficients>`_."
 
 docstrings['omi_set_domainsize'] = \
     "Setting the domain periodicity\n    " \
@@ -495,7 +535,7 @@ docstrings['omi_set_use_global_obs'] = \
     "One can choose to only assimilate observations\n    " \
     "in local process by setting `use_global_obs=0`.\n    " \
     "This can save computational cost used for\n    " \
-    "observation distance calculations.\n\n   " \
+    "observation distance calculations.\n\n    " \
     "However, it needs additional preparations to make\n    " \
     "PDAF-OMI aware of the limiting coordinates\n    " \
     "of a process sub-domain using\n    " \
@@ -558,6 +598,7 @@ docstrings['omi_deallocate_obs'] = \
     "Deallocate OMI-internal obsrevation arrays\n\n    " \
     "This function should not be called by users\n    " \
     "because it is called internally in PDAF."
+
 docstrings['omi_obs_op_gridpoint'] = \
     "A (partial) identity observation operator\n\n    " \
     "This observation operator is used\n    " \

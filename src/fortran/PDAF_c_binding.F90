@@ -2286,9 +2286,9 @@ contains
    END SUBROUTINE c__PDAF_set_smootherens
 
    SUBROUTINE c__PDAF_seik_TtimesA(rank, dim_col, A, B) bind(c)
-      ! rank of initial covariance matrix
+      ! rank of initial covariance matrix (ensemble size)
       INTEGER(c_int), INTENT(in) :: rank
-      ! number of columns in A and B
+      ! number of columns in A and B (size of state vector)
       INTEGER(c_int), INTENT(in) :: dim_col
       ! input matrix
       REAL(c_double), INTENT(in) :: A(rank, dim_col)
@@ -2299,9 +2299,9 @@ contains
    END SUBROUTINE c__PDAF_seik_TtimesA
 
    SUBROUTINE c__PDAF_etkf_Tleft(dim_ens, dim, A) bind(c)
-      ! Rank of initial covariance matrix
+      ! number of ensemble members
       INTEGER(c_int), INTENT(in) :: dim_ens
-      ! Number of columns in A and B
+      ! number of columns in A
       INTEGER(c_int), INTENT(in) :: dim
       ! Input/output matrix
       REAL(c_double), INTENT(inout) :: A(dim_ens, dim)
@@ -2310,9 +2310,9 @@ contains
    END SUBROUTINE c__PDAF_etkf_Tleft
 
    SUBROUTINE c__PDAF_estkf_OmegaA(rank, dim_col, A, B) bind(c)
-      ! Rank of initial covariance matrix
+      ! Rank of covariance matrix (ensemble size)
       INTEGER(c_int), INTENT(in) :: rank
-      ! Number of columns in A and B
+      ! Number of columns in A and B (size of state vector)
       INTEGER(c_int), INTENT(in) :: dim_col
       ! Input matrix
       REAL(c_double), INTENT(in) :: A(rank, dim_col)
@@ -2334,14 +2334,15 @@ contains
       REAL(c_double), INTENT(inout) :: omega(dim_ens,r)
       ! Norm for ensemble transformation
       REAL(c_double), INTENT(inout) :: norm
-      ! Type of Omega:
-      ! (1) Simple Gaussian random matrix
-      ! (2) Columns of unit norm
-      ! (3) Columns of norm dim_ens^(-1/2)
-      ! (4) Projection orthogonal (1,..,1)^T
-      ! (6) Combination of 2 and 4
-      ! (7) Combination of 3 and 4
-      ! (8) Rows of sum 0 and variance 1
+      ! Type of random matrix:
+      !     - (1) Random column vector from standard Gaussian
+      !     - (2) Columns of unit norm correcting sampling error in option 1
+      !     - (3) Columns of norm dim_ens^(-1/2) correcting sampling error in option 1
+      !     - (4) Projection orthogonal (1,..,1)^T ensuring that A*Omega
+      !       leads to the column mean of A
+      !     - (6) Combination of 2 and 4
+      !     - (7) Combination of 3 and 4
+      !     - (8) Rows of sum 0 and variance 1
       INTEGER(c_int), INTENT(in) :: otype
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: screen

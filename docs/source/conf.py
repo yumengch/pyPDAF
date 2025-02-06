@@ -28,12 +28,14 @@ author = 'Yumeng Chen, Lars Nerger'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.autosummary', 'sphinx.ext.coverage', 'sphinx.ext.napoleon', 'myst_parser'
-]
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.autosummary',
+              'sphinx.ext.mathjax',
+              'sphinx.ext.coverage', 'sphinx.ext.napoleon', 'myst_parser'
+              ]
 
-autosummary_generate = True  
+autosummary_generate = True
 
-autoclass_content='both'
+autoclass_content = 'both'
 
 napoleon_google_docstring = False
 napoleon_numpy_docstring = True
@@ -68,10 +70,10 @@ source_suffix = {'.rst': 'restructuredtext', '.md': 'markdown'}
 #
 html_theme = 'alabaster'
 html_theme_options = {
-	"description": "A Python interface to Parallel Data Assimilation Framework.",
-	"github_button": True,
-	"github_user": "yumengch",
-	"github_repo": "pyPDAF",
+    "description": "A Python interface to Parallel Data Assimilation Framework.",
+    "github_button": True,
+    "github_user": "yumengch",
+    "github_repo": "pyPDAF",
     "body_max_width": "none"
 }
 # Add any paths that contain custom static files (such as style sheets) here,
