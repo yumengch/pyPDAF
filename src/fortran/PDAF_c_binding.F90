@@ -1325,22 +1325,29 @@ contains
    SUBROUTINE c__PDAF_local_weight(wtype, rtype, cradius, sradius, distance, &
          nrows, ncols, A, var_obs, weight, verbose) bind(c)
       ! type of weight function
-      !     0. unit weight
+      !     - `wtype=0`: unit weight
       !        (`weight=1` up to distance=cradius)
-      !     1. exponential decrease
+      !     - `wtype=1`: exponential decrease
       !        (`weight=1/e` at distance=sradius;
       !        `weight=0` for distance>cradius)
-      !     2. 5th order polynomial
+      !     - `wtype=2`: 5th order polynomial
       !        (Gaspari&Cohn 1999; `weight=0` for distance>cradius)
       INTEGER(c_int), INTENT(in) :: wtype
-      ! type of regulated weighting
-      !     0. no regulation
-      !     1. regulation using mean variance
-      !     2. regulation using variance of single observation point
+      ! type of regulated weighting;
+      !    - `rtype!=1`: no regulation
+      !    - `rtype=1`: regulated by variance of the matrix A and
+      !       the observation variance
       INTEGER(c_int), INTENT(in) :: rtype
-      ! cut-off radius (check `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
-      REAL(c_double), INTENT(in) :: cradius
-      ! support radius (check `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
+      ! cut-off radius radius
+      ! where weight = 0 beyond the cradius
+      REAL(c_double), INTENT(in)    :: cradius
+      ! support radius of localisation function.
+      ! This depends on `wtype`:
+      !     - `wtype=0`: sradius is not used
+      !     - `wtype=1`: weight = :math:`e^{-\frac{distance}{sradius}}`
+      !     - `wtype=2`: weight = 0 if distance > sradius
+      !        else weight = f(distance ,sradius)
+      ! See also: `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
       REAL(c_double), INTENT(in) :: sradius
       ! distance to observation
       REAL(c_double), INTENT(in) :: distance
@@ -1354,7 +1361,7 @@ contains
       REAL(c_double), INTENT(in) :: A(nrows, ncols)
       ! observation variance
       REAL(c_double), INTENT(in) :: var_obs
-      ! weights
+      ! localisation weights
       REAL(c_double), INTENT(out) :: weight
       ! verbosity flag
       INTEGER(c_int), INTENT(in) :: verbose
@@ -2335,14 +2342,14 @@ contains
       ! Norm for ensemble transformation
       REAL(c_double), INTENT(inout) :: norm
       ! Type of random matrix:
-      !     - (1) Random column vector from standard Gaussian
-      !     - (2) Columns of unit norm correcting sampling error in option 1
-      !     - (3) Columns of norm dim_ens^(-1/2) correcting sampling error in option 1
-      !     - (4) Projection orthogonal (1,..,1)^T ensuring that A*Omega
+      !     - `otype=1`: Random column vector from standard Gaussian
+      !     - `otype=2`: Columns of unit norm correcting sampling error in option 1
+      !     - `otype=3`: Columns of norm dim_ens^(-1/2) correcting sampling error in option 1
+      !     - `otype=4`: Projection orthogonal (1,..,1)^T ensuring that A*Omega
       !       leads to the column mean of A
-      !     - (6) Combination of 2 and 4
-      !     - (7) Combination of 3 and 4
-      !     - (8) Rows of sum 0 and variance 1
+      !     - `otype=6`: Combination of 2 and 4
+      !     - `otype=7`: Combination of 3 and 4
+      !     - `otype=8`: Rows of sum 0 and variance 1
       INTEGER(c_int), INTENT(in) :: otype
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: screen
@@ -2357,8 +2364,8 @@ contains
       ! Matrix Omega
       REAL(c_double), INTENT(inout) :: omega(rank+1, rank)
       ! Select type of Omega:
-      !   (1) generated from random vectors
-      !   (0) generated from deterministic vectors (Householder)
+      !   - `omegatype=1`: generated from random vectors
+      !   - `omegatype=0`: generated from deterministic vectors (Householder)
       INTEGER(c_int), INTENT(in) :: omegatype
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: screen
@@ -2367,9 +2374,9 @@ contains
    END SUBROUTINE c__PDAF_seik_omega
 
    SUBROUTINE c__PDAF_incremental(steps, U_dist_stateinc) bind(c)
-      ! Time steps over which increment is distributed
+      ! number of time steps over which increment is distributed
       INTEGER(c_int), INTENT(in) :: steps
-      ! Add state increment during integration
+      ! Add state increment
       procedure(c__dist_stateinc_pdaf) :: U_dist_stateinc
 
       CALL PDAF_incremental(steps, U_dist_stateinc)
@@ -2388,21 +2395,28 @@ contains
    SUBROUTINE c__PDAF_local_weights(wtype, cradius, sradius, dim, distance, &
       weight, verbose) bind(c)
       ! Type of weight function
-      ! (0): unit weight (=1 up to distance=cradius)
-      ! (1): exponential decrease (1/e at distance=sradius; 0 for distance>cradius)
-      ! (2): 5th order polynomial (Gaspari&Cohn 1999; 0 for distance>cradius)
+      !    - `wtype=0`: unit weight (=1 up to distance=cradius)
+      !    - `wtype=1`: exponential decrease (1/e at distance=sradius; 0 for distance>cradius)
+      !    - `wtype=2`: 5th order polynomial (Gaspari&Cohn 1999; 0 for distance>cradius)
       INTEGER(c_int), INTENT(in) :: wtype
-      ! Parameter for cut-off
+      ! cut-off radius radius
+      ! where weight = 0 beyond the cradius
       REAL(c_double), INTENT(in)    :: cradius
-      ! Support radius
+      ! support radius of localisation function.
+      ! This depends on `wtype`:
+      !     - `wtype=0`: sradius is not used
+      !     - `wtype=1`: weight = :math:`e^{-\frac{distance}{sradius}}`
+      !     - `wtype=2`: weight = 0 if distance > sradius
+      !        else weight = f(distance ,sradius)
+      ! See also: `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
       REAL(c_double), INTENT(in)    :: sradius
       ! Size of distance and weight arrays
       INTEGER(c_int), INTENT(in) :: dim
-      ! Array holding distances
+      ! distances to observation
       REAL(c_double), INTENT(in)    :: distance(dim)
-      ! Array for weights
+      ! localisation weights
       REAL(c_double), INTENT(out)   :: weight(dim)
-      ! Verbosity flag
+      ! verbosity flag
       INTEGER(c_int), INTENT(in) :: verbose
       call  PDAF_local_weights(wtype, cradius, sradius, dim, distance, &
                                weight, verbose)
@@ -2443,15 +2457,15 @@ contains
         nrows, status) bind(c)
       ! PE-local observation dimension
       INTEGER(c_int), INTENT(in) :: dim_obs_p
-      ! Full observation dimension
+      ! full observation dimension
       INTEGER(c_int), INTENT(in) :: dim_obs_f
-      ! Number of rows in array
+      ! number of values used to determine one coordinate location
       INTEGER(c_int), INTENT(in) :: nrows
-      ! PE-local array
+      ! PE-local spatial coordinate
       REAL(c_double), INTENT(in)  :: coords_p(nrows, dim_obs_p)
-      ! Full gathered array
+      ! full coorindate array
       REAL(c_double), INTENT(out) :: coords_f(nrows, dim_obs_f)
-      ! Status flag: (0) no error
+      ! status flag: (0) no error
       INTEGER(c_int), INTENT(out) :: status
       call PDAF_gather_obs_f2_flex(dim_obs_p, dim_obs_f, coords_p, coords_f, &
         nrows, status)
@@ -2460,13 +2474,13 @@ contains
    SUBROUTINE c__PDAF_gather_obs_f_flex(dim_obs_p, dim_obs_f, obs_p, obs_f, status) bind(c)
       ! PE-local observation dimension
       INTEGER(c_int), INTENT(in) :: dim_obs_p
-      ! Full observation dimension
+      ! fll observation dimension
       INTEGER(c_int), INTENT(in) :: dim_obs_f
       ! PE-local vector
       REAL(c_double), INTENT(in)  :: obs_p(dim_obs_p)
-      ! Full gathered vector
+      ! full gathered vector
       REAL(c_double), INTENT(out) :: obs_f(dim_obs_f)
-      ! Status flag: (0) no error
+      ! status flag: (0) no error
       INTEGER(c_int), INTENT(out) :: status
       call PDAF_gather_obs_f_flex(dim_obs_p, dim_obs_f, obs_p, obs_f, status)
    END SUBROUTINE c__PDAF_gather_obs_f_flex
