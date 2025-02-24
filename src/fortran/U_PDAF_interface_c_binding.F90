@@ -558,7 +558,7 @@ abstract interface
       implicit none
       ! Dimension of PE-local state
       INTEGER(c_int), INTENT(in) :: dim_p
-      ! PE-local state vector
+      ! PE-local increment of state vector
       REAL(c_double), INTENT(in) :: state_inc_p(dim_p)
       ! Flag for first call of each forecast
       INTEGER(c_int), INTENT(in) :: first
