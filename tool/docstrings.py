@@ -322,7 +322,7 @@ docstrings['etkf_Tleft'] = \
 docstrings['estkf_OmegaA'] = \
     "Get left Householder transformation of A.\n\n    "\
     "This function partially performs the second term of Eq. (29)\n    " \
-    "and the Householder matrix Omega is given in Eq. (24) in [1]_" \
+    "and the Householder matrix Omega is given in Eq. (24) in [1]_." \
     "\n\n    " \
     "References\n    " \
     "----------\n    " \
@@ -331,55 +331,175 @@ docstrings['estkf_OmegaA'] = \
     "       Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1"
 
 docstrings['enkf_omega'] = \
-    "Generation of a random matrix with orthogonal basis.\n\n    " \
-    "This function can be used to initialise an ensemble."
+    "Generate a random matrix with orthogonal basis.\n\n    " \
+    "This function generates the random matrix sampled\n    " \
+    "from standard Gaussian distribution with different scaling options."
 
-docstrings['seik_omega'] = "Generation of a random matrix with orthogonal basis following SEIK approach."
-docstrings['incremental'] = "This is a helper function to apply analysis increment to model state in model forecast phase. It simply calls the user-supplied function. "
-docstrings['add_increment'] = "This function directly adds analysis increment to given state vector without the need for user-supplied functions."
-docstrings['local_weights'] = "This function returns a vector of the localisation weights based on distance and localisation functions and radii. " \
-                              "This function is particularly useful for mannually apply covariance localisations for state or observation errors."
-docstrings['force_analysis'] = "This function overwrite member index of the ensemble state by local_dim_ens (number of ensembles for current process, in full parallel setup, this is 1.) and the counter cnt_steps by nsteps-1.\n    " \
-                               "This forces that the analysis step is executed at the next call to PDAF assimilation functions."
-docstrings['gather_obs_f2_flex'] = "In the local filters (LESKTF, LETKF, LSEIK, LNETF)\n    " \
-    "this function returns the full observation coordinates " \
-    "from process-local observation coordinates. `pyPDAF.PDAF.gather_obs_f_flex` is used to get corresponding observations. " \
-    "Unlike `pyPDAF.PDAF.gather_obs_f2`, the function does not use depends on\n    " \
-    "`pyPDAF.PDAF.gather_dim_obs_f`"
-docstrings['gather_obs_f_flex'] = "In the local filters (LESKTF, LETKF, LSEIK, LNETF) " \
-    "this function returns the total observation vector " \
-    "from process-local observations. `pyPDAF.PDAF.gather_obs_f2_flex` is used to get corresponding coordinates.\n    " \
-    "Unlike `pyPDAF.PDAF.gather_obs_f`, the function does not use depends on " \
-    "`pyPDAF.PDAF.gather_dim_obs_f`"
-docstrings['prepost'] = "This function does not perform any DA. " \
-                        "It is used to perform a preprocess and postprocess of the ensemble. " \
-                        "Compared to `pyPDAF.PDAF.assimilate_prepost`, this function does not set assimilation flag.\n    " \
-                        "The function is a combination of `pyPDAF.PDAF.put_state_prepost` " \
-                        "and `pyPDAF.PDAF.get_state`, and executes the user-supplied function " \
-                        "in the following sequence: \n    " \
-                        "1. py__collect_state_pdaf\n    " \
-                        "2. py__prepoststep_state_pdaf\n    " \
-                        "3. py__prepoststep_state_pdaf\n    " \
-                        "4. py__distribute_state_pdaf\n    " \
-                        "5. py__next_observation_pdaf\n    "
-docstrings['set_memberid'] = "This function sets the ensemble member index to given value."
-docstrings['set_comm_pdaf'] = "Setting the MPI communicator used by PDAF.\n\n    " \
-                              "Without using this function `MPI_COMM_WORLD` is used.\n    " \
-                              "This function is very useful if a set of processors is dedicated for I/O or other operations."
-docstrings['set_offline_mode'] = "This function activates offline mode."
-docstrings['print_domain_stats'] = "This function make screen output of statistics of the local domains on current process."
-docstrings['init_local_obsstats'] = "This function initialise the observation statistics of local domain. " \
-                                    "This statistics can be updated by `pyPDAF.PDAF.incr_local_obsstats`, " \
-                                    "and can be viewed by `pyPDAF.PDAF.print_local_obsstats`."
-docstrings['incr_local_obsstats'] = "This function update the observation statistics of local domain. " \
-                                    "This statistics should be initialised by `pyPDAF.PDAF.init_local_obsstats`, " \
-                                    "and can be viewed by `pyPDAF.PDAF.print_local_obsstats`."
-docstrings['print_local_obsstats'] = "This function print the observation statistics of local domain on screen. " \
-    "This statistics should be initialised by `pyPDAF.PDAF.init_local_obsstats`, " \
-    "and can be updated by `pyPDAF.PDAF.incr_local_obsstats`."
+docstrings['seik_omega'] = \
+    "Generate a random matrix with orthogonal basis.\n\n    " \
+    "This function generates a uniform orthogonal matrix\n    " \
+    "by iteratively applying Householder transformations.\n    " \
+    "In this matrix, each column is orthogonal to the previous ones." \
+    "\n    " \
+    "This algorithm is documented in appendix of [1]_." \
+    "\n\n    " \
+    "References\n    " \
+    "----------\n    " \
+    ".. [1] Nerger, L., Janjić, T., Schröter, J., Hiller, W. (2012). \n    " \
+    "       A unification of ensemble square root Kalman filters. \n    " \
+    "       Monthly Weather Review, 140, 2335-2345. doi:10.1175/MWR-D-11-00102.1"
 
-docstrings['omit_obs_omi'] = "This function computes innovation and omit corresponding observations in assimilation if the innovation is too large. " \
-                             "This function is used by some of the global filters, e.g. EnKF, LEnKF, PF, NETF, with OMI."
+docstrings['incremental'] = \
+    "Apply analysis increment to model state\n    " \
+    "in model forecast phase.\n\n    " \
+    "This function calls a user-supplied function\n    " \
+    "to utilise the analysis increment stored by PDAF in the model.\n    " \
+    "This may also be used for diagnostics purposes."
+
+docstrings['add_increment'] = \
+    "Add analysis increment stored by PDAF to given state vector."
+
+docstrings['local_weights'] = \
+    "Get a vector of localisation weights for given distances,\n    " \
+    "cut-off radius, support radius, weighting type,\n    " \
+    "and weighting function.\n\n    " \
+    "This function is used in the analysis step of a filter\n    " \
+    "to computes a localisation weight.\n\n    " \
+    "Typically, in domain-localised filters, the function\n    " \
+    "is called in user-supplied :func:`py__prodRinvA_l_pdaf`.\n    " \
+    "In LEnKF, this function is called\n    " \
+    "in user-supplied :func:`py__localize_covar_pdaf`.\n\n    " \
+    "This function is usually only used without PDAF-OMI.\n\n    " \
+    "This function is a vectorised version of\n    " \
+    ":func:`pyPDAF.PDAF.local_weight` without any regulations."
+
+docstrings['force_analysis'] = \
+    "Perform assimilation after this function call.\n\n    " \
+    "This function overwrite member index of the ensemble state\n    " \
+    "by local_dim_ens (number of ensembles for current process,\n    " \
+    "in full parallel setup, this is 1.) and the counter\n    " \
+    "cnt_steps by nsteps-1.\n    " \
+    "This forces that the analysis step is executed at\n    " \
+    "the next call to PDAF assimilation functions."
+
+docstrings['gather_obs_f2_flex'] = \
+    "Gather full observation coordinates from processor\n    " \
+    "local observation coordinates without PDAF-internal info.\n\n" \
+    "In the local filters (LESKTF, LETKF, LSEIK, LNETF)\n    " \
+    "this function returns the full observation coordinates\n    " \
+    "from process-local observation coordinates.\n\n    " \
+    "This function has a similar functionality as\n    " \
+    ":func:`pyPDAF.PDAF.gather_obs_f2`, but it does not depend\n    " \
+    "on PDAF-internal observation dimension information,\n    " \
+    "which is specified once :func:`pyPDAF.PDAF.gather_dim_obs_f`\n    " \
+    "is executed.\n\n    " \
+    "This function can also be used as a generic function\n    " \
+    "to gather any 2D arrays\n    " \
+    "where the second dimension should be concatenated."
+
+docstrings['gather_obs_f_flex'] = \
+    "Gather full observation from processor\n    " \
+    "local observation without PDAF-internal info.\n\n" \
+    "In the local filters (LESKTF, LETKF, LSEIK, LNETF)\n    " \
+    "this function returns the full observation\n    " \
+    "from process-local observation.\n\n    " \
+    "This function has a similar functionality as\n    " \
+    ":func:`pyPDAF.PDAF.gather_obs_f`, but it does not depend\n    " \
+    "on PDAF-internal observation dimension information,\n    " \
+    "which is specified once :func:`pyPDAF.PDAF.gather_dim_obs_f`\n    " \
+    "is executed.\n\n    " \
+    "This function can also be used as a generic function\n    " \
+    "to gather any 2D arrays\n    " \
+    "where the second dimension should be concatenated."
+
+
+docstrings['prepost'] = \
+    "Perform pre-/post-processing.\n\n    " \
+    "This is designed similar to a DA method subroutine\n    " \
+    "where the ensemble/state vector collection, processing,\n    " \
+    "and distribution are all depending on user-supplied functions." \
+    "\n\n    " \
+    "Compared to `pyPDAF.PDAF.assimilate_prepost`,\n    " \
+    "this function does not set assimilation flag.\n\n    " \
+    "The function is a combination of\n    " \
+    ":func:`pyPDAF.PDAF.put_state_prepost`\n    " \
+    "and :func:`pyPDAF.PDAF.get_state`.\n\n    " \
+    "The user-supplied function is executed as follows:\n    " \
+    "    1. py__collect_state_pdaf\n    " \
+    "    2. py__prepoststep_state_pdaf\n    " \
+    "    3. py__prepoststep_state_pdaf\n    " \
+    "    4. py__distribute_state_pdaf\n    " \
+    "    5. py__next_observation_pdaf"
+
+docstrings['set_memberid'] = \
+    "Set the ensemble member index to given value."
+
+docstrings['set_comm_pdaf'] = \
+    "Set the MPI communicator used by PDAF.\n\n    " \
+    "By default, PDAF assumes it can use all available\n    " \
+    "processes, i.e., `MPI_COMM_WORLD`.\n    " \
+    "By using this function, we limit the number of processes\n    " \
+    "that can be used by PDAF to given MPI communicator."
+
+docstrings['set_offline_mode'] = \
+    "Activate offline mode of PDAF."
+
+docstrings['print_domain_stats'] = \
+    "Print screen output of statistics of the local domains\n    " \
+    "on current process.\n\n    " \
+    "The statistics include the minimum, maximum, and\n    " \
+    "average number of local domains per process."
+
+
+docstrings['init_local_obsstats'] = \
+    "Initialise the observation statistics of local domain.\n\n    " \
+    "This function initialise the debug statistics used in\n    " \
+    ":func:`pyPDAF.PDAF.incr_local_obsstats` and\n    " \
+    ":func:`pyPDAF.PDAF.print_local_obsstats`.\n\n    " \
+    "The statistics include:\n    " \
+    "    - number of local domains with observations\n    " \
+    "    - number of local domains without observationss\n    " \
+    "    - maximum local observation dimension\n    " \
+    "    - total observation dimension/total number of domains\n    " \
+    "    - total observation dimension/number of domains with observations"
+
+
+docstrings['incr_local_obsstats'] = \
+    "Update observation statistics of local domain.\n\n    " \
+    "To use this function, one should first initialise\n    " \
+    "the statistics using :func:`pyPDAF.PDAF.init_local_obsstats`" \
+    "\n\n    " \
+    "The statistics include:\n    " \
+    "    - number of local domains with observations\n    " \
+    "    - number of local domains without observationss\n    " \
+    "    - maximum local observation dimension\n    " \
+    "    - total observation dimension/total number of domains\n    " \
+    "    - total observation dimension/number of domains with observations"
+
+docstrings['print_local_obsstats'] = \
+    "Print screen output of the observation statistics of\n    " \
+    "local domain.\n\n    " \
+    "The statistics should be first initialised\n    " \
+    "by :func:`pyPDAF.PDAF.init_local_obsstats`\n    " \
+    "and can then be collected by\n    " \
+    ":func:`pyPDAF.PDAF.incr_local_obsstats`.\n\n    " \
+    "The statistics include:\n    " \
+    "    - number of local domains with observations\n    " \
+    "    - number of local domains without observationss\n    " \
+    "    - maximum local observation dimension\n    " \
+    "    - total observation dimension/total number of domains\n    " \
+    "    - total observation dimension/number of domains with observations"
+
+docstrings['omit_obs_omi'] = \
+    "Omit observations with large ensemble mean innovation.\n\n    " \
+    "This function first compute the ensemble mean,\n    "\
+    "then set large observation error for observations\n    " \
+    "with large ensemble mean innovation.\n    " \
+    "This is used in the OMI functionality by\n    " \
+    "some global filters, e.g. EnKF, LEnKF, PF, NETF.\n    " \
+    "Therefore, one must first set the related options in OMI.\n    " \
+    "See `pyPDAF.PDAF.omi_set_xxx` functions and\n    " \
+    ":func:`pyPDAF.PDAF.omi_gather_obs`."
 
 
 docstrings['omi_init'] = \
