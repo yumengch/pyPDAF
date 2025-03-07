@@ -6,7 +6,7 @@ pyconv: dict[str, str] = {'integer': 'int',
                           'logical': 'bool', 'real': 'float', 'character': 'str'}
 conv = {'integer': 'int', 'logical': 'bint',
         'real': 'double', 'character': 'CFI_cdesc_t'}
-special_functions = ['c__init_ens_pdaf', ]
+special_functions = ['c__init_ens_pdaf', 'c__prepoststep_pdaf']
 
 
 def extract_dimension_name(s: str) -> str | None:

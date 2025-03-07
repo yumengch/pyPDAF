@@ -25,7 +25,7 @@ cdef void c__init_ens_pdaf (int* filtertype, int* dim_p, int* dim_ens, double* s
 
     cdef double[::1,:] uinv_new
     if uinv != &uinv_np[0,0]:
-        uinv_new = np.asarray(<double[:(dim_ens[0]-1):1,:(dim_ens[0]-1)]> uinv, order='F')
+        uinv_new = np.asarray(<double[:uinv_size:1,:uinv_size]> uinv, order='F')
         uinv_new[...] = uinv_np
         warnings.warn("The memory address of uinv is changed in c__init_ens_pdaf."
          "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)

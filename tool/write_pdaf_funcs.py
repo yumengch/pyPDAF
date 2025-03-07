@@ -215,7 +215,7 @@ def write_docstring(
                 if len(u_arg_info['dimension']) > 0:
                     s_dims = ', '.join(u_arg_info['dimension'])
                     s_dtype = npyconv[u_arg_info['type']]
-                    s += f'{u_arg} : ndarray[tuple[{s_dims}], {s_dtype}], '
+                    s += f'{u_arg} : ndarray[tuple[{s_dims}, ...], {s_dtype}], '
                 else:
                     s += u_arg + ':' + mypy_conv[u_arg_info['type']] + ', '
             s = s[:-2]
@@ -232,7 +232,7 @@ def write_docstring(
                     s_dims = ', '.join(u_arg_info['dimension'])
                     s_dtype = npyconv[u_arg_info['type']]
                     s += 3*indent + f'* **{u_arg}** :' \
-                        f' ndarray[tuple[{s_dims}], {s_dtype}]\n'
+                        f' ndarray[tuple[{s_dims}, ...], {s_dtype}]\n'
                 else:
                     s += 3*indent + f'* **{u_arg}** : ' + \
                         mypy_conv[u_arg_info['type']] + '\n'
@@ -252,7 +252,7 @@ def write_docstring(
                     s_dims = ', '.join(u_arg_info['dimension'])
                     s_dtype = npyconv[u_arg_info['type']]
                     s += 3*indent + f'* **{u_arg}** :' \
-                        f' ndarray[tuple[{s_dims}], {s_dtype}]\n'
+                        f' ndarray[tuple[{s_dims}, ...], {s_dtype}]\n'
                 else:
                     s += 3*indent + f'* **{u_arg}** : ' + \
                         mypy_conv[u_arg_info['type']] + '\n'
@@ -262,7 +262,7 @@ def write_docstring(
             s += indent+arg + ' : '
             s_dims = ', '.join(info['dimension'])
             s_dtype = npyconv[info['type'].lower()]
-            s += f'ndarray[tuple[{s_dims}], {s_dtype}]\n'
+            s += f'ndarray[tuple[{s_dims}, ...], {s_dtype}]\n'
             # comments of the array
             s += 2*indent + info['comment'] + '.\n\n'
             # adding documentation for array dimensions
@@ -310,7 +310,7 @@ def write_docstring(
             s += indent+arg + ' : '
             s_dims = ', '.join(info['dimension'])
             s_dtype = npyconv[info['type'].lower()]
-            s += f'ndarray[tuple[{s_dims}], {s_dtype}]\n'
+            s += f'ndarray[tuple[{s_dims}, ...], {s_dtype}]\n'
         elif info['type'] == 'type':
             s += indent+arg + ' : ndarray[float]\n'
         else:
