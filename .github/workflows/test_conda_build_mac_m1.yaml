@@ -1,4 +1,4 @@
-name: conda_build_mac_m1
+name: test_conda_build_mac_m1
 on: [workflow_dispatch]
 jobs:
   upload_conda_mac_m1:

@@ -1,4 +1,4 @@
-name: conda_build_linux
+name: test_conda_build_linux
 on: [workflow_dispatch]
 jobs:
   upload_conda_linux:
