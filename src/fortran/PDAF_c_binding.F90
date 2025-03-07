@@ -1324,29 +1324,28 @@ contains
 
    SUBROUTINE c__PDAF_local_weight(wtype, rtype, cradius, sradius, distance, &
          nrows, ncols, A, var_obs, weight, verbose) bind(c)
-      ! type of weight function
+      ! type of weight function:
       !     - `wtype=0`: unit weight
-      !        (`weight=1` up to distance=cradius)
+      !       (`weight=1` up to distance=cradius)
       !     - `wtype=1`: exponential decrease
-      !        (`weight=1/e` at distance=sradius;
-      !        `weight=0` for distance>cradius)
+      !       (`weight=1/e` at distance=sradius;
+      !       `weight=0` for distance>cradius)
       !     - `wtype=2`: 5th order polynomial
-      !        (Gaspari&Cohn 1999; `weight=0` for distance>cradius)
+      !       (Gaspari and Cohn 1999; `weight=0` for distance>cradius)
       INTEGER(c_int), INTENT(in) :: wtype
-      ! type of regulated weighting;
-      !    - `rtype!=1`: no regulation
-      !    - `rtype=1`: regulated by variance of the matrix A and
+      ! type of regulated weighting:
+      !     - `rtype/=1`: no regulation
+      !     - `rtype=1`: regulated by variance of the matrix A and
       !       the observation variance
       INTEGER(c_int), INTENT(in) :: rtype
-      ! cut-off radius radius
-      ! where weight = 0 beyond the cradius
+      ! cut-off radius where weight = 0 beyond the cradius
       REAL(c_double), INTENT(in)    :: cradius
-      ! support radius of localisation function.
-      ! This depends on `wtype`:
+      ! support radius of localisation function. This depends on `wtype`:
       !     - `wtype=0`: sradius is not used
       !     - `wtype=1`: weight = :math:`e^{-\frac{distance}{sradius}}`
       !     - `wtype=2`: weight = 0 if distance > sradius
-      !        else weight = f(distance ,sradius)
+      !       else weight = f(distance ,sradius)
+      !
       ! See also: `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
       REAL(c_double), INTENT(in) :: sradius
       ! distance to observation
@@ -2394,20 +2393,23 @@ contains
    ! In documentation but not in the PDAF_interface module
    SUBROUTINE c__PDAF_local_weights(wtype, cradius, sradius, dim, distance, &
       weight, verbose) bind(c)
-      ! Type of weight function
-      !    - `wtype=0`: unit weight (=1 up to distance=cradius)
-      !    - `wtype=1`: exponential decrease (1/e at distance=sradius; 0 for distance>cradius)
-      !    - `wtype=2`: 5th order polynomial (Gaspari&Cohn 1999; 0 for distance>cradius)
+      ! type of weight function:
+      !     - `wtype=0`: unit weight
+      !       (`weight=1` up to distance=cradius)
+      !     - `wtype=1`: exponential decrease
+      !       (`weight=1/e` at distance=sradius;
+      !       `weight=0` for distance>cradius)
+      !     - `wtype=2`: 5th order polynomial
+      !       (Gaspari and Cohn 1999; `weight=0` for distance>cradius)
       INTEGER(c_int), INTENT(in) :: wtype
-      ! cut-off radius radius
-      ! where weight = 0 beyond the cradius
+      ! cut-off radius where weight = 0 beyond the cradius
       REAL(c_double), INTENT(in)    :: cradius
-      ! support radius of localisation function.
-      ! This depends on `wtype`:
+      ! support radius of localisation function. This depends on `wtype`:
       !     - `wtype=0`: sradius is not used
       !     - `wtype=1`: weight = :math:`e^{-\frac{distance}{sradius}}`
       !     - `wtype=2`: weight = 0 if distance > sradius
-      !        else weight = f(distance ,sradius)
+      !       else weight = f(distance ,sradius)
+      !
       ! See also: `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
       REAL(c_double), INTENT(in)    :: sradius
       ! Size of distance and weight arrays

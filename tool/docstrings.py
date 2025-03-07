@@ -384,7 +384,7 @@ docstrings['force_analysis'] = \
 
 docstrings['gather_obs_f2_flex'] = \
     "Gather full observation coordinates from processor\n    " \
-    "local observation coordinates without PDAF-internal info.\n\n" \
+    "local observation coordinates without PDAF-internal info.\n\n    " \
     "In the local filters (LESKTF, LETKF, LSEIK, LNETF)\n    " \
     "this function returns the full observation coordinates\n    " \
     "from process-local observation coordinates.\n\n    " \
@@ -399,7 +399,7 @@ docstrings['gather_obs_f2_flex'] = \
 
 docstrings['gather_obs_f_flex'] = \
     "Gather full observation from processor\n    " \
-    "local observation without PDAF-internal info.\n\n" \
+    "local observation without PDAF-internal info.\n\n    " \
     "In the local filters (LESKTF, LETKF, LSEIK, LNETF)\n    " \
     "this function returns the full observation\n    " \
     "from process-local observation.\n\n    " \
