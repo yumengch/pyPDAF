@@ -523,7 +523,7 @@ abstract interface
       REAL(c_double), INTENT(inout) :: Vv_p(dim_p)
    END SUBROUTINE c__cvt_ens_pdaf
 
-   SUBROUTINE c__obs_op_adj_pdaf(step, dim_p, dim_obs_p, state_p, m_state_p) bind(c)
+   SUBROUTINE c__obs_op_adj_pdaf(step, dim_p, dim_obs_p, m_state_p, state_p) bind(c)
       use iso_c_binding, only: c_double, c_int
       implicit none
       ! Current time step

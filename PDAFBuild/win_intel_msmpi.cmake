@@ -23,9 +23,13 @@ set_source_files_properties(${MPI_Fortran_MODULE_SRC_FILE} PROPERTIES COMPILE_FL
 
 # ideally, we should provide compiler options based on target or source files, 
 # but this will force us to use multiple config files or encode it in the CMakelist.txt file
-set(CMAKE_Fortran_FLAGS_RELEASE "/O2 /4R8 /Qdiag-disable:10448 /Qdiag-disable:10423" CACHE STRING "RELEASE FLAGS" FORCE)
+# set(PDAF_FLAGS_RELEASE -O3 -ffree-line-length-none -fdefault-real-8 -fPIC -fopenmp)
+set(PDAF_FLAGS_RELEASE /O2 /4R8 /Qdiag-disable:10448 /Qdiag-disable:10423)
+set(LEGACY_FLAGS_RELEASE /O2 /Qdiag-disable:10448 /Qdiag-disable:10423)
 # Set compiler flags for Debug configurations
-set(CMAKE_Fortran_FLAGS_DEBUG "/Od /debug:full /traceback /check:all /Qtrapuv /4R8 /Qdiag-disable:10448 /Qdiag-disable:10423" CACHE STRING "DEBUG FLAGS" FORCE)
+set(PDAF_FLAGS_DEBUG /Od /debug:full /traceback /check:all /Qtrapuv /4R8 /Qdiag-disable:10448 /Qdiag-disable:10423)
+set(LEGACY_FLAGS_DEBUG /Od /debug:full /traceback /check:all /Qtrapuv /Qdiag-disable:10448 /Qdiag-disable:10423)
+
 
 # set BLAS information
 set(BLAS_NAME "mkl_core;mkl_intel_lp64;mkl_sequential")

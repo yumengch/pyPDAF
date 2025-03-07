@@ -463,6 +463,32 @@ endif()
 # import configuration file
 include(${Config_PATH})
 
+set(GENERATED_FLAGS "")
+foreach(flag ${PDAF_FLAGS_RELEASE})
+  list(APPEND GENERATED_FLAGS "$<$<CONFIG:Release>:${flag}>")
+endforeach()
+
+foreach(flag ${PDAF_FLAGS_DEBUG})
+  list(APPEND GENERATED_FLAGS "$<$<CONFIG:Debug>:${flag}>")
+endforeach()
+
+message(STATUS "GENERATED_FLAGS: ${GENERATED_FLAGS}")
+
+# list(JOIN GENERATED_FLAGS ";" GENERATED_FLAGS_JOINED)
+
+# Now, you can use GENERATED_FLAGS with set_source_files_properties or target_compile_options.
+set_source_files_properties(${SRC_FILES} PROPERTIES
+    COMPILE_OPTIONS "$<$<CONFIG:Release>:${PDAF_FLAGS_RELEASE}>;$<$<CONFIG:Debug>:${PDAF_FLAGS_DEBUG}>"
+)
+
+set_source_files_properties(${OBJ_3DVAR} PROPERTIES
+    COMPILE_OPTIONS "$<$<CONFIG:Release>:${PDAF_FLAGS_RELEASE}>;$<$<CONFIG:Debug>:${PDAF_FLAGS_DEBUG}>"
+)
+
+set_source_files_properties(${OBJ_OPTIM} PROPERTIES
+    COMPILE_OPTIONS "$<$<CONFIG:Release>:${LEGACY_FLAGS_RELEASE}>;$<$<CONFIG:Debug>:${LEGACY_FLAGS_DEBUG}>"
+)
+
 if (${PDAF_NAME} STREQUAL "pdaf-var")
    set(SRC_FILES ${SRC_FILES} ${OBJ_3DVAR} ${OBJ_OPTIM})
 endif()

@@ -223,8 +223,8 @@ cdef void*  obs_op_adj_pdaf = NULL;
 cdef void c__obs_op_adj_pdaf (int* step,
                               int* dim_p,
                               int* dim_obs_p,
-                              double* state_p,
-                              double* m_state_p
+                              double* m_state_p,
+                              double* state_p
                              ) noexcept with gil;
 cdef void*  obs_op_lin_pdaf = NULL;
 cdef void c__obs_op_lin_pdaf (int* step,
