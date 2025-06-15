@@ -37,12 +37,11 @@ class model_integrator:
                         self.model_ens[i].field_p = self.step(self.model_ens[i].field_p, PDAF_system.pe, current_step + 1, config.USE_PDAF)
                     current_step += 1
 
-                current_step -= 1
                 PDAF_system.assimilate_flexible()
             else:
                 for i in range(PDAF_system.pe.dim_ens_l):
                     self.model_ens[i].field_p = self.step(self.model_ens[i].field_p, PDAF_system.pe, current_step + 1, config.USE_PDAF)
-            current_step += 1
+                current_step += 1
 
     def step(self, field_p:np.ndarray, pe, step:int, USE_PDAF:bool) -> np.ndarray:
         """shifting model forward 'integration'
