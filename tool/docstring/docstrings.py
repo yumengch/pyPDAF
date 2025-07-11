@@ -1,13 +1,13 @@
 """Generate API docstrings for pyPDAF functions
 """
-from pdaf_assimilate_docstrings import docstrings as assimilate_docstrings
-from pdaf_diag_docstrings import docstrings as diag_docstrings
-from pdaf_put_state_docstrings import docstrings as put_state_docstrings
-from pdaflocal_assimilate_docstrings import docstrings as local_assimilate_docstrings
-from pdaflocalomi_assimilate_docstrings import docstrings as localomi_assimilate_docstrings
-from pdaflocalomi_put_state_docstrings import docstrings as localomi_put_state_docstrings
-from pdafomi_assimilate_docstrings import docstrings as omi_assimilate_docstrings
-from pdafomi_put_state_docstrings import docstrings as omi_put_state_docstrings
+from .pdaf_assimilate_docstrings import docstrings as assimilate_docstrings
+from .pdaf_diag_docstrings import docstrings as diag_docstrings
+from .pdaf_put_state_docstrings import docstrings as put_state_docstrings
+from .pdaflocal_assimilate_docstrings import docstrings as local_assimilate_docstrings
+from .pdaflocalomi_assimilate_docstrings import docstrings as localomi_assimilate_docstrings
+from .pdaflocalomi_put_state_docstrings import docstrings as localomi_put_state_docstrings
+from .pdafomi_assimilate_docstrings import docstrings as omi_assimilate_docstrings
+from .pdafomi_put_state_docstrings import docstrings as omi_put_state_docstrings
 
 docstrings = {**assimilate_docstrings, **diag_docstrings, **
               put_state_docstrings, **local_assimilate_docstrings, **

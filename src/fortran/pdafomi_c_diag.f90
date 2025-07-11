@@ -3,8 +3,6 @@ implicit none
 
 contains
    SUBROUTINE c__PDAFomi_diag_dimobs(dim_obs_ptr) bind(c)
-      use iso_c_binding
-
       ! Pointer to observation dimensions
       INTEGER(c_int), POINTER, DIMENSION(:), INTENT(inout) :: dim_obs_ptr
 
@@ -13,8 +11,6 @@ contains
    END SUBROUTINE c__PDAFomi_diag_dimobs
 
    SUBROUTINE c__PDAFomi_diag_get_HX(id_obs, dim_obs_diag, hx_p_ptr) bind(c)
-      use iso_c_binding
-
       ! Index of observation type to return
       INTEGER(c_int), INTENT(in) :: id_obs
       ! Observation dimension
@@ -28,8 +24,6 @@ contains
 
    SUBROUTINE c__PDAFomi_diag_get_HXmean(id_obs, dim_obs_diag,  &
       hxmean_p_ptr) bind(c)
-      use iso_c_binding
-
       ! Index of observation type to return
       INTEGER(c_int), INTENT(in) :: id_obs
       ! Observation dimension
@@ -42,8 +36,6 @@ contains
    END SUBROUTINE c__PDAFomi_diag_get_HXmean
 
    SUBROUTINE c__PDAFomi_diag_get_ivar(id_obs, dim_obs_diag, ivar_ptr) bind(c)
-      use iso_c_binding
-
       ! Index of observation type to return
       INTEGER(c_int), INTENT(in) :: id_obs
       ! Observation dimension
@@ -57,8 +49,6 @@ contains
 
    SUBROUTINE c__PDAFomi_diag_get_obs(id_obs, dim_obs_diag, ncoord, obs_p_ptr,  &
       ocoord_p_ptr) bind(c)
-      use iso_c_binding
-
       ! Index of observation type to return
       INTEGER(c_int), INTENT(in) :: id_obs
       ! Observation dimension
@@ -76,8 +66,6 @@ contains
    END SUBROUTINE c__PDAFomi_diag_get_obs
 
    SUBROUTINE c__PDAFomi_diag_nobstypes(nobs) bind(c)
-      use iso_c_binding
-
       ! Number of observation types
       INTEGER(c_int), INTENT(inout) :: nobs
 
@@ -87,8 +75,6 @@ contains
    END SUBROUTINE c__PDAFomi_diag_nobstypes
 
    SUBROUTINE c__PDAFomi_diag_obs_rmsd(nobs, rmsd_pointer, verbose) bind(c)
-      use iso_c_binding
-
       ! Number of observation types
       INTEGER(c_int), INTENT(inout) :: nobs
       ! Vector of RMSD values
@@ -101,8 +87,6 @@ contains
    END SUBROUTINE c__PDAFomi_diag_obs_rmsd
 
    SUBROUTINE c__PDAFomi_diag_stats(nobs, obsstats_ptr, verbose) bind(c)
-      use iso_c_binding
-
       ! Number of observation types
       INTEGER(c_int), INTENT(inout) :: nobs
       ! Array of observation statistics

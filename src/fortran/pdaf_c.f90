@@ -3,8 +3,6 @@ implicit none
 
 contains
    SUBROUTINE c__PDAF_correlation_function(ctype, length, distance, value) bind(c)
-      use iso_c_binding
-
       ! Type of correlation function
       INTEGER(c_int), INTENT(in) :: ctype
       ! Length scale of function
@@ -27,8 +25,6 @@ contains
    SUBROUTINE c__PDAF_eofcovar(dim, nstates, nfields, dim_fields, offsets,  &
       remove_mstate, do_mv, states, stddev, svals, svec, meanstate, verbose,  &
       status) bind(c)
-      use iso_c_binding
-
       ! Dimension of state vector
       INTEGER(c_int), INTENT(in) :: dim
       ! Number of state vectors
@@ -71,8 +67,6 @@ contains
    END SUBROUTINE c__PDAF_force_analysis
 
    SUBROUTINE c__PDAF_gather_dim_obs_f(dim_obs_p, dim_obs_f) bind(c)
-      use iso_c_binding
-
       ! PE-local observation dimension
       INTEGER(c_int), INTENT(in) :: dim_obs_p
       ! Full observation dimension
@@ -84,8 +78,6 @@ contains
    END SUBROUTINE c__PDAF_gather_dim_obs_f
 
    SUBROUTINE c__PDAF_gather_obs_f(obs_p, obs_f, status) bind(c)
-      use iso_c_binding
-
       ! PE-local vector
       REAL(c_double), DIMENSION(dimobs_p), INTENT(in) :: obs_p
       ! Full gathered vector
@@ -99,8 +91,6 @@ contains
    END SUBROUTINE c__PDAF_gather_obs_f
 
    SUBROUTINE c__PDAF_gather_obs_f2(coords_p, coords_f, nrows, status) bind(c)
-      use iso_c_binding
-
       ! PE-local array
       REAL(c_double), DIMENSION(nrows, dimobs_p), INTENT(in) :: coords_p
       ! Full gathered array
@@ -117,8 +107,6 @@ contains
 
    SUBROUTINE c__PDAF_gather_obs_f_flex(dim_obs_p, dim_obs_f, obs_p, obs_f,  &
       status) bind(c)
-      use iso_c_binding
-
       ! PE-local observation dimension
       INTEGER(c_int), INTENT(in) :: dim_obs_p
       ! Full observation dimension
@@ -137,8 +125,6 @@ contains
 
    SUBROUTINE c__PDAF_gather_obs_f2_flex(dim_obs_p, dim_obs_f, coords_p,  &
       coords_f, nrows, status) bind(c)
-      use iso_c_binding
-
       ! PE-local observation dimension
       INTEGER(c_int), INTENT(in) :: dim_obs_p
       ! Full observation dimension
@@ -161,8 +147,6 @@ contains
    SUBROUTINE c__PDAF_init(filtertype, subtype, stepnull, param_int, dim_pint,  &
       param_real, dim_preal, comm_model, comm_filter, comm_couple, task_id,  &
       n_modeltasks, in_filterpe, u_init_ens, in_screen, outflag) bind(c)
-      use iso_c_binding
-
       ! Type of filter
       INTEGER(c_int), INTENT(in) :: filtertype
       ! Sub-type of filter
@@ -195,7 +179,7 @@ contains
       INTEGER(c_int), INTENT(out) :: outflag
 
       ! User-supplied routine for ensemble initialization
-      procedure(c__u_init_ens_pdaf) :: u_init_ens
+      procedure(c__init_ens_pdaf) :: u_init_ens
 
       call PDAF_init(filtertype, subtype, stepnull, param_int, dim_pint,  &
          param_real, dim_preal, comm_model, comm_filter, comm_couple, task_id,  &
@@ -205,17 +189,15 @@ contains
 
    SUBROUTINE c__PDAF_init_forecast(u_next_observation, u_distribute_state,  &
       u_prepoststep, outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
       ! Provide information on next forecast
-      procedure(c__u_next_observation_pdaf) :: u_next_observation
+      procedure(c__next_observation_pdaf) :: u_next_observation
       ! Routine to distribute a state vector
-      procedure(c__u_distribute_state_pdaf) :: u_distribute_state
+      procedure(c__distribute_state_pdaf) :: u_distribute_state
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
 
       call PDAF_init_forecast(u_next_observation, u_distribute_state,  &
          u_prepoststep, outflag)
@@ -224,8 +206,6 @@ contains
 
    SUBROUTINE c__PDAF_local_weight(wtype, rtype, cradius, sradius, distance,  &
       nrows, ncols, a, var_obs, weight, verbose) bind(c)
-      use iso_c_binding
-
       ! Type of weight function
       INTEGER(c_int), INTENT(in) :: wtype
       ! Type of regulated weighting
@@ -257,8 +237,6 @@ contains
 
    SUBROUTINE c__PDAF_local_weights(wtype, cradius, sradius, dim, distance,  &
       weight, verbose) bind(c)
-      use iso_c_binding
-
       ! Type of weight function
       INTEGER(c_int), INTENT(in) :: wtype
       ! Parameter for cut-off
@@ -281,8 +259,6 @@ contains
    END SUBROUTINE c__PDAF_local_weights
 
    SUBROUTINE c__PDAF_print_filter_types(verbose) bind(c)
-      use iso_c_binding
-
       !
       INTEGER(c_int), INTENT(in) :: verbose
 
@@ -292,8 +268,6 @@ contains
    END SUBROUTINE c__PDAF_print_filter_types
 
    SUBROUTINE c__PDAF_print_DA_types(verbose) bind(c)
-      use iso_c_binding
-
       !
       INTEGER(c_int), INTENT(in) :: verbose
 
@@ -303,8 +277,6 @@ contains
    END SUBROUTINE c__PDAF_print_DA_types
 
    SUBROUTINE c__PDAF_print_info(printtype) bind(c)
-      use iso_c_binding
-
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -314,8 +286,6 @@ contains
    END SUBROUTINE c__PDAF_print_info
 
    SUBROUTINE c__PDAF_reset_forget(forget_in) bind(c)
-      use iso_c_binding
-
       ! New value of forgetting factor
       REAL(c_double), INTENT(in) :: forget_in
 
@@ -326,8 +296,6 @@ contains
 
    SUBROUTINE c__PDAF_SampleEns(dim, dim_ens, modes, svals, state, ens,  &
       verbose, flag) bind(c)
-      use iso_c_binding
-
       ! Size of state vector
       INTEGER(c_int), INTENT(in) :: dim
       ! Size of ensemble

@@ -6,8 +6,6 @@ implicit none
 
 contains
    SUBROUTINE c__PDAFlocal_set_indices(dim_l, map) bind(c)
-      use iso_c_binding
-
       ! Dimension of local state vector
       INTEGER(c_int), INTENT(in) :: dim_l
       ! Index array for mapping between local and global state vector
@@ -19,8 +17,6 @@ contains
    END SUBROUTINE c__PDAFlocal_set_indices
 
    SUBROUTINE c__PDAFlocal_set_increment_weights(dim_l, weights) bind(c)
-      use iso_c_binding
-
       ! Dimension of local state vector
       INTEGER(c_int), INTENT(in) :: dim_l
       ! Weights array

@@ -6,8 +6,6 @@ implicit none
 
 contains
    SUBROUTINE c__PDAF_iau_init_weights(type_iau, nsteps_iau) bind(c)
-      use iso_c_binding
-
       ! Type of IAU, (0) no IAU
       INTEGER(c_int), INTENT(in) :: type_iau
       ! number of time steps in IAU
@@ -19,8 +17,6 @@ contains
    END SUBROUTINE c__PDAF_iau_init_weights
 
    SUBROUTINE c__PDAF_iau_update_inc(ens_ana) bind(c)
-      use iso_c_binding
-
       ! PE-local analysis ensemble
       REAL(c_double), DIMENSION(:, :), INTENT(inout) :: ens_ana
 
@@ -31,8 +27,6 @@ contains
 
    SUBROUTINE c__PDAF_iau_add_inc_ens(step, dim_p, dim_ens_task, ens,  &
       u_collect_state, u_distribute_state) bind(c)
-      use iso_c_binding
-
       ! Time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -43,9 +37,9 @@ contains
       REAL(c_double), DIMENSION(:, :), INTENT(inout) :: ens
 
       ! Routine to collect a state vector
-      procedure(c__u_collect_state_pdaf) :: u_collect_state
+      procedure(c__collect_state_pdaf) :: u_collect_state
       ! Routine to distribute a state vector
-      procedure(c__u_distribute_state_pdaf) :: u_distribute_state
+      procedure(c__distribute_state_pdaf) :: u_distribute_state
 
       call PDAF_iau_add_inc_ens(step, dim_p, dim_ens_task, ens,  &
          u_collect_state, u_distribute_state)
@@ -53,8 +47,6 @@ contains
    END SUBROUTINE c__PDAF_iau_add_inc_ens
 
    SUBROUTINE c__PDAF_iau_update_ens(ens) bind(c)
-      use iso_c_binding
-
       ! PE-local state ensemble
       REAL(c_double), DIMENSION(:, :), INTENT(inout) :: ens
 

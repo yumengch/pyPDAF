@@ -2,8 +2,6 @@ module pdafomi_c
 implicit none
 contains
    SUBROUTINE c__PDAFomi_check_error(flag) bind(c)
-      use iso_c_binding
-
       ! Error flag
       INTEGER(c_int), INTENT(inout) :: flag
 
@@ -14,8 +12,6 @@ contains
 
    SUBROUTINE c__PDAFomi_gather_obs(i_obs, dim_obs_p, obs_p, ivar_obs_p, ocoord_p,  &
       ncoord, lradius, dim_obs_f) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -41,8 +37,6 @@ contains
    END SUBROUTINE c__PDAFomi_gather_obs
 
    SUBROUTINE c__PDAFomi_gather_obsstate(i_obs, obsstate_p, obsstate_f) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -57,8 +51,6 @@ contains
    END SUBROUTINE c__PDAFomi_gather_obsstate
 
    SUBROUTINE c__PDAFomi_get_interp_coeff_tri(gpc, oc, icoeff) bind(c)
-      use iso_c_binding
-
       ! Coordinates of grid points; dim(3,2)
       REAL(c_double), DIMENSION(:,:), INTENT(in) :: gpc
       ! Coordinates of observation; dim(2)
@@ -72,8 +64,6 @@ contains
    END SUBROUTINE c__PDAFomi_get_interp_coeff_tri
 
    SUBROUTINE c__PDAFomi_get_interp_coeff_lin1D(gpc, oc, icoeff) bind(c)
-      use iso_c_binding
-
       ! Coordinates of grid points (dim=2)
       REAL(c_double), DIMENSION(:), INTENT(in) :: gpc
       ! Coordinates of observation
@@ -88,8 +78,6 @@ contains
 
    SUBROUTINE c__PDAFomi_get_interp_coeff_lin(num_gp, n_dim, gpc, oc,  &
       icoeff) bind(c)
-      use iso_c_binding
-
       ! Length of icoeff
       INTEGER(c_int), INTENT(in) :: num_gp
       ! Number of dimensions in interpolation
@@ -108,8 +96,6 @@ contains
 
    SUBROUTINE c__PDAFomi_init_dim_obs_l_iso(i_obs, coords_l, locweight, cradius,  &
       sradius, cnt_obs_l_all) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -132,8 +118,6 @@ contains
 
    SUBROUTINE c__PDAFomi_init_dim_obs_l_noniso(i_obs, coords_l, locweight, cradius,  &
       sradius, cnt_obs_l_all) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -156,8 +140,6 @@ contains
 
    SUBROUTINE c__PDAFomi_init_dim_obs_l_noniso_locweights(i_obs, coords_l, locweights,  &
       cradius, sradius, cnt_obs_l) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -179,8 +161,6 @@ contains
    END SUBROUTINE c__PDAFomi_init_dim_obs_l_noniso_locweights
 
    SUBROUTINE c__PDAFomi_obs_op_gridpoint(i_obs, state_p, obs_f_all) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -195,8 +175,6 @@ contains
    END SUBROUTINE c__PDAFomi_obs_op_gridpoint
 
    SUBROUTINE c__PDAFomi_obs_op_gridavg(i_obs, nrows, state_p, obs_f_all) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -213,8 +191,6 @@ contains
    END SUBROUTINE c__PDAFomi_obs_op_gridavg
 
    SUBROUTINE c__PDAFomi_obs_op_interp_lin(i_obs, nrows, state_p, obs_f_all) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -231,8 +207,6 @@ contains
    END SUBROUTINE c__PDAFomi_obs_op_interp_lin
 
    SUBROUTINE c__PDAFomi_obs_op_adj_gridpoint(i_obs, obs_f_all, state_p) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -247,8 +221,6 @@ contains
    END SUBROUTINE c__PDAFomi_obs_op_adj_gridpoint
 
    SUBROUTINE c__PDAFomi_obs_op_adj_gridavg(i_obs, nrows, obs_f_all, state_p) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -265,8 +237,6 @@ contains
    END SUBROUTINE c__PDAFomi_obs_op_adj_gridavg
 
    SUBROUTINE c__PDAFomi_obs_op_adj_interp_lin(i_obs, nrows, obs_f_all, state_p) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -284,8 +254,6 @@ contains
 
    SUBROUTINE c__PDAFomi_observation_localization_weights(i_obs, ncols, a_l, weight,  &
       verbose) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -305,8 +273,6 @@ contains
    END SUBROUTINE c__PDAFomi_observation_localization_weights
 
    SUBROUTINE c__PDAFomi_set_debug_flag(debugval) bind(c)
-      use iso_c_binding
-
       ! Value for debugging flag
       INTEGER(c_int), INTENT(in) :: debugval
 
@@ -316,8 +282,6 @@ contains
    END SUBROUTINE c__PDAFomi_set_debug_flag
 
    SUBROUTINE c__PDAFomi_set_dim_obs_l(i_obs, cnt_obs_l_all, cnt_obs_l) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -333,8 +297,6 @@ contains
    END SUBROUTINE c__PDAFomi_set_dim_obs_l
 
    SUBROUTINE c__PDAFomi_set_localization(i_obs, cradius, sradius, locweight) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -352,8 +314,6 @@ contains
 
    SUBROUTINE c__PDAFomi_set_localization_noniso(i_obs, nradii, cradius, sradius,  &
       locweight, locweight_v) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -376,8 +336,6 @@ contains
 
    SUBROUTINE c__PDAFomi_set_localize_covar_iso(i_obs, dim, ncoords, coords,  &
       locweight, cradius, sradius) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -402,8 +360,6 @@ contains
 
    SUBROUTINE c__PDAFomi_set_localize_covar_noniso(i_obs, dim, ncoords, coords,  &
       locweight, cradius, sradius) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -428,8 +384,6 @@ contains
 
    SUBROUTINE c__PDAFomi_set_localize_covar_noniso_locweights(i_obs, dim, ncoords,  &
       coords, locweights, cradius, sradius) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -453,8 +407,6 @@ contains
    END SUBROUTINE c__PDAFomi_set_localize_covar_noniso_locweights
 
    SUBROUTINE c__PDAFomi_set_obs_diag(diag) bind(c)
-      use iso_c_binding
-
       ! Value for observation diagnostics mode
       INTEGER(c_int), INTENT(in) :: diag
 
@@ -464,8 +416,6 @@ contains
    END SUBROUTINE c__PDAFomi_set_obs_diag
 
    SUBROUTINE c__PDAFomi_set_domain_limits(lim_coords) bind(c)
-      use iso_c_binding
-
       ! geographic coordinate array (1: longitude, 2: latitude)
       REAL(c_double), DIMENSION(2,2), INTENT(in) :: lim_coords
 
@@ -475,8 +425,6 @@ contains
    END SUBROUTINE c__PDAFomi_set_domain_limits
 
    SUBROUTINE c__PDAFomi_get_domain_limits_unstr(npoints_p, coords_p) bind(c)
-      use iso_c_binding
-
       ! number of process-local grid points
       INTEGER(c_int), INTENT(in) :: npoints_p
       ! geographic coordinate array (row 1: longitude, 2: latitude)
@@ -489,8 +437,6 @@ contains
 
    SUBROUTINE c__PDAFomi_store_obs_l_index(i_obs, idx, id_obs_l, distance, cradius_l,  &
       sradius_l) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -513,8 +459,6 @@ contains
 
    SUBROUTINE c__PDAFomi_store_obs_l_index_vdist(i_obs, idx, id_obs_l, distance,  &
       cradius_l, sradius_l, vdist) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 

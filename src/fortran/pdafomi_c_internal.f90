@@ -7,8 +7,6 @@ contains
    END SUBROUTINE c__PDAFomi_diag_omit_by_inno
 
    SUBROUTINE c__PDAFomi_cnt_dim_obs_l(i_obs, coords_l) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -21,8 +19,6 @@ contains
    END SUBROUTINE c__PDAFomi_cnt_dim_obs_l
 
    SUBROUTINE c__PDAFomi_cnt_dim_obs_l_noniso(i_obs, coords_l) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -35,8 +31,6 @@ contains
    END SUBROUTINE c__PDAFomi_cnt_dim_obs_l_noniso
 
    SUBROUTINE c__PDAFomi_init_obsarrays_l(i_obs, coords_l, off_obs_l_all) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -52,8 +46,6 @@ contains
    END SUBROUTINE c__PDAFomi_init_obsarrays_l
 
    SUBROUTINE c__PDAFomi_init_obsarrays_l_noniso(i_obs, coords_l, off_obs_l_all) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -69,8 +61,6 @@ contains
    END SUBROUTINE c__PDAFomi_init_obsarrays_l_noniso
 
    SUBROUTINE c__PDAFomi_g2l_obs(i_obs, obs_f_all, obs_l_all) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -85,8 +75,6 @@ contains
    END SUBROUTINE c__PDAFomi_g2l_obs
 
    SUBROUTINE c__PDAFomi_init_obs_l(i_obs, obs_l_all) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -99,8 +87,6 @@ contains
    END SUBROUTINE c__PDAFomi_init_obs_l
 
    SUBROUTINE c__PDAFomi_init_obsvar_l(i_obs, meanvar_l, cnt_obs_l) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -116,8 +102,6 @@ contains
    END SUBROUTINE c__PDAFomi_init_obsvar_l
 
    SUBROUTINE c__PDAFomi_prodRinvA_l(i_obs, nobs_all, ncols, a_l, c_l, verbose) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -140,8 +124,6 @@ contains
 
    SUBROUTINE c__PDAFomi_prodRinvA_hyb_l(i_obs, nobs_all, ncols, gamma, a_l, c_l,  &
       verbose) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -165,8 +147,6 @@ contains
    END SUBROUTINE c__PDAFomi_prodRinvA_hyb_l
 
    SUBROUTINE c__PDAFomi_likelihood_l(i_obs, resid_l_all, lhood_l, verbose) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -184,8 +164,6 @@ contains
    END SUBROUTINE c__PDAFomi_likelihood_l
 
    SUBROUTINE c__PDAFomi_likelihood_hyb_l(i_obs, resid_l_all, gamma, lhood_l, verbose) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -206,8 +184,6 @@ contains
 
    SUBROUTINE c__PDAFomi_g2l_obs_internal(i_obs, obs_f_one, offset_obs_l_all,  &
       obs_l_all) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -226,8 +202,6 @@ contains
 
    SUBROUTINE c__PDAFomi_comp_dist2(i_obs, coordsa, coordsb, distance2,  &
       verbose) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -247,8 +221,6 @@ contains
 
    SUBROUTINE c__PDAFomi_check_dist2(i_obs, coordsa, coordsb, distance2, checkdist,  &
       verbose, cnt_obs) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -273,8 +245,6 @@ contains
 
    SUBROUTINE c__PDAFomi_check_dist2_noniso(i_obs, coordsa, coordsb, distance2, dists,  &
       cradius, sradius, checkdist, verbose, cnt_obs) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -306,8 +276,6 @@ contains
 
    SUBROUTINE c__PDAFomi_weights_l(verbose, nobs_l, ncols, locweight, cradius,  &
       sradius, mata, ivar_obs_l, dist_l, weight_l) bind(c)
-      use iso_c_binding
-
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: verbose
       ! Number of local observations
@@ -337,8 +305,6 @@ contains
 
    SUBROUTINE c__PDAFomi_weights_l_sgnl(verbose, nobs_l, ncols, locweight,  &
       cradius, sradius, mata, ivar_obs_l, dist_l, weight_l) bind(c)
-      use iso_c_binding
-
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: verbose
       ! Number of local observations
@@ -368,8 +334,6 @@ contains
 
    SUBROUTINE c__PDAFomi_omit_by_inno_l(i_obs, inno_l, obs_l_all, obsid, cnt_all,  &
       verbose) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -391,8 +355,6 @@ contains
    END SUBROUTINE c__PDAFomi_omit_by_inno_l
 
    SUBROUTINE c__PDAFomi_obsstats_l(screen) bind(c)
-      use iso_c_binding
-
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: screen
 
@@ -407,8 +369,6 @@ contains
    END SUBROUTINE c__PDAFomi_dealloc
 
    SUBROUTINE c__PDAFomi_ocoord_all(ncoord, oc_all) bind(c)
-      use iso_c_binding
-
       ! Number of coordinate directions
       INTEGER(c_int), INTENT(in) :: ncoord
       ! Array of observation coordinates size(ncoord, dim_obs)
@@ -421,8 +381,6 @@ contains
 
    SUBROUTINE c__PDAFomi_local_weight(wtype, rtype, cradius, sradius, distance,  &
       nrows, ncols, a, var_obs, weight, verbose) bind(c)
-      use iso_c_binding
-
       ! Type of weight function
       INTEGER(c_int), INTENT(in) :: wtype
       ! Type of regulated weighting
@@ -453,8 +411,6 @@ contains
    END SUBROUTINE c__PDAFomi_local_weight
 
    SUBROUTINE c__PDAFomi_check_dist2_loop(i_obs, coordsa, cnt_obs, mode) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -472,8 +428,6 @@ contains
    END SUBROUTINE c__PDAFomi_check_dist2_loop
 
    SUBROUTINE c__PDAFomi_check_dist2_noniso_loop(i_obs, coordsa, cnt_obs, mode) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -491,8 +445,6 @@ contains
    END SUBROUTINE c__PDAFomi_check_dist2_noniso_loop
 
    SUBROUTINE c__PDAFomi_obs_op_gatheronly(i_obs, state_p, obs_f_all) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -507,8 +459,6 @@ contains
    END SUBROUTINE c__PDAFomi_obs_op_gatheronly
 
    SUBROUTINE c__PDAFomi_obs_op_adj_gatheronly(i_obs, obs_f_all, state_p) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -523,8 +473,6 @@ contains
    END SUBROUTINE c__PDAFomi_obs_op_adj_gatheronly
 
    SUBROUTINE c__PDAFomi_init_obs_f(i_obs, dim_obs_f, obsstate_f, offset) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -541,8 +489,6 @@ contains
    END SUBROUTINE c__PDAFomi_init_obs_f
 
    SUBROUTINE c__PDAFomi_init_obsvars_f(i_obs, dim_obs_f, var_f, offset) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -559,8 +505,6 @@ contains
    END SUBROUTINE c__PDAFomi_init_obsvars_f
 
    SUBROUTINE c__PDAFomi_init_obsvar_f(i_obs, meanvar, cnt_obs) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -575,8 +519,6 @@ contains
    END SUBROUTINE c__PDAFomi_init_obsvar_f
 
    SUBROUTINE c__PDAFomi_prodRinvA(i_obs, ncols, a_p, c_p) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -593,8 +535,6 @@ contains
    END SUBROUTINE c__PDAFomi_prodRinvA
 
    SUBROUTINE c__PDAFomi_likelihood(i_obs, resid, lhood) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -609,8 +549,6 @@ contains
    END SUBROUTINE c__PDAFomi_likelihood
 
    SUBROUTINE c__PDAFomi_add_obs_error(i_obs, nobs_all, matc) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -625,8 +563,6 @@ contains
    END SUBROUTINE c__PDAFomi_add_obs_error
 
    SUBROUTINE c__PDAFomi_init_obscovar(i_obs, nobs_all, covar, isdiag) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -643,8 +579,6 @@ contains
    END SUBROUTINE c__PDAFomi_init_obscovar
 
    SUBROUTINE c__PDAFomi_init_obserr_f(i_obs, obserr_f) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -658,8 +592,6 @@ contains
 
    SUBROUTINE c__PDAFomi_get_local_ids_obs_f(dim_obs_g, lradius, oc_f, cnt_lim,  &
       id_lim, disttype, domainsize) bind(c)
-      use iso_c_binding
-
       ! Global full number of observations
       INTEGER(c_int), INTENT(in) :: dim_obs_g
       ! Localization radius (used is a constant one here)
@@ -682,8 +614,6 @@ contains
    END SUBROUTINE c__PDAFomi_get_local_ids_obs_f
 
    SUBROUTINE c__PDAFomi_limit_obs_f(i_obs, offset, obs_f_one, obs_f_lim) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -700,8 +630,6 @@ contains
    END SUBROUTINE c__PDAFomi_limit_obs_f
 
    SUBROUTINE c__PDAFomi_gather_dim_obs_f(dim_obs_p, dim_obs_f) bind(c)
-      use iso_c_binding
-
       ! PE-local observation dimension
       INTEGER(c_int), INTENT(in) :: dim_obs_p
       ! Full observation dimension
@@ -713,8 +641,6 @@ contains
    END SUBROUTINE c__PDAFomi_gather_dim_obs_f
 
    SUBROUTINE c__PDAFomi_gather_obs_f_flex(dim_obs_p, obs_p, obs_f, status) bind(c)
-      use iso_c_binding
-
       ! PE-local observation dimension
       INTEGER(c_int), INTENT(in) :: dim_obs_p
       ! PE-local vector
@@ -731,8 +657,6 @@ contains
 
    SUBROUTINE c__PDAFomi_gather_obs_f2_flex(dim_obs_p, coords_p, coords_f,  &
       nrows, status) bind(c)
-      use iso_c_binding
-
       ! PE-local observation dimension
       INTEGER(c_int), INTENT(in) :: dim_obs_p
       ! PE-local array
@@ -750,8 +674,6 @@ contains
    END SUBROUTINE c__PDAFomi_gather_obs_f2_flex
 
    SUBROUTINE c__PDAFomi_omit_by_inno(i_obs, inno_f, obs_f_all, obsid, cnt_all) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -770,8 +692,6 @@ contains
    END SUBROUTINE c__PDAFomi_omit_by_inno
 
    SUBROUTINE c__PDAFomi_obsstats(screen) bind(c)
-      use iso_c_binding
-
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: screen
 

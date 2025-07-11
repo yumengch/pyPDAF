@@ -1,4 +1,4 @@
-module U_PDAF_interface_c_binding
+module pdaf_c_cb_interface
 implicit none
 
 abstract interface
@@ -10,7 +10,7 @@ abstract interface
       ! Dimension of observation vector
       INTEGER(c_int), INTENT(in) :: dim_obs_p
       ! Matrix to that observation covariance R is added
-      REAL(c_double), INTENT(inout) :: C_p(dim_obs_p,dim_obs_p)
+      REAL(c_double), DIMENSION(dim_obs_p,dim_obs_p), INTENT(inout) :: C_p
    END SUBROUTINE c__add_obs_err_pdaf
 
    SUBROUTINE c__init_ens_pdaf(filtertype, dim_p, dim_ens, state_p, uinv, ens_p, flag) bind(c)
@@ -29,7 +29,7 @@ abstract interface
       !
       ! One can still make use of this array within
       ! this function.
-      real(c_double), intent(inout) :: state_p(dim_p)
+      real(c_double), DIMENSION(dim_p), intent(inout) :: state_p
       ! This array is the inverse of matrix
       ! formed by right singular vectors of error
       ! covariance matrix of ensemble perturbations.
@@ -47,13 +47,12 @@ abstract interface
       ! - (dim_ens, dim_ens) for (L)ETKF, (L)NETF, (L)KNETF, and SEEK
       ! - (dim_ens - 1, dim_ens - 1) for (L)SEIK, (L)ESTKF, and 3DVar using ensemble
       ! - (1, 1) for (L)EnKF, particle filters and gen_obs
-      real(c_double), intent(inout) :: uinv(:, :)
+      real(c_double), DIMENSION(:,:), intent(inout) :: uinv
       ! PE-local ensemble
-      real(c_double), intent(inout) :: ens_p(dim_p, dim_ens)
+      real(c_double), DIMENSION(dim_p, dim_ens), intent(inout) :: ens_p
       ! pdaf status flag
       integer(c_int), intent(inout) :: flag
    end subroutine c__init_ens_pdaf
-
 
    subroutine c__next_observation_pdaf(stepnow, nsteps, doexit, time) bind(c)
       use iso_c_binding, only: c_double, c_int
@@ -71,14 +70,13 @@ abstract interface
       real(c_double), intent(out) :: time
    end subroutine c__next_observation_pdaf
 
-
    subroutine c__collect_state_pdaf(dim_p, state_p) bind(c)
       use iso_c_binding, only: c_double, c_int
       implicit none
       ! pe-local state dimension
       integer(c_int), intent(in) :: dim_p
       ! local state vector
-      real(c_double), intent(inout) :: state_p(dim_p)
+      real(c_double), DIMENSION(dim_p), intent(inout) :: state_p
    end subroutine c__collect_state_pdaf
 
    subroutine c__distribute_state_pdaf(dim_p, state_p) bind(c)
@@ -87,7 +85,7 @@ abstract interface
       ! PE-local state dimension
       integer(c_int), intent(in) :: dim_p
       ! PE-local state vector
-      real(c_double), intent(inout) :: state_p(dim_p)
+      real(c_double), DIMENSION(dim_p), intent(inout) :: state_p
    end subroutine c__distribute_state_pdaf
 
    subroutine c__prepoststep_pdaf(step, dim_p, dim_ens, dim_ens_l, &
@@ -110,18 +108,17 @@ abstract interface
       ! (the array 'state_p' is generally not
       ! initialised in the case of ESTKF/ETKF/EnKF/SEIK,
       ! so it can be used freely here.)
-      real(c_double), intent(inout) :: state_p(dim_p)
+      real(c_double), DIMENSION(dim_p), intent(inout) :: state_p
       ! Inverse of the transformation matrix in ETKF and ESKTF;
       ! inverse of matrix formed by right singular vectors of error
       ! covariance matrix of ensemble perturbations in SEIK/SEEK.
       ! not used in EnKF.
-      real(c_double), intent(inout) :: uinv(dim_ens-1, dim_ens-1)
+      real(c_double), DIMENSION(dim_ens-1, dim_ens-1), intent(inout) :: uinv
       ! PE-local ensemble
-      real(c_double), intent(inout) :: ens_p(dim_p, dim_ens)
+      real(c_double), DIMENSION(dim_p, dim_ens), intent(inout) :: ens_p
       ! pdaf status flag
       integer(c_int), intent(in) :: flag
    end subroutine c__prepoststep_pdaf
-
 
    subroutine c__init_dim_obs_pdaf(step, dim_obs_p) bind(c)
       use iso_c_binding, only: c_double, c_int
@@ -149,7 +146,7 @@ abstract interface
       ! Size of the observation vector
       integer(c_int), intent(in) :: dim_obs_p
       ! Vector of observations
-      real(c_double), intent(out), dimension(dim_obs_p) :: observation_p
+      real(c_double), DIMENSION(dim_obs_p), intent(out) :: observation_p
    END SUBROUTINE c__init_obs_pdaf
 
    SUBROUTINE c__init_obs_covar_pdaf(step, dim_obs, dim_obs_p, covar, obs_p, isdiag) bind(c)
@@ -180,6 +177,17 @@ abstract interface
       ! Mean observation error variance
       real(c_double), intent(out) :: meanvar
    END SUBROUTINE c__init_obsvar_pdaf
+
+   SUBROUTINE c__init_obsvars_pdaf(step, dim_obs_f, var_f) bind(c)
+      use iso_c_binding, only: c_double, c_int
+      IMPLICIT NONE
+      ! Current time step
+      INTEGER(c_int), INTENT(in) :: step
+      ! Dimension of full observation vector
+      INTEGER(c_int), INTENT(in) :: dim_obs_f
+      ! vector of observation error variances
+      REAL(c_double), DIMENSION(dim_obs_f), INTENT(out) :: var_f
+   END SUBROUTINE c__init_obsvars_pdaf
 
    SUBROUTINE c__prodRinvA_pdaf(step, dim_obs_p, rank, obs_p, A_p, C_p) bind(c)
       use iso_c_binding, only: c_double, c_int
@@ -265,9 +273,9 @@ abstract interface
       ! local state dimension
       integer(c_int), intent(in) :: dim_l
       ! pe-local full state vector
-      real(c_double), intent(in)    :: state_p(dim_p)
+      real(c_double), DIMENSION(dim_p) intent(in)    :: state_p
       ! state vector on local analysis domain
-      real(c_double), intent(out)   :: state_l(dim_l)
+      real(c_double), DIMENSION(dim_l) intent(out)   :: state_l
    end subroutine c__g2l_state_pdaf
 
    subroutine c__init_dim_l_pdaf(step, domain_p, dim_l) bind(c)
@@ -352,9 +360,9 @@ abstract interface
       ! Full dimension of observation vector
       INTEGER(c_int), INTENT(in) :: dim_obs_f
       ! Full observation vector
-      REAL(c_double), INTENT(in)    :: obs_f(dim_obs_f)
+      REAL(c_double), DIMENSION(dim_obs_f), INTENT(in)    :: obs_f
       ! Full observation error stddev
-      REAL(c_double), INTENT(out)   :: obserr_f(dim_obs_f)
+      REAL(c_double), DIMENSION(dim_obs_f), INTENT(out)   :: obserr_f
    END SUBROUTINE c__init_obserr_f_pdaf
 
    subroutine c__l2g_state_pdaf(step, domain_p, dim_l, state_l, dim_p, state_p) bind(c)
@@ -369,11 +377,10 @@ abstract interface
       ! pe-local full state dimension
       integer(c_int), intent(in) :: dim_p
       ! state vector on local analysis domain
-      real(c_double), intent(in)    :: state_l(dim_l)
+      real(c_double), DIMENSION(dim_l), intent(in)    :: state_l
       ! pe-local full state vector
-      real(c_double), intent(inout) :: state_p(dim_p)
+      real(c_double), DIMENSION(dim_p), intent(inout) :: state_p
    end subroutine c__l2g_state_pdaf
-
 
    SUBROUTINE c__prodRinvA_l_pdaf(domain_p, step, dim_obs_l, rank, obs_l, A_l, C_l) bind(c)
       use iso_c_binding, only: c_double, c_int
@@ -403,11 +410,25 @@ abstract interface
       ! number of observations
       integer(c_int), intent(in) :: dim_obs
       ! pe local part of matrix hp
-      real(c_double), intent(inout) :: hp_p(dim_obs, dim_p)
+      real(c_double), DIMENSION(dim_obs, dim_p), intent(inout) :: hp_p
       ! matrix hph
-      real(c_double), intent(inout) :: hph(dim_obs, dim_obs)
+      real(c_double), DIMENSION(dim_obs, dim_obs), intent(inout) :: hph
    end subroutine c__localize_covar_pdaf
 
+   SUBROUTINE c__localize_covar_serial_pdaf(iobs, dim_p, dim_obs, HP_p, HXY_p) bind(c)
+      use iso_c_binding, only: c_int, c_double
+      IMPLICIT NONE
+      ! Index of current observation
+      INTEGER(c_int), INTENT(in) :: iobs
+      ! Process-local state dimension
+      INTEGER(c_int), INTENT(in) :: dim_p
+      ! Number of observations
+      INTEGER(c_int), INTENT(in) :: dim_obs
+      ! Process-local part of matrix HP for observation iobs
+      REAL(c_double), DIMENSION(dim_p), INTENT(inout) :: HP_p
+      ! Process-local part of matrix HX(HX_all) for full observations
+      REAL(c_double), DIMENSION(dim_obs), INTENT(inout) :: HXY_p
+   END SUBROUTINE c__localize_covar_serial_pdaf
 
 
    SUBROUTINE c__likelihood_pdaf(step, dim_obs_p, obs_p, resid, likely) bind(c)
@@ -442,8 +463,6 @@ abstract interface
       real(c_double), intent(out) :: likely_l
    END SUBROUTINE c__likelihood_l_pdaf
 
-
-
    SUBROUTINE c__get_obs_f_pdaf(step, dim_obs_f, observation_f) bind(c)
       use iso_c_binding, only: c_double, c_int
       implicit none
@@ -467,11 +486,11 @@ abstract interface
       ! PE-local dimension of control vector
       INTEGER(c_int), INTENT(in) :: dim_cv_ens_p
       ! PE-local ensemble
-      REAL(c_double), INTENT(in) :: ens_p(dim_p, dim_ens)
+      REAL(c_double), DIMENSION(dim_p, dim_ens), INTENT(in) :: ens_p
       ! PE-local input vector
-      REAL(c_double), INTENT(in) :: Vcv_p(dim_p)
+      REAL(c_double), DIMENSION(dim_p), INTENT(in) :: Vcv_p
       ! PE-local result vector
-      REAL(c_double), INTENT(inout) :: cv_p(dim_cv_ens_p)
+      REAL(c_double), DIMENSION(dim_cv_ens_p), INTENT(inout) :: cv_p
    END SUBROUTINE c__cvt_adj_ens_pdaf
 
    SUBROUTINE c__cvt_adj_pdaf(iter, dim_p, dim_cvec, Vcv_p, cv_p) bind(c)
@@ -484,9 +503,9 @@ abstract interface
       ! Dimension of control vector
       INTEGER(c_int), INTENT(in) :: dim_cvec
       ! PE-local result vector (state vector increment)
-      REAL(c_double), INTENT(in) :: Vcv_p(dim_p)
+      REAL(c_double), DIMENSION(dim_p), INTENT(in) :: Vcv_p
       ! PE-local control vector
-      REAL(c_double), INTENT(inout) :: cv_p(dim_cvec)
+      REAL(c_double), DIMENSION(dim_cvec), INTENT(inout) :: cv_p
    END SUBROUTINE c__cvt_adj_pdaf
 
    SUBROUTINE c__cvt_pdaf(iter, dim_p, dim_cvec, cv_p, Vv_p) bind(c)
@@ -499,9 +518,9 @@ abstract interface
       ! Dimension of control vector
       INTEGER(c_int), INTENT(in) :: dim_cvec
       ! PE-local control vector
-      REAL(c_double), INTENT(in) :: cv_p(dim_cvec)
+      REAL(c_double), DIMENSION(dim_cvec), INTENT(in) :: cv_p
       ! PE-local result vector (state vector increment)
-      REAL(c_double), INTENT(inout) :: Vv_p(dim_p)
+      REAL(c_double), DIMENSION(dim_p), INTENT(inout) :: Vv_p
    END SUBROUTINE c__cvt_pdaf
 
    SUBROUTINE c__cvt_ens_pdaf(iter, dim_p, dim_ens, dim_cvec_ens, ens_p, v_p, Vv_p) bind(c)
@@ -516,11 +535,11 @@ abstract interface
       ! Dimension of control vector
       INTEGER(c_int), INTENT(in) :: dim_cvec_ens
       ! PE-local ensemble
-      REAL(c_double), INTENT(in) :: ens_p(dim_p, dim_ens)
+      REAL(c_double), DIMENSION(dim_p, dim_ens), INTENT(in) :: ens_p
       ! PE-local control vector
-      REAL(c_double), INTENT(in) :: v_p(dim_cvec_ens)
+      REAL(c_double), DIMENSION(dim_cvec_ens), INTENT(in) :: v_p
       ! PE-local state increment
-      REAL(c_double), INTENT(inout) :: Vv_p(dim_p)
+      REAL(c_double), DIMENSION(dim_p), INTENT(inout) :: Vv_p
    END SUBROUTINE c__cvt_ens_pdaf
 
    SUBROUTINE c__obs_op_adj_pdaf(step, dim_p, dim_obs_p, m_state_p, state_p) bind(c)
@@ -533,9 +552,9 @@ abstract interface
       ! Dimension of observed state
       INTEGER(c_int), INTENT(in) :: dim_obs_p
       ! PE-local observed state
-      REAL(c_double), INTENT(in) :: m_state_p(dim_obs_p)
+      REAL(c_double), DIMENSION(dim_obs_p), INTENT(in) :: m_state_p
       ! PE-local model state
-      REAL(c_double), INTENT(out) :: state_p(dim_p)
+      REAL(c_double), DIMENSION(dim_p), INTENT(out) :: state_p
    END SUBROUTINE c__obs_op_adj_pdaf
 
    SUBROUTINE c__obs_op_lin_pdaf(step, dim_p, dim_obs_p, state_p, m_state_p) bind(c)
@@ -548,9 +567,9 @@ abstract interface
       ! Dimension of observed state
       INTEGER(c_int), INTENT(in) :: dim_obs_p
       ! PE-local model state
-      REAL(c_double), INTENT(in) :: state_p(dim_p)
+      REAL(c_double), DIMENSION(dim_p), INTENT(in) :: state_p
       ! PE-local observed state
-      REAL(c_double), INTENT(out) :: m_state_p(dim_obs_p)
+      REAL(c_double), DIMENSION(dim_obs_p), INTENT(out) :: m_state_p
    END SUBROUTINE c__obs_op_lin_pdaf
 
    SUBROUTINE c__dist_stateinc_pdaf(dim_p, state_inc_p, first, steps) bind(c)
@@ -559,7 +578,7 @@ abstract interface
       ! Dimension of PE-local state
       INTEGER(c_int), INTENT(in) :: dim_p
       ! PE-local increment of state vector
-      REAL(c_double), INTENT(in) :: state_inc_p(dim_p)
+      REAL(c_double), DIMENSION(dim_p), INTENT(in) :: state_inc_p
       ! Flag for first call of each forecast
       INTEGER(c_int), INTENT(in) :: first
       ! number of time steps in forecast
@@ -576,15 +595,14 @@ abstract interface
       ! Number of local observations at current time step (i.e. the size of the local observation vector)
       integer(c_int), intent(in) :: dim_obs_l
       ! Local vector of observations
-      real(c_double), intent(in) :: obs_l(dim_obs_l)
+      real(c_double), dimension(dim_obs_l), intent(in) :: obs_l
       ! Hybrid weight provided by PDAF
       real(c_double), intent(in) :: gamma
       ! Input vector holding the local residual
-      real(c_double), intent(in) :: resid_l(dim_obs_l)
+      real(c_double), dimension(dim_obs_l), intent(in) :: resid_l
       ! Output value of the local likelihood
       real(c_double), intent(out) :: likely_l
    END SUBROUTINE c__likelihood_hyb_l_pdaf
-
 
    SUBROUTINE c__prodRinvA_hyb_l_pdaf(domain_p, step, dim_obs_l, dim_ens, obs_l, gamma, A_l, C_l) bind(c)
       use iso_c_binding, only: c_double, c_int
@@ -598,14 +616,14 @@ abstract interface
       ! Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
       integer(c_int), intent(in) :: dim_ens
       ! Local vector of observations
-      real(c_double), intent(in) :: obs_l(dim_obs_l)
+      real(c_double), dimension(dim_obs_l), intent(in) :: obs_l
       ! Hybrid weight provided by PDAF
       real(c_double), intent(in) :: gamma
       ! Input matrix provided by PDAF
-      real(c_double), intent(in) :: A_l(dim_obs_l, dim_ens)
+      real(c_double), dimension(dim_obs_l, dim_ens), intent(in) :: A_l
       ! Output matrix
-      real(c_double), intent(out) :: C_l(dim_obs_l, dim_ens)
+      real(c_double), dimension(dim_obs_l, dim_ens), intent(out) :: C_l
    END SUBROUTINE c__prodRinvA_hyb_l_pdaf
 end interface
 
-end module U_PDAF_interface_c_binding
+end module pdaf_c_cb_interface

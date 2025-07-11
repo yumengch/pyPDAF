@@ -5,8 +5,6 @@ implicit none
 
 contains
    SUBROUTINE c__PDAF_diag_ensmean(dim, dim_ens, state, ens, status) bind(c)
-      use iso_c_binding
-
       ! state dimension
       INTEGER(c_int), INTENT(in) :: dim
       ! Ensemble size
@@ -25,8 +23,6 @@ contains
 
    SUBROUTINE c__PDAF_diag_stddev_nompi(dim, dim_ens, state, ens, stddev,  &
       do_mean, status) bind(c)
-      use iso_c_binding
-
       ! state dimension
       INTEGER(c_int), INTENT(in) :: dim
       ! Ensemble size
@@ -50,8 +46,6 @@ contains
 
    SUBROUTINE c__PDAF_diag_stddev(dim_p, dim_ens, state_p, ens_p, stddev_g,  &
       do_mean, comm_filter, status) bind(c)
-      use iso_c_binding
-
       ! state dimension
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Ensemble size
@@ -77,8 +71,6 @@ contains
 
    SUBROUTINE c__PDAF_diag_variance_nompi(dim, dim_ens, state, ens, variance,  &
       stddev, do_mean, do_stddev, status) bind(c)
-      use iso_c_binding
-
       ! state dimension
       INTEGER(c_int), INTENT(in) :: dim
       ! Ensemble size
@@ -106,8 +98,6 @@ contains
 
    SUBROUTINE c__PDAF_diag_variance(dim_p, dim_ens, state_p, ens_p, variance_p,  &
       stddev_g, do_mean, do_stddev, comm_filter, status) bind(c)
-      use iso_c_binding
-
       ! state dimension
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Ensemble size
@@ -137,8 +127,6 @@ contains
 
    SUBROUTINE c__PDAF_diag_rmsd_nompi(dim_p, statea_p, stateb_p, rmsd_p,  &
       status) bind(c)
-      use iso_c_binding
-
       ! state dimension
       INTEGER(c_int), INTENT(in) :: dim_p
       ! State vector A
@@ -157,8 +145,6 @@ contains
 
    SUBROUTINE c__PDAF_diag_rmsd(dim_p, statea_p, stateb_p, rmsd_g, comm_filter,  &
       status) bind(c)
-      use iso_c_binding
-
       ! state dimension
       INTEGER(c_int), INTENT(in) :: dim_p
       ! State vector A
@@ -179,8 +165,6 @@ contains
 
    SUBROUTINE c__PDAF_diag_crps(dim_p, dim_ens, element, oens, obs, crps, reli,  &
       pot_crps, uncert, status) bind(c)
-      use iso_c_binding
-
       ! PE-local state dimension
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Ensemble size
@@ -211,8 +195,6 @@ contains
    SUBROUTINE c__PDAF_diag_crps_mpi(dim_p, dim_ens, element, oens, obs,  &
       comm_filter, mype_filter, npes_filter, crps, reli, pot_crps, uncert,  &
       status) bind(c)
-      use iso_c_binding
-
       ! PE-local state dimension
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Ensemble size
@@ -248,8 +230,6 @@ contains
 
    SUBROUTINE c__PDAF_diag_CRPS_nompi(dim, dim_ens, element, oens, obs, crps,  &
       reli, resol, uncert, status) bind(c)
-      use iso_c_binding
-
       ! PE-local state dimension
       INTEGER(c_int), INTENT(in) :: dim
       ! Ensemble size
@@ -278,8 +258,6 @@ contains
    END SUBROUTINE c__PDAF_diag_CRPS_nompi
 
    SUBROUTINE c__PDAF_diag_effsample(dim_sample, weights, n_eff) bind(c)
-      use iso_c_binding
-
       ! Sample size
       INTEGER(c_int), INTENT(in) :: dim_sample
       ! Weights of the samples
@@ -294,8 +272,6 @@ contains
 
    SUBROUTINE c__PDAF_diag_ensstats(dim, dim_ens, element, state, ens,  &
       skewness, kurtosis, status) bind(c)
-      use iso_c_binding
-
       ! PE-local state dimension
       INTEGER(c_int), INTENT(in) :: dim
       ! Ensemble size
@@ -321,8 +297,6 @@ contains
 
    SUBROUTINE c__PDAF_diag_compute_moments(dim_p, dim_ens, ens, kmax, moments,  &
       bias) bind(c)
-      use iso_c_binding
-
       ! local size of the state
       INTEGER(c_int), INTENT(in) :: dim_p
       ! number of ensemble members/samples
@@ -343,8 +317,6 @@ contains
 
    SUBROUTINE c__PDAF_diag_histogram(ncall, dim, dim_ens, element, state, ens,  &
       hist, delta, status) bind(c)
-      use iso_c_binding
-
       ! Number of calls to routine
       INTEGER(c_int), INTENT(in) :: ncall
       ! State dimension
@@ -372,8 +344,6 @@ contains
 
    SUBROUTINE c__PDAF_diag_reliability_budget(n_times, dim_ens, dim_p, ens_p,  &
       obsvar, obs_p, budget, bias_2) bind(c)
-      use iso_c_binding
-
       ! Number of time steps
       INTEGER(c_int), INTENT(in) :: n_times
       ! Number of ensemble members

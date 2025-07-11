@@ -11,29 +11,27 @@ contains
       distribute_state_pdaf, init_dim_obs_f_pdaf, obs_op_f_pdaf,  &
       prepoststep_pdaf, init_n_domains_pdaf, init_dim_l_pdaf,  &
       init_dim_obs_l_pdaf, next_observation_pdaf, outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf_pdaf) :: collect_state_pdaf
+      procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf_pdaf) :: distribute_state_pdaf
+      procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
-      procedure(c__obs_op_f_pdaf_pdaf) :: obs_op_f_pdaf
+      procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf_pdaf) :: prepoststep_pdaf
+      procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide number of local analysis domains
-      procedure(c__init_n_domains_pdaf_pdaf) :: init_n_domains_pdaf
+      procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
-      procedure(c__init_dim_l_pdaf_pdaf) :: init_dim_l_pdaf
+      procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize local dimimension of obs. vector
-      procedure(c__init_dim_obs_l_pdaf_pdaf) :: init_dim_obs_l_pdaf
+      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
       ! Provide time step, time and dimension of next observation
-      procedure(c__next_observation_pdaf_pdaf) :: next_observation_pdaf
+      procedure(c__next_observation_pdaf) :: next_observation_pdaf
 
       call PDAFlocalomi_assimilate(collect_state_pdaf, distribute_state_pdaf,  &
          init_dim_obs_f_pdaf, obs_op_f_pdaf, prepoststep_pdaf,  &
@@ -47,31 +45,29 @@ contains
       prepoststep_pdaf, init_n_domains_pdaf, init_dim_l_pdaf,  &
       init_dim_obs_l_pdafomi, prodrinva_l_pdafomi, next_observation_pdaf,  &
       outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf_pdaf) :: collect_state_pdaf
+      procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf_pdaf) :: distribute_state_pdaf
+      procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_pdafomi_pdaf) :: init_dim_obs_pdafomi
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
       ! Full observation operator
-      procedure(c__obs_op_pdafomi_pdaf) :: obs_op_pdafomi
+      procedure(c__obs_op_pdaf) :: obs_op_pdafomi
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf_pdaf) :: prepoststep_pdaf
+      procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide number of local analysis domains
-      procedure(c__init_n_domains_pdaf_pdaf) :: init_n_domains_pdaf
+      procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
-      procedure(c__init_dim_l_pdaf_pdaf) :: init_dim_l_pdaf
+      procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize local dimimension of obs. vector
-      procedure(c__init_dim_obs_l_pdafomi_pdaf) :: init_dim_obs_l_pdafomi
+      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdafomi
       ! Provide product of inverse of R with matrix A
-      procedure(c__prodrinva_l_pdafomi_pdaf) :: prodrinva_l_pdafomi
+      procedure(c__prodrinva_l_pdaf) :: prodrinva_l_pdafomi
       ! Provide time step, time and dimension of next observation
-      procedure(c__next_observation_pdaf_pdaf) :: next_observation_pdaf
+      procedure(c__next_observation_pdaf) :: next_observation_pdaf
 
       call PDAFlocalomi_assimilate_nondiagR(collect_state_pdaf,  &
          distribute_state_pdaf, init_dim_obs_pdafomi, obs_op_pdafomi,  &
@@ -86,31 +82,29 @@ contains
       prepoststep_pdaf, init_n_domains_pdaf, init_dim_l_pdaf,  &
       init_dim_obs_l_pdafomi, likelihood_l_pdafomi, next_observation_pdaf,  &
       outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf_pdaf) :: collect_state_pdaf
+      procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf_pdaf) :: distribute_state_pdaf
+      procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_pdafomi_pdaf) :: init_dim_obs_pdafomi
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
       ! Full observation operator
-      procedure(c__obs_op_pdafomi_pdaf) :: obs_op_pdafomi
+      procedure(c__obs_op_pdaf) :: obs_op_pdafomi
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf_pdaf) :: prepoststep_pdaf
+      procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide number of local analysis domains
-      procedure(c__init_n_domains_pdaf_pdaf) :: init_n_domains_pdaf
+      procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
-      procedure(c__init_dim_l_pdaf_pdaf) :: init_dim_l_pdaf
+      procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize local dimimension of obs. vector
-      procedure(c__init_dim_obs_l_pdafomi_pdaf) :: init_dim_obs_l_pdafomi
+      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdafomi
       ! Compute likelihood and apply localization
-      procedure(c__likelihood_l_pdafomi_pdaf) :: likelihood_l_pdafomi
+      procedure(c__likelihood_l_pdaf) :: likelihood_l_pdafomi
       ! Provide time step, time and dimension of next observation
-      procedure(c__next_observation_pdaf_pdaf) :: next_observation_pdaf
+      procedure(c__next_observation_pdaf) :: next_observation_pdaf
 
       call PDAFlocalomi_assimilate_lnetf_nondiagR(collect_state_pdaf,  &
          distribute_state_pdaf, init_dim_obs_pdafomi, obs_op_pdafomi,  &
@@ -126,37 +120,35 @@ contains
       init_dim_obs_l_pdafomi, prodrinva_l_pdafomi, prodrinva_hyb_l_pdafomi,  &
       likelihood_l_pdafomi, likelihood_hyb_l_pdafomi, next_observation_pdaf,  &
       outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf_pdaf) :: collect_state_pdaf
+      procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf_pdaf) :: distribute_state_pdaf
+      procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_pdafomi_pdaf) :: init_dim_obs_pdafomi
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
       ! Full observation operator
-      procedure(c__obs_op_pdafomi_pdaf) :: obs_op_pdafomi
+      procedure(c__obs_op_pdaf) :: obs_op_pdafomi
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf_pdaf) :: prepoststep_pdaf
+      procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide number of local analysis domains
-      procedure(c__init_n_domains_pdaf_pdaf) :: init_n_domains_pdaf
+      procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
-      procedure(c__init_dim_l_pdaf_pdaf) :: init_dim_l_pdaf
+      procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize local dimimension of obs. vector
-      procedure(c__init_dim_obs_l_pdafomi_pdaf) :: init_dim_obs_l_pdafomi
+      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdafomi
       ! Provide product R^-1 A on local analysis domain
-      procedure(c__prodrinva_l_pdafomi_pdaf) :: prodrinva_l_pdafomi
+      procedure(c__prodrinva_l_pdaf) :: prodrinva_l_pdafomi
       ! Product R^-1 A on local analysis domain with hybrid weight
-      procedure(c__prodrinva_hyb_l_pdafomi_pdaf) :: prodrinva_hyb_l_pdafomi
+      procedure(c__prodrinva_hyb_l_pdaf) :: prodrinva_hyb_l_pdafomi
       ! Compute likelihood and apply localization
-      procedure(c__likelihood_l_pdafomi_pdaf) :: likelihood_l_pdafomi
+      procedure(c__likelihood_l_pdaf) :: likelihood_l_pdafomi
       ! Compute likelihood and apply localization with tempering
-      procedure(c__likelihood_hyb_l_pdafomi_pdaf) :: likelihood_hyb_l_pdafomi
+      procedure(c__likelihood_hyb_l_pdaf) :: likelihood_hyb_l_pdafomi
       ! Provide time step, time and dimension of next observation
-      procedure(c__next_observation_pdaf_pdaf) :: next_observation_pdaf
+      procedure(c__next_observation_pdaf) :: next_observation_pdaf
 
       call PDAFlocalomi_assimilate_lknetf_nondiagR(collect_state_pdaf,  &
          distribute_state_pdaf, init_dim_obs_pdafomi, obs_op_pdafomi,  &
@@ -172,37 +164,35 @@ contains
       cvt_adj_ens_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf, init_n_domains_pdaf,  &
       init_dim_l_pdaf, init_dim_obs_l_pdaf, prepoststep_pdaf,  &
       next_observation_pdaf, outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf_pdaf) :: collect_state_pdaf
+      procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf_pdaf) :: distribute_state_pdaf
+      procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
-      procedure(c__obs_op_f_pdaf_pdaf) :: obs_op_f_pdaf
+      procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
       ! Apply control vector transform matrix to control vector
-      procedure(c__cvt_ens_pdaf_pdaf) :: cvt_ens_pdaf
+      procedure(c__cvt_ens_pdaf) :: cvt_ens_pdaf
       ! Apply adjoint control vector transform matrix
-      procedure(c__cvt_adj_ens_pdaf_pdaf) :: cvt_adj_ens_pdaf
+      procedure(c__cvt_adj_ens_pdaf) :: cvt_adj_ens_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf_pdaf) :: obs_op_lin_pdaf
+      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdaf
       ! Adjoint observation operator
-      procedure(c__obs_op_adj_pdaf_pdaf) :: obs_op_adj_pdaf
+      procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! Provide number of local analysis domains
-      procedure(c__init_n_domains_pdaf_pdaf) :: init_n_domains_pdaf
+      procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
-      procedure(c__init_dim_l_pdaf_pdaf) :: init_dim_l_pdaf
+      procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize local dimimension of obs. vector
-      procedure(c__init_dim_obs_l_pdaf_pdaf) :: init_dim_obs_l_pdaf
+      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf_pdaf) :: prepoststep_pdaf
+      procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide time step, time and dimension of next observation
-      procedure(c__next_observation_pdaf_pdaf) :: next_observation_pdaf
+      procedure(c__next_observation_pdaf) :: next_observation_pdaf
 
       call PDAFlocalomi_assimilate_en3dvar_lestkf(collect_state_pdaf,  &
          distribute_state_pdaf, init_dim_obs_f_pdaf, obs_op_f_pdaf,  &
@@ -218,41 +208,39 @@ contains
       obs_op_adj_pdaf, init_n_domains_pdaf, init_dim_l_pdaf,  &
       init_dim_obs_l_pdaf, prepoststep_pdaf, next_observation_pdaf,  &
       outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf_pdaf) :: collect_state_pdaf
+      procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf_pdaf) :: distribute_state_pdaf
+      procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
-      procedure(c__obs_op_f_pdaf_pdaf) :: obs_op_f_pdaf
+      procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
       ! Apply control vector transform matrix to control vector
-      procedure(c__cvt_ens_pdaf_pdaf) :: cvt_ens_pdaf
+      procedure(c__cvt_ens_pdaf) :: cvt_ens_pdaf
       ! Apply adjoint control vector transform matrix
-      procedure(c__cvt_adj_ens_pdaf_pdaf) :: cvt_adj_ens_pdaf
+      procedure(c__cvt_adj_ens_pdaf) :: cvt_adj_ens_pdaf
       ! Apply control vector transform matrix to control vector
-      procedure(c__cvt_pdaf_pdaf) :: cvt_pdaf
+      procedure(c__cvt_pdaf) :: cvt_pdaf
       ! Apply adjoint control vector transform matrix
-      procedure(c__cvt_adj_pdaf_pdaf) :: cvt_adj_pdaf
+      procedure(c__cvt_adj_pdaf) :: cvt_adj_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf_pdaf) :: obs_op_lin_pdaf
+      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdaf
       ! Adjoint observation operator
-      procedure(c__obs_op_adj_pdaf_pdaf) :: obs_op_adj_pdaf
+      procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! Provide number of local analysis domains
-      procedure(c__init_n_domains_pdaf_pdaf) :: init_n_domains_pdaf
+      procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
-      procedure(c__init_dim_l_pdaf_pdaf) :: init_dim_l_pdaf
+      procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize local dimimension of obs. vector
-      procedure(c__init_dim_obs_l_pdaf_pdaf) :: init_dim_obs_l_pdaf
+      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf_pdaf) :: prepoststep_pdaf
+      procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide time step, time and dimension of next observation
-      procedure(c__next_observation_pdaf_pdaf) :: next_observation_pdaf
+      procedure(c__next_observation_pdaf) :: next_observation_pdaf
 
       call PDAFlocalomi_assimilate_hyb3dvar_lestkf(collect_state_pdaf,  &
          distribute_state_pdaf, init_dim_obs_f_pdaf, obs_op_f_pdaf,  &
@@ -269,41 +257,39 @@ contains
       obs_op_lin_pdafomi, obs_op_adj_pdafomi, prodrinva_l_pdafomi,  &
       init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdafomi,  &
       prepoststep_pdaf, next_observation_pdaf, outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf_pdaf) :: collect_state_pdaf
+      procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf_pdaf) :: distribute_state_pdaf
+      procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_pdafomi_pdaf) :: init_dim_obs_pdafomi
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
       ! Full observation operator
-      procedure(c__obs_op_pdafomi_pdaf) :: obs_op_pdafomi
+      procedure(c__obs_op_pdaf) :: obs_op_pdafomi
       ! Provide product R^-1 A
-      procedure(c__prodrinva_pdafomi_pdaf) :: prodrinva_pdafomi
+      procedure(c__prodrinva_pdaf) :: prodrinva_pdafomi
       ! Apply control vector transform matrix to control vector
-      procedure(c__cvt_ens_pdaf_pdaf) :: cvt_ens_pdaf
+      procedure(c__cvt_ens_pdaf) :: cvt_ens_pdaf
       ! Apply adjoint control vector transform matrix
-      procedure(c__cvt_adj_ens_pdaf_pdaf) :: cvt_adj_ens_pdaf
+      procedure(c__cvt_adj_ens_pdaf) :: cvt_adj_ens_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdafomi_pdaf) :: obs_op_lin_pdafomi
+      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdafomi
       ! Adjoint observation operator
-      procedure(c__obs_op_adj_pdafomi_pdaf) :: obs_op_adj_pdafomi
+      procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdafomi
       ! Provide product R^-1 A with localization
-      procedure(c__prodrinva_l_pdafomi_pdaf) :: prodrinva_l_pdafomi
+      procedure(c__prodrinva_l_pdaf) :: prodrinva_l_pdafomi
       ! Provide number of local analysis domains
-      procedure(c__init_n_domains_pdaf_pdaf) :: init_n_domains_pdaf
+      procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
-      procedure(c__init_dim_l_pdaf_pdaf) :: init_dim_l_pdaf
+      procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize local dimimension of obs. vector
-      procedure(c__init_dim_obs_l_pdafomi_pdaf) :: init_dim_obs_l_pdafomi
+      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdafomi
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf_pdaf) :: prepoststep_pdaf
+      procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide time step, time and dimension of next observation
-      procedure(c__next_observation_pdaf_pdaf) :: next_observation_pdaf
+      procedure(c__next_observation_pdaf) :: next_observation_pdaf
 
       call PDAFlocalomi_assimilate_en3dvar_lestkf_nondiagR(collect_state_pdaf,  &
          distribute_state_pdaf, init_dim_obs_pdafomi, obs_op_pdafomi,  &
@@ -321,45 +307,43 @@ contains
       prodrinva_l_pdafomi, init_n_domains_pdaf, init_dim_l_pdaf,  &
       init_dim_obs_l_pdafomi, prepoststep_pdaf, next_observation_pdaf,  &
       outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
       ! Routine to collect a state vector
-      procedure(c__collect_state_pdaf_pdaf) :: collect_state_pdaf
+      procedure(c__collect_state_pdaf) :: collect_state_pdaf
       ! Routine to distribute a state vector
-      procedure(c__distribute_state_pdaf_pdaf) :: distribute_state_pdaf
+      procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_pdafomi_pdaf) :: init_dim_obs_pdafomi
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdafomi
       ! Full observation operator
-      procedure(c__obs_op_pdafomi_pdaf) :: obs_op_pdafomi
+      procedure(c__obs_op_pdaf) :: obs_op_pdafomi
       ! Provide product R^-1 A
-      procedure(c__prodrinva_pdafomi_pdaf) :: prodrinva_pdafomi
+      procedure(c__prodrinva_pdaf) :: prodrinva_pdafomi
       ! Apply control vector transform matrix to control vector
-      procedure(c__cvt_ens_pdaf_pdaf) :: cvt_ens_pdaf
+      procedure(c__cvt_ens_pdaf) :: cvt_ens_pdaf
       ! Apply adjoint control vector transform matrix
-      procedure(c__cvt_adj_ens_pdaf_pdaf) :: cvt_adj_ens_pdaf
+      procedure(c__cvt_adj_ens_pdaf) :: cvt_adj_ens_pdaf
       ! Apply control vector transform matrix to control vector
-      procedure(c__cvt_pdaf_pdaf) :: cvt_pdaf
+      procedure(c__cvt_pdaf) :: cvt_pdaf
       ! Apply adjoint control vector transform matrix
-      procedure(c__cvt_adj_pdaf_pdaf) :: cvt_adj_pdaf
+      procedure(c__cvt_adj_pdaf) :: cvt_adj_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdafomi_pdaf) :: obs_op_lin_pdafomi
+      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdafomi
       ! Adjoint observation operator
-      procedure(c__obs_op_adj_pdafomi_pdaf) :: obs_op_adj_pdafomi
+      procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdafomi
       ! Provide product R^-1 A
-      procedure(c__prodrinva_l_pdafomi_pdaf) :: prodrinva_l_pdafomi
+      procedure(c__prodrinva_l_pdaf) :: prodrinva_l_pdafomi
       ! Provide number of local analysis domains
-      procedure(c__init_n_domains_pdaf_pdaf) :: init_n_domains_pdaf
+      procedure(c__init_n_domains_p_pdaf) :: init_n_domains_pdaf
       ! Init state dimension for local ana. domain
-      procedure(c__init_dim_l_pdaf_pdaf) :: init_dim_l_pdaf
+      procedure(c__init_dim_l_pdaf) :: init_dim_l_pdaf
       ! Initialize local dimimension of obs. vector
-      procedure(c__init_dim_obs_l_pdafomi_pdaf) :: init_dim_obs_l_pdafomi
+      procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdafomi
       ! User supplied pre/poststep routine
-      procedure(c__prepoststep_pdaf_pdaf) :: prepoststep_pdaf
+      procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide time step, time and dimension of next observation
-      procedure(c__next_observation_pdaf_pdaf) :: next_observation_pdaf
+      procedure(c__next_observation_pdaf) :: next_observation_pdaf
 
       call PDAFlocalomi_assimilate_hyb3dvar_lestkf_nondiagR(collect_state_pdaf,  &
          distribute_state_pdaf, init_dim_obs_pdafomi, obs_op_pdafomi,  &

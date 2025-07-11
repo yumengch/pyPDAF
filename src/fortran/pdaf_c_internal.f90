@@ -4,8 +4,6 @@ implicit none
 contains
    SUBROUTINE c__PDAF_set_forget_local(domain, step, dim_obs_l, dim_ens, hx_l,  &
          hxbar_l, obs_l, u_init_obsvar_l, forget, aforget) bind(c)
-         use iso_c_binding
-
          ! Current local analysis domain
          INTEGER(c_int), INTENT(in) :: domain
          ! Current time step
@@ -26,7 +24,7 @@ contains
          REAL(c_double), INTENT(out) :: aforget
 
          ! Initialize local mean obs. error variance
-         procedure(c__u_init_obsvar_l_pdaf) :: u_init_obsvar_l
+         procedure(c__init_obsvar_l_pdaf) :: u_init_obsvar_l
 
          call PDAF_set_forget_local(domain, step, dim_obs_l, dim_ens, hx_l,  &
             hxbar_l, obs_l, u_init_obsvar_l, forget, aforget)
@@ -35,23 +33,21 @@ contains
 
       SUBROUTINE c__PDAF_fcst_operations(step, u_collect_state,  &
       u_distribute_state, u_init_dim_obs, u_obs_op, u_init_obs, outflag) bind(c)
-      use iso_c_binding
-
       ! Time step in current forecast phase
       INTEGER(c_int), INTENT(in) :: step
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
       ! Routine to collect a state vector
-      procedure(c__u_collect_state_pdaf) :: u_collect_state
+      procedure(c__collect_state_pdaf) :: u_collect_state
       ! Routine to distribute a state vector
-      procedure(c__u_distribute_state_pdaf) :: u_distribute_state
+      procedure(c__distribute_state_pdaf) :: u_distribute_state
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize PE-local observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
 
       call PDAF_fcst_operations(step, u_collect_state, u_distribute_state,  &
          u_init_dim_obs, u_obs_op, u_init_obs, outflag)
@@ -61,8 +57,6 @@ contains
    SUBROUTINE c__PDAF_letkf_ana_T(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
       state_l, ainv_l, ens_l, hz_l, hxbar_l, obs_l, rndmat, forget,  &
       u_prodrinva_l, type_trans, screen, debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -99,7 +93,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 A for local analysis domain
-      procedure(c__u_prodrinva_l_pdaf) :: u_prodrinva_l
+      procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
 
       call PDAF_letkf_ana_T(domain_p, step, dim_l, dim_obs_l, dim_ens, state_l,  &
          ainv_l, ens_l, hz_l, hxbar_l, obs_l, rndmat, forget, u_prodrinva_l,  &
@@ -110,8 +104,6 @@ contains
    SUBROUTINE c__PDAFseik_update(step, dim_p, dim_obs_p, dim_ens, rank,  &
       state_p, uinv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_prodrinva,  &
       u_init_obsvar, u_prepoststep, screen, subtype, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -136,17 +128,17 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Provide product R^-1 A for SEIK analysis
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Initialize mean observation error variance
-      procedure(c__u_init_obsvar_pdaf) :: u_init_obsvar
+      procedure(c__init_obsvar_pdaf) :: u_init_obsvar
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
 
       call PDAFseik_update(step, dim_p, dim_obs_p, dim_ens, rank, state_p,  &
          uinv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_prodrinva,  &
@@ -158,8 +150,6 @@ contains
       state_p, ainv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_prodrinva,  &
       u_prepoststep, u_cvt, u_cvt_adj, u_obs_op_lin, u_obs_op_adj, screen,  &
       subtype, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -184,23 +174,23 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Provide product R^-1 A for 3DVAR analysis
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
       ! Apply control vector transform matrix
-      procedure(c__u_cvt_pdaf) :: u_cvt
+      procedure(c__cvt_pdaf) :: u_cvt
       ! Apply adjoint control vector transform matrix
-      procedure(c__u_cvt_adj_pdaf) :: u_cvt_adj
+      procedure(c__cvt_adj_pdaf) :: u_cvt_adj
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
       call PDAF3dvar_update(step, dim_p, dim_obs_p, dim_ens, dim_cvec, state_p,  &
          ainv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_prodrinva,  &
@@ -213,8 +203,6 @@ contains
       dim_cvec_ens, state_p, ainv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs,  &
       u_prodrinva, u_prepoststep, u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin,  &
       u_obs_op_adj, u_init_obsvar, screen, subtype, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -239,25 +227,25 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Provide product R^-1 A for 3DVAR analysis
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
       ! Apply control vector transform matrix (ensemble)
-      procedure(c__u_cvt_ens_pdaf) :: u_cvt_ens
+      procedure(c__cvt_ens_pdaf) :: u_cvt_ens
       ! Apply adjoint control vector transform matrix (ensemble var)
-      procedure(c__u_cvt_adj_ens_pdaf) :: u_cvt_adj_ens
+      procedure(c__cvt_adj_ens_pdaf) :: u_cvt_adj_ens
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
       ! Initialize mean observation error variance
-      procedure(c__u_init_obsvar_pdaf) :: u_init_obsvar
+      procedure(c__init_obsvar_pdaf) :: u_init_obsvar
 
       call PDAFen3dvar_update_estkf(step, dim_p, dim_obs_p, dim_ens,  &
          dim_cvec_ens, state_p, ainv, ens_p, u_init_dim_obs, u_obs_op,  &
@@ -273,8 +261,6 @@ contains
       u_prodrinva_l, u_init_n_domains_p, u_init_dim_l, u_init_dim_obs_l,  &
       u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l,  &
       screen, subtype, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -299,49 +285,49 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Provide product R^-1 A for 3DVAR analysis
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
       ! Apply control vector transform matrix (ensemble)
-      procedure(c__u_cvt_ens_pdaf) :: u_cvt_ens
+      procedure(c__cvt_ens_pdaf) :: u_cvt_ens
       ! Apply adjoint control vector transform matrix (ensemble var)
-      procedure(c__u_cvt_adj_ens_pdaf) :: u_cvt_adj_ens
+      procedure(c__cvt_adj_ens_pdaf) :: u_cvt_adj_ens
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_f_pdaf) :: u_init_dim_obs_f
+      procedure(c__init_dim_obs_f_pdaf) :: u_init_dim_obs_f
       ! Observation operator
-      procedure(c__u_obs_op_f_pdaf) :: u_obs_op_f
+      procedure(c__obs_op_f_pdaf) :: u_obs_op_f
       ! Initialize PE-local observation vector
-      procedure(c__u_init_obs_f_pdaf) :: u_init_obs_f
+      procedure(c__init_obs_f_pdaf) :: u_init_obs_f
       ! Init. observation vector on local analysis domain
-      procedure(c__u_init_obs_l_pdaf) :: u_init_obs_l
+      procedure(c__init_obs_l_pdaf) :: u_init_obs_l
       ! Provide product R^-1 A on local analysis domain
-      procedure(c__u_prodrinva_l_pdaf) :: u_prodrinva_l
+      procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
       ! Provide number of local analysis domains
-      procedure(c__u_init_n_domains_p_pdaf) :: u_init_n_domains_p
+      procedure(c__init_n_domains_p_pdaf) :: u_init_n_domains_p
       ! Init state dimension for local ana. domain
-      procedure(c__u_init_dim_l_pdaf) :: u_init_dim_l
+      procedure(c__init_dim_l_pdaf) :: u_init_dim_l
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__u_init_dim_obs_l_pdaf) :: u_init_dim_obs_l
+      procedure(c__init_dim_obs_l_pdaf) :: u_init_dim_obs_l
       ! Get state on local ana. domain from full state
-      procedure(c__u_g2l_state_pdaf) :: u_g2l_state
+      procedure(c__g2l_state_pdaf) :: u_g2l_state
       ! Init full state from state on local analysis domain
-      procedure(c__u_l2g_state_pdaf) :: u_l2g_state
+      procedure(c__l2g_state_pdaf) :: u_l2g_state
       ! Restrict full obs. vector to local analysis domain
-      procedure(c__u_g2l_obs_pdaf) :: u_g2l_obs
+      procedure(c__g2l_obs_pdaf) :: u_g2l_obs
       ! Initialize mean observation error variance
-      procedure(c__u_init_obsvar_pdaf) :: u_init_obsvar
+      procedure(c__init_obsvar_pdaf) :: u_init_obsvar
       ! Initialize local mean observation error variance
-      procedure(c__u_init_obsvar_l_pdaf) :: u_init_obsvar_l
+      procedure(c__init_obsvar_l_pdaf) :: u_init_obsvar_l
 
       call PDAFen3dvar_update_lestkf(step, dim_p, dim_obs_p, dim_ens,  &
          dim_cvec_ens, state_p, ainv, ens_p, u_init_dim_obs, u_obs_op,  &
@@ -357,8 +343,6 @@ contains
       ainv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_prodrinva,  &
       u_init_obsvar, u_prepoststep, screen, subtype, dim_lag, sens_p,  &
       cnt_maxlag, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -387,17 +371,17 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Provide product R^-1 A for ETKF analysis
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Initialize mean observation error variance
-      procedure(c__u_init_obsvar_pdaf) :: u_init_obsvar
+      procedure(c__init_obsvar_pdaf) :: u_init_obsvar
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
 
       call PDAFetkf_update(step, dim_p, dim_obs_p, dim_ens, state_p, ainv,  &
          ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_prodrinva,  &
@@ -409,8 +393,6 @@ contains
    SUBROUTINE c__PDAF_netf_ana(step, dim_p, dim_obs_p, dim_ens, state_p, ens_p,  &
       rndmat, t, type_forget, forget, type_winf, limit_winf, type_noise,  &
       noise_amp, hz_p, obs_p, u_likelihood, screen, debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -451,7 +433,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Compute observation likelihood for an ensemble member
-      procedure(c__u_likelihood_pdaf) :: u_likelihood
+      procedure(c__likelihood_pdaf) :: u_likelihood
 
       call PDAF_netf_ana(step, dim_p, dim_obs_p, dim_ens, state_p, ens_p,  &
          rndmat, t, type_forget, forget, type_winf, limit_winf, type_noise,  &
@@ -462,8 +444,6 @@ contains
    SUBROUTINE c__PDAF_netf_smootherT(step, dim_p, dim_obs_p, dim_ens, ens_p,  &
       rndmat, t, u_init_dim_obs, u_obs_op, u_init_obs, u_likelihood, screen,  &
       flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -484,13 +464,13 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Compute observation likelihood for an ensemble member
-      procedure(c__u_likelihood_pdaf) :: u_likelihood
+      procedure(c__likelihood_pdaf) :: u_likelihood
 
       call PDAF_netf_smootherT(step, dim_p, dim_obs_p, dim_ens, ens_p, rndmat,  &
          t, u_init_dim_obs, u_obs_op, u_init_obs, u_likelihood, screen, flag)
@@ -499,8 +479,6 @@ contains
 
    SUBROUTINE c__PDAF_smoother_netf(dim_p, dim_ens, dim_lag, ainv, sens_p,  &
       cnt_maxlag, screen) bind(c)
-      use iso_c_binding
-
       ! PE-local dimension of model state
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Size of ensemble
@@ -526,8 +504,6 @@ contains
       ens_l, hx_l, obs_l, rndmat, u_likelihood_l, type_forget, forget,  &
       type_winf, limit_winf, cnt_small_svals, eff_dimens, t, screen, debug,  &
       flag) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -568,7 +544,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Compute observation likelihood for an ensemble member
-      procedure(c__u_likelihood_l_pdaf) :: u_likelihood_l
+      procedure(c__likelihood_l_pdaf) :: u_likelihood_l
 
       call PDAF_lnetf_ana(domain_p, step, dim_l, dim_obs_l, dim_ens, ens_l,  &
          hx_l, obs_l, rndmat, u_likelihood_l, type_forget, forget, type_winf,  &
@@ -579,8 +555,6 @@ contains
    SUBROUTINE c__PDAF_lnetf_smootherT(domain_p, step, dim_obs_f, dim_obs_l,  &
       dim_ens, hx_f, rndmat, u_g2l_obs, u_init_obs_l, u_likelihood_l, screen,  &
       t, flag) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -603,11 +577,11 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Restrict full obs. vector to local analysis domain
-      procedure(c__u_g2l_obs_pdaf) :: u_g2l_obs
+      procedure(c__g2l_obs_pdaf) :: u_g2l_obs
       ! Init. observation vector on local analysis domain
-      procedure(c__u_init_obs_l_pdaf) :: u_init_obs_l
+      procedure(c__init_obs_l_pdaf) :: u_init_obs_l
       ! Compute observation likelihood for an ensemble member
-      procedure(c__u_likelihood_l_pdaf) :: u_likelihood_l
+      procedure(c__likelihood_l_pdaf) :: u_likelihood_l
 
       call PDAF_lnetf_smootherT(domain_p, step, dim_obs_f, dim_obs_l, dim_ens,  &
          hx_f, rndmat, u_g2l_obs, u_init_obs_l, u_likelihood_l, screen, t, flag)
@@ -617,8 +591,6 @@ contains
    SUBROUTINE c__PDAF_smoother_lnetf(domain_p, step, dim_p, dim_l, dim_ens,  &
       dim_lag, ainv, ens_l, sens_p, cnt_maxlag, u_g2l_state, u_l2g_state,  &
       screen) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -643,9 +615,9 @@ contains
       INTEGER(c_int), INTENT(in) :: screen
 
       ! Get state on local ana. domain from global state
-      procedure(c__u_g2l_state_pdaf) :: u_g2l_state
+      procedure(c__g2l_state_pdaf) :: u_g2l_state
       ! Init full state from state on local analysis domain
-      procedure(c__u_l2g_state_pdaf) :: u_l2g_state
+      procedure(c__l2g_state_pdaf) :: u_l2g_state
 
       call PDAF_smoother_lnetf(domain_p, step, dim_p, dim_l, dim_ens, dim_lag,  &
          ainv, ens_l, sens_p, cnt_maxlag, u_g2l_state, u_l2g_state, screen)
@@ -653,8 +625,6 @@ contains
    END SUBROUTINE c__PDAF_smoother_lnetf
 
    SUBROUTINE c__PDAF_memcount_ini(ncounters) bind(c)
-      use iso_c_binding
-
       ! Number of memory counters
       INTEGER(c_int), INTENT(in) :: ncounters
 
@@ -664,8 +634,6 @@ contains
    END SUBROUTINE c__PDAF_memcount_ini
 
    SUBROUTINE c__PDAF_memcount_define(stortype, wordlength) bind(c)
-      use iso_c_binding
-
       ! Type of variable
       CHARACTER(c_char), INTENT(in) :: stortype
       ! Word length for chosen type
@@ -677,8 +645,6 @@ contains
    END SUBROUTINE c__PDAF_memcount_define
 
    SUBROUTINE c__PDAF_memcount(id, stortype, dim) bind(c)
-      use iso_c_binding
-
       ! Id of the counter
       INTEGER(c_int), INTENT(in) :: id
       ! Type of variable
@@ -694,8 +660,6 @@ contains
    SUBROUTINE c__PDAF_init_filters(type_filter, subtype, param_int, dim_pint,  &
       param_real, dim_preal, filterstr, ensemblefilter, fixedbasis, screen,  &
       flag) bind(c)
-      use iso_c_binding
-
       ! Type of filter
       INTEGER(c_int), INTENT(in) :: type_filter
       ! Sub-type of filter
@@ -727,8 +691,6 @@ contains
    END SUBROUTINE c__PDAF_init_filters
 
    SUBROUTINE c__PDAF_alloc_filters(filterstr, subtype, flag) bind(c)
-      use iso_c_binding
-
       ! Name of filter algorithm
       CHARACTER(c_char), INTENT(in) :: filterstr
       ! Sub-type of filter
@@ -742,8 +704,6 @@ contains
    END SUBROUTINE c__PDAF_alloc_filters
 
    SUBROUTINE c__PDAF_configinfo_filters(subtype, verbose) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -755,8 +715,6 @@ contains
    END SUBROUTINE c__PDAF_configinfo_filters
 
    SUBROUTINE c__PDAF_options_filters(type_filter) bind(c)
-      use iso_c_binding
-
       ! Type of filter
       INTEGER(c_int), INTENT(in) :: type_filter
 
@@ -766,8 +724,6 @@ contains
    END SUBROUTINE c__PDAF_options_filters
 
    SUBROUTINE c__PDAF_print_info_filters(printtype) bind(c)
-      use iso_c_binding
-
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -777,8 +733,6 @@ contains
    END SUBROUTINE c__PDAF_print_info_filters
 
    SUBROUTINE c__PDAF_allreduce(val_p, val_g, mpitype, mpiop, status) bind(c)
-      use iso_c_binding
-
       ! PE-local value
       INTEGER(c_int), INTENT(in) :: val_p
       ! reduced global value
@@ -800,8 +754,6 @@ contains
       u_prodrinva_l, u_init_n_domains_p, u_init_dim_l, u_init_dim_obs_l,  &
       u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l,  &
       u_prepoststep, screen, subtype, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -826,33 +778,33 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Init. observation vector on local analysis domain
-      procedure(c__u_init_obs_l_pdaf) :: u_init_obs_l
+      procedure(c__init_obs_l_pdaf) :: u_init_obs_l
       ! Compute product of R^(-1) with HV
-      procedure(c__u_prodrinva_l_pdaf) :: u_prodrinva_l
+      procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
       ! Provide number of local analysis domains
-      procedure(c__u_init_n_domains_p_pdaf) :: u_init_n_domains_p
+      procedure(c__init_n_domains_p_pdaf) :: u_init_n_domains_p
       ! Init state dimension for local ana. domain
-      procedure(c__u_init_dim_l_pdaf) :: u_init_dim_l
+      procedure(c__init_dim_l_pdaf) :: u_init_dim_l
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__u_init_dim_obs_l_pdaf) :: u_init_dim_obs_l
+      procedure(c__init_dim_obs_l_pdaf) :: u_init_dim_obs_l
       ! Get state on local ana. domain from global state
-      procedure(c__u_g2l_state_pdaf) :: u_g2l_state
+      procedure(c__g2l_state_pdaf) :: u_g2l_state
       ! Init full state from state on local analysis domain
-      procedure(c__u_l2g_state_pdaf) :: u_l2g_state
+      procedure(c__l2g_state_pdaf) :: u_l2g_state
       ! Restrict full obs. vector to local analysis domain
-      procedure(c__u_g2l_obs_pdaf) :: u_g2l_obs
+      procedure(c__g2l_obs_pdaf) :: u_g2l_obs
       ! Initialize mean observation error variance
-      procedure(c__u_init_obsvar_pdaf) :: u_init_obsvar
+      procedure(c__init_obsvar_pdaf) :: u_init_obsvar
       ! Initialize local mean observation error variance
-      procedure(c__u_init_obsvar_l_pdaf) :: u_init_obsvar_l
+      procedure(c__init_obsvar_l_pdaf) :: u_init_obsvar_l
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
 
       call PDAFlseik_update(step, dim_p, dim_obs_f, dim_ens, rank, state_p,  &
          uinv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_init_obs_l,  &
@@ -864,8 +816,6 @@ contains
 
    SUBROUTINE c__PDAF_ensrf_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -892,8 +842,6 @@ contains
    END SUBROUTINE c__PDAF_ensrf_init
 
    SUBROUTINE c__PDAF_ensrf_alloc(outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -903,8 +851,6 @@ contains
    END SUBROUTINE c__PDAF_ensrf_alloc
 
    SUBROUTINE c__PDAF_ensrf_config(subtype, verbose) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -916,8 +862,6 @@ contains
    END SUBROUTINE c__PDAF_ensrf_config
 
    SUBROUTINE c__PDAF_ensrf_set_iparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -931,8 +875,6 @@ contains
    END SUBROUTINE c__PDAF_ensrf_set_iparam
 
    SUBROUTINE c__PDAF_ensrf_set_rparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -951,8 +893,6 @@ contains
    END SUBROUTINE c__PDAF_ensrf_options
 
    SUBROUTINE c__PDAF_ensrf_memtime(printtype) bind(c)
-      use iso_c_binding
-
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -964,8 +904,6 @@ contains
    SUBROUTINE c__PDAF_estkf_ana_fixed(step, dim_p, dim_obs_p, dim_ens, rank,  &
       state_p, ainv, ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, screen,  &
       type_sqrt, debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -1000,7 +938,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 with some matrix
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
 
       call PDAF_estkf_ana_fixed(step, dim_p, dim_obs_p, dim_ens, rank, state_p,  &
          ainv, ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, screen,  &
@@ -1011,8 +949,6 @@ contains
    SUBROUTINE c__PDAF_etkf_ana_fixed(step, dim_p, dim_obs_p, dim_ens, state_p,  &
       ainv, ens_p, hz_p, hxbar_p, obs_p, forget, u_prodrinva, screen, debug,  &
       flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -1043,7 +979,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
 
       call PDAF_etkf_ana_fixed(step, dim_p, dim_obs_p, dim_ens, state_p, ainv,  &
          ens_p, hz_p, hxbar_p, obs_p, forget, u_prodrinva, screen, debug, flag)
@@ -1054,8 +990,6 @@ contains
       ainv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_prodrinva,  &
       u_init_obsvar, u_prepoststep, screen, subtype, envar_mode, dim_lag,  &
       sens_p, cnt_maxlag, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -1086,17 +1020,17 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Provide product R^-1 A for ESTKF analysis
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Initialize mean observation error variance
-      procedure(c__u_init_obsvar_pdaf) :: u_init_obsvar
+      procedure(c__init_obsvar_pdaf) :: u_init_obsvar
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
 
       call PDAFestkf_update(step, dim_p, dim_obs_p, dim_ens, state_p, ainv,  &
          ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_prodrinva,  &
@@ -1111,8 +1045,6 @@ contains
       u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l,  &
       u_likelihood_l, u_likelihood_hyb_l, u_prepoststep, screen, subtype,  &
       flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -1135,37 +1067,37 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Init. observation vector on local analysis domain
-      procedure(c__u_init_obs_l_pdaf) :: u_init_obs_l
+      procedure(c__init_obs_l_pdaf) :: u_init_obs_l
       ! Compute product of R^(-1) with HV with hybrid weight
-      procedure(c__u_prodrinva_hyb_l_pdaf) :: u_prodrinva_hyb_l
+      procedure(c__prodrinva_hyb_l_pdaf) :: u_prodrinva_hyb_l
       ! Provide number of local analysis domains
-      procedure(c__u_init_n_domains_p_pdaf) :: u_init_n_domains_p
+      procedure(c__init_n_domains_p_pdaf) :: u_init_n_domains_p
       ! Init state dimension for local ana. domain
-      procedure(c__u_init_dim_l_pdaf) :: u_init_dim_l
+      procedure(c__init_dim_l_pdaf) :: u_init_dim_l
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__u_init_dim_obs_l_pdaf) :: u_init_dim_obs_l
+      procedure(c__init_dim_obs_l_pdaf) :: u_init_dim_obs_l
       ! Get state on local ana. domain from global state
-      procedure(c__u_g2l_state_pdaf) :: u_g2l_state
+      procedure(c__g2l_state_pdaf) :: u_g2l_state
       ! Init full state from state on local analysis domain
-      procedure(c__u_l2g_state_pdaf) :: u_l2g_state
+      procedure(c__l2g_state_pdaf) :: u_l2g_state
       ! Restrict full obs. vector to local analysis domain
-      procedure(c__u_g2l_obs_pdaf) :: u_g2l_obs
+      procedure(c__g2l_obs_pdaf) :: u_g2l_obs
       ! Initialize mean observation error variance
-      procedure(c__u_init_obsvar_pdaf) :: u_init_obsvar
+      procedure(c__init_obsvar_pdaf) :: u_init_obsvar
       ! Initialize local mean observation error variance
-      procedure(c__u_init_obsvar_l_pdaf) :: u_init_obsvar_l
+      procedure(c__init_obsvar_l_pdaf) :: u_init_obsvar_l
       ! Compute likelihood
-      procedure(c__u_likelihood_l_pdaf) :: u_likelihood_l
+      procedure(c__likelihood_l_pdaf) :: u_likelihood_l
       ! Compute likelihood with hybrid weight
-      procedure(c__u_likelihood_hyb_l_pdaf) :: u_likelihood_hyb_l
+      procedure(c__likelihood_hyb_l_pdaf) :: u_likelihood_hyb_l
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
 
       call PDAFlknetf_update_step(step, dim_p, dim_obs_f, dim_ens, state_p,  &
          ainv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_init_obs_l,  &
@@ -1180,8 +1112,6 @@ contains
       u_prodrinva_l, u_init_n_domains_p, u_init_dim_l, u_init_dim_obs_l,  &
       u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l,  &
       u_prepoststep, screen, subtype, dim_lag, sens_p, cnt_maxlag, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -1210,33 +1140,33 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Init. observation vector on local analysis domain
-      procedure(c__u_init_obs_l_pdaf) :: u_init_obs_l
+      procedure(c__init_obs_l_pdaf) :: u_init_obs_l
       ! Provide product R^-1 A on local analysis domain
-      procedure(c__u_prodrinva_l_pdaf) :: u_prodrinva_l
+      procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
       ! Provide number of local analysis domains
-      procedure(c__u_init_n_domains_p_pdaf) :: u_init_n_domains_p
+      procedure(c__init_n_domains_p_pdaf) :: u_init_n_domains_p
       ! Init state dimension for local ana. domain
-      procedure(c__u_init_dim_l_pdaf) :: u_init_dim_l
+      procedure(c__init_dim_l_pdaf) :: u_init_dim_l
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__u_init_dim_obs_l_pdaf) :: u_init_dim_obs_l
+      procedure(c__init_dim_obs_l_pdaf) :: u_init_dim_obs_l
       ! Get state on local ana. domain from full state
-      procedure(c__u_g2l_state_pdaf) :: u_g2l_state
+      procedure(c__g2l_state_pdaf) :: u_g2l_state
       ! Init full state from state on local analysis domain
-      procedure(c__u_l2g_state_pdaf) :: u_l2g_state
+      procedure(c__l2g_state_pdaf) :: u_l2g_state
       ! Restrict full obs. vector to local analysis domain
-      procedure(c__u_g2l_obs_pdaf) :: u_g2l_obs
+      procedure(c__g2l_obs_pdaf) :: u_g2l_obs
       ! Initialize mean observation error variance
-      procedure(c__u_init_obsvar_pdaf) :: u_init_obsvar
+      procedure(c__init_obsvar_pdaf) :: u_init_obsvar
       ! Initialize local mean observation error variance
-      procedure(c__u_init_obsvar_l_pdaf) :: u_init_obsvar_l
+      procedure(c__init_obsvar_l_pdaf) :: u_init_obsvar_l
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
 
       call PDAFletkf_update(step, dim_p, dim_obs_f, dim_ens, state_p, ainv,  &
          ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_init_obs_l,  &
@@ -1249,8 +1179,6 @@ contains
    SUBROUTINE c__PDAF_lseik_ana_trans(domain_p, step, dim_l, dim_obs_l,  &
       dim_ens, rank, state_l, uinv_l, ens_l, hl_l, hxbar_l, obs_l, omegat_in,  &
       forget, u_prodrinva_l, nm1vsn, type_sqrt, screen, debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -1291,7 +1219,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 A for local analysis domain
-      procedure(c__u_prodrinva_l_pdaf) :: u_prodrinva_l
+      procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
 
       call PDAF_lseik_ana_trans(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
          rank, state_l, uinv_l, ens_l, hl_l, hxbar_l, obs_l, omegat_in, forget,  &
@@ -1302,8 +1230,6 @@ contains
    SUBROUTINE c__PDAF_en3dvar_optim_lbfgs(step, dim_p, dim_ens, dim_cvec_p,  &
       dim_obs_p, ens_p, obs_p, dy_p, v_p, u_prodrinva, u_cvt_ens,  &
       u_cvt_adj_ens, u_obs_op_lin, u_obs_op_adj, opt_parallel, screen) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local state dimension
@@ -1328,15 +1254,15 @@ contains
       INTEGER(c_int), INTENT(in) :: screen
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Apply control vector transform matrix to control vector
-      procedure(c__u_cvt_ens_pdaf) :: u_cvt_ens
+      procedure(c__cvt_ens_pdaf) :: u_cvt_ens
       ! Apply adjoint control vector transform matrix
-      procedure(c__u_cvt_adj_ens_pdaf) :: u_cvt_adj_ens
+      procedure(c__cvt_adj_ens_pdaf) :: u_cvt_adj_ens
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
       call PDAF_en3dvar_optim_lbfgs(step, dim_p, dim_ens, dim_cvec_p,  &
          dim_obs_p, ens_p, obs_p, dy_p, v_p, u_prodrinva, u_cvt_ens,  &
@@ -1347,8 +1273,6 @@ contains
    SUBROUTINE c__PDAF_en3dvar_optim_cgplus(step, dim_p, dim_ens, dim_cvec_p,  &
       dim_obs_p, ens_p, obs_p, dy_p, v_p, u_prodrinva, u_cvt_ens,  &
       u_cvt_adj_ens, u_obs_op_lin, u_obs_op_adj, opt_parallel, screen) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local state dimension
@@ -1373,15 +1297,15 @@ contains
       INTEGER(c_int), INTENT(in) :: screen
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Apply control vector transform matrix to control vector
-      procedure(c__u_cvt_ens_pdaf) :: u_cvt_ens
+      procedure(c__cvt_ens_pdaf) :: u_cvt_ens
       ! Apply adjoint control vector transform matrix
-      procedure(c__u_cvt_adj_ens_pdaf) :: u_cvt_adj_ens
+      procedure(c__cvt_adj_ens_pdaf) :: u_cvt_adj_ens
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
       call PDAF_en3dvar_optim_cgplus(step, dim_p, dim_ens, dim_cvec_p,  &
          dim_obs_p, ens_p, obs_p, dy_p, v_p, u_prodrinva, u_cvt_ens,  &
@@ -1392,8 +1316,6 @@ contains
    SUBROUTINE c__PDAF_en3dvar_optim_cg(step, dim_p, dim_ens, dim_cvec_p,  &
       dim_obs_p, ens_p, obs_p, dy_p, v_p, u_prodrinva, u_cvt_ens,  &
       u_cvt_adj_ens, u_obs_op_lin, u_obs_op_adj, opt_parallel, screen) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local state dimension
@@ -1418,15 +1340,15 @@ contains
       INTEGER(c_int), INTENT(in) :: screen
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Apply control vector transform matrix to control vector
-      procedure(c__u_cvt_ens_pdaf) :: u_cvt_ens
+      procedure(c__cvt_ens_pdaf) :: u_cvt_ens
       ! Apply adjoint control vector transform matrix
-      procedure(c__u_cvt_adj_ens_pdaf) :: u_cvt_adj_ens
+      procedure(c__cvt_adj_ens_pdaf) :: u_cvt_adj_ens
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
       call PDAF_en3dvar_optim_cg(step, dim_p, dim_ens, dim_cvec_p, dim_obs_p,  &
          ens_p, obs_p, dy_p, v_p, u_prodrinva, u_cvt_ens, u_cvt_adj_ens,  &
@@ -1437,8 +1359,6 @@ contains
    SUBROUTINE c__PDAF_en3dvar_costf_cvt(step, iter, dim_p, dim_ens, dim_cvec_p,  &
       dim_obs_p, ens_p, obs_p, dy_p, v_p, j_tot, gradj, u_prodrinva, u_cvt_ens,  &
       u_cvt_adj_ens, u_obs_op_lin, u_obs_op_adj, opt_parallel) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Optimization iteration
@@ -1467,15 +1387,15 @@ contains
       INTEGER(c_int), INTENT(in) :: opt_parallel
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Apply control vector transform matrix to control vector
-      procedure(c__u_cvt_ens_pdaf) :: u_cvt_ens
+      procedure(c__cvt_ens_pdaf) :: u_cvt_ens
       ! Apply adjoint control vector transform matrix
-      procedure(c__u_cvt_adj_ens_pdaf) :: u_cvt_adj_ens
+      procedure(c__cvt_adj_ens_pdaf) :: u_cvt_adj_ens
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
       call PDAF_en3dvar_costf_cvt(step, iter, dim_p, dim_ens, dim_cvec_p,  &
          dim_obs_p, ens_p, obs_p, dy_p, v_p, j_tot, gradj, u_prodrinva,  &
@@ -1487,8 +1407,6 @@ contains
       dim_cvec_p, dim_obs_p, ens_p, obs_p, dy_p, v_p, d_p, j_tot, gradj,  &
       hessjd, u_prodrinva, u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin,  &
       u_obs_op_adj, opt_parallel) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Optimization iteration
@@ -1521,15 +1439,15 @@ contains
       INTEGER(c_int), INTENT(in) :: opt_parallel
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Apply control vector transform matrix to control vector
-      procedure(c__u_cvt_ens_pdaf) :: u_cvt_ens
+      procedure(c__cvt_ens_pdaf) :: u_cvt_ens
       ! Apply adjoint control vector transform matrix
-      procedure(c__u_cvt_adj_ens_pdaf) :: u_cvt_adj_ens
+      procedure(c__cvt_adj_ens_pdaf) :: u_cvt_adj_ens
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
       call PDAF_en3dvar_costf_cg_cvt(step, iter, dim_p, dim_ens, dim_cvec_p,  &
          dim_obs_p, ens_p, obs_p, dy_p, v_p, d_p, j_tot, gradj, hessjd,  &
@@ -1539,8 +1457,6 @@ contains
    END SUBROUTINE c__PDAF_en3dvar_costf_cg_cvt
 
    SUBROUTINE c__PDAF_gather_ens(dim_p, dim_ens_p, ens, screen) bind(c)
-      use iso_c_binding
-
       ! PE-local dimension of model state
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Size of ensemble
@@ -1556,8 +1472,6 @@ contains
    END SUBROUTINE c__PDAF_gather_ens
 
    SUBROUTINE c__PDAF_scatter_ens(dim_p, dim_ens_p, ens, state, screen) bind(c)
-      use iso_c_binding
-
       ! PE-local dimension of model state
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Size of ensemble
@@ -1578,8 +1492,6 @@ contains
       dim_cv_ens_p, dim_obs_p, ens_p, obs_p, dy_p, v_par_p, v_ens_p,  &
       u_prodrinva, u_cvt, u_cvt_adj, u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin,  &
       u_obs_op_adj, opt_parallel, beta_3dvar, screen) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local state dimension
@@ -1610,19 +1522,19 @@ contains
       INTEGER(c_int), INTENT(in) :: screen
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Apply control vector transform matrix to control vector (parameterized)
-      procedure(c__u_cvt_pdaf) :: u_cvt
+      procedure(c__cvt_pdaf) :: u_cvt
       ! Apply adjoint control vector transform matrix (parameterized)
-      procedure(c__u_cvt_adj_pdaf) :: u_cvt_adj
+      procedure(c__cvt_adj_pdaf) :: u_cvt_adj
       ! Apply control vector transform matrix to control vector (ensemble)
-      procedure(c__u_cvt_ens_pdaf) :: u_cvt_ens
+      procedure(c__cvt_ens_pdaf) :: u_cvt_ens
       ! Apply adjoint control vector transform matrix (ensemble)
-      procedure(c__u_cvt_adj_ens_pdaf) :: u_cvt_adj_ens
+      procedure(c__cvt_adj_ens_pdaf) :: u_cvt_adj_ens
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
       call PDAF_hyb3dvar_optim_lbfgs(step, dim_p, dim_ens, dim_cv_par_p,  &
          dim_cv_ens_p, dim_obs_p, ens_p, obs_p, dy_p, v_par_p, v_ens_p,  &
@@ -1635,8 +1547,6 @@ contains
       dim_cv_ens_p, dim_obs_p, ens_p, obs_p, dy_p, v_par_p, v_ens_p,  &
       u_prodrinva, u_cvt, u_cvt_adj, u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin,  &
       u_obs_op_adj, opt_parallel, beta_3dvar, screen) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local state dimension
@@ -1667,19 +1577,19 @@ contains
       INTEGER(c_int), INTENT(in) :: screen
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Apply control vector transform matrix to control vector (parameterized)
-      procedure(c__u_cvt_pdaf) :: u_cvt
+      procedure(c__cvt_pdaf) :: u_cvt
       ! Apply adjoint control vector transform matrix (parameterized)
-      procedure(c__u_cvt_adj_pdaf) :: u_cvt_adj
+      procedure(c__cvt_adj_pdaf) :: u_cvt_adj
       ! Apply control vector transform matrix to control vector (ensemble)
-      procedure(c__u_cvt_ens_pdaf) :: u_cvt_ens
+      procedure(c__cvt_ens_pdaf) :: u_cvt_ens
       ! Apply adjoint control vector transform matrix (ensemble)
-      procedure(c__u_cvt_adj_ens_pdaf) :: u_cvt_adj_ens
+      procedure(c__cvt_adj_ens_pdaf) :: u_cvt_adj_ens
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
       call PDAF_hyb3dvar_optim_cgplus(step, dim_p, dim_ens, dim_cv_par_p,  &
          dim_cv_ens_p, dim_obs_p, ens_p, obs_p, dy_p, v_par_p, v_ens_p,  &
@@ -1692,8 +1602,6 @@ contains
       dim_cv_ens_p, dim_obs_p, ens_p, obs_p, dy_p, v_par_p, v_ens_p,  &
       u_prodrinva, u_cvt, u_cvt_adj, u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin,  &
       u_obs_op_adj, opt_parallel, beta_3dvar, screen) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local state dimension
@@ -1724,19 +1632,19 @@ contains
       INTEGER(c_int), INTENT(in) :: screen
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Apply control vector transform matrix to control vector (parameterized)
-      procedure(c__u_cvt_pdaf) :: u_cvt
+      procedure(c__cvt_pdaf) :: u_cvt
       ! Apply adjoint control vector transform matrix (parameterized)
-      procedure(c__u_cvt_adj_pdaf) :: u_cvt_adj
+      procedure(c__cvt_adj_pdaf) :: u_cvt_adj
       ! Apply control vector transform matrix to control vector (ensemble)
-      procedure(c__u_cvt_ens_pdaf) :: u_cvt_ens
+      procedure(c__cvt_ens_pdaf) :: u_cvt_ens
       ! Apply adjoint control vector transform matrix (ensemble)
-      procedure(c__u_cvt_adj_ens_pdaf) :: u_cvt_adj_ens
+      procedure(c__cvt_adj_ens_pdaf) :: u_cvt_adj_ens
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
       call PDAF_hyb3dvar_optim_cg(step, dim_p, dim_ens, dim_cv_par_p,  &
          dim_cv_ens_p, dim_obs_p, ens_p, obs_p, dy_p, v_par_p, v_ens_p,  &
@@ -1749,8 +1657,6 @@ contains
       dim_cv_par_p, dim_cv_ens_p, dim_obs_p, ens_p, obs_p, dy_p, v_par_p,  &
       v_ens_p, v_p, j_tot, gradj, u_prodrinva, u_cvt, u_cvt_adj, u_cvt_ens,  &
       u_cvt_adj_ens, u_obs_op_lin, u_obs_op_adj, opt_parallel, beta) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Optimization iteration
@@ -1789,19 +1695,19 @@ contains
       REAL(c_double), INTENT(in) :: beta
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Apply control vector transform matrix to control vector (parameterized)
-      procedure(c__u_cvt_pdaf) :: u_cvt
+      procedure(c__cvt_pdaf) :: u_cvt
       ! Apply adjoint control vector transform matrix (parameterized)
-      procedure(c__u_cvt_adj_pdaf) :: u_cvt_adj
+      procedure(c__cvt_adj_pdaf) :: u_cvt_adj
       ! Apply control vector transform matrix to control vector (ensemble)
-      procedure(c__u_cvt_ens_pdaf) :: u_cvt_ens
+      procedure(c__cvt_ens_pdaf) :: u_cvt_ens
       ! Apply adjoint control vector transform matrix (ensemble)
-      procedure(c__u_cvt_adj_ens_pdaf) :: u_cvt_adj_ens
+      procedure(c__cvt_adj_ens_pdaf) :: u_cvt_adj_ens
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
       call PDAF_hyb3dvar_costf_cvt(step, iter, dim_p, dim_ens, dim_cv_p,  &
          dim_cv_par_p, dim_cv_ens_p, dim_obs_p, ens_p, obs_p, dy_p, v_par_p,  &
@@ -1815,8 +1721,6 @@ contains
       v_ens_p, d_par_p, d_ens_p, j_tot, gradj_par, gradj_ens, hessjd_par,  &
       hessjd_ens, u_prodrinva, u_cvt, u_cvt_adj, u_cvt_ens, u_cvt_adj_ens,  &
       u_obs_op_lin, u_obs_op_adj, opt_parallel, beta) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Optimization iteration
@@ -1861,19 +1765,19 @@ contains
       REAL(c_double), INTENT(in) :: beta
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Apply control vector transform matrix to control vector (parameterized)
-      procedure(c__u_cvt_pdaf) :: u_cvt
+      procedure(c__cvt_pdaf) :: u_cvt
       ! Apply adjoint control vector transform matrix (parameterized)
-      procedure(c__u_cvt_adj_pdaf) :: u_cvt_adj
+      procedure(c__cvt_adj_pdaf) :: u_cvt_adj
       ! Apply control vector transform matrix to control vector (ensemble)
-      procedure(c__u_cvt_ens_pdaf) :: u_cvt_ens
+      procedure(c__cvt_ens_pdaf) :: u_cvt_ens
       ! Apply adjoint control vector transform matrix (ensemble)
-      procedure(c__u_cvt_adj_ens_pdaf) :: u_cvt_adj_ens
+      procedure(c__cvt_adj_ens_pdaf) :: u_cvt_adj_ens
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
       call PDAF_hyb3dvar_costf_cg_cvt(step, iter, dim_p, dim_ens, dim_cv_par_p,  &
          dim_cv_ens_p, dim_obs_p, ens_p, obs_p, dy_p, v_par_p, v_ens_p,  &
@@ -1892,8 +1796,6 @@ contains
       dim_cvec_ens, state_p, ens_p, state_inc_p, hxbar_p, obs_p, u_prodrinva,  &
       u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin, u_obs_op_adj, screen, type_opt,  &
       debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -1924,15 +1826,15 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Apply control vector transform matrix to control vector
-      procedure(c__u_cvt_ens_pdaf) :: u_cvt_ens
+      procedure(c__cvt_ens_pdaf) :: u_cvt_ens
       ! Apply adjoint control vector transform matrix
-      procedure(c__u_cvt_adj_ens_pdaf) :: u_cvt_adj_ens
+      procedure(c__cvt_adj_ens_pdaf) :: u_cvt_adj_ens
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
       call PDAFen3dvar_analysis_cvt(step, dim_p, dim_obs_p, dim_ens,  &
          dim_cvec_ens, state_p, ens_p, state_inc_p, hxbar_p, obs_p,  &
@@ -1942,8 +1844,6 @@ contains
    END SUBROUTINE c__PDAFen3dvar_analysis_cvt
 
    SUBROUTINE c__PDAF_sisort(n, veca) bind(c)
-      use iso_c_binding
-
       !
       INTEGER(c_int), INTENT(in) :: n
       !
@@ -1956,8 +1856,6 @@ contains
 
    SUBROUTINE c__PDAF_unbiased_moments_from_summed_residuals(dim_ens, dim_p,  &
       kmax, sum_expo_resid, moments) bind(c)
-      use iso_c_binding
-
       ! number of ensemble members/samples
       INTEGER(c_int), INTENT(in) :: dim_ens
       ! local size of the state
@@ -1977,8 +1875,6 @@ contains
 
    SUBROUTINE c__PDAF_biased_moments_from_summed_residuals(dim_ens, dim_p,  &
       kmax, sum_expo_resid, moments) bind(c)
-      use iso_c_binding
-
       ! number of ensemble members/samples
       INTEGER(c_int), INTENT(in) :: dim_ens
       ! local size of the state
@@ -1999,8 +1895,6 @@ contains
    SUBROUTINE c__PDAF_enkf_ana_rlm(step, dim_p, dim_obs_p, dim_ens, rank_ana,  &
       state_p, ens_p, hzb, hx_p, hxbar_p, obs_p, u_add_obs_err,  &
       u_init_obs_covar, screen, debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -2031,9 +1925,9 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Add observation error covariance matrix
-      procedure(c__u_add_obs_err_pdaf) :: u_add_obs_err
+      procedure(c__add_obs_err_pdaf) :: u_add_obs_err
       ! Initialize observation error covariance matrix
-      procedure(c__u_init_obs_covar_pdaf) :: u_init_obs_covar
+      procedure(c__init_obs_covar_pdaf) :: u_init_obs_covar
 
       call PDAF_enkf_ana_rlm(step, dim_p, dim_obs_p, dim_ens, rank_ana,  &
          state_p, ens_p, hzb, hx_p, hxbar_p, obs_p, u_add_obs_err,  &
@@ -2043,8 +1937,6 @@ contains
 
    SUBROUTINE c__PDAF_smoother_enkf(dim_p, dim_ens, dim_lag, ainv, sens_p,  &
       cnt_maxlag, forget, screen) bind(c)
-      use iso_c_binding
-
       ! PE-local dimension of model state
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Size of ensemble
@@ -2071,8 +1963,6 @@ contains
    SUBROUTINE c__PDAFensrf_update(step, dim_p, dim_obs_p, dim_ens, state_p,  &
       ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_init_obsvars,  &
       u_localize_covar_serial, u_prepoststep, screen, subtype, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -2093,17 +1983,17 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Initialize vector of observation error variances
-      procedure(c__u_init_obsvars_pdaf) :: u_init_obsvars
+      procedure(c__init_obsvar_pdaf) :: u_init_obsvars
       ! Apply localization for single-observation vectors
-      procedure(c__u_localize_covar_serial_pdaf) :: u_localize_covar_serial
+      procedure(c__localize_covar_serial_pdaf) :: u_localize_covar_serial
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
 
       call PDAFensrf_update(step, dim_p, dim_obs_p, dim_ens, state_p, ens_p,  &
          u_init_dim_obs, u_obs_op, u_init_obs, u_init_obsvars,  &
@@ -2114,8 +2004,6 @@ contains
    SUBROUTINE c__PDAF_pf_ana(step, dim_p, dim_obs_p, dim_ens, state_p, ens_p,  &
       type_resample, type_winf, limit_winf, type_noise, noise_amp, hz_p, obs_p,  &
       u_likelihood, screen, debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -2150,7 +2038,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Compute observation likelihood for an ensemble member
-      procedure(c__u_likelihood_pdaf) :: u_likelihood
+      procedure(c__likelihood_pdaf) :: u_likelihood
 
       call PDAF_pf_ana(step, dim_p, dim_obs_p, dim_ens, state_p, ens_p,  &
          type_resample, type_winf, limit_winf, type_noise, noise_amp, hz_p,  &
@@ -2160,8 +2048,6 @@ contains
 
    SUBROUTINE c__PDAF_pf_resampling(method, nin, nout, weights, ids,  &
       screen) bind(c)
-      use iso_c_binding
-
       ! Choose resampling method
       INTEGER(c_int), INTENT(in) :: method
       ! number of particles
@@ -2182,8 +2068,6 @@ contains
 
    SUBROUTINE c__PDAF_mvnormalize(mode, dim_state, dim_field, offset, ncol,  &
       states, stddev, status) bind(c)
-      use iso_c_binding
-
       ! Mode: (1) normalize, (2) re-scale
       INTEGER(c_int), INTENT(in) :: mode
       ! Dimension of state vector
@@ -2209,8 +2093,6 @@ contains
 
    SUBROUTINE c__PDAF_3dvar_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -2237,8 +2119,6 @@ contains
    END SUBROUTINE c__PDAF_3dvar_init
 
    SUBROUTINE c__PDAF_3dvar_alloc(subtype, outflag) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(in) :: subtype
       ! Status flag
@@ -2250,8 +2130,6 @@ contains
    END SUBROUTINE c__PDAF_3dvar_alloc
 
    SUBROUTINE c__PDAF_3dvar_config(subtype, verbose) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -2263,8 +2141,6 @@ contains
    END SUBROUTINE c__PDAF_3dvar_config
 
    SUBROUTINE c__PDAF_3dvar_set_iparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -2278,8 +2154,6 @@ contains
    END SUBROUTINE c__PDAF_3dvar_set_iparam
 
    SUBROUTINE c__PDAF_3dvar_set_rparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -2298,8 +2172,6 @@ contains
    END SUBROUTINE c__PDAF_3dvar_options
 
    SUBROUTINE c__PDAF_3dvar_memtime(printtype) bind(c)
-      use iso_c_binding
-
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -2310,8 +2182,6 @@ contains
 
 
    SUBROUTINE c__PDAF_reset_dim_ens(dim_ens_in, outflag) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(in) :: dim_ens_in
       ! Status flag
@@ -2323,8 +2193,6 @@ contains
    END SUBROUTINE c__PDAF_reset_dim_ens
 
    SUBROUTINE c__PDAF_reset_dim_p(dim_p_in, outflag) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(in) :: dim_p_in
       ! Status flag
@@ -2338,8 +2206,6 @@ contains
    SUBROUTINE c__PDAF_3dvar_optim_lbfgs(step, dim_p, dim_cvec_p, dim_obs_p,  &
       obs_p, dy_p, v_p, u_prodrinva, u_cvt, u_cvt_adj, u_obs_op_lin,  &
       u_obs_op_adj, opt_parallel, screen) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local state dimension
@@ -2360,15 +2226,15 @@ contains
       INTEGER(c_int), INTENT(in) :: screen
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Apply control vector transform matrix to control vector
-      procedure(c__u_cvt_pdaf) :: u_cvt
+      procedure(c__cvt_pdaf) :: u_cvt
       ! Apply adjoint control vector transform matrix
-      procedure(c__u_cvt_adj_pdaf) :: u_cvt_adj
+      procedure(c__cvt_adj_pdaf) :: u_cvt_adj
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
       call PDAF_3dvar_optim_lbfgs(step, dim_p, dim_cvec_p, dim_obs_p, obs_p,  &
          dy_p, v_p, u_prodrinva, u_cvt, u_cvt_adj, u_obs_op_lin, u_obs_op_adj,  &
@@ -2379,8 +2245,6 @@ contains
    SUBROUTINE c__PDAF_3dvar_optim_cgplus(step, dim_p, dim_cvec_p, dim_obs_p,  &
       obs_p, dy_p, v_p, u_prodrinva, u_cvt, u_cvt_adj, u_obs_op_lin,  &
       u_obs_op_adj, opt_parallel, screen) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local state dimension
@@ -2401,15 +2265,15 @@ contains
       INTEGER(c_int), INTENT(in) :: screen
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Apply control vector transform matrix to control vector
-      procedure(c__u_cvt_pdaf) :: u_cvt
+      procedure(c__cvt_pdaf) :: u_cvt
       ! Apply adjoint control vector transform matrix
-      procedure(c__u_cvt_adj_pdaf) :: u_cvt_adj
+      procedure(c__cvt_adj_pdaf) :: u_cvt_adj
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
       call PDAF_3dvar_optim_cgplus(step, dim_p, dim_cvec_p, dim_obs_p, obs_p,  &
          dy_p, v_p, u_prodrinva, u_cvt, u_cvt_adj, u_obs_op_lin, u_obs_op_adj,  &
@@ -2420,8 +2284,6 @@ contains
    SUBROUTINE c__PDAF_3dvar_optim_cg(step, dim_p, dim_cvec_p, dim_obs_p, obs_p,  &
       dy_p, v_p, u_prodrinva, u_cvt, u_cvt_adj, u_obs_op_lin, u_obs_op_adj,  &
       opt_parallel, screen) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local state dimension
@@ -2442,15 +2304,15 @@ contains
       INTEGER(c_int), INTENT(in) :: screen
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Apply control vector transform matrix to control vector
-      procedure(c__u_cvt_pdaf) :: u_cvt
+      procedure(c__cvt_pdaf) :: u_cvt
       ! Apply adjoint control vector transform matrix
-      procedure(c__u_cvt_adj_pdaf) :: u_cvt_adj
+      procedure(c__cvt_adj_pdaf) :: u_cvt_adj
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
       call PDAF_3dvar_optim_cg(step, dim_p, dim_cvec_p, dim_obs_p, obs_p, dy_p,  &
          v_p, u_prodrinva, u_cvt, u_cvt_adj, u_obs_op_lin, u_obs_op_adj,  &
@@ -2461,8 +2323,6 @@ contains
    SUBROUTINE c__PDAF_3dvar_costf_cvt(step, iter, dim_p, dim_cvec_p, dim_obs_p,  &
       obs_p, dy_p, v_p, j_tot, gradj, u_prodrinva, u_cvt, u_cvt_adj,  &
       u_obs_op_lin, u_obs_op_adj, opt_parallel) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Optimization iteration
@@ -2487,15 +2347,15 @@ contains
       INTEGER(c_int), INTENT(in) :: opt_parallel
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Apply control vector transform matrix to control vector
-      procedure(c__u_cvt_pdaf) :: u_cvt
+      procedure(c__cvt_pdaf) :: u_cvt
       ! Apply adjoint control vector transform matrix
-      procedure(c__u_cvt_adj_pdaf) :: u_cvt_adj
+      procedure(c__cvt_adj_pdaf) :: u_cvt_adj
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
       call PDAF_3dvar_costf_cvt(step, iter, dim_p, dim_cvec_p, dim_obs_p,  &
          obs_p, dy_p, v_p, j_tot, gradj, u_prodrinva, u_cvt, u_cvt_adj,  &
@@ -2506,8 +2366,6 @@ contains
    SUBROUTINE c__PDAF_3dvar_costf_cg_cvt(step, iter, dim_p, dim_cvec_p,  &
       dim_obs_p, obs_p, dy_p, v_p, d_p, j_tot, gradj, hessjd, u_prodrinva,  &
       u_cvt, u_cvt_adj, u_obs_op_lin, u_obs_op_adj, opt_parallel) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! CG iteration
@@ -2536,15 +2394,15 @@ contains
       INTEGER(c_int), INTENT(in) :: opt_parallel
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Apply control vector transform matrix to control vector
-      procedure(c__u_cvt_pdaf) :: u_cvt
+      procedure(c__cvt_pdaf) :: u_cvt
       ! Apply adjoint control vector transform matrix
-      procedure(c__u_cvt_adj_pdaf) :: u_cvt_adj
+      procedure(c__cvt_adj_pdaf) :: u_cvt_adj
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
       call PDAF_3dvar_costf_cg_cvt(step, iter, dim_p, dim_cvec_p, dim_obs_p,  &
          obs_p, dy_p, v_p, d_p, j_tot, gradj, hessjd, u_prodrinva, u_cvt,  &
@@ -2557,8 +2415,6 @@ contains
       u_prodrinva_l, u_init_obsvar_l, u_likelihood_l, screen, type_forget,  &
       eff_dimens, type_hyb, hyb_g, hyb_k, gamma, skew_mabs, kurt_mabs,  &
       flag) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -2607,11 +2463,11 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 A for local analysis domain
-      procedure(c__u_prodrinva_l_pdaf) :: u_prodrinva_l
+      procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
       ! Initialize local mean observation error variance
-      procedure(c__u_init_obsvar_l_pdaf) :: u_init_obsvar_l
+      procedure(c__init_obsvar_l_pdaf) :: u_init_obsvar_l
       ! Provide likelihood of an ensemble state
-      procedure(c__u_likelihood_l_pdaf) :: u_likelihood_l
+      procedure(c__likelihood_l_pdaf) :: u_likelihood_l
 
       call PDAF_lknetf_analysis_T(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
          state_l, ainv_l, ens_l, hx_l, hxbar_l, obs_l, rndmat, forget,  &
@@ -2621,8 +2477,6 @@ contains
    END SUBROUTINE c__PDAF_lknetf_analysis_T
 
    SUBROUTINE c__PDAF_get_ensstats(skew_ptr, kurt_ptr, status) bind(c)
-      use iso_c_binding
-
       ! Pointer to skewness array
       REAL(c_double), POINTER, DIMENSION(:), INTENT(out) :: skew_ptr
       ! Pointer to kurtosis array
@@ -2636,8 +2490,6 @@ contains
 
    SUBROUTINE c__PDAF_estkf_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -2664,8 +2516,6 @@ contains
    END SUBROUTINE c__PDAF_estkf_init
 
    SUBROUTINE c__PDAF_estkf_alloc(outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -2675,8 +2525,6 @@ contains
    END SUBROUTINE c__PDAF_estkf_alloc
 
    SUBROUTINE c__PDAF_estkf_config(subtype, verbose) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -2688,8 +2536,6 @@ contains
    END SUBROUTINE c__PDAF_estkf_config
 
    SUBROUTINE c__PDAF_estkf_set_iparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -2703,8 +2549,6 @@ contains
    END SUBROUTINE c__PDAF_estkf_set_iparam
 
    SUBROUTINE c__PDAF_estkf_set_rparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -2723,8 +2567,6 @@ contains
    END SUBROUTINE c__PDAF_estkf_options
 
    SUBROUTINE c__PDAF_estkf_memtime(printtype) bind(c)
-      use iso_c_binding
-
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -2734,8 +2576,6 @@ contains
    END SUBROUTINE c__PDAF_estkf_memtime
 
    SUBROUTINE c__PDAF_timeit(timerid, operation) bind(c)
-      use iso_c_binding
-
       ! ID of timer
       INTEGER(c_int), INTENT(in) :: timerid
       ! Requested operation
@@ -2749,8 +2589,6 @@ contains
    SUBROUTINE c__PDAF_gen_obs(step, dim_p, dim_obs_f, dim_ens, state_p, ainv,  &
       ens_p, u_init_dim_obs_f, u_obs_op_f, u_get_obs_f, u_init_obserr_f,  &
       u_prepoststep, screen, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -2771,15 +2609,15 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_f_pdaf) :: u_init_dim_obs_f
+      procedure(c__init_dim_obs_f_pdaf) :: u_init_dim_obs_f
       ! Observation operator
-      procedure(c__u_obs_op_f_pdaf) :: u_obs_op_f
+      procedure(c__obs_op_f_pdaf) :: u_obs_op_f
       ! Provide observation vector to user
-      procedure(c__u_get_obs_f_pdaf) :: u_get_obs_f
+      procedure(c__get_obs_f_pdaf) :: u_get_obs_f
       ! Initialize vector of observation error standard deviations
-      procedure(c__u_init_obserr_f_pdaf) :: u_init_obserr_f
+      procedure(c__init_obserr_f_pdaf) :: u_init_obserr_f
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
 
       call PDAF_gen_obs(step, dim_p, dim_obs_f, dim_ens, state_p, ainv, ens_p,  &
          u_init_dim_obs_f, u_obs_op_f, u_get_obs_f, u_init_obserr_f,  &
@@ -2790,8 +2628,6 @@ contains
    SUBROUTINE c__PDAFobs_init(step, dim_p, dim_ens, dim_obs_p, state_p, ens_p,  &
       u_init_dim_obs, u_obs_op, u_init_obs, screen, debug, do_ens_mean,  &
       do_init_dim, do_hx, do_hxbar, do_init_obs) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -2820,11 +2656,11 @@ contains
       LOGICAL(c_bool), INTENT(in) :: do_init_obs
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
 
       call PDAFobs_init(step, dim_p, dim_ens, dim_obs_p, state_p, ens_p,  &
          u_init_dim_obs, u_obs_op, u_init_obs, screen, debug, do_ens_mean,  &
@@ -2834,8 +2670,6 @@ contains
 
    SUBROUTINE c__PDAFobs_init_local(domain_p, step, dim_obs_l, dim_obs_f,  &
       dim_ens, u_init_dim_obs_l, u_g2l_obs, u_init_obs_l, debug) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -2850,11 +2684,11 @@ contains
       INTEGER(c_int), INTENT(in) :: debug
 
       ! Init. dim. of obs. vector for local ana. domain
-      procedure(c__u_init_dim_obs_l_pdaf) :: u_init_dim_obs_l
+      procedure(c__init_dim_obs_l_pdaf) :: u_init_dim_obs_l
       ! Restrict full obs. vector to local analysis domain
-      procedure(c__u_g2l_obs_pdaf) :: u_g2l_obs
+      procedure(c__g2l_obs_pdaf) :: u_g2l_obs
       ! Init. observation vector on local analysis domain
-      procedure(c__u_init_obs_l_pdaf) :: u_init_obs_l
+      procedure(c__init_obs_l_pdaf) :: u_init_obs_l
 
       call PDAFobs_init_local(domain_p, step, dim_obs_l, dim_obs_f, dim_ens,  &
          u_init_dim_obs_l, u_g2l_obs, u_init_obs_l, debug)
@@ -2862,15 +2696,13 @@ contains
    END SUBROUTINE c__PDAFobs_init_local
 
    SUBROUTINE c__PDAFobs_init_obsvars(step, dim_obs_p, u_init_obsvars) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of observation vector
       INTEGER(c_int), INTENT(in) :: dim_obs_p
 
       ! Initialize vector of observation error variances
-      procedure(c__u_init_obsvars_pdaf) :: u_init_obsvars
+      procedure(c__init_obsvars_pdaf) :: u_init_obsvars
 
       call PDAFobs_init_obsvars(step, dim_obs_p, u_init_obsvars)
 
@@ -2888,8 +2720,6 @@ contains
 
    SUBROUTINE c__PDAF_NETF_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -2916,8 +2746,6 @@ contains
    END SUBROUTINE c__PDAF_NETF_init
 
    SUBROUTINE c__PDAF_netf_alloc(outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -2927,8 +2755,6 @@ contains
    END SUBROUTINE c__PDAF_netf_alloc
 
    SUBROUTINE c__PDAF_netf_config(subtype, verbose) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -2940,8 +2766,6 @@ contains
    END SUBROUTINE c__PDAF_netf_config
 
    SUBROUTINE c__PDAF_netf_set_iparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -2955,8 +2779,6 @@ contains
    END SUBROUTINE c__PDAF_netf_set_iparam
 
    SUBROUTINE c__PDAF_netf_set_rparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -2975,8 +2797,6 @@ contains
    END SUBROUTINE c__PDAF_netf_options
 
    SUBROUTINE c__PDAF_netf_memtime(printtype) bind(c)
-      use iso_c_binding
-
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -2987,8 +2807,6 @@ contains
 
    SUBROUTINE c__PDAF_lenkf_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -3015,8 +2833,6 @@ contains
    END SUBROUTINE c__PDAF_lenkf_init
 
    SUBROUTINE c__PDAF_lenkf_alloc(outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -3026,8 +2842,6 @@ contains
    END SUBROUTINE c__PDAF_lenkf_alloc
 
    SUBROUTINE c__PDAF_lenkf_config(subtype, verbose) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -3039,8 +2853,6 @@ contains
    END SUBROUTINE c__PDAF_lenkf_config
 
    SUBROUTINE c__PDAF_lenkf_set_iparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3054,8 +2866,6 @@ contains
    END SUBROUTINE c__PDAF_lenkf_set_iparam
 
    SUBROUTINE c__PDAF_lenkf_set_rparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3074,8 +2884,6 @@ contains
    END SUBROUTINE c__PDAF_lenkf_options
 
    SUBROUTINE c__PDAF_lenkf_memtime(printtype) bind(c)
-      use iso_c_binding
-
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -3086,8 +2894,6 @@ contains
 
    SUBROUTINE c__PDAF_lseik_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -3114,8 +2920,6 @@ contains
    END SUBROUTINE c__PDAF_lseik_init
 
    SUBROUTINE c__PDAF_lseik_alloc(outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -3125,8 +2929,6 @@ contains
    END SUBROUTINE c__PDAF_lseik_alloc
 
    SUBROUTINE c__PDAF_lseik_config(subtype, verbose) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -3138,8 +2940,6 @@ contains
    END SUBROUTINE c__PDAF_lseik_config
 
    SUBROUTINE c__PDAF_lseik_set_iparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3153,8 +2953,6 @@ contains
    END SUBROUTINE c__PDAF_lseik_set_iparam
 
    SUBROUTINE c__PDAF_lseik_set_rparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3173,8 +2971,6 @@ contains
    END SUBROUTINE c__PDAF_lseik_options
 
    SUBROUTINE c__PDAF_lseik_memtime(printtype) bind(c)
-      use iso_c_binding
-
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -3184,8 +2980,6 @@ contains
    END SUBROUTINE c__PDAF_lseik_memtime
 
    SUBROUTINE c__PDAF_timeit(timerid, operation) bind(c)
-      use iso_c_binding
-
       ! ID of timer
       INTEGER(c_int), INTENT(in) :: timerid
       ! Requested operation
@@ -3199,8 +2993,6 @@ contains
 
    SUBROUTINE c__PDAF_etkf_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -3227,8 +3019,6 @@ contains
    END SUBROUTINE c__PDAF_etkf_init
 
    SUBROUTINE c__PDAF_etkf_alloc(outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -3238,8 +3028,6 @@ contains
    END SUBROUTINE c__PDAF_etkf_alloc
 
    SUBROUTINE c__PDAF_etkf_config(subtype, verbose) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -3251,8 +3039,6 @@ contains
    END SUBROUTINE c__PDAF_etkf_config
 
    SUBROUTINE c__PDAF_etkf_set_iparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3266,8 +3052,6 @@ contains
    END SUBROUTINE c__PDAF_etkf_set_iparam
 
    SUBROUTINE c__PDAF_etkf_set_rparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3286,8 +3070,6 @@ contains
    END SUBROUTINE c__PDAF_etkf_options
 
    SUBROUTINE c__PDAF_etkf_memtime(printtype) bind(c)
-      use iso_c_binding
-
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -3299,8 +3081,6 @@ contains
    SUBROUTINE c__PDAFlenkf_update(step, dim_p, dim_obs_p, dim_ens, state_p,  &
       ens_p, u_init_dim_obs, u_obs_op, u_add_obs_err, u_init_obs,  &
       u_init_obs_covar, u_prepoststep, u_localize, screen, subtype, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -3321,19 +3101,19 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Add observation error covariance matrix
-      procedure(c__u_add_obs_err_pdaf) :: u_add_obs_err
+      procedure(c__add_obs_err_pdaf) :: u_add_obs_err
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Initialize observation error covariance matrix
-      procedure(c__u_init_obs_covar_pdaf) :: u_init_obs_covar
+      procedure(c__init_obs_covar_pdaf) :: u_init_obs_covar
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
       ! Apply localization to HP and HPH^T
-      procedure(c__u_localize_pdaf) :: u_localize
+      procedure(c__localize_covar_pdaf) :: u_localize
 
       call PDAFlenkf_update(step, dim_p, dim_obs_p, dim_ens, state_p, ens_p,  &
          u_init_dim_obs, u_obs_op, u_add_obs_err, u_init_obs, u_init_obs_covar,  &
@@ -3343,8 +3123,6 @@ contains
 
    SUBROUTINE c__PDAF_PF_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -3371,8 +3149,6 @@ contains
    END SUBROUTINE c__PDAF_PF_init
 
    SUBROUTINE c__PDAF_pf_alloc(outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -3382,8 +3158,6 @@ contains
    END SUBROUTINE c__PDAF_pf_alloc
 
    SUBROUTINE c__PDAF_pf_config(subtype, verbose) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -3395,8 +3169,6 @@ contains
    END SUBROUTINE c__PDAF_pf_config
 
    SUBROUTINE c__PDAF_pf_set_iparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3410,8 +3182,6 @@ contains
    END SUBROUTINE c__PDAF_pf_set_iparam
 
    SUBROUTINE c__PDAF_pf_set_rparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3430,8 +3200,6 @@ contains
    END SUBROUTINE c__PDAF_pf_options
 
    SUBROUTINE c__PDAF_pf_memtime(printtype) bind(c)
-      use iso_c_binding
-
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -3443,8 +3211,6 @@ contains
    SUBROUTINE c__PDAF_lknetf_ana_letkfT(domain_p, step, dim_l, dim_obs_l,  &
       dim_ens, state_l, ainv_l, ens_l, hz_l, hxbar_l, obs_l, rndmat, forget,  &
       u_prodrinva_hyb_l, u_init_obsvar_l, gamma, screen, type_forget, flag) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -3481,9 +3247,9 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 A for local analysis domain including hybrid weight
-      procedure(c__u_prodrinva_hyb_l_pdaf) :: u_prodrinva_hyb_l
+      procedure(c__prodrinva_hyb_l_pdaf) :: u_prodrinva_hyb_l
       ! Initialize local mean observation error variance
-      procedure(c__u_init_obsvar_l_pdaf) :: u_init_obsvar_l
+      procedure(c__init_obsvar_l_pdaf) :: u_init_obsvar_l
 
       call PDAF_lknetf_ana_letkfT(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
          state_l, ainv_l, ens_l, hz_l, hxbar_l, obs_l, rndmat, forget,  &
@@ -3494,8 +3260,6 @@ contains
    SUBROUTINE c__PDAF_lknetf_ana_lnetf(domain_p, step, dim_l, dim_obs_l,  &
       dim_ens, ens_l, hx_l, rndmat, obs_l, u_likelihood_hyb_l, cnt_small_svals,  &
       n_eff_all, gamma, screen, flag) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -3526,7 +3290,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Compute observation likelihood for an ensemble member with hybrid weight
-      procedure(c__u_likelihood_hyb_l_pdaf) :: u_likelihood_hyb_l
+      procedure(c__likelihood_hyb_l_pdaf) :: u_likelihood_hyb_l
 
       call PDAF_lknetf_ana_lnetf(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
          ens_l, hx_l, rndmat, obs_l, u_likelihood_hyb_l, cnt_small_svals,  &
@@ -3537,8 +3301,6 @@ contains
    SUBROUTINE c__PDAF_enkf_ana_rsm(step, dim_p, dim_obs_p, dim_ens, rank_ana,  &
       state_p, ens_p, hx_p, hxbar_p, obs_p, u_add_obs_err, u_init_obs_covar,  &
       screen, debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -3567,9 +3329,9 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Add observation error covariance matrix
-      procedure(c__u_add_obs_err_pdaf) :: u_add_obs_err
+      procedure(c__add_obs_err_pdaf) :: u_add_obs_err
       ! Initialize observation error covariance matrix
-      procedure(c__u_init_obs_covar_pdaf) :: u_init_obs_covar
+      procedure(c__init_obs_covar_pdaf) :: u_init_obs_covar
 
       call PDAF_enkf_ana_rsm(step, dim_p, dim_obs_p, dim_ens, rank_ana,  &
          state_p, ens_p, hx_p, hxbar_p, obs_p, u_add_obs_err, u_init_obs_covar,  &
@@ -3579,8 +3341,6 @@ contains
 
    SUBROUTINE c__PDAF_lknetf_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -3607,8 +3367,6 @@ contains
    END SUBROUTINE c__PDAF_lknetf_init
 
    SUBROUTINE c__PDAF_lknetf_alloc(outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -3618,8 +3376,6 @@ contains
    END SUBROUTINE c__PDAF_lknetf_alloc
 
    SUBROUTINE c__PDAF_lknetf_config(subtype, verbose) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -3631,8 +3387,6 @@ contains
    END SUBROUTINE c__PDAF_lknetf_config
 
    SUBROUTINE c__PDAF_lknetf_set_iparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3646,8 +3400,6 @@ contains
    END SUBROUTINE c__PDAF_lknetf_set_iparam
 
    SUBROUTINE c__PDAF_lknetf_set_rparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3666,8 +3418,6 @@ contains
    END SUBROUTINE c__PDAF_lknetf_options
 
    SUBROUTINE c__PDAF_lknetf_memtime(printtype) bind(c)
-      use iso_c_binding
-
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -3677,8 +3427,6 @@ contains
    END SUBROUTINE c__PDAF_lknetf_memtime
 
    SUBROUTINE c__PDAF_lknetf_alpha_neff(dim_ens, weights, hlimit, alpha) bind(c)
-      use iso_c_binding
-
       ! Size of ensemble
       INTEGER(c_int), INTENT(in) :: dim_ens
       ! Weights
@@ -3696,8 +3444,6 @@ contains
    SUBROUTINE c__PDAF_lknetf_compute_gamma(domain_p, step, dim_obs_l, dim_ens,  &
       hx_l, hxbar_l, obs_l, type_hyb, hyb_g, hyb_k, gamma, n_eff_out,  &
       skew_mabs, kurt_mabs, u_likelihood_l, screen, flag) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -3732,7 +3478,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Compute observation likelihood for an ensemble member
-      procedure(c__u_likelihood_l_pdaf) :: u_likelihood_l
+      procedure(c__likelihood_l_pdaf) :: u_likelihood_l
 
       call PDAF_lknetf_compute_gamma(domain_p, step, dim_obs_l, dim_ens, hx_l,  &
          hxbar_l, obs_l, type_hyb, hyb_g, hyb_k, gamma, n_eff_out, skew_mabs,  &
@@ -3743,8 +3489,6 @@ contains
    SUBROUTINE c__PDAF_lknetf_set_gamma(domain_p, dim_obs_l, dim_ens, hx_l,  &
       hxbar_l, weights, type_hyb, hyb_g, hyb_k, gamma, n_eff_out, maskew,  &
       makurt, screen, flag) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Size of obs. vector on local ana. domain
@@ -3784,8 +3528,6 @@ contains
    END SUBROUTINE c__PDAF_lknetf_set_gamma
 
    SUBROUTINE c__PDAF_lknetf_reset_gamma(gamma_in) bind(c)
-      use iso_c_binding
-
       ! Prescribed hybrid weight
       REAL(c_double), INTENT(in) :: gamma_in
 
@@ -3798,8 +3540,6 @@ contains
       dim_cvec, dim_cvec_ens, beta_3dvar, state_p, ens_p, state_inc_p, hxbar_p,  &
       obs_p, u_prodrinva, u_cvt, u_cvt_adj, u_cvt_ens, u_cvt_adj_ens,  &
       u_obs_op_lin, u_obs_op_adj, screen, type_opt, debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -3834,19 +3574,19 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Apply control vector transform matrix to control vector (parameterized)
-      procedure(c__u_cvt_pdaf) :: u_cvt
+      procedure(c__cvt_pdaf) :: u_cvt
       ! Apply adjoint control vector transform matrix (parameterized)
-      procedure(c__u_cvt_adj_pdaf) :: u_cvt_adj
+      procedure(c__cvt_adj_pdaf) :: u_cvt_adj
       ! Apply control vector transform matrix to control vector (ensemble)
-      procedure(c__u_cvt_ens_pdaf) :: u_cvt_ens
+      procedure(c__cvt_ens_pdaf) :: u_cvt_ens
       ! Apply adjoint control vector transform matrix (ensemble
-      procedure(c__u_cvt_adj_ens_pdaf) :: u_cvt_adj_ens
+      procedure(c__cvt_adj_ens_pdaf) :: u_cvt_adj_ens
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
       call PDAFhyb3dvar_analysis_cvt(step, dim_p, dim_obs_p, dim_ens, dim_cvec,  &
          dim_cvec_ens, beta_3dvar, state_p, ens_p, state_inc_p, hxbar_p, obs_p,  &
@@ -3858,8 +3598,6 @@ contains
    SUBROUTINE c__PDAF3dvar_analysis_cvt(step, dim_p, dim_obs_p, dim_cvec,  &
       state_p, hxbar_p, obs_p, u_prodrinva, u_cvt, u_cvt_adj, u_obs_op_lin,  &
       u_obs_op_adj, screen, type_opt, debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -3884,15 +3622,15 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! Apply control vector transform matrix to control vector
-      procedure(c__u_cvt_pdaf) :: u_cvt
+      procedure(c__cvt_pdaf) :: u_cvt
       ! Apply adjoint control vector transform matrix
-      procedure(c__u_cvt_adj_pdaf) :: u_cvt_adj
+      procedure(c__cvt_adj_pdaf) :: u_cvt_adj
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
       call PDAF3dvar_analysis_cvt(step, dim_p, dim_obs_p, dim_cvec, state_p,  &
          hxbar_p, obs_p, u_prodrinva, u_cvt, u_cvt_adj, u_obs_op_lin,  &
@@ -3902,8 +3640,6 @@ contains
 
    SUBROUTINE c__PDAF_lestkf_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -3930,8 +3666,6 @@ contains
    END SUBROUTINE c__PDAF_lestkf_init
 
    SUBROUTINE c__PDAF_lestkf_alloc(outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -3941,8 +3675,6 @@ contains
    END SUBROUTINE c__PDAF_lestkf_alloc
 
    SUBROUTINE c__PDAF_lestkf_config(subtype, verbose) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -3954,8 +3686,6 @@ contains
    END SUBROUTINE c__PDAF_lestkf_config
 
    SUBROUTINE c__PDAF_lestkf_set_iparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3969,8 +3699,6 @@ contains
    END SUBROUTINE c__PDAF_lestkf_set_iparam
 
    SUBROUTINE c__PDAF_lestkf_set_rparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3989,8 +3717,6 @@ contains
    END SUBROUTINE c__PDAF_lestkf_options
 
    SUBROUTINE c__PDAF_lestkf_memtime(printtype) bind(c)
-      use iso_c_binding
-
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -4001,8 +3727,6 @@ contains
 
    SUBROUTINE c__PDAF_seik_ana(step, dim_p, dim_obs_p, dim_ens, rank, state_p,  &
       uinv, ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -4033,7 +3757,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
 
       call PDAF_seik_ana(step, dim_p, dim_obs_p, dim_ens, rank, state_p, uinv,  &
          ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, debug, flag)
@@ -4042,8 +3766,6 @@ contains
 
    SUBROUTINE c__PDAF_seik_resample(subtype, dim_p, dim_ens, rank, uinv,  &
       state_p, enst_p, type_sqrt, type_trans, nm1vsn, screen, flag) bind(c)
-      use iso_c_binding
-
       ! Filter subtype
       INTEGER(c_int), INTENT(in) :: subtype
       ! PE-local state dimension
@@ -4078,8 +3800,6 @@ contains
    SUBROUTINE c__PDAF_lseik_ana(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
       rank, state_l, uinv_l, ens_l, hl_l, hxbar_l, obs_l, forget,  &
       u_prodrinva_l, screen, debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -4114,7 +3834,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 A for local analysis domain
-      procedure(c__u_prodrinva_l_pdaf) :: u_prodrinva_l
+      procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
 
       call PDAF_lseik_ana(domain_p, step, dim_l, dim_obs_l, dim_ens, rank,  &
          state_l, uinv_l, ens_l, hl_l, hxbar_l, obs_l, forget, u_prodrinva_l,  &
@@ -4124,8 +3844,6 @@ contains
 
    SUBROUTINE c__PDAF_lseik_resample(domain_p, subtype, dim_l, dim_ens, rank,  &
       uinv_l, state_l, ens_l, omegat_in, type_sqrt, screen, flag) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Specification of filter subtype
@@ -4159,19 +3877,17 @@ contains
 
    SUBROUTINE c__PDAF_prepost(u_collect_state, u_distribute_state,  &
       u_prepoststep, u_next_observation, outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(out) :: outflag
 
       ! Routine to collect a state vector
-      procedure(c__u_collect_state_pdaf) :: u_collect_state
+      procedure(c__collect_state_pdaf) :: u_collect_state
       ! Routine to distribute a state vector
-      procedure(c__u_distribute_state_pdaf) :: u_distribute_state
+      procedure(c__distribute_state_pdaf) :: u_distribute_state
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
       ! Routine to provide time step, time and dimensionof next observation
-      procedure(c__u_next_observation_pdaf) :: u_next_observation
+      procedure(c__next_observation_pdaf) :: u_next_observation
 
       call PDAF_prepost(u_collect_state, u_distribute_state, u_prepoststep,  &
          u_next_observation, outflag)
@@ -4182,8 +3898,6 @@ contains
       ens_p, u_init_dim_obs, u_obs_op, u_add_obs_err, u_init_obs,  &
       u_init_obs_covar, u_prepoststep, screen, subtype, dim_lag, sens_p,  &
       cnt_maxlag, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -4210,17 +3924,17 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Add observation error covariance matrix
-      procedure(c__u_add_obs_err_pdaf) :: u_add_obs_err
+      procedure(c__add_obs_err_pdaf) :: u_add_obs_err
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Initialize observation error covariance matrix
-      procedure(c__u_init_obs_covar_pdaf) :: u_init_obs_covar
+      procedure(c__init_obs_covar_pdaf) :: u_init_obs_covar
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
 
       call PDAFenkf_update(step, dim_p, dim_obs_p, dim_ens, state_p, ens_p,  &
          u_init_dim_obs, u_obs_op, u_add_obs_err, u_init_obs, u_init_obs_covar,  &
@@ -4231,8 +3945,6 @@ contains
    SUBROUTINE c__PDAF_init_parallel(dim_ens, ensemblefilter, fixedbasis,  &
       comm_model, in_comm_filter, in_comm_couple, in_n_modeltasks, in_task_id,  &
       screen, flag) bind(c)
-      use iso_c_binding
-
       ! Rank of covar matrix/ensemble size
       INTEGER(c_int), INTENT(inout) :: dim_ens
       ! Is the filter ensemble-based?
@@ -4262,8 +3974,6 @@ contains
 
    SUBROUTINE c__PDAF_seik_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(in) :: subtype
       ! Integer parameter array
@@ -4290,8 +4000,6 @@ contains
    END SUBROUTINE c__PDAF_seik_init
 
    SUBROUTINE c__PDAF_seik_alloc(outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -4301,8 +4009,6 @@ contains
    END SUBROUTINE c__PDAF_seik_alloc
 
    SUBROUTINE c__PDAF_seik_config(subtype, verbose) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -4314,8 +4020,6 @@ contains
    END SUBROUTINE c__PDAF_seik_config
 
    SUBROUTINE c__PDAF_seik_set_iparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -4329,8 +4033,6 @@ contains
    END SUBROUTINE c__PDAF_seik_set_iparam
 
    SUBROUTINE c__PDAF_seik_set_rparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -4349,8 +4051,6 @@ contains
    END SUBROUTINE c__PDAF_seik_options
 
    SUBROUTINE c__PDAF_seik_memtime(printtype) bind(c)
-      use iso_c_binding
-
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -4362,8 +4062,6 @@ contains
    SUBROUTINE c__PDAFnetf_update(step, dim_p, dim_obs_p, dim_ens, state_p,  &
       ainv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_likelihood,  &
       u_prepoststep, screen, subtype, dim_lag, sens_p, cnt_maxlag, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -4392,15 +4090,15 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Compute observation likelihood for an ensemble member
-      procedure(c__u_likelihood_pdaf) :: u_likelihood
+      procedure(c__likelihood_pdaf) :: u_likelihood
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
 
       call PDAFnetf_update(step, dim_p, dim_obs_p, dim_ens, state_p, ainv,  &
          ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_likelihood,  &
@@ -4411,8 +4109,6 @@ contains
    SUBROUTINE c__PDAF_seik_ana_newT(step, dim_p, dim_obs_p, dim_ens, rank,  &
       state_p, uinv, ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, screen,  &
       debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -4445,7 +4141,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
 
       call PDAF_seik_ana_newT(step, dim_p, dim_obs_p, dim_ens, rank, state_p,  &
          uinv, ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, screen, debug,  &
@@ -4455,8 +4151,6 @@ contains
 
    SUBROUTINE c__PDAF_seik_resample_newT(subtype, dim_p, dim_ens, rank, uinv,  &
       state_p, ens_p, type_sqrt, type_trans, nm1vsn, screen, flag) bind(c)
-      use iso_c_binding
-
       ! Filter subtype
       INTEGER(c_int), INTENT(in) :: subtype
       ! PE-local dimension of model state
@@ -4491,8 +4185,6 @@ contains
    SUBROUTINE c__PDAF_lenkf_ana_rsm(step, dim_p, dim_obs_p, dim_ens, rank_ana,  &
       state_p, ens_p, hx_p, hxbar_p, obs_p, u_add_obs_err, u_init_obs_covar,  &
       u_localize, screen, debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -4521,11 +4213,11 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Add observation error covariance matrix
-      procedure(c__u_add_obs_err_pdaf) :: u_add_obs_err
+      procedure(c__add_obs_err_pdaf) :: u_add_obs_err
       ! Initialize observation error covariance matrix
-      procedure(c__u_init_obs_covar_pdaf) :: u_init_obs_covar
+      procedure(c__init_obs_covar_pdaf) :: u_init_obs_covar
       ! Apply localization to HP and HPH^T
-      procedure(c__u_localize_pdaf) :: u_localize
+      procedure(c__localize_covar_pdaf) :: u_localize
 
       call PDAF_lenkf_ana_rsm(step, dim_p, dim_obs_p, dim_ens, rank_ana,  &
          state_p, ens_p, hx_p, hxbar_p, obs_p, u_add_obs_err, u_init_obs_covar,  &
@@ -4536,8 +4228,6 @@ contains
    SUBROUTINE c__PDAF_lestkf_ana(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
       rank, state_l, ainv_l, ens_l, hl_l, hxbar_l, obs_l, omegat_in, forget,  &
       u_prodrinva_l, envar_mode, type_sqrt, ta, screen, debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -4580,7 +4270,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 A for local analysis domain
-      procedure(c__u_prodrinva_l_pdaf) :: u_prodrinva_l
+      procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
 
       call PDAF_lestkf_ana(domain_p, step, dim_l, dim_obs_l, dim_ens, rank,  &
          state_l, ainv_l, ens_l, hl_l, hxbar_l, obs_l, omegat_in, forget,  &
@@ -4594,8 +4284,6 @@ contains
       u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l,  &
       u_prepoststep, screen, subtype, envar_mode, dim_lag, sens_p, cnt_maxlag,  &
       flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -4628,33 +4316,33 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Init. observation vector on local analysis domain
-      procedure(c__u_init_obs_l_pdaf) :: u_init_obs_l
+      procedure(c__init_obs_l_pdaf) :: u_init_obs_l
       ! Compute product of R^(-1) with HV
-      procedure(c__u_prodrinva_l_pdaf) :: u_prodrinva_l
+      procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
       ! Provide number of local analysis domains
-      procedure(c__u_init_n_domains_p_pdaf) :: u_init_n_domains_p
+      procedure(c__init_n_domains_p_pdaf) :: u_init_n_domains_p
       ! Init state dimension for local ana. domain
-      procedure(c__u_init_dim_l_pdaf) :: u_init_dim_l
+      procedure(c__init_dim_l_pdaf) :: u_init_dim_l
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__u_init_dim_obs_l_pdaf) :: u_init_dim_obs_l
+      procedure(c__init_dim_obs_l_pdaf) :: u_init_dim_obs_l
       ! Get state on local ana. domain from global state
-      procedure(c__u_g2l_state_pdaf) :: u_g2l_state
+      procedure(c__g2l_state_pdaf) :: u_g2l_state
       ! Init full state from state on local analysis domain
-      procedure(c__u_l2g_state_pdaf) :: u_l2g_state
+      procedure(c__l2g_state_pdaf) :: u_l2g_state
       ! Restrict full obs. vector to local analysis domain
-      procedure(c__u_g2l_obs_pdaf) :: u_g2l_obs
+      procedure(c__g2l_obs_pdaf) :: u_g2l_obs
       ! Initialize mean observation error variance
-      procedure(c__u_init_obsvar_pdaf) :: u_init_obsvar
+      procedure(c__init_obsvar_pdaf) :: u_init_obsvar
       ! Initialize local mean observation error variance
-      procedure(c__u_init_obsvar_l_pdaf) :: u_init_obsvar_l
+      procedure(c__init_obsvar_l_pdaf) :: u_init_obsvar_l
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
 
       call PDAFlestkf_update(step, dim_p, dim_obs_f, dim_ens, rank, state_p,  &
          ainv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_init_obs_l,  &
@@ -4667,8 +4355,6 @@ contains
 
    SUBROUTINE c__PDAF_LNETF_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -4695,8 +4381,6 @@ contains
    END SUBROUTINE c__PDAF_LNETF_init
 
    SUBROUTINE c__PDAF_lnetf_alloc(outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -4706,8 +4390,6 @@ contains
    END SUBROUTINE c__PDAF_lnetf_alloc
 
    SUBROUTINE c__PDAF_lnetf_config(subtype, verbose) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -4719,8 +4401,6 @@ contains
    END SUBROUTINE c__PDAF_lnetf_config
 
    SUBROUTINE c__PDAF_lnetf_set_iparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -4734,8 +4414,6 @@ contains
    END SUBROUTINE c__PDAF_lnetf_set_iparam
 
    SUBROUTINE c__PDAF_lnetf_set_rparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -4754,8 +4432,6 @@ contains
    END SUBROUTINE c__PDAF_lnetf_options
 
    SUBROUTINE c__PDAF_lnetf_memtime(printtype) bind(c)
-      use iso_c_binding
-
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -4766,8 +4442,6 @@ contains
 
    SUBROUTINE c__PDAF_enkf_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -4794,8 +4468,6 @@ contains
    END SUBROUTINE c__PDAF_enkf_init
 
    SUBROUTINE c__PDAF_enkf_alloc(outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -4805,8 +4477,6 @@ contains
    END SUBROUTINE c__PDAF_enkf_alloc
 
    SUBROUTINE c__PDAF_enkf_config(subtype, verbose) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -4818,8 +4488,6 @@ contains
    END SUBROUTINE c__PDAF_enkf_config
 
    SUBROUTINE c__PDAF_enkf_set_iparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -4833,8 +4501,6 @@ contains
    END SUBROUTINE c__PDAF_enkf_set_iparam
 
    SUBROUTINE c__PDAF_enkf_set_rparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -4853,8 +4519,6 @@ contains
    END SUBROUTINE c__PDAF_enkf_options
 
    SUBROUTINE c__PDAF_enkf_memtime(printtype) bind(c)
-      use iso_c_binding
-
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -4865,8 +4529,6 @@ contains
 
    SUBROUTINE c__PDAF_enkf_gather_resid(dim_obs, dim_obs_p, dim_ens, resid_p,  &
       resid) bind(c)
-      use iso_c_binding
-
       ! Global observation dimension
       INTEGER(c_int), INTENT(in) :: dim_obs
       ! PE-local observation dimension
@@ -4885,8 +4547,6 @@ contains
 
    SUBROUTINE c__PDAF_enkf_obs_ensemble(step, dim_obs_p, dim_obs, dim_ens,  &
       obsens_p, obs_p, u_init_obs_covar, screen, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Local dimension of current observation
@@ -4905,7 +4565,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize observation error covariance matrix
-      procedure(c__u_init_obs_covar_pdaf) :: u_init_obs_covar
+      procedure(c__init_obs_covar_pdaf) :: u_init_obs_covar
 
       call PDAF_enkf_obs_ensemble(step, dim_obs_p, dim_obs, dim_ens, obsens_p,  &
          obs_p, u_init_obs_covar, screen, flag)
@@ -4915,8 +4575,6 @@ contains
    SUBROUTINE c__PDAFpf_update(step, dim_p, dim_obs_p, dim_ens, state_p, ainv,  &
       ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_likelihood, u_prepoststep,  &
       screen, subtype, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -4939,15 +4597,15 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Compute observation likelihood for an ensemble member
-      procedure(c__u_likelihood_pdaf) :: u_likelihood
+      procedure(c__likelihood_pdaf) :: u_likelihood
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
 
       call PDAFpf_update(step, dim_p, dim_obs_p, dim_ens, state_p, ainv, ens_p,  &
          u_init_dim_obs, u_obs_op, u_init_obs, u_likelihood, u_prepoststep,  &
@@ -4956,8 +4614,6 @@ contains
    END SUBROUTINE c__PDAFpf_update
 
    SUBROUTINE c__PDAF_generate_rndmat(dim, rndmat, mattype) bind(c)
-      use iso_c_binding
-
       ! Size of matrix rndmat
       INTEGER(c_int), INTENT(in) :: dim
       ! Matrix
@@ -4971,8 +4627,6 @@ contains
    END SUBROUTINE c__PDAF_generate_rndmat
 
    SUBROUTINE c__PDAF_print_domain_stats(n_domains_p) bind(c)
-      use iso_c_binding
-
       ! Number of PE-local analysis domains
       INTEGER(c_int), INTENT(in) :: n_domains_p
 
@@ -4987,8 +4641,6 @@ contains
    END SUBROUTINE c__PDAF_init_local_obsstats
 
    SUBROUTINE c__PDAF_incr_local_obsstats(dim_obs_l) bind(c)
-      use iso_c_binding
-
       ! Number of locally assimilated observations
       INTEGER(c_int), INTENT(in) :: dim_obs_l
 
@@ -4998,8 +4650,6 @@ contains
    END SUBROUTINE c__PDAF_incr_local_obsstats
 
    SUBROUTINE c__PDAF_print_local_obsstats(screen, n_domains_with_obs) bind(c)
-      use iso_c_binding
-
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: screen
       !
@@ -5011,8 +4661,6 @@ contains
    END SUBROUTINE c__PDAF_print_local_obsstats
 
    SUBROUTINE c__PDAF_seik_matrixT(dim, dim_ens, a) bind(c)
-      use iso_c_binding
-
       ! dimension of states
       INTEGER(c_int), INTENT(in) :: dim
       ! Size of ensemble
@@ -5026,8 +4674,6 @@ contains
    END SUBROUTINE c__PDAF_seik_matrixT
 
    SUBROUTINE c__PDAF_seik_TtimesA(rank, dim_col, a, b) bind(c)
-      use iso_c_binding
-
       ! Rank of initial covariance matrix
       INTEGER(c_int), INTENT(in) :: rank
       ! Number of columns in A and B
@@ -5043,8 +4689,6 @@ contains
    END SUBROUTINE c__PDAF_seik_TtimesA
 
    SUBROUTINE c__PDAF_seik_Omega(rank, omega, omegatype, screen) bind(c)
-      use iso_c_binding
-
       ! Approximated rank of covar matrix
       INTEGER(c_int), INTENT(in) :: rank
       ! Matrix Omega
@@ -5060,8 +4704,6 @@ contains
    END SUBROUTINE c__PDAF_seik_Omega
 
    SUBROUTINE c__PDAF_seik_Uinv(rank, uinv) bind(c)
-      use iso_c_binding
-
       ! Rank of initial covariance matrix
       INTEGER(c_int), INTENT(in) :: rank
       ! Inverse of matrix U
@@ -5074,8 +4716,6 @@ contains
 
    SUBROUTINE c__PDAF_ens_Omega(seed, r, dim_ens, omega, norm, otype,  &
       screen) bind(c)
-      use iso_c_binding
-
       ! Seed for random number generation
       INTEGER(c_int), DIMENSION(4), INTENT(in) :: seed
       ! Approximated rank of covar matrix
@@ -5097,8 +4737,6 @@ contains
    END SUBROUTINE c__PDAF_ens_Omega
 
    SUBROUTINE c__PDAF_estkf_OmegaA(rank, dim_col, a, b) bind(c)
-      use iso_c_binding
-
       ! Rank of initial covariance matrix
       INTEGER(c_int), INTENT(in) :: rank
       ! Number of columns in A and B
@@ -5114,8 +4752,6 @@ contains
    END SUBROUTINE c__PDAF_estkf_OmegaA
 
    SUBROUTINE c__PDAF_estkf_AOmega(dim, dim_ens, a) bind(c)
-      use iso_c_binding
-
       ! dimension of states
       INTEGER(c_int), INTENT(in) :: dim
       ! Size of ensemble
@@ -5129,8 +4765,6 @@ contains
    END SUBROUTINE c__PDAF_estkf_AOmega
 
    SUBROUTINE c__PDAF_subtract_rowmean(dim, dim_ens, a) bind(c)
-      use iso_c_binding
-
       ! dimension of states
       INTEGER(c_int), INTENT(in) :: dim
       ! Size of ensemble
@@ -5144,8 +4778,6 @@ contains
    END SUBROUTINE c__PDAF_subtract_rowmean
 
    SUBROUTINE c__PDAF_subtract_colmean(dim_ens, dim, a) bind(c)
-      use iso_c_binding
-
       ! Rank of initial covariance matrix
       INTEGER(c_int), INTENT(in) :: dim_ens
       ! Number of columns in A and B
@@ -5160,8 +4792,6 @@ contains
 
    SUBROUTINE c__PDAF_add_particle_noise(dim_p, dim_ens, state_p, ens_p,  &
       type_noise, noise_amp, screen) bind(c)
-      use iso_c_binding
-
       ! State dimension
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Number of particles
@@ -5184,8 +4814,6 @@ contains
    END SUBROUTINE c__PDAF_add_particle_noise
 
    SUBROUTINE c__PDAF_inflate_weights(screen, dim_ens, alpha, weights) bind(c)
-      use iso_c_binding
-
       ! verbosity flag
       INTEGER(c_int), INTENT(in) :: screen
       ! Ensemble size
@@ -5202,8 +4830,6 @@ contains
 
    SUBROUTINE c__PDAF_inflate_ens(dim, dim_ens, meanstate, ens, forget,  &
       do_ensmean) bind(c)
-      use iso_c_binding
-
       ! dimension of states
       INTEGER(c_int), INTENT(in) :: dim
       ! Size of ensemble
@@ -5224,8 +4850,6 @@ contains
 
    SUBROUTINE c__PDAF_alloc(dim_p, dim_ens, dim_ens_task, dim_es, dim_bias_p,  &
       dim_lag, statetask, outflag) bind(c)
-      use iso_c_binding
-
       ! Size of state vector
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Ensemble size
@@ -5251,8 +4875,6 @@ contains
 
    SUBROUTINE c__PDAF_smoothing(dim_p, dim_ens, dim_lag, ainv, sens_p,  &
       cnt_maxlag, forget, screen) bind(c)
-      use iso_c_binding
-
       ! PE-local dimension of model state
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Size of ensemble
@@ -5279,8 +4901,6 @@ contains
    SUBROUTINE c__PDAF_smoothing_local(domain_p, step, dim_p, dim_l, dim_ens,  &
       dim_lag, ainv, ens_l, sens_p, cnt_maxlag, u_g2l_state, u_l2g_state,  &
       forget, screen) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -5307,9 +4927,9 @@ contains
       INTEGER(c_int), INTENT(in) :: screen
 
       ! Get state on local ana. domain from global state
-      procedure(c__u_g2l_state_pdaf) :: u_g2l_state
+      procedure(c__g2l_state_pdaf) :: u_g2l_state
       ! Init full state from state on local analysis domain
-      procedure(c__u_l2g_state_pdaf) :: u_l2g_state
+      procedure(c__l2g_state_pdaf) :: u_l2g_state
 
       call PDAF_smoothing_local(domain_p, step, dim_p, dim_l, dim_ens, dim_lag,  &
          ainv, ens_l, sens_p, cnt_maxlag, u_g2l_state, u_l2g_state, forget, screen)
@@ -5318,8 +4938,6 @@ contains
 
    SUBROUTINE c__PDAF_smoother_shift(dim_p, dim_ens, dim_lag, ens_p, sens_p,  &
       cnt_maxlag, screen) bind(c)
-      use iso_c_binding
-
       ! PE-local dimension of model state
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Size of ensemble
@@ -5346,8 +4964,6 @@ contains
       u_prodrinva_l, u_init_n_domains_p, u_init_dim_l, u_init_dim_obs_l,  &
       u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l,  &
       u_likelihood_l, u_prepoststep, screen, subtype, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -5370,35 +4986,35 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Init. observation vector on local analysis domain
-      procedure(c__u_init_obs_l_pdaf) :: u_init_obs_l
+      procedure(c__init_obs_l_pdaf) :: u_init_obs_l
       ! Compute product of R^(-1) with HV
-      procedure(c__u_prodrinva_l_pdaf) :: u_prodrinva_l
+      procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
       ! Provide number of local analysis domains
-      procedure(c__u_init_n_domains_p_pdaf) :: u_init_n_domains_p
+      procedure(c__init_n_domains_p_pdaf) :: u_init_n_domains_p
       ! Init state dimension for local ana. domain
-      procedure(c__u_init_dim_l_pdaf) :: u_init_dim_l
+      procedure(c__init_dim_l_pdaf) :: u_init_dim_l
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__u_init_dim_obs_l_pdaf) :: u_init_dim_obs_l
+      procedure(c__init_dim_obs_l_pdaf) :: u_init_dim_obs_l
       ! Get state on local ana. domain from global state
-      procedure(c__u_g2l_state_pdaf) :: u_g2l_state
+      procedure(c__g2l_state_pdaf) :: u_g2l_state
       ! Init full state from state on local analysis domain
-      procedure(c__u_l2g_state_pdaf) :: u_l2g_state
+      procedure(c__l2g_state_pdaf) :: u_l2g_state
       ! Restrict full obs. vector to local analysis domain
-      procedure(c__u_g2l_obs_pdaf) :: u_g2l_obs
+      procedure(c__g2l_obs_pdaf) :: u_g2l_obs
       ! Initialize mean observation error variance
-      procedure(c__u_init_obsvar_pdaf) :: u_init_obsvar
+      procedure(c__init_obsvar_pdaf) :: u_init_obsvar
       ! Initialize local mean observation error variance
-      procedure(c__u_init_obsvar_l_pdaf) :: u_init_obsvar_l
+      procedure(c__init_obsvar_l_pdaf) :: u_init_obsvar_l
       ! Compute likelihood
-      procedure(c__u_likelihood_l_pdaf) :: u_likelihood_l
+      procedure(c__likelihood_l_pdaf) :: u_likelihood_l
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
 
       call PDAFlknetf_update_sync(step, dim_p, dim_obs_f, dim_ens, state_p,  &
          ainv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_init_obs_l,  &
@@ -5411,8 +5027,6 @@ contains
    SUBROUTINE c__PDAF_etkf_ana(step, dim_p, dim_obs_p, dim_ens, state_p, ainv,  &
       ens_p, hz_p, hxbar_p, obs_p, forget, u_prodrinva, screen, type_trans,  &
       debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -5445,7 +5059,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
 
       call PDAF_etkf_ana(step, dim_p, dim_obs_p, dim_ens, state_p, ainv, ens_p,  &
          hz_p, hxbar_p, obs_p, forget, u_prodrinva, screen, type_trans, debug,  &
@@ -5456,8 +5070,6 @@ contains
    SUBROUTINE c__PDAF_letkf_ana(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
       state_l, ainv_l, ens_l, hz_l, hxbar_l, obs_l, rndmat, forget,  &
       u_prodrinva_l, type_trans, screen, debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -5494,7 +5106,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 A for local analysis domain
-      procedure(c__u_prodrinva_l_pdaf) :: u_prodrinva_l
+      procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
 
       call PDAF_letkf_ana(domain_p, step, dim_l, dim_obs_l, dim_ens, state_l,  &
          ainv_l, ens_l, hz_l, hxbar_l, obs_l, rndmat, forget, u_prodrinva_l,  &
@@ -5504,8 +5116,6 @@ contains
 
    SUBROUTINE c__PDAF_letkf_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -5532,8 +5142,6 @@ contains
    END SUBROUTINE c__PDAF_letkf_init
 
    SUBROUTINE c__PDAF_letkf_alloc(outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -5543,8 +5151,6 @@ contains
    END SUBROUTINE c__PDAF_letkf_alloc
 
    SUBROUTINE c__PDAF_letkf_config(subtype, verbose) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -5556,8 +5162,6 @@ contains
    END SUBROUTINE c__PDAF_letkf_config
 
    SUBROUTINE c__PDAF_letkf_set_iparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -5571,8 +5175,6 @@ contains
    END SUBROUTINE c__PDAF_letkf_set_iparam
 
    SUBROUTINE c__PDAF_letkf_set_rparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -5591,8 +5193,6 @@ contains
    END SUBROUTINE c__PDAF_letkf_options
 
    SUBROUTINE c__PDAF_letkf_memtime(printtype) bind(c)
-      use iso_c_binding
-
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -5604,8 +5204,6 @@ contains
    SUBROUTINE c__PDAF_estkf_ana(step, dim_p, dim_obs_p, dim_ens, rank, state_p,  &
       ainv, ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, screen,  &
       envar_mode, type_sqrt, type_trans, ta, debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -5646,7 +5244,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 with some matrix
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
 
       call PDAF_estkf_ana(step, dim_p, dim_obs_p, dim_ens, rank, state_p, ainv,  &
          ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, screen, envar_mode,  &
@@ -5657,8 +5255,6 @@ contains
    SUBROUTINE c__PDAF_ensrf_ana(step, dim_p, dim_obs_p, dim_ens, state_p,  &
       ens_p, hx_p, hxbar_p, obs_p, var_obs_p, u_localize_covar_serial, screen,  &
       debug) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -5685,7 +5281,7 @@ contains
       INTEGER(c_int), INTENT(in) :: debug
 
       ! Apply localization for single-observation vectors
-      procedure(c__u_localize_covar_serial_pdaf) :: u_localize_covar_serial
+      procedure(c__localize_covar_serial_pdaf) :: u_localize_covar_serial
 
       call PDAF_ensrf_ana(step, dim_p, dim_obs_p, dim_ens, state_p, ens_p,  &
          hx_p, hxbar_p, obs_p, var_obs_p, u_localize_covar_serial, screen, debug)
@@ -5695,8 +5291,6 @@ contains
    SUBROUTINE c__PDAF_ensrf_ana_2step(step, dim_p, dim_obs_p, dim_ens, state_p,  &
       ens_p, hx_p, hxbar_p, obs_p, var_obs_p, u_localize_covar_serial, screen,  &
       debug) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -5723,7 +5317,7 @@ contains
       INTEGER(c_int), INTENT(in) :: debug
 
       ! Apply localization for single-observation vectors
-      procedure(c__u_localize_covar_serial_pdaf) :: u_localize_covar_serial
+      procedure(c__localize_covar_serial_pdaf) :: u_localize_covar_serial
 
       call PDAF_ensrf_ana_2step(step, dim_p, dim_obs_p, dim_ens, state_p,  &
          ens_p, hx_p, hxbar_p, obs_p, var_obs_p, u_localize_covar_serial,  &
@@ -5736,8 +5330,6 @@ contains
       u_likelihood_l, u_init_n_domains_p, u_init_dim_l, u_init_dim_obs_l,  &
       u_g2l_state, u_l2g_state, u_g2l_obs, u_prepoststep, screen, subtype,  &
       dim_lag, sens_p, cnt_maxlag, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -5766,29 +5358,29 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Initialize PE-local observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Init. observation vector on local analysis domain
-      procedure(c__u_init_obs_l_pdaf) :: u_init_obs_l
+      procedure(c__init_obs_l_pdaf) :: u_init_obs_l
       ! Compute observation likelihood for an ensemble member
-      procedure(c__u_likelihood_l_pdaf) :: u_likelihood_l
+      procedure(c__likelihood_l_pdaf) :: u_likelihood_l
       ! Provide number of local analysis domains
-      procedure(c__u_init_n_domains_p_pdaf) :: u_init_n_domains_p
+      procedure(c__init_n_domains_p_pdaf) :: u_init_n_domains_p
       ! Init state dimension for local ana. domain
-      procedure(c__u_init_dim_l_pdaf) :: u_init_dim_l
+      procedure(c__init_dim_l_pdaf) :: u_init_dim_l
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__u_init_dim_obs_l_pdaf) :: u_init_dim_obs_l
+      procedure(c__init_dim_obs_l_pdaf) :: u_init_dim_obs_l
       ! Get state on local ana. domain from global state
-      procedure(c__u_g2l_state_pdaf) :: u_g2l_state
+      procedure(c__g2l_state_pdaf) :: u_g2l_state
       ! Init full state from state on local analysis domain
-      procedure(c__u_l2g_state_pdaf) :: u_l2g_state
+      procedure(c__l2g_state_pdaf) :: u_l2g_state
       ! Restrict full obs. vector to local analysis domain
-      procedure(c__u_g2l_obs_pdaf) :: u_g2l_obs
+      procedure(c__g2l_obs_pdaf) :: u_g2l_obs
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
 
       call PDAFlnetf_update(step, dim_p, dim_obs_f, dim_ens, state_p, ainv,  &
          ens_p, u_obs_op, u_init_dim_obs, u_init_obs, u_init_obs_l,  &
@@ -5801,8 +5393,6 @@ contains
    SUBROUTINE c__PDAF_seik_ana_trans(step, dim_p, dim_obs_p, dim_ens, rank,  &
       state_p, uinv, ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, screen,  &
       type_sqrt, type_trans, nm1vsn, debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -5841,7 +5431,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
 
       call PDAF_seik_ana_trans(step, dim_p, dim_obs_p, dim_ens, rank, state_p,  &
          uinv, ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, screen,  &
@@ -5854,8 +5444,6 @@ contains
       u_init_obs, u_prodrinva, u_prepoststep, u_cvt_ens, u_cvt_adj_ens, u_cvt,  &
       u_cvt_adj, u_obs_op_lin, u_obs_op_adj, u_init_obsvar, screen, subtype,  &
       flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -5882,29 +5470,29 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Provide product R^-1 A for 3DVAR analysis
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
       ! Apply control vector transform matrix (ensemble)
-      procedure(c__u_cvt_ens_pdaf) :: u_cvt_ens
+      procedure(c__cvt_ens_pdaf) :: u_cvt_ens
       ! Apply adjoint control vector transform matrix (ensemble var)
-      procedure(c__u_cvt_adj_ens_pdaf) :: u_cvt_adj_ens
+      procedure(c__cvt_adj_ens_pdaf) :: u_cvt_adj_ens
       ! Apply control vector transform matrix
-      procedure(c__u_cvt_pdaf) :: u_cvt
+      procedure(c__cvt_pdaf) :: u_cvt
       ! Apply adjoint control vector transform matrix
-      procedure(c__u_cvt_adj_pdaf) :: u_cvt_adj
+      procedure(c__cvt_adj_pdaf) :: u_cvt_adj
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
       ! Initialize mean observation error variance
-      procedure(c__u_init_obsvar_pdaf) :: u_init_obsvar
+      procedure(c__init_obsvar_pdaf) :: u_init_obsvar
 
       call PDAFhyb3dvar_update_estkf(step, dim_p, dim_obs_p, dim_ens, dim_cvec,  &
          dim_cvec_ens, state_p, ainv, ens_p, u_init_dim_obs, u_obs_op,  &
@@ -5921,8 +5509,6 @@ contains
       u_init_obs_f, u_init_obs_l, u_prodrinva_l, u_init_n_domains_p,  &
       u_init_dim_l, u_init_dim_obs_l, u_g2l_state, u_l2g_state, u_g2l_obs,  &
       u_init_obsvar, u_init_obsvar_l, screen, subtype, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -5949,53 +5535,53 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_pdaf) :: u_init_dim_obs
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
       ! Observation operator
-      procedure(c__u_obs_op_pdaf) :: u_obs_op
+      procedure(c__obs_op_pdaf) :: u_obs_op
       ! Initialize observation vector
-      procedure(c__u_init_obs_pdaf) :: u_init_obs
+      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Provide product R^-1 A for 3DVAR analysis
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
       ! User supplied pre/poststep routine
-      procedure(c__u_prepoststep_pdaf) :: u_prepoststep
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
       ! Apply control vector transform matrix (ensemble)
-      procedure(c__u_cvt_ens_pdaf) :: u_cvt_ens
+      procedure(c__cvt_ens_pdaf) :: u_cvt_ens
       ! Apply adjoint control vector transform matrix (ensemble var)
-      procedure(c__u_cvt_adj_ens_pdaf) :: u_cvt_adj_ens
+      procedure(c__cvt_adj_ens_pdaf) :: u_cvt_adj_ens
       ! Apply control vector transform matrix
-      procedure(c__u_cvt_pdaf) :: u_cvt
+      procedure(c__cvt_pdaf) :: u_cvt
       ! Apply adjoint control vector transform matrix
-      procedure(c__u_cvt_adj_pdaf) :: u_cvt_adj
+      procedure(c__cvt_adj_pdaf) :: u_cvt_adj
       ! Linearized observation operator
-      procedure(c__u_obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
-      procedure(c__u_obs_op_adj_pdaf) :: u_obs_op_adj
+      procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
       ! Initialize dimension of observation vector
-      procedure(c__u_init_dim_obs_f_pdaf) :: u_init_dim_obs_f
+      procedure(c__init_dim_obs_f_pdaf) :: u_init_dim_obs_f
       ! Observation operator
-      procedure(c__u_obs_op_f_pdaf) :: u_obs_op_f
+      procedure(c__obs_op_f_pdaf) :: u_obs_op_f
       ! Initialize PE-local observation vector
-      procedure(c__u_init_obs_f_pdaf) :: u_init_obs_f
+      procedure(c__init_obs_f_pdaf) :: u_init_obs_f
       ! Init. observation vector on local analysis domain
-      procedure(c__u_init_obs_l_pdaf) :: u_init_obs_l
+      procedure(c__init_obs_l_pdaf) :: u_init_obs_l
       ! Provide product R^-1 A on local analysis domain
-      procedure(c__u_prodrinva_l_pdaf) :: u_prodrinva_l
+      procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
       ! Provide number of local analysis domains
-      procedure(c__u_init_n_domains_p_pdaf) :: u_init_n_domains_p
+      procedure(c__init_n_domains_p_pdaf) :: u_init_n_domains_p
       ! Init state dimension for local ana. domain
-      procedure(c__u_init_dim_l_pdaf) :: u_init_dim_l
+      procedure(c__init_dim_l_pdaf) :: u_init_dim_l
       ! Initialize dim. of obs. vector for local ana. domain
-      procedure(c__u_init_dim_obs_l_pdaf) :: u_init_dim_obs_l
+      procedure(c__init_dim_obs_l_pdaf) :: u_init_dim_obs_l
       ! Get state on local ana. domain from full state
-      procedure(c__u_g2l_state_pdaf) :: u_g2l_state
+      procedure(c__g2l_state_pdaf) :: u_g2l_state
       ! Init full state from state on local analysis domain
-      procedure(c__u_l2g_state_pdaf) :: u_l2g_state
+      procedure(c__l2g_state_pdaf) :: u_l2g_state
       ! Restrict full obs. vector to local analysis domain
-      procedure(c__u_g2l_obs_pdaf) :: u_g2l_obs
+      procedure(c__g2l_obs_pdaf) :: u_g2l_obs
       ! Initialize mean observation error variance
-      procedure(c__u_init_obsvar_pdaf) :: u_init_obsvar
+      procedure(c__init_obsvar_pdaf) :: u_init_obsvar
       ! Initialize local mean observation error variance
-      procedure(c__u_init_obsvar_l_pdaf) :: u_init_obsvar_l
+      procedure(c__init_obsvar_l_pdaf) :: u_init_obsvar_l
 
       call PDAFhyb3dvar_update_lestkf(step, dim_p, dim_obs_p, dim_ens,  &
          dim_cvec, dim_cvec_ens, state_p, ainv, ens_p, u_init_dim_obs,  &
@@ -6011,8 +5597,6 @@ contains
    SUBROUTINE c__PDAF_lestkf_ana_fixed(domain_p, step, dim_l, dim_obs_l,  &
       dim_ens, rank, state_l, ainv_l, ens_l, hl_l, hxbar_l, obs_l, forget,  &
       u_prodrinva_l, type_sqrt, screen, debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -6049,7 +5633,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 A for local analysis domain
-      procedure(c__u_prodrinva_l_pdaf) :: u_prodrinva_l
+      procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
 
       call PDAF_lestkf_ana_fixed(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
          rank, state_l, ainv_l, ens_l, hl_l, hxbar_l, obs_l, forget,  &
@@ -6059,8 +5643,6 @@ contains
 
    SUBROUTINE c__PDAF_genobs_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(in) :: subtype
       ! Integer parameter array
@@ -6087,8 +5669,6 @@ contains
    END SUBROUTINE c__PDAF_genobs_init
 
    SUBROUTINE c__PDAF_genobs_alloc(outflag) bind(c)
-      use iso_c_binding
-
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -6098,8 +5678,6 @@ contains
    END SUBROUTINE c__PDAF_genobs_alloc
 
    SUBROUTINE c__PDAF_genobs_config(subtype, verbose) bind(c)
-      use iso_c_binding
-
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -6111,8 +5689,6 @@ contains
    END SUBROUTINE c__PDAF_genobs_config
 
    SUBROUTINE c__PDAF_genobs_set_iparam(id, value, flag) bind(c)
-      use iso_c_binding
-
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -6133,8 +5709,6 @@ contains
    SUBROUTINE c__PDAF_etkf_ana_T(step, dim_p, dim_obs_p, dim_ens, state_p,  &
       ainv, ens_p, hz_p, hxbar_p, obs_p, forget, u_prodrinva, screen,  &
       type_trans, debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -6167,7 +5741,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 A
-      procedure(c__u_prodrinva_pdaf) :: u_prodrinva
+      procedure(c__prodrinva_pdaf) :: u_prodrinva
 
       call PDAF_etkf_ana_T(step, dim_p, dim_obs_p, dim_ens, state_p, ainv,  &
          ens_p, hz_p, hxbar_p, obs_p, forget, u_prodrinva, screen, type_trans,  &
@@ -6178,8 +5752,6 @@ contains
    SUBROUTINE c__PDAF_letkf_ana_fixed(domain_p, step, dim_l, dim_obs_l,  &
       dim_ens, state_l, ainv_l, ens_l, hz_l, hxbar_l, obs_l, forget,  &
       u_prodrinva_l, screen, debug, flag) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -6212,7 +5784,7 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       ! Provide product R^-1 A for local analysis domain
-      procedure(c__u_prodrinva_l_pdaf) :: u_prodrinva_l
+      procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
 
       call PDAF_letkf_ana_fixed(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
          state_l, ainv_l, ens_l, hz_l, hxbar_l, obs_l, forget, u_prodrinva_l,  &

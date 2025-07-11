@@ -5,8 +5,6 @@ implicit none
 
 contains
    SUBROUTINE c__PDAFomi_init_obs_f_cb(step, dim_obs_f, observation_f) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Dimension of full observation vector
@@ -20,8 +18,6 @@ contains
    END SUBROUTINE c__PDAFomi_init_obs_f_cb
 
    SUBROUTINE c__PDAFomi_init_obsvar_cb(step, dim_obs_p, obs_p, meanvar) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of observation vector
@@ -37,8 +33,6 @@ contains
    END SUBROUTINE c__PDAFomi_init_obsvar_cb
 
    SUBROUTINE c__PDAFomi_init_obsvars_f_cb(step, dim_obs_f, var_f) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Dimension of full observation vector
@@ -53,8 +47,6 @@ contains
 
    SUBROUTINE c__PDAFomi_g2l_obs_cb(domain_p, step, dim_obs_f, dim_obs_l,  &
       ostate_f, ostate_l) bind(c)
-      use iso_c_binding
-
       ! Index of current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -76,8 +68,6 @@ contains
 
    SUBROUTINE c__PDAFomi_init_obs_l_cb(domain_p, step, dim_obs_l,  &
       observation_l) bind(c)
-      use iso_c_binding
-
       ! Index of current local analysis domain index
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -94,8 +84,6 @@ contains
 
    SUBROUTINE c__PDAFomi_init_obsvar_l_cb(domain_p, step, dim_obs_l, obs_l,  &
       meanvar_l) bind(c)
-      use iso_c_binding
-
       ! Index of current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -114,8 +102,6 @@ contains
 
    SUBROUTINE c__PDAFomi_prodRinvA_l_cb(domain_p, step, dim_obs_l, rank, obs_l,  &
       a_l, c_l) bind(c)
-      use iso_c_binding
-
       ! Index of current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -138,8 +124,6 @@ contains
 
    SUBROUTINE c__PDAFomi_likelihood_l_cb(domain_p, step, dim_obs_l, obs_l,  &
       resid_l, lhood_l) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -161,8 +145,6 @@ contains
 
    SUBROUTINE c__PDAFomi_prodRinvA_hyb_l_cb(domain_p, step, dim_obs_l, rank,  &
       obs_l, alpha, a_l, c_l) bind(c)
-      use iso_c_binding
-
       ! Index of current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -188,8 +170,6 @@ contains
 
    SUBROUTINE c__PDAFomi_likelihood_hyb_l_cb(domain_p, step, dim_obs_l, obs_l,  &
       resid_l, alpha, lhood_l) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -213,8 +193,6 @@ contains
 
    SUBROUTINE c__PDAFomi_prodRinvA_cb(step, dim_obs_p, ncol, obs_p, a_p,  &
       c_p) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Dimension of PE-local observation vector
@@ -234,8 +212,6 @@ contains
    END SUBROUTINE c__PDAFomi_prodRinvA_cb
 
    SUBROUTINE c__PDAFomi_likelihood_cb(step, dim_obs, obs, resid, lhood) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of obs. vector
@@ -253,8 +229,6 @@ contains
    END SUBROUTINE c__PDAFomi_likelihood_cb
 
    SUBROUTINE c__PDAFomi_add_obs_error_cb(step, dim_obs_p, c_p) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Dimension of PE-local observation vector
@@ -269,8 +243,6 @@ contains
 
    SUBROUTINE c__PDAFomi_init_obscovar_cb(step, dim_obs, dim_obs_p, covar,  &
       m_state_p, isdiag) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Dimension of observation vector
@@ -291,8 +263,6 @@ contains
    END SUBROUTINE c__PDAFomi_init_obscovar_cb
 
    SUBROUTINE c__PDAFomi_init_obserr_f_cb(step, dim_obs_f, obs_f, obserr_f) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Full dimension of observation vector
@@ -308,8 +278,6 @@ contains
    END SUBROUTINE c__PDAFomi_init_obserr_f_cb
 
    SUBROUTINE c__PDAFomi_localize_covar_cb(dim_p, dim_obs, hp_p, hph) bind(c)
-      use iso_c_binding
-
       ! Process-local state dimension
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Number of observations
@@ -326,8 +294,6 @@ contains
 
    SUBROUTINE c__PDAFomi_localize_covar_serial_cb(iobs, dim_p, dim_obs, hp_p,  &
       hxy_p) bind(c)
-      use iso_c_binding
-
       ! Index of current observation
       INTEGER(c_int), INTENT(in) :: iobs
       ! Process-local state dimension
@@ -346,8 +312,6 @@ contains
 
    SUBROUTINE c__PDAFomi_omit_by_inno_l_cb(domain_p, dim_obs_l, resid_l,  &
       obs_l) bind(c)
-      use iso_c_binding
-
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! PE-local dimension of obs. vector
@@ -363,8 +327,6 @@ contains
    END SUBROUTINE c__PDAFomi_omit_by_inno_l_cb
 
    SUBROUTINE c__PDAFomi_omit_by_inno_cb(dim_obs_f, resid_f, obs_f) bind(c)
-      use iso_c_binding
-
       ! Full dimension of obs. vector
       INTEGER(c_int), INTENT(in) :: dim_obs_f
       ! Input vector of residuum
@@ -379,8 +341,6 @@ contains
 
    SUBROUTINE c__PDAFlocal_g2l_cb(step, domain_p, dim_p, state_p, dim_l,  &
       state_l) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Current local analysis domain
@@ -401,8 +361,6 @@ contains
 
    SUBROUTINE c__PDAFlocal_l2g_cb(step, domain_p, dim_l, state_l, dim_p,  &
       state_p) bind(c)
-      use iso_c_binding
-
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Current local analysis domain

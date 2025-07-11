@@ -3,8 +3,6 @@ implicit none
 contains
    SUBROUTINE c__PDAFomi_localize_covar_iso(i_obs, dim, locweight, cradius, sradius,  &
       coords, hp, hph) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -31,8 +29,6 @@ contains
 
    SUBROUTINE c__PDAFomi_localize_covar_noniso_locweights(i_obs, dim, locweights,  &
       cradius, sradius, coords, hp, hph) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -59,8 +55,6 @@ contains
 
    SUBROUTINE c__PDAFomi_localize_covar_noniso(i_obs, dim, locweight, cradius,  &
       sradius, coords, hp, hph) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -87,8 +81,6 @@ contains
 
    SUBROUTINE c__PDAFomi_localize_covar_serial_iso(i_obs, iobs_all, dim, dim_obs,  &
       locweight, cradius, sradius, coords, hp, hxy) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -119,8 +111,6 @@ contains
 
    SUBROUTINE c__PDAFomi_localize_covar_serial_noniso_locweights(i_obs, iobs_all, dim,  &
       dim_obs, locweights, cradius, sradius, coords, hp, hxy) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -151,8 +141,6 @@ contains
 
    SUBROUTINE c__PDAFomi_localize_covar_serial_noniso(i_obs, iobs_all, dim, dim_obs,  &
       locweight, cradius, sradius, coords, hp, hxy) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -183,8 +171,6 @@ contains
 
    SUBROUTINE c__PDAFomi_init_dim_obs_l_iso_old(i_obs, coords_l, locweight, cradius,  &
       sradius, cnt_obs_l) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -207,8 +193,6 @@ contains
 
    SUBROUTINE c__PDAFomi_init_dim_obs_l_noniso_old(i_obs, coords_l, locweight,  &
       cradius, sradius, cnt_obs_l) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -231,8 +215,6 @@ contains
 
    SUBROUTINE c__PDAFomi_init_dim_obs_l_noniso_locweights_old(i_obs, coords_l,  &
       locweights, cradius, sradius, cnt_obs_l) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -254,8 +236,6 @@ contains
    END SUBROUTINE c__PDAFomi_init_dim_obs_l_noniso_locweights_old
 
    SUBROUTINE c__PDAFomi_deallocate_obs(i_obs) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 

@@ -6,8 +6,6 @@ implicit none
 
 contains
    SUBROUTINE c__PDAFomi_set_doassim(i_obs, doassim) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -20,8 +18,6 @@ contains
    END SUBROUTINE c__PDAFomi_set_doassim
 
    SUBROUTINE c__PDAFomi_set_disttype(i_obs, disttype) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -34,8 +30,6 @@ contains
    END SUBROUTINE c__PDAFomi_set_disttype
 
    SUBROUTINE c__PDAFomi_set_ncoord(i_obs, ncoord) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -48,8 +42,6 @@ contains
    END SUBROUTINE c__PDAFomi_set_ncoord
 
    SUBROUTINE c__PDAFomi_set_obs_err_type(i_obs, obs_err_type) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -62,8 +54,6 @@ contains
    END SUBROUTINE c__PDAFomi_set_obs_err_type
 
    SUBROUTINE c__PDAFomi_set_use_global_obs(i_obs, use_global_obs) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -76,8 +66,6 @@ contains
    END SUBROUTINE c__PDAFomi_set_use_global_obs
 
    SUBROUTINE c__PDAFomi_set_inno_omit(i_obs, inno_omit) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -90,8 +78,6 @@ contains
    END SUBROUTINE c__PDAFomi_set_inno_omit
 
    SUBROUTINE c__PDAFomi_set_inno_omit_ivar(i_obs, inno_omit_ivar) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -104,8 +90,6 @@ contains
    END SUBROUTINE c__PDAFomi_set_inno_omit_ivar
 
    SUBROUTINE c__PDAFomi_set_id_obs_p(i_obs, nrows, dim_obs_p, id_obs_p) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -122,8 +106,6 @@ contains
    END SUBROUTINE c__PDAFomi_set_id_obs_p
 
    SUBROUTINE c__PDAFomi_set_icoeff_p(i_obs, nrows, dim_obs_p, icoeff_p) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -140,8 +122,6 @@ contains
    END SUBROUTINE c__PDAFomi_set_icoeff_p
 
    SUBROUTINE c__PDAFomi_set_domainsize(i_obs, ncoord, domainsize) bind(c)
-      use iso_c_binding
-
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -156,8 +136,6 @@ contains
    END SUBROUTINE c__PDAFomi_set_domainsize
 
    SUBROUTINE c__PDAFomi_set_globalobs(globalobs_in) bind(c)
-      use iso_c_binding
-
       ! Input value of globalobs
       INTEGER(c_int), INTENT(in) :: globalobs_in
 
