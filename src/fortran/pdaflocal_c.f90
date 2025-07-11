@@ -1,6 +1,7 @@
 MODULE pdaflocal_c
-use PDAF3
-use U_PDAF_interface_c_binding
+use iso_c_binding, only: c_int, c_double, c_bool
+use PDAF
+use pdaf_c_cb_interface
 
 implicit none
 

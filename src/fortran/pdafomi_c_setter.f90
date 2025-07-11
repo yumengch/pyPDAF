@@ -1,7 +1,8 @@
 MODULE pdafomi_c_setter
+use iso_c_binding, only: c_int, c_double, c_bool
 use PDAF
-use U_PDAF_interface_c_binding
-
+use pdaf_c_cb_interface
+use pdafomi_c, only: n_obs_omi, thisobs, thisobs_l
 implicit none
 
 contains
@@ -135,12 +136,4 @@ contains
 
    END SUBROUTINE c__PDAFomi_set_domainsize
 
-   SUBROUTINE c__PDAFomi_set_globalobs(globalobs_in) bind(c)
-      ! Input value of globalobs
-      INTEGER(c_int), INTENT(in) :: globalobs_in
-
-
-      call PDAFomi_set_globalobs(globalobs_in)
-
-   END SUBROUTINE c__PDAFomi_set_globalobs
 END MODULE pdafomi_c_setter

@@ -1,4 +1,7 @@
 module pdaf_c
+use iso_c_binding, only: c_int, c_double, c_bool
+use pdaf
+use pdaf_c_cb_interface
 implicit none
 
 contains
@@ -78,6 +81,8 @@ contains
    END SUBROUTINE c__PDAF_gather_dim_obs_f
 
    SUBROUTINE c__PDAF_gather_obs_f(obs_p, obs_f, status) bind(c)
+      USE PDAF_mod_parallel, ONLY: dimobs_p, dimobs_f
+      implicit none
       ! PE-local vector
       REAL(c_double), DIMENSION(dimobs_p), INTENT(in) :: obs_p
       ! Full gathered vector
@@ -91,6 +96,9 @@ contains
    END SUBROUTINE c__PDAF_gather_obs_f
 
    SUBROUTINE c__PDAF_gather_obs_f2(coords_p, coords_f, nrows, status) bind(c)
+      USE PDAF_mod_parallel, ONLY: dimobs_p, dimobs_f
+
+      implicit none
       ! PE-local array
       REAL(c_double), DIMENSION(nrows, dimobs_p), INTENT(in) :: coords_p
       ! Full gathered array
@@ -181,9 +189,13 @@ contains
       ! User-supplied routine for ensemble initialization
       procedure(c__init_ens_pdaf) :: u_init_ens
 
+      logical :: in_filterpe_f
+
+      in_filterpe_f = in_filterpe
+
       call PDAF_init(filtertype, subtype, stepnull, param_int, dim_pint,  &
          param_real, dim_preal, comm_model, comm_filter, comm_couple, task_id,  &
-         n_modeltasks, in_filterpe, u_init_ens, in_screen, outflag)
+         n_modeltasks, in_filterpe_f, u_init_ens, in_screen, outflag)
 
    END SUBROUTINE c__PDAF_init
 

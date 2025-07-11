@@ -1,4 +1,6 @@
 MODULE pdaf_c_internal
+use iso_c_binding, only: c_int, c_double, c_bool, c_char
+use pdaf_c_cb_interface
 implicit none
 
 contains
@@ -635,7 +637,7 @@ contains
 
    SUBROUTINE c__PDAF_memcount_define(stortype, wordlength) bind(c)
       ! Type of variable
-      CHARACTER(c_char), INTENT(in) :: stortype
+      CHARACTER(kind=c_char), INTENT(in) :: stortype
       ! Word length for chosen type
       INTEGER(c_int), INTENT(in) :: wordlength
 
@@ -648,7 +650,7 @@ contains
       ! Id of the counter
       INTEGER(c_int), INTENT(in) :: id
       ! Type of variable
-      CHARACTER(c_char), INTENT(in) :: stortype
+      CHARACTER(kind=c_char), INTENT(in) :: stortype
       ! Dimension of allocated variable
       INTEGER(c_int), INTENT(in) :: dim
 
@@ -673,7 +675,7 @@ contains
       ! Number of real parameters
       INTEGER(c_int), INTENT(in) :: dim_preal
       ! Name of filter algorithm
-      CHARACTER(c_char), INTENT(out) :: filterstr
+      CHARACTER(kind=c_char), INTENT(out) :: filterstr
       ! Is the chosen filter ensemble-based?
       LOGICAL(c_bool), INTENT(out) :: ensemblefilter
       ! Does the filter run with fixed error-space basis?
@@ -692,7 +694,7 @@ contains
 
    SUBROUTINE c__PDAF_alloc_filters(filterstr, subtype, flag) bind(c)
       ! Name of filter algorithm
-      CHARACTER(c_char), INTENT(in) :: filterstr
+      CHARACTER(kind=c_char), INTENT(in) :: filterstr
       ! Sub-type of filter
       INTEGER(c_int), INTENT(in) :: subtype
       ! Status flag
@@ -2575,17 +2577,6 @@ contains
 
    END SUBROUTINE c__PDAF_estkf_memtime
 
-   SUBROUTINE c__PDAF_timeit(timerid, operation) bind(c)
-      ! ID of timer
-      INTEGER(c_int), INTENT(in) :: timerid
-      ! Requested operation
-      CHARACTER(c_char), INTENT(in) :: operation
-
-
-      call PDAF_timeit(timerid, operation)
-
-   END SUBROUTINE c__PDAF_timeit
-
    SUBROUTINE c__PDAF_gen_obs(step, dim_p, dim_obs_f, dim_ens, state_p, ainv,  &
       ens_p, u_init_dim_obs_f, u_obs_op_f, u_get_obs_f, u_init_obserr_f,  &
       u_prepoststep, screen, flag) bind(c)
@@ -2978,17 +2969,6 @@ contains
       call PDAF_lseik_memtime(printtype)
 
    END SUBROUTINE c__PDAF_lseik_memtime
-
-   SUBROUTINE c__PDAF_timeit(timerid, operation) bind(c)
-      ! ID of timer
-      INTEGER(c_int), INTENT(in) :: timerid
-      ! Requested operation
-      CHARACTER(c_char), INTENT(in) :: operation
-
-
-      call PDAF_timeit(timerid, operation)
-
-   END SUBROUTINE c__PDAF_timeit
 
 
    SUBROUTINE c__PDAF_etkf_init(subtype, param_int, dim_pint, param_real,  &

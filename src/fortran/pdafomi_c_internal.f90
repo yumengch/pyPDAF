@@ -1,6 +1,17 @@
 module pdafomi_c_internal
+use iso_c_binding, only: c_int, c_double, c_bool
+use pdafomi_c, only: n_obs_omi, thisobs, thisobs_l
 implicit none
 contains
+   SUBROUTINE c__PDAFomi_set_globalobs(globalobs_in) bind(c)
+      ! Input value of globalobs
+      INTEGER(c_int), INTENT(in) :: globalobs_in
+
+
+      call PDAFomi_set_globalobs(globalobs_in)
+
+   END SUBROUTINE c__PDAFomi_set_globalobs
+
    SUBROUTINE c__PDAFomi_diag_omit_by_inno() bind(c)
       call PDAFomi_diag_omit_by_inno()
 

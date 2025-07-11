@@ -1,6 +1,7 @@
 MODULE pdaf_c_setter
+use iso_c_binding, only: c_int, c_double, c_bool
 use PDAF
-
+use pdaf_c_cb_interface
 implicit none
 
 contains

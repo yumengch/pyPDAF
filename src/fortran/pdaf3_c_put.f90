@@ -1,6 +1,7 @@
 MODULE pdaf3_c_put
+use iso_c_binding, only: c_int, c_double, c_bool
 use PDAF
-use U_PDAF_interface_c_binding
+use pdaf_c_cb_interface
 
 implicit none
 
@@ -625,9 +626,23 @@ contains
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
 
       call PDAF3_put_state_enkf_nondiagR(collect_state_pdaf, init_dim_obs_pdaf,  &
-         obs_op_pdaf, add_obs_error_pdaf, init_obscovar_pdaf, prepoststep_pdaf,  &
+         obs_op_pdaf, add_obs_error_pdaf, init_obscovar_f, prepoststep_pdaf,  &
          outflag)
+      contains
+         SUBROUTINE init_obscovar_f(step, dim_obs, dim_obs_p, covar, m_state_p, &
+               isdiag)
+            IMPLICIT NONE
+            INTEGER, INTENT(in) :: step                 !< Current time step
+            INTEGER, INTENT(in) :: dim_obs              !< Dimension of observation vector
+            INTEGER, INTENT(in) :: dim_obs_p            !< PE-local dimension of obs. vector
+            REAL(8), INTENT(out) :: covar(dim_obs,dim_obs) !< Observation error covar. matrix
+            REAL(8), INTENT(in) :: m_state_p(dim_obs_p)    !< Observation vector
+            LOGICAL, INTENT(out) :: isdiag              !< Whether matrix R is diagonal
 
+            logical(c_bool) :: isdiag_out
+            call init_obscovar_pdaf(step, dim_obs, dim_obs_p, covar, m_state_p, isdiag_out)
+            isdiag = isdiag_out
+         END SUBROUTINE init_obscovar_f
    END SUBROUTINE c__PDAF3_put_state_enkf_nondiagR
 
    SUBROUTINE c__PDAF3_put_state_lenkf_nondiagR(collect_state_pdaf,  &
@@ -653,7 +668,24 @@ contains
 
       call PDAF3_put_state_lenkf_nondiagR(collect_state_pdaf,  &
          init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, localize_pdaf,  &
-         add_obs_error_pdaf, init_obscovar_pdaf, outflag)
+         add_obs_error_pdaf, init_obscovar_f, outflag)
+
+      contains
+         SUBROUTINE init_obscovar_f(step, dim_obs, dim_obs_p, covar, m_state_p, &
+               isdiag)
+            IMPLICIT NONE
+            INTEGER, INTENT(in) :: step                 !< Current time step
+            INTEGER, INTENT(in) :: dim_obs              !< Dimension of observation vector
+            INTEGER, INTENT(in) :: dim_obs_p            !< PE-local dimension of obs. vector
+            REAL(8), INTENT(out) :: covar(dim_obs,dim_obs) !< Observation error covar. matrix
+            REAL(8), INTENT(in) :: m_state_p(dim_obs_p)    !< Observation vector
+            LOGICAL, INTENT(out) :: isdiag              !< Whether matrix R is diagonal
+            logical(c_bool) :: isdiag_out
+
+            call init_obscovar_pdaf(step, dim_obs, dim_obs_p, covar, m_state_p, isdiag_out)
+            isdiag = isdiag_out
+
+         END SUBROUTINE init_obscovar_f
 
    END SUBROUTINE c__PDAF3_put_state_lenkf_nondiagR
 

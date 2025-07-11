@@ -1,7 +1,7 @@
 MODULE pdaflocal_c_assim
-use iso_c_binding, only: c_double, c_int, c_bool, c_loc, c_char, c_null_char
+use iso_c_binding, only: c_double, c_int, c_bool
 use PDAF
-use U_PDAF_interface_c_binding
+use pdaf_c_cb_interface
 
 implicit none
 

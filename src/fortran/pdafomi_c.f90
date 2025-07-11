@@ -1,6 +1,26 @@
 module pdafomi_c
+use iso_c_binding, only: c_int, c_double, c_bool
+use PDAFomi
 implicit none
+
+type(obs_f), allocatable, target :: thisobs(:)
+type(obs_l), allocatable, target :: thisobs_l(:)
+integer :: n_obs_omi
+
 contains
+   subroutine c__PDAFomi_init(n_obs) bind(c)
+      ! number of observations
+      integer(c_int), intent(in) :: n_obs
+      n_obs_omi = n_obs
+      if (.not. allocated(thisobs)) allocate(thisobs(n_obs))
+      if (.not. allocated(thisobs_l)) allocate(thisobs_l(n_obs))
+   end subroutine c__PDAFomi_init
+
+   subroutine c__PDAFomi_init_local() bind(c)
+      if (.not. allocated(thisobs_l)) allocate(thisobs_l(n_obs_omi))
+   end subroutine c__PDAFomi_init_local
+
+
    SUBROUTINE c__PDAFomi_check_error(flag) bind(c)
       ! Error flag
       INTEGER(c_int), INTENT(inout) :: flag
@@ -262,7 +282,7 @@ contains
       ! Input matrix (thisobs_l%dim_obs_l, ncols)
       REAL(c_double), DIMENSION(:, :), INTENT(in) :: a_l
       ! > Localization weights
-      REAL(c_double), DIMENSION(thisobs_l%dim_obs_l), INTENT(out) :: weight
+      REAL(c_double), DIMENSION(thisobs_l(i_obs)%dim_obs_l), INTENT(out) :: weight
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: verbose
 

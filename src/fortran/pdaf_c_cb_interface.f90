@@ -47,7 +47,7 @@ abstract interface
       ! - (dim_ens, dim_ens) for (L)ETKF, (L)NETF, (L)KNETF, and SEEK
       ! - (dim_ens - 1, dim_ens - 1) for (L)SEIK, (L)ESTKF, and 3DVar using ensemble
       ! - (1, 1) for (L)EnKF, particle filters and gen_obs
-      real(c_double), DIMENSION(:,:), intent(inout) :: uinv
+      real(c_double), DIMENSION(dim_ens - 1, dim_ens-1), intent(inout) :: uinv
       ! PE-local ensemble
       real(c_double), DIMENSION(dim_p, dim_ens), intent(inout) :: ens_p
       ! pdaf status flag
@@ -159,7 +159,7 @@ abstract interface
       ! Size of process-local observation vector
       integer(c_int), intent(in) :: dim_obs_p
       ! Observation error covariance matrix
-      real(c_double), intent(out) :: covar
+      real(c_double), intent(out), dimension(dim_obs_p,dim_obs_p) :: covar
       ! Process-local vector of observations
       real(c_double), intent(in), dimension(dim_obs_p) :: obs_p
       logical(c_bool), intent(out) :: isdiag
@@ -222,7 +222,7 @@ abstract interface
       real(c_double), intent(in), dimension(dim_p) :: state_p
       ! Observed state vector
       ! (i.e. the result after applying the observation operator to state_p)
-      real(c_double), intent(out), dimension(dim_obs_p) :: m_state_p
+      real(c_double), intent(inout), dimension(dim_obs_p) :: m_state_p
    END SUBROUTINE c__obs_op_pdaf
 
    SUBROUTINE c__obs_op_f_pdaf(step, dim_p, dim_obs_p, state_p, m_state_p) bind(c)
@@ -273,9 +273,9 @@ abstract interface
       ! local state dimension
       integer(c_int), intent(in) :: dim_l
       ! pe-local full state vector
-      real(c_double), DIMENSION(dim_p) intent(in)    :: state_p
+      real(c_double), dimension(dim_p), intent(in)    :: state_p
       ! state vector on local analysis domain
-      real(c_double), DIMENSION(dim_l) intent(out)   :: state_l
+      real(c_double), dimension(dim_l), intent(out)   :: state_l
    end subroutine c__g2l_state_pdaf
 
    subroutine c__init_dim_l_pdaf(step, domain_p, dim_l) bind(c)
@@ -397,7 +397,7 @@ abstract interface
       ! Local vector of observations
       real(c_double), intent(in), dimension(dim_obs_l) :: obs_l
       ! Input matrix provided by PDAF
-      real(c_double), intent(in), dimension(dim_obs_l, rank) :: A_l
+      real(c_double), intent(inout), dimension(dim_obs_l, rank) :: A_l
       ! Output matrix
       real(c_double), intent(out), dimension(dim_obs_l, rank) :: C_l
    END SUBROUTINE c__prodRinvA_l_pdaf
@@ -458,7 +458,7 @@ abstract interface
       ! Local vector of observations
       real(c_double), intent(in), dimension(dim_obs_l) :: obs_l
       ! nput vector holding the local residual
-      real(c_double), intent(in), dimension(dim_obs_l) :: resid_l
+      real(c_double), intent(inout), dimension(dim_obs_l) :: resid_l
       ! Output value of the local likelihood
       real(c_double), intent(out) :: likely_l
    END SUBROUTINE c__likelihood_l_pdaf
@@ -554,7 +554,7 @@ abstract interface
       ! PE-local observed state
       REAL(c_double), DIMENSION(dim_obs_p), INTENT(in) :: m_state_p
       ! PE-local model state
-      REAL(c_double), DIMENSION(dim_p), INTENT(out) :: state_p
+      REAL(c_double), DIMENSION(dim_p), INTENT(inout) :: state_p
    END SUBROUTINE c__obs_op_adj_pdaf
 
    SUBROUTINE c__obs_op_lin_pdaf(step, dim_p, dim_obs_p, state_p, m_state_p) bind(c)
@@ -569,7 +569,7 @@ abstract interface
       ! PE-local model state
       REAL(c_double), DIMENSION(dim_p), INTENT(in) :: state_p
       ! PE-local observed state
-      REAL(c_double), DIMENSION(dim_obs_p), INTENT(out) :: m_state_p
+      REAL(c_double), DIMENSION(dim_obs_p), INTENT(inout) :: m_state_p
    END SUBROUTINE c__obs_op_lin_pdaf
 
    SUBROUTINE c__dist_stateinc_pdaf(dim_p, state_inc_p, first, steps) bind(c)
@@ -599,7 +599,7 @@ abstract interface
       ! Hybrid weight provided by PDAF
       real(c_double), intent(in) :: gamma
       ! Input vector holding the local residual
-      real(c_double), dimension(dim_obs_l), intent(in) :: resid_l
+      real(c_double), dimension(dim_obs_l), intent(inout) :: resid_l
       ! Output value of the local likelihood
       real(c_double), intent(out) :: likely_l
    END SUBROUTINE c__likelihood_hyb_l_pdaf
@@ -620,7 +620,7 @@ abstract interface
       ! Hybrid weight provided by PDAF
       real(c_double), intent(in) :: gamma
       ! Input matrix provided by PDAF
-      real(c_double), dimension(dim_obs_l, dim_ens), intent(in) :: A_l
+      real(c_double), dimension(dim_obs_l, dim_ens), intent(inout) :: A_l
       ! Output matrix
       real(c_double), dimension(dim_obs_l, dim_ens), intent(out) :: C_l
    END SUBROUTINE c__prodRinvA_hyb_l_pdaf

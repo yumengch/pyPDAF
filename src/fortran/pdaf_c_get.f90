@@ -1,4 +1,5 @@
 MODULE pdaf_c_get
+use iso_c_binding, only: c_int, c_double, c_bool
 use PDAF
 implicit none
 
