@@ -228,7 +228,7 @@ pdafc_sources = files('src/fortran/pdaf3_c_assim.f90',
 
 
 pdaf_c_args = ff.get_supported_arguments(['-O3', ], checked: 'warn')
-f_lib = static_library('pdafc',
+pdafc_lib = static_library('pdafc',
   pdafc_sources,
   link_with: pdaf_lib,
   fortran_args: pdaf_c_args,
@@ -236,20 +236,47 @@ f_lib = static_library('pdafc',
   pic: true
 )
 
-# incdir_numpy = run_command(python,
-#   ['-c', 'import os; os.chdir(".."); import numpy; print(numpy.get_include())'],
-#   check : true
-# ).stdout().strip()
 
-# cython_ext = python.extension_module(
-#   'mod_array',
-#   'mod_array.pyx',
-#   link_with: [f_lib],
-#   dependencies : dep_py,
-#   include_directories: include_directories(incdir_numpy),
-#   fortran_args: ['-O3'],
-#   cython_args : ['-Xboundscheck=False', '-Xbinding=False', '-Xwraparound=False', '-Xinitializedcheck=False'],
-#   link_language: 'fortran',
-#   install: true
-# )
+pypdaf_sources = files('src/pyPDAF/pdaf3_c_assim.pyx',
+                      'src/pyPDAF/pdaf3_c_put.pyx',
+                      'src/pyPDAF/pdaf_c_assim.pyx',
+                      'src/pyPDAF/pdaf_c_callback.pyx',
+                      'src/pyPDAF/pdaf_c_cb_interface.pyx',
+                      'src/pyPDAF/pdaf_c_diag.pyx',
+                      'src/pyPDAF/pdaf_c.pyx',
+                      'src/pyPDAF/pdaf_c_get.pyx',
+                      'src/pyPDAF/pdaf_c_iau.pyx',
+                      'src/pyPDAF/pdaf_c_iau_internal.pyx',
+                      'src/pyPDAF/pdaf_c_internal.pyx',
+                      'src/pyPDAF/pdaf_c_put.pyx',
+                      'src/pyPDAF/pdaf_c_setter.pyx',
+                      'src/pyPDAF/pdaflocal_c_assim.pyx',
+                      'src/pyPDAF/pdaflocal_c.pyx',
+                      'src/pyPDAF/pdaflocal_c_put.pyx',
+                      'src/pyPDAF/pdaflocalomi_c_assim.pyx',
+                      'src/pyPDAF/pdaflocalomi_c_put.pyx',
+                      'src/pyPDAF/pdafomi_c_assim.pyx',
+                      'src/pyPDAF/pdafomi_c_diag.pyx',
+                      'src/pyPDAF/pdafomi_c.pyx',
+                      'src/pyPDAF/pdafomi_c_internal.pyx',
+                      'src/pyPDAF/pdafomi_c_legacy.pyx',
+                      'src/pyPDAF/pdafomi_c_put.pyx',
+                      'src/pyPDAF/pdafomi_c_setter.pyx'
+                     )
+incdir_numpy = run_command(python,
+  ['-c', 'import os; os.chdir(".."); import numpy; print(numpy.get_include())'],
+  check : true
+).stdout().strip()
+
+cython_ext = python.extension_module(
+  'pyPDAF',
+  pypdaf_sources,
+  link_with: [pdaf_lib, pdafc_lib],
+  dependencies : [mpi_dep],
+  include_directories: include_directories(incdir_numpy),
+  c_args: ['-O3',],
+  cython_args : ['-Xboundscheck=False', '-Xbinding=False', '-Xwraparound=False', '-Xinitializedcheck=False'],
+  link_language: 'fortran',
+  install: true
+)
 

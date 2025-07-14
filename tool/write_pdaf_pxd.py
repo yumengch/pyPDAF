@@ -14,7 +14,7 @@ TYPE_MAP = {
 
 
 
-def wrap_comma_list(prefix, arg_list, decl_map, cb_interface, subsequent_indent="    ", suffix=""):
+def wrap_comma_list(prefix, arg_list, decl_map, cb_interface, subsequent_indent="    ", suffix="", write_arg=True):
     """
     Wrap a comma-separated list under WRAP_WIDTH, inserting '&'
     at end of every line except the last, and appending `suffix`
@@ -23,7 +23,8 @@ def wrap_comma_list(prefix, arg_list, decl_map, cb_interface, subsequent_indent=
     lines = []
     current = prefix
     for i, arg in enumerate(arg_list):
-        sep = ", " if i < len(arg_list) - 1 else ")"
+        arg_str = arg if write_arg else ''
+        sep = ", " if i < len(arg_list) - 1 else ")" + suffix if suffix else ')' 
         code, _ = decl_map.get(arg, ("", ""))
         # check user-supplied procedures
         match = re.search(r'procedure\((.*?)\)', code)
@@ -44,15 +45,16 @@ def wrap_comma_list(prefix, arg_list, decl_map, cb_interface, subsequent_indent=
                 decl_map=decl_map_cb,
                 cb_interface=cb_interface,
                 subsequent_indent=" "*len(cb_prefix),
-                suffix=sep
+                suffix=sep,
+                write_arg=False
             )
             lines.extend(addition_list)
         elif 'pointer' in code or 'dimension(:' in code.lower():
-            addition = f'CFI_cdesc_t* ' + arg.lower() + sep
+            addition = f'CFI_cdesc_t* ' + arg_str.lower() + sep
         else:
             base_type = re.match(r'(integer|real|logical|character)', code).group(1).lower()
             c_type = TYPE_MAP[base_type]
-            addition = c_type + arg.lower() + sep
+            addition = c_type + arg_str.lower() + sep
 
         # if adding this would exceed limit (allowing space for ' &' on wrapped lines)
         if len(current) + len(addition) + (4 if sep==", " else len(suffix)) > WRAP_WIDTH:
@@ -63,11 +65,8 @@ def wrap_comma_list(prefix, arg_list, decl_map, cb_interface, subsequent_indent=
 
     # if items were empty, we might have just the prefix
     if current == prefix:
-        current += ")"
+        current += ")"  + suffix if suffix else ')'
 
-    # append suffix to the final line
-    if suffix:
-        current = current + suffix
     lines.append(current)
     return lines
 
@@ -103,6 +102,13 @@ def process_file(filepath, dst_dir):
     if not blocks:
         print (f"No subroutines found in {filepath}")
         return  # No subroutines, skip
+
+    filename = filepath.stem + '.pxd'
+    output_path = Path(dst_dir) / filename
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(output_path, 'a') as f:
+            f.write("from .cfi_binding cimport CFI_cdesc_t\n")
+
 
     for block in blocks:
         name, arg_list, start_idx = get_decls.extract_multiline_signature(block)

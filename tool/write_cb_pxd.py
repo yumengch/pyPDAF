@@ -74,7 +74,7 @@ def process_file(src_dir, dst_dir):
     for name in cb_interface:
         cb_decls = generate_extern_pxd(name, arg_list=cb_interface[name]['args'],
                                        decls=cb_interface[name]['decls'])
-        filename = 'pdaf_c_cb.pxd'
+        filename = 'pdaf_c_cb_interface.pxd'
         output_path = Path(dst_dir) / filename
         output_path.parent.mkdir(parents=True, exist_ok=True)
         with open(output_path, 'a') as f:

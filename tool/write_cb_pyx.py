@@ -13,7 +13,7 @@ WRAP_WIDTH = 80
 TYPE_MAP = {
   'integer':      'int',
   'real':         'double',
-  'logical':      'bool',
+  'logical':      'bint',
   'character':    'str'
 }
 
@@ -39,6 +39,7 @@ def write_header():
     lines = []
     lines.append("import sys")
     lines.append("import numpy as np")
+    lines.append("import warnings")
 
     return lines
 
@@ -110,6 +111,10 @@ def write_c_signature(pyx_name, arg_list, decl_map):
 def write_memory_view(arg_list, decl_map, indent="    "):
     """Convert 2D arrays to fortran contiguous arrays
     """
+
+    def repl(m: re.Match) -> str:
+            ident, offset = m.groups()
+            return f'{ident}[0]{offset}'
     # convert np arrays to memoryview
     lines = []
     for arg in arg_list:
@@ -131,11 +136,13 @@ def write_memory_view(arg_list, decl_map, indent="    "):
 
             s = f'cdef double *{arg}_ptr = <{TYPE_MAP[base_type]} *>CFI_address({arg}, {arg}_subscripts)'
             lines.append(indent + s)
-            s = f'cdef {TYPE_MAP[base_type]}[::1,:] {arg}_np = '
+            s_colons = ':,' * (n_dim - 1)
+            s_colons = "::1" if n_dim == 1 else \
+                "::1," + s_colons[:-1]  # remove last comma
+            s = f'cdef {TYPE_MAP[base_type]}[{s_colons}] {arg}_np = '
             n_colons = len(shape.split(','))
-            s_colons = [f':{arg}_dim[{i}]' for i in range(1, n_colons)]
-            s_colons = f':{arg}_dim[0]:1,' if n_colons == 1 else \
-                ",".join(s_colons)  # remove last comma
+            s_colons = [f':{arg}_dim[0]:1,', ] + [f':{arg}_dim[{i}]' for i in range(1, n_colons)]
+            s_colons =  ",".join(s_colons)  # remove last comma
             s += f'np.asarray(<{TYPE_MAP[base_type]}[{s_colons}]> {arg}_ptr, order="F")'
             lines.append(indent + s)
 
@@ -147,9 +154,13 @@ def write_memory_view(arg_list, decl_map, indent="    "):
                 "::1," + s_colons[:-1]  # remove last comma
             base_type = re.match(r'(integer|real|logical|character)', code).group(1).lower()
             s = f'cdef {TYPE_MAP[base_type]}[{s_colons}] '
-            s_colons = [f':{colons[i]}[0]' for i in range(1, n_colons)]
-            s_colons = f':{colons[0]}[0]:1,' if n_colons == 1 else \
-                ",".join(s_colons)  # remove last comma
+            s_colons = []
+            for i in range(n_colons):
+                pat = re.compile(r'\b([A-Za-z_]\w*)'r'(\s*(?:[+-]\s*\d+)?)')
+                s_col = ':' + pat.sub(repl, colons[i].strip())
+                s_col = s_col + ':1' if i == 0 else s_col
+                s_colons.append(s_col)
+            s_colons = ",".join(s_colons)  # remove last comma
             s += f'{arg}_np = np.asarray(<{TYPE_MAP[base_type]}[{s_colons}]> {arg}, order="F")'
             lines.append(indent + s)
     return lines
@@ -171,9 +182,10 @@ def write_func_call(name, arg_list, decl_map, indent="    "):
         code, _ = decl_map.get(arg, ("", ""))
         match = re.search(r'intent\(out\)|intent\(inout\)', code, re.IGNORECASE)
         if match:
-            s = f'{arg}_np' if 'dimension' in code.lower() else f'{arg}'
+            s = f'{arg}_np' if 'dimension' in code.lower() else f'{arg}[0]'
             out_args.append(s)
-    prefix = indent + ','.join(out_args) + f' = (<object>{name[3:].lower()})('
+    funcname = f' = (<object>{name[3:].lower()})(' if len(out_args) > 0 else f'(<object>{name[3:].lower()})('
+    prefix = indent + ','.join(out_args) + funcname
     lines = wrap_comma_list(prefix=prefix,
                             items=in_args,
                             subsequent_indent=len(prefix)*' ')
@@ -182,29 +194,41 @@ def write_func_call(name, arg_list, decl_map, indent="    "):
 
 
 def write_assert(arg_list, decl_map, indent="    "):
+    def repl(m: re.Match) -> str:
+            ident, offset = m.groups()
+            return f'{ident}[0]{offset}'
+
     lines = []
     for arg in arg_list:
         code, shape = decl_map.get(arg, ("", ""))
         if 'dimension' not in code.lower():
             continue
 
-        s = f'cdef double[::1,:] {arg}_new'
-        lines.append(indent + s)
+        base_type = re.match(r'(integer|real|logical|character)', code).group(1).lower()
         n_colons = len(shape.split(','))
+        s_colons = ':,' * (n_colons - 1)
+        s_colons = "::1" if n_colons == 1 else \
+            "::1," + s_colons[:-1]  # remove last comma
+        s = f'cdef {TYPE_MAP[base_type]}[{s_colons}] {arg}_new'
+        lines.append(indent + s)
         s_colons = '0,' * n_colons
         s_colons = s_colons[:-1]  # remove last comma
         s = f'if {arg} != &{arg}_np[{s_colons}]:'
         lines.append(indent + s)
         colons = shape.split(',')
         n_colons = len(colons)
-        s_colons = [f':{colons[i]}[0]' for i in range(1, n_colons)]
-        s_colons = f':{colons[0]}[0]:1,' if n_colons == 1 else \
-            ",".join(s_colons)  # remove last comma
+        s_colons = []
+        for i in range(n_colons):
+            pat = re.compile(r'\b([A-Za-z_]\w*)'r'(\s*(?:[+-]\s*\d+)?)')
+            s_col = ':' + pat.sub(repl, colons[i].strip())
+            s_col = s_col + ':1' if i == 0 else s_col
+            s_colons.append(s_col)
+        s_colons = ",".join(s_colons)  # remove last comma
         if 'dimension(:' in code.lower():
             s_colons = [f':{arg}_dim[{i}]' for i in range(1, n_colons)]
             s_colons = f':{arg}_dim[0]:1,' if n_colons == 1 else \
                 ",".join(s_colons)  # remove last comma
-        s = f'{arg}_new = np.asarray(<double[{s_colons}]> {arg}, order="F")'
+        s = f'{arg}_new = np.asarray(<{TYPE_MAP[base_type]}[{s_colons}]> {arg}, order="F")'
         lines.append(2*indent + s)
         s = f'{arg}_new[...] = {arg}_np'
         lines.append(2*indent + s)

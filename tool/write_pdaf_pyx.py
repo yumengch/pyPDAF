@@ -8,10 +8,10 @@ from docstring import docstrings
 WRAP_WIDTH = 80
 
 TYPE_MAP = {
-  'integer':      'int* ',
-  'real':         'double* ',
-  'logical':      'bint* ',
-  'character':    'char* '
+  'integer':      'int ',
+  'real':         'double ',
+  'logical':      'bint ',
+  'character':    'char '
 }
 
 TYPE_MAP_ARR = {
@@ -36,7 +36,11 @@ def write_header():
     lines = []
     lines.append("import sys")
     lines.append("import numpy as np")
-    lines.append("from . cimport pdaf_c_cb as pdaf_cb")
+    lines.append("cimport numpy as cnp")
+    lines.append("from . cimport pdaf_c_cb_interface as pdaf_cb")
+    lines.append("from .cfi_binding cimport CFI_cdesc_t, CFI_address, CFI_index_t, CFI_establish")
+    lines.append("from .cfi_binding cimport CFI_attribute_other, CFI_type_double, CFI_type_int")
+    lines.append("from .cfi_binding cimport CFI_cdesc_rank1, CFI_cdesc_rank2, CFI_cdesc_rank3")
     lines.append("")
     lines.append("try:")
     lines.append("    import mpi4py")
@@ -137,9 +141,9 @@ def write_pyx_signature(pyx_name, arg_list, decl_map):
         code, shape = decl_map.get(arg, ("", ""))
         if 'dimension' in code.lower():
             n_colons = len(shape.split(',')) - 1
-            s_colons = ':,' * (n_colons - 1)
+            s_colons_t = ':,' * n_colons
             s_colons = "::1" if n_colons == 0 else \
-                "::1," + s_colons[:-1]  # remove last comma
+                "::1," + s_colons_t[:-1]  # remove last comma
             base_type = re.match(r'(integer|real|logical|character)', code).group(1).lower()
             pyx_def_arg_list.append(f'{TYPE_MAP[base_type]}[{s_colons}] {arg}')
         elif 'procedure' in code.lower():
@@ -237,13 +241,11 @@ def write_memory_view(arg_list, decl_map, indent="    "):
             for i in range(n_dim):
                 s = f'{arg}_extent[{i}] = {arg}.shape[{i}]'
                 lines.append(indent + s)
-            s = f'cdef size_t nbytes = {arg}.nbytes'
-            lines.append(indent + s)
 
         n_colons = len(shape.split(',')) - 1
-        s_colons = ':,' * n_colons
+        s_colons_t = ':,' * n_colons
         s_colons = "::1" if n_colons == 0 else \
-            "::1," + s_colons[:-1]  # remove last comma
+            "::1," + s_colons_t[:-1]  # remove last comma
         base_type = re.match(r'(integer|real|logical|character)', code).group(1).lower()
         s = f'cdef cnp.ndarray[{TYPE_MAP_CNP[base_type]}, ndim={n_colons+1}, mode="fortran", negative_indices=False, cast=False] '
         if 'intent(out)' in code.lower() and 'dimension(:' not in code.lower():
@@ -257,13 +259,48 @@ def write_memory_view(arg_list, decl_map, indent="    "):
     return lines
 
 
+def write_input_cfi(arg_list, decl_map, indent="    "):
+    """Convert 2D arrays to fortran contiguous arrays
+    """
+    # convert np arrays to memoryview
+    lines = []
+    for arg in arg_list:
+        code, shape = decl_map.get(arg, ("", ""))
+        if 'dimension' not in code.lower():
+            # not a Fortran array, skip
+            continue
+
+        if 'intent(inout)' in code.lower():
+            continue
+        if 'intent(out)' in code.lower():
+            continue
+
+        if 'dimension(:' in code.lower():
+            n_dim = len(shape.split(','))
+            s = f'cdef CFI_cdesc_rank{n_dim} {arg}_cfi'
+            lines.append(indent + s)
+            s = f'cdef CFI_cdesc_t *{arg}_ptr = <CFI_cdesc_t *> &{arg}_cfi'
+            lines.append(indent + s)
+            if 'pointer' in code.lower():
+                continue
+            s = f'cdef size_t {arg}_nbytes = {arg}.nbytes'
+            lines.append(indent + s)
+            s = f'cdef CFI_index_t {arg}_extent[{n_dim}]'
+            lines.append(indent + s)
+            for i in range(n_dim):
+                s = f'{arg}_extent[{i}] = {arg}.shape[{i}]'
+                lines.append(indent + s)
+
+    return lines
+
+
 def write_user_cython(arg_list, decl_map, indent='    '):
     """convert python function to Cython function"""
     lines = []
     for arg in arg_list:
         code, _ = decl_map.get(arg, ("", ""))
         if 'procedure' in code.lower():
-            lines.append(indent+ f'pdaf_cb.{arg.replace("py__", "c__")} = <void*>{arg}')
+            lines.append(indent+ f'pdaf_cb.{arg.replace("py__", "")} = <void*>{arg}')
     return lines
 
 
@@ -321,7 +358,7 @@ def write_func_call(name, arg_list, decl_map, indent="    "):
             c_args.append(f'&{arg}[{s_zeros}]')
         elif 'procedure' in code.lower():
             proc_type = re.search(r'procedure\((.*?)\)', code).group(1).lower()
-            c_args.append(f'pdaf_cb.{proc_type}')
+            c_args.append(f'pdaf_cb.{proc_type.replace("py__", "c__")}')
         else:
             c_args.append(f'&{arg}')
     prefix = 2*indent + f'{name.lower()}('
@@ -370,7 +407,7 @@ def write_return(arg_list, decl_map, indent="    "):
     return lines
 
 
-def generate_pyx(name, arg_list, decls, comments, cb_interface):
+def generate_pyx(name, arg_list, decls, comments, cb_interface, is_internal):
     """
     name      : original subroutine name (string)
     arg_list  : list of argument names in order, already lowercased
@@ -382,6 +419,7 @@ def generate_pyx(name, arg_list, decls, comments, cb_interface):
     # replace procedure argument names with their procedure type names
     decl_map = { var: (code, shape) for var, code, shape in decls }
     pyx_in_arg_list, pyx_out_arg_list = get_pyx_arg(arg_list, decl_map)
+    c_arg_list = []
     for arg in arg_list:
         code, _ = decl_map.get(arg, ("", ""))
         match = re.search(r'procedure\((.*?)\)', code)
@@ -390,10 +428,17 @@ def generate_pyx(name, arg_list, decls, comments, cb_interface):
             decl_map[proc_type.replace("c__", "py__")] = decl_map.pop(arg)
             comments[proc_type.replace("c__", "py__")] = comments.pop(arg)
             cb_interface[proc_type.replace("c__", "py__")] = cb_interface.pop(proc_type)
+            c_arg_list.append(proc_type.replace('c__','py__'))
+        else:
+            c_arg_list.append(arg)
 
     # write the function signature
-    pyx_name = re.sub(r'c__pdaflocalomi_|c__pdaflocal_|c__pdafomi_|c__pdaf_|c__pdaf3_',
-                      '', name.lower())
+    pyx_name = re.sub(r'c__pdaf_', '_' if is_internal else '', name.lower())
+    pyx_name = re.sub(r'c__pdafomi_', '_' if is_internal else '', pyx_name.lower())
+    pyx_name = re.sub(r'c__pdaflocal_', '_' if is_internal else '', pyx_name.lower())
+    pyx_name = re.sub(r'c__pdaflocalomi_', '_' if is_internal else '', pyx_name.lower())
+    pyx_name = re.sub(r'c__pdaf3_', '_' if is_internal else '', pyx_name.lower())
+    pyx_name = re.sub(r'c__pdaf', '_' if is_internal else '', pyx_name.lower())
     lines_sig = write_pyx_signature(pyx_name, pyx_in_arg_list, decl_map)
     lines.extend(lines_sig)
 
@@ -409,13 +454,16 @@ def generate_pyx(name, arg_list, decls, comments, cb_interface):
     lines_mv = write_memory_view(pyx_out_arg_list, decl_map)
     lines.extend(lines_mv)
 
+    lines_cfi = write_input_cfi(pyx_in_arg_list, decl_map)
+    lines.extend(lines_cfi)
+
     lines_cb = write_user_cython(pyx_in_arg_list, decl_map)
     lines.extend(lines_cb)
 
     lines_return_def = write_return_def(pyx_out_arg_list, decl_map)
     lines.extend(lines_return_def)
 
-    lines_call = write_func_call(name, arg_list, decl_map)
+    lines_call = write_func_call(name, c_arg_list, decl_map)
     lines.extend(lines_call)
 
     lines_return = write_return(pyx_out_arg_list, decl_map)
@@ -454,7 +502,7 @@ def process_file(filepath, dst_dir):
         if extra:
             print(f"!!! Declared but not in signature: {extra} in {name} in {filepath}")
 
-        extern_decls = generate_pyx(name, arg_list, decls, comments, cb_interface)
+        extern_decls = generate_pyx(name, arg_list, decls, comments, cb_interface, is_internal='internal' in filepath.stem)
 
         with open(output_path, 'a') as f:
             f.write(extern_decls + "\n\n\n")
@@ -469,7 +517,6 @@ def process_directory(src_dir, dst_dir):
             if path.stem == "pdaf_c_cb_interface":
                 continue
             process_file(path, dst_dir)
-
 
 if __name__ == "__main__":
     # process_directory('/home/users/ia923171/pyPDAF_dev/pyPDAF/src/fortran', '')

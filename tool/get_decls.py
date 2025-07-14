@@ -12,6 +12,24 @@ TYPE_MAP = {
   'character':    ('CHARACTER',  'c_char')
 }
 
+def extract_dimension_shape(decl_code: str) -> str:
+    # Find the DIMENSION keyword
+    match = re.search(r'dimension\s*\(', decl_code, re.IGNORECASE)
+    if not match:
+        return ""
+
+    start = match.end()  # position after '('
+    depth = 1
+    i = start
+    while i < len(decl_code):
+        if decl_code[i] == '(':
+            depth += 1
+        elif decl_code[i] == ')':
+            depth -= 1
+            if depth == 0:
+                return decl_code[start:i].strip()
+        i += 1
+    return ""  # if unmatched
 
 def split_outside_parens(s: str):
     """
@@ -60,8 +78,9 @@ def _process_buffer(buffer, buffer_comments, arg_names, decls, comments):
         if not m:
             continue
         base = m.group(1).lower()
-        m = re.search(r'dimension\s*\(([^)]+)\)', decl_code, re.IGNORECASE)
-        shape = m.group(1) if m else ""
+        # m = re.search(r'dimension\s*\(([^)]+)\)', decl_code, re.IGNORECASE)
+        # shape = m.group(1) if m else ""
+        shape = extract_dimension_shape(decl_code) 
         if base in arg_names:
             decls.append((base, decl_code, shape))
             comments[base] = buffer_comments
@@ -157,12 +176,19 @@ def extract_declarations_by_args(block, start_idx, arg_names):
         if re.match(r'\s*end\s+subroutine', line, re.I):
             break
 
+        if 'implicit none' in line:
+            continue
+
+
         raw = line.rstrip("\n")
         # 1) split off any comment
         if "!" in raw:
             code_part, comment_part = raw.split("!", 1)
         else:
             code_part, comment_part = raw, None
+
+        if 'use ' in code_part.lower():
+            continue
 
         # --- Start a new declaration if we see '::' and we're not in one ---
         if comment_part and buffer_comments == []:
