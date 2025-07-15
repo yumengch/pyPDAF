@@ -514,14 +514,6 @@ cdef extern void c__pdafen3dvar_analysis_cvt(int* step, int* dim_p,
 cdef extern void c__pdaf_sisort(int* n, 
     double* veca) noexcept nogil;
 
-cdef extern void c__pdaf_unbiased_moments_from_summed_residuals(
-    int* dim_ens, int* dim_p, int* kmax, double* sum_expo_resid, 
-    double* moments) noexcept nogil;
-
-cdef extern void c__pdaf_biased_moments_from_summed_residuals(int* dim_ens, 
-    int* dim_p, int* kmax, double* sum_expo_resid, 
-    double* moments) noexcept nogil;
-
 cdef extern void c__pdaf_enkf_ana_rlm(int* step, int* dim_p, 
     int* dim_obs_p, int* dim_ens, int* rank_ana, double* state_p, 
     double* ens_p, double* hzb, double* hx_p, double* hxbar_p, 

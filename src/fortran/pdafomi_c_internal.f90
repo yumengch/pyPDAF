@@ -1,6 +1,11 @@
 module pdafomi_c_internal
 use iso_c_binding, only: c_int, c_double, c_bool
 use pdafomi_c, only: n_obs_omi, thisobs, thisobs_l
+use pdafomi_obs_f
+use pdafomi_obs_l
+use PDAFomi_obs_op
+use PDAFomi_dim_obs_l
+use PDAFomi_obs_diag
 implicit none
 contains
    SUBROUTINE c__PDAFomi_set_globalobs(globalobs_in) bind(c)
@@ -248,10 +253,10 @@ contains
       ! Count number of local observations
       INTEGER(c_int), INTENT(inout) :: cnt_obs
 
-
+      logical :: checkdist_out
       call PDAFomi_check_dist2(thisobs(i_obs), thisobs_l(i_obs), coordsa,  &
-         coordsb, distance2, checkdist, verbose, cnt_obs)
-
+         coordsb, distance2, checkdist_out, verbose, cnt_obs)
+      checkdist = checkdist_out
    END SUBROUTINE c__PDAFomi_check_dist2
 
    SUBROUTINE c__PDAFomi_check_dist2_noniso(i_obs, coordsa, coordsb, distance2, dists,  &
@@ -277,12 +282,14 @@ contains
       INTEGER(c_int), INTENT(in) :: verbose
       ! Count number of local observations
       INTEGER(c_int), INTENT(inout) :: cnt_obs
-
+      
+      logical :: checkdist_out
 
       call PDAFomi_check_dist2_noniso(thisobs(i_obs), thisobs_l(i_obs),  &
-         coordsa, coordsb, distance2, dists, cradius, sradius, checkdist,  &
+         coordsa, coordsb, distance2, dists, cradius, sradius, checkdist_out,  &
          verbose, cnt_obs)
 
+      checkdist = checkdist_out
    END SUBROUTINE c__PDAFomi_check_dist2_noniso
 
    SUBROUTINE c__PDAFomi_weights_l(verbose, nobs_l, ncols, locweight, cradius,  &
@@ -584,9 +591,10 @@ contains
       ! Whether matrix R is diagonal
       LOGICAL(c_bool), INTENT(out) :: isdiag
 
+      logical :: isdiag_out
 
-      call PDAFomi_init_obscovar(thisobs(i_obs), nobs_all, covar, isdiag)
-
+      call PDAFomi_init_obscovar(thisobs(i_obs), nobs_all, covar, isdiag_out)
+      isdiag = isdiag_out
    END SUBROUTINE c__PDAFomi_init_obscovar
 
    SUBROUTINE c__PDAFomi_init_obserr_f(i_obs, obserr_f) bind(c)

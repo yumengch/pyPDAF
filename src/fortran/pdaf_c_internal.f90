@@ -6,6 +6,8 @@ implicit none
 contains
    SUBROUTINE c__PDAF_set_forget_local(domain, step, dim_obs_l, dim_ens, hx_l,  &
          hxbar_l, obs_l, u_init_obsvar_l, forget, aforget) bind(c)
+         use PDAF_analysis_utils
+         implicit none
          ! Current local analysis domain
          INTEGER(c_int), INTENT(in) :: domain
          ! Current time step
@@ -33,8 +35,10 @@ contains
 
       END SUBROUTINE c__PDAF_set_forget_local
 
-      SUBROUTINE c__PDAF_fcst_operations(step, u_collect_state,  &
+   SUBROUTINE c__PDAF_fcst_operations(step, u_collect_state,  &
       u_distribute_state, u_init_dim_obs, u_obs_op, u_init_obs, outflag) bind(c)
+      use PDAF_forecast
+      implicit none
       ! Time step in current forecast phase
       INTEGER(c_int), INTENT(in) :: step
       ! Status flag
@@ -59,6 +63,8 @@ contains
    SUBROUTINE c__PDAF_letkf_ana_T(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
       state_l, ainv_l, ens_l, hz_l, hxbar_l, obs_l, rndmat, forget,  &
       u_prodrinva_l, type_trans, screen, debug, flag) bind(c)
+      use PDAF_letkf_analysis_T
+      implicit none
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -106,6 +112,8 @@ contains
    SUBROUTINE c__PDAFseik_update(step, dim_p, dim_obs_p, dim_ens, rank,  &
       state_p, uinv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_prodrinva,  &
       u_init_obsvar, u_prepoststep, screen, subtype, flag) bind(c)
+      use PDAF_seik_update
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -152,6 +160,8 @@ contains
       state_p, ainv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_prodrinva,  &
       u_prepoststep, u_cvt, u_cvt_adj, u_obs_op_lin, u_obs_op_adj, screen,  &
       subtype, flag) bind(c)
+      use PDAF_3dvar_update
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -205,6 +215,8 @@ contains
       dim_cvec_ens, state_p, ainv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs,  &
       u_prodrinva, u_prepoststep, u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin,  &
       u_obs_op_adj, u_init_obsvar, screen, subtype, flag) bind(c)
+      use PDAF_en3dvar_update
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -263,6 +275,8 @@ contains
       u_prodrinva_l, u_init_n_domains_p, u_init_dim_l, u_init_dim_obs_l,  &
       u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l,  &
       screen, subtype, flag) bind(c)
+      use PDAF_en3dvar_update
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -345,6 +359,8 @@ contains
       ainv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_prodrinva,  &
       u_init_obsvar, u_prepoststep, screen, subtype, dim_lag, sens_p,  &
       cnt_maxlag, flag) bind(c)
+      use PDAF_etkf_update
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -395,6 +411,8 @@ contains
    SUBROUTINE c__PDAF_netf_ana(step, dim_p, dim_obs_p, dim_ens, state_p, ens_p,  &
       rndmat, t, type_forget, forget, type_winf, limit_winf, type_noise,  &
       noise_amp, hz_p, obs_p, u_likelihood, screen, debug, flag) bind(c)
+      use PDAF_netf_analysis
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -446,6 +464,8 @@ contains
    SUBROUTINE c__PDAF_netf_smootherT(step, dim_p, dim_obs_p, dim_ens, ens_p,  &
       rndmat, t, u_init_dim_obs, u_obs_op, u_init_obs, u_likelihood, screen,  &
       flag) bind(c)
+      use PDAF_netf_analysis
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -481,6 +501,8 @@ contains
 
    SUBROUTINE c__PDAF_smoother_netf(dim_p, dim_ens, dim_lag, ainv, sens_p,  &
       cnt_maxlag, screen) bind(c)
+      use PDAF_netf_analysis
+      implicit none
       ! PE-local dimension of model state
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Size of ensemble
@@ -506,6 +528,8 @@ contains
       ens_l, hx_l, obs_l, rndmat, u_likelihood_l, type_forget, forget,  &
       type_winf, limit_winf, cnt_small_svals, eff_dimens, t, screen, debug,  &
       flag) bind(c)
+      use PDAF_lnetf_analysis
+      implicit none
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -557,6 +581,8 @@ contains
    SUBROUTINE c__PDAF_lnetf_smootherT(domain_p, step, dim_obs_f, dim_obs_l,  &
       dim_ens, hx_f, rndmat, u_g2l_obs, u_init_obs_l, u_likelihood_l, screen,  &
       t, flag) bind(c)
+      use PDAF_lnetf_analysis
+      implicit none
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -593,6 +619,8 @@ contains
    SUBROUTINE c__PDAF_smoother_lnetf(domain_p, step, dim_p, dim_l, dim_ens,  &
       dim_lag, ainv, ens_l, sens_p, cnt_maxlag, u_g2l_state, u_l2g_state,  &
       screen) bind(c)
+      use PDAF_lnetf_analysis
+      implicit none
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -627,6 +655,8 @@ contains
    END SUBROUTINE c__PDAF_smoother_lnetf
 
    SUBROUTINE c__PDAF_memcount_ini(ncounters) bind(c)
+      use PDAF_memcounting
+      implicit none
       ! Number of memory counters
       INTEGER(c_int), INTENT(in) :: ncounters
 
@@ -636,6 +666,8 @@ contains
    END SUBROUTINE c__PDAF_memcount_ini
 
    SUBROUTINE c__PDAF_memcount_define(stortype, wordlength) bind(c)
+      use PDAF_memcounting
+      implicit none
       ! Type of variable
       CHARACTER(kind=c_char), INTENT(in) :: stortype
       ! Word length for chosen type
@@ -647,6 +679,8 @@ contains
    END SUBROUTINE c__PDAF_memcount_define
 
    SUBROUTINE c__PDAF_memcount(id, stortype, dim) bind(c)
+      use PDAF_memcounting
+      implicit none
       ! Id of the counter
       INTEGER(c_int), INTENT(in) :: id
       ! Type of variable
@@ -662,6 +696,8 @@ contains
    SUBROUTINE c__PDAF_init_filters(type_filter, subtype, param_int, dim_pint,  &
       param_real, dim_preal, filterstr, ensemblefilter, fixedbasis, screen,  &
       flag) bind(c)
+      use PDAF_utils_filters
+      implicit none
       ! Type of filter
       INTEGER(c_int), INTENT(in) :: type_filter
       ! Sub-type of filter
@@ -685,14 +721,17 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: flag
 
-
+      logical :: ensemblefilter_out, fixedbasis_out
       call PDAF_init_filters(type_filter, subtype, param_int, dim_pint,  &
-         param_real, dim_preal, filterstr, ensemblefilter, fixedbasis, screen,  &
+         param_real, dim_preal, filterstr, ensemblefilter_out, fixedbasis_out, screen,  &
          flag)
-
+      ensemblefilter = ensemblefilter_out
+      fixedbasis = fixedbasis_out
    END SUBROUTINE c__PDAF_init_filters
 
    SUBROUTINE c__PDAF_alloc_filters(filterstr, subtype, flag) bind(c)
+      use PDAF_utils_filters
+      implicit none
       ! Name of filter algorithm
       CHARACTER(kind=c_char), INTENT(in) :: filterstr
       ! Sub-type of filter
@@ -706,6 +745,8 @@ contains
    END SUBROUTINE c__PDAF_alloc_filters
 
    SUBROUTINE c__PDAF_configinfo_filters(subtype, verbose) bind(c)
+      use PDAF_utils_filters
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -717,6 +758,8 @@ contains
    END SUBROUTINE c__PDAF_configinfo_filters
 
    SUBROUTINE c__PDAF_options_filters(type_filter) bind(c)
+      use PDAF_utils_filters
+      implicit none
       ! Type of filter
       INTEGER(c_int), INTENT(in) :: type_filter
 
@@ -726,6 +769,8 @@ contains
    END SUBROUTINE c__PDAF_options_filters
 
    SUBROUTINE c__PDAF_print_info_filters(printtype) bind(c)
+      use PDAF_utils_filters
+      implicit none
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -735,6 +780,8 @@ contains
    END SUBROUTINE c__PDAF_print_info_filters
 
    SUBROUTINE c__PDAF_allreduce(val_p, val_g, mpitype, mpiop, status) bind(c)
+      use PDAF_comm_obs
+      implicit none
       ! PE-local value
       INTEGER(c_int), INTENT(in) :: val_p
       ! reduced global value
@@ -756,6 +803,8 @@ contains
       u_prodrinva_l, u_init_n_domains_p, u_init_dim_l, u_init_dim_obs_l,  &
       u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l,  &
       u_prepoststep, screen, subtype, flag) bind(c)
+      use PDAF_lseik_update
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -818,6 +867,8 @@ contains
 
    SUBROUTINE c__PDAF_ensrf_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
+      use PDAF_ensrf
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -837,13 +888,16 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
-
+      logical :: ensemblefilter_out, fixedbasis_out
       call PDAF_ensrf_init(subtype, param_int, dim_pint, param_real, dim_preal,  &
-         ensemblefilter, fixedbasis, verbose, outflag)
-
+         ensemblefilter_out, fixedbasis_out, verbose, outflag)
+      ensemblefilter = ensemblefilter_out
+      fixedbasis = fixedbasis_out
    END SUBROUTINE c__PDAF_ensrf_init
 
    SUBROUTINE c__PDAF_ensrf_alloc(outflag) bind(c)
+      use PDAF_ensrf
+      implicit none
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -853,6 +907,8 @@ contains
    END SUBROUTINE c__PDAF_ensrf_alloc
 
    SUBROUTINE c__PDAF_ensrf_config(subtype, verbose) bind(c)
+      use PDAF_ensrf
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -864,6 +920,8 @@ contains
    END SUBROUTINE c__PDAF_ensrf_config
 
    SUBROUTINE c__PDAF_ensrf_set_iparam(id, value, flag) bind(c)
+      use PDAF_ensrf
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -877,6 +935,8 @@ contains
    END SUBROUTINE c__PDAF_ensrf_set_iparam
 
    SUBROUTINE c__PDAF_ensrf_set_rparam(id, value, flag) bind(c)
+      use PDAF_ensrf
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -890,11 +950,15 @@ contains
    END SUBROUTINE c__PDAF_ensrf_set_rparam
 
    SUBROUTINE c__PDAF_ensrf_options() bind(c)
+      use PDAF_ensrf
+      implicit none
       call PDAF_ensrf_options()
 
    END SUBROUTINE c__PDAF_ensrf_options
 
    SUBROUTINE c__PDAF_ensrf_memtime(printtype) bind(c)
+      use PDAF_ensrf
+      implicit none
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -906,6 +970,8 @@ contains
    SUBROUTINE c__PDAF_estkf_ana_fixed(step, dim_p, dim_obs_p, dim_ens, rank,  &
       state_p, ainv, ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, screen,  &
       type_sqrt, debug, flag) bind(c)
+      use PDAF_estkf_analysis_fixed
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -951,6 +1017,8 @@ contains
    SUBROUTINE c__PDAF_etkf_ana_fixed(step, dim_p, dim_obs_p, dim_ens, state_p,  &
       ainv, ens_p, hz_p, hxbar_p, obs_p, forget, u_prodrinva, screen, debug,  &
       flag) bind(c)
+      use PDAF_etkf_analysis_fixed
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -992,6 +1060,8 @@ contains
       ainv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_prodrinva,  &
       u_init_obsvar, u_prepoststep, screen, subtype, envar_mode, dim_lag,  &
       sens_p, cnt_maxlag, flag) bind(c)
+      use PDAF_estkf_update
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -1047,6 +1117,9 @@ contains
       u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l,  &
       u_likelihood_l, u_likelihood_hyb_l, u_prepoststep, screen, subtype,  &
       flag) bind(c)
+      use PDAF_lknetf_update_step
+
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -1114,6 +1187,8 @@ contains
       u_prodrinva_l, u_init_n_domains_p, u_init_dim_l, u_init_dim_obs_l,  &
       u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l,  &
       u_prepoststep, screen, subtype, dim_lag, sens_p, cnt_maxlag, flag) bind(c)
+      use PDAF_letkf_update
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -1181,6 +1256,8 @@ contains
    SUBROUTINE c__PDAF_lseik_ana_trans(domain_p, step, dim_l, dim_obs_l,  &
       dim_ens, rank, state_l, uinv_l, ens_l, hl_l, hxbar_l, obs_l, omegat_in,  &
       forget, u_prodrinva_l, nm1vsn, type_sqrt, screen, debug, flag) bind(c)
+      use PDAF_lseik_analysis_trans
+      implicit none
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -1232,6 +1309,8 @@ contains
    SUBROUTINE c__PDAF_en3dvar_optim_lbfgs(step, dim_p, dim_ens, dim_cvec_p,  &
       dim_obs_p, ens_p, obs_p, dy_p, v_p, u_prodrinva, u_cvt_ens,  &
       u_cvt_adj_ens, u_obs_op_lin, u_obs_op_adj, opt_parallel, screen) bind(c)
+      use PDAF_en3dvar_optim
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local state dimension
@@ -1275,6 +1354,8 @@ contains
    SUBROUTINE c__PDAF_en3dvar_optim_cgplus(step, dim_p, dim_ens, dim_cvec_p,  &
       dim_obs_p, ens_p, obs_p, dy_p, v_p, u_prodrinva, u_cvt_ens,  &
       u_cvt_adj_ens, u_obs_op_lin, u_obs_op_adj, opt_parallel, screen) bind(c)
+      use PDAF_en3dvar_optim
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local state dimension
@@ -1318,6 +1399,8 @@ contains
    SUBROUTINE c__PDAF_en3dvar_optim_cg(step, dim_p, dim_ens, dim_cvec_p,  &
       dim_obs_p, ens_p, obs_p, dy_p, v_p, u_prodrinva, u_cvt_ens,  &
       u_cvt_adj_ens, u_obs_op_lin, u_obs_op_adj, opt_parallel, screen) bind(c)
+      use PDAF_en3dvar_optim
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local state dimension
@@ -1361,6 +1444,8 @@ contains
    SUBROUTINE c__PDAF_en3dvar_costf_cvt(step, iter, dim_p, dim_ens, dim_cvec_p,  &
       dim_obs_p, ens_p, obs_p, dy_p, v_p, j_tot, gradj, u_prodrinva, u_cvt_ens,  &
       u_cvt_adj_ens, u_obs_op_lin, u_obs_op_adj, opt_parallel) bind(c)
+      use PDAF_en3dvar_optim
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Optimization iteration
@@ -1409,6 +1494,8 @@ contains
       dim_cvec_p, dim_obs_p, ens_p, obs_p, dy_p, v_p, d_p, j_tot, gradj,  &
       hessjd, u_prodrinva, u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin,  &
       u_obs_op_adj, opt_parallel) bind(c)
+      use PDAF_en3dvar_optim
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Optimization iteration
@@ -1459,6 +1546,8 @@ contains
    END SUBROUTINE c__PDAF_en3dvar_costf_cg_cvt
 
    SUBROUTINE c__PDAF_gather_ens(dim_p, dim_ens_p, ens, screen) bind(c)
+      use PDAF_communicate_ens
+      implicit none
       ! PE-local dimension of model state
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Size of ensemble
@@ -1474,6 +1563,8 @@ contains
    END SUBROUTINE c__PDAF_gather_ens
 
    SUBROUTINE c__PDAF_scatter_ens(dim_p, dim_ens_p, ens, state, screen) bind(c)
+      use PDAF_communicate_ens
+      implicit none
       ! PE-local dimension of model state
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Size of ensemble
@@ -1494,6 +1585,8 @@ contains
       dim_cv_ens_p, dim_obs_p, ens_p, obs_p, dy_p, v_par_p, v_ens_p,  &
       u_prodrinva, u_cvt, u_cvt_adj, u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin,  &
       u_obs_op_adj, opt_parallel, beta_3dvar, screen) bind(c)
+      use PDAF_hyb3dvar_optim
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local state dimension
@@ -1549,6 +1642,8 @@ contains
       dim_cv_ens_p, dim_obs_p, ens_p, obs_p, dy_p, v_par_p, v_ens_p,  &
       u_prodrinva, u_cvt, u_cvt_adj, u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin,  &
       u_obs_op_adj, opt_parallel, beta_3dvar, screen) bind(c)
+      use PDAF_hyb3dvar_optim
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local state dimension
@@ -1604,6 +1699,8 @@ contains
       dim_cv_ens_p, dim_obs_p, ens_p, obs_p, dy_p, v_par_p, v_ens_p,  &
       u_prodrinva, u_cvt, u_cvt_adj, u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin,  &
       u_obs_op_adj, opt_parallel, beta_3dvar, screen) bind(c)
+      use PDAF_hyb3dvar_optim
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local state dimension
@@ -1659,6 +1756,8 @@ contains
       dim_cv_par_p, dim_cv_ens_p, dim_obs_p, ens_p, obs_p, dy_p, v_par_p,  &
       v_ens_p, v_p, j_tot, gradj, u_prodrinva, u_cvt, u_cvt_adj, u_cvt_ens,  &
       u_cvt_adj_ens, u_obs_op_lin, u_obs_op_adj, opt_parallel, beta) bind(c)
+      use PDAF_hyb3dvar_optim
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Optimization iteration
@@ -1723,6 +1822,8 @@ contains
       v_ens_p, d_par_p, d_ens_p, j_tot, gradj_par, gradj_ens, hessjd_par,  &
       hessjd_ens, u_prodrinva, u_cvt, u_cvt_adj, u_cvt_ens, u_cvt_adj_ens,  &
       u_obs_op_lin, u_obs_op_adj, opt_parallel, beta) bind(c)
+      use PDAF_hyb3dvar_optim
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Optimization iteration
@@ -1790,6 +1891,8 @@ contains
    END SUBROUTINE c__PDAF_hyb3dvar_costf_cg_cvt
 
    SUBROUTINE c__PDAF_print_version() bind(c)
+      use PDAF_info
+      implicit none
       call PDAF_print_version()
 
    END SUBROUTINE c__PDAF_print_version
@@ -1798,6 +1901,8 @@ contains
       dim_cvec_ens, state_p, ens_p, state_inc_p, hxbar_p, obs_p, u_prodrinva,  &
       u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin, u_obs_op_adj, screen, type_opt,  &
       debug, flag) bind(c)
+      use PDAF_en3dvar_analysis_cvt
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -1846,6 +1951,8 @@ contains
    END SUBROUTINE c__PDAFen3dvar_analysis_cvt
 
    SUBROUTINE c__PDAF_sisort(n, veca) bind(c)
+      use PDAF_diag
+      implicit none
       !
       INTEGER(c_int), INTENT(in) :: n
       !
@@ -1856,47 +1963,49 @@ contains
 
    END SUBROUTINE c__PDAF_sisort
 
-   SUBROUTINE c__PDAF_unbiased_moments_from_summed_residuals(dim_ens, dim_p,  &
-      kmax, sum_expo_resid, moments) bind(c)
-      ! number of ensemble members/samples
-      INTEGER(c_int), INTENT(in) :: dim_ens
-      ! local size of the state
-      INTEGER(c_int), INTENT(in) :: dim_p
-      ! maximum order of central moment that is computed, maximum is 4
-      INTEGER(c_int), INTENT(in) :: kmax
-      ! sum of exponentiated residulals
-      REAL(c_double), DIMENSION(dim_p, kmax), INTENT(in) :: sum_expo_resid
-      ! The columns contain the moments of the ensemble
-      REAL(c_double), DIMENSION(dim_p, kmax), INTENT(inout) :: moments
+   ! SUBROUTINE c__PDAF_unbiased_moments_from_summed_residuals(dim_ens, dim_p,  &
+   !    kmax, sum_expo_resid, moments) bind(c)
+   !    ! number of ensemble members/samples
+   !    INTEGER(c_int), INTENT(in) :: dim_ens
+   !    ! local size of the state
+   !    INTEGER(c_int), INTENT(in) :: dim_p
+   !    ! maximum order of central moment that is computed, maximum is 4
+   !    INTEGER(c_int), INTENT(in) :: kmax
+   !    ! sum of exponentiated residulals
+   !    REAL(c_double), DIMENSION(dim_p, kmax), INTENT(in) :: sum_expo_resid
+   !    ! The columns contain the moments of the ensemble
+   !    REAL(c_double), DIMENSION(dim_p, kmax), INTENT(inout) :: moments
 
 
-      call PDAF_unbiased_moments_from_summed_residuals(dim_ens, dim_p, kmax,  &
-         sum_expo_resid, moments)
+   !    call PDAF_unbiased_moments_from_summed_residuals(dim_ens, dim_p, kmax,  &
+   !       sum_expo_resid, moments)
 
-   END SUBROUTINE c__PDAF_unbiased_moments_from_summed_residuals
+   ! END SUBROUTINE c__PDAF_unbiased_moments_from_summed_residuals
 
-   SUBROUTINE c__PDAF_biased_moments_from_summed_residuals(dim_ens, dim_p,  &
-      kmax, sum_expo_resid, moments) bind(c)
-      ! number of ensemble members/samples
-      INTEGER(c_int), INTENT(in) :: dim_ens
-      ! local size of the state
-      INTEGER(c_int), INTENT(in) :: dim_p
-      ! maximum order of central moment that is computed, maximum is 4
-      INTEGER(c_int), INTENT(in) :: kmax
-      ! sum of exponentiated residulals
-      REAL(c_double), DIMENSION(dim_p, kmax), INTENT(in) :: sum_expo_resid
-      ! The columns contain the moments of the ensemble
-      REAL(c_double), DIMENSION(dim_p, kmax), INTENT(inout) :: moments
+   ! SUBROUTINE c__PDAF_biased_moments_from_summed_residuals(dim_ens, dim_p,  &
+   !    kmax, sum_expo_resid, moments) bind(c)
+   !    ! number of ensemble members/samples
+   !    INTEGER(c_int), INTENT(in) :: dim_ens
+   !    ! local size of the state
+   !    INTEGER(c_int), INTENT(in) :: dim_p
+   !    ! maximum order of central moment that is computed, maximum is 4
+   !    INTEGER(c_int), INTENT(in) :: kmax
+   !    ! sum of exponentiated residulals
+   !    REAL(c_double), DIMENSION(dim_p, kmax), INTENT(in) :: sum_expo_resid
+   !    ! The columns contain the moments of the ensemble
+   !    REAL(c_double), DIMENSION(dim_p, kmax), INTENT(inout) :: moments
 
 
-      call PDAF_biased_moments_from_summed_residuals(dim_ens, dim_p, kmax,  &
-         sum_expo_resid, moments)
+   !    call PDAF_biased_moments_from_summed_residuals(dim_ens, dim_p, kmax,  &
+   !       sum_expo_resid, moments)
 
-   END SUBROUTINE c__PDAF_biased_moments_from_summed_residuals
+   ! END SUBROUTINE c__PDAF_biased_moments_from_summed_residuals
 
    SUBROUTINE c__PDAF_enkf_ana_rlm(step, dim_p, dim_obs_p, dim_ens, rank_ana,  &
       state_p, ens_p, hzb, hx_p, hxbar_p, obs_p, u_add_obs_err,  &
       u_init_obs_covar, screen, debug, flag) bind(c)
+      use PDAF_enkf_analysis_rlm
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -1939,6 +2048,8 @@ contains
 
    SUBROUTINE c__PDAF_smoother_enkf(dim_p, dim_ens, dim_lag, ainv, sens_p,  &
       cnt_maxlag, forget, screen) bind(c)
+      use PDAF_enkf_analysis_rlm
+      implicit none
       ! PE-local dimension of model state
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Size of ensemble
@@ -1965,6 +2076,8 @@ contains
    SUBROUTINE c__PDAFensrf_update(step, dim_p, dim_obs_p, dim_ens, state_p,  &
       ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_init_obsvars,  &
       u_localize_covar_serial, u_prepoststep, screen, subtype, flag) bind(c)
+      use PDAF_ensrf_update
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -2006,6 +2119,8 @@ contains
    SUBROUTINE c__PDAF_pf_ana(step, dim_p, dim_obs_p, dim_ens, state_p, ens_p,  &
       type_resample, type_winf, limit_winf, type_noise, noise_amp, hz_p, obs_p,  &
       u_likelihood, screen, debug, flag) bind(c)
+      use PDAF_pf_analysis
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -2050,6 +2165,8 @@ contains
 
    SUBROUTINE c__PDAF_pf_resampling(method, nin, nout, weights, ids,  &
       screen) bind(c)
+      use PDAF_pf_analysis
+      implicit none
       ! Choose resampling method
       INTEGER(c_int), INTENT(in) :: method
       ! number of particles
@@ -2070,6 +2187,8 @@ contains
 
    SUBROUTINE c__PDAF_mvnormalize(mode, dim_state, dim_field, offset, ncol,  &
       states, stddev, status) bind(c)
+      use PDAF_sample
+      implicit none
       ! Mode: (1) normalize, (2) re-scale
       INTEGER(c_int), INTENT(in) :: mode
       ! Dimension of state vector
@@ -2095,6 +2214,8 @@ contains
 
    SUBROUTINE c__PDAF_3dvar_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
+      use PDAF_3dvar
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -2114,13 +2235,16 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
-
+      logical :: ensemblefilter_out, fixedbasis_out
       call PDAF_3dvar_init(subtype, param_int, dim_pint, param_real, dim_preal,  &
-         ensemblefilter, fixedbasis, verbose, outflag)
-
+         ensemblefilter_out, fixedbasis_out, verbose, outflag)
+      ensemblefilter = ensemblefilter_out
+      fixedbasis = fixedbasis_out
    END SUBROUTINE c__PDAF_3dvar_init
 
    SUBROUTINE c__PDAF_3dvar_alloc(subtype, outflag) bind(c)
+      use PDAF_3dvar
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(in) :: subtype
       ! Status flag
@@ -2132,6 +2256,8 @@ contains
    END SUBROUTINE c__PDAF_3dvar_alloc
 
    SUBROUTINE c__PDAF_3dvar_config(subtype, verbose) bind(c)
+      use PDAF_3dvar
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -2143,6 +2269,8 @@ contains
    END SUBROUTINE c__PDAF_3dvar_config
 
    SUBROUTINE c__PDAF_3dvar_set_iparam(id, value, flag) bind(c)
+      use PDAF_3dvar
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -2156,6 +2284,8 @@ contains
    END SUBROUTINE c__PDAF_3dvar_set_iparam
 
    SUBROUTINE c__PDAF_3dvar_set_rparam(id, value, flag) bind(c)
+      use PDAF_3dvar
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -2169,11 +2299,15 @@ contains
    END SUBROUTINE c__PDAF_3dvar_set_rparam
 
    SUBROUTINE c__PDAF_3dvar_options() bind(c)
+      use PDAF_3dvar
+      implicit none
       call PDAF_3dvar_options()
 
    END SUBROUTINE c__PDAF_3dvar_options
 
    SUBROUTINE c__PDAF_3dvar_memtime(printtype) bind(c)
+      use PDAF_3dvar
+      implicit none
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -2184,6 +2318,8 @@ contains
 
 
    SUBROUTINE c__PDAF_reset_dim_ens(dim_ens_in, outflag) bind(c)
+      use PDAF_set
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(in) :: dim_ens_in
       ! Status flag
@@ -2195,6 +2331,8 @@ contains
    END SUBROUTINE c__PDAF_reset_dim_ens
 
    SUBROUTINE c__PDAF_reset_dim_p(dim_p_in, outflag) bind(c)
+      use PDAF_set
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(in) :: dim_p_in
       ! Status flag
@@ -2208,6 +2346,8 @@ contains
    SUBROUTINE c__PDAF_3dvar_optim_lbfgs(step, dim_p, dim_cvec_p, dim_obs_p,  &
       obs_p, dy_p, v_p, u_prodrinva, u_cvt, u_cvt_adj, u_obs_op_lin,  &
       u_obs_op_adj, opt_parallel, screen) bind(c)
+      use PDAF_3dvar_optim
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local state dimension
@@ -2247,6 +2387,8 @@ contains
    SUBROUTINE c__PDAF_3dvar_optim_cgplus(step, dim_p, dim_cvec_p, dim_obs_p,  &
       obs_p, dy_p, v_p, u_prodrinva, u_cvt, u_cvt_adj, u_obs_op_lin,  &
       u_obs_op_adj, opt_parallel, screen) bind(c)
+      use PDAF_3dvar_optim
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local state dimension
@@ -2286,6 +2428,8 @@ contains
    SUBROUTINE c__PDAF_3dvar_optim_cg(step, dim_p, dim_cvec_p, dim_obs_p, obs_p,  &
       dy_p, v_p, u_prodrinva, u_cvt, u_cvt_adj, u_obs_op_lin, u_obs_op_adj,  &
       opt_parallel, screen) bind(c)
+      use PDAF_3dvar_optim
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local state dimension
@@ -2325,6 +2469,8 @@ contains
    SUBROUTINE c__PDAF_3dvar_costf_cvt(step, iter, dim_p, dim_cvec_p, dim_obs_p,  &
       obs_p, dy_p, v_p, j_tot, gradj, u_prodrinva, u_cvt, u_cvt_adj,  &
       u_obs_op_lin, u_obs_op_adj, opt_parallel) bind(c)
+      use PDAF_3dvar_optim
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Optimization iteration
@@ -2368,6 +2514,8 @@ contains
    SUBROUTINE c__PDAF_3dvar_costf_cg_cvt(step, iter, dim_p, dim_cvec_p,  &
       dim_obs_p, obs_p, dy_p, v_p, d_p, j_tot, gradj, hessjd, u_prodrinva,  &
       u_cvt, u_cvt_adj, u_obs_op_lin, u_obs_op_adj, opt_parallel) bind(c)
+      use PDAF_3dvar_optim
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! CG iteration
@@ -2417,6 +2565,8 @@ contains
       u_prodrinva_l, u_init_obsvar_l, u_likelihood_l, screen, type_forget,  &
       eff_dimens, type_hyb, hyb_g, hyb_k, gamma, skew_mabs, kurt_mabs,  &
       flag) bind(c)
+      use PDAF_lknetf_analysis_sync
+      implicit none
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -2479,6 +2629,8 @@ contains
    END SUBROUTINE c__PDAF_lknetf_analysis_T
 
    SUBROUTINE c__PDAF_get_ensstats(skew_ptr, kurt_ptr, status) bind(c)
+      use PDAF_get
+      implicit none
       ! Pointer to skewness array
       REAL(c_double), POINTER, DIMENSION(:), INTENT(out) :: skew_ptr
       ! Pointer to kurtosis array
@@ -2492,6 +2644,8 @@ contains
 
    SUBROUTINE c__PDAF_estkf_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
+      use PDAF_estkf
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -2511,13 +2665,16 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
-
+      logical :: ensemblefilter_out, fixedbasis_out
       call PDAF_estkf_init(subtype, param_int, dim_pint, param_real, dim_preal,  &
-         ensemblefilter, fixedbasis, verbose, outflag)
-
+         ensemblefilter_out, fixedbasis_out, verbose, outflag)
+      ensemblefilter = ensemblefilter_out
+      fixedbasis = fixedbasis_out
    END SUBROUTINE c__PDAF_estkf_init
 
    SUBROUTINE c__PDAF_estkf_alloc(outflag) bind(c)
+      use PDAF_estkf
+      implicit none
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -2527,6 +2684,8 @@ contains
    END SUBROUTINE c__PDAF_estkf_alloc
 
    SUBROUTINE c__PDAF_estkf_config(subtype, verbose) bind(c)
+      use PDAF_estkf
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -2538,6 +2697,8 @@ contains
    END SUBROUTINE c__PDAF_estkf_config
 
    SUBROUTINE c__PDAF_estkf_set_iparam(id, value, flag) bind(c)
+      use PDAF_estkf
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -2551,6 +2712,8 @@ contains
    END SUBROUTINE c__PDAF_estkf_set_iparam
 
    SUBROUTINE c__PDAF_estkf_set_rparam(id, value, flag) bind(c)
+      use PDAF_estkf
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -2564,11 +2727,15 @@ contains
    END SUBROUTINE c__PDAF_estkf_set_rparam
 
    SUBROUTINE c__PDAF_estkf_options() bind(c)
+      use PDAF_estkf
+      implicit none
       call PDAF_estkf_options()
 
    END SUBROUTINE c__PDAF_estkf_options
 
    SUBROUTINE c__PDAF_estkf_memtime(printtype) bind(c)
+      use PDAF_estkf
+      implicit none
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -2580,6 +2747,8 @@ contains
    SUBROUTINE c__PDAF_gen_obs(step, dim_p, dim_obs_f, dim_ens, state_p, ainv,  &
       ens_p, u_init_dim_obs_f, u_obs_op_f, u_get_obs_f, u_init_obserr_f,  &
       u_prepoststep, screen, flag) bind(c)
+      use PDAF_generate_obs_update
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -2619,6 +2788,8 @@ contains
    SUBROUTINE c__PDAFobs_init(step, dim_p, dim_ens, dim_obs_p, state_p, ens_p,  &
       u_init_dim_obs, u_obs_op, u_init_obs, screen, debug, do_ens_mean,  &
       do_init_dim, do_hx, do_hxbar, do_init_obs) bind(c)
+      use PDAFobs
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -2653,14 +2824,29 @@ contains
       ! Initialize observation vector
       procedure(c__init_obs_pdaf) :: u_init_obs
 
+      logical :: do_ens_mean_in
+      logical :: do_init_dim_in
+      logical :: do_hx_in
+      logical :: do_hxbar_in
+      logical :: do_init_obs_in
+
+      ! Convert logicals to C-compatible logicals
+      do_ens_mean_in = do_ens_mean
+      do_init_dim_in = do_init_dim
+      do_hx_in = do_hx
+      do_hxbar_in = do_hxbar
+      do_init_obs_in = do_init_obs
+
       call PDAFobs_init(step, dim_p, dim_ens, dim_obs_p, state_p, ens_p,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, screen, debug, do_ens_mean,  &
-         do_init_dim, do_hx, do_hxbar, do_init_obs)
+         u_init_dim_obs, u_obs_op, u_init_obs, screen, debug, do_ens_mean_in,  &
+         do_init_dim_in, do_hx_in, do_hxbar_in, do_init_obs_in)
 
    END SUBROUTINE c__PDAFobs_init
 
    SUBROUTINE c__PDAFobs_init_local(domain_p, step, dim_obs_l, dim_obs_f,  &
       dim_ens, u_init_dim_obs_l, u_g2l_obs, u_init_obs_l, debug) bind(c)
+      use PDAFobs
+      implicit none
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -2687,6 +2873,8 @@ contains
    END SUBROUTINE c__PDAFobs_init_local
 
    SUBROUTINE c__PDAFobs_init_obsvars(step, dim_obs_p, u_init_obsvars) bind(c)
+      use PDAFobs
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of observation vector
@@ -2700,17 +2888,23 @@ contains
    END SUBROUTINE c__PDAFobs_init_obsvars
 
    SUBROUTINE c__PDAFobs_dealloc() bind(c)
+      use PDAFobs
+      implicit none
       call PDAFobs_dealloc()
 
    END SUBROUTINE c__PDAFobs_dealloc
 
    SUBROUTINE c__PDAFobs_dealloc_local() bind(c)
+      use PDAFobs
+      implicit none
       call PDAFobs_dealloc_local()
 
    END SUBROUTINE c__PDAFobs_dealloc_local
 
    SUBROUTINE c__PDAF_NETF_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
+      use PDAF_NETF
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -2730,13 +2924,16 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
-
+      logical :: ensemblefilter_out, fixedbasis_out
       call PDAF_NETF_init(subtype, param_int, dim_pint, param_real, dim_preal,  &
-         ensemblefilter, fixedbasis, verbose, outflag)
-
+         ensemblefilter_out, fixedbasis_out, verbose, outflag)
+      ensemblefilter = ensemblefilter_out
+      fixedbasis = fixedbasis_out
    END SUBROUTINE c__PDAF_NETF_init
 
    SUBROUTINE c__PDAF_netf_alloc(outflag) bind(c)
+      use PDAF_NETF
+      implicit none
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -2746,6 +2943,8 @@ contains
    END SUBROUTINE c__PDAF_netf_alloc
 
    SUBROUTINE c__PDAF_netf_config(subtype, verbose) bind(c)
+      use PDAF_NETF
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -2757,6 +2956,8 @@ contains
    END SUBROUTINE c__PDAF_netf_config
 
    SUBROUTINE c__PDAF_netf_set_iparam(id, value, flag) bind(c)
+      use PDAF_NETF
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -2770,6 +2971,8 @@ contains
    END SUBROUTINE c__PDAF_netf_set_iparam
 
    SUBROUTINE c__PDAF_netf_set_rparam(id, value, flag) bind(c)
+      use PDAF_NETF
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -2783,11 +2986,15 @@ contains
    END SUBROUTINE c__PDAF_netf_set_rparam
 
    SUBROUTINE c__PDAF_netf_options() bind(c)
+      use PDAF_NETF
+      implicit none
       call PDAF_netf_options()
 
    END SUBROUTINE c__PDAF_netf_options
 
    SUBROUTINE c__PDAF_netf_memtime(printtype) bind(c)
+      use PDAF_NETF
+      implicit none
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -2798,6 +3005,8 @@ contains
 
    SUBROUTINE c__PDAF_lenkf_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
+      use PDAF_lenkf
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -2817,13 +3026,18 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
+      logical :: ensemblefilter_out, fixedbasis_out
 
       call PDAF_lenkf_init(subtype, param_int, dim_pint, param_real, dim_preal,  &
-         ensemblefilter, fixedbasis, verbose, outflag)
+      ensemblefilter_out, fixedbasis_out, verbose, outflag)
+      ensemblefilter = ensemblefilter_out
+      fixedbasis = fixedbasis_out
 
    END SUBROUTINE c__PDAF_lenkf_init
 
    SUBROUTINE c__PDAF_lenkf_alloc(outflag) bind(c)
+      use PDAF_lenkf
+      implicit none
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -2833,6 +3047,8 @@ contains
    END SUBROUTINE c__PDAF_lenkf_alloc
 
    SUBROUTINE c__PDAF_lenkf_config(subtype, verbose) bind(c)
+      use PDAF_lenkf
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -2844,6 +3060,8 @@ contains
    END SUBROUTINE c__PDAF_lenkf_config
 
    SUBROUTINE c__PDAF_lenkf_set_iparam(id, value, flag) bind(c)
+      use PDAF_lenkf
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -2857,6 +3075,8 @@ contains
    END SUBROUTINE c__PDAF_lenkf_set_iparam
 
    SUBROUTINE c__PDAF_lenkf_set_rparam(id, value, flag) bind(c)
+      use PDAF_lenkf
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -2870,11 +3090,15 @@ contains
    END SUBROUTINE c__PDAF_lenkf_set_rparam
 
    SUBROUTINE c__PDAF_lenkf_options() bind(c)
+      use PDAF_lenkf
+      implicit none
       call PDAF_lenkf_options()
 
    END SUBROUTINE c__PDAF_lenkf_options
 
    SUBROUTINE c__PDAF_lenkf_memtime(printtype) bind(c)
+      use PDAF_lenkf
+      implicit none
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -2885,6 +3109,8 @@ contains
 
    SUBROUTINE c__PDAF_lseik_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
+      use PDAF_lseik
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -2904,13 +3130,17 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
+      logical :: ensemblefilter_out, fixedbasis_out
 
       call PDAF_lseik_init(subtype, param_int, dim_pint, param_real, dim_preal,  &
-         ensemblefilter, fixedbasis, verbose, outflag)
-
+         ensemblefilter_out, fixedbasis_out, verbose, outflag)
+      ensemblefilter = ensemblefilter_out
+      fixedbasis = fixedbasis_out
    END SUBROUTINE c__PDAF_lseik_init
 
    SUBROUTINE c__PDAF_lseik_alloc(outflag) bind(c)
+      use PDAF_lseik
+      implicit none
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -2920,6 +3150,8 @@ contains
    END SUBROUTINE c__PDAF_lseik_alloc
 
    SUBROUTINE c__PDAF_lseik_config(subtype, verbose) bind(c)
+      use PDAF_lseik
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -2931,6 +3163,8 @@ contains
    END SUBROUTINE c__PDAF_lseik_config
 
    SUBROUTINE c__PDAF_lseik_set_iparam(id, value, flag) bind(c)
+      use PDAF_lseik
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -2944,6 +3178,8 @@ contains
    END SUBROUTINE c__PDAF_lseik_set_iparam
 
    SUBROUTINE c__PDAF_lseik_set_rparam(id, value, flag) bind(c)
+      use PDAF_lseik
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -2957,11 +3193,15 @@ contains
    END SUBROUTINE c__PDAF_lseik_set_rparam
 
    SUBROUTINE c__PDAF_lseik_options() bind(c)
+      use PDAF_lseik
+      implicit none
       call PDAF_lseik_options()
 
    END SUBROUTINE c__PDAF_lseik_options
 
    SUBROUTINE c__PDAF_lseik_memtime(printtype) bind(c)
+      use PDAF_lseik
+      implicit none
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -2973,6 +3213,8 @@ contains
 
    SUBROUTINE c__PDAF_etkf_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
+      use PDAF_etkf
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -2992,13 +3234,17 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
+      logical :: ensemblefilter_out, fixedbasis_out
 
       call PDAF_etkf_init(subtype, param_int, dim_pint, param_real, dim_preal,  &
-         ensemblefilter, fixedbasis, verbose, outflag)
-
+      ensemblefilter_out, fixedbasis_out, verbose, outflag)
+      ensemblefilter = ensemblefilter_out
+      fixedbasis = fixedbasis_out
    END SUBROUTINE c__PDAF_etkf_init
 
    SUBROUTINE c__PDAF_etkf_alloc(outflag) bind(c)
+      use PDAF_etkf
+      implicit none
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -3008,6 +3254,8 @@ contains
    END SUBROUTINE c__PDAF_etkf_alloc
 
    SUBROUTINE c__PDAF_etkf_config(subtype, verbose) bind(c)
+      use PDAF_etkf
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -3019,6 +3267,8 @@ contains
    END SUBROUTINE c__PDAF_etkf_config
 
    SUBROUTINE c__PDAF_etkf_set_iparam(id, value, flag) bind(c)
+      use PDAF_etkf
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3032,6 +3282,8 @@ contains
    END SUBROUTINE c__PDAF_etkf_set_iparam
 
    SUBROUTINE c__PDAF_etkf_set_rparam(id, value, flag) bind(c)
+      use PDAF_etkf
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3045,11 +3297,15 @@ contains
    END SUBROUTINE c__PDAF_etkf_set_rparam
 
    SUBROUTINE c__PDAF_etkf_options() bind(c)
+      use PDAF_etkf
+      implicit none
       call PDAF_etkf_options()
 
    END SUBROUTINE c__PDAF_etkf_options
 
    SUBROUTINE c__PDAF_etkf_memtime(printtype) bind(c)
+      use PDAF_etkf
+      implicit none
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -3061,6 +3317,8 @@ contains
    SUBROUTINE c__PDAFlenkf_update(step, dim_p, dim_obs_p, dim_ens, state_p,  &
       ens_p, u_init_dim_obs, u_obs_op, u_add_obs_err, u_init_obs,  &
       u_init_obs_covar, u_prepoststep, u_localize, screen, subtype, flag) bind(c)
+      use PDAF_lenkf_update
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -3103,6 +3361,8 @@ contains
 
    SUBROUTINE c__PDAF_PF_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
+      use PDAF_PF
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -3122,13 +3382,17 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
+      logical :: ensemblefilter_out, fixedbasis_out
 
       call PDAF_PF_init(subtype, param_int, dim_pint, param_real, dim_preal,  &
-         ensemblefilter, fixedbasis, verbose, outflag)
-
+      ensemblefilter_out, fixedbasis_out, verbose, outflag)
+      ensemblefilter = ensemblefilter_out
+      fixedbasis = fixedbasis_out
    END SUBROUTINE c__PDAF_PF_init
 
    SUBROUTINE c__PDAF_pf_alloc(outflag) bind(c)
+      use PDAF_pf
+      implicit none
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -3138,6 +3402,8 @@ contains
    END SUBROUTINE c__PDAF_pf_alloc
 
    SUBROUTINE c__PDAF_pf_config(subtype, verbose) bind(c)
+      use PDAF_pf
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -3149,6 +3415,8 @@ contains
    END SUBROUTINE c__PDAF_pf_config
 
    SUBROUTINE c__PDAF_pf_set_iparam(id, value, flag) bind(c)
+      use PDAF_pf
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3162,6 +3430,8 @@ contains
    END SUBROUTINE c__PDAF_pf_set_iparam
 
    SUBROUTINE c__PDAF_pf_set_rparam(id, value, flag) bind(c)
+      use PDAF_pf
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3175,11 +3445,15 @@ contains
    END SUBROUTINE c__PDAF_pf_set_rparam
 
    SUBROUTINE c__PDAF_pf_options() bind(c)
+      use PDAF_pf
+      implicit none
       call PDAF_pf_options()
 
    END SUBROUTINE c__PDAF_pf_options
 
    SUBROUTINE c__PDAF_pf_memtime(printtype) bind(c)
+      use PDAF_pf
+      implicit none
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -3191,6 +3465,8 @@ contains
    SUBROUTINE c__PDAF_lknetf_ana_letkfT(domain_p, step, dim_l, dim_obs_l,  &
       dim_ens, state_l, ainv_l, ens_l, hz_l, hxbar_l, obs_l, rndmat, forget,  &
       u_prodrinva_hyb_l, u_init_obsvar_l, gamma, screen, type_forget, flag) bind(c)
+      use PDAF_lknetf_analysis_step
+      implicit none
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -3240,6 +3516,8 @@ contains
    SUBROUTINE c__PDAF_lknetf_ana_lnetf(domain_p, step, dim_l, dim_obs_l,  &
       dim_ens, ens_l, hx_l, rndmat, obs_l, u_likelihood_hyb_l, cnt_small_svals,  &
       n_eff_all, gamma, screen, flag) bind(c)
+      use PDAF_lknetf_analysis_step
+      implicit none
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -3281,6 +3559,8 @@ contains
    SUBROUTINE c__PDAF_enkf_ana_rsm(step, dim_p, dim_obs_p, dim_ens, rank_ana,  &
       state_p, ens_p, hx_p, hxbar_p, obs_p, u_add_obs_err, u_init_obs_covar,  &
       screen, debug, flag) bind(c)
+      use PDAF_enkf_analysis_rsm
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -3321,6 +3601,8 @@ contains
 
    SUBROUTINE c__PDAF_lknetf_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
+      use PDAF_lknetf
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -3340,13 +3622,17 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
+      logical :: ensemblefilter_out, fixedbasis_out
 
       call PDAF_lknetf_init(subtype, param_int, dim_pint, param_real,  &
-         dim_preal, ensemblefilter, fixedbasis, verbose, outflag)
-
+      dim_preal, ensemblefilter_out, fixedbasis_out, verbose, outflag)
+      ensemblefilter = ensemblefilter_out
+      fixedbasis = fixedbasis_out
    END SUBROUTINE c__PDAF_lknetf_init
 
    SUBROUTINE c__PDAF_lknetf_alloc(outflag) bind(c)
+      use PDAF_lknetf
+      implicit none
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -3356,6 +3642,8 @@ contains
    END SUBROUTINE c__PDAF_lknetf_alloc
 
    SUBROUTINE c__PDAF_lknetf_config(subtype, verbose) bind(c)
+      use PDAF_lknetf
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -3367,6 +3655,8 @@ contains
    END SUBROUTINE c__PDAF_lknetf_config
 
    SUBROUTINE c__PDAF_lknetf_set_iparam(id, value, flag) bind(c)
+      use PDAF_lknetf
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3380,6 +3670,8 @@ contains
    END SUBROUTINE c__PDAF_lknetf_set_iparam
 
    SUBROUTINE c__PDAF_lknetf_set_rparam(id, value, flag) bind(c)
+      use PDAF_lknetf
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3393,11 +3685,15 @@ contains
    END SUBROUTINE c__PDAF_lknetf_set_rparam
 
    SUBROUTINE c__PDAF_lknetf_options() bind(c)
+      use PDAF_lknetf
+      implicit none
       call PDAF_lknetf_options()
 
    END SUBROUTINE c__PDAF_lknetf_options
 
    SUBROUTINE c__PDAF_lknetf_memtime(printtype) bind(c)
+      use PDAF_lknetf
+      implicit none
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -3407,6 +3703,8 @@ contains
    END SUBROUTINE c__PDAF_lknetf_memtime
 
    SUBROUTINE c__PDAF_lknetf_alpha_neff(dim_ens, weights, hlimit, alpha) bind(c)
+      use PDAF_lknetf
+      implicit none
       ! Size of ensemble
       INTEGER(c_int), INTENT(in) :: dim_ens
       ! Weights
@@ -3424,6 +3722,8 @@ contains
    SUBROUTINE c__PDAF_lknetf_compute_gamma(domain_p, step, dim_obs_l, dim_ens,  &
       hx_l, hxbar_l, obs_l, type_hyb, hyb_g, hyb_k, gamma, n_eff_out,  &
       skew_mabs, kurt_mabs, u_likelihood_l, screen, flag) bind(c)
+      use PDAF_lknetf, only: PDAF_lknetf_compute_gamma
+      implicit none
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -3469,6 +3769,8 @@ contains
    SUBROUTINE c__PDAF_lknetf_set_gamma(domain_p, dim_obs_l, dim_ens, hx_l,  &
       hxbar_l, weights, type_hyb, hyb_g, hyb_k, gamma, n_eff_out, maskew,  &
       makurt, screen, flag) bind(c)
+      use PDAF_lknetf, only: PDAF_lknetf_set_gamma
+      implicit none
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Size of obs. vector on local ana. domain
@@ -3508,6 +3810,8 @@ contains
    END SUBROUTINE c__PDAF_lknetf_set_gamma
 
    SUBROUTINE c__PDAF_lknetf_reset_gamma(gamma_in) bind(c)
+      use PDAF_lknetf
+      implicit none
       ! Prescribed hybrid weight
       REAL(c_double), INTENT(in) :: gamma_in
 
@@ -3520,6 +3824,8 @@ contains
       dim_cvec, dim_cvec_ens, beta_3dvar, state_p, ens_p, state_inc_p, hxbar_p,  &
       obs_p, u_prodrinva, u_cvt, u_cvt_adj, u_cvt_ens, u_cvt_adj_ens,  &
       u_obs_op_lin, u_obs_op_adj, screen, type_opt, debug, flag) bind(c)
+      use PDAF_hyb3dvar_analysis_cvt
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -3578,6 +3884,8 @@ contains
    SUBROUTINE c__PDAF3dvar_analysis_cvt(step, dim_p, dim_obs_p, dim_cvec,  &
       state_p, hxbar_p, obs_p, u_prodrinva, u_cvt, u_cvt_adj, u_obs_op_lin,  &
       u_obs_op_adj, screen, type_opt, debug, flag) bind(c)
+      use PDAF_3dvar_analysis_cvt
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -3620,6 +3928,8 @@ contains
 
    SUBROUTINE c__PDAF_lestkf_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
+      use PDAF_lestkf
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -3639,13 +3949,19 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
+      logical :: ensemblefilter_out, fixedbasis_out
+
 
       call PDAF_lestkf_init(subtype, param_int, dim_pint, param_real,  &
-         dim_preal, ensemblefilter, fixedbasis, verbose, outflag)
+      dim_preal, ensemblefilter_out, fixedbasis_out, verbose, outflag)
+      ensemblefilter = ensemblefilter_out
+      fixedbasis = fixedbasis_out
 
    END SUBROUTINE c__PDAF_lestkf_init
 
    SUBROUTINE c__PDAF_lestkf_alloc(outflag) bind(c)
+      use PDAF_lestkf
+      implicit none
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -3655,6 +3971,8 @@ contains
    END SUBROUTINE c__PDAF_lestkf_alloc
 
    SUBROUTINE c__PDAF_lestkf_config(subtype, verbose) bind(c)
+      use PDAF_lestkf
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -3666,6 +3984,8 @@ contains
    END SUBROUTINE c__PDAF_lestkf_config
 
    SUBROUTINE c__PDAF_lestkf_set_iparam(id, value, flag) bind(c)
+      use PDAF_lestkf
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3679,6 +3999,8 @@ contains
    END SUBROUTINE c__PDAF_lestkf_set_iparam
 
    SUBROUTINE c__PDAF_lestkf_set_rparam(id, value, flag) bind(c)
+      use PDAF_lestkf
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -3692,11 +4014,15 @@ contains
    END SUBROUTINE c__PDAF_lestkf_set_rparam
 
    SUBROUTINE c__PDAF_lestkf_options() bind(c)
+      use PDAF_lestkf
+      implicit none
       call PDAF_lestkf_options()
 
    END SUBROUTINE c__PDAF_lestkf_options
 
    SUBROUTINE c__PDAF_lestkf_memtime(printtype) bind(c)
+      use PDAF_lestkf
+      implicit none
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -3707,6 +4033,8 @@ contains
 
    SUBROUTINE c__PDAF_seik_ana(step, dim_p, dim_obs_p, dim_ens, rank, state_p,  &
       uinv, ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, debug, flag) bind(c)
+      use PDAF_seik_analysis
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -3746,6 +4074,8 @@ contains
 
    SUBROUTINE c__PDAF_seik_resample(subtype, dim_p, dim_ens, rank, uinv,  &
       state_p, enst_p, type_sqrt, type_trans, nm1vsn, screen, flag) bind(c)
+      use PDAF_seik_analysis
+      implicit none
       ! Filter subtype
       INTEGER(c_int), INTENT(in) :: subtype
       ! PE-local state dimension
@@ -3780,6 +4110,8 @@ contains
    SUBROUTINE c__PDAF_lseik_ana(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
       rank, state_l, uinv_l, ens_l, hl_l, hxbar_l, obs_l, forget,  &
       u_prodrinva_l, screen, debug, flag) bind(c)
+      use PDAF_lseik_analysis
+      implicit none
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -3824,6 +4156,8 @@ contains
 
    SUBROUTINE c__PDAF_lseik_resample(domain_p, subtype, dim_l, dim_ens, rank,  &
       uinv_l, state_l, ens_l, omegat_in, type_sqrt, screen, flag) bind(c)
+      use PDAF_lseik_analysis
+      implicit none
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Specification of filter subtype
@@ -3857,6 +4191,8 @@ contains
 
    SUBROUTINE c__PDAF_prepost(u_collect_state, u_distribute_state,  &
       u_prepoststep, u_next_observation, outflag) bind(c)
+      use PDAFprepost
+      implicit none
       ! Status flag
       INTEGER(c_int), INTENT(out) :: outflag
 
@@ -3878,6 +4214,8 @@ contains
       ens_p, u_init_dim_obs, u_obs_op, u_add_obs_err, u_init_obs,  &
       u_init_obs_covar, u_prepoststep, screen, subtype, dim_lag, sens_p,  &
       cnt_maxlag, flag) bind(c)
+      use PDAF_enkf_update
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -3925,6 +4263,8 @@ contains
    SUBROUTINE c__PDAF_init_parallel(dim_ens, ensemblefilter, fixedbasis,  &
       comm_model, in_comm_filter, in_comm_couple, in_n_modeltasks, in_task_id,  &
       screen, flag) bind(c)
+      use PDAF_mod_parallel
+      implicit none
       ! Rank of covar matrix/ensemble size
       INTEGER(c_int), INTENT(inout) :: dim_ens
       ! Is the filter ensemble-based?
@@ -3946,14 +4286,19 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: flag
 
+      logical :: ensemblefilter_in, fixedbasis_in
 
-      call PDAF_init_parallel(dim_ens, ensemblefilter, fixedbasis, comm_model,  &
+      ensemblefilter_in = ensemblefilter
+      fixedbasis_in = fixedbasis
+      call PDAF_init_parallel(dim_ens, ensemblefilter_in, fixedbasis_in, comm_model,  &
          in_comm_filter, in_comm_couple, in_n_modeltasks, in_task_id, screen, flag)
 
    END SUBROUTINE c__PDAF_init_parallel
 
    SUBROUTINE c__PDAF_seik_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
+      use PDAF_seik
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(in) :: subtype
       ! Integer parameter array
@@ -3972,14 +4317,17 @@ contains
       INTEGER(c_int), INTENT(in) :: verbose
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
-
+      logical :: ensemblefilter_out, fixedbasis_out
 
       call PDAF_seik_init(subtype, param_int, dim_pint, param_real, dim_preal,  &
-         ensemblefilter, fixedbasis, verbose, outflag)
-
+         ensemblefilter_out, fixedbasis_out, verbose, outflag)
+      ensemblefilter = ensemblefilter_out
+      fixedbasis = fixedbasis_out
    END SUBROUTINE c__PDAF_seik_init
 
    SUBROUTINE c__PDAF_seik_alloc(outflag) bind(c)
+      use PDAF_seik
+      implicit none
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -3989,6 +4337,8 @@ contains
    END SUBROUTINE c__PDAF_seik_alloc
 
    SUBROUTINE c__PDAF_seik_config(subtype, verbose) bind(c)
+      use PDAF_seik
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -4000,6 +4350,8 @@ contains
    END SUBROUTINE c__PDAF_seik_config
 
    SUBROUTINE c__PDAF_seik_set_iparam(id, value, flag) bind(c)
+      use PDAF_seik
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -4013,6 +4365,8 @@ contains
    END SUBROUTINE c__PDAF_seik_set_iparam
 
    SUBROUTINE c__PDAF_seik_set_rparam(id, value, flag) bind(c)
+      use PDAF_seik
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -4026,11 +4380,15 @@ contains
    END SUBROUTINE c__PDAF_seik_set_rparam
 
    SUBROUTINE c__PDAF_seik_options() bind(c)
+      use PDAF_seik
+      implicit none
       call PDAF_seik_options()
 
    END SUBROUTINE c__PDAF_seik_options
 
    SUBROUTINE c__PDAF_seik_memtime(printtype) bind(c)
+      use PDAF_seik
+      implicit none
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -4042,6 +4400,8 @@ contains
    SUBROUTINE c__PDAFnetf_update(step, dim_p, dim_obs_p, dim_ens, state_p,  &
       ainv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_likelihood,  &
       u_prepoststep, screen, subtype, dim_lag, sens_p, cnt_maxlag, flag) bind(c)
+      use PDAF_netf_update
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -4089,6 +4449,8 @@ contains
    SUBROUTINE c__PDAF_seik_ana_newT(step, dim_p, dim_obs_p, dim_ens, rank,  &
       state_p, uinv, ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, screen,  &
       debug, flag) bind(c)
+      use PDAF_seik_analysis_newT
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -4131,6 +4493,8 @@ contains
 
    SUBROUTINE c__PDAF_seik_resample_newT(subtype, dim_p, dim_ens, rank, uinv,  &
       state_p, ens_p, type_sqrt, type_trans, nm1vsn, screen, flag) bind(c)
+      use PDAF_seik_analysis_newT
+      implicit none
       ! Filter subtype
       INTEGER(c_int), INTENT(in) :: subtype
       ! PE-local dimension of model state
@@ -4165,6 +4529,8 @@ contains
    SUBROUTINE c__PDAF_lenkf_ana_rsm(step, dim_p, dim_obs_p, dim_ens, rank_ana,  &
       state_p, ens_p, hx_p, hxbar_p, obs_p, u_add_obs_err, u_init_obs_covar,  &
       u_localize, screen, debug, flag) bind(c)
+      use PDAF_lenkf_analysis_rsm
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -4208,6 +4574,8 @@ contains
    SUBROUTINE c__PDAF_lestkf_ana(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
       rank, state_l, ainv_l, ens_l, hl_l, hxbar_l, obs_l, omegat_in, forget,  &
       u_prodrinva_l, envar_mode, type_sqrt, ta, screen, debug, flag) bind(c)
+      use PDAF_lestkf_analysis
+      implicit none
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -4264,6 +4632,8 @@ contains
       u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l,  &
       u_prepoststep, screen, subtype, envar_mode, dim_lag, sens_p, cnt_maxlag,  &
       flag) bind(c)
+      use PDAF_lestkf_update
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -4335,6 +4705,8 @@ contains
 
    SUBROUTINE c__PDAF_LNETF_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
+      use PDAF_LNETF
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -4353,14 +4725,17 @@ contains
       INTEGER(c_int), INTENT(in) :: verbose
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
-
+      logical :: ensemblefilter_out, fixedbasis_out
 
       call PDAF_LNETF_init(subtype, param_int, dim_pint, param_real, dim_preal,  &
-         ensemblefilter, fixedbasis, verbose, outflag)
-
+         ensemblefilter_out, fixedbasis_out, verbose, outflag)
+      ensemblefilter = ensemblefilter_out
+      fixedbasis = fixedbasis_out
    END SUBROUTINE c__PDAF_LNETF_init
 
    SUBROUTINE c__PDAF_lnetf_alloc(outflag) bind(c)
+      use PDAF_LNETF
+      implicit none
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -4370,6 +4745,8 @@ contains
    END SUBROUTINE c__PDAF_lnetf_alloc
 
    SUBROUTINE c__PDAF_lnetf_config(subtype, verbose) bind(c)
+      use PDAF_LNETF
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -4381,6 +4758,8 @@ contains
    END SUBROUTINE c__PDAF_lnetf_config
 
    SUBROUTINE c__PDAF_lnetf_set_iparam(id, value, flag) bind(c)
+      use PDAF_LNETF
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -4394,6 +4773,8 @@ contains
    END SUBROUTINE c__PDAF_lnetf_set_iparam
 
    SUBROUTINE c__PDAF_lnetf_set_rparam(id, value, flag) bind(c)
+      use PDAF_LNETF
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -4407,11 +4788,15 @@ contains
    END SUBROUTINE c__PDAF_lnetf_set_rparam
 
    SUBROUTINE c__PDAF_lnetf_options() bind(c)
+      use PDAF_LNETF
+      implicit none
       call PDAF_lnetf_options()
 
    END SUBROUTINE c__PDAF_lnetf_options
 
    SUBROUTINE c__PDAF_lnetf_memtime(printtype) bind(c)
+      use PDAF_LNETF
+      implicit none
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -4422,6 +4807,8 @@ contains
 
    SUBROUTINE c__PDAF_enkf_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
+      use PDAF_enkf
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -4441,13 +4828,16 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
-
+      logical :: ensemblefilter_out, fixedbasis_out
       call PDAF_enkf_init(subtype, param_int, dim_pint, param_real, dim_preal,  &
-         ensemblefilter, fixedbasis, verbose, outflag)
-
+         ensemblefilter_out, fixedbasis_out, verbose, outflag)
+      ensemblefilter = ensemblefilter_out
+      fixedbasis = fixedbasis_out
    END SUBROUTINE c__PDAF_enkf_init
 
    SUBROUTINE c__PDAF_enkf_alloc(outflag) bind(c)
+      use PDAF_enkf
+      implicit none
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -4457,6 +4847,8 @@ contains
    END SUBROUTINE c__PDAF_enkf_alloc
 
    SUBROUTINE c__PDAF_enkf_config(subtype, verbose) bind(c)
+      use PDAF_enkf
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -4468,6 +4860,8 @@ contains
    END SUBROUTINE c__PDAF_enkf_config
 
    SUBROUTINE c__PDAF_enkf_set_iparam(id, value, flag) bind(c)
+      use PDAF_enkf
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -4481,6 +4875,8 @@ contains
    END SUBROUTINE c__PDAF_enkf_set_iparam
 
    SUBROUTINE c__PDAF_enkf_set_rparam(id, value, flag) bind(c)
+      use PDAF_enkf
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -4494,11 +4890,15 @@ contains
    END SUBROUTINE c__PDAF_enkf_set_rparam
 
    SUBROUTINE c__PDAF_enkf_options() bind(c)
+      use PDAF_enkf
+      implicit none
       call PDAF_enkf_options()
 
    END SUBROUTINE c__PDAF_enkf_options
 
    SUBROUTINE c__PDAF_enkf_memtime(printtype) bind(c)
+      use PDAF_enkf
+      implicit none
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -4509,6 +4909,8 @@ contains
 
    SUBROUTINE c__PDAF_enkf_gather_resid(dim_obs, dim_obs_p, dim_ens, resid_p,  &
       resid) bind(c)
+      use PDAF_enkf
+      implicit none
       ! Global observation dimension
       INTEGER(c_int), INTENT(in) :: dim_obs
       ! PE-local observation dimension
@@ -4527,6 +4929,8 @@ contains
 
    SUBROUTINE c__PDAF_enkf_obs_ensemble(step, dim_obs_p, dim_obs, dim_ens,  &
       obsens_p, obs_p, u_init_obs_covar, screen, flag) bind(c)
+      use PDAF_enkf
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Local dimension of current observation
@@ -4555,6 +4959,8 @@ contains
    SUBROUTINE c__PDAFpf_update(step, dim_p, dim_obs_p, dim_ens, state_p, ainv,  &
       ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_likelihood, u_prepoststep,  &
       screen, subtype, flag) bind(c)
+      use PDAF_pf_update
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -4594,6 +5000,8 @@ contains
    END SUBROUTINE c__PDAFpf_update
 
    SUBROUTINE c__PDAF_generate_rndmat(dim, rndmat, mattype) bind(c)
+      use PDAF_analysis_utils
+      implicit none
       ! Size of matrix rndmat
       INTEGER(c_int), INTENT(in) :: dim
       ! Matrix
@@ -4607,6 +5015,8 @@ contains
    END SUBROUTINE c__PDAF_generate_rndmat
 
    SUBROUTINE c__PDAF_print_domain_stats(n_domains_p) bind(c)
+      use PDAF_analysis_utils
+      implicit none
       ! Number of PE-local analysis domains
       INTEGER(c_int), INTENT(in) :: n_domains_p
 
@@ -4616,11 +5026,15 @@ contains
    END SUBROUTINE c__PDAF_print_domain_stats
 
    SUBROUTINE c__PDAF_init_local_obsstats() bind(c)
+      use PDAF_analysis_utils
+      implicit none
       call PDAF_init_local_obsstats()
 
    END SUBROUTINE c__PDAF_init_local_obsstats
 
    SUBROUTINE c__PDAF_incr_local_obsstats(dim_obs_l) bind(c)
+      use PDAF_analysis_utils
+      implicit none
       ! Number of locally assimilated observations
       INTEGER(c_int), INTENT(in) :: dim_obs_l
 
@@ -4630,6 +5044,8 @@ contains
    END SUBROUTINE c__PDAF_incr_local_obsstats
 
    SUBROUTINE c__PDAF_print_local_obsstats(screen, n_domains_with_obs) bind(c)
+      use PDAF_analysis_utils
+      implicit none
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: screen
       !
@@ -4641,6 +5057,8 @@ contains
    END SUBROUTINE c__PDAF_print_local_obsstats
 
    SUBROUTINE c__PDAF_seik_matrixT(dim, dim_ens, a) bind(c)
+      use PDAF_analysis_utils
+      implicit none
       ! dimension of states
       INTEGER(c_int), INTENT(in) :: dim
       ! Size of ensemble
@@ -4654,6 +5072,8 @@ contains
    END SUBROUTINE c__PDAF_seik_matrixT
 
    SUBROUTINE c__PDAF_seik_TtimesA(rank, dim_col, a, b) bind(c)
+      use PDAF_analysis_utils
+      implicit none
       ! Rank of initial covariance matrix
       INTEGER(c_int), INTENT(in) :: rank
       ! Number of columns in A and B
@@ -4669,6 +5089,8 @@ contains
    END SUBROUTINE c__PDAF_seik_TtimesA
 
    SUBROUTINE c__PDAF_seik_Omega(rank, omega, omegatype, screen) bind(c)
+      use PDAF_analysis_utils
+      implicit none
       ! Approximated rank of covar matrix
       INTEGER(c_int), INTENT(in) :: rank
       ! Matrix Omega
@@ -4684,6 +5106,8 @@ contains
    END SUBROUTINE c__PDAF_seik_Omega
 
    SUBROUTINE c__PDAF_seik_Uinv(rank, uinv) bind(c)
+      use PDAF_analysis_utils
+      implicit none
       ! Rank of initial covariance matrix
       INTEGER(c_int), INTENT(in) :: rank
       ! Inverse of matrix U
@@ -4696,6 +5120,8 @@ contains
 
    SUBROUTINE c__PDAF_ens_Omega(seed, r, dim_ens, omega, norm, otype,  &
       screen) bind(c)
+      use PDAF_analysis_utils
+      implicit none
       ! Seed for random number generation
       INTEGER(c_int), DIMENSION(4), INTENT(in) :: seed
       ! Approximated rank of covar matrix
@@ -4717,6 +5143,8 @@ contains
    END SUBROUTINE c__PDAF_ens_Omega
 
    SUBROUTINE c__PDAF_estkf_OmegaA(rank, dim_col, a, b) bind(c)
+      use PDAF_analysis_utils
+      implicit none
       ! Rank of initial covariance matrix
       INTEGER(c_int), INTENT(in) :: rank
       ! Number of columns in A and B
@@ -4732,6 +5160,8 @@ contains
    END SUBROUTINE c__PDAF_estkf_OmegaA
 
    SUBROUTINE c__PDAF_estkf_AOmega(dim, dim_ens, a) bind(c)
+      use PDAF_analysis_utils
+      implicit none
       ! dimension of states
       INTEGER(c_int), INTENT(in) :: dim
       ! Size of ensemble
@@ -4745,6 +5175,8 @@ contains
    END SUBROUTINE c__PDAF_estkf_AOmega
 
    SUBROUTINE c__PDAF_subtract_rowmean(dim, dim_ens, a) bind(c)
+      use PDAF_analysis_utils
+      implicit none
       ! dimension of states
       INTEGER(c_int), INTENT(in) :: dim
       ! Size of ensemble
@@ -4758,6 +5190,8 @@ contains
    END SUBROUTINE c__PDAF_subtract_rowmean
 
    SUBROUTINE c__PDAF_subtract_colmean(dim_ens, dim, a) bind(c)
+      use PDAF_analysis_utils
+      implicit none
       ! Rank of initial covariance matrix
       INTEGER(c_int), INTENT(in) :: dim_ens
       ! Number of columns in A and B
@@ -4772,6 +5206,8 @@ contains
 
    SUBROUTINE c__PDAF_add_particle_noise(dim_p, dim_ens, state_p, ens_p,  &
       type_noise, noise_amp, screen) bind(c)
+      use PDAF_analysis_utils
+      implicit none
       ! State dimension
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Number of particles
@@ -4794,6 +5230,8 @@ contains
    END SUBROUTINE c__PDAF_add_particle_noise
 
    SUBROUTINE c__PDAF_inflate_weights(screen, dim_ens, alpha, weights) bind(c)
+      use PDAF_analysis_utils
+      implicit none
       ! verbosity flag
       INTEGER(c_int), INTENT(in) :: screen
       ! Ensemble size
@@ -4810,6 +5248,8 @@ contains
 
    SUBROUTINE c__PDAF_inflate_ens(dim, dim_ens, meanstate, ens, forget,  &
       do_ensmean) bind(c)
+      use PDAF_analysis_utils
+      implicit none
       ! dimension of states
       INTEGER(c_int), INTENT(in) :: dim
       ! Size of ensemble
@@ -4823,13 +5263,16 @@ contains
       ! Whether to compute the ensemble mean state
       LOGICAL(c_bool), INTENT(in) :: do_ensmean
 
-
-      call PDAF_inflate_ens(dim, dim_ens, meanstate, ens, forget, do_ensmean)
+      logical :: do_ensmean_in
+      do_ensmean_in = do_ensmean
+      call PDAF_inflate_ens(dim, dim_ens, meanstate, ens, forget, do_ensmean_in)
 
    END SUBROUTINE c__PDAF_inflate_ens
 
    SUBROUTINE c__PDAF_alloc(dim_p, dim_ens, dim_ens_task, dim_es, dim_bias_p,  &
       dim_lag, statetask, outflag) bind(c)
+      use pdaf_utils
+      implicit none
       ! Size of state vector
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Ensemble size
@@ -4855,6 +5298,8 @@ contains
 
    SUBROUTINE c__PDAF_smoothing(dim_p, dim_ens, dim_lag, ainv, sens_p,  &
       cnt_maxlag, forget, screen) bind(c)
+      use PDAF_smoother
+      implicit none
       ! PE-local dimension of model state
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Size of ensemble
@@ -4881,6 +5326,8 @@ contains
    SUBROUTINE c__PDAF_smoothing_local(domain_p, step, dim_p, dim_l, dim_ens,  &
       dim_lag, ainv, ens_l, sens_p, cnt_maxlag, u_g2l_state, u_l2g_state,  &
       forget, screen) bind(c)
+      use PDAF_smoother
+      implicit none
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -4918,6 +5365,8 @@ contains
 
    SUBROUTINE c__PDAF_smoother_shift(dim_p, dim_ens, dim_lag, ens_p, sens_p,  &
       cnt_maxlag, screen) bind(c)
+      use PDAF_smoother
+      implicit none
       ! PE-local dimension of model state
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Size of ensemble
@@ -4944,6 +5393,8 @@ contains
       u_prodrinva_l, u_init_n_domains_p, u_init_dim_l, u_init_dim_obs_l,  &
       u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l,  &
       u_likelihood_l, u_prepoststep, screen, subtype, flag) bind(c)
+      use PDAF_lknetf_update_sync
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -5007,6 +5458,8 @@ contains
    SUBROUTINE c__PDAF_etkf_ana(step, dim_p, dim_obs_p, dim_ens, state_p, ainv,  &
       ens_p, hz_p, hxbar_p, obs_p, forget, u_prodrinva, screen, type_trans,  &
       debug, flag) bind(c)
+      use PDAF_etkf_analysis
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -5050,6 +5503,8 @@ contains
    SUBROUTINE c__PDAF_letkf_ana(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
       state_l, ainv_l, ens_l, hz_l, hxbar_l, obs_l, rndmat, forget,  &
       u_prodrinva_l, type_trans, screen, debug, flag) bind(c)
+      use PDAF_letkf_analysis
+      implicit none
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -5096,6 +5551,8 @@ contains
 
    SUBROUTINE c__PDAF_letkf_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
+      use PDAF_letkf
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Integer parameter array
@@ -5115,13 +5572,17 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
+      logical :: ensemblefilter_out, fixedbasis_out
 
       call PDAF_letkf_init(subtype, param_int, dim_pint, param_real, dim_preal,  &
-         ensemblefilter, fixedbasis, verbose, outflag)
-
+         ensemblefilter_out, fixedbasis_out, verbose, outflag)
+      ensemblefilter = ensemblefilter_out
+      fixedbasis = fixedbasis_out
    END SUBROUTINE c__PDAF_letkf_init
 
    SUBROUTINE c__PDAF_letkf_alloc(outflag) bind(c)
+      use PDAF_letkf
+      implicit none
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -5131,6 +5592,8 @@ contains
    END SUBROUTINE c__PDAF_letkf_alloc
 
    SUBROUTINE c__PDAF_letkf_config(subtype, verbose) bind(c)
+      use PDAF_letkf
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -5142,6 +5605,8 @@ contains
    END SUBROUTINE c__PDAF_letkf_config
 
    SUBROUTINE c__PDAF_letkf_set_iparam(id, value, flag) bind(c)
+      use PDAF_letkf
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -5155,6 +5620,8 @@ contains
    END SUBROUTINE c__PDAF_letkf_set_iparam
 
    SUBROUTINE c__PDAF_letkf_set_rparam(id, value, flag) bind(c)
+      use PDAF_letkf
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -5168,11 +5635,15 @@ contains
    END SUBROUTINE c__PDAF_letkf_set_rparam
 
    SUBROUTINE c__PDAF_letkf_options() bind(c)
+      use PDAF_letkf
+      implicit none
       call PDAF_letkf_options()
 
    END SUBROUTINE c__PDAF_letkf_options
 
    SUBROUTINE c__PDAF_letkf_memtime(printtype) bind(c)
+      use PDAF_letkf
+      implicit none
       ! Type of screen output:
       INTEGER(c_int), INTENT(in) :: printtype
 
@@ -5184,6 +5655,8 @@ contains
    SUBROUTINE c__PDAF_estkf_ana(step, dim_p, dim_obs_p, dim_ens, rank, state_p,  &
       ainv, ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, screen,  &
       envar_mode, type_sqrt, type_trans, ta, debug, flag) bind(c)
+      use PDAF_estkf_analysis
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -5235,6 +5708,8 @@ contains
    SUBROUTINE c__PDAF_ensrf_ana(step, dim_p, dim_obs_p, dim_ens, state_p,  &
       ens_p, hx_p, hxbar_p, obs_p, var_obs_p, u_localize_covar_serial, screen,  &
       debug) bind(c)
+      use PDAF_ensrf_analysis
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -5271,6 +5746,8 @@ contains
    SUBROUTINE c__PDAF_ensrf_ana_2step(step, dim_p, dim_obs_p, dim_ens, state_p,  &
       ens_p, hx_p, hxbar_p, obs_p, var_obs_p, u_localize_covar_serial, screen,  &
       debug) bind(c)
+      use PDAF_ensrf_analysis
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -5310,6 +5787,8 @@ contains
       u_likelihood_l, u_init_n_domains_p, u_init_dim_l, u_init_dim_obs_l,  &
       u_g2l_state, u_l2g_state, u_g2l_obs, u_prepoststep, screen, subtype,  &
       dim_lag, sens_p, cnt_maxlag, flag) bind(c)
+      use PDAF_lnetf_update
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -5373,6 +5852,8 @@ contains
    SUBROUTINE c__PDAF_seik_ana_trans(step, dim_p, dim_obs_p, dim_ens, rank,  &
       state_p, uinv, ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, screen,  &
       type_sqrt, type_trans, nm1vsn, debug, flag) bind(c)
+      use PDAF_seik_analysis_trans
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -5424,6 +5905,8 @@ contains
       u_init_obs, u_prodrinva, u_prepoststep, u_cvt_ens, u_cvt_adj_ens, u_cvt,  &
       u_cvt_adj, u_obs_op_lin, u_obs_op_adj, u_init_obsvar, screen, subtype,  &
       flag) bind(c)
+      use PDAF_hyb3dvar_update
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -5489,6 +5972,8 @@ contains
       u_init_obs_f, u_init_obs_l, u_prodrinva_l, u_init_n_domains_p,  &
       u_init_dim_l, u_init_dim_obs_l, u_g2l_state, u_l2g_state, u_g2l_obs,  &
       u_init_obsvar, u_init_obsvar_l, screen, subtype, flag) bind(c)
+      use PDAF_hyb3dvar_update
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -5577,6 +6062,8 @@ contains
    SUBROUTINE c__PDAF_lestkf_ana_fixed(domain_p, step, dim_l, dim_obs_l,  &
       dim_ens, rank, state_l, ainv_l, ens_l, hl_l, hxbar_l, obs_l, forget,  &
       u_prodrinva_l, type_sqrt, screen, debug, flag) bind(c)
+      use PDAF_lestkf_analysis_fixed
+      implicit none
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step
@@ -5623,6 +6110,8 @@ contains
 
    SUBROUTINE c__PDAF_genobs_init(subtype, param_int, dim_pint, param_real,  &
       dim_preal, ensemblefilter, fixedbasis, verbose, outflag) bind(c)
+      use PDAF_genobs
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(in) :: subtype
       ! Integer parameter array
@@ -5642,13 +6131,17 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
+      logical :: ensemblefilter_out, fixedbasis_out
 
       call PDAF_genobs_init(subtype, param_int, dim_pint, param_real,  &
-         dim_preal, ensemblefilter, fixedbasis, verbose, outflag)
-
+         dim_preal, ensemblefilter_out, fixedbasis_out, verbose, outflag)
+      ensemblefilter = ensemblefilter_out
+      fixedbasis = fixedbasis_out
    END SUBROUTINE c__PDAF_genobs_init
 
    SUBROUTINE c__PDAF_genobs_alloc(outflag) bind(c)
+      use PDAF_genobs
+      implicit none
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -5658,6 +6151,8 @@ contains
    END SUBROUTINE c__PDAF_genobs_alloc
 
    SUBROUTINE c__PDAF_genobs_config(subtype, verbose) bind(c)
+      use PDAF_genobs
+      implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
       ! Control screen output
@@ -5669,6 +6164,8 @@ contains
    END SUBROUTINE c__PDAF_genobs_config
 
    SUBROUTINE c__PDAF_genobs_set_iparam(id, value, flag) bind(c)
+      use PDAF_genobs
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -5682,6 +6179,8 @@ contains
    END SUBROUTINE c__PDAF_genobs_set_iparam
 
    SUBROUTINE c__PDAF_genobs_options() bind(c)
+      use PDAF_genobs
+      implicit none
       call PDAF_genobs_options()
 
    END SUBROUTINE c__PDAF_genobs_options
@@ -5689,6 +6188,8 @@ contains
    SUBROUTINE c__PDAF_etkf_ana_T(step, dim_p, dim_obs_p, dim_ens, state_p,  &
       ainv, ens_p, hz_p, hxbar_p, obs_p, forget, u_prodrinva, screen,  &
       type_trans, debug, flag) bind(c)
+      use PDAF_etkf_analysis_T
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! PE-local dimension of model state
@@ -5732,6 +6233,8 @@ contains
    SUBROUTINE c__PDAF_letkf_ana_fixed(domain_p, step, dim_l, dim_obs_l,  &
       dim_ens, state_l, ainv_l, ens_l, hz_l, hxbar_l, obs_l, forget,  &
       u_prodrinva_l, screen, debug, flag) bind(c)
+      use PDAF_letkf_analysis_fixed
+      implicit none
       ! Current local analysis domain
       INTEGER(c_int), INTENT(in) :: domain_p
       ! Current time step

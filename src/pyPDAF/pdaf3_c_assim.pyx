@@ -45,20 +45,20 @@ def get_fcst_info(int  steps, double  time, int  doexit):
 
     Parameters
     ----------
-    steps : int 
+    steps : int
         Flag and number of time steps
-    time : double 
+    time : double
         current model time
-    doexit : int 
+    doexit : int
         Whether to exit from forecasts
 
     Returns
     -------
-    steps : int 
+    steps : int
         Flag and number of time steps
-    time : double 
+    time : double
         current model time
-    doexit : int 
+    doexit : int
         Whether to exit from forecasts
     """
     with nogil:
@@ -67,10 +67,10 @@ def get_fcst_info(int  steps, double  time, int  doexit):
     return steps, time, doexit
 
 
-def assimilate_3dvar_nondiagr(py__collect_state_pdaf, 
-    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__prodrinva_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf, 
-    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prepoststep_pdaf, 
+def assimilate_3dvar_nondiagr(py__collect_state_pdaf,
+    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__prodrinva_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf,
+    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -82,7 +82,7 @@ def assimilate_3dvar_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -99,7 +99,7 @@ def assimilate_3dvar_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -116,12 +116,12 @@ def assimilate_3dvar_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -129,12 +129,12 @@ def assimilate_3dvar_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -156,11 +156,11 @@ def assimilate_3dvar_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_p : int 
+        dim_obs_p : int
                 Number of observations at current time step (i.e. the size of the observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one
                 (or the rank of the initial covariance matrix)
@@ -182,11 +182,11 @@ def assimilate_3dvar_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         cv_p : ndarray[np.float64, ndim=1]
                 PE-local control vector
@@ -206,11 +206,11 @@ def assimilate_3dvar_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         vcv_p : ndarray[np.float64, ndim=1]
                 PE-local result vector (state vector increment)
@@ -230,11 +230,11 @@ def assimilate_3dvar_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -254,11 +254,11 @@ def assimilate_3dvar_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -278,17 +278,17 @@ def assimilate_3dvar_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -305,7 +305,7 @@ def assimilate_3dvar_nondiagr(py__collect_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -331,25 +331,25 @@ def assimilate_3dvar_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -365,26 +365,26 @@ def assimilate_3dvar_nondiagr(py__collect_state_pdaf,
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assimilate_3dvar_nondiagr(pdaf_cb.c__collect_state_pdaf, 
-                                           pdaf_cb.c__distribute_state_pdaf, 
-                                           pdaf_cb.c__init_dim_obs_pdaf, 
-                                           pdaf_cb.c__obs_op_pdaf, 
-                                           pdaf_cb.c__prodrinva_pdaf, 
-                                           pdaf_cb.c__cvt_pdaf, 
-                                           pdaf_cb.c__cvt_adj_pdaf, 
-                                           pdaf_cb.c__obs_op_lin_pdaf, 
-                                           pdaf_cb.c__obs_op_adj_pdaf, 
-                                           pdaf_cb.c__prepoststep_pdaf, 
-                                           pdaf_cb.c__next_observation_pdaf, 
+        c__pdaf3_assimilate_3dvar_nondiagr(pdaf_cb.c__collect_state_pdaf,
+                                           pdaf_cb.c__distribute_state_pdaf,
+                                           pdaf_cb.c__init_dim_obs_pdaf,
+                                           pdaf_cb.c__obs_op_pdaf,
+                                           pdaf_cb.c__prodrinva_pdaf,
+                                           pdaf_cb.c__cvt_pdaf,
+                                           pdaf_cb.c__cvt_adj_pdaf,
+                                           pdaf_cb.c__obs_op_lin_pdaf,
+                                           pdaf_cb.c__obs_op_adj_pdaf,
+                                           pdaf_cb.c__prepoststep_pdaf,
+                                           pdaf_cb.c__next_observation_pdaf,
                                            &outflag)
 
     return outflag
 
 
-def assimilate_en3dvar_estkf_nondiagr(py__collect_state_pdaf, 
-    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__prodrinva_pdaf, py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, 
-    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prepoststep_pdaf, 
+def assimilate_en3dvar_estkf_nondiagr(py__collect_state_pdaf,
+    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__prodrinva_pdaf, py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf,
+    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -396,7 +396,7 @@ def assimilate_en3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -413,7 +413,7 @@ def assimilate_en3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -430,12 +430,12 @@ def assimilate_en3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -443,12 +443,12 @@ def assimilate_en3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -470,11 +470,11 @@ def assimilate_en3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_p : int 
+        dim_obs_p : int
                 Number of observations at current time step (i.e. the size of the observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one
                 (or the rank of the initial covariance matrix)
@@ -496,13 +496,13 @@ def assimilate_en3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -525,13 +525,13 @@ def assimilate_en3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -554,11 +554,11 @@ def assimilate_en3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -578,11 +578,11 @@ def assimilate_en3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -602,17 +602,17 @@ def assimilate_en3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -629,7 +629,7 @@ def assimilate_en3dvar_estkf_nondiagr(py__collect_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -655,25 +655,25 @@ def assimilate_en3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -690,28 +690,28 @@ def assimilate_en3dvar_estkf_nondiagr(py__collect_state_pdaf,
     cdef int  outflag
     with nogil:
         c__pdaf3_assimilate_en3dvar_estkf_nondiagr(
-                                                   pdaf_cb.c__collect_state_pdaf, 
-                                                   pdaf_cb.c__distribute_state_pdaf, 
-                                                   pdaf_cb.c__init_dim_obs_pdaf, 
-                                                   pdaf_cb.c__obs_op_pdaf, 
-                                                   pdaf_cb.c__prodrinva_pdaf, 
-                                                   pdaf_cb.c__cvt_ens_pdaf, 
-                                                   pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                                   pdaf_cb.c__obs_op_lin_pdaf, 
-                                                   pdaf_cb.c__obs_op_adj_pdaf, 
-                                                   pdaf_cb.c__prepoststep_pdaf, 
-                                                   pdaf_cb.c__next_observation_pdaf, 
+                                                   pdaf_cb.c__collect_state_pdaf,
+                                                   pdaf_cb.c__distribute_state_pdaf,
+                                                   pdaf_cb.c__init_dim_obs_pdaf,
+                                                   pdaf_cb.c__obs_op_pdaf,
+                                                   pdaf_cb.c__prodrinva_pdaf,
+                                                   pdaf_cb.c__cvt_ens_pdaf,
+                                                   pdaf_cb.c__cvt_adj_ens_pdaf,
+                                                   pdaf_cb.c__obs_op_lin_pdaf,
+                                                   pdaf_cb.c__obs_op_adj_pdaf,
+                                                   pdaf_cb.c__prepoststep_pdaf,
+                                                   pdaf_cb.c__next_observation_pdaf,
                                                    &outflag)
 
     return outflag
 
 
-def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf, 
-    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__prodrinva_pdaf, py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, 
-    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prodrinva_l_pdaf, 
-    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf, 
-    py__init_dim_obs_l_pdaf, py__prepoststep_pdaf, 
+def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
+    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__prodrinva_pdaf, py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf,
+    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prodrinva_l_pdaf,
+    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
+    py__init_dim_obs_l_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -723,7 +723,7 @@ def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -740,7 +740,7 @@ def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -757,12 +757,12 @@ def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -770,12 +770,12 @@ def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -797,11 +797,11 @@ def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_p : int 
+        dim_obs_p : int
                 Number of observations at current time step (i.e. the size of the observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one
                 (or the rank of the initial covariance matrix)
@@ -823,13 +823,13 @@ def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -852,13 +852,13 @@ def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -881,11 +881,11 @@ def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -905,11 +905,11 @@ def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -929,13 +929,13 @@ def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 Index of current local analysis domain
-        step : int 
+        step : int
                 Current time step
-        dim_obs_l : int 
+        dim_obs_l : int
                 Number of local observations at current time step (i.e. the size of the local observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
         obs_l : ndarray[np.float64, ndim=1]
@@ -959,12 +959,12 @@ def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -972,14 +972,14 @@ def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -987,16 +987,16 @@ def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prepoststep_pdaf : Callable
@@ -1004,17 +1004,17 @@ def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -1031,7 +1031,7 @@ def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -1057,27 +1057,27 @@ def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
-    outflag : int 
+    outflag : int
         Status flag
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -1097,30 +1097,30 @@ def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     with nogil:
         c__pdaf3_assimilate_en3dvar_lestkf_nondiagr(
-                                                    pdaf_cb.c__collect_state_pdaf, 
-                                                    pdaf_cb.c__distribute_state_pdaf, 
-                                                    pdaf_cb.c__init_dim_obs_pdaf, 
-                                                    pdaf_cb.c__obs_op_pdaf, 
-                                                    pdaf_cb.c__prodrinva_pdaf, 
-                                                    pdaf_cb.c__cvt_ens_pdaf, 
-                                                    pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                                    pdaf_cb.c__obs_op_lin_pdaf, 
-                                                    pdaf_cb.c__obs_op_adj_pdaf, 
-                                                    pdaf_cb.c__prodrinva_l_pdaf, 
-                                                    pdaf_cb.c__init_n_domains_p_pdaf, 
-                                                    pdaf_cb.c__init_dim_l_pdaf, 
-                                                    pdaf_cb.c__init_dim_obs_l_pdaf, 
-                                                    pdaf_cb.c__prepoststep_pdaf, 
-                                                    pdaf_cb.c__next_observation_pdaf, 
+                                                    pdaf_cb.c__collect_state_pdaf,
+                                                    pdaf_cb.c__distribute_state_pdaf,
+                                                    pdaf_cb.c__init_dim_obs_pdaf,
+                                                    pdaf_cb.c__obs_op_pdaf,
+                                                    pdaf_cb.c__prodrinva_pdaf,
+                                                    pdaf_cb.c__cvt_ens_pdaf,
+                                                    pdaf_cb.c__cvt_adj_ens_pdaf,
+                                                    pdaf_cb.c__obs_op_lin_pdaf,
+                                                    pdaf_cb.c__obs_op_adj_pdaf,
+                                                    pdaf_cb.c__prodrinva_l_pdaf,
+                                                    pdaf_cb.c__init_n_domains_p_pdaf,
+                                                    pdaf_cb.c__init_dim_l_pdaf,
+                                                    pdaf_cb.c__init_dim_obs_l_pdaf,
+                                                    pdaf_cb.c__prepoststep_pdaf,
+                                                    pdaf_cb.c__next_observation_pdaf,
                                                     &outflag)
 
     return outflag
 
 
-def assimilate_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf, 
-    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__prodrinva_pdaf, py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, 
-    py__cvt_pdaf, py__cvt_adj_pdaf, py__obs_op_lin_pdaf, 
+def assimilate_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf,
+    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__prodrinva_pdaf, py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf,
+    py__cvt_pdaf, py__cvt_adj_pdaf, py__obs_op_lin_pdaf,
     py__obs_op_adj_pdaf, py__prepoststep_pdaf, py__next_observation_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -1132,7 +1132,7 @@ def assimilate_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -1149,7 +1149,7 @@ def assimilate_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -1166,12 +1166,12 @@ def assimilate_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -1179,12 +1179,12 @@ def assimilate_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -1206,11 +1206,11 @@ def assimilate_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_p : int 
+        dim_obs_p : int
                 Number of observations at current time step (i.e. the size of the observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one
                 (or the rank of the initial covariance matrix)
@@ -1232,13 +1232,13 @@ def assimilate_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -1261,13 +1261,13 @@ def assimilate_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -1290,11 +1290,11 @@ def assimilate_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         cv_p : ndarray[np.float64, ndim=1]
                 PE-local control vector
@@ -1314,11 +1314,11 @@ def assimilate_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         vcv_p : ndarray[np.float64, ndim=1]
                 PE-local result vector (state vector increment)
@@ -1338,11 +1338,11 @@ def assimilate_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -1362,11 +1362,11 @@ def assimilate_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -1386,17 +1386,17 @@ def assimilate_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -1413,7 +1413,7 @@ def assimilate_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -1439,25 +1439,25 @@ def assimilate_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -1476,30 +1476,30 @@ def assimilate_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf,
     cdef int  outflag
     with nogil:
         c__pdaf3_assimilate_hyb3dvar_estkf_nondiagr(
-                                                    pdaf_cb.c__collect_state_pdaf, 
-                                                    pdaf_cb.c__distribute_state_pdaf, 
-                                                    pdaf_cb.c__init_dim_obs_pdaf, 
-                                                    pdaf_cb.c__obs_op_pdaf, 
-                                                    pdaf_cb.c__prodrinva_pdaf, 
-                                                    pdaf_cb.c__cvt_ens_pdaf, 
-                                                    pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                                    pdaf_cb.c__cvt_pdaf, 
-                                                    pdaf_cb.c__cvt_adj_pdaf, 
-                                                    pdaf_cb.c__obs_op_lin_pdaf, 
-                                                    pdaf_cb.c__obs_op_adj_pdaf, 
-                                                    pdaf_cb.c__prepoststep_pdaf, 
-                                                    pdaf_cb.c__next_observation_pdaf, 
+                                                    pdaf_cb.c__collect_state_pdaf,
+                                                    pdaf_cb.c__distribute_state_pdaf,
+                                                    pdaf_cb.c__init_dim_obs_pdaf,
+                                                    pdaf_cb.c__obs_op_pdaf,
+                                                    pdaf_cb.c__prodrinva_pdaf,
+                                                    pdaf_cb.c__cvt_ens_pdaf,
+                                                    pdaf_cb.c__cvt_adj_ens_pdaf,
+                                                    pdaf_cb.c__cvt_pdaf,
+                                                    pdaf_cb.c__cvt_adj_pdaf,
+                                                    pdaf_cb.c__obs_op_lin_pdaf,
+                                                    pdaf_cb.c__obs_op_adj_pdaf,
+                                                    pdaf_cb.c__prepoststep_pdaf,
+                                                    pdaf_cb.c__next_observation_pdaf,
                                                     &outflag)
 
     return outflag
 
 
-def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf, 
-    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__prodrinva_pdaf, py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, 
-    py__cvt_pdaf, py__cvt_adj_pdaf, py__obs_op_lin_pdaf, 
-    py__obs_op_adj_pdaf, py__prodrinva_l_pdaf, py__init_n_domains_p_pdaf, 
-    py__init_dim_l_pdaf, py__init_dim_obs_l_pdaf, py__prepoststep_pdaf, 
+def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
+    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__prodrinva_pdaf, py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf,
+    py__cvt_pdaf, py__cvt_adj_pdaf, py__obs_op_lin_pdaf,
+    py__obs_op_adj_pdaf, py__prodrinva_l_pdaf, py__init_n_domains_p_pdaf,
+    py__init_dim_l_pdaf, py__init_dim_obs_l_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -1511,7 +1511,7 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -1528,7 +1528,7 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -1545,12 +1545,12 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -1558,12 +1558,12 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -1585,11 +1585,11 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_p : int 
+        dim_obs_p : int
                 Number of observations at current time step (i.e. the size of the observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one
                 (or the rank of the initial covariance matrix)
@@ -1611,13 +1611,13 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -1640,13 +1640,13 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -1669,11 +1669,11 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         cv_p : ndarray[np.float64, ndim=1]
                 PE-local control vector
@@ -1693,11 +1693,11 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         vcv_p : ndarray[np.float64, ndim=1]
                 PE-local result vector (state vector increment)
@@ -1717,11 +1717,11 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -1741,11 +1741,11 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -1765,13 +1765,13 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 Index of current local analysis domain
-        step : int 
+        step : int
                 Current time step
-        dim_obs_l : int 
+        dim_obs_l : int
                 Number of local observations at current time step (i.e. the size of the local observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
         obs_l : ndarray[np.float64, ndim=1]
@@ -1795,12 +1795,12 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -1808,14 +1808,14 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -1823,16 +1823,16 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prepoststep_pdaf : Callable
@@ -1840,17 +1840,17 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -1867,7 +1867,7 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -1893,27 +1893,27 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
-    outflag : int 
+    outflag : int
         Status flag
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -1935,31 +1935,31 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     with nogil:
         c__pdaf3_assimilate_hyb3dvar_lestkf_nondiagr(
-                                                     pdaf_cb.c__collect_state_pdaf, 
-                                                     pdaf_cb.c__distribute_state_pdaf, 
-                                                     pdaf_cb.c__init_dim_obs_pdaf, 
-                                                     pdaf_cb.c__obs_op_pdaf, 
-                                                     pdaf_cb.c__prodrinva_pdaf, 
-                                                     pdaf_cb.c__cvt_ens_pdaf, 
-                                                     pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                                     pdaf_cb.c__cvt_pdaf, 
-                                                     pdaf_cb.c__cvt_adj_pdaf, 
-                                                     pdaf_cb.c__obs_op_lin_pdaf, 
-                                                     pdaf_cb.c__obs_op_adj_pdaf, 
-                                                     pdaf_cb.c__prodrinva_l_pdaf, 
-                                                     pdaf_cb.c__init_n_domains_p_pdaf, 
-                                                     pdaf_cb.c__init_dim_l_pdaf, 
-                                                     pdaf_cb.c__init_dim_obs_l_pdaf, 
-                                                     pdaf_cb.c__prepoststep_pdaf, 
-                                                     pdaf_cb.c__next_observation_pdaf, 
+                                                     pdaf_cb.c__collect_state_pdaf,
+                                                     pdaf_cb.c__distribute_state_pdaf,
+                                                     pdaf_cb.c__init_dim_obs_pdaf,
+                                                     pdaf_cb.c__obs_op_pdaf,
+                                                     pdaf_cb.c__prodrinva_pdaf,
+                                                     pdaf_cb.c__cvt_ens_pdaf,
+                                                     pdaf_cb.c__cvt_adj_ens_pdaf,
+                                                     pdaf_cb.c__cvt_pdaf,
+                                                     pdaf_cb.c__cvt_adj_pdaf,
+                                                     pdaf_cb.c__obs_op_lin_pdaf,
+                                                     pdaf_cb.c__obs_op_adj_pdaf,
+                                                     pdaf_cb.c__prodrinva_l_pdaf,
+                                                     pdaf_cb.c__init_n_domains_p_pdaf,
+                                                     pdaf_cb.c__init_dim_l_pdaf,
+                                                     pdaf_cb.c__init_dim_obs_l_pdaf,
+                                                     pdaf_cb.c__prepoststep_pdaf,
+                                                     pdaf_cb.c__next_observation_pdaf,
                                                      &outflag)
 
     return outflag
 
 
-def assim_offline_3dvar_all(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf, 
-    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf, 
+def assim_offline_3dvar_all(py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf,
+    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf,
     py__init_dim_l_pdaf, py__init_dim_obs_l_pdaf, py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -1971,12 +1971,12 @@ def assim_offline_3dvar_all(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -1984,12 +1984,12 @@ def assim_offline_3dvar_all(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -2011,13 +2011,13 @@ def assim_offline_3dvar_all(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -2040,13 +2040,13 @@ def assim_offline_3dvar_all(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -2069,11 +2069,11 @@ def assim_offline_3dvar_all(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         cv_p : ndarray[np.float64, ndim=1]
                 PE-local control vector
@@ -2093,11 +2093,11 @@ def assim_offline_3dvar_all(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         vcv_p : ndarray[np.float64, ndim=1]
                 PE-local result vector (state vector increment)
@@ -2117,11 +2117,11 @@ def assim_offline_3dvar_all(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -2141,11 +2141,11 @@ def assim_offline_3dvar_all(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -2165,12 +2165,12 @@ def assim_offline_3dvar_all(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -2178,14 +2178,14 @@ def assim_offline_3dvar_all(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -2193,16 +2193,16 @@ def assim_offline_3dvar_all(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prepoststep_pdaf : Callable
@@ -2210,17 +2210,17 @@ def assim_offline_3dvar_all(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -2237,7 +2237,7 @@ def assim_offline_3dvar_all(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -2261,7 +2261,7 @@ def assim_offline_3dvar_all(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -2278,24 +2278,24 @@ def assim_offline_3dvar_all(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assim_offline_3dvar_all(pdaf_cb.c__init_dim_obs_pdaf, 
-                                         pdaf_cb.c__obs_op_pdaf, 
-                                         pdaf_cb.c__cvt_ens_pdaf, 
-                                         pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                         pdaf_cb.c__cvt_pdaf, 
-                                         pdaf_cb.c__cvt_adj_pdaf, 
-                                         pdaf_cb.c__obs_op_lin_pdaf, 
-                                         pdaf_cb.c__obs_op_adj_pdaf, 
-                                         pdaf_cb.c__init_n_domains_p_pdaf, 
-                                         pdaf_cb.c__init_dim_l_pdaf, 
-                                         pdaf_cb.c__init_dim_obs_l_pdaf, 
+        c__pdaf3_assim_offline_3dvar_all(pdaf_cb.c__init_dim_obs_pdaf,
+                                         pdaf_cb.c__obs_op_pdaf,
+                                         pdaf_cb.c__cvt_ens_pdaf,
+                                         pdaf_cb.c__cvt_adj_ens_pdaf,
+                                         pdaf_cb.c__cvt_pdaf,
+                                         pdaf_cb.c__cvt_adj_pdaf,
+                                         pdaf_cb.c__obs_op_lin_pdaf,
+                                         pdaf_cb.c__obs_op_adj_pdaf,
+                                         pdaf_cb.c__init_n_domains_p_pdaf,
+                                         pdaf_cb.c__init_dim_l_pdaf,
+                                         pdaf_cb.c__init_dim_obs_l_pdaf,
                                          pdaf_cb.c__prepoststep_pdaf, &outflag)
 
     return outflag
 
 
-def assim_offline_3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__cvt_pdaf, py__cvt_adj_pdaf, py__obs_op_lin_pdaf, 
+def assim_offline_3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__cvt_pdaf, py__cvt_adj_pdaf, py__obs_op_lin_pdaf,
     py__obs_op_adj_pdaf, py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -2307,12 +2307,12 @@ def assim_offline_3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -2320,12 +2320,12 @@ def assim_offline_3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -2347,11 +2347,11 @@ def assim_offline_3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         cv_p : ndarray[np.float64, ndim=1]
                 PE-local control vector
@@ -2371,11 +2371,11 @@ def assim_offline_3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         vcv_p : ndarray[np.float64, ndim=1]
                 PE-local result vector (state vector increment)
@@ -2395,11 +2395,11 @@ def assim_offline_3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -2419,11 +2419,11 @@ def assim_offline_3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -2443,17 +2443,17 @@ def assim_offline_3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -2470,7 +2470,7 @@ def assim_offline_3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -2494,7 +2494,7 @@ def assim_offline_3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -2506,20 +2506,20 @@ def assim_offline_3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assim_offline_3dvar(pdaf_cb.c__init_dim_obs_pdaf, 
-                                     pdaf_cb.c__obs_op_pdaf, 
-                                     pdaf_cb.c__cvt_pdaf, 
-                                     pdaf_cb.c__cvt_adj_pdaf, 
-                                     pdaf_cb.c__obs_op_lin_pdaf, 
-                                     pdaf_cb.c__obs_op_adj_pdaf, 
+        c__pdaf3_assim_offline_3dvar(pdaf_cb.c__init_dim_obs_pdaf,
+                                     pdaf_cb.c__obs_op_pdaf,
+                                     pdaf_cb.c__cvt_pdaf,
+                                     pdaf_cb.c__cvt_adj_pdaf,
+                                     pdaf_cb.c__obs_op_lin_pdaf,
+                                     pdaf_cb.c__obs_op_adj_pdaf,
                                      pdaf_cb.c__prepoststep_pdaf, &outflag)
 
     return outflag
 
 
-def assim_offline_en3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf, 
-    py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf, py__init_dim_l_pdaf, 
+def assim_offline_en3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf,
+    py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
     py__init_dim_obs_l_pdaf, py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -2531,12 +2531,12 @@ def assim_offline_en3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -2544,12 +2544,12 @@ def assim_offline_en3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -2571,13 +2571,13 @@ def assim_offline_en3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -2600,13 +2600,13 @@ def assim_offline_en3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -2629,11 +2629,11 @@ def assim_offline_en3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -2653,11 +2653,11 @@ def assim_offline_en3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -2677,12 +2677,12 @@ def assim_offline_en3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -2690,14 +2690,14 @@ def assim_offline_en3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -2705,16 +2705,16 @@ def assim_offline_en3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prepoststep_pdaf : Callable
@@ -2722,17 +2722,17 @@ def assim_offline_en3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -2749,7 +2749,7 @@ def assim_offline_en3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -2773,7 +2773,7 @@ def assim_offline_en3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -2788,22 +2788,22 @@ def assim_offline_en3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assim_offline_en3dvar(pdaf_cb.c__init_dim_obs_pdaf, 
-                                       pdaf_cb.c__obs_op_pdaf, 
-                                       pdaf_cb.c__cvt_ens_pdaf, 
-                                       pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                       pdaf_cb.c__obs_op_lin_pdaf, 
-                                       pdaf_cb.c__obs_op_adj_pdaf, 
-                                       pdaf_cb.c__init_n_domains_p_pdaf, 
-                                       pdaf_cb.c__init_dim_l_pdaf, 
-                                       pdaf_cb.c__init_dim_obs_l_pdaf, 
+        c__pdaf3_assim_offline_en3dvar(pdaf_cb.c__init_dim_obs_pdaf,
+                                       pdaf_cb.c__obs_op_pdaf,
+                                       pdaf_cb.c__cvt_ens_pdaf,
+                                       pdaf_cb.c__cvt_adj_ens_pdaf,
+                                       pdaf_cb.c__obs_op_lin_pdaf,
+                                       pdaf_cb.c__obs_op_adj_pdaf,
+                                       pdaf_cb.c__init_n_domains_p_pdaf,
+                                       pdaf_cb.c__init_dim_l_pdaf,
+                                       pdaf_cb.c__init_dim_obs_l_pdaf,
                                        pdaf_cb.c__prepoststep_pdaf, &outflag)
 
     return outflag
 
 
-def assim_offline_en3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf, 
+def assim_offline_en3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf,
     py__obs_op_adj_pdaf, py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -2815,12 +2815,12 @@ def assim_offline_en3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -2828,12 +2828,12 @@ def assim_offline_en3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -2855,13 +2855,13 @@ def assim_offline_en3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -2884,13 +2884,13 @@ def assim_offline_en3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -2913,11 +2913,11 @@ def assim_offline_en3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -2937,11 +2937,11 @@ def assim_offline_en3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -2961,17 +2961,17 @@ def assim_offline_en3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -2988,7 +2988,7 @@ def assim_offline_en3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -3012,7 +3012,7 @@ def assim_offline_en3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -3024,21 +3024,21 @@ def assim_offline_en3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assim_offline_en3dvar_estkf(pdaf_cb.c__init_dim_obs_pdaf, 
-                                             pdaf_cb.c__obs_op_pdaf, 
-                                             pdaf_cb.c__cvt_ens_pdaf, 
-                                             pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                             pdaf_cb.c__obs_op_lin_pdaf, 
-                                             pdaf_cb.c__obs_op_adj_pdaf, 
-                                             pdaf_cb.c__prepoststep_pdaf, 
+        c__pdaf3_assim_offline_en3dvar_estkf(pdaf_cb.c__init_dim_obs_pdaf,
+                                             pdaf_cb.c__obs_op_pdaf,
+                                             pdaf_cb.c__cvt_ens_pdaf,
+                                             pdaf_cb.c__cvt_adj_ens_pdaf,
+                                             pdaf_cb.c__obs_op_lin_pdaf,
+                                             pdaf_cb.c__obs_op_adj_pdaf,
+                                             pdaf_cb.c__prepoststep_pdaf,
                                              &outflag)
 
     return outflag
 
 
-def assim_offline_en3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf, 
-    py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf, py__init_dim_l_pdaf, 
+def assim_offline_en3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf,
+    py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
     py__init_dim_obs_l_pdaf, py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -3050,12 +3050,12 @@ def assim_offline_en3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -3063,12 +3063,12 @@ def assim_offline_en3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -3090,13 +3090,13 @@ def assim_offline_en3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -3119,13 +3119,13 @@ def assim_offline_en3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -3148,11 +3148,11 @@ def assim_offline_en3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -3172,11 +3172,11 @@ def assim_offline_en3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -3196,12 +3196,12 @@ def assim_offline_en3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -3209,14 +3209,14 @@ def assim_offline_en3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -3224,16 +3224,16 @@ def assim_offline_en3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prepoststep_pdaf : Callable
@@ -3241,17 +3241,17 @@ def assim_offline_en3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -3268,7 +3268,7 @@ def assim_offline_en3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -3292,7 +3292,7 @@ def assim_offline_en3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -3307,24 +3307,24 @@ def assim_offline_en3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assim_offline_en3dvar_lestkf(pdaf_cb.c__init_dim_obs_pdaf, 
-                                              pdaf_cb.c__obs_op_pdaf, 
-                                              pdaf_cb.c__cvt_ens_pdaf, 
-                                              pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                              pdaf_cb.c__obs_op_lin_pdaf, 
-                                              pdaf_cb.c__obs_op_adj_pdaf, 
-                                              pdaf_cb.c__init_n_domains_p_pdaf, 
-                                              pdaf_cb.c__init_dim_l_pdaf, 
-                                              pdaf_cb.c__init_dim_obs_l_pdaf, 
-                                              pdaf_cb.c__prepoststep_pdaf, 
+        c__pdaf3_assim_offline_en3dvar_lestkf(pdaf_cb.c__init_dim_obs_pdaf,
+                                              pdaf_cb.c__obs_op_pdaf,
+                                              pdaf_cb.c__cvt_ens_pdaf,
+                                              pdaf_cb.c__cvt_adj_ens_pdaf,
+                                              pdaf_cb.c__obs_op_lin_pdaf,
+                                              pdaf_cb.c__obs_op_adj_pdaf,
+                                              pdaf_cb.c__init_n_domains_p_pdaf,
+                                              pdaf_cb.c__init_dim_l_pdaf,
+                                              pdaf_cb.c__init_dim_obs_l_pdaf,
+                                              pdaf_cb.c__prepoststep_pdaf,
                                               &outflag)
 
     return outflag
 
 
-def assim_offline_hyb3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf, 
-    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf, 
+def assim_offline_hyb3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf,
+    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf,
     py__init_dim_l_pdaf, py__init_dim_obs_l_pdaf, py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -3336,12 +3336,12 @@ def assim_offline_hyb3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -3349,12 +3349,12 @@ def assim_offline_hyb3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -3376,13 +3376,13 @@ def assim_offline_hyb3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -3405,13 +3405,13 @@ def assim_offline_hyb3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -3434,11 +3434,11 @@ def assim_offline_hyb3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         cv_p : ndarray[np.float64, ndim=1]
                 PE-local control vector
@@ -3458,11 +3458,11 @@ def assim_offline_hyb3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         vcv_p : ndarray[np.float64, ndim=1]
                 PE-local result vector (state vector increment)
@@ -3482,11 +3482,11 @@ def assim_offline_hyb3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -3506,11 +3506,11 @@ def assim_offline_hyb3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -3530,12 +3530,12 @@ def assim_offline_hyb3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -3543,14 +3543,14 @@ def assim_offline_hyb3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -3558,16 +3558,16 @@ def assim_offline_hyb3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prepoststep_pdaf : Callable
@@ -3575,17 +3575,17 @@ def assim_offline_hyb3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -3602,7 +3602,7 @@ def assim_offline_hyb3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -3626,7 +3626,7 @@ def assim_offline_hyb3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -3643,24 +3643,24 @@ def assim_offline_hyb3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assim_offline_hyb3dvar(pdaf_cb.c__init_dim_obs_pdaf, 
-                                        pdaf_cb.c__obs_op_pdaf, 
-                                        pdaf_cb.c__cvt_ens_pdaf, 
-                                        pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                        pdaf_cb.c__cvt_pdaf, 
-                                        pdaf_cb.c__cvt_adj_pdaf, 
-                                        pdaf_cb.c__obs_op_lin_pdaf, 
-                                        pdaf_cb.c__obs_op_adj_pdaf, 
-                                        pdaf_cb.c__init_n_domains_p_pdaf, 
-                                        pdaf_cb.c__init_dim_l_pdaf, 
-                                        pdaf_cb.c__init_dim_obs_l_pdaf, 
+        c__pdaf3_assim_offline_hyb3dvar(pdaf_cb.c__init_dim_obs_pdaf,
+                                        pdaf_cb.c__obs_op_pdaf,
+                                        pdaf_cb.c__cvt_ens_pdaf,
+                                        pdaf_cb.c__cvt_adj_ens_pdaf,
+                                        pdaf_cb.c__cvt_pdaf,
+                                        pdaf_cb.c__cvt_adj_pdaf,
+                                        pdaf_cb.c__obs_op_lin_pdaf,
+                                        pdaf_cb.c__obs_op_adj_pdaf,
+                                        pdaf_cb.c__init_n_domains_p_pdaf,
+                                        pdaf_cb.c__init_dim_l_pdaf,
+                                        pdaf_cb.c__init_dim_obs_l_pdaf,
                                         pdaf_cb.c__prepoststep_pdaf, &outflag)
 
     return outflag
 
 
-def assim_offline_hyb3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf, 
+def assim_offline_hyb3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf,
     py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -3672,12 +3672,12 @@ def assim_offline_hyb3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -3685,12 +3685,12 @@ def assim_offline_hyb3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -3712,13 +3712,13 @@ def assim_offline_hyb3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -3741,13 +3741,13 @@ def assim_offline_hyb3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -3770,11 +3770,11 @@ def assim_offline_hyb3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         cv_p : ndarray[np.float64, ndim=1]
                 PE-local control vector
@@ -3794,11 +3794,11 @@ def assim_offline_hyb3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         vcv_p : ndarray[np.float64, ndim=1]
                 PE-local result vector (state vector increment)
@@ -3818,11 +3818,11 @@ def assim_offline_hyb3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -3842,11 +3842,11 @@ def assim_offline_hyb3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -3866,17 +3866,17 @@ def assim_offline_hyb3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -3893,7 +3893,7 @@ def assim_offline_hyb3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -3917,7 +3917,7 @@ def assim_offline_hyb3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -3931,23 +3931,23 @@ def assim_offline_hyb3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assim_offline_hyb3dvar_estkf(pdaf_cb.c__init_dim_obs_pdaf, 
-                                              pdaf_cb.c__obs_op_pdaf, 
-                                              pdaf_cb.c__cvt_ens_pdaf, 
-                                              pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                              pdaf_cb.c__cvt_pdaf, 
-                                              pdaf_cb.c__cvt_adj_pdaf, 
-                                              pdaf_cb.c__obs_op_lin_pdaf, 
-                                              pdaf_cb.c__obs_op_adj_pdaf, 
-                                              pdaf_cb.c__prepoststep_pdaf, 
+        c__pdaf3_assim_offline_hyb3dvar_estkf(pdaf_cb.c__init_dim_obs_pdaf,
+                                              pdaf_cb.c__obs_op_pdaf,
+                                              pdaf_cb.c__cvt_ens_pdaf,
+                                              pdaf_cb.c__cvt_adj_ens_pdaf,
+                                              pdaf_cb.c__cvt_pdaf,
+                                              pdaf_cb.c__cvt_adj_pdaf,
+                                              pdaf_cb.c__obs_op_lin_pdaf,
+                                              pdaf_cb.c__obs_op_adj_pdaf,
+                                              pdaf_cb.c__prepoststep_pdaf,
                                               &outflag)
 
     return outflag
 
 
-def assim_offline_hyb3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf, 
-    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf, 
+def assim_offline_hyb3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf,
+    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf,
     py__init_dim_l_pdaf, py__init_dim_obs_l_pdaf, py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -3959,12 +3959,12 @@ def assim_offline_hyb3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -3972,12 +3972,12 @@ def assim_offline_hyb3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -3999,13 +3999,13 @@ def assim_offline_hyb3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -4028,13 +4028,13 @@ def assim_offline_hyb3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -4057,11 +4057,11 @@ def assim_offline_hyb3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         cv_p : ndarray[np.float64, ndim=1]
                 PE-local control vector
@@ -4081,11 +4081,11 @@ def assim_offline_hyb3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         vcv_p : ndarray[np.float64, ndim=1]
                 PE-local result vector (state vector increment)
@@ -4105,11 +4105,11 @@ def assim_offline_hyb3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -4129,11 +4129,11 @@ def assim_offline_hyb3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -4153,12 +4153,12 @@ def assim_offline_hyb3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -4166,14 +4166,14 @@ def assim_offline_hyb3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -4181,16 +4181,16 @@ def assim_offline_hyb3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prepoststep_pdaf : Callable
@@ -4198,17 +4198,17 @@ def assim_offline_hyb3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -4225,7 +4225,7 @@ def assim_offline_hyb3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -4249,7 +4249,7 @@ def assim_offline_hyb3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -4267,25 +4267,25 @@ def assim_offline_hyb3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     cdef int  outflag
     with nogil:
         c__pdaf3_assim_offline_hyb3dvar_lestkf(
-                                               pdaf_cb.c__init_dim_obs_pdaf, 
-                                               pdaf_cb.c__obs_op_pdaf, 
-                                               pdaf_cb.c__cvt_ens_pdaf, 
-                                               pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                               pdaf_cb.c__cvt_pdaf, 
-                                               pdaf_cb.c__cvt_adj_pdaf, 
-                                               pdaf_cb.c__obs_op_lin_pdaf, 
-                                               pdaf_cb.c__obs_op_adj_pdaf, 
-                                               pdaf_cb.c__init_n_domains_p_pdaf, 
-                                               pdaf_cb.c__init_dim_l_pdaf, 
-                                               pdaf_cb.c__init_dim_obs_l_pdaf, 
-                                               pdaf_cb.c__prepoststep_pdaf, 
+                                               pdaf_cb.c__init_dim_obs_pdaf,
+                                               pdaf_cb.c__obs_op_pdaf,
+                                               pdaf_cb.c__cvt_ens_pdaf,
+                                               pdaf_cb.c__cvt_adj_ens_pdaf,
+                                               pdaf_cb.c__cvt_pdaf,
+                                               pdaf_cb.c__cvt_adj_pdaf,
+                                               pdaf_cb.c__obs_op_lin_pdaf,
+                                               pdaf_cb.c__obs_op_adj_pdaf,
+                                               pdaf_cb.c__init_n_domains_p_pdaf,
+                                               pdaf_cb.c__init_dim_l_pdaf,
+                                               pdaf_cb.c__init_dim_obs_l_pdaf,
+                                               pdaf_cb.c__prepoststep_pdaf,
                                                &outflag)
 
     return outflag
 
 
-def assim_offline_3dvar_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__prodrinva_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf, 
+def assim_offline_3dvar_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__prodrinva_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf,
     py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -4297,12 +4297,12 @@ def assim_offline_3dvar_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -4310,12 +4310,12 @@ def assim_offline_3dvar_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -4337,11 +4337,11 @@ def assim_offline_3dvar_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_p : int 
+        dim_obs_p : int
                 Number of observations at current time step (i.e. the size of the observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one
                 (or the rank of the initial covariance matrix)
@@ -4363,11 +4363,11 @@ def assim_offline_3dvar_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         cv_p : ndarray[np.float64, ndim=1]
                 PE-local control vector
@@ -4387,11 +4387,11 @@ def assim_offline_3dvar_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         vcv_p : ndarray[np.float64, ndim=1]
                 PE-local result vector (state vector increment)
@@ -4411,11 +4411,11 @@ def assim_offline_3dvar_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -4435,11 +4435,11 @@ def assim_offline_3dvar_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -4459,17 +4459,17 @@ def assim_offline_3dvar_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -4486,7 +4486,7 @@ def assim_offline_3dvar_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -4510,7 +4510,7 @@ def assim_offline_3dvar_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -4523,22 +4523,22 @@ def assim_offline_3dvar_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assim_offline_3dvar_nondiagr(pdaf_cb.c__init_dim_obs_pdaf, 
-                                              pdaf_cb.c__obs_op_pdaf, 
-                                              pdaf_cb.c__prodrinva_pdaf, 
-                                              pdaf_cb.c__cvt_pdaf, 
-                                              pdaf_cb.c__cvt_adj_pdaf, 
-                                              pdaf_cb.c__obs_op_lin_pdaf, 
-                                              pdaf_cb.c__obs_op_adj_pdaf, 
-                                              pdaf_cb.c__prepoststep_pdaf, 
+        c__pdaf3_assim_offline_3dvar_nondiagr(pdaf_cb.c__init_dim_obs_pdaf,
+                                              pdaf_cb.c__obs_op_pdaf,
+                                              pdaf_cb.c__prodrinva_pdaf,
+                                              pdaf_cb.c__cvt_pdaf,
+                                              pdaf_cb.c__cvt_adj_pdaf,
+                                              pdaf_cb.c__obs_op_lin_pdaf,
+                                              pdaf_cb.c__obs_op_adj_pdaf,
+                                              pdaf_cb.c__prepoststep_pdaf,
                                               &outflag)
 
     return outflag
 
 
-def assim_offline_en3dvar_estkf_nondiagr(py__init_dim_obs_pdaf, 
-    py__obs_op_pdaf, py__prodrinva_pdaf, py__cvt_ens_pdaf, 
-    py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, 
+def assim_offline_en3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
+    py__obs_op_pdaf, py__prodrinva_pdaf, py__cvt_ens_pdaf,
+    py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf, py__obs_op_adj_pdaf,
     py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -4550,12 +4550,12 @@ def assim_offline_en3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -4563,12 +4563,12 @@ def assim_offline_en3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -4590,11 +4590,11 @@ def assim_offline_en3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_p : int 
+        dim_obs_p : int
                 Number of observations at current time step (i.e. the size of the observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one
                 (or the rank of the initial covariance matrix)
@@ -4616,13 +4616,13 @@ def assim_offline_en3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -4645,13 +4645,13 @@ def assim_offline_en3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -4674,11 +4674,11 @@ def assim_offline_en3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -4698,11 +4698,11 @@ def assim_offline_en3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -4722,17 +4722,17 @@ def assim_offline_en3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -4749,7 +4749,7 @@ def assim_offline_en3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -4773,7 +4773,7 @@ def assim_offline_en3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -4787,23 +4787,23 @@ def assim_offline_en3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
     cdef int  outflag
     with nogil:
         c__pdaf3_assim_offline_en3dvar_estkf_nondiagr(
-                                                      pdaf_cb.c__init_dim_obs_pdaf, 
-                                                      pdaf_cb.c__obs_op_pdaf, 
-                                                      pdaf_cb.c__prodrinva_pdaf, 
-                                                      pdaf_cb.c__cvt_ens_pdaf, 
-                                                      pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                                      pdaf_cb.c__obs_op_lin_pdaf, 
-                                                      pdaf_cb.c__obs_op_adj_pdaf, 
-                                                      pdaf_cb.c__prepoststep_pdaf, 
+                                                      pdaf_cb.c__init_dim_obs_pdaf,
+                                                      pdaf_cb.c__obs_op_pdaf,
+                                                      pdaf_cb.c__prodrinva_pdaf,
+                                                      pdaf_cb.c__cvt_ens_pdaf,
+                                                      pdaf_cb.c__cvt_adj_ens_pdaf,
+                                                      pdaf_cb.c__obs_op_lin_pdaf,
+                                                      pdaf_cb.c__obs_op_adj_pdaf,
+                                                      pdaf_cb.c__prepoststep_pdaf,
                                                       &outflag)
 
     return outflag
 
 
-def assim_offline_en3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf, 
-    py__obs_op_pdaf, py__prodrinva_pdaf, py__cvt_ens_pdaf, 
-    py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, 
-    py__prodrinva_l_pdaf, py__init_n_domains_p_pdaf, py__init_dim_l_pdaf, 
+def assim_offline_en3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
+    py__obs_op_pdaf, py__prodrinva_pdaf, py__cvt_ens_pdaf,
+    py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf, py__obs_op_adj_pdaf,
+    py__prodrinva_l_pdaf, py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
     py__init_dim_obs_l_pdaf, py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -4815,12 +4815,12 @@ def assim_offline_en3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -4828,12 +4828,12 @@ def assim_offline_en3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -4855,11 +4855,11 @@ def assim_offline_en3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_p : int 
+        dim_obs_p : int
                 Number of observations at current time step (i.e. the size of the observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one
                 (or the rank of the initial covariance matrix)
@@ -4881,13 +4881,13 @@ def assim_offline_en3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -4910,13 +4910,13 @@ def assim_offline_en3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -4939,11 +4939,11 @@ def assim_offline_en3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -4963,11 +4963,11 @@ def assim_offline_en3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -4987,13 +4987,13 @@ def assim_offline_en3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 Index of current local analysis domain
-        step : int 
+        step : int
                 Current time step
-        dim_obs_l : int 
+        dim_obs_l : int
                 Number of local observations at current time step (i.e. the size of the local observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
         obs_l : ndarray[np.float64, ndim=1]
@@ -5017,12 +5017,12 @@ def assim_offline_en3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -5030,14 +5030,14 @@ def assim_offline_en3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -5045,16 +5045,16 @@ def assim_offline_en3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prepoststep_pdaf : Callable
@@ -5062,17 +5062,17 @@ def assim_offline_en3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -5089,7 +5089,7 @@ def assim_offline_en3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -5113,7 +5113,7 @@ def assim_offline_en3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -5131,26 +5131,26 @@ def assim_offline_en3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
     cdef int  outflag
     with nogil:
         c__pdaf3_assim_offline_en3dvar_lestkf_nondiagr(
-                                                       pdaf_cb.c__init_dim_obs_pdaf, 
-                                                       pdaf_cb.c__obs_op_pdaf, 
-                                                       pdaf_cb.c__prodrinva_pdaf, 
-                                                       pdaf_cb.c__cvt_ens_pdaf, 
-                                                       pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                                       pdaf_cb.c__obs_op_lin_pdaf, 
-                                                       pdaf_cb.c__obs_op_adj_pdaf, 
-                                                       pdaf_cb.c__prodrinva_l_pdaf, 
-                                                       pdaf_cb.c__init_n_domains_p_pdaf, 
-                                                       pdaf_cb.c__init_dim_l_pdaf, 
-                                                       pdaf_cb.c__init_dim_obs_l_pdaf, 
-                                                       pdaf_cb.c__prepoststep_pdaf, 
+                                                       pdaf_cb.c__init_dim_obs_pdaf,
+                                                       pdaf_cb.c__obs_op_pdaf,
+                                                       pdaf_cb.c__prodrinva_pdaf,
+                                                       pdaf_cb.c__cvt_ens_pdaf,
+                                                       pdaf_cb.c__cvt_adj_ens_pdaf,
+                                                       pdaf_cb.c__obs_op_lin_pdaf,
+                                                       pdaf_cb.c__obs_op_adj_pdaf,
+                                                       pdaf_cb.c__prodrinva_l_pdaf,
+                                                       pdaf_cb.c__init_n_domains_p_pdaf,
+                                                       pdaf_cb.c__init_dim_l_pdaf,
+                                                       pdaf_cb.c__init_dim_obs_l_pdaf,
+                                                       pdaf_cb.c__prepoststep_pdaf,
                                                        &outflag)
 
     return outflag
 
 
-def assim_offline_hyb3dvar_estkf_nondiagr(py__init_dim_obs_pdaf, 
-    py__obs_op_pdaf, py__prodrinva_pdaf, py__cvt_ens_pdaf, 
-    py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf, 
+def assim_offline_hyb3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
+    py__obs_op_pdaf, py__prodrinva_pdaf, py__cvt_ens_pdaf,
+    py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf,
     py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -5162,12 +5162,12 @@ def assim_offline_hyb3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -5175,12 +5175,12 @@ def assim_offline_hyb3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -5202,11 +5202,11 @@ def assim_offline_hyb3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_p : int 
+        dim_obs_p : int
                 Number of observations at current time step (i.e. the size of the observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one
                 (or the rank of the initial covariance matrix)
@@ -5228,13 +5228,13 @@ def assim_offline_hyb3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -5257,13 +5257,13 @@ def assim_offline_hyb3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -5286,11 +5286,11 @@ def assim_offline_hyb3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         cv_p : ndarray[np.float64, ndim=1]
                 PE-local control vector
@@ -5310,11 +5310,11 @@ def assim_offline_hyb3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         vcv_p : ndarray[np.float64, ndim=1]
                 PE-local result vector (state vector increment)
@@ -5334,11 +5334,11 @@ def assim_offline_hyb3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -5358,11 +5358,11 @@ def assim_offline_hyb3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -5382,17 +5382,17 @@ def assim_offline_hyb3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -5409,7 +5409,7 @@ def assim_offline_hyb3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -5433,7 +5433,7 @@ def assim_offline_hyb3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -5449,26 +5449,26 @@ def assim_offline_hyb3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
     cdef int  outflag
     with nogil:
         c__pdaf3_assim_offline_hyb3dvar_estkf_nondiagr(
-                                                       pdaf_cb.c__init_dim_obs_pdaf, 
-                                                       pdaf_cb.c__obs_op_pdaf, 
-                                                       pdaf_cb.c__prodrinva_pdaf, 
-                                                       pdaf_cb.c__cvt_ens_pdaf, 
-                                                       pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                                       pdaf_cb.c__cvt_pdaf, 
-                                                       pdaf_cb.c__cvt_adj_pdaf, 
-                                                       pdaf_cb.c__obs_op_lin_pdaf, 
-                                                       pdaf_cb.c__obs_op_adj_pdaf, 
-                                                       pdaf_cb.c__prepoststep_pdaf, 
+                                                       pdaf_cb.c__init_dim_obs_pdaf,
+                                                       pdaf_cb.c__obs_op_pdaf,
+                                                       pdaf_cb.c__prodrinva_pdaf,
+                                                       pdaf_cb.c__cvt_ens_pdaf,
+                                                       pdaf_cb.c__cvt_adj_ens_pdaf,
+                                                       pdaf_cb.c__cvt_pdaf,
+                                                       pdaf_cb.c__cvt_adj_pdaf,
+                                                       pdaf_cb.c__obs_op_lin_pdaf,
+                                                       pdaf_cb.c__obs_op_adj_pdaf,
+                                                       pdaf_cb.c__prepoststep_pdaf,
                                                        &outflag)
 
     return outflag
 
 
-def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf, 
-    py__obs_op_pdaf, py__prodrinva_pdaf, py__cvt_ens_pdaf, 
-    py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf, 
-    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prodrinva_l_pdaf, 
-    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf, 
+def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
+    py__obs_op_pdaf, py__prodrinva_pdaf, py__cvt_ens_pdaf,
+    py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf,
+    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prodrinva_l_pdaf,
+    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
     py__init_dim_obs_l_pdaf, py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -5480,12 +5480,12 @@ def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -5493,12 +5493,12 @@ def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -5520,11 +5520,11 @@ def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_p : int 
+        dim_obs_p : int
                 Number of observations at current time step (i.e. the size of the observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one
                 (or the rank of the initial covariance matrix)
@@ -5546,13 +5546,13 @@ def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -5575,13 +5575,13 @@ def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -5604,11 +5604,11 @@ def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         cv_p : ndarray[np.float64, ndim=1]
                 PE-local control vector
@@ -5628,11 +5628,11 @@ def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         vcv_p : ndarray[np.float64, ndim=1]
                 PE-local result vector (state vector increment)
@@ -5652,11 +5652,11 @@ def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -5676,11 +5676,11 @@ def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -5700,13 +5700,13 @@ def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 Index of current local analysis domain
-        step : int 
+        step : int
                 Current time step
-        dim_obs_l : int 
+        dim_obs_l : int
                 Number of local observations at current time step (i.e. the size of the local observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
         obs_l : ndarray[np.float64, ndim=1]
@@ -5730,12 +5730,12 @@ def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -5743,14 +5743,14 @@ def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -5758,16 +5758,16 @@ def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prepoststep_pdaf : Callable
@@ -5775,17 +5775,17 @@ def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -5802,7 +5802,7 @@ def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -5826,7 +5826,7 @@ def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -5846,28 +5846,28 @@ def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
     cdef int  outflag
     with nogil:
         c__pdaf3_assim_offline_hyb3dvar_lestkf_nondiagr(
-                                                        pdaf_cb.c__init_dim_obs_pdaf, 
-                                                        pdaf_cb.c__obs_op_pdaf, 
-                                                        pdaf_cb.c__prodrinva_pdaf, 
-                                                        pdaf_cb.c__cvt_ens_pdaf, 
-                                                        pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                                        pdaf_cb.c__cvt_pdaf, 
-                                                        pdaf_cb.c__cvt_adj_pdaf, 
-                                                        pdaf_cb.c__obs_op_lin_pdaf, 
-                                                        pdaf_cb.c__obs_op_adj_pdaf, 
-                                                        pdaf_cb.c__prodrinva_l_pdaf, 
-                                                        pdaf_cb.c__init_n_domains_p_pdaf, 
-                                                        pdaf_cb.c__init_dim_l_pdaf, 
-                                                        pdaf_cb.c__init_dim_obs_l_pdaf, 
-                                                        pdaf_cb.c__prepoststep_pdaf, 
+                                                        pdaf_cb.c__init_dim_obs_pdaf,
+                                                        pdaf_cb.c__obs_op_pdaf,
+                                                        pdaf_cb.c__prodrinva_pdaf,
+                                                        pdaf_cb.c__cvt_ens_pdaf,
+                                                        pdaf_cb.c__cvt_adj_ens_pdaf,
+                                                        pdaf_cb.c__cvt_pdaf,
+                                                        pdaf_cb.c__cvt_adj_pdaf,
+                                                        pdaf_cb.c__obs_op_lin_pdaf,
+                                                        pdaf_cb.c__obs_op_adj_pdaf,
+                                                        pdaf_cb.c__prodrinva_l_pdaf,
+                                                        pdaf_cb.c__init_n_domains_p_pdaf,
+                                                        pdaf_cb.c__init_dim_l_pdaf,
+                                                        pdaf_cb.c__init_dim_obs_l_pdaf,
+                                                        pdaf_cb.c__prepoststep_pdaf,
                                                         &outflag)
 
     return outflag
 
 
-def assimilate(py__collect_state_pdaf, py__distribute_state_pdaf, 
-    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__init_n_domains_p_pdaf, 
-    py__init_dim_l_pdaf, py__init_dim_obs_l_pdaf, py__prepoststep_pdaf, 
+def assimilate(py__collect_state_pdaf, py__distribute_state_pdaf,
+    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__init_n_domains_p_pdaf,
+    py__init_dim_l_pdaf, py__init_dim_obs_l_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -5879,7 +5879,7 @@ def assimilate(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -5896,7 +5896,7 @@ def assimilate(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -5913,12 +5913,12 @@ def assimilate(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -5926,12 +5926,12 @@ def assimilate(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -5953,12 +5953,12 @@ def assimilate(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -5966,14 +5966,14 @@ def assimilate(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -5981,16 +5981,16 @@ def assimilate(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prepoststep_pdaf : Callable
@@ -5998,17 +5998,17 @@ def assimilate(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -6025,7 +6025,7 @@ def assimilate(py__collect_state_pdaf, py__distribute_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -6051,27 +6051,27 @@ def assimilate(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
-    outflag : int 
+    outflag : int
         Status flag
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -6084,23 +6084,23 @@ def assimilate(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     with nogil:
-        c__pdaf3_assimilate(pdaf_cb.c__collect_state_pdaf, 
-                            pdaf_cb.c__distribute_state_pdaf, 
-                            pdaf_cb.c__init_dim_obs_pdaf, 
-                            pdaf_cb.c__obs_op_pdaf, 
-                            pdaf_cb.c__init_n_domains_p_pdaf, 
-                            pdaf_cb.c__init_dim_l_pdaf, 
-                            pdaf_cb.c__init_dim_obs_l_pdaf, 
-                            pdaf_cb.c__prepoststep_pdaf, 
+        c__pdaf3_assimilate(pdaf_cb.c__collect_state_pdaf,
+                            pdaf_cb.c__distribute_state_pdaf,
+                            pdaf_cb.c__init_dim_obs_pdaf,
+                            pdaf_cb.c__obs_op_pdaf,
+                            pdaf_cb.c__init_n_domains_p_pdaf,
+                            pdaf_cb.c__init_dim_l_pdaf,
+                            pdaf_cb.c__init_dim_obs_l_pdaf,
+                            pdaf_cb.c__prepoststep_pdaf,
                             pdaf_cb.c__next_observation_pdaf, &outflag)
 
     return outflag
 
 
-def assimilate_local(py__collect_state_pdaf, py__distribute_state_pdaf, 
-    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__init_n_domains_p_pdaf, 
-    py__init_dim_l_pdaf, py__init_dim_obs_l_pdaf, py__g2l_state_pdaf, 
-    py__l2g_state_pdaf, py__prepoststep_pdaf, py__next_observation_pdaf, 
+def assimilate_local(py__collect_state_pdaf, py__distribute_state_pdaf,
+    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__init_n_domains_p_pdaf,
+    py__init_dim_l_pdaf, py__init_dim_obs_l_pdaf, py__g2l_state_pdaf,
+    py__l2g_state_pdaf, py__prepoststep_pdaf, py__next_observation_pdaf,
     int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -6112,7 +6112,7 @@ def assimilate_local(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -6129,7 +6129,7 @@ def assimilate_local(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -6146,12 +6146,12 @@ def assimilate_local(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -6159,12 +6159,12 @@ def assimilate_local(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -6186,12 +6186,12 @@ def assimilate_local(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -6199,14 +6199,14 @@ def assimilate_local(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -6214,16 +6214,16 @@ def assimilate_local(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__g2l_state_pdaf : Callable
@@ -6231,16 +6231,16 @@ def assimilate_local(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
-        dim_p : int 
+        dim_p : int
                 pe-local full state dimension
         state_p : ndarray[np.float64, ndim=1]
                 pe-local full state vector
                 Array shape: (dim_p)
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
         Callback Returns
@@ -6254,16 +6254,16 @@ def assimilate_local(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
-        dim_l : int 
+        dim_l : int
                 local state dimension
         state_l : ndarray[np.float64, ndim=1]
                 state vector on local analysis domain
                 Array shape: (dim_l)
-        dim_p : int 
+        dim_p : int
                 pe-local full state dimension
         state_p : ndarray[np.float64, ndim=1]
                 pe-local full state vector
@@ -6280,17 +6280,17 @@ def assimilate_local(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -6307,7 +6307,7 @@ def assimilate_local(py__collect_state_pdaf, py__distribute_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -6333,27 +6333,27 @@ def assimilate_local(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
-    outflag : int 
+    outflag : int
         Status flag
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -6368,23 +6368,23 @@ def assimilate_local(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     with nogil:
-        c__pdaf3_assimilate_local(pdaf_cb.c__collect_state_pdaf, 
-                                  pdaf_cb.c__distribute_state_pdaf, 
-                                  pdaf_cb.c__init_dim_obs_pdaf, 
-                                  pdaf_cb.c__obs_op_pdaf, 
-                                  pdaf_cb.c__init_n_domains_p_pdaf, 
-                                  pdaf_cb.c__init_dim_l_pdaf, 
-                                  pdaf_cb.c__init_dim_obs_l_pdaf, 
-                                  pdaf_cb.c__g2l_state_pdaf, 
-                                  pdaf_cb.c__l2g_state_pdaf, 
-                                  pdaf_cb.c__prepoststep_pdaf, 
+        c__pdaf3_assimilate_local(pdaf_cb.c__collect_state_pdaf,
+                                  pdaf_cb.c__distribute_state_pdaf,
+                                  pdaf_cb.c__init_dim_obs_pdaf,
+                                  pdaf_cb.c__obs_op_pdaf,
+                                  pdaf_cb.c__init_n_domains_p_pdaf,
+                                  pdaf_cb.c__init_dim_l_pdaf,
+                                  pdaf_cb.c__init_dim_obs_l_pdaf,
+                                  pdaf_cb.c__g2l_state_pdaf,
+                                  pdaf_cb.c__l2g_state_pdaf,
+                                  pdaf_cb.c__prepoststep_pdaf,
                                   pdaf_cb.c__next_observation_pdaf, &outflag)
 
     return outflag
 
 
-def assimilate_global(py__collect_state_pdaf, py__distribute_state_pdaf, 
-    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__prepoststep_pdaf, 
+def assimilate_global(py__collect_state_pdaf, py__distribute_state_pdaf,
+    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -6396,7 +6396,7 @@ def assimilate_global(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -6413,7 +6413,7 @@ def assimilate_global(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -6430,12 +6430,12 @@ def assimilate_global(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -6443,12 +6443,12 @@ def assimilate_global(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -6470,17 +6470,17 @@ def assimilate_global(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -6497,7 +6497,7 @@ def assimilate_global(py__collect_state_pdaf, py__distribute_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -6523,25 +6523,25 @@ def assimilate_global(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -6552,18 +6552,18 @@ def assimilate_global(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assimilate_global(pdaf_cb.c__collect_state_pdaf, 
-                                   pdaf_cb.c__distribute_state_pdaf, 
-                                   pdaf_cb.c__init_dim_obs_pdaf, 
-                                   pdaf_cb.c__obs_op_pdaf, 
-                                   pdaf_cb.c__prepoststep_pdaf, 
+        c__pdaf3_assimilate_global(pdaf_cb.c__collect_state_pdaf,
+                                   pdaf_cb.c__distribute_state_pdaf,
+                                   pdaf_cb.c__init_dim_obs_pdaf,
+                                   pdaf_cb.c__obs_op_pdaf,
+                                   pdaf_cb.c__prepoststep_pdaf,
                                    pdaf_cb.c__next_observation_pdaf, &outflag)
 
     return outflag
 
 
-def assimilate_lenkf(py__collect_state_pdaf, py__distribute_state_pdaf, 
-    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__localize_covar_pdaf, 
+def assimilate_lenkf(py__collect_state_pdaf, py__distribute_state_pdaf,
+    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__localize_covar_pdaf,
     py__prepoststep_pdaf, py__next_observation_pdaf):
     """It is recommended to use
     :func:`pyPDAF.PDAF.omi_assimilate_lenkf`
@@ -6606,7 +6606,7 @@ def assimilate_lenkf(py__collect_state_pdaf, py__distribute_state_pdaf,
 
     References
     ----------
-    .. [1] Houtekamer, P. L., and H. L. Mitchell (1998): 
+    .. [1] Houtekamer, P. L., and H. L. Mitchell (1998):
            Data Assimilation Using an Ensemble Kalman Filter
            Technique.
            Mon. Wea. Rev., 126, 796–811,
@@ -6619,7 +6619,7 @@ def assimilate_lenkf(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -6636,7 +6636,7 @@ def assimilate_lenkf(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -6653,12 +6653,12 @@ def assimilate_lenkf(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -6666,12 +6666,12 @@ def assimilate_lenkf(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -6693,9 +6693,9 @@ def assimilate_lenkf(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
-        dim_obs : int 
+        dim_obs : int
                 number of observations
         hp_p : ndarray[np.float64, ndim=2]
                 pe local part of matrix hp
@@ -6718,17 +6718,17 @@ def assimilate_lenkf(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -6745,7 +6745,7 @@ def assimilate_lenkf(py__collect_state_pdaf, py__distribute_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -6771,25 +6771,25 @@ def assimilate_lenkf(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -6801,19 +6801,19 @@ def assimilate_lenkf(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assimilate_lenkf(pdaf_cb.c__collect_state_pdaf, 
-                                  pdaf_cb.c__distribute_state_pdaf, 
-                                  pdaf_cb.c__init_dim_obs_pdaf, 
-                                  pdaf_cb.c__obs_op_pdaf, 
-                                  pdaf_cb.c__localize_covar_pdaf, 
-                                  pdaf_cb.c__prepoststep_pdaf, 
+        c__pdaf3_assimilate_lenkf(pdaf_cb.c__collect_state_pdaf,
+                                  pdaf_cb.c__distribute_state_pdaf,
+                                  pdaf_cb.c__init_dim_obs_pdaf,
+                                  pdaf_cb.c__obs_op_pdaf,
+                                  pdaf_cb.c__localize_covar_pdaf,
+                                  pdaf_cb.c__prepoststep_pdaf,
                                   pdaf_cb.c__next_observation_pdaf, &outflag)
 
     return outflag
 
 
-def assimilate_ensrf(py__collect_state_pdaf, py__distribute_state_pdaf, 
-    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__localize_covar_serial_pdaf, 
+def assimilate_ensrf(py__collect_state_pdaf, py__distribute_state_pdaf,
+    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__localize_covar_serial_pdaf,
     py__prepoststep_pdaf, py__next_observation_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -6825,7 +6825,7 @@ def assimilate_ensrf(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -6842,7 +6842,7 @@ def assimilate_ensrf(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -6859,12 +6859,12 @@ def assimilate_ensrf(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -6872,12 +6872,12 @@ def assimilate_ensrf(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -6899,11 +6899,11 @@ def assimilate_ensrf(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        iobs : int 
+        iobs : int
                 Index of current observation
-        dim_p : int 
+        dim_p : int
                 Process-local state dimension
-        dim_obs : int 
+        dim_obs : int
                 Number of observations
         hp_p : ndarray[np.float64, ndim=1]
                 Process-local part of matrix HP for observation iobs
@@ -6926,17 +6926,17 @@ def assimilate_ensrf(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -6953,7 +6953,7 @@ def assimilate_ensrf(py__collect_state_pdaf, py__distribute_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -6979,25 +6979,25 @@ def assimilate_ensrf(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -7009,19 +7009,19 @@ def assimilate_ensrf(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assimilate_ensrf(pdaf_cb.c__collect_state_pdaf, 
-                                  pdaf_cb.c__distribute_state_pdaf, 
-                                  pdaf_cb.c__init_dim_obs_pdaf, 
-                                  pdaf_cb.c__obs_op_pdaf, 
-                                  pdaf_cb.c__localize_covar_serial_pdaf, 
-                                  pdaf_cb.c__prepoststep_pdaf, 
+        c__pdaf3_assimilate_ensrf(pdaf_cb.c__collect_state_pdaf,
+                                  pdaf_cb.c__distribute_state_pdaf,
+                                  pdaf_cb.c__init_dim_obs_pdaf,
+                                  pdaf_cb.c__obs_op_pdaf,
+                                  pdaf_cb.c__localize_covar_serial_pdaf,
+                                  pdaf_cb.c__prepoststep_pdaf,
                                   pdaf_cb.c__next_observation_pdaf, &outflag)
 
     return outflag
 
 
-def assim_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf, 
+def assim_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
     py__init_dim_obs_l_pdaf, py__prepoststep_pdaf, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -7033,12 +7033,12 @@ def assim_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -7046,12 +7046,12 @@ def assim_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -7073,12 +7073,12 @@ def assim_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -7086,14 +7086,14 @@ def assim_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -7101,16 +7101,16 @@ def assim_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prepoststep_pdaf : Callable
@@ -7118,17 +7118,17 @@ def assim_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -7145,7 +7145,7 @@ def assim_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -7166,12 +7166,12 @@ def assim_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
 
-    outflag : int 
+    outflag : int
         Status flag
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -7181,19 +7181,19 @@ def assim_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.init_dim_obs_l_pdaf = <void*>py__init_dim_obs_l_pdaf
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     with nogil:
-        c__pdaf3_assim_offline(pdaf_cb.c__init_dim_obs_pdaf, 
-                               pdaf_cb.c__obs_op_pdaf, 
-                               pdaf_cb.c__init_n_domains_p_pdaf, 
-                               pdaf_cb.c__init_dim_l_pdaf, 
-                               pdaf_cb.c__init_dim_obs_l_pdaf, 
+        c__pdaf3_assim_offline(pdaf_cb.c__init_dim_obs_pdaf,
+                               pdaf_cb.c__obs_op_pdaf,
+                               pdaf_cb.c__init_n_domains_p_pdaf,
+                               pdaf_cb.c__init_dim_l_pdaf,
+                               pdaf_cb.c__init_dim_obs_l_pdaf,
                                pdaf_cb.c__prepoststep_pdaf, &outflag)
 
     return outflag
 
 
-def assim_offline_local(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf, 
-    py__init_dim_obs_l_pdaf, py__g2l_state_pdaf, py__l2g_state_pdaf, 
+def assim_offline_local(py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
+    py__init_dim_obs_l_pdaf, py__g2l_state_pdaf, py__l2g_state_pdaf,
     py__prepoststep_pdaf, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -7205,12 +7205,12 @@ def assim_offline_local(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -7218,12 +7218,12 @@ def assim_offline_local(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -7245,12 +7245,12 @@ def assim_offline_local(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -7258,14 +7258,14 @@ def assim_offline_local(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -7273,16 +7273,16 @@ def assim_offline_local(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__g2l_state_pdaf : Callable
@@ -7290,16 +7290,16 @@ def assim_offline_local(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
-        dim_p : int 
+        dim_p : int
                 pe-local full state dimension
         state_p : ndarray[np.float64, ndim=1]
                 pe-local full state vector
                 Array shape: (dim_p)
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
         Callback Returns
@@ -7313,16 +7313,16 @@ def assim_offline_local(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
-        dim_l : int 
+        dim_l : int
                 local state dimension
         state_l : ndarray[np.float64, ndim=1]
                 state vector on local analysis domain
                 Array shape: (dim_l)
-        dim_p : int 
+        dim_p : int
                 pe-local full state dimension
         state_p : ndarray[np.float64, ndim=1]
                 pe-local full state vector
@@ -7339,17 +7339,17 @@ def assim_offline_local(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -7366,7 +7366,7 @@ def assim_offline_local(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -7387,12 +7387,12 @@ def assim_offline_local(py__init_dim_obs_pdaf, py__obs_op_pdaf,
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
 
-    outflag : int 
+    outflag : int
         Status flag
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -7404,19 +7404,19 @@ def assim_offline_local(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.l2g_state_pdaf = <void*>py__l2g_state_pdaf
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     with nogil:
-        c__pdaf3_assim_offline_local(pdaf_cb.c__init_dim_obs_pdaf, 
-                                     pdaf_cb.c__obs_op_pdaf, 
-                                     pdaf_cb.c__init_n_domains_p_pdaf, 
-                                     pdaf_cb.c__init_dim_l_pdaf, 
-                                     pdaf_cb.c__init_dim_obs_l_pdaf, 
-                                     pdaf_cb.c__g2l_state_pdaf, 
-                                     pdaf_cb.c__l2g_state_pdaf, 
+        c__pdaf3_assim_offline_local(pdaf_cb.c__init_dim_obs_pdaf,
+                                     pdaf_cb.c__obs_op_pdaf,
+                                     pdaf_cb.c__init_n_domains_p_pdaf,
+                                     pdaf_cb.c__init_dim_l_pdaf,
+                                     pdaf_cb.c__init_dim_obs_l_pdaf,
+                                     pdaf_cb.c__g2l_state_pdaf,
+                                     pdaf_cb.c__l2g_state_pdaf,
                                      pdaf_cb.c__prepoststep_pdaf, &outflag)
 
     return outflag
 
 
-def assim_offline_global(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
+def assim_offline_global(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__prepoststep_pdaf, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -7428,12 +7428,12 @@ def assim_offline_global(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -7441,12 +7441,12 @@ def assim_offline_global(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -7468,17 +7468,17 @@ def assim_offline_global(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -7495,7 +7495,7 @@ def assim_offline_global(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -7516,26 +7516,26 @@ def assim_offline_global(py__init_dim_obs_pdaf, py__obs_op_pdaf,
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
 
-    outflag : int 
+    outflag : int
         Status flag
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
     pdaf_cb.obs_op_pdaf = <void*>py__obs_op_pdaf
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     with nogil:
-        c__pdaf3_assim_offline_global(pdaf_cb.c__init_dim_obs_pdaf, 
-                                      pdaf_cb.c__obs_op_pdaf, 
+        c__pdaf3_assim_offline_global(pdaf_cb.c__init_dim_obs_pdaf,
+                                      pdaf_cb.c__obs_op_pdaf,
                                       pdaf_cb.c__prepoststep_pdaf, &outflag)
 
     return outflag
 
 
-def assim_offline_lenkf(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
+def assim_offline_lenkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__localize_covar_pdaf, py__prepoststep_pdaf, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -7547,12 +7547,12 @@ def assim_offline_lenkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -7560,12 +7560,12 @@ def assim_offline_lenkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -7587,9 +7587,9 @@ def assim_offline_lenkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
-        dim_obs : int 
+        dim_obs : int
                 number of observations
         hp_p : ndarray[np.float64, ndim=2]
                 pe local part of matrix hp
@@ -7612,17 +7612,17 @@ def assim_offline_lenkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -7639,7 +7639,7 @@ def assim_offline_lenkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -7660,12 +7660,12 @@ def assim_offline_lenkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
 
-    outflag : int 
+    outflag : int
         Status flag
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -7673,15 +7673,15 @@ def assim_offline_lenkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.localize_covar_pdaf = <void*>py__localize_covar_pdaf
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     with nogil:
-        c__pdaf3_assim_offline_lenkf(pdaf_cb.c__init_dim_obs_pdaf, 
-                                     pdaf_cb.c__obs_op_pdaf, 
-                                     pdaf_cb.c__localize_covar_pdaf, 
+        c__pdaf3_assim_offline_lenkf(pdaf_cb.c__init_dim_obs_pdaf,
+                                     pdaf_cb.c__obs_op_pdaf,
+                                     pdaf_cb.c__localize_covar_pdaf,
                                      pdaf_cb.c__prepoststep_pdaf, &outflag)
 
     return outflag
 
 
-def assim_offline_ensrf(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
+def assim_offline_ensrf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__localize_covar_serial_pdaf, py__prepoststep_pdaf, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -7693,12 +7693,12 @@ def assim_offline_ensrf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -7706,12 +7706,12 @@ def assim_offline_ensrf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -7733,11 +7733,11 @@ def assim_offline_ensrf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        iobs : int 
+        iobs : int
                 Index of current observation
-        dim_p : int 
+        dim_p : int
                 Process-local state dimension
-        dim_obs : int 
+        dim_obs : int
                 Number of observations
         hp_p : ndarray[np.float64, ndim=1]
                 Process-local part of matrix HP for observation iobs
@@ -7760,17 +7760,17 @@ def assim_offline_ensrf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -7787,7 +7787,7 @@ def assim_offline_ensrf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -7808,12 +7808,12 @@ def assim_offline_ensrf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
 
-    outflag : int 
+    outflag : int
         Status flag
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -7821,16 +7821,16 @@ def assim_offline_ensrf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.localize_covar_serial_pdaf = <void*>py__localize_covar_serial_pdaf
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     with nogil:
-        c__pdaf3_assim_offline_ensrf(pdaf_cb.c__init_dim_obs_pdaf, 
-                                     pdaf_cb.c__obs_op_pdaf, 
-                                     pdaf_cb.c__localize_covar_serial_pdaf, 
+        c__pdaf3_assim_offline_ensrf(pdaf_cb.c__init_dim_obs_pdaf,
+                                     pdaf_cb.c__obs_op_pdaf,
+                                     pdaf_cb.c__localize_covar_serial_pdaf,
                                      pdaf_cb.c__prepoststep_pdaf, &outflag)
 
     return outflag
 
 
-def assim_offline_local_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf, 
+def assim_offline_local_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
     py__init_dim_obs_l_pdaf, py__prodrinva_l_pdaf, py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -7842,12 +7842,12 @@ def assim_offline_local_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -7855,12 +7855,12 @@ def assim_offline_local_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -7882,12 +7882,12 @@ def assim_offline_local_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -7895,14 +7895,14 @@ def assim_offline_local_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -7910,16 +7910,16 @@ def assim_offline_local_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prodrinva_l_pdaf : Callable
@@ -7927,13 +7927,13 @@ def assim_offline_local_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 Index of current local analysis domain
-        step : int 
+        step : int
                 Current time step
-        dim_obs_l : int 
+        dim_obs_l : int
                 Number of local observations at current time step (i.e. the size of the local observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
         obs_l : ndarray[np.float64, ndim=1]
@@ -7957,17 +7957,17 @@ def assim_offline_local_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -7984,7 +7984,7 @@ def assim_offline_local_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -8008,7 +8008,7 @@ def assim_offline_local_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -8020,19 +8020,19 @@ def assim_offline_local_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assim_offline_local_nondiagr(pdaf_cb.c__init_dim_obs_pdaf, 
-                                              pdaf_cb.c__obs_op_pdaf, 
-                                              pdaf_cb.c__init_n_domains_p_pdaf, 
-                                              pdaf_cb.c__init_dim_l_pdaf, 
-                                              pdaf_cb.c__init_dim_obs_l_pdaf, 
-                                              pdaf_cb.c__prodrinva_l_pdaf, 
-                                              pdaf_cb.c__prepoststep_pdaf, 
+        c__pdaf3_assim_offline_local_nondiagr(pdaf_cb.c__init_dim_obs_pdaf,
+                                              pdaf_cb.c__obs_op_pdaf,
+                                              pdaf_cb.c__init_n_domains_p_pdaf,
+                                              pdaf_cb.c__init_dim_l_pdaf,
+                                              pdaf_cb.c__init_dim_obs_l_pdaf,
+                                              pdaf_cb.c__prodrinva_l_pdaf,
+                                              pdaf_cb.c__prepoststep_pdaf,
                                               &outflag)
 
     return outflag
 
 
-def assim_offline_global_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
+def assim_offline_global_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__prodrinva_pdaf, py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -8044,12 +8044,12 @@ def assim_offline_global_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -8057,12 +8057,12 @@ def assim_offline_global_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -8084,11 +8084,11 @@ def assim_offline_global_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_p : int 
+        dim_obs_p : int
                 Number of observations at current time step (i.e. the size of the observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one
                 (or the rank of the initial covariance matrix)
@@ -8110,17 +8110,17 @@ def assim_offline_global_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -8137,7 +8137,7 @@ def assim_offline_global_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -8161,7 +8161,7 @@ def assim_offline_global_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -8171,17 +8171,17 @@ def assim_offline_global_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     cdef int  outflag
     with nogil:
         c__pdaf3_assim_offline_global_nondiagr(
-                                               pdaf_cb.c__init_dim_obs_pdaf, 
-                                               pdaf_cb.c__obs_op_pdaf, 
-                                               pdaf_cb.c__prodrinva_pdaf, 
-                                               pdaf_cb.c__prepoststep_pdaf, 
+                                               pdaf_cb.c__init_dim_obs_pdaf,
+                                               pdaf_cb.c__obs_op_pdaf,
+                                               pdaf_cb.c__prodrinva_pdaf,
+                                               pdaf_cb.c__prepoststep_pdaf,
                                                &outflag)
 
     return outflag
 
 
-def assim_offline_lnetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__prepoststep_pdaf, py__init_n_domains_p_pdaf, py__init_dim_l_pdaf, 
+def assim_offline_lnetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__prepoststep_pdaf, py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
     py__init_dim_obs_l_pdaf, py__likelihood_l_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -8193,12 +8193,12 @@ def assim_offline_lnetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -8206,12 +8206,12 @@ def assim_offline_lnetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -8233,17 +8233,17 @@ def assim_offline_lnetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -8260,7 +8260,7 @@ def assim_offline_lnetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -8286,12 +8286,12 @@ def assim_offline_lnetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -8299,14 +8299,14 @@ def assim_offline_lnetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -8314,16 +8314,16 @@ def assim_offline_lnetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__likelihood_l_pdaf : Callable
@@ -8331,11 +8331,11 @@ def assim_offline_lnetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 Index of current local analysis domain
-        step : int 
+        step : int
                 Current time step
-        dim_obs_l : int 
+        dim_obs_l : int
                 Number of local observations at current time step (i.e. the size of the local observation vector)
         obs_l : ndarray[np.float64, ndim=1]
                 Local vector of observations
@@ -8349,13 +8349,13 @@ def assim_offline_lnetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         resid_l : ndarray[np.float64, ndim=1]
                 nput vector holding the local residual
                 Array shape: (dim_obs_l)
-        likely_l : double 
+        likely_l : double
                 Output value of the local likelihood
 
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -8367,21 +8367,21 @@ def assim_offline_lnetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.likelihood_l_pdaf = <void*>py__likelihood_l_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assim_offline_lnetf_nondiagr(pdaf_cb.c__init_dim_obs_pdaf, 
-                                              pdaf_cb.c__obs_op_pdaf, 
-                                              pdaf_cb.c__prepoststep_pdaf, 
-                                              pdaf_cb.c__init_n_domains_p_pdaf, 
-                                              pdaf_cb.c__init_dim_l_pdaf, 
-                                              pdaf_cb.c__init_dim_obs_l_pdaf, 
-                                              pdaf_cb.c__likelihood_l_pdaf, 
+        c__pdaf3_assim_offline_lnetf_nondiagr(pdaf_cb.c__init_dim_obs_pdaf,
+                                              pdaf_cb.c__obs_op_pdaf,
+                                              pdaf_cb.c__prepoststep_pdaf,
+                                              pdaf_cb.c__init_n_domains_p_pdaf,
+                                              pdaf_cb.c__init_dim_l_pdaf,
+                                              pdaf_cb.c__init_dim_obs_l_pdaf,
+                                              pdaf_cb.c__likelihood_l_pdaf,
                                               &outflag)
 
     return outflag
 
 
-def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__prepoststep_pdaf, py__init_n_domains_p_pdaf, py__init_dim_l_pdaf, 
-    py__init_dim_obs_l_pdaf, py__prodrinva_l_pdaf, 
+def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__prepoststep_pdaf, py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
+    py__init_dim_obs_l_pdaf, py__prodrinva_l_pdaf,
     py__prodrinva_hyb_l_pdaf, py__likelihood_l_pdaf, py__likelihood_hyb_l_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -8393,12 +8393,12 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -8406,12 +8406,12 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -8433,17 +8433,17 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -8460,7 +8460,7 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -8486,12 +8486,12 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -8499,14 +8499,14 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -8514,16 +8514,16 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prodrinva_l_pdaf : Callable
@@ -8531,13 +8531,13 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 Index of current local analysis domain
-        step : int 
+        step : int
                 Current time step
-        dim_obs_l : int 
+        dim_obs_l : int
                 Number of local observations at current time step (i.e. the size of the local observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
         obs_l : ndarray[np.float64, ndim=1]
@@ -8561,18 +8561,18 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 Index of current local analysis domain
-        step : int 
+        step : int
                 Current time step
-        dim_obs_l : int 
+        dim_obs_l : int
                 Number of local observations at current time step (i.e. the size of the local observation vector)
-        dim_ens : int 
+        dim_ens : int
                 Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
         obs_l : ndarray[np.float64, ndim=1]
                 Local vector of observations
                 Array shape: (dim_obs_l)
-        gamma : double 
+        gamma : double
                 Hybrid weight provided by PDAF
         a_l : ndarray[np.float64, ndim=2]
                 Input matrix provided by PDAF
@@ -8592,11 +8592,11 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 Index of current local analysis domain
-        step : int 
+        step : int
                 Current time step
-        dim_obs_l : int 
+        dim_obs_l : int
                 Number of local observations at current time step (i.e. the size of the local observation vector)
         obs_l : ndarray[np.float64, ndim=1]
                 Local vector of observations
@@ -8610,7 +8610,7 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         resid_l : ndarray[np.float64, ndim=1]
                 nput vector holding the local residual
                 Array shape: (dim_obs_l)
-        likely_l : double 
+        likely_l : double
                 Output value of the local likelihood
 
     py__likelihood_hyb_l_pdaf : Callable
@@ -8618,11 +8618,11 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 Index of current local analysis domain
-        step : int 
+        step : int
                 Current time step
-        dim_obs_l : int 
+        dim_obs_l : int
                 Number of local observations at current time step (i.e. the size of the local observation vector)
         obs_l : ndarray[np.float64, ndim=1]
                 Local vector of observations
@@ -8630,7 +8630,7 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         resid_l : ndarray[np.float64, ndim=1]
                 Input vector holding the local residual
                 Array shape: (dim_obs_l)
-        gamma : double 
+        gamma : double
                 Hybrid weight provided by PDAF
 
         Callback Returns
@@ -8638,13 +8638,13 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         resid_l : ndarray[np.float64, ndim=1]
                 Input vector holding the local residual
                 Array shape: (dim_obs_l)
-        likely_l : double 
+        likely_l : double
                 Output value of the local likelihood
 
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -8660,22 +8660,22 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     cdef int  outflag
     with nogil:
         c__pdaf3_assim_offline_lknetf_nondiagr(
-                                               pdaf_cb.c__init_dim_obs_pdaf, 
-                                               pdaf_cb.c__obs_op_pdaf, 
-                                               pdaf_cb.c__prepoststep_pdaf, 
-                                               pdaf_cb.c__init_n_domains_p_pdaf, 
-                                               pdaf_cb.c__init_dim_l_pdaf, 
-                                               pdaf_cb.c__init_dim_obs_l_pdaf, 
-                                               pdaf_cb.c__prodrinva_l_pdaf, 
-                                               pdaf_cb.c__prodrinva_hyb_l_pdaf, 
-                                               pdaf_cb.c__likelihood_l_pdaf, 
-                                               pdaf_cb.c__likelihood_hyb_l_pdaf, 
+                                               pdaf_cb.c__init_dim_obs_pdaf,
+                                               pdaf_cb.c__obs_op_pdaf,
+                                               pdaf_cb.c__prepoststep_pdaf,
+                                               pdaf_cb.c__init_n_domains_p_pdaf,
+                                               pdaf_cb.c__init_dim_l_pdaf,
+                                               pdaf_cb.c__init_dim_obs_l_pdaf,
+                                               pdaf_cb.c__prodrinva_l_pdaf,
+                                               pdaf_cb.c__prodrinva_hyb_l_pdaf,
+                                               pdaf_cb.c__likelihood_l_pdaf,
+                                               pdaf_cb.c__likelihood_hyb_l_pdaf,
                                                &outflag)
 
     return outflag
 
 
-def assim_offline_enkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
+def assim_offline_enkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__add_obs_err_pdaf, py__init_obs_covar_pdaf, py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -8687,12 +8687,12 @@ def assim_offline_enkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -8700,12 +8700,12 @@ def assim_offline_enkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -8727,9 +8727,9 @@ def assim_offline_enkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observation vector
         c_p : ndarray[np.float64, ndim=2]
                 Matrix to that observation covariance R is added
@@ -8746,11 +8746,11 @@ def assim_offline_enkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs : int 
+        dim_obs : int
                 Global size of observation vector
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of process-local observation vector
         obs_p : ndarray[np.float64, ndim=1]
                 Process-local vector of observations
@@ -8761,25 +8761,25 @@ def assim_offline_enkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         covar : ndarray[np.float64, ndim=2]
                 Observation error covariance matrix
                 Array shape: (dim_obs_p,dim_obs_p)
-        isdiag : bint 
-                
+        isdiag : bint
+
 
     py__prepoststep_pdaf : Callable
         User supplied pre/poststep routine
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -8796,7 +8796,7 @@ def assim_offline_enkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -8820,7 +8820,7 @@ def assim_offline_enkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -8830,18 +8830,18 @@ def assim_offline_enkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assim_offline_enkf_nondiagr(pdaf_cb.c__init_dim_obs_pdaf, 
-                                             pdaf_cb.c__obs_op_pdaf, 
-                                             pdaf_cb.c__add_obs_err_pdaf, 
-                                             pdaf_cb.c__init_obs_covar_pdaf, 
-                                             pdaf_cb.c__prepoststep_pdaf, 
+        c__pdaf3_assim_offline_enkf_nondiagr(pdaf_cb.c__init_dim_obs_pdaf,
+                                             pdaf_cb.c__obs_op_pdaf,
+                                             pdaf_cb.c__add_obs_err_pdaf,
+                                             pdaf_cb.c__init_obs_covar_pdaf,
+                                             pdaf_cb.c__prepoststep_pdaf,
                                              &outflag)
 
     return outflag
 
 
-def assim_offline_lenkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__prepoststep_pdaf, py__localize_covar_pdaf, py__add_obs_err_pdaf, 
+def assim_offline_lenkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__prepoststep_pdaf, py__localize_covar_pdaf, py__add_obs_err_pdaf,
     py__init_obs_covar_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -8853,12 +8853,12 @@ def assim_offline_lenkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -8866,12 +8866,12 @@ def assim_offline_lenkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -8893,17 +8893,17 @@ def assim_offline_lenkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -8920,7 +8920,7 @@ def assim_offline_lenkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -8946,9 +8946,9 @@ def assim_offline_lenkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
-        dim_obs : int 
+        dim_obs : int
                 number of observations
         hp_p : ndarray[np.float64, ndim=2]
                 pe local part of matrix hp
@@ -8971,9 +8971,9 @@ def assim_offline_lenkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observation vector
         c_p : ndarray[np.float64, ndim=2]
                 Matrix to that observation covariance R is added
@@ -8990,11 +8990,11 @@ def assim_offline_lenkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs : int 
+        dim_obs : int
                 Global size of observation vector
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of process-local observation vector
         obs_p : ndarray[np.float64, ndim=1]
                 Process-local vector of observations
@@ -9005,13 +9005,13 @@ def assim_offline_lenkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         covar : ndarray[np.float64, ndim=2]
                 Observation error covariance matrix
                 Array shape: (dim_obs_p,dim_obs_p)
-        isdiag : bint 
-                
+        isdiag : bint
+
 
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -9022,18 +9022,18 @@ def assim_offline_lenkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.init_obs_covar_pdaf = <void*>py__init_obs_covar_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assim_offline_lenkf_nondiagr(pdaf_cb.c__init_dim_obs_pdaf, 
-                                              pdaf_cb.c__obs_op_pdaf, 
-                                              pdaf_cb.c__prepoststep_pdaf, 
-                                              pdaf_cb.c__localize_covar_pdaf, 
-                                              pdaf_cb.c__add_obs_err_pdaf, 
-                                              pdaf_cb.c__init_obs_covar_pdaf, 
+        c__pdaf3_assim_offline_lenkf_nondiagr(pdaf_cb.c__init_dim_obs_pdaf,
+                                              pdaf_cb.c__obs_op_pdaf,
+                                              pdaf_cb.c__prepoststep_pdaf,
+                                              pdaf_cb.c__localize_covar_pdaf,
+                                              pdaf_cb.c__add_obs_err_pdaf,
+                                              pdaf_cb.c__init_obs_covar_pdaf,
                                               &outflag)
 
     return outflag
 
 
-def assim_offline_nonlin_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
+def assim_offline_nonlin_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__likelihood_pdaf, py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -9045,12 +9045,12 @@ def assim_offline_nonlin_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -9058,12 +9058,12 @@ def assim_offline_nonlin_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -9085,9 +9085,9 @@ def assim_offline_nonlin_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_p : int 
+        dim_obs_p : int
                 Number of observations at current time step (i.e. the size of the observation vector)
         obs_p : ndarray[np.float64, ndim=1]
                 Vector of observations
@@ -9098,7 +9098,7 @@ def assim_offline_nonlin_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Returns
         ----------------
-        likely : double 
+        likely : double
                 Output value of the likelihood
 
     py__prepoststep_pdaf : Callable
@@ -9106,17 +9106,17 @@ def assim_offline_nonlin_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -9133,7 +9133,7 @@ def assim_offline_nonlin_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -9157,7 +9157,7 @@ def assim_offline_nonlin_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -9167,20 +9167,20 @@ def assim_offline_nonlin_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     cdef int  outflag
     with nogil:
         c__pdaf3_assim_offline_nonlin_nondiagr(
-                                               pdaf_cb.c__init_dim_obs_pdaf, 
-                                               pdaf_cb.c__obs_op_pdaf, 
-                                               pdaf_cb.c__likelihood_pdaf, 
-                                               pdaf_cb.c__prepoststep_pdaf, 
+                                               pdaf_cb.c__init_dim_obs_pdaf,
+                                               pdaf_cb.c__obs_op_pdaf,
+                                               pdaf_cb.c__likelihood_pdaf,
+                                               pdaf_cb.c__prepoststep_pdaf,
                                                &outflag)
 
     return outflag
 
 
-def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf, 
-    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__cvt_ens_pdaf, 
-    py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf, 
-    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf, 
-    py__init_dim_l_pdaf, py__init_dim_obs_l_pdaf, py__prepoststep_pdaf, 
+def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf,
+    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__cvt_ens_pdaf,
+    py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf,
+    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf,
+    py__init_dim_l_pdaf, py__init_dim_obs_l_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -9192,7 +9192,7 @@ def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -9209,7 +9209,7 @@ def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -9226,12 +9226,12 @@ def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -9239,12 +9239,12 @@ def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -9266,13 +9266,13 @@ def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -9295,13 +9295,13 @@ def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -9324,11 +9324,11 @@ def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         cv_p : ndarray[np.float64, ndim=1]
                 PE-local control vector
@@ -9348,11 +9348,11 @@ def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         vcv_p : ndarray[np.float64, ndim=1]
                 PE-local result vector (state vector increment)
@@ -9372,11 +9372,11 @@ def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -9396,11 +9396,11 @@ def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -9420,12 +9420,12 @@ def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -9433,14 +9433,14 @@ def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -9448,16 +9448,16 @@ def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prepoststep_pdaf : Callable
@@ -9465,17 +9465,17 @@ def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -9492,7 +9492,7 @@ def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -9518,27 +9518,27 @@ def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
-    outflag : int 
+    outflag : int
         Status flag
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -9557,29 +9557,29 @@ def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     with nogil:
-        c__pdaf3_assimilate_3dvar_all(pdaf_cb.c__collect_state_pdaf, 
-                                      pdaf_cb.c__distribute_state_pdaf, 
-                                      pdaf_cb.c__init_dim_obs_pdaf, 
-                                      pdaf_cb.c__obs_op_pdaf, 
-                                      pdaf_cb.c__cvt_ens_pdaf, 
-                                      pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                      pdaf_cb.c__cvt_pdaf, 
-                                      pdaf_cb.c__cvt_adj_pdaf, 
-                                      pdaf_cb.c__obs_op_lin_pdaf, 
-                                      pdaf_cb.c__obs_op_adj_pdaf, 
-                                      pdaf_cb.c__init_n_domains_p_pdaf, 
-                                      pdaf_cb.c__init_dim_l_pdaf, 
-                                      pdaf_cb.c__init_dim_obs_l_pdaf, 
-                                      pdaf_cb.c__prepoststep_pdaf, 
-                                      pdaf_cb.c__next_observation_pdaf, 
+        c__pdaf3_assimilate_3dvar_all(pdaf_cb.c__collect_state_pdaf,
+                                      pdaf_cb.c__distribute_state_pdaf,
+                                      pdaf_cb.c__init_dim_obs_pdaf,
+                                      pdaf_cb.c__obs_op_pdaf,
+                                      pdaf_cb.c__cvt_ens_pdaf,
+                                      pdaf_cb.c__cvt_adj_ens_pdaf,
+                                      pdaf_cb.c__cvt_pdaf,
+                                      pdaf_cb.c__cvt_adj_pdaf,
+                                      pdaf_cb.c__obs_op_lin_pdaf,
+                                      pdaf_cb.c__obs_op_adj_pdaf,
+                                      pdaf_cb.c__init_n_domains_p_pdaf,
+                                      pdaf_cb.c__init_dim_l_pdaf,
+                                      pdaf_cb.c__init_dim_obs_l_pdaf,
+                                      pdaf_cb.c__prepoststep_pdaf,
+                                      pdaf_cb.c__next_observation_pdaf,
                                       &outflag)
 
     return outflag
 
 
-def assimilate_3dvar(py__collect_state_pdaf, py__distribute_state_pdaf, 
-    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf, 
-    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prepoststep_pdaf, 
+def assimilate_3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
+    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf,
+    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf):
     """It is recommended to use
     :func:`pyPDAF.PDAF.omi_assimilate_3dvar`
@@ -9630,7 +9630,7 @@ def assimilate_3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -9647,7 +9647,7 @@ def assimilate_3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -9664,12 +9664,12 @@ def assimilate_3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -9677,12 +9677,12 @@ def assimilate_3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -9704,11 +9704,11 @@ def assimilate_3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         cv_p : ndarray[np.float64, ndim=1]
                 PE-local control vector
@@ -9728,11 +9728,11 @@ def assimilate_3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         vcv_p : ndarray[np.float64, ndim=1]
                 PE-local result vector (state vector increment)
@@ -9752,11 +9752,11 @@ def assimilate_3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -9776,11 +9776,11 @@ def assimilate_3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -9800,17 +9800,17 @@ def assimilate_3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -9827,7 +9827,7 @@ def assimilate_3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -9853,25 +9853,25 @@ def assimilate_3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -9886,25 +9886,25 @@ def assimilate_3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assimilate_3dvar(pdaf_cb.c__collect_state_pdaf, 
-                                  pdaf_cb.c__distribute_state_pdaf, 
-                                  pdaf_cb.c__init_dim_obs_pdaf, 
-                                  pdaf_cb.c__obs_op_pdaf, 
-                                  pdaf_cb.c__cvt_pdaf, 
-                                  pdaf_cb.c__cvt_adj_pdaf, 
-                                  pdaf_cb.c__obs_op_lin_pdaf, 
-                                  pdaf_cb.c__obs_op_adj_pdaf, 
-                                  pdaf_cb.c__prepoststep_pdaf, 
+        c__pdaf3_assimilate_3dvar(pdaf_cb.c__collect_state_pdaf,
+                                  pdaf_cb.c__distribute_state_pdaf,
+                                  pdaf_cb.c__init_dim_obs_pdaf,
+                                  pdaf_cb.c__obs_op_pdaf,
+                                  pdaf_cb.c__cvt_pdaf,
+                                  pdaf_cb.c__cvt_adj_pdaf,
+                                  pdaf_cb.c__obs_op_lin_pdaf,
+                                  pdaf_cb.c__obs_op_adj_pdaf,
+                                  pdaf_cb.c__prepoststep_pdaf,
                                   pdaf_cb.c__next_observation_pdaf, &outflag)
 
     return outflag
 
 
-def assimilate_en3dvar(py__collect_state_pdaf, py__distribute_state_pdaf, 
-    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__cvt_ens_pdaf, 
-    py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, 
-    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf, 
-    py__init_dim_obs_l_pdaf, py__prepoststep_pdaf, 
+def assimilate_en3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
+    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__cvt_ens_pdaf,
+    py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf, py__obs_op_adj_pdaf,
+    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
+    py__init_dim_obs_l_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -9916,7 +9916,7 @@ def assimilate_en3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -9933,7 +9933,7 @@ def assimilate_en3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -9950,12 +9950,12 @@ def assimilate_en3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -9963,12 +9963,12 @@ def assimilate_en3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -9990,13 +9990,13 @@ def assimilate_en3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -10019,13 +10019,13 @@ def assimilate_en3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -10048,11 +10048,11 @@ def assimilate_en3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -10072,11 +10072,11 @@ def assimilate_en3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -10096,12 +10096,12 @@ def assimilate_en3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -10109,14 +10109,14 @@ def assimilate_en3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -10124,16 +10124,16 @@ def assimilate_en3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prepoststep_pdaf : Callable
@@ -10141,17 +10141,17 @@ def assimilate_en3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -10168,7 +10168,7 @@ def assimilate_en3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -10194,27 +10194,27 @@ def assimilate_en3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
-    outflag : int 
+    outflag : int
         Status flag
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -10231,26 +10231,26 @@ def assimilate_en3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     with nogil:
-        c__pdaf3_assimilate_en3dvar(pdaf_cb.c__collect_state_pdaf, 
-                                    pdaf_cb.c__distribute_state_pdaf, 
-                                    pdaf_cb.c__init_dim_obs_pdaf, 
-                                    pdaf_cb.c__obs_op_pdaf, 
-                                    pdaf_cb.c__cvt_ens_pdaf, 
-                                    pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                    pdaf_cb.c__obs_op_lin_pdaf, 
-                                    pdaf_cb.c__obs_op_adj_pdaf, 
-                                    pdaf_cb.c__init_n_domains_p_pdaf, 
-                                    pdaf_cb.c__init_dim_l_pdaf, 
-                                    pdaf_cb.c__init_dim_obs_l_pdaf, 
-                                    pdaf_cb.c__prepoststep_pdaf, 
+        c__pdaf3_assimilate_en3dvar(pdaf_cb.c__collect_state_pdaf,
+                                    pdaf_cb.c__distribute_state_pdaf,
+                                    pdaf_cb.c__init_dim_obs_pdaf,
+                                    pdaf_cb.c__obs_op_pdaf,
+                                    pdaf_cb.c__cvt_ens_pdaf,
+                                    pdaf_cb.c__cvt_adj_ens_pdaf,
+                                    pdaf_cb.c__obs_op_lin_pdaf,
+                                    pdaf_cb.c__obs_op_adj_pdaf,
+                                    pdaf_cb.c__init_n_domains_p_pdaf,
+                                    pdaf_cb.c__init_dim_l_pdaf,
+                                    pdaf_cb.c__init_dim_obs_l_pdaf,
+                                    pdaf_cb.c__prepoststep_pdaf,
                                     pdaf_cb.c__next_observation_pdaf, &outflag)
 
     return outflag
 
 
-def assimilate_en3dvar_estkf(py__collect_state_pdaf, 
-    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf, 
+def assimilate_en3dvar_estkf(py__collect_state_pdaf,
+    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf,
     py__obs_op_adj_pdaf, py__prepoststep_pdaf, py__next_observation_pdaf):
     """It is recommended to use
     :func:`pyPDAF.PDAF.omi_assimilate_en3dvar_estkf`
@@ -10312,7 +10312,7 @@ def assimilate_en3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -10329,7 +10329,7 @@ def assimilate_en3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -10346,12 +10346,12 @@ def assimilate_en3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -10359,12 +10359,12 @@ def assimilate_en3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -10386,13 +10386,13 @@ def assimilate_en3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -10415,13 +10415,13 @@ def assimilate_en3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -10444,11 +10444,11 @@ def assimilate_en3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -10468,11 +10468,11 @@ def assimilate_en3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -10492,17 +10492,17 @@ def assimilate_en3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -10519,7 +10519,7 @@ def assimilate_en3dvar_estkf(py__collect_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -10545,25 +10545,25 @@ def assimilate_en3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -10578,26 +10578,26 @@ def assimilate_en3dvar_estkf(py__collect_state_pdaf,
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assimilate_en3dvar_estkf(pdaf_cb.c__collect_state_pdaf, 
-                                          pdaf_cb.c__distribute_state_pdaf, 
-                                          pdaf_cb.c__init_dim_obs_pdaf, 
-                                          pdaf_cb.c__obs_op_pdaf, 
-                                          pdaf_cb.c__cvt_ens_pdaf, 
-                                          pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                          pdaf_cb.c__obs_op_lin_pdaf, 
-                                          pdaf_cb.c__obs_op_adj_pdaf, 
-                                          pdaf_cb.c__prepoststep_pdaf, 
-                                          pdaf_cb.c__next_observation_pdaf, 
+        c__pdaf3_assimilate_en3dvar_estkf(pdaf_cb.c__collect_state_pdaf,
+                                          pdaf_cb.c__distribute_state_pdaf,
+                                          pdaf_cb.c__init_dim_obs_pdaf,
+                                          pdaf_cb.c__obs_op_pdaf,
+                                          pdaf_cb.c__cvt_ens_pdaf,
+                                          pdaf_cb.c__cvt_adj_ens_pdaf,
+                                          pdaf_cb.c__obs_op_lin_pdaf,
+                                          pdaf_cb.c__obs_op_adj_pdaf,
+                                          pdaf_cb.c__prepoststep_pdaf,
+                                          pdaf_cb.c__next_observation_pdaf,
                                           &outflag)
 
     return outflag
 
 
-def assimilate_en3dvar_lestkf(py__collect_state_pdaf, 
-    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf, 
-    py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf, py__init_dim_l_pdaf, 
-    py__init_dim_obs_l_pdaf, py__prepoststep_pdaf, 
+def assimilate_en3dvar_lestkf(py__collect_state_pdaf,
+    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf,
+    py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
+    py__init_dim_obs_l_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf, int  outflag):
     """It is recommended to use
     :func:`pyPDAF.PDAF.localomi_assimilate_en3dvar_lestkf` or
@@ -10677,7 +10677,7 @@ def assimilate_en3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -10694,7 +10694,7 @@ def assimilate_en3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -10711,12 +10711,12 @@ def assimilate_en3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -10724,12 +10724,12 @@ def assimilate_en3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -10751,13 +10751,13 @@ def assimilate_en3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -10780,13 +10780,13 @@ def assimilate_en3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -10809,11 +10809,11 @@ def assimilate_en3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -10833,11 +10833,11 @@ def assimilate_en3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -10857,12 +10857,12 @@ def assimilate_en3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -10870,14 +10870,14 @@ def assimilate_en3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -10885,16 +10885,16 @@ def assimilate_en3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prepoststep_pdaf : Callable
@@ -10902,17 +10902,17 @@ def assimilate_en3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -10929,7 +10929,7 @@ def assimilate_en3dvar_lestkf(py__collect_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -10955,27 +10955,27 @@ def assimilate_en3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
-    outflag : int 
+    outflag : int
         Status flag
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -10992,29 +10992,29 @@ def assimilate_en3dvar_lestkf(py__collect_state_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     with nogil:
-        c__pdaf3_assimilate_en3dvar_lestkf(pdaf_cb.c__collect_state_pdaf, 
-                                           pdaf_cb.c__distribute_state_pdaf, 
-                                           pdaf_cb.c__init_dim_obs_pdaf, 
-                                           pdaf_cb.c__obs_op_pdaf, 
-                                           pdaf_cb.c__cvt_ens_pdaf, 
-                                           pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                           pdaf_cb.c__obs_op_lin_pdaf, 
-                                           pdaf_cb.c__obs_op_adj_pdaf, 
-                                           pdaf_cb.c__init_n_domains_p_pdaf, 
-                                           pdaf_cb.c__init_dim_l_pdaf, 
-                                           pdaf_cb.c__init_dim_obs_l_pdaf, 
-                                           pdaf_cb.c__prepoststep_pdaf, 
-                                           pdaf_cb.c__next_observation_pdaf, 
+        c__pdaf3_assimilate_en3dvar_lestkf(pdaf_cb.c__collect_state_pdaf,
+                                           pdaf_cb.c__distribute_state_pdaf,
+                                           pdaf_cb.c__init_dim_obs_pdaf,
+                                           pdaf_cb.c__obs_op_pdaf,
+                                           pdaf_cb.c__cvt_ens_pdaf,
+                                           pdaf_cb.c__cvt_adj_ens_pdaf,
+                                           pdaf_cb.c__obs_op_lin_pdaf,
+                                           pdaf_cb.c__obs_op_adj_pdaf,
+                                           pdaf_cb.c__init_n_domains_p_pdaf,
+                                           pdaf_cb.c__init_dim_l_pdaf,
+                                           pdaf_cb.c__init_dim_obs_l_pdaf,
+                                           pdaf_cb.c__prepoststep_pdaf,
+                                           pdaf_cb.c__next_observation_pdaf,
                                            &outflag)
 
     return outflag
 
 
-def assimilate_hyb3dvar(py__collect_state_pdaf, py__distribute_state_pdaf, 
-    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__cvt_ens_pdaf, 
-    py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf, 
-    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf, 
-    py__init_dim_l_pdaf, py__init_dim_obs_l_pdaf, py__prepoststep_pdaf, 
+def assimilate_hyb3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
+    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__cvt_ens_pdaf,
+    py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf,
+    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf,
+    py__init_dim_l_pdaf, py__init_dim_obs_l_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -11026,7 +11026,7 @@ def assimilate_hyb3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -11043,7 +11043,7 @@ def assimilate_hyb3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -11060,12 +11060,12 @@ def assimilate_hyb3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -11073,12 +11073,12 @@ def assimilate_hyb3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -11100,13 +11100,13 @@ def assimilate_hyb3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -11129,13 +11129,13 @@ def assimilate_hyb3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -11158,11 +11158,11 @@ def assimilate_hyb3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         cv_p : ndarray[np.float64, ndim=1]
                 PE-local control vector
@@ -11182,11 +11182,11 @@ def assimilate_hyb3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         vcv_p : ndarray[np.float64, ndim=1]
                 PE-local result vector (state vector increment)
@@ -11206,11 +11206,11 @@ def assimilate_hyb3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -11230,11 +11230,11 @@ def assimilate_hyb3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -11254,12 +11254,12 @@ def assimilate_hyb3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -11267,14 +11267,14 @@ def assimilate_hyb3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -11282,16 +11282,16 @@ def assimilate_hyb3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prepoststep_pdaf : Callable
@@ -11299,17 +11299,17 @@ def assimilate_hyb3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -11326,7 +11326,7 @@ def assimilate_hyb3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -11352,27 +11352,27 @@ def assimilate_hyb3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
-    outflag : int 
+    outflag : int
         Status flag
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -11391,29 +11391,29 @@ def assimilate_hyb3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     with nogil:
-        c__pdaf3_assimilate_hyb3dvar(pdaf_cb.c__collect_state_pdaf, 
-                                     pdaf_cb.c__distribute_state_pdaf, 
-                                     pdaf_cb.c__init_dim_obs_pdaf, 
-                                     pdaf_cb.c__obs_op_pdaf, 
-                                     pdaf_cb.c__cvt_ens_pdaf, 
-                                     pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                     pdaf_cb.c__cvt_pdaf, 
-                                     pdaf_cb.c__cvt_adj_pdaf, 
-                                     pdaf_cb.c__obs_op_lin_pdaf, 
-                                     pdaf_cb.c__obs_op_adj_pdaf, 
-                                     pdaf_cb.c__init_n_domains_p_pdaf, 
-                                     pdaf_cb.c__init_dim_l_pdaf, 
-                                     pdaf_cb.c__init_dim_obs_l_pdaf, 
-                                     pdaf_cb.c__prepoststep_pdaf, 
+        c__pdaf3_assimilate_hyb3dvar(pdaf_cb.c__collect_state_pdaf,
+                                     pdaf_cb.c__distribute_state_pdaf,
+                                     pdaf_cb.c__init_dim_obs_pdaf,
+                                     pdaf_cb.c__obs_op_pdaf,
+                                     pdaf_cb.c__cvt_ens_pdaf,
+                                     pdaf_cb.c__cvt_adj_ens_pdaf,
+                                     pdaf_cb.c__cvt_pdaf,
+                                     pdaf_cb.c__cvt_adj_pdaf,
+                                     pdaf_cb.c__obs_op_lin_pdaf,
+                                     pdaf_cb.c__obs_op_adj_pdaf,
+                                     pdaf_cb.c__init_n_domains_p_pdaf,
+                                     pdaf_cb.c__init_dim_l_pdaf,
+                                     pdaf_cb.c__init_dim_obs_l_pdaf,
+                                     pdaf_cb.c__prepoststep_pdaf,
                                      pdaf_cb.c__next_observation_pdaf, &outflag)
 
     return outflag
 
 
-def assimilate_hyb3dvar_estkf(py__collect_state_pdaf, 
-    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf, 
-    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prepoststep_pdaf, 
+def assimilate_hyb3dvar_estkf(py__collect_state_pdaf,
+    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf,
+    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf):
     """It is recommended to use
     :func:`pyPDAF.PDAF.omi_assimilate_hyb3dvar_estkf`
@@ -11482,7 +11482,7 @@ def assimilate_hyb3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -11499,7 +11499,7 @@ def assimilate_hyb3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -11516,12 +11516,12 @@ def assimilate_hyb3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -11529,12 +11529,12 @@ def assimilate_hyb3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -11556,13 +11556,13 @@ def assimilate_hyb3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -11585,13 +11585,13 @@ def assimilate_hyb3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -11614,11 +11614,11 @@ def assimilate_hyb3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         cv_p : ndarray[np.float64, ndim=1]
                 PE-local control vector
@@ -11638,11 +11638,11 @@ def assimilate_hyb3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         vcv_p : ndarray[np.float64, ndim=1]
                 PE-local result vector (state vector increment)
@@ -11662,11 +11662,11 @@ def assimilate_hyb3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -11686,11 +11686,11 @@ def assimilate_hyb3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -11710,17 +11710,17 @@ def assimilate_hyb3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -11737,7 +11737,7 @@ def assimilate_hyb3dvar_estkf(py__collect_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -11763,25 +11763,25 @@ def assimilate_hyb3dvar_estkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -11798,28 +11798,28 @@ def assimilate_hyb3dvar_estkf(py__collect_state_pdaf,
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assimilate_hyb3dvar_estkf(pdaf_cb.c__collect_state_pdaf, 
-                                           pdaf_cb.c__distribute_state_pdaf, 
-                                           pdaf_cb.c__init_dim_obs_pdaf, 
-                                           pdaf_cb.c__obs_op_pdaf, 
-                                           pdaf_cb.c__cvt_ens_pdaf, 
-                                           pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                           pdaf_cb.c__cvt_pdaf, 
-                                           pdaf_cb.c__cvt_adj_pdaf, 
-                                           pdaf_cb.c__obs_op_lin_pdaf, 
-                                           pdaf_cb.c__obs_op_adj_pdaf, 
-                                           pdaf_cb.c__prepoststep_pdaf, 
-                                           pdaf_cb.c__next_observation_pdaf, 
+        c__pdaf3_assimilate_hyb3dvar_estkf(pdaf_cb.c__collect_state_pdaf,
+                                           pdaf_cb.c__distribute_state_pdaf,
+                                           pdaf_cb.c__init_dim_obs_pdaf,
+                                           pdaf_cb.c__obs_op_pdaf,
+                                           pdaf_cb.c__cvt_ens_pdaf,
+                                           pdaf_cb.c__cvt_adj_ens_pdaf,
+                                           pdaf_cb.c__cvt_pdaf,
+                                           pdaf_cb.c__cvt_adj_pdaf,
+                                           pdaf_cb.c__obs_op_lin_pdaf,
+                                           pdaf_cb.c__obs_op_adj_pdaf,
+                                           pdaf_cb.c__prepoststep_pdaf,
+                                           pdaf_cb.c__next_observation_pdaf,
                                            &outflag)
 
     return outflag
 
 
-def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf, 
-    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf, 
-    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf, 
-    py__init_dim_l_pdaf, py__init_dim_obs_l_pdaf, py__prepoststep_pdaf, 
+def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
+    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf,
+    py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf,
+    py__init_dim_l_pdaf, py__init_dim_obs_l_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf, int  outflag):
     """It is recommended to use
     :func:`pyPDAF.PDAF.localomi_assimilate_hyb3dvar_lestkf` or
@@ -11903,7 +11903,7 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -11920,7 +11920,7 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -11937,12 +11937,12 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -11950,12 +11950,12 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -11977,13 +11977,13 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cvec_ens : int 
+        dim_cvec_ens : int
                 Dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -12006,13 +12006,13 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_ens : int 
+        dim_ens : int
                 Ensemble size
-        dim_cv_ens_p : int 
+        dim_cv_ens_p : int
                 PE-local dimension of control vector
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
@@ -12035,11 +12035,11 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         cv_p : ndarray[np.float64, ndim=1]
                 PE-local control vector
@@ -12059,11 +12059,11 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        iter : int 
+        iter : int
                 Iteration of optimization
-        dim_p : int 
+        dim_p : int
                 PE-local observation dimension
-        dim_cvec : int 
+        dim_cvec : int
                 Dimension of control vector
         vcv_p : ndarray[np.float64, ndim=1]
                 PE-local result vector (state vector increment)
@@ -12083,11 +12083,11 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         state_p : ndarray[np.float64, ndim=1]
                 PE-local model state
@@ -12107,11 +12107,11 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 PE-local dimension of state
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observed state
         m_state_p : ndarray[np.float64, ndim=1]
                 PE-local observed state
@@ -12131,12 +12131,12 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -12144,14 +12144,14 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -12159,16 +12159,16 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prepoststep_pdaf : Callable
@@ -12176,17 +12176,17 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -12203,7 +12203,7 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -12229,27 +12229,27 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
-    outflag : int 
+    outflag : int
         Status flag
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -12268,30 +12268,30 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     with nogil:
-        c__pdaf3_assimilate_hyb3dvar_lestkf(pdaf_cb.c__collect_state_pdaf, 
-                                            pdaf_cb.c__distribute_state_pdaf, 
-                                            pdaf_cb.c__init_dim_obs_pdaf, 
-                                            pdaf_cb.c__obs_op_pdaf, 
-                                            pdaf_cb.c__cvt_ens_pdaf, 
-                                            pdaf_cb.c__cvt_adj_ens_pdaf, 
-                                            pdaf_cb.c__cvt_pdaf, 
-                                            pdaf_cb.c__cvt_adj_pdaf, 
-                                            pdaf_cb.c__obs_op_lin_pdaf, 
-                                            pdaf_cb.c__obs_op_adj_pdaf, 
-                                            pdaf_cb.c__init_n_domains_p_pdaf, 
-                                            pdaf_cb.c__init_dim_l_pdaf, 
-                                            pdaf_cb.c__init_dim_obs_l_pdaf, 
-                                            pdaf_cb.c__prepoststep_pdaf, 
-                                            pdaf_cb.c__next_observation_pdaf, 
+        c__pdaf3_assimilate_hyb3dvar_lestkf(pdaf_cb.c__collect_state_pdaf,
+                                            pdaf_cb.c__distribute_state_pdaf,
+                                            pdaf_cb.c__init_dim_obs_pdaf,
+                                            pdaf_cb.c__obs_op_pdaf,
+                                            pdaf_cb.c__cvt_ens_pdaf,
+                                            pdaf_cb.c__cvt_adj_ens_pdaf,
+                                            pdaf_cb.c__cvt_pdaf,
+                                            pdaf_cb.c__cvt_adj_pdaf,
+                                            pdaf_cb.c__obs_op_lin_pdaf,
+                                            pdaf_cb.c__obs_op_adj_pdaf,
+                                            pdaf_cb.c__init_n_domains_p_pdaf,
+                                            pdaf_cb.c__init_dim_l_pdaf,
+                                            pdaf_cb.c__init_dim_obs_l_pdaf,
+                                            pdaf_cb.c__prepoststep_pdaf,
+                                            pdaf_cb.c__next_observation_pdaf,
                                             &outflag)
 
     return outflag
 
 
-def assimilate_local_nondiagr(py__collect_state_pdaf, 
-    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf, 
-    py__init_dim_obs_l_pdaf, py__prodrinva_l_pdaf, py__prepoststep_pdaf, 
+def assimilate_local_nondiagr(py__collect_state_pdaf,
+    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
+    py__init_dim_obs_l_pdaf, py__prodrinva_l_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -12303,7 +12303,7 @@ def assimilate_local_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -12320,7 +12320,7 @@ def assimilate_local_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -12337,12 +12337,12 @@ def assimilate_local_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -12350,12 +12350,12 @@ def assimilate_local_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -12377,12 +12377,12 @@ def assimilate_local_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -12390,14 +12390,14 @@ def assimilate_local_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -12405,16 +12405,16 @@ def assimilate_local_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prodrinva_l_pdaf : Callable
@@ -12422,13 +12422,13 @@ def assimilate_local_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 Index of current local analysis domain
-        step : int 
+        step : int
                 Current time step
-        dim_obs_l : int 
+        dim_obs_l : int
                 Number of local observations at current time step (i.e. the size of the local observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
         obs_l : ndarray[np.float64, ndim=1]
@@ -12452,17 +12452,17 @@ def assimilate_local_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -12479,7 +12479,7 @@ def assimilate_local_nondiagr(py__collect_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -12505,27 +12505,27 @@ def assimilate_local_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
-    outflag : int 
+    outflag : int
         Status flag
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -12539,23 +12539,23 @@ def assimilate_local_nondiagr(py__collect_state_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     with nogil:
-        c__pdaf3_assimilate_local_nondiagr(pdaf_cb.c__collect_state_pdaf, 
-                                           pdaf_cb.c__distribute_state_pdaf, 
-                                           pdaf_cb.c__init_dim_obs_pdaf, 
-                                           pdaf_cb.c__obs_op_pdaf, 
-                                           pdaf_cb.c__init_n_domains_p_pdaf, 
-                                           pdaf_cb.c__init_dim_l_pdaf, 
-                                           pdaf_cb.c__init_dim_obs_l_pdaf, 
-                                           pdaf_cb.c__prodrinva_l_pdaf, 
-                                           pdaf_cb.c__prepoststep_pdaf, 
-                                           pdaf_cb.c__next_observation_pdaf, 
+        c__pdaf3_assimilate_local_nondiagr(pdaf_cb.c__collect_state_pdaf,
+                                           pdaf_cb.c__distribute_state_pdaf,
+                                           pdaf_cb.c__init_dim_obs_pdaf,
+                                           pdaf_cb.c__obs_op_pdaf,
+                                           pdaf_cb.c__init_n_domains_p_pdaf,
+                                           pdaf_cb.c__init_dim_l_pdaf,
+                                           pdaf_cb.c__init_dim_obs_l_pdaf,
+                                           pdaf_cb.c__prodrinva_l_pdaf,
+                                           pdaf_cb.c__prepoststep_pdaf,
+                                           pdaf_cb.c__next_observation_pdaf,
                                            &outflag)
 
     return outflag
 
 
-def assimilate_global_nondiagr(py__collect_state_pdaf, 
-    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf, 
+def assimilate_global_nondiagr(py__collect_state_pdaf,
+    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__prodrinva_pdaf, py__prepoststep_pdaf, py__next_observation_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -12567,7 +12567,7 @@ def assimilate_global_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -12584,7 +12584,7 @@ def assimilate_global_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -12601,12 +12601,12 @@ def assimilate_global_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -12614,12 +12614,12 @@ def assimilate_global_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -12641,11 +12641,11 @@ def assimilate_global_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_p : int 
+        dim_obs_p : int
                 Number of observations at current time step (i.e. the size of the observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one
                 (or the rank of the initial covariance matrix)
@@ -12667,17 +12667,17 @@ def assimilate_global_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -12694,7 +12694,7 @@ def assimilate_global_nondiagr(py__collect_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -12720,25 +12720,25 @@ def assimilate_global_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -12750,22 +12750,22 @@ def assimilate_global_nondiagr(py__collect_state_pdaf,
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assimilate_global_nondiagr(pdaf_cb.c__collect_state_pdaf, 
-                                            pdaf_cb.c__distribute_state_pdaf, 
-                                            pdaf_cb.c__init_dim_obs_pdaf, 
-                                            pdaf_cb.c__obs_op_pdaf, 
-                                            pdaf_cb.c__prodrinva_pdaf, 
-                                            pdaf_cb.c__prepoststep_pdaf, 
-                                            pdaf_cb.c__next_observation_pdaf, 
+        c__pdaf3_assimilate_global_nondiagr(pdaf_cb.c__collect_state_pdaf,
+                                            pdaf_cb.c__distribute_state_pdaf,
+                                            pdaf_cb.c__init_dim_obs_pdaf,
+                                            pdaf_cb.c__obs_op_pdaf,
+                                            pdaf_cb.c__prodrinva_pdaf,
+                                            pdaf_cb.c__prepoststep_pdaf,
+                                            pdaf_cb.c__next_observation_pdaf,
                                             &outflag)
 
     return outflag
 
 
-def assimilate_lnetf_nondiagr(py__collect_state_pdaf, 
-    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf, 
-    py__init_dim_obs_l_pdaf, py__likelihood_l_pdaf, py__prepoststep_pdaf, 
+def assimilate_lnetf_nondiagr(py__collect_state_pdaf,
+    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
+    py__init_dim_obs_l_pdaf, py__likelihood_l_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -12777,7 +12777,7 @@ def assimilate_lnetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -12794,7 +12794,7 @@ def assimilate_lnetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -12811,12 +12811,12 @@ def assimilate_lnetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -12824,12 +12824,12 @@ def assimilate_lnetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -12851,12 +12851,12 @@ def assimilate_lnetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -12864,14 +12864,14 @@ def assimilate_lnetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -12879,16 +12879,16 @@ def assimilate_lnetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__likelihood_l_pdaf : Callable
@@ -12896,11 +12896,11 @@ def assimilate_lnetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 Index of current local analysis domain
-        step : int 
+        step : int
                 Current time step
-        dim_obs_l : int 
+        dim_obs_l : int
                 Number of local observations at current time step (i.e. the size of the local observation vector)
         obs_l : ndarray[np.float64, ndim=1]
                 Local vector of observations
@@ -12914,7 +12914,7 @@ def assimilate_lnetf_nondiagr(py__collect_state_pdaf,
         resid_l : ndarray[np.float64, ndim=1]
                 nput vector holding the local residual
                 Array shape: (dim_obs_l)
-        likely_l : double 
+        likely_l : double
                 Output value of the local likelihood
 
     py__prepoststep_pdaf : Callable
@@ -12922,17 +12922,17 @@ def assimilate_lnetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -12949,7 +12949,7 @@ def assimilate_lnetf_nondiagr(py__collect_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -12975,27 +12975,27 @@ def assimilate_lnetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
-    outflag : int 
+    outflag : int
         Status flag
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -13009,27 +13009,27 @@ def assimilate_lnetf_nondiagr(py__collect_state_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     with nogil:
-        c__pdaf3_assimilate_lnetf_nondiagr(pdaf_cb.c__collect_state_pdaf, 
-                                           pdaf_cb.c__distribute_state_pdaf, 
-                                           pdaf_cb.c__init_dim_obs_pdaf, 
-                                           pdaf_cb.c__obs_op_pdaf, 
-                                           pdaf_cb.c__init_n_domains_p_pdaf, 
-                                           pdaf_cb.c__init_dim_l_pdaf, 
-                                           pdaf_cb.c__init_dim_obs_l_pdaf, 
-                                           pdaf_cb.c__likelihood_l_pdaf, 
-                                           pdaf_cb.c__prepoststep_pdaf, 
-                                           pdaf_cb.c__next_observation_pdaf, 
+        c__pdaf3_assimilate_lnetf_nondiagr(pdaf_cb.c__collect_state_pdaf,
+                                           pdaf_cb.c__distribute_state_pdaf,
+                                           pdaf_cb.c__init_dim_obs_pdaf,
+                                           pdaf_cb.c__obs_op_pdaf,
+                                           pdaf_cb.c__init_n_domains_p_pdaf,
+                                           pdaf_cb.c__init_dim_l_pdaf,
+                                           pdaf_cb.c__init_dim_obs_l_pdaf,
+                                           pdaf_cb.c__likelihood_l_pdaf,
+                                           pdaf_cb.c__prepoststep_pdaf,
+                                           pdaf_cb.c__next_observation_pdaf,
                                            &outflag)
 
     return outflag
 
 
-def assimilate_lknetf_nondiagr(py__collect_state_pdaf, 
-    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf, 
-    py__init_dim_obs_l_pdaf, py__prodrinva_l_pdaf, 
-    py__prodrinva_hyb_l_pdaf, py__likelihood_l_pdaf, 
-    py__likelihood_hyb_l_pdaf, py__prepoststep_pdaf, 
+def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
+    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
+    py__init_dim_obs_l_pdaf, py__prodrinva_l_pdaf,
+    py__prodrinva_hyb_l_pdaf, py__likelihood_l_pdaf,
+    py__likelihood_hyb_l_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -13041,7 +13041,7 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -13058,7 +13058,7 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -13075,12 +13075,12 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -13088,12 +13088,12 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -13115,12 +13115,12 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        n_domains_p : int 
+        n_domains_p : int
                 pe-local number of analysis domains
 
     py__init_dim_l_pdaf : Callable
@@ -13128,14 +13128,14 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
-        domain_p : int 
+        domain_p : int
                 current local analysis domain
 
         Callback Returns
         ----------------
-        dim_l : int 
+        dim_l : int
                 local state dimension
 
     py__init_dim_obs_l_pdaf : Callable
@@ -13143,16 +13143,16 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 index of current local analysis domain
-        step : int 
+        step : int
                 current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 full dimension of observation vector
 
         Callback Returns
         ----------------
-        dim_obs_l : int 
+        dim_obs_l : int
                 local dimension of observation vector
 
     py__prodrinva_l_pdaf : Callable
@@ -13160,13 +13160,13 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 Index of current local analysis domain
-        step : int 
+        step : int
                 Current time step
-        dim_obs_l : int 
+        dim_obs_l : int
                 Number of local observations at current time step (i.e. the size of the local observation vector)
-        rank : int 
+        rank : int
                 Number of the columns in the matrix processes here.
                 This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
         obs_l : ndarray[np.float64, ndim=1]
@@ -13190,18 +13190,18 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 Index of current local analysis domain
-        step : int 
+        step : int
                 Current time step
-        dim_obs_l : int 
+        dim_obs_l : int
                 Number of local observations at current time step (i.e. the size of the local observation vector)
-        dim_ens : int 
+        dim_ens : int
                 Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
         obs_l : ndarray[np.float64, ndim=1]
                 Local vector of observations
                 Array shape: (dim_obs_l)
-        gamma : double 
+        gamma : double
                 Hybrid weight provided by PDAF
         a_l : ndarray[np.float64, ndim=2]
                 Input matrix provided by PDAF
@@ -13221,11 +13221,11 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 Index of current local analysis domain
-        step : int 
+        step : int
                 Current time step
-        dim_obs_l : int 
+        dim_obs_l : int
                 Number of local observations at current time step (i.e. the size of the local observation vector)
         obs_l : ndarray[np.float64, ndim=1]
                 Local vector of observations
@@ -13239,7 +13239,7 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
         resid_l : ndarray[np.float64, ndim=1]
                 nput vector holding the local residual
                 Array shape: (dim_obs_l)
-        likely_l : double 
+        likely_l : double
                 Output value of the local likelihood
 
     py__likelihood_hyb_l_pdaf : Callable
@@ -13247,11 +13247,11 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        domain_p : int 
+        domain_p : int
                 Index of current local analysis domain
-        step : int 
+        step : int
                 Current time step
-        dim_obs_l : int 
+        dim_obs_l : int
                 Number of local observations at current time step (i.e. the size of the local observation vector)
         obs_l : ndarray[np.float64, ndim=1]
                 Local vector of observations
@@ -13259,7 +13259,7 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
         resid_l : ndarray[np.float64, ndim=1]
                 Input vector holding the local residual
                 Array shape: (dim_obs_l)
-        gamma : double 
+        gamma : double
                 Hybrid weight provided by PDAF
 
         Callback Returns
@@ -13267,7 +13267,7 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
         resid_l : ndarray[np.float64, ndim=1]
                 Input vector holding the local residual
                 Array shape: (dim_obs_l)
-        likely_l : double 
+        likely_l : double
                 Output value of the local likelihood
 
     py__prepoststep_pdaf : Callable
@@ -13275,17 +13275,17 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -13302,7 +13302,7 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -13328,27 +13328,27 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
-    outflag : int 
+    outflag : int
         Status flag
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -13365,27 +13365,27 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     with nogil:
-        c__pdaf3_assimilate_lknetf_nondiagr(pdaf_cb.c__collect_state_pdaf, 
-                                            pdaf_cb.c__distribute_state_pdaf, 
-                                            pdaf_cb.c__init_dim_obs_pdaf, 
-                                            pdaf_cb.c__obs_op_pdaf, 
-                                            pdaf_cb.c__init_n_domains_p_pdaf, 
-                                            pdaf_cb.c__init_dim_l_pdaf, 
-                                            pdaf_cb.c__init_dim_obs_l_pdaf, 
-                                            pdaf_cb.c__prodrinva_l_pdaf, 
-                                            pdaf_cb.c__prodrinva_hyb_l_pdaf, 
-                                            pdaf_cb.c__likelihood_l_pdaf, 
-                                            pdaf_cb.c__likelihood_hyb_l_pdaf, 
-                                            pdaf_cb.c__prepoststep_pdaf, 
-                                            pdaf_cb.c__next_observation_pdaf, 
+        c__pdaf3_assimilate_lknetf_nondiagr(pdaf_cb.c__collect_state_pdaf,
+                                            pdaf_cb.c__distribute_state_pdaf,
+                                            pdaf_cb.c__init_dim_obs_pdaf,
+                                            pdaf_cb.c__obs_op_pdaf,
+                                            pdaf_cb.c__init_n_domains_p_pdaf,
+                                            pdaf_cb.c__init_dim_l_pdaf,
+                                            pdaf_cb.c__init_dim_obs_l_pdaf,
+                                            pdaf_cb.c__prodrinva_l_pdaf,
+                                            pdaf_cb.c__prodrinva_hyb_l_pdaf,
+                                            pdaf_cb.c__likelihood_l_pdaf,
+                                            pdaf_cb.c__likelihood_hyb_l_pdaf,
+                                            pdaf_cb.c__prepoststep_pdaf,
+                                            pdaf_cb.c__next_observation_pdaf,
                                             &outflag)
 
     return outflag
 
 
-def assimilate_enkf_nondiagr(py__collect_state_pdaf, 
-    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf, 
-    py__add_obs_err_pdaf, py__init_obs_covar_pdaf, py__prepoststep_pdaf, 
+def assimilate_enkf_nondiagr(py__collect_state_pdaf,
+    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__add_obs_err_pdaf, py__init_obs_covar_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -13397,7 +13397,7 @@ def assimilate_enkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -13414,7 +13414,7 @@ def assimilate_enkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -13431,12 +13431,12 @@ def assimilate_enkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -13444,12 +13444,12 @@ def assimilate_enkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -13471,9 +13471,9 @@ def assimilate_enkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observation vector
         c_p : ndarray[np.float64, ndim=2]
                 Matrix to that observation covariance R is added
@@ -13490,11 +13490,11 @@ def assimilate_enkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs : int 
+        dim_obs : int
                 Global size of observation vector
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of process-local observation vector
         obs_p : ndarray[np.float64, ndim=1]
                 Process-local vector of observations
@@ -13505,25 +13505,25 @@ def assimilate_enkf_nondiagr(py__collect_state_pdaf,
         covar : ndarray[np.float64, ndim=2]
                 Observation error covariance matrix
                 Array shape: (dim_obs_p,dim_obs_p)
-        isdiag : bint 
-                
+        isdiag : bint
+
 
     py__prepoststep_pdaf : Callable
         User supplied pre/poststep routine
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -13540,7 +13540,7 @@ def assimilate_enkf_nondiagr(py__collect_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -13566,25 +13566,25 @@ def assimilate_enkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -13597,22 +13597,22 @@ def assimilate_enkf_nondiagr(py__collect_state_pdaf,
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assimilate_enkf_nondiagr(pdaf_cb.c__collect_state_pdaf, 
-                                          pdaf_cb.c__distribute_state_pdaf, 
-                                          pdaf_cb.c__init_dim_obs_pdaf, 
-                                          pdaf_cb.c__obs_op_pdaf, 
-                                          pdaf_cb.c__add_obs_err_pdaf, 
-                                          pdaf_cb.c__init_obs_covar_pdaf, 
-                                          pdaf_cb.c__prepoststep_pdaf, 
-                                          pdaf_cb.c__next_observation_pdaf, 
+        c__pdaf3_assimilate_enkf_nondiagr(pdaf_cb.c__collect_state_pdaf,
+                                          pdaf_cb.c__distribute_state_pdaf,
+                                          pdaf_cb.c__init_dim_obs_pdaf,
+                                          pdaf_cb.c__obs_op_pdaf,
+                                          pdaf_cb.c__add_obs_err_pdaf,
+                                          pdaf_cb.c__init_obs_covar_pdaf,
+                                          pdaf_cb.c__prepoststep_pdaf,
+                                          pdaf_cb.c__next_observation_pdaf,
                                           &outflag)
 
     return outflag
 
 
-def assimilate_lenkf_nondiagr(py__collect_state_pdaf, 
-    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__prepoststep_pdaf, 
-    py__localize_covar_pdaf, py__add_obs_err_pdaf, py__init_obs_covar_pdaf):
+def assimilate_lenkf_nondiagr(py__collect_state_pdaf, py__distribute_state_pdaf,
+    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__prepoststep_pdaf,
+    py__localize_covar_pdaf, py__add_obs_err_pdaf, py__init_obs_covar_pdaf, py__next_observation_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -13623,7 +13623,7 @@ def assimilate_lenkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -13635,17 +13635,34 @@ def assimilate_lenkf_nondiagr(py__collect_state_pdaf,
                 local state vector
                 Array shape: (dim_p)
 
+    py__distribute_state_pdaf : Callable
+        Routine to distribute a state vector
+
+        Callback Parameters
+        -------------------
+        dim_p : int
+                PE-local state dimension
+        state_p : ndarray[np.float64, ndim=1]
+                PE-local state vector
+                Array shape: (dim_p)
+
+        Callback Returns
+        ----------------
+        state_p : ndarray[np.float64, ndim=1]
+                PE-local state vector
+                Array shape: (dim_p)
+
     py__init_dim_obs_pdaf : Callable
         Initialize dimension of full observation vector
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -13653,12 +13670,12 @@ def assimilate_lenkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -13680,17 +13697,17 @@ def assimilate_lenkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -13707,7 +13724,7 @@ def assimilate_lenkf_nondiagr(py__collect_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -13733,9 +13750,9 @@ def assimilate_lenkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
-        dim_obs : int 
+        dim_obs : int
                 number of observations
         hp_p : ndarray[np.float64, ndim=2]
                 pe local part of matrix hp
@@ -13758,9 +13775,9 @@ def assimilate_lenkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_p : int 
+        dim_obs_p : int
                 Dimension of observation vector
         c_p : ndarray[np.float64, ndim=2]
                 Matrix to that observation covariance R is added
@@ -13777,11 +13794,11 @@ def assimilate_lenkf_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs : int 
+        dim_obs : int
                 Global size of observation vector
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of process-local observation vector
         obs_p : ndarray[np.float64, ndim=1]
                 Process-local vector of observations
@@ -13792,38 +13809,61 @@ def assimilate_lenkf_nondiagr(py__collect_state_pdaf,
         covar : ndarray[np.float64, ndim=2]
                 Observation error covariance matrix
                 Array shape: (dim_obs_p,dim_obs_p)
-        isdiag : bint 
-                
+        isdiag : bint
+
+    py__next_observation_pdaf : Callable
+        Provide information on next forecast
+
+        Callback Parameters
+        -------------------
+        stepnow : int
+                the current time step given by PDAF
+
+        Callback Returns
+        ----------------
+        nsteps : int
+                number of forecast time steps until next assimilation;
+                this can also be interpreted as
+                number of assimilation function calls
+                to perform a new assimilation
+        doexit : int
+                whether to exit forecasting (1 for exit)
+        time : double
+                current model (physical) time
 
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
+    pdaf_cb.distribute_state_pdaf = <void*>py__distribute_state_pdaf
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
     pdaf_cb.obs_op_pdaf = <void*>py__obs_op_pdaf
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     pdaf_cb.localize_covar_pdaf = <void*>py__localize_covar_pdaf
     pdaf_cb.add_obs_err_pdaf = <void*>py__add_obs_err_pdaf
     pdaf_cb.init_obs_covar_pdaf = <void*>py__init_obs_covar_pdaf
+    pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assimilate_lenkf_nondiagr(pdaf_cb.c__collect_state_pdaf, 
-                                           pdaf_cb.c__init_dim_obs_pdaf, 
-                                           pdaf_cb.c__obs_op_pdaf, 
-                                           pdaf_cb.c__prepoststep_pdaf, 
-                                           pdaf_cb.c__localize_covar_pdaf, 
-                                           pdaf_cb.c__add_obs_err_pdaf, 
-                                           pdaf_cb.c__init_obs_covar_pdaf, 
+        c__pdaf3_assimilate_lenkf_nondiagr(pdaf_cb.c__collect_state_pdaf,
+                                           pdaf_cb.c__distribute_state_pdaf,
+                                           pdaf_cb.c__init_dim_obs_pdaf,
+                                           pdaf_cb.c__obs_op_pdaf,
+                                           pdaf_cb.c__prepoststep_pdaf,
+                                           pdaf_cb.c__localize_covar_pdaf,
+                                           pdaf_cb.c__add_obs_err_pdaf,
+                                           pdaf_cb.c__init_obs_covar_pdaf,
+                                           pdaf_cb.c__next_observation_pdaf,
                                            &outflag)
 
     return outflag
 
 
-def assimilate_nonlin_nondiagr(py__collect_state_pdaf, 
-    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf, 
+def assimilate_nonlin_nondiagr(py__collect_state_pdaf,
+    py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__likelihood_pdaf, py__prepoststep_pdaf, py__next_observation_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -13835,7 +13875,7 @@ def assimilate_nonlin_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -13852,7 +13892,7 @@ def assimilate_nonlin_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -13869,12 +13909,12 @@ def assimilate_nonlin_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -13882,12 +13922,12 @@ def assimilate_nonlin_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -13909,9 +13949,9 @@ def assimilate_nonlin_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_p : int 
+        dim_obs_p : int
                 Number of observations at current time step (i.e. the size of the observation vector)
         obs_p : ndarray[np.float64, ndim=1]
                 Vector of observations
@@ -13922,7 +13962,7 @@ def assimilate_nonlin_nondiagr(py__collect_state_pdaf,
 
         Callback Returns
         ----------------
-        likely : double 
+        likely : double
                 Output value of the likelihood
 
     py__prepoststep_pdaf : Callable
@@ -13930,17 +13970,17 @@ def assimilate_nonlin_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -13957,7 +13997,7 @@ def assimilate_nonlin_nondiagr(py__collect_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -13983,25 +14023,25 @@ def assimilate_nonlin_nondiagr(py__collect_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -14013,20 +14053,20 @@ def assimilate_nonlin_nondiagr(py__collect_state_pdaf,
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_assimilate_nonlin_nondiagr(pdaf_cb.c__collect_state_pdaf, 
-                                            pdaf_cb.c__distribute_state_pdaf, 
-                                            pdaf_cb.c__init_dim_obs_pdaf, 
-                                            pdaf_cb.c__obs_op_pdaf, 
-                                            pdaf_cb.c__likelihood_pdaf, 
-                                            pdaf_cb.c__prepoststep_pdaf, 
-                                            pdaf_cb.c__next_observation_pdaf, 
+        c__pdaf3_assimilate_nonlin_nondiagr(pdaf_cb.c__collect_state_pdaf,
+                                            pdaf_cb.c__distribute_state_pdaf,
+                                            pdaf_cb.c__init_dim_obs_pdaf,
+                                            pdaf_cb.c__obs_op_pdaf,
+                                            pdaf_cb.c__likelihood_pdaf,
+                                            pdaf_cb.c__prepoststep_pdaf,
+                                            pdaf_cb.c__next_observation_pdaf,
                                             &outflag)
 
     return outflag
 
 
-def generate_obs(py__collect_state_pdaf, py__distribute_state_pdaf, 
-    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__get_obs_f_pdaf, 
+def generate_obs(py__collect_state_pdaf, py__distribute_state_pdaf,
+    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__get_obs_f_pdaf,
     py__prepoststep_pdaf, py__next_observation_pdaf, int  outflag):
     """Generation of synthetic observations based on
     given error statistics and observation operator.
@@ -14042,7 +14082,7 @@ def generate_obs(py__collect_state_pdaf, py__distribute_state_pdaf,
     In a typical experiment,
     one may only need one ensemble member.
     The implementation strategy is similar to
-    an assimilation step. This means that, 
+    an assimilation step. This means that,
     one can reuse many user-supplied functions for
     assimilation and observation generation.
 
@@ -14068,7 +14108,7 @@ def generate_obs(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 pe-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 local state vector
@@ -14085,7 +14125,7 @@ def generate_obs(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        dim_p : int 
+        dim_p : int
                 PE-local state dimension
         state_p : ndarray[np.float64, ndim=1]
                 PE-local state vector
@@ -14102,12 +14142,12 @@ def generate_obs(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -14115,12 +14155,12 @@ def generate_obs(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -14142,9 +14182,9 @@ def generate_obs(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 Size of the full observation vector
 
         Callback Returns
@@ -14158,17 +14198,17 @@ def generate_obs(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -14185,7 +14225,7 @@ def generate_obs(py__collect_state_pdaf, py__distribute_state_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -14211,27 +14251,27 @@ def generate_obs(py__collect_state_pdaf, py__distribute_state_pdaf,
 
         Callback Parameters
         -------------------
-        stepnow : int 
+        stepnow : int
                 the current time step given by PDAF
 
         Callback Returns
         ----------------
-        nsteps : int 
+        nsteps : int
                 number of forecast time steps until next assimilation;
                 this can also be interpreted as
                 number of assimilation function calls
                 to perform a new assimilation
-        doexit : int 
+        doexit : int
                 whether to exit forecasting (1 for exit)
-        time : double 
+        time : double
                 current model (physical) time
 
-    outflag : int 
+    outflag : int
         Status flag
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
@@ -14242,18 +14282,18 @@ def generate_obs(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
     with nogil:
-        c__pdaf3_generate_obs(pdaf_cb.c__collect_state_pdaf, 
-                              pdaf_cb.c__distribute_state_pdaf, 
-                              pdaf_cb.c__init_dim_obs_pdaf, 
-                              pdaf_cb.c__obs_op_pdaf, 
-                              pdaf_cb.c__get_obs_f_pdaf, 
-                              pdaf_cb.c__prepoststep_pdaf, 
+        c__pdaf3_generate_obs(pdaf_cb.c__collect_state_pdaf,
+                              pdaf_cb.c__distribute_state_pdaf,
+                              pdaf_cb.c__init_dim_obs_pdaf,
+                              pdaf_cb.c__obs_op_pdaf,
+                              pdaf_cb.c__get_obs_f_pdaf,
+                              pdaf_cb.c__prepoststep_pdaf,
                               pdaf_cb.c__next_observation_pdaf, &outflag)
 
     return outflag
 
 
-def generate_obs_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf, 
+def generate_obs_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__get_obs_f_pdaf, py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -14265,12 +14305,12 @@ def generate_obs_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
 
         Callback Returns
         ----------------
-        dim_obs_p : int 
+        dim_obs_p : int
                 dimension of observation vector
 
     py__obs_op_pdaf : Callable
@@ -14278,12 +14318,12 @@ def generate_obs_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_p : int 
+        dim_p : int
                 Size of state vector
                 (local part in case of parallel decomposed state)
-        dim_obs_p : int 
+        dim_obs_p : int
                 Size of PE-local observation vector
         state_p : ndarray[np.float64, ndim=1]
                 Model state vector
@@ -14305,9 +14345,9 @@ def generate_obs_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 Current time step
-        dim_obs_f : int 
+        dim_obs_f : int
                 Size of the full observation vector
 
         Callback Returns
@@ -14321,17 +14361,17 @@ def generate_obs_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
         Callback Parameters
         -------------------
-        step : int 
+        step : int
                 current time step
                 (negative for call before analysis/preprocessing)
-        dim_p : int 
+        dim_p : int
                 PE-local state vector dimension
-        dim_ens : int 
+        dim_ens : int
                 number of ensemble members
-        dim_ens_l : int 
+        dim_ens_l : int
                 number of ensemble members run serially
                 on each model task
-        dim_obs_p : int 
+        dim_obs_p : int
                 PE-local dimension of observation vector
         state_p : ndarray[np.float64, ndim=1]
                 pe-local forecast/analysis state
@@ -14348,7 +14388,7 @@ def generate_obs_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         ens_p : ndarray[np.float64, ndim=2]
                 PE-local ensemble
                 Array shape: (dim_p, dim_ens)
-        flag : int 
+        flag : int
                 pdaf status flag
 
         Callback Returns
@@ -14372,7 +14412,7 @@ def generate_obs_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
     Returns
     -------
-    outflag : int 
+    outflag : int
         Status flag
     """
     pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
@@ -14381,9 +14421,9 @@ def generate_obs_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
     cdef int  outflag
     with nogil:
-        c__pdaf3_generate_obs_offline(pdaf_cb.c__init_dim_obs_pdaf, 
-                                      pdaf_cb.c__obs_op_pdaf, 
-                                      pdaf_cb.c__get_obs_f_pdaf, 
+        c__pdaf3_generate_obs_offline(pdaf_cb.c__init_dim_obs_pdaf,
+                                      pdaf_cb.c__obs_op_pdaf,
+                                      pdaf_cb.c__get_obs_f_pdaf,
                                       pdaf_cb.c__prepoststep_pdaf, &outflag)
 
     return outflag

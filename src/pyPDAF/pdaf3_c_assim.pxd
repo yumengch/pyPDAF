@@ -734,6 +734,7 @@ cdef extern void c__pdaf3_assimilate_enkf_nondiagr(
 
 cdef extern void c__pdaf3_assimilate_lenkf_nondiagr(
     void (*c__collect_state_pdaf)(int* , double* ), 
+    void (*c__distribute_state_pdaf)(int* , double* ),
     void (*c__init_dim_obs_pdaf)(int* , int* ), 
     void (*c__obs_op_pdaf)(int* , int* , int* , double* , double* ), 
     void (*c__prepoststep_pdaf)(int* , int* , int* , int* , int* , 
@@ -742,6 +743,7 @@ cdef extern void c__pdaf3_assimilate_lenkf_nondiagr(
     void (*c__add_obs_err_pdaf)(int* , int* , double* ), 
     void (*c__init_obs_covar_pdaf)(int* , int* , int* , double* , double* , 
                                    bint* ), 
+    void (*c__next_observation_pdaf)(int* , int* , int* , double* ),
     int* outflag) noexcept nogil;
 
 cdef extern void c__pdaf3_assimilate_nonlin_nondiagr(

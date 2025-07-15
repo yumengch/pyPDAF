@@ -1,20 +1,35 @@
-project('tt', 'cython', 'fortran', version: '0.1.0',
-  meson_version: '>=1.1.0')
+project('pyPDAF', 'cython', 'fortran', 'c', version: '0.1.0',
+  meson_version: '>=1.1.0', default_options: ['b_asneeded=false'])
+
+fs = import('fs')
 
 py_mod = import('python')
-python = py_mod.find_installation()
+python = py_mod.find_installation(pure: false)
 dep_py = python.dependency()
 
 ff = meson.get_compiler('fortran')
 
-# mpi_dep = dependency('mpi', language: 'fortran')
-mpi_inc = include_directories(['/home/users/ia923171/.conda/envs/devel/include'])
-mpifort_lib = ff.find_library('mpifort', dirs: '/home/users/ia923171/.conda/envs/devel/lib/', required: true)
-mpi_lib = ff.find_library('mpi', dirs: '/home/users/ia923171/.conda/envs/devel/lib/', required: true)
-mpi_dep = declare_dependency(dependencies : [mpifort_lib, mpi_lib],
-  include_directories : mpi_inc)
 
-src_dir = meson.project_source_root()
+# mpi_dep = dependency('mpi', language: 'fortran')
+if host_machine.system() == 'windows'
+  mpi = dependency('mpi', required: true)
+else
+  mpi = dependency('', required: false)
+endif
+
+blas_lib = get_option('blas_lib')
+blas_incdir = get_option('blas_incdir')
+blas_libdir = get_option('blas_libdir')
+
+blas_lib_dep = []
+foreach lib : blas_lib
+  blas_lib_dep += ff.find_library(lib, dirs:blas_libdir, required : true)
+endforeach
+
+blas_dep = declare_dependency(
+  dependencies: blas_lib_dep,
+  include_directories: blas_incdir,
+)
 
 fortran_sources = files('PDAF/src/PDAF3_assimilate_3dvars.F90',
                         'PDAF/src/PDAF3_assimilate_3dvars_nondiagR.F90',
@@ -191,13 +206,6 @@ fortran_sources = files('PDAF/src/PDAF3_assimilate_3dvars.F90',
                         )
 
 
-pdaf_args = ff.get_supported_arguments(['-O3', '-fdefault-real-8', '-DUSE_PDAF'], checked: 'warn')
-pdaf_lib = static_library('pdaf-var',
-  fortran_sources,
-  fortran_args: pdaf_args,
-  dependencies: mpi_dep,
-  pic: true
-)
 
 pdafc_sources = files('src/fortran/pdaf3_c_assim.f90',
                       'src/fortran/pdaf3_c_put.f90',
@@ -227,15 +235,6 @@ pdafc_sources = files('src/fortran/pdaf3_c_assim.f90',
                       )
 
 
-pdaf_c_args = ff.get_supported_arguments(['-O3', ], checked: 'warn')
-pdafc_lib = static_library('pdafc',
-  pdafc_sources,
-  link_with: pdaf_lib,
-  fortran_args: pdaf_c_args,
-  dependencies: mpi_dep,
-  pic: true
-)
-
 
 pypdaf_sources = files('src/pyPDAF/pdaf3_c_assim.pyx',
                       'src/pyPDAF/pdaf3_c_put.pyx',
@@ -263,20 +262,44 @@ pypdaf_sources = files('src/pyPDAF/pdaf3_c_assim.pyx',
                       'src/pyPDAF/pdafomi_c_put.pyx',
                       'src/pyPDAF/pdafomi_c_setter.pyx'
                      )
+
+# fortran_args = ff.get_supported_arguments(['-O3', '-fdefault-real-8', '-DUSE_PDAF'], checked: 'warn')
+
+fortran_args = ff.get_supported_arguments(['-O0', '-g', '-fcheck=all', '-fbacktrace', '-Wall', '-Wextra', '-fdefault-real-8', '-DUSE_PDAF'], checked: 'warn')
+
 incdir_numpy = run_command(python,
   ['-c', 'import os; os.chdir(".."); import numpy; print(numpy.get_include())'],
   check : true
 ).stdout().strip()
 
-cython_ext = python.extension_module(
-  'pyPDAF',
-  pypdaf_sources,
-  link_with: [pdaf_lib, pdafc_lib],
-  dependencies : [mpi_dep],
+
+pdafc_lib = shared_library(
+  'PDAFc',
+   pdafc_sources + fortran_sources,
+  dependencies : [mpi, blas_dep],
   include_directories: include_directories(incdir_numpy),
   c_args: ['-O3',],
+  fortran_args: fortran_args,
   cython_args : ['-Xboundscheck=False', '-Xbinding=False', '-Xwraparound=False', '-Xinitializedcheck=False'],
   link_language: 'fortran',
+  install_dir: python.get_install_dir() / 'pyPDAF',
   install: true
 )
 
+foreach file :pypdaf_sources
+  cython_ext = python.extension_module(
+    fs.stem(file),
+    file,
+    link_with: [pdafc_lib],
+    dependencies : [mpi, dep_py, blas_dep],
+    include_directories: include_directories(incdir_numpy),
+    c_args: ['-O3',],
+    fortran_args: fortran_args,
+    cython_args : ['-Xboundscheck=False', '-Xbinding=False', '-Xwraparound=False', '-Xinitializedcheck=False'],
+    link_language: 'fortran',
+    subdir: 'pyPDAF',
+    install: true
+  )
+endforeach
+
+python.install_sources(['src/pyPDAF/__init__.py'], subdir: 'pyPDAF')

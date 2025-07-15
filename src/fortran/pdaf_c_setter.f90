@@ -6,6 +6,8 @@ implicit none
 
 contains
    SUBROUTINE c__PDAF_set_iparam_filters(id, value, flag) bind(c)
+      use PDAF_utils_filters
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -19,6 +21,8 @@ contains
    END SUBROUTINE c__PDAF_set_iparam_filters
 
    SUBROUTINE c__PDAF_set_rparam_filters(id, value, flag) bind(c)
+      use PDAF_utils_filters
+      implicit none
       ! Index of parameter
       INTEGER(c_int), INTENT(in) :: id
       ! Parameter value
@@ -126,6 +130,8 @@ contains
 
    SUBROUTINE c__PDAF_set_forget(step, localfilter, dim_obs_p, dim_ens, mens_p,  &
       mstate_p, obs_p, u_init_obsvar, forget_in, forget_out, screen) bind(c)
+      use PDAF_analysis_utils
+      implicit none
       ! Current time step
       INTEGER(c_int), INTENT(in) :: step
       ! Whether filter is domain-local

@@ -1,0 +1,3 @@
+option('blas_incdir', type : 'array', value : ['/usr/include'], description : 'Include directory for BLAS library')
+option('blas_libdir', type : 'array', value : ['/usr/lib'], description : 'Library directory for BLAS library')
+option('blas_lib', type : 'array', value : ['blas', 'lapack'], description : 'BLAS library name')

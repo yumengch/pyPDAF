@@ -1676,14 +1676,16 @@ contains
          END SUBROUTINE init_obscovar_f
    END SUBROUTINE c__PDAF3_assimilate_enkf_nondiagR
 
-   SUBROUTINE c__PDAF3_assimilate_lenkf_nondiagR(collect_state_pdaf,  &
+   SUBROUTINE c__PDAF3_assimilate_lenkf_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
       init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, localize_pdaf,  &
-      add_obs_error_pdaf, init_obscovar_pdaf, outflag) bind(c)
+      add_obs_error_pdaf, init_obscovar_pdaf, next_observation_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(out) :: outflag
 
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: collect_state_pdaf
+      ! Routine to distribute a state vector
+      procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
       ! Initialize dimension of full observation vector
       procedure(c__init_dim_obs_pdaf) :: init_dim_obs_pdaf
       ! Full observation operator
@@ -1696,10 +1698,12 @@ contains
       procedure(c__add_obs_err_pdaf) :: add_obs_error_pdaf
       ! Initialize mean observation error variance
       procedure(c__init_obs_covar_pdaf) :: init_obscovar_pdaf
+      ! Provide information on next forecast
+      procedure(c__next_observation_pdaf) :: next_observation_pdaf
 
-      call PDAF3_assimilate_lenkf_nondiagR(collect_state_pdaf,  &
+      call PDAF3_assimilate_lenkf_nondiagR(collect_state_pdaf,  distribute_state_pdaf, &
          init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, localize_pdaf,  &
-         add_obs_error_pdaf, init_obscovar_f, outflag)
+         add_obs_error_pdaf, init_obscovar_f, next_observation_pdaf, outflag)
 
       contains
          SUBROUTINE init_obscovar_f(step, dim_obs, dim_obs_p, covar, m_state_p, &

@@ -1,6 +1,7 @@
 module pdafomi_c_legacy
 use iso_c_binding, only: c_int, c_double, c_bool
 use pdafomi_c, only: n_obs_omi, thisobs, thisobs_l
+use pdafomi_obs_l
 implicit none
 contains
    SUBROUTINE c__PDAFomi_localize_covar_iso(i_obs, dim, locweight, cradius, sradius,  &
