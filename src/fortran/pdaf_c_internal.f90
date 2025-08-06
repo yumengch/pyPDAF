@@ -33,7 +33,7 @@ contains
          call PDAF_set_forget_local(domain, step, dim_obs_l, dim_ens, hx_l,  &
             hxbar_l, obs_l, u_init_obsvar_l, forget, aforget)
 
-      END SUBROUTINE c__PDAF_set_forget_local
+   END SUBROUTINE c__PDAF_set_forget_local
 
    SUBROUTINE c__PDAF_fcst_operations(step, u_collect_state,  &
       u_distribute_state, u_init_dim_obs, u_obs_op, u_init_obs, outflag) bind(c)

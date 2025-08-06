@@ -11,7 +11,7 @@ contains
       u_distribute_state, u_prepoststep, outflag) bind(c)
       ! Flag and number of time steps
       INTEGER(c_int), INTENT(inout) :: steps
-      ! current model time
+      ! current model time1
       REAL(c_double), INTENT(out) :: time
       ! Whether to exit from forecasts
       INTEGER(c_int), INTENT(inout) :: doexit

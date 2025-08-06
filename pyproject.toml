@@ -7,15 +7,12 @@ name = "pyPDAF"
 authors = [
     {name = "Yumeng Chen", email = "yumeng.chen@reading.ac.uk"},
 ]
-version = "1.0.3"
+version = "1.0.4"
 description = "A Python interface to Parallel Data Assimilation Framework (PDAF)"
 readme = "README.md"
 requires-python = ">=3.10"
 keywords = ["data assimilation", "PDAF"]
 license = {text = "GPL License"}
-classifiers = [
-    "Programming Language :: Python :: 3",
-]
 dependencies = [
     "numpy", "mpi4py"
 ]
