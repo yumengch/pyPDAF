@@ -159,7 +159,7 @@ abstract interface
       ! Size of process-local observation vector
       integer(c_int), intent(in) :: dim_obs_p
       ! Observation error covariance matrix
-      real(c_double), intent(out), dimension(dim_obs_p,dim_obs_p) :: covar
+      real(c_double), intent(out), dimension(dim_obs,dim_obs) :: covar
       ! Process-local vector of observations
       real(c_double), intent(in), dimension(dim_obs_p) :: obs_p
       logical(c_bool), intent(out) :: isdiag

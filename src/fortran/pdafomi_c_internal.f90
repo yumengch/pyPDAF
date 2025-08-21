@@ -282,7 +282,7 @@ contains
       INTEGER(c_int), INTENT(in) :: verbose
       ! Count number of local observations
       INTEGER(c_int), INTENT(inout) :: cnt_obs
-      
+
       logical :: checkdist_out
 
       call PDAFomi_check_dist2_noniso(thisobs(i_obs), thisobs_l(i_obs),  &

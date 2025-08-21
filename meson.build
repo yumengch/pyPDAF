@@ -1,5 +1,5 @@
 project('pyPDAF', 'cython', 'fortran', 'c', version: '0.1.0',
-  meson_version: '>=1.1.0', default_options: ['b_asneeded=false'])
+  meson_version: '>=1.5.0', default_options: ['b_asneeded=false'])
 
 fs = import('fs')
 
@@ -7,29 +7,60 @@ py_mod = import('python')
 python = py_mod.find_installation(pure: false)
 dep_py = python.dependency()
 
+cc = meson.get_compiler('c')
 ff = meson.get_compiler('fortran')
 
+mpimod = get_option('mpi_mod')
 
-# mpi_dep = dependency('mpi', language: 'fortran')
 if host_machine.system() == 'windows'
-  mpi = dependency('mpi', required: true)
+  mpi = dependency('mpi', language : 'fortran', required: true)
 else
-  mpi = dependency('', required: false)
+  mpi = dependency('', language : 'fortran', required: false)
 endif
 
 blas_lib = get_option('blas_lib')
-blas_incdir = get_option('blas_incdir')
-blas_libdir = get_option('blas_libdir')
+incdirs = get_option('incdirs')
+libdirs = get_option('libdirs')
 
 blas_lib_dep = []
 foreach lib : blas_lib
-  blas_lib_dep += ff.find_library(lib, dirs:blas_libdir, required : true)
+  blas_lib_dep += ff.find_library(lib, dirs:libdirs, required : true)
 endforeach
 
 blas_dep = declare_dependency(
   dependencies: blas_lib_dep,
-  include_directories: blas_incdir,
+  include_directories: incdirs,
 )
+
+c_cython_args = cc.get_supported_arguments(['/O2', '/GL', '-O3'], checked: 'warn')
+cython_args = ['-Xboundscheck=False', '-Xbinding=False', '-Xwraparound=False', '-Xinitializedcheck=False']
+
+is_flang = ff.get_id() in ['llvm-flang', 'flang', 'flang-new']
+fruntime_dep = dependency('', required : false)
+if is_flang
+  fortran_ext_args = ['-O0', '-g', ]
+  fortran_args = ['-O0', '-g', '-fdefault-real-8', '-DUSE_PDAF']  # no probe
+  fortran_runtime_lib = ff.find_library('FortranRuntime', dirs: libdirs, required : true)
+  fortran_decimal_lib = ff.find_library('FortranDecimal', dirs: libdirs, required : true)
+  fruntime_dep = declare_dependency(
+    dependencies: [fortran_runtime_lib, fortran_decimal_lib],
+  )
+else
+  fortran_args = ff.get_supported_arguments(
+    ['-O3', '-fdefault-real-8', '-DUSE_PDAF'], checked: 'warn')
+  fortran_ext_args = ff.get_supported_arguments(
+    ['-O3', ], checked: 'warn')
+  # fortran_args = ff.get_supported_arguments([
+  #   '-O0','-g','-fcheck=all','-fbacktrace','-Wall','-Wextra',
+  #   '-fdefault-real-8','-DUSE_PDAF'
+  # ], checked: 'warn')
+endif
+
+incdir_numpy = run_command(python,
+  ['-c', 'import os; os.chdir(".."); import numpy; print(numpy.get_include())'],
+  check : true
+).stdout().strip()
+
 
 fortran_sources = files('PDAF/src/PDAF3_assimilate_3dvars.F90',
                         'PDAF/src/PDAF3_assimilate_3dvars_nondiagR.F90',
@@ -195,17 +226,16 @@ fortran_sources = files('PDAF/src/PDAF3_assimilate_3dvars.F90',
                         'PDAF/src/PDAF_timer_mpi.F90',
                         'PDAF/src/PDAF_utils.F90',
                         'PDAF/src/PDAF_utils_filters.F90',
-                        'PDAF/external/SANGOMA/SANGOMA_quicksort.F90',
-                        'PDAF/external/CG+/cgfam.f',
-                        'PDAF/external/CG+/cgsearch.f',
-                        'PDAF/external/CG+_mpi/cgfam.f',
-                        'PDAF/external/CG+_mpi/cgsearch.f',
-                        'PDAF/external/LBFGS/lbfgsb.f',
-                        'PDAF/external/LBFGS/linpack.f',
-                        'PDAF/external/LBFGS/timer.f'
+                        'PDAF/external/SANGOMA/SANGOMA_quicksort.F90'
                         )
-
-
+pdaf_ext_sources = files('PDAF/external/CG+/cgfam.f',
+                         'PDAF/external/CG+/cgsearch.f',
+                         'PDAF/external/CG+_mpi/cgfam.f',
+                         'PDAF/external/CG+_mpi/cgsearch.f',
+                         'PDAF/external/LBFGS/lbfgsb.f',
+                         'PDAF/external/LBFGS/linpack.f',
+                         'PDAF/external/LBFGS/timer.f'
+                        )
 
 pdafc_sources = files('src/fortran/pdaf3_c_assim.f90',
                       'src/fortran/pdaf3_c_put.f90',
@@ -231,42 +261,46 @@ pdafc_sources = files('src/fortran/pdaf3_c_assim.f90',
                       'src/fortran/pdafomi_c_internal.f90',
                       'src/fortran/pdafomi_c_legacy.f90',
                       'src/fortran/pdafomi_c_put.f90',
-                      'src/fortran/pdafomi_c_setter.f90'
+                      'src/fortran/pdafomi_c_setter.f90',
+                      'src/fortran/pdaf_c_f_interface.f90'
                       )
 
-# fortran_args = ff.get_supported_arguments(['-O3', '-fdefault-real-8', '-DUSE_PDAF'], checked: 'warn')
+if host_machine.system() == 'windows'
+  pdaf_ext_sources += files(mpimod)
+endif
 
-fortran_args = ff.get_supported_arguments(['-O0', '-g', '-fcheck=all', '-fbacktrace', '-Wall', '-Wextra', '-fdefault-real-8', '-DUSE_PDAF'], checked: 'warn')
 
-incdir_numpy = run_command(python,
-  ['-c', 'import os; os.chdir(".."); import numpy; print(numpy.get_include())'],
-  check : true
-).stdout().strip()
 
+pdaf_ext = static_library(
+  'pdaf_ext',
+  pdaf_ext_sources,
+  dependencies : [mpi, blas_dep],
+  fortran_args: fortran_ext_args
+)
 
 pdafc_lib = shared_library(
   'PDAFc',
    pdafc_sources + fortran_sources,
   dependencies : [mpi, blas_dep],
-  include_directories: include_directories(incdir_numpy),
-  c_args: ['-O3',],
+  include_directories: include_directories([incdir_numpy]),
+  c_args: c_cython_args,
   fortran_args: fortran_args,
-  cython_args : ['-Xboundscheck=False', '-Xbinding=False', '-Xwraparound=False', '-Xinitializedcheck=False'],
+  cython_args : cython_args,
   link_language: 'fortran',
+  link_whole: [pdaf_ext],
   install_dir: python.get_install_dir() / 'pyPDAF',
   install: true
 )
-
 
 cython_ext = python.extension_module(
   'pdaf_c_cb_interface',
   'src/pyPDAF/pdaf_c_cb_interface.pyx',
   link_with: [pdafc_lib],
-  dependencies : [mpi, dep_py, blas_dep],
-  include_directories: include_directories(incdir_numpy),
-  c_args: ['-O3',],
+  dependencies : [mpi, dep_py, blas_dep, fruntime_dep],
+  include_directories: include_directories([incdir_numpy]),
+  c_args: c_cython_args,
   fortran_args: fortran_args,
-  cython_args : ['-Xboundscheck=False', '-Xbinding=False', '-Xwraparound=False', '-Xinitializedcheck=False'],
+  cython_args : cython_args,
   link_language: 'fortran',
   subdir: 'pyPDAF',
   install: true

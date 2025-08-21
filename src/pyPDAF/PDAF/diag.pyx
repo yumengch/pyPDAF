@@ -41,29 +41,26 @@ sys.excepthook = global_except_hook
 
 def diag_ensmean(int  dim, int  dim_ens, double [::1] state,
     double [::1,:] ens):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    """
+    Compute the ensemble mean of the state ensemble.
 
     Parameters
     ----------
     dim : int
-        state dimension
+        State dimension.
     dim_ens : int
-        Ensemble size
-    state : ndarray[np.float64, ndim=1]
-        State vector
-        Array shape: (dim)
-    ens : ndarray[np.float64, ndim=2]
-        State ensemble
-        Array shape: (dim, dim_ens)
+        Ensemble size.
+    state : ndarray[np.float64, ndim=1], shape (dim,)
+        State vector.
+    ens : ndarray[np.float64, ndim=2], shape (dim, dim_ens)
+        State ensemble.
 
     Returns
     -------
-    state : ndarray[np.float64, ndim=1]
-        State vector
-        Array shape: (dim)
+    state : ndarray[np.float64, ndim=1], shape (dim,)
+        State vector (ensemble mean).
     status : int
-        Status flag (0=success)
+        Status flag (0=success).
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_np = np.asarray(state, dtype=np.float64, order="F")
     cdef int  status

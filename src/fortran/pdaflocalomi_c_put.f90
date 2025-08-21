@@ -2,6 +2,7 @@ MODULE pdaflocalomi_c_put
 use iso_c_binding, only: c_double, c_int, c_bool
 use PDAF
 use pdaf_c_cb_interface
+use pdaf_c_f_interface
 
 implicit none
 
@@ -36,10 +37,22 @@ contains
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
 
-      call PDAFlocalomi_put_state_en3dvar_lestkf(collect_state_pdaf,  &
-         init_dim_obs_f_pdaf, obs_op_f_pdaf, cvt_ens_pdaf, cvt_adj_ens_pdaf,  &
-         obs_op_lin_pdaf, obs_op_adj_pdaf, init_n_domains_pdaf,  &
-         init_dim_l_pdaf, init_dim_obs_l_pdaf, prepoststep_pdaf, outflag)
+      collect_state_pdaf_c_ptr => collect_state_pdaf
+      init_dim_obs_f_pdaf_c_ptr => init_dim_obs_f_pdaf
+      obs_op_f_pdaf_c_ptr => obs_op_f_pdaf
+      cvt_ens_pdaf_c_ptr => cvt_ens_pdaf
+      cvt_adj_ens_pdaf_c_ptr => cvt_adj_ens_pdaf
+      obs_op_lin_pdaf_c_ptr => obs_op_lin_pdaf
+      obs_op_adj_pdaf_c_ptr => obs_op_adj_pdaf
+      init_n_domains_p_pdaf_c_ptr => init_n_domains_pdaf
+      init_dim_l_pdaf_c_ptr => init_dim_l_pdaf
+      init_dim_obs_l_pdaf_c_ptr => init_dim_obs_l_pdaf
+      prepoststep_pdaf_c_ptr => prepoststep_pdaf
+
+      call PDAFlocalomi_put_state_en3dvar_lestkf(f__collect_state_pdaf,  &
+         f__init_dim_obs_f_pdaf, f__obs_op_f_pdaf, f__cvt_ens_pdaf, f__cvt_adj_ens_pdaf,  &
+         f__obs_op_lin_pdaf, f__obs_op_adj_pdaf, f__init_n_domains_p_pdaf,  &
+         f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf, f__prepoststep_pdaf, outflag)
 
    END SUBROUTINE c__PDAFlocalomi_put_state_en3dvar_lestkf
 
@@ -78,11 +91,25 @@ contains
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
 
-      call PDAFlocalomi_put_state_hyb3dvar_lestkf(collect_state_pdaf,  &
-         init_dim_obs_f_pdaf, obs_op_f_pdaf, cvt_ens_pdaf, cvt_adj_ens_pdaf,  &
-         cvt_pdaf, cvt_adj_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf,  &
-         init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdaf,  &
-         prepoststep_pdaf, outflag)
+      collect_state_pdaf_c_ptr => collect_state_pdaf
+      init_dim_obs_f_pdaf_c_ptr => init_dim_obs_f_pdaf
+      obs_op_f_pdaf_c_ptr => obs_op_f_pdaf
+      cvt_ens_pdaf_c_ptr => cvt_ens_pdaf
+      cvt_adj_ens_pdaf_c_ptr => cvt_adj_ens_pdaf
+      cvt_pdaf_c_ptr => cvt_pdaf
+      cvt_adj_pdaf_c_ptr => cvt_adj_pdaf
+      obs_op_lin_pdaf_c_ptr => obs_op_lin_pdaf
+      obs_op_adj_pdaf_c_ptr => obs_op_adj_pdaf
+      init_n_domains_p_pdaf_c_ptr => init_n_domains_pdaf
+      init_dim_l_pdaf_c_ptr => init_dim_l_pdaf
+      init_dim_obs_l_pdaf_c_ptr => init_dim_obs_l_pdaf
+      prepoststep_pdaf_c_ptr => prepoststep_pdaf
+
+      call PDAFlocalomi_put_state_hyb3dvar_lestkf(f__collect_state_pdaf,  &
+         f__init_dim_obs_f_pdaf, f__obs_op_f_pdaf, f__cvt_ens_pdaf, f__cvt_adj_ens_pdaf,  &
+         f__cvt_pdaf, f__cvt_adj_pdaf, f__obs_op_lin_pdaf, f__obs_op_adj_pdaf,  &
+         f__init_n_domains_p_pdaf, f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf,  &
+         f__prepoststep_pdaf, outflag)
 
    END SUBROUTINE c__PDAFlocalomi_put_state_hyb3dvar_lestkf
 
@@ -121,11 +148,25 @@ contains
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
 
-      call PDAFlocalomi_put_state_en3dvar_lestkf_nondiagR(collect_state_pdaf,  &
-         init_dim_obs_pdafomi, obs_op_pdafomi, prodrinva_pdafomi, cvt_ens_pdaf,  &
-         cvt_adj_ens_pdaf, obs_op_lin_pdafomi, obs_op_adj_pdafomi,  &
-         prodrinva_l_pdafomi, init_n_domains_pdaf, init_dim_l_pdaf,  &
-         init_dim_obs_l_pdafomi, prepoststep_pdaf, outflag)
+      collect_state_pdaf_c_ptr => collect_state_pdaf
+      init_dim_obs_pdaf_c_ptr => init_dim_obs_pdafomi
+      obs_op_pdaf_c_ptr => obs_op_pdafomi
+      prodrinva_pdaf_c_ptr => prodrinva_pdafomi
+      cvt_ens_pdaf_c_ptr => cvt_ens_pdaf
+      cvt_adj_ens_pdaf_c_ptr => cvt_adj_ens_pdaf
+      obs_op_lin_pdaf_c_ptr => obs_op_lin_pdafomi
+      obs_op_adj_pdaf_c_ptr => obs_op_adj_pdafomi
+      prodrinva_l_pdaf_c_ptr => prodrinva_l_pdafomi
+      init_n_domains_p_pdaf_c_ptr => init_n_domains_pdaf
+      init_dim_l_pdaf_c_ptr => init_dim_l_pdaf
+      init_dim_obs_l_pdaf_c_ptr => init_dim_obs_l_pdafomi
+      prepoststep_pdaf_c_ptr => prepoststep_pdaf
+
+      call PDAFlocalomi_put_state_en3dvar_lestkf_nondiagR(f__collect_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__prodrinva_pdaf, f__cvt_ens_pdaf,  &
+         f__cvt_adj_ens_pdaf, f__obs_op_lin_pdaf, f__obs_op_adj_pdaf,  &
+         f__prodrinva_l_pdaf, f__init_n_domains_p_pdaf, f__init_dim_l_pdaf,  &
+         f__init_dim_obs_l_pdaf, f__prepoststep_pdaf, outflag)
 
    END SUBROUTINE c__PDAFlocalomi_put_state_en3dvar_lestkf_nondiagR
 
@@ -169,11 +210,27 @@ contains
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
 
-      call PDAFlocalomi_put_state_hyb3dvar_lestkf_nondiagR(collect_state_pdaf,  &
-         init_dim_obs_pdafomi, obs_op_pdafomi, prodrinva_pdafomi, cvt_ens_pdaf,  &
-         cvt_adj_ens_pdaf, cvt_pdaf, cvt_adj_pdaf, obs_op_lin_pdafomi,  &
-         obs_op_adj_pdafomi, prodrinva_l_pdafomi, init_n_domains_pdaf,  &
-         init_dim_l_pdaf, init_dim_obs_l_pdafomi, prepoststep_pdaf, outflag)
+      collect_state_pdaf_c_ptr => collect_state_pdaf
+      init_dim_obs_pdaf_c_ptr => init_dim_obs_pdafomi
+      obs_op_pdaf_c_ptr => obs_op_pdafomi
+      prodrinva_pdaf_c_ptr => prodrinva_pdafomi
+      cvt_ens_pdaf_c_ptr => cvt_ens_pdaf
+      cvt_adj_ens_pdaf_c_ptr => cvt_adj_ens_pdaf
+      cvt_pdaf_c_ptr => cvt_pdaf
+      cvt_adj_pdaf_c_ptr => cvt_adj_pdaf
+      obs_op_lin_pdaf_c_ptr => obs_op_lin_pdafomi
+      obs_op_adj_pdaf_c_ptr => obs_op_adj_pdafomi
+      prodrinva_l_pdaf_c_ptr => prodrinva_l_pdafomi
+      init_n_domains_p_pdaf_c_ptr => init_n_domains_pdaf
+      init_dim_l_pdaf_c_ptr => init_dim_l_pdaf
+      init_dim_obs_l_pdaf_c_ptr => init_dim_obs_l_pdafomi
+      prepoststep_pdaf_c_ptr => prepoststep_pdaf
+
+      call PDAFlocalomi_put_state_hyb3dvar_lestkf_nondiagR(f__collect_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__prodrinva_pdaf, f__cvt_ens_pdaf,  &
+         f__cvt_adj_ens_pdaf, f__cvt_pdaf, f__cvt_adj_pdaf, f__obs_op_lin_pdaf,  &
+         f__obs_op_adj_pdaf, f__prodrinva_l_pdaf, f__init_n_domains_p_pdaf,  &
+         f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf, f__prepoststep_pdaf, outflag)
 
    END SUBROUTINE c__PDAFlocalomi_put_state_hyb3dvar_lestkf_nondiagR
 
@@ -198,9 +255,17 @@ contains
       ! Initialize local dimimension of obs. vector
       procedure(c__init_dim_obs_l_pdaf) :: init_dim_obs_l_pdaf
 
-      call PDAFlocalomi_put_state(collect_state_pdaf, init_dim_obs_f_pdaf,  &
-         obs_op_f_pdaf, prepoststep_pdaf, init_n_domains_pdaf, init_dim_l_pdaf,  &
-         init_dim_obs_l_pdaf, outflag)
+      collect_state_pdaf_c_ptr => collect_state_pdaf
+      init_dim_obs_f_pdaf_c_ptr => init_dim_obs_f_pdaf
+      obs_op_f_pdaf_c_ptr => obs_op_f_pdaf
+      prepoststep_pdaf_c_ptr => prepoststep_pdaf
+      init_n_domains_p_pdaf_c_ptr => init_n_domains_pdaf
+      init_dim_l_pdaf_c_ptr => init_dim_l_pdaf
+      init_dim_obs_l_pdaf_c_ptr => init_dim_obs_l_pdaf
+
+      call PDAFlocalomi_put_state(f__collect_state_pdaf, f__init_dim_obs_f_pdaf,  &
+         f__obs_op_f_pdaf, f__prepoststep_pdaf, f__init_n_domains_p_pdaf, f__init_dim_l_pdaf,  &
+         f__init_dim_obs_l_pdaf, outflag)
 
    END SUBROUTINE c__PDAFlocalomi_put_state
 
@@ -228,10 +293,19 @@ contains
       ! Provide product of inverse of R with matrix A
       procedure(c__prodRinvA_l_pdaf) :: prodrinva_l_pdafomi
 
-      call PDAFlocalomi_put_state_nondiagR(collect_state_pdaf,  &
-         init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf,  &
-         init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdafomi,  &
-         prodrinva_l_pdafomi, outflag)
+      collect_state_pdaf_c_ptr => collect_state_pdaf
+      init_dim_obs_pdaf_c_ptr => init_dim_obs_pdafomi
+      obs_op_pdaf_c_ptr => obs_op_pdafomi
+      prepoststep_pdaf_c_ptr => prepoststep_pdaf
+      init_n_domains_p_pdaf_c_ptr => init_n_domains_pdaf
+      init_dim_l_pdaf_c_ptr => init_dim_l_pdaf
+      init_dim_obs_l_pdaf_c_ptr => init_dim_obs_l_pdafomi
+      prodrinva_l_pdaf_c_ptr => prodrinva_l_pdafomi
+
+      call PDAFlocalomi_put_state_nondiagR(f__collect_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__prepoststep_pdaf,  &
+         f__init_n_domains_p_pdaf, f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf,  &
+         f__prodrinva_l_pdaf, outflag)
 
    END SUBROUTINE c__PDAFlocalomi_put_state_nondiagR
 
@@ -259,10 +333,19 @@ contains
       ! Compute likelihood and apply localization
       procedure(c__likelihood_l_pdaf) :: likelihood_l_pdafomi
 
-      call PDAFlocalomi_put_state_lnetf_nondiagR(collect_state_pdaf,  &
-         init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf,  &
-         init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdafomi,  &
-         likelihood_l_pdafomi, outflag)
+      collect_state_pdaf_c_ptr => collect_state_pdaf
+      init_dim_obs_pdaf_c_ptr => init_dim_obs_pdafomi
+      obs_op_pdaf_c_ptr => obs_op_pdafomi
+      prepoststep_pdaf_c_ptr => prepoststep_pdaf
+      init_n_domains_p_pdaf_c_ptr => init_n_domains_pdaf
+      init_dim_l_pdaf_c_ptr => init_dim_l_pdaf
+      init_dim_obs_l_pdaf_c_ptr => init_dim_obs_l_pdafomi
+      likelihood_l_pdaf_c_ptr => likelihood_l_pdafomi
+
+      call PDAFlocalomi_put_state_lnetf_nondiagR(f__collect_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__prepoststep_pdaf,  &
+         f__init_n_domains_p_pdaf, f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf,  &
+         f__likelihood_l_pdaf, outflag)
 
    END SUBROUTINE c__PDAFlocalomi_put_state_lnetf_nondiagR
 
@@ -297,11 +380,23 @@ contains
       ! Compute likelihood and apply localization with tempering
       procedure(c__likelihood_hyb_l_pdaf) :: likelihood_hyb_l_pdafomi
 
-      call PDAFlocalomi_put_state_lknetf_nondiagR(collect_state_pdaf,  &
-         init_dim_obs_pdafomi, obs_op_pdafomi, prepoststep_pdaf,  &
-         init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdafomi,  &
-         prodrinva_l_pdafomi, prodrinva_hyb_l_pdafomi, likelihood_l_pdafomi,  &
-         likelihood_hyb_l_pdafomi, outflag)
+      collect_state_pdaf_c_ptr => collect_state_pdaf
+      init_dim_obs_pdaf_c_ptr => init_dim_obs_pdafomi
+      obs_op_pdaf_c_ptr => obs_op_pdafomi
+      prepoststep_pdaf_c_ptr => prepoststep_pdaf
+      init_n_domains_p_pdaf_c_ptr => init_n_domains_pdaf
+      init_dim_l_pdaf_c_ptr => init_dim_l_pdaf
+      init_dim_obs_l_pdaf_c_ptr => init_dim_obs_l_pdafomi
+      prodrinva_l_pdaf_c_ptr => prodrinva_l_pdafomi
+      prodrinva_hyb_l_pdaf_c_ptr => prodrinva_hyb_l_pdafomi
+      likelihood_l_pdaf_c_ptr => likelihood_l_pdafomi
+      likelihood_hyb_l_pdaf_c_ptr => likelihood_hyb_l_pdafomi
+
+      call PDAFlocalomi_put_state_lknetf_nondiagR(f__collect_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__prepoststep_pdaf,  &
+         f__init_n_domains_p_pdaf, f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf,  &
+         f__prodrinva_l_pdaf, f__prodrinva_hyb_l_pdaf, f__likelihood_l_pdaf,  &
+         f__likelihood_hyb_l_pdaf, outflag)
 
    END SUBROUTINE c__PDAFlocalomi_put_state_lknetf_nondiagR
 END MODULE pdaflocalomi_c_put

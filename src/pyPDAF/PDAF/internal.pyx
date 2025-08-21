@@ -39,6 +39,114 @@ def global_except_hook(exctype, value, traceback):
 
 sys.excepthook = global_except_hook
 
+def set_forget(int  step, int  localfilter, int  dim_obs_p, int  dim_ens,
+    double [::1,:] mens_p, double [::1] mstate_p, double [::1] obs_p,
+    py__init_obsvar_pdaf, double  forget_in, int  screen):
+    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
+    For internal subroutines checking corresponding PDAF comments.
+
+    Parameters
+    ----------
+    step : int
+        Current time step
+    localfilter : int
+        Whether filter is domain-local
+    dim_obs_p : int
+        Dimension of observation vector
+    dim_ens : int
+        Ensemble size
+    mens_p : ndarray[np.float64, ndim=2]
+        Observed PE-local ensemble
+        Array shape: (dim_obs_p, dim_ens)
+    mstate_p : ndarray[np.float64, ndim=1]
+        Observed PE-local mean state
+        Array shape: (dim_obs_p)
+    obs_p : ndarray[np.float64, ndim=1]
+        Observation vector
+        Array shape: (dim_obs_p)
+    py__init_obsvar_pdaf : Callable
+        Initialize mean obs. error variance
+
+        Callback Parameters
+        -------------------
+        step : int
+                Current time step
+        dim_obs_p : int
+                Size of observation vector
+        obs_p : ndarray[np.float64, ndim=1]
+                Vector of observations
+                Array shape: (dim_obs_p)
+
+        Callback Returns
+        ----------------
+        meanvar : double
+                Mean observation error variance
+
+    forget_in : double
+        Prescribed forgetting factor
+    screen : int
+        Verbosity flag
+
+    Returns
+    -------
+    forget_out : double
+        Adaptively estimated forgetting factor
+    """
+    pdaf_cb.init_obsvar_pdaf = <void*>py__init_obsvar_pdaf
+    cdef double  forget_out
+    with nogil:
+        c__pdaf_set_forget(&step, &localfilter, &dim_obs_p, &dim_ens,
+                           &mens_p[0,0], &mstate_p[0], &obs_p[0],
+                           pdaf_cb.c__init_obsvar_pdaf, &forget_in,
+                           &forget_out, &screen)
+
+    return forget_out
+
+def _set_iparam_filters(int  id, int  value):
+    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
+    For internal subroutines checking corresponding PDAF comments.
+
+    Parameters
+    ----------
+    id : int
+        Index of parameter
+    value : int
+        Parameter value
+
+    Returns
+    -------
+    flag : int
+        Status flag: 0 for no error
+    """
+    cdef int  flag
+    with nogil:
+        c__pdaf_set_iparam_filters(&id, &value, &flag)
+
+    return flag
+
+
+def set_rparam_filters(int  id, double  value):
+    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
+    For internal subroutines checking corresponding PDAF comments.
+
+    Parameters
+    ----------
+    id : int
+        Index of parameter
+    value : double
+        Parameter value
+
+    Returns
+    -------
+    flag : int
+        Status flag: 0 for no error
+    """
+    cdef int  flag
+    with nogil:
+        c__pdaf_set_rparam_filters(&id, &value, &flag)
+
+    return flag
+
 def _set_forget_local(int  domain, int  step, int  dim_obs_l, int  dim_ens,
     double [::1,:] hx_l, double [::1] hxbar_l, double [::1] obs_l,
     py__init_obsvar_l_pdaf, double  forget):
@@ -2726,7 +2834,7 @@ def _memcount_ini(int  ncounters):
 
 
 
-def _memcount_define(char  stortype, int  wordlength):
+def _memcount_define(str  stortype, int  wordlength):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -2740,12 +2848,14 @@ def _memcount_define(char  stortype, int  wordlength):
     Returns
     -------
     """
+    stortype_byte = stortype.encode('UTF-8')
+    cdef char*  stortype_ptr = stortype_byte
     with nogil:
-        c__pdaf_memcount_define(&stortype, &wordlength)
+        c__pdaf_memcount_define(stortype_ptr, &wordlength)
 
 
 
-def _memcount(int  id, char  stortype, int  dim):
+def _memcount(int  id, str stortype, int  dim):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -2761,8 +2871,10 @@ def _memcount(int  id, char  stortype, int  dim):
     Returns
     -------
     """
+    stortype_byte = stortype.encode('UTF-8')
+    cdef char*  stortype_ptr = stortype_byte
     with nogil:
-        c__pdaf_memcount(&id, &stortype, &dim)
+        c__pdaf_memcount(&id, stortype_ptr, &dim)
 
 
 
@@ -2814,19 +2926,20 @@ def _init_filters(int  type_filter, int  subtype, int [::1] param_int,
     """
     cdef cnp.ndarray[cnp.int32_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_int_np = np.asarray(param_int, dtype=np.intc, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
-    cdef char  filterstr
+    cdef char*  filterstr_ptr
+    cdef str  filterstr
     cdef bint  ensemblefilter
     cdef bint  fixedbasis
     with nogil:
         c__pdaf_init_filters(&type_filter, &subtype, &param_int[0],
                              &dim_pint, &param_real[0], &dim_preal,
-                             &filterstr, &ensemblefilter, &fixedbasis,
+                             filterstr_ptr, &ensemblefilter, &fixedbasis,
                              &screen, &flag)
-
+    filterstr = filterstr_ptr.decode('UTF-8')
     return subtype, param_int_np, param_real_np, filterstr, ensemblefilter, fixedbasis, flag
 
 
-def _alloc_filters(char  filterstr, int  subtype, int  flag):
+def _alloc_filters(str  filterstr, int  subtype, int  flag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -2844,8 +2957,10 @@ def _alloc_filters(char  filterstr, int  subtype, int  flag):
     flag : int
         Status flag
     """
+    filterstr_byte = filterstr.encode('UTF-8')
+    cdef char* filterstr_ptr = filterstr_byte
     with nogil:
-        c__pdaf_alloc_filters(&filterstr, &subtype, &flag)
+        c__pdaf_alloc_filters(filterstr_ptr, &subtype, &flag)
 
     return flag
 

@@ -1,46 +1,10 @@
-import sys
+# pylint: disable=unused-argument
+"""stub file for setter.pyx"""
+import typing
 import numpy as np
-cimport numpy as cnp
-from pyPDAF cimport pdaf_c_cb_interface as pdaf_cb
-from pyPDAF.cfi_binding cimport CFI_cdesc_t, CFI_address, CFI_index_t, CFI_establish
-from pyPDAF.cfi_binding cimport CFI_attribute_other, CFI_type_double, CFI_type_int
-from pyPDAF.cfi_binding cimport CFI_cdesc_rank1, CFI_cdesc_rank2, CFI_cdesc_rank3
-
-try:
-    import mpi4py
-    mpi4py.rc.initialize = False
-except ImportError:
-    pass
 
 
-# Global error handler
-def global_except_hook(exctype, value, traceback):
-    from traceback import print_exception
-    try:
-        import mpi4py.MPI
-
-        if mpi4py.MPI.Is_initialized():
-            try:
-                sys.stderr.write('Uncaught exception was ''detected on rank {}.\n'.format(
-                    mpi4py.MPI.COMM_WORLD.Get_rank()))
-                print_exception(exctype, value, traceback)
-                sys.stderr.write("\n")
-                sys.stderr.flush()
-            finally:
-                try:
-                    mpi4py.MPI.COMM_WORLD.Abort(1)
-                except Exception as e:
-                    sys.stderr.write('MPI Abort failed, this process will hang.\n')
-                    sys.stderr.flush()
-                    raise e
-        else:
-            sys.__excepthook__(exctype, value, traceback)
-    except ImportError:
-        sys.__excepthook__(exctype, value, traceback)
-
-sys.excepthook = global_except_hook
-
-def set_comm_pdaf(int  in_comm_pdaf):
+def set_comm_pdaf(in_comm_pdaf: int) -> None:
     """Set the MPI communicator used by PDAF.
 
     By default, PDAF assumes it can use all available
@@ -56,12 +20,8 @@ def set_comm_pdaf(int  in_comm_pdaf):
     Returns
     -------
     """
-    with nogil:
-        c__pdaf_set_comm_pdaf(&in_comm_pdaf)
 
-
-
-def set_debug_flag(int  debugval):
+def set_debug_flag(debugval: int) -> None:
     """Activate the debug output of the PDAF.
 
     Starting from the use of this function,
@@ -82,12 +42,8 @@ def set_debug_flag(int  debugval):
     Returns
     -------
     """
-    with nogil:
-        c__pdaf_set_debug_flag(&debugval)
 
-
-
-def set_ens_pointer():
+def set_ens_pointer() -> typing.Tuple[np.ndarray, int]:
     """Return the ensemble in a numpy array.
 
     Here the internal array data has the same memoery address
@@ -100,27 +56,14 @@ def set_ens_pointer():
     status : int
         Status flag
     """
-    cdef CFI_cdesc_rank2 ens_ptr_cfi
-    cdef CFI_cdesc_t *ens_ptr_ptr = <CFI_cdesc_t *> &ens_ptr_cfi
-    cdef int  status
-    with nogil:
-        c__pdaf_set_ens_pointer(ens_ptr_ptr, &status)
 
-    cdef CFI_index_t ens_ptr_subscripts[2]
-    ens_ptr_subscripts[0] = 0
-    ens_ptr_subscripts[1] = 0
-    cdef double * ens_ptr_ptr_np
-    ens_ptr_ptr_np = <double *>CFI_address(ens_ptr_ptr, ens_ptr_subscripts)
-    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_ptr_np = np.asarray(<double [:ens_ptr_ptr.dim[0].extent:1,:ens_ptr_ptr.dim[1].extent]> ens_ptr_ptr_np, order="F")
-    return ens_ptr_np, status
-
-
-def set_iparam(int  idval, int  value, int  flag):
+def set_iparam(idval: int, value: int, flag: int) -> int:
     """This routine is used to set integer parameters for PDAF.
 
     The integer parameters specific to a DA method can be set in the array
-    `filter_param_i` that is an argument of :func:`pyPDAF.PDAF.init`
-    (see the page on `initializing PDAF<https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF>`_).
+    `param_int` that is an argument of :func:`pyPDAF.PDAF.init`
+    (see the page on
+    `initializing PDAF<https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF>`_).
 
     This function provides an alternative way.
     Instead of providing all parameters in the call to :func:`pyPDAF.PDAF.init`,
@@ -152,13 +95,8 @@ def set_iparam(int  idval, int  value, int  flag):
     flag : int
         Status flag: 0 for no error
     """
-    with nogil:
-        c__pdaf_set_iparam(&idval, &value, &flag)
 
-    return flag
-
-
-def set_memberid(int  memberid):
+def set_memberid(memberid: int) -> int:
     """Set the ensemble member index to given value.
 
     Parameters
@@ -171,13 +109,8 @@ def set_memberid(int  memberid):
     memberid : int
         Index in the local ensemble
     """
-    with nogil:
-        c__pdaf_set_memberid(&memberid)
 
-    return memberid
-
-
-def set_offline_mode(int  screen):
+def set_offline_mode(screen: int) -> None:
     """Activate offline mode of PDAF.
 
     Parameters
@@ -188,17 +121,14 @@ def set_offline_mode(int  screen):
     Returns
     -------
     """
-    with nogil:
-        c__pdaf_set_offline_mode(&screen)
 
-
-
-def set_rparam(int  idval, double  value, int  flag):
+def set_rparam(idval: int, value: float, flag: int) -> int:
     """This routine is used to set floating-point parameters for PDAF.
 
     The floating-point parameters specific to a DA method can be set in the array
     `filter_param_r` that is an argument of :func:`pyPDAF.PDAF.init`
-    (see the page on `initializing PDAF<https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF>`_).
+    (see the page on
+    `initializing PDAF<https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF>`_).
 
     This function provides an alternative way.
     Instead of providing all parameters in the call to :func:`pyPDAF.PDAF.init`,
@@ -230,13 +160,8 @@ def set_rparam(int  idval, double  value, int  flag):
     flag : int
         Status flag: 0 for no error
     """
-    with nogil:
-        c__pdaf_set_rparam(&idval, &value, &flag)
 
-    return flag
-
-
-def set_seedset(int  seedset_in):
+def set_seedset(seedset_in: int) -> None:
     """This routine can be called to choose a seedset for the random number generator used in PDAF.
 
     Parameters
@@ -247,12 +172,8 @@ def set_seedset(int  seedset_in):
     Returns
     -------
     """
-    with nogil:
-        c__pdaf_set_seedset(&seedset_in)
 
-
-
-def set_smootherens(int  maxlag):
+def set_smootherens(maxlag: int) -> typing.Tuple[np.ndarray, int]:
     """Get a pointer to smoother ensemble.
 
     When smoother is used, the smoothed ensemble states
@@ -288,21 +209,3 @@ def set_smootherens(int  maxlag):
     status : int
         Status flag,
     """
-    cdef CFI_cdesc_rank3 sens_point_cfi
-    cdef CFI_cdesc_t *sens_point_ptr = <CFI_cdesc_t *> &sens_point_cfi
-    cdef int  status
-    with nogil:
-        c__pdaf_set_smootherens(sens_point_ptr, &maxlag, &status)
-
-    cdef CFI_index_t sens_point_subscripts[3]
-    sens_point_subscripts[0] = 0
-    sens_point_subscripts[1] = 0
-    sens_point_subscripts[2] = 0
-    cdef double * sens_point_ptr_np
-    sens_point_ptr_np = <double *>CFI_address(sens_point_ptr, sens_point_subscripts)
-    cdef cnp.ndarray[cnp.float64_t, ndim=3, mode="fortran", negative_indices=False, cast=False] sens_point_np = np.asarray(<double [:sens_point_ptr.dim[0].extent:1,:sens_point_ptr.dim[1].extent,:sens_point_ptr.dim[2].extent]> sens_point_ptr_np, order="F")
-    return sens_point_np, status
-
-
-
-

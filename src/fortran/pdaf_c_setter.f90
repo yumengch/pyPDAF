@@ -5,36 +5,6 @@ use pdaf_c_cb_interface
 implicit none
 
 contains
-   SUBROUTINE c__PDAF_set_iparam_filters(id, value, flag) bind(c)
-      use PDAF_utils_filters
-      implicit none
-      ! Index of parameter
-      INTEGER(c_int), INTENT(in) :: id
-      ! Parameter value
-      INTEGER(c_int), INTENT(in) :: value
-      ! Status flag: 0 for no error
-      INTEGER(c_int), INTENT(out) :: flag
-
-
-      call PDAF_set_iparam_filters(id, value, flag)
-
-   END SUBROUTINE c__PDAF_set_iparam_filters
-
-   SUBROUTINE c__PDAF_set_rparam_filters(id, value, flag) bind(c)
-      use PDAF_utils_filters
-      implicit none
-      ! Index of parameter
-      INTEGER(c_int), INTENT(in) :: id
-      ! Parameter value
-      REAL(c_double), INTENT(in) :: value
-      ! Status flag: 0 for no error
-      INTEGER(c_int), INTENT(out) :: flag
-
-
-      call PDAF_set_rparam_filters(id, value, flag)
-
-   END SUBROUTINE c__PDAF_set_rparam_filters
-
    SUBROUTINE c__PDAF_set_comm_pdaf(in_comm_pdaf) bind(c)
       ! MPI communicator for PDAF
       INTEGER(c_int), INTENT(in) :: in_comm_pdaf
@@ -127,40 +97,4 @@ contains
 
       call PDAF_set_smootherens(sens_point, maxlag, status)
    END SUBROUTINE c__PDAF_set_smootherens
-
-   SUBROUTINE c__PDAF_set_forget(step, localfilter, dim_obs_p, dim_ens, mens_p,  &
-      mstate_p, obs_p, u_init_obsvar, forget_in, forget_out, screen) bind(c)
-      use PDAF_analysis_utils
-      implicit none
-      ! Current time step
-      INTEGER(c_int), INTENT(in) :: step
-      ! Whether filter is domain-local
-      INTEGER(c_int), INTENT(in) :: localfilter
-      ! Dimension of observation vector
-      INTEGER(c_int), INTENT(in) :: dim_obs_p
-      ! Ensemble size
-      INTEGER(c_int), INTENT(in) :: dim_ens
-      ! Observed PE-local ensemble
-      REAL(c_double), DIMENSION(dim_obs_p, dim_ens), INTENT(in) :: mens_p
-      ! Observed PE-local mean state
-      REAL(c_double), DIMENSION(dim_obs_p), INTENT(in) :: mstate_p
-      ! Observation vector
-      REAL(c_double), DIMENSION(dim_obs_p), INTENT(in) :: obs_p
-      ! Prescribed forgetting factor
-      REAL(c_double), INTENT(in) :: forget_in
-      ! Adaptively estimated forgetting factor
-      REAL(c_double), INTENT(out) :: forget_out
-      ! Verbosity flag
-      INTEGER(c_int), INTENT(in) :: screen
-
-      ! Initialize mean obs. error variance
-      procedure(c__init_obsvar_pdaf) :: u_init_obsvar
-
-      call PDAF_set_forget(step, localfilter, dim_obs_p, dim_ens, mens_p,  &
-         mstate_p, obs_p, u_init_obsvar, forget_in, forget_out, screen)
-
-   END SUBROUTINE c__PDAF_set_forget
-
-
-
 END MODULE pdaf_c_setter

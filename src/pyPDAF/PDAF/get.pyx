@@ -40,9 +40,15 @@ def global_except_hook(exctype, value, traceback):
 sys.excepthook = global_except_hook
 
 def get_assim_flag():
-    """Return the flag that
+    r"""Return the flag that
     indicates if the DA is performed in the last time step.
     It only works for online DA systems.
+
+
+    Returns
+    -------
+    did_assim : int
+        flag: (1) for assimilation; (0) else
     """
     cdef int  did_assim
     with nogil:
@@ -52,7 +58,15 @@ def get_assim_flag():
 
 
 def get_localfilter():
-    """Return whether a local filter is used.
+    r"""Return whether a local filter is used.
+
+
+    Returns
+    -------
+    lfilter : int
+        whether the filter is domain-localized (1) or not (0)
+        * 1 for local filters (including ENSRF/EAKF),
+        * 0 for global filters (including LEnKF, which performs covariance localization)
     """
     cdef int  localfilter_out
     with nogil:
@@ -62,8 +76,21 @@ def get_localfilter():
 
 
 def get_local_type():
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""The routine returns the information on the localization type of the selected filter.
+
+    With this one can distinguish filters using
+    * domain localization (LESTKF, LETKF, LSEIK, LNETF),
+    * covariance localization (LEnKF), or
+    * covariance localization with observation handling like domain localization (ENSRF/EAKF).
+
+
+    Returns
+    -------
+    localtype : int
+        * (0) no localization; global filter
+        * (1) domain localization (LESTKF, LETKF, LNETF, LSEIK)
+        * (2) covariance localization (LEnKF)
+        * (3) covariance loc. but observation handling like domain localization (ENSRF)
     """
     cdef int  localtype
     with nogil:
@@ -124,6 +151,15 @@ def get_smootherens():
     """Return the smoothed ensemble in earlier time steps.
 
     It is only used when the smoother options is used .
+
+    Returns
+    -------
+    sens_point_np : ndarray[np.float64, ndim=3]
+        Pointer to smoothed ensemble
+    maxlag: int
+        Maximum lag
+    status: int
+        Status flag
     """
     cdef CFI_cdesc_rank3 sens_point_cfi
     cdef CFI_cdesc_t *sens_point_ptr = <CFI_cdesc_t *> &sens_point_cfi

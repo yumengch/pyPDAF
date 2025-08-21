@@ -25,7 +25,6 @@ contains
       ! Error flag
       INTEGER(c_int), INTENT(inout) :: flag
 
-
       call PDAFomi_check_error(flag)
 
    END SUBROUTINE c__PDAFomi_check_error

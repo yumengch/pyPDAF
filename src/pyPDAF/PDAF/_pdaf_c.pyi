@@ -1,45 +1,10 @@
-import sys
+# pylint: disable=unused-argument
+from typing import Tuple, Callable, Any
 import numpy as np
-cimport numpy as cnp
-from pyPDAF cimport pdaf_c_cb_interface as pdaf_cb
-from pyPDAF.cfi_binding cimport CFI_cdesc_t, CFI_address, CFI_index_t, CFI_establish
-from pyPDAF.cfi_binding cimport CFI_attribute_other, CFI_type_double, CFI_type_int
-from pyPDAF.cfi_binding cimport CFI_cdesc_rank1, CFI_cdesc_rank2, CFI_cdesc_rank3
+from numpy.typing import NDArray
 
-try:
-    import mpi4py
-    mpi4py.rc.initialize = False
-except ImportError:
-    pass
 
-# Global error handler
-def global_except_hook(exctype, value, traceback):
-    from traceback import print_exception
-    try:
-        import mpi4py.MPI
-
-        if mpi4py.MPI.Is_initialized():
-            try:
-                sys.stderr.write('Uncaught exception was ''detected on rank {}.\n'.format(
-                    mpi4py.MPI.COMM_WORLD.Get_rank()))
-                print_exception(exctype, value, traceback)
-                sys.stderr.write("\n")
-                sys.stderr.flush()
-            finally:
-                try:
-                    mpi4py.MPI.COMM_WORLD.Abort(1)
-                except Exception as e:
-                    sys.stderr.write('MPI Abort failed, this process will hang.\n')
-                    sys.stderr.flush()
-                    raise e
-        else:
-            sys.__excepthook__(exctype, value, traceback)
-    except ImportError:
-        sys.__excepthook__(exctype, value, traceback)
-
-sys.excepthook = global_except_hook
-
-def correlation_function(int  ctype, double  length, double  distance):
+def correlation_function(ctype: int, length: float, distance: float) -> float:
     """The value of the chosen correlation function according to the specified
     length scale.
 
@@ -49,38 +14,47 @@ def correlation_function(int  ctype, double  length, double  distance):
         Type of correlation function
         * ctype=1: Gaussian with f(0)=1.0
         * ctype=2: 5th-order polynomial (Gaspace/Cohn, 1999)
-    length : double
+    length : float
         Length scale of function
         * ctype=1: standard deviation
         * ctype=2: support length f=0 for distance>length
-    distance : double
+    distance : float
         Distance at which the function is evaluated
 
     Returns
     -------
-    value : double
+    value : float
         Value of the function
     """
-    cdef double  value
-    with nogil:
-        c__pdaf_correlation_function(&ctype, &length, &distance, &value)
-
-    return value
 
 
-def deallocate():
+def deallocate() -> None:
     """Finalise the PDAF systems including freeing some of the memory used by PDAF.
 
     This function cannot be used to free all allocated PDAF memory.
     Therefore, one should not use :func:`pyPDAF.PDAF.init` afterwards.
     """
-    with nogil:
-        c__pdaf_deallocate()
 
 
-def eofcovar(int  dim, int  nstates, int  nfields, int [::1] dim_fields,
-    int [::1] offsets, int  remove_mstate, int  do_mv,
-    double [::1,:] states, double [::1] meanstate, int  verbose):
+def eofcovar(
+    dim: int,
+    nstates: int,
+    nfields: int,
+    dim_fields: NDArray[np.int32],
+    offsets: NDArray[np.int32],
+    remove_mstate: int,
+    do_mv: int,
+    states: NDArray[np.float64],
+    meanstate: NDArray[np.float64],
+    verbose: int,
+) -> Tuple[
+    NDArray[np.float64],  # states
+    NDArray[np.float64],  # stddev
+    NDArray[np.float64],  # svals
+    NDArray[np.float64],  # svec
+    NDArray[np.float64],  # meanstate
+    int,                  # status
+]:
     """
     EOF analysis of an ensemble of state vectors by singular value decomposition.
 
@@ -154,25 +128,9 @@ def eofcovar(int  dim, int  nstates, int  nfields, int [::1] dim_fields,
     status : int
         Status flag
     """
-    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] states_np = np.asarray(states, dtype=np.float64, order="F")
-    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] stddev_np = np.zeros((nfields), dtype=np.float64, order="F")
-    cdef double [::1] stddev = stddev_np
-    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] svals_np = np.zeros((nstates), dtype=np.float64, order="F")
-    cdef double [::1] svals = svals_np
-    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] svec_np = np.zeros((dim, nstates), dtype=np.float64, order="F")
-    cdef double [::1,:] svec = svec_np
-    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] meanstate_np = np.asarray(meanstate, dtype=np.float64, order="F")
-    cdef int  status
-    with nogil:
-        c__pdaf_eofcovar(&dim, &nstates, &nfields, &dim_fields[0],
-                         &offsets[0], &remove_mstate, &do_mv, &states[0,0],
-                         &stddev[0], &svals[0], &svec[0,0], &meanstate[0],
-                         &verbose, &status)
-
-    return states_np, stddev_np, svals_np, svec_np, meanstate_np, status
 
 
-def force_analysis():
+def force_analysis() -> None:
     """Perform assimilation after this function call.
 
     This function overwrite member index of the ensemble state
@@ -182,12 +140,9 @@ def force_analysis():
     This forces that the analysis step is executed at
     the next call to PDAF assimilation functions.
     """
-    with nogil:
-        c__pdaf_force_analysis()
 
 
-
-def gather_dim_obs_f(int  dim_obs_p):
+def gather_dim_obs_f(dim_obs_p: int) -> int:
     """Gather the dimension of observation vector
     across multiple local domains/filter processors.
 
@@ -219,14 +174,12 @@ def gather_dim_obs_f(int  dim_obs_p):
     dim_obs_f : int
         Full observation dimension
     """
-    cdef int  dim_obs_f
-    with nogil:
-        c__pdaf_gather_dim_obs_f(&dim_obs_p, &dim_obs_f)
-
-    return dim_obs_f
 
 
-def gather_obs_f(double [::1] obs_p, int  dimobs_f):
+def gather_obs_f(
+    obs_p: NDArray[np.float64],
+    dimobs_f: int,
+) -> Tuple[NDArray[np.float64], int]:
     """In the local filters (LESKTF, LETKF, LSEIK, LNETF) this function
     returns the total observation vector from process-local observations.
     The function depends on :func:`pyPDAF.PDAF.gather_dim_obs_f` which defines
@@ -250,16 +203,13 @@ def gather_obs_f(double [::1] obs_p, int  dimobs_f):
     status : int
         Status flag:
     """
-    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obs_f_np = np.zeros((dimobs_f), dtype=np.float64, order="F")
-    cdef double [::1] obs_f = obs_f_np
-    cdef int  status
-    with nogil:
-        c__pdaf_gather_obs_f(&obs_p[0], &obs_f[0], &status)
-
-    return obs_f_np, status
 
 
-def gather_obs_f2(double [::1,:] coords_p, int  nrows, int  dimobs_f):
+def gather_obs_f2(
+    coords_p: NDArray[np.float64],
+    nrows: int,
+    dimobs_f: int,
+) -> Tuple[NDArray[np.float64], int]:
     """In the local filters (LESKTF, LETKF, LSEIK, LNETF)
     this function returns the full observation coordinates from process-local
     observation coordinates. The function depends on
@@ -289,16 +239,13 @@ def gather_obs_f2(double [::1,:] coords_p, int  nrows, int  dimobs_f):
     status : int
         Status flag:
     """
-    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] coords_f_np = np.zeros((nrows, dimobs_f), dtype=np.float64, order="F")
-    cdef double [::1,:] coords_f = coords_f_np
-    cdef int  status
-    with nogil:
-        c__pdaf_gather_obs_f2(&coords_p[0,0], &coords_f[0,0], &nrows, &status)
-
-    return coords_f_np, status
 
 
-def gather_obs_f_flex(int  dim_obs_p, int  dim_obs_f, double [::1] obs_p):
+def gather_obs_f_flex(
+    dim_obs_p: int,
+    dim_obs_f: int,
+    obs_p: NDArray[np.float64],
+) -> Tuple[NDArray[np.float64], int]:
     """Gather full observation from processor
     local observation without PDAF-internal info.
 
@@ -334,18 +281,14 @@ def gather_obs_f_flex(int  dim_obs_p, int  dim_obs_f, double [::1] obs_p):
     status : int
         Status flag: (0) no error
     """
-    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obs_f_np = np.zeros((dim_obs_f), dtype=np.float64, order="F")
-    cdef double [::1] obs_f = obs_f_np
-    cdef int  status
-    with nogil:
-        c__pdaf_gather_obs_f_flex(&dim_obs_p, &dim_obs_f, &obs_p[0],
-                                  &obs_f[0], &status)
-
-    return obs_f_np, status
 
 
-def gather_obs_f2_flex(int  dim_obs_p, int  dim_obs_f,
-    double [::1,:] coords_p, int  nrows):
+def gather_obs_f2_flex(
+    dim_obs_p: int,
+    dim_obs_f: int,
+    coords_p: NDArray[np.float64],
+    nrows: int,
+) -> Tuple[NDArray[np.float64], int]:
     """Gather full observation coordinates from processor
     local observation coordinates without PDAF-internal info.
 
@@ -383,20 +326,25 @@ def gather_obs_f2_flex(int  dim_obs_p, int  dim_obs_f,
     status : int
         Status flag: (0) no error
     """
-    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] coords_f_np = np.zeros((nrows, dim_obs_f), dtype=np.float64, order="F")
-    cdef double [::1,:] coords_f = coords_f_np
-    cdef int  status
-    with nogil:
-        c__pdaf_gather_obs_f2_flex(&dim_obs_p, &dim_obs_f, &coords_p[0,0],
-                                   &coords_f[0,0], &nrows, &status)
-
-    return coords_f_np, status
 
 
-def init(int  filtertype, int  subtype, int  stepnull, int [::1] param_int,
-    int  dim_pint, double [::1] param_real, int  dim_preal,
-    int  comm_model, int  comm_filter, int  comm_couple, int  task_id,
-    int  n_modeltasks, bint  in_filterpe, py__init_ens_pdaf, int  in_screen):
+def init(
+    filtertype: int,
+    subtype: int,
+    stepnull: int,
+    param_int: NDArray[np.int32],
+    dim_pint: int,
+    param_real: NDArray[np.float64],
+    dim_preal: int,
+    comm_model: int,
+    comm_filter: int,
+    comm_couple: int,
+    task_id: int,
+    n_modeltasks: int,
+    in_filterpe: bool,
+    py__init_ens_pdaf: Callable[..., Any],
+    in_screen: int,
+) -> Tuple[NDArray[np.int32], NDArray[np.float64], int]:
     """Initialise the PDAF system.
 
     It is called once at the beginning of the assimilation.
@@ -479,22 +427,14 @@ def init(int  filtertype, int  subtype, int  stepnull, int [::1] param_int,
     outflag : int
         Status flag, 0: no error, error codes:
     """
-    cdef cnp.ndarray[cnp.int32_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_int_np = np.asarray(param_int, dtype=np.intc, order="F")
-    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
-    pdaf_cb.init_ens_pdaf = <void*>py__init_ens_pdaf
-    cdef int  outflag
-    with nogil:
-        c__pdaf_init(&filtertype, &subtype, &stepnull, &param_int[0],
-                     &dim_pint, &param_real[0], &dim_preal, &comm_model,
-                     &comm_filter, &comm_couple, &task_id, &n_modeltasks,
-                     &in_filterpe, pdaf_cb.c__init_ens_pdaf, &in_screen,
-                     &outflag)
-
-    return param_int_np, param_real_np, outflag
 
 
-def init_forecast(py__next_observation_pdaf, py__distribute_state_pdaf,
-    py__prepoststep_pdaf, int  outflag):
+def init_forecast(
+    py__next_observation_pdaf: Callable[..., Any],
+    py__distribute_state_pdaf: Callable[..., Any],
+    py__prepoststep_pdaf: Callable[..., Any],
+    outflag: int,
+) -> int:
     """The routine PDAF_init_forecast has to be called once at the end of the
     initialization of PDAF/start of DA cycles.
 
@@ -525,20 +465,20 @@ def init_forecast(py__next_observation_pdaf, py__distribute_state_pdaf,
     outflag : int
         Status flag
     """
-    pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
-    pdaf_cb.distribute_state_pdaf = <void*>py__distribute_state_pdaf
-    pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
-    with nogil:
-        c__pdaf_init_forecast(pdaf_cb.c__next_observation_pdaf,
-                              pdaf_cb.c__distribute_state_pdaf,
-                              pdaf_cb.c__prepoststep_pdaf, &outflag)
-
-    return outflag
 
 
-def local_weight(int  wtype, int  rtype, double  cradius, double  sradius,
-    double  distance, int  nrows, int  ncols, double [::1,:] a,
-    double  var_obs, int  verbose):
+def local_weight(
+    wtype: int,
+    rtype: int,
+    cradius: float,
+    sradius: float,
+    distance: float,
+    nrows: int,
+    ncols: int,
+    a: NDArray[np.float64],
+    var_obs: float,
+    verbose: int,
+) -> float:
     """Get localisation weight for given distance,
     cut-off radius, support radius, weighting type,
     and weighting function.
@@ -600,17 +540,16 @@ def local_weight(int  wtype, int  rtype, double  cradius, double  sradius,
     weight : double
         localisation weights
     """
-    cdef double  weight
-    with nogil:
-        c__pdaf_local_weight(&wtype, &rtype, &cradius, &sradius, &distance,
-                             &nrows, &ncols, &a[0,0], &var_obs, &weight,
-                             &verbose)
-
-    return weight
 
 
-def local_weights(int  wtype, double  cradius, double  sradius, int  dim,
-    double [::1] distance, int  verbose):
+def local_weights(
+    wtype: int,
+    cradius: float,
+    sradius: float,
+    dim: int,
+    distance: NDArray[np.float64],
+    verbose: int,
+) -> NDArray[np.float64]:
     """Get a vector of localisation weights for given distances,
     cut-off radius, support radius, weighting type,
     and weighting function.
@@ -666,58 +605,9 @@ def local_weights(int  wtype, double  cradius, double  sradius, int  dim,
         Array for localisation weights
         Array shape: (dim)
     """
-    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] weight_np = np.zeros((dim), dtype=np.float64, order="F")
-    cdef double [::1] weight = weight_np
-    with nogil:
-        c__pdaf_local_weights(&wtype, &cradius, &sradius, &dim,
-                              &distance[0], &weight[0], &verbose)
-
-    return weight_np
 
 
-def print_filter_types(int  verbose):
-    """Print the list of available named filter types and their IDs.
-
-    This is a thin wrapper of the Fortran routine
-    ``PDAF_print_filter_types(verbose)``. If ``verbose > 0``, it writes to
-    stdout the names and corresponding integer identifiers of the supported
-    data assimilation filter types. This is useful to see which integer codes
-    can be passed as ``filtertype`` to :func:`pyPDAF.PDAF.init`.
-
-    The printed list includes (names shown; the routine also prints their
-    numeric codes):
-    - PDAF_DA_LESTKF
-    - PDAF_DA_ESTKF
-    - PDAF_DA_LETKF
-    - PDAF_DA_ETKF
-    - PDAF_DA_LENKF
-    - PDAF_DA_ENKF
-    - PDAF_DA_LSEIK
-    - PDAF_DA_SEIK
-    - PDAF_DA_ENSRF
-    - PDAF_DA_LNETF
-    - PDAF_DA_NETF
-    - PDAF_DA_PF
-    - PDAF_DA_LKNETF
-    - PDAF_DA_GENOBS
-    - PDAF_DA_3DVAR
-
-    Parameters
-    ----------
-    verbose : int
-        Verbosity flag. If 0, no output is printed; if > 0, the list is
-        printed to stdout.
-
-    Returns
-    -------
-    None
-    """
-    with nogil:
-        c__pdaf_print_filter_types(&verbose)
-
-
-
-def print_da_types(int  verbose):
+def print_filter_types(verbose: int) -> None:
     """Print the list of available named DA method types and their IDs.
 
     Wrapper of the Fortran routine ``PDAF_print_DA_types(verbose)``. If
@@ -753,12 +643,9 @@ def print_da_types(int  verbose):
     -------
     None
     """
-    with nogil:
-        c__pdaf_print_da_types(&verbose)
 
 
-
-def print_info(int  printtype):
+def print_da_types(verbose: int) -> None:
     """Print PDAF timing and memory information.
 
     Wrapper of the Fortran routine ``PDAF_print_info(printtype)``. Prints
@@ -776,12 +663,36 @@ def print_info(int  printtype):
         - 10: allocated memory of the calling MPI task
         - 11: globally used memory (call from all processes)
     """
-    with nogil:
-        c__pdaf_print_info(&printtype)
 
 
+def print_info(printtype: int) -> None:
+    """Print PDAF timing and memory information.
 
-def reset_forget(double  forget_in):
+    Wrapper of the Fortran routine ``PDAF_print_info(printtype)``. Prints
+    aggregated timing information and/or memory usage depending on
+    ``printtype``. Call this near the end of your DA program.
+
+    Parameters
+    ----------
+    printtype : int
+        Type of information to be printed
+        * printtype=1: Basic timers
+        * printtype=3: Timers showing the time spent in the different call-back routines
+            (this variant was added with PDAF 1.15)
+        * printtype=4: More detailed timers about parts of the filter algorithm
+            (before PDAF 1.15, this was timer level 3)
+        * printtype=5: Very detailed timers about various operations in the filter algorithm
+            (before PDAF 1.15, this was timer level 4)
+        * printtype=10: Memory usage (The value 10 is valid since PDAF V2.1. For older versions use 2)
+
+            - Memory required for the ensemble array,
+                state vector, and transform matrix
+            - Memory required by the analysis step
+            - Memory required to perform the ensemble transformation
+    """
+
+
+def reset_forget(forget_in: float) -> None:
     """Reset the forgetting factor manually
     during the assimilation process.
 
@@ -805,13 +716,22 @@ def reset_forget(double  forget_in):
         New value of forgetting factor
 
     """
-    with nogil:
-        c__pdaf_reset_forget(&forget_in)
 
 
-
-def sampleens(int  dim, int  dim_ens, double [::1,:] modes,
-    double [::1] svals, double [::1] state, int  verbose, int  flag):
+def sampleens(
+    dim: int,
+    dim_ens: int,
+    modes: NDArray[np.float64],
+    svals: NDArray[np.float64],
+    state: NDArray[np.float64],
+    verbose: int,
+    flag: int,
+) -> Tuple[
+    NDArray[np.float64],  # modes
+    NDArray[np.float64],  # state
+    NDArray[np.float64],  # ens
+    int,                  # flag
+]:
     r"""Generate an ensemble from singular values and
     their vectors (EOF modes) of an ensemble anomaly matrix.
 
@@ -855,14 +775,3 @@ def sampleens(int  dim, int  dim_ens, double [::1,:] modes,
     flag : int
         Status flag
     """
-    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] modes_np = np.asarray(modes, dtype=np.float64, order="F")
-    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_np = np.asarray(state, dtype=np.float64, order="F")
-    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_np = np.zeros((dim, dim_ens), dtype=np.float64, order="F")
-    cdef double [::1,:] ens = ens_np
-    with nogil:
-        c__pdaf_sampleens(&dim, &dim_ens, &modes[0,0], &svals[0],
-                          &state[0], &ens[0,0], &verbose, &flag)
-
-    return modes_np, state_np, ens_np, flag
-
-

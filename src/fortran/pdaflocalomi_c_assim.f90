@@ -3,6 +3,7 @@ MODULE pdaflocalomi_c_assim
 use iso_c_binding, only: c_double, c_int, c_bool
 use PDAF
 use pdaf_c_cb_interface
+use pdaf_c_f_interface
 
 implicit none
 
@@ -33,10 +34,20 @@ contains
       ! Provide time step, time and dimension of next observation
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
 
-      call PDAFlocalomi_assimilate(collect_state_pdaf, distribute_state_pdaf,  &
-         init_dim_obs_f_pdaf, obs_op_f_pdaf, prepoststep_pdaf,  &
-         init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdaf,  &
-         next_observation_pdaf, outflag)
+      collect_state_pdaf_c_ptr => collect_state_pdaf
+      distribute_state_pdaf_c_ptr => distribute_state_pdaf
+      init_dim_obs_f_pdaf_c_ptr => init_dim_obs_f_pdaf
+      obs_op_f_pdaf_c_ptr => obs_op_f_pdaf
+      prepoststep_pdaf_c_ptr => prepoststep_pdaf
+      init_n_domains_p_pdaf_c_ptr => init_n_domains_pdaf
+      init_dim_l_pdaf_c_ptr => init_dim_l_pdaf
+      init_dim_obs_l_pdaf_c_ptr => init_dim_obs_l_pdaf
+      next_observation_pdaf_c_ptr => next_observation_pdaf
+
+      call PDAFlocalomi_assimilate(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_f_pdaf, f__obs_op_f_pdaf, f__prepoststep_pdaf,  &
+         f__init_n_domains_p_pdaf, f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf,  &
+         f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAFlocalomi_assimilate
 
@@ -69,10 +80,21 @@ contains
       ! Provide time step, time and dimension of next observation
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
 
-      call PDAFlocalomi_assimilate_nondiagR(collect_state_pdaf,  &
-         distribute_state_pdaf, init_dim_obs_pdafomi, obs_op_pdafomi,  &
-         prepoststep_pdaf, init_n_domains_pdaf, init_dim_l_pdaf,  &
-         init_dim_obs_l_pdafomi, prodrinva_l_pdafomi, next_observation_pdaf,  &
+      collect_state_pdaf_c_ptr => collect_state_pdaf
+      distribute_state_pdaf_c_ptr => distribute_state_pdaf
+      init_dim_obs_pdaf_c_ptr => init_dim_obs_pdafomi
+      obs_op_pdaf_c_ptr => obs_op_pdafomi
+      prepoststep_pdaf_c_ptr => prepoststep_pdaf
+      init_n_domains_p_pdaf_c_ptr => init_n_domains_pdaf
+      init_dim_l_pdaf_c_ptr => init_dim_l_pdaf
+      init_dim_obs_l_pdaf_c_ptr => init_dim_obs_l_pdafomi
+      prodrinva_l_pdaf_c_ptr => prodrinva_l_pdafomi
+      next_observation_pdaf_c_ptr => next_observation_pdaf
+
+      call PDAFlocalomi_assimilate_nondiagR(f__collect_state_pdaf,  &
+         f__distribute_state_pdaf, f__init_dim_obs_pdaf, f__obs_op_pdaf,  &
+         f__prepoststep_pdaf, f__init_n_domains_p_pdaf, f__init_dim_l_pdaf,  &
+         f__init_dim_obs_l_pdaf, f__prodrinva_l_pdaf, f__next_observation_pdaf,  &
          outflag)
 
    END SUBROUTINE c__PDAFlocalomi_assimilate_nondiagR
@@ -106,10 +128,21 @@ contains
       ! Provide time step, time and dimension of next observation
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
 
-      call PDAFlocalomi_assimilate_lnetf_nondiagR(collect_state_pdaf,  &
-         distribute_state_pdaf, init_dim_obs_pdafomi, obs_op_pdafomi,  &
-         prepoststep_pdaf, init_n_domains_pdaf, init_dim_l_pdaf,  &
-         init_dim_obs_l_pdafomi, likelihood_l_pdafomi, next_observation_pdaf,  &
+      collect_state_pdaf_c_ptr => collect_state_pdaf
+      distribute_state_pdaf_c_ptr => distribute_state_pdaf
+      init_dim_obs_pdaf_c_ptr => init_dim_obs_pdafomi
+      obs_op_pdaf_c_ptr => obs_op_pdafomi
+      prepoststep_pdaf_c_ptr => prepoststep_pdaf
+      init_n_domains_p_pdaf_c_ptr => init_n_domains_pdaf
+      init_dim_l_pdaf_c_ptr => init_dim_l_pdaf
+      init_dim_obs_l_pdaf_c_ptr => init_dim_obs_l_pdafomi
+      likelihood_l_pdaf_c_ptr => likelihood_l_pdafomi
+      next_observation_pdaf_c_ptr => next_observation_pdaf
+
+      call PDAFlocalomi_assimilate_lnetf_nondiagR(f__collect_state_pdaf,  &
+         f__distribute_state_pdaf, f__init_dim_obs_pdaf, f__obs_op_pdaf,  &
+         f__prepoststep_pdaf, f__init_n_domains_p_pdaf, f__init_dim_l_pdaf,  &
+         f__init_dim_obs_l_pdaf, f__likelihood_l_pdaf, f__next_observation_pdaf,  &
          outflag)
 
    END SUBROUTINE c__PDAFlocalomi_assimilate_lnetf_nondiagR
@@ -150,11 +183,25 @@ contains
       ! Provide time step, time and dimension of next observation
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
 
-      call PDAFlocalomi_assimilate_lknetf_nondiagR(collect_state_pdaf,  &
-         distribute_state_pdaf, init_dim_obs_pdafomi, obs_op_pdafomi,  &
-         prepoststep_pdaf, init_n_domains_pdaf, init_dim_l_pdaf,  &
-         init_dim_obs_l_pdafomi, prodrinva_l_pdafomi, prodrinva_hyb_l_pdafomi,  &
-         likelihood_l_pdafomi, likelihood_hyb_l_pdafomi, next_observation_pdaf,  &
+      collect_state_pdaf_c_ptr => collect_state_pdaf
+      distribute_state_pdaf_c_ptr => distribute_state_pdaf
+      init_dim_obs_pdaf_c_ptr => init_dim_obs_pdafomi
+      obs_op_pdaf_c_ptr => obs_op_pdafomi
+      prepoststep_pdaf_c_ptr => prepoststep_pdaf
+      init_n_domains_p_pdaf_c_ptr => init_n_domains_pdaf
+      init_dim_l_pdaf_c_ptr => init_dim_l_pdaf
+      init_dim_obs_l_pdaf_c_ptr => init_dim_obs_l_pdafomi
+      prodrinva_l_pdaf_c_ptr => prodrinva_l_pdafomi
+      prodrinva_hyb_l_pdaf_c_ptr => prodrinva_hyb_l_pdafomi
+      likelihood_l_pdaf_c_ptr => likelihood_l_pdafomi
+      likelihood_hyb_l_pdaf_c_ptr => likelihood_hyb_l_pdafomi
+      next_observation_pdaf_c_ptr => next_observation_pdaf
+
+      call PDAFlocalomi_assimilate_lknetf_nondiagR(f__collect_state_pdaf,  &
+         f__distribute_state_pdaf, f__init_dim_obs_pdaf, f__obs_op_pdaf,  &
+         f__prepoststep_pdaf, f__init_n_domains_p_pdaf, f__init_dim_l_pdaf,  &
+         f__init_dim_obs_l_pdaf, f__prodrinva_l_pdaf, f__prodrinva_hyb_l_pdaf,  &
+         f__likelihood_l_pdaf, f__likelihood_hyb_l_pdaf, f__next_observation_pdaf,  &
          outflag)
 
    END SUBROUTINE c__PDAFlocalomi_assimilate_lknetf_nondiagR
@@ -194,11 +241,25 @@ contains
       ! Provide time step, time and dimension of next observation
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
 
-      call PDAFlocalomi_assimilate_en3dvar_lestkf(collect_state_pdaf,  &
-         distribute_state_pdaf, init_dim_obs_f_pdaf, obs_op_f_pdaf,  &
-         cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf,  &
-         init_n_domains_pdaf, init_dim_l_pdaf, init_dim_obs_l_pdaf,  &
-         prepoststep_pdaf, next_observation_pdaf, outflag)
+      collect_state_pdaf_c_ptr => collect_state_pdaf
+      distribute_state_pdaf_c_ptr => distribute_state_pdaf
+      init_dim_obs_f_pdaf_c_ptr => init_dim_obs_f_pdaf
+      obs_op_f_pdaf_c_ptr => obs_op_f_pdaf
+      cvt_ens_pdaf_c_ptr => cvt_ens_pdaf
+      cvt_adj_ens_pdaf_c_ptr => cvt_adj_ens_pdaf
+      obs_op_lin_pdaf_c_ptr => obs_op_lin_pdaf
+      obs_op_adj_pdaf_c_ptr => obs_op_adj_pdaf
+      init_n_domains_p_pdaf_c_ptr => init_n_domains_pdaf
+      init_dim_l_pdaf_c_ptr => init_dim_l_pdaf
+      init_dim_obs_l_pdaf_c_ptr => init_dim_obs_l_pdaf
+      prepoststep_pdaf_c_ptr => prepoststep_pdaf
+      next_observation_pdaf_c_ptr => next_observation_pdaf
+
+      call PDAFlocalomi_assimilate_en3dvar_lestkf(f__collect_state_pdaf,  &
+         f__distribute_state_pdaf, f__init_dim_obs_f_pdaf, f__obs_op_f_pdaf,  &
+         f__cvt_ens_pdaf, f__cvt_adj_ens_pdaf, f__obs_op_lin_pdaf, f__obs_op_adj_pdaf,  &
+         f__init_n_domains_p_pdaf, f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf,  &
+         f__prepoststep_pdaf, f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAFlocalomi_assimilate_en3dvar_lestkf
 
@@ -242,12 +303,28 @@ contains
       ! Provide time step, time and dimension of next observation
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
 
-      call PDAFlocalomi_assimilate_hyb3dvar_lestkf(collect_state_pdaf,  &
-         distribute_state_pdaf, init_dim_obs_f_pdaf, obs_op_f_pdaf,  &
-         cvt_ens_pdaf, cvt_adj_ens_pdaf, cvt_pdaf, cvt_adj_pdaf,  &
-         obs_op_lin_pdaf, obs_op_adj_pdaf, init_n_domains_pdaf,  &
-         init_dim_l_pdaf, init_dim_obs_l_pdaf, prepoststep_pdaf,  &
-         next_observation_pdaf, outflag)
+      collect_state_pdaf_c_ptr => collect_state_pdaf
+      distribute_state_pdaf_c_ptr => distribute_state_pdaf
+      init_dim_obs_f_pdaf_c_ptr => init_dim_obs_f_pdaf
+      obs_op_f_pdaf_c_ptr => obs_op_f_pdaf
+      cvt_ens_pdaf_c_ptr => cvt_ens_pdaf
+      cvt_adj_ens_pdaf_c_ptr => cvt_adj_ens_pdaf
+      cvt_pdaf_c_ptr => cvt_pdaf
+      cvt_adj_pdaf_c_ptr => cvt_adj_pdaf
+      obs_op_lin_pdaf_c_ptr => obs_op_lin_pdaf
+      obs_op_adj_pdaf_c_ptr => obs_op_adj_pdaf
+      init_n_domains_p_pdaf_c_ptr => init_n_domains_pdaf
+      init_dim_l_pdaf_c_ptr => init_dim_l_pdaf
+      init_dim_obs_l_pdaf_c_ptr => init_dim_obs_l_pdaf
+      prepoststep_pdaf_c_ptr => prepoststep_pdaf
+      next_observation_pdaf_c_ptr => next_observation_pdaf
+
+      call PDAFlocalomi_assimilate_hyb3dvar_lestkf(f__collect_state_pdaf,  &
+         f__distribute_state_pdaf, f__init_dim_obs_f_pdaf, f__obs_op_f_pdaf,  &
+         f__cvt_ens_pdaf, f__cvt_adj_ens_pdaf, f__cvt_pdaf, f__cvt_adj_pdaf,  &
+         f__obs_op_lin_pdaf, f__obs_op_adj_pdaf, f__init_n_domains_p_pdaf,  &
+         f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf, f__prepoststep_pdaf,  &
+         f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAFlocalomi_assimilate_hyb3dvar_lestkf
 
@@ -291,12 +368,28 @@ contains
       ! Provide time step, time and dimension of next observation
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
 
-      call PDAFlocalomi_assimilate_en3dvar_lestkf_nondiagR(collect_state_pdaf,  &
-         distribute_state_pdaf, init_dim_obs_pdafomi, obs_op_pdafomi,  &
-         prodrinva_pdafomi, cvt_ens_pdaf, cvt_adj_ens_pdaf, obs_op_lin_pdafomi,  &
-         obs_op_adj_pdafomi, prodrinva_l_pdafomi, init_n_domains_pdaf,  &
-         init_dim_l_pdaf, init_dim_obs_l_pdafomi, prepoststep_pdaf,  &
-         next_observation_pdaf, outflag)
+      collect_state_pdaf_c_ptr => collect_state_pdaf
+      distribute_state_pdaf_c_ptr => distribute_state_pdaf
+      init_dim_obs_pdaf_c_ptr => init_dim_obs_pdafomi
+      obs_op_pdaf_c_ptr => obs_op_pdafomi
+      prodrinva_pdaf_c_ptr => prodrinva_pdafomi
+      cvt_ens_pdaf_c_ptr => cvt_ens_pdaf
+      cvt_adj_ens_pdaf_c_ptr => cvt_adj_ens_pdaf
+      obs_op_lin_pdaf_c_ptr => obs_op_lin_pdafomi
+      obs_op_adj_pdaf_c_ptr => obs_op_adj_pdafomi
+      prodrinva_l_pdaf_c_ptr => prodrinva_l_pdafomi
+      init_n_domains_p_pdaf_c_ptr => init_n_domains_pdaf
+      init_dim_l_pdaf_c_ptr => init_dim_l_pdaf
+      init_dim_obs_l_pdaf_c_ptr => init_dim_obs_l_pdafomi
+      prepoststep_pdaf_c_ptr => prepoststep_pdaf
+      next_observation_pdaf_c_ptr => next_observation_pdaf
+
+      call PDAFlocalomi_assimilate_en3dvar_lestkf_nondiagR(f__collect_state_pdaf,  &
+         f__distribute_state_pdaf, f__init_dim_obs_pdaf, f__obs_op_pdaf,  &
+         f__prodrinva_pdaf, f__cvt_ens_pdaf, f__cvt_adj_ens_pdaf, f__obs_op_lin_pdaf,  &
+         f__obs_op_adj_pdaf, f__prodrinva_l_pdaf, f__init_n_domains_p_pdaf,  &
+         f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf, f__prepoststep_pdaf,  &
+         f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAFlocalomi_assimilate_en3dvar_lestkf_nondiagR
 
@@ -345,12 +438,30 @@ contains
       ! Provide time step, time and dimension of next observation
       procedure(c__next_observation_pdaf) :: next_observation_pdaf
 
-      call PDAFlocalomi_assimilate_hyb3dvar_lestkf_nondiagR(collect_state_pdaf,  &
-         distribute_state_pdaf, init_dim_obs_pdafomi, obs_op_pdafomi,  &
-         prodrinva_pdafomi, cvt_ens_pdaf, cvt_adj_ens_pdaf, cvt_pdaf,  &
-         cvt_adj_pdaf, obs_op_lin_pdafomi, obs_op_adj_pdafomi,  &
-         prodrinva_l_pdafomi, init_n_domains_pdaf, init_dim_l_pdaf,  &
-         init_dim_obs_l_pdafomi, prepoststep_pdaf, next_observation_pdaf, outflag)
+      collect_state_pdaf_c_ptr => collect_state_pdaf
+      distribute_state_pdaf_c_ptr => distribute_state_pdaf
+      init_dim_obs_pdaf_c_ptr => init_dim_obs_pdafomi
+      obs_op_pdaf_c_ptr => obs_op_pdafomi
+      prodrinva_pdaf_c_ptr => prodrinva_pdafomi
+      cvt_ens_pdaf_c_ptr => cvt_ens_pdaf
+      cvt_adj_ens_pdaf_c_ptr => cvt_adj_ens_pdaf
+      cvt_pdaf_c_ptr => cvt_pdaf
+      cvt_adj_pdaf_c_ptr => cvt_adj_pdaf
+      obs_op_lin_pdaf_c_ptr => obs_op_lin_pdafomi
+      obs_op_adj_pdaf_c_ptr => obs_op_adj_pdafomi
+      prodrinva_l_pdaf_c_ptr => prodrinva_l_pdafomi
+      init_n_domains_p_pdaf_c_ptr => init_n_domains_pdaf
+      init_dim_l_pdaf_c_ptr => init_dim_l_pdaf
+      init_dim_obs_l_pdaf_c_ptr => init_dim_obs_l_pdafomi
+      prepoststep_pdaf_c_ptr => prepoststep_pdaf
+      next_observation_pdaf_c_ptr => next_observation_pdaf
+
+      call PDAFlocalomi_assimilate_hyb3dvar_lestkf_nondiagR(f__collect_state_pdaf,  &
+         f__distribute_state_pdaf, f__init_dim_obs_pdaf, f__obs_op_pdaf,  &
+         f__prodrinva_pdaf, f__cvt_ens_pdaf, f__cvt_adj_ens_pdaf, f__cvt_pdaf,  &
+         f__cvt_adj_pdaf, f__obs_op_lin_pdaf, f__obs_op_adj_pdaf,  &
+         f__prodrinva_l_pdaf, f__init_n_domains_p_pdaf, f__init_dim_l_pdaf,  &
+         f__init_dim_obs_l_pdaf, f__prepoststep_pdaf, f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAFlocalomi_assimilate_hyb3dvar_lestkf_nondiagR
 END MODULE pdaflocalomi_c_assim

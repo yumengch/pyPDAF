@@ -118,8 +118,8 @@ def check_error(int  flag):
     return flag
 
 
-def gather_obs(int  i_obs, int  dim_obs_p, double [::1] obs_p,
-    double [::1] ivar_obs_p, double [::1,:] ocoord_p, int  ncoord,
+def gather_obs(int  i_obs, int  dim_obs_p, double[::1] obs_p,
+    double[::1] ivar_obs_p, double[::1,:] ocoord_p, int  ncoord,
     double  lradius):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.

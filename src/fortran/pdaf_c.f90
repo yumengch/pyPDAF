@@ -155,20 +155,23 @@ contains
    SUBROUTINE c__PDAF_init(filtertype, subtype, stepnull, param_int, dim_pint,  &
       param_real, dim_preal, comm_model, comm_filter, comm_couple, task_id,  &
       n_modeltasks, in_filterpe, u_init_ens, in_screen, outflag) bind(c)
+      use pdaf_c_f_interface, only: init_ens_pdaf_c_ptr, &
+                                    f__init_ens_pdaf
+      implicit none
       ! Type of filter
       INTEGER(c_int), INTENT(in) :: filtertype
       ! Sub-type of filter
       INTEGER(c_int), INTENT(in) :: subtype
       ! Initial time step of assimilation
       INTEGER(c_int), INTENT(in) :: stepnull
-      ! Integer parameter array
-      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of integer parameters
       INTEGER(c_int), INTENT(in) :: dim_pint
-      ! Real parameter array
-      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
+      ! Integer parameter array
+      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of real parameter
       INTEGER(c_int), INTENT(in) :: dim_preal
+      ! Real parameter array
+      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
       ! Model communicator
       INTEGER(c_int), INTENT(in) :: comm_model
       ! Filter communicator
@@ -189,18 +192,22 @@ contains
       ! User-supplied routine for ensemble initialization
       procedure(c__init_ens_pdaf) :: u_init_ens
 
-      logical :: in_filterpe_f
-
-      in_filterpe_f = in_filterpe
-
+      init_ens_pdaf_c_ptr => u_init_ens
       call PDAF_init(filtertype, subtype, stepnull, param_int, dim_pint,  &
          param_real, dim_preal, comm_model, comm_filter, comm_couple, task_id,  &
-         n_modeltasks, in_filterpe_f, u_init_ens, in_screen, outflag)
+         n_modeltasks, logical(in_filterpe), f__init_ens_pdaf, in_screen, outflag)
 
    END SUBROUTINE c__PDAF_init
 
    SUBROUTINE c__PDAF_init_forecast(u_next_observation, u_distribute_state,  &
       u_prepoststep, outflag) bind(c)
+      use pdaf_c_f_interface, only: next_observation_pdaf_c_ptr, &
+                                             f__next_observation_pdaf, &
+                                             distribute_state_pdaf_c_ptr, &
+                                             f__distribute_state_pdaf, &
+                                             prepoststep_pdaf_c_ptr, &
+                                             f__prepoststep_pdaf
+      implicit none
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
@@ -211,8 +218,12 @@ contains
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: u_prepoststep
 
-      call PDAF_init_forecast(u_next_observation, u_distribute_state,  &
-         u_prepoststep, outflag)
+      next_observation_pdaf_c_ptr => u_next_observation
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      prepoststep_pdaf_c_ptr => u_prepoststep
+
+      call PDAF_init_forecast(f__next_observation_pdaf, f__distribute_state_pdaf,  &
+         f__prepoststep_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_init_forecast
 

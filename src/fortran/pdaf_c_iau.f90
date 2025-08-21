@@ -69,15 +69,19 @@ contains
    END SUBROUTINE c__PDAF_iau_init_inc
 
    SUBROUTINE c__PDAF_iau_add_inc(u_collect_state, u_distribute_state) bind(c)
-      use iso_c_binding
-
-
+      use pdaf_c_f_interface, only: collect_state_pdaf_c_ptr, &
+                                    distribute_state_pdaf_c_ptr, &
+                                    f__collect_state_pdaf, f__distribute_state_pdaf
+      implicit none
       ! Routine to collect a state vector
       procedure(c__collect_state_pdaf) :: u_collect_state
       ! Routine to distribute a state vector
       procedure(c__distribute_state_pdaf) :: u_distribute_state
 
-      call PDAF_iau_add_inc(u_collect_state, u_distribute_state)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+
+      call PDAF_iau_add_inc(f__collect_state_pdaf, f__distribute_state_pdaf)
 
    END SUBROUTINE c__PDAF_iau_add_inc
 

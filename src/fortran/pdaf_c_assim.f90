@@ -3,6 +3,7 @@ use iso_c_binding, only: c_int, c_double, c_bool
 use PDAF
 ! use PDAF_analysis_utils
 use pdaf_c_cb_interface
+use pdaf_c_f_interface
 
 implicit none
 
@@ -24,8 +25,12 @@ contains
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: u_prepoststep
 
-      call PDAF_get_state(steps, time, doexit, u_next_observation,  &
-         u_distribute_state, u_prepoststep, outflag)
+      next_observation_pdaf_c_ptr => u_next_observation
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      prepoststep_pdaf_c_ptr => u_prepoststep
+
+      call PDAF_get_state(steps, time, doexit, f__next_observation_pdaf,  &
+         f__distribute_state_pdaf, f__prepoststep_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_get_state
 
@@ -53,9 +58,20 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_assimilate_estkf(u_collect_state, u_distribute_state,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, u_prepoststep, u_prodrinva,  &
-         u_init_obsvar, u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_assimilate_estkf(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, &
+         f__prepoststep_pdaf, f__prodrinva_pdaf,  &
+         f__init_obsvar_pdaf, f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assimilate_estkf
 
@@ -76,8 +92,15 @@ contains
       ! Initialize mean observation error variance
       procedure(c__init_obsvar_pdaf) :: u_init_obsvar
 
-      call PDAF_assim_offline_estkf(u_init_dim_obs, u_obs_op, u_init_obs,  &
-         u_prepoststep, u_prodrinva, u_init_obsvar, outflag)
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+
+      call PDAF_assim_offline_estkf(f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf,  &
+         f__prepoststep_pdaf, f__prodrinva_pdaf, f__init_obsvar_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assim_offline_estkf
 
@@ -112,9 +135,24 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_assimilate_3dvar(u_collect_state, u_distribute_state,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, u_prodrinva, u_cvt, u_cvt_adj,  &
-         u_obs_op_lin, u_obs_op_adj, u_prepoststep, u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_pdaf_c_ptr => u_cvt
+      cvt_adj_pdaf_c_ptr => u_cvt_adj
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_assimilate_3dvar(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, &
+         f__prodrinva_pdaf, f__cvt_pdaf, f__cvt_adj_pdaf,  &
+         f__obs_op_lin_pdaf, f__obs_op_adj_pdaf, f__prepoststep_pdaf, &
+         f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assimilate_3dvar
 
@@ -142,9 +180,20 @@ contains
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: u_prepoststep
 
-      call PDAF_assim_offline_3dvar(u_init_dim_obs, u_obs_op, u_init_obs,  &
-         u_prodrinva, u_cvt, u_cvt_adj, u_obs_op_lin, u_obs_op_adj,  &
-         u_prepoststep, outflag)
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_pdaf_c_ptr => u_cvt
+      cvt_adj_pdaf_c_ptr => u_cvt_adj
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+      prepoststep_pdaf_c_ptr => u_prepoststep
+
+      call PDAF_assim_offline_3dvar(f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf,  &
+         f__prodrinva_pdaf, f__cvt_pdaf, f__cvt_adj_pdaf, &
+         f__obs_op_lin_pdaf, f__obs_op_adj_pdaf,  &
+         f__prepoststep_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assim_offline_3dvar
 
@@ -208,13 +257,44 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_assimilate_en3dvar_lestkf(u_collect_state, u_distribute_state,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, u_prodrinva, u_cvt_ens,  &
-         u_cvt_adj_ens, u_obs_op_lin, u_obs_op_adj, u_init_dim_obs_f,  &
-         u_obs_op_f, u_init_obs_f, u_init_obs_l, u_prodrinva_l,  &
-         u_init_n_domains_p, u_init_dim_l, u_init_dim_obs_l, u_g2l_state,  &
-         u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l, u_prepoststep,  &
-         u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_ens_pdaf_c_ptr => u_cvt_ens
+      cvt_adj_ens_pdaf_c_ptr => u_cvt_adj_ens
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+      init_dim_obs_f_pdaf_c_ptr => u_init_dim_obs_f
+      obs_op_f_pdaf_c_ptr => u_obs_op_f
+      init_obs_f_pdaf_c_ptr => u_init_obs_f
+      init_obs_l_pdaf_c_ptr => u_init_obs_l
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+      init_n_domains_p_pdaf_c_ptr => u_init_n_domains_p
+      init_dim_l_pdaf_c_ptr => u_init_dim_l
+      init_dim_obs_l_pdaf_c_ptr => u_init_dim_obs_l
+      g2l_state_pdaf_c_ptr => u_g2l_state
+      l2g_state_pdaf_c_ptr => u_l2g_state
+      g2l_obs_pdaf_c_ptr => u_g2l_obs
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+      init_obsvar_l_pdaf_c_ptr => u_init_obsvar_l
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_assimilate_en3dvar_lestkf(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, &
+         f__prodrinva_pdaf, f__cvt_ens_pdaf,  &
+         f__cvt_adj_ens_pdaf, f__obs_op_lin_pdaf, f__obs_op_adj_pdaf, &
+         f__init_dim_obs_f_pdaf,  &
+         f__obs_op_f_pdaf, f__init_obs_f_pdaf, f__init_obs_l_pdaf, &
+         f__prodrinva_l_pdaf,  &
+         f__init_n_domains_p_pdaf, f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf, &
+         f__g2l_state_pdaf,  &
+         f__l2g_state_pdaf, f__g2l_obs_pdaf, f__init_obsvar_pdaf, &
+         f__init_obsvar_l_pdaf, f__prepoststep_pdaf,  &
+         f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assimilate_en3dvar_lestkf
 
@@ -272,12 +352,39 @@ contains
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: u_prepoststep
 
-      call PDAF_assim_offline_en3dvar_lestkf(u_init_dim_obs, u_obs_op,  &
-         u_init_obs, u_prodrinva, u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin,  &
-         u_obs_op_adj, u_init_dim_obs_f, u_obs_op_f, u_init_obs_f,  &
-         u_init_obs_l, u_prodrinva_l, u_init_n_domains_p, u_init_dim_l,  &
-         u_init_dim_obs_l, u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar,  &
-         u_init_obsvar_l, u_prepoststep, outflag)
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_ens_pdaf_c_ptr => u_cvt_ens
+      cvt_adj_ens_pdaf_c_ptr => u_cvt_adj_ens
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+      init_dim_obs_f_pdaf_c_ptr => u_init_dim_obs_f
+      obs_op_f_pdaf_c_ptr => u_obs_op_f
+      init_obs_f_pdaf_c_ptr => u_init_obs_f
+      init_obs_l_pdaf_c_ptr => u_init_obs_l
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+      init_n_domains_p_pdaf_c_ptr => u_init_n_domains_p
+      init_dim_l_pdaf_c_ptr => u_init_dim_l
+      init_dim_obs_l_pdaf_c_ptr => u_init_dim_obs_l
+      g2l_state_pdaf_c_ptr => u_g2l_state
+      l2g_state_pdaf_c_ptr => u_l2g_state
+      g2l_obs_pdaf_c_ptr => u_g2l_obs
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+      init_obsvar_l_pdaf_c_ptr => u_init_obsvar_l
+      prepoststep_pdaf_c_ptr => u_prepoststep
+
+      call PDAF_assim_offline_en3dvar_lestkf(f__init_dim_obs_pdaf, f__obs_op_pdaf,  &
+         f__init_obs_pdaf, f__prodrinva_pdaf, f__cvt_ens_pdaf, f__cvt_adj_ens_pdaf, &
+         f__obs_op_lin_pdaf,  &
+         f__obs_op_adj_pdaf, f__init_dim_obs_f_pdaf, f__obs_op_f_pdaf, &
+         f__init_obs_f_pdaf,  &
+         f__init_obs_l_pdaf, f__prodrinva_l_pdaf, f__init_n_domains_p_pdaf, &
+         f__init_dim_l_pdaf,  &
+         f__init_dim_obs_l_pdaf, f__g2l_state_pdaf, f__l2g_state_pdaf, &
+         f__g2l_obs_pdaf, f__init_obsvar_pdaf,  &
+         f__init_obsvar_l_pdaf, f__prepoststep_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assim_offline_en3dvar_lestkf
 
@@ -306,9 +413,19 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_assimilate_ensrf(u_collect_state, u_distribute_state,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, u_init_obsvars,  &
-         u_localize_covar_serial, u_prepoststep, u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      init_obsvars_pdaf_c_ptr => u_init_obsvars
+      localize_covar_serial_pdaf_c_ptr => u_localize_covar_serial
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_assimilate_ensrf(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, f__init_obsvars_pdaf,  &
+         f__localize_covar_serial_pdaf, f__prepoststep_pdaf, f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assimilate_ensrf
 
@@ -330,8 +447,15 @@ contains
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: u_prepoststep
 
-      call PDAF_assim_offline_ensrf(u_init_dim_obs, u_obs_op, u_init_obs,  &
-         u_init_obsvars, u_localize_covar_serial, u_prepoststep, outflag)
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      init_obsvars_pdaf_c_ptr => u_init_obsvars
+      localize_covar_serial_pdaf_c_ptr => u_localize_covar_serial
+      prepoststep_pdaf_c_ptr => u_prepoststep
+
+      call PDAF_assim_offline_ensrf(f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf,  &
+         f__init_obsvars_pdaf, f__localize_covar_serial_pdaf, f__prepoststep_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assim_offline_ensrf
 
@@ -385,12 +509,33 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_assimilate_lknetf(u_collect_state, u_distribute_state,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, u_init_obs_l, u_prepoststep,  &
-         u_prodrinva_l, u_prodrinva_hyb_l, u_init_n_domains_p, u_init_dim_l,  &
-         u_init_dim_obs_l, u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar,  &
-         u_init_obsvar_l, u_likelihood_l, u_likelihood_hyb_l,  &
-         u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      init_obs_l_pdaf_c_ptr => u_init_obs_l
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+      prodrinva_hyb_l_pdaf_c_ptr => u_prodrinva_hyb_l
+      init_n_domains_p_pdaf_c_ptr => u_init_n_domains_p
+      init_dim_l_pdaf_c_ptr => u_init_dim_l
+      init_dim_obs_l_pdaf_c_ptr => u_init_dim_obs_l
+      g2l_state_pdaf_c_ptr => u_g2l_state
+      l2g_state_pdaf_c_ptr => u_l2g_state
+      g2l_obs_pdaf_c_ptr => u_g2l_obs
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+      init_obsvar_l_pdaf_c_ptr => u_init_obsvar_l
+      likelihood_l_pdaf_c_ptr => u_likelihood_l
+      likelihood_hyb_l_pdaf_c_ptr => u_likelihood_hyb_l
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_assimilate_lknetf(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, f__init_obs_l_pdaf, f__prepoststep_pdaf,  &
+         f__prodrinva_l_pdaf, f__prodrinva_hyb_l_pdaf, f__init_n_domains_p_pdaf, f__init_dim_l_pdaf,  &
+         f__init_dim_obs_l_pdaf, f__g2l_state_pdaf, f__l2g_state_pdaf, f__g2l_obs_pdaf, f__init_obsvar_pdaf,  &
+         f__init_obsvar_l_pdaf, f__likelihood_l_pdaf, f__likelihood_hyb_l_pdaf,  &
+         f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assimilate_lknetf
 
@@ -437,11 +582,29 @@ contains
       ! Compute likelihood with hybrid weight
       procedure(c__likelihood_hyb_l_pdaf) :: u_likelihood_hyb_l
 
-      call PDAF_assim_offline_lknetf(u_init_dim_obs, u_obs_op, u_init_obs,  &
-         u_init_obs_l, u_prepoststep, u_prodrinva_l, u_prodrinva_hyb_l,  &
-         u_init_n_domains_p, u_init_dim_l, u_init_dim_obs_l, u_g2l_state,  &
-         u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l,  &
-         u_likelihood_l, u_likelihood_hyb_l, outflag)
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      init_obs_l_pdaf_c_ptr => u_init_obs_l
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+      prodrinva_hyb_l_pdaf_c_ptr => u_prodrinva_hyb_l
+      init_n_domains_p_pdaf_c_ptr => u_init_n_domains_p
+      init_dim_l_pdaf_c_ptr => u_init_dim_l
+      init_dim_obs_l_pdaf_c_ptr => u_init_dim_obs_l
+      g2l_state_pdaf_c_ptr => u_g2l_state
+      l2g_state_pdaf_c_ptr => u_l2g_state
+      g2l_obs_pdaf_c_ptr => u_g2l_obs
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+      init_obsvar_l_pdaf_c_ptr => u_init_obsvar_l
+      likelihood_l_pdaf_c_ptr => u_likelihood_l
+      likelihood_hyb_l_pdaf_c_ptr => u_likelihood_hyb_l
+
+      call PDAF_assim_offline_lknetf(f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf,  &
+         f__init_obs_l_pdaf, f__prepoststep_pdaf, f__prodrinva_l_pdaf, f__prodrinva_hyb_l_pdaf,  &
+         f__init_n_domains_p_pdaf, f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf, f__g2l_state_pdaf,  &
+         f__l2g_state_pdaf, f__g2l_obs_pdaf, f__init_obsvar_pdaf, f__init_obsvar_l_pdaf,  &
+         f__likelihood_l_pdaf, f__likelihood_hyb_l_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assim_offline_lknetf
 
@@ -483,10 +646,26 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_assimilate_hyb3dvar_estkf(u_collect_state, u_distribute_state,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, u_prodrinva, u_cvt_ens,  &
-         u_cvt_adj_ens, u_cvt, u_cvt_adj, u_obs_op_lin, u_obs_op_adj,  &
-         u_init_obsvar, u_prepoststep, u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_ens_pdaf_c_ptr => u_cvt_ens
+      cvt_adj_ens_pdaf_c_ptr => u_cvt_adj_ens
+      cvt_pdaf_c_ptr => u_cvt
+      cvt_adj_pdaf_c_ptr => u_cvt_adj
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_assimilate_hyb3dvar_estkf(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, f__prodrinva_pdaf, f__cvt_ens_pdaf,  &
+         f__cvt_adj_ens_pdaf, f__cvt_pdaf, f__cvt_adj_pdaf, f__obs_op_lin_pdaf, f__obs_op_adj_pdaf,  &
+         f__init_obsvar_pdaf, f__prepoststep_pdaf, f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assimilate_hyb3dvar_estkf
 
@@ -521,9 +700,22 @@ contains
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: u_prepoststep
 
-      call PDAF_assim_offline_hyb3dvar_estkf(u_init_dim_obs, u_obs_op,  &
-         u_init_obs, u_prodrinva, u_cvt, u_cvt_adj, u_cvt_ens, u_cvt_adj_ens,  &
-         u_obs_op_lin, u_obs_op_adj, u_init_obsvar, u_prepoststep, outflag)
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_pdaf_c_ptr => u_cvt
+      cvt_adj_pdaf_c_ptr => u_cvt_adj
+      cvt_ens_pdaf_c_ptr => u_cvt_ens
+      cvt_adj_ens_pdaf_c_ptr => u_cvt_adj_ens
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+      prepoststep_pdaf_c_ptr => u_prepoststep
+
+      call PDAF_assim_offline_hyb3dvar_estkf(f__init_dim_obs_pdaf, f__obs_op_pdaf,  &
+         f__init_obs_pdaf, f__prodrinva_pdaf, f__cvt_pdaf, f__cvt_adj_pdaf, f__cvt_ens_pdaf, f__cvt_adj_ens_pdaf,  &
+         f__obs_op_lin_pdaf, f__obs_op_adj_pdaf, f__init_obsvar_pdaf, f__prepoststep_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assim_offline_hyb3dvar_estkf
 
@@ -592,13 +784,41 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_assimilate_hyb3dvar_lestkf(u_collect_state, u_distribute_state,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, u_prodrinva, u_cvt_ens,  &
-         u_cvt_adj_ens, u_cvt, u_cvt_adj, u_obs_op_lin, u_obs_op_adj,  &
-         u_init_dim_obs_f, u_obs_op_f, u_init_obs_f, u_init_obs_l,  &
-         u_prodrinva_l, u_init_n_domains_p, u_init_dim_l, u_init_dim_obs_l,  &
-         u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l,  &
-         u_prepoststep, u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_ens_pdaf_c_ptr => u_cvt_ens
+      cvt_adj_ens_pdaf_c_ptr => u_cvt_adj_ens
+      cvt_pdaf_c_ptr => u_cvt
+      cvt_adj_pdaf_c_ptr => u_cvt_adj
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+      init_dim_obs_f_pdaf_c_ptr => u_init_dim_obs_f
+      obs_op_f_pdaf_c_ptr => u_obs_op_f
+      init_obs_f_pdaf_c_ptr => u_init_obs_f
+      init_obs_l_pdaf_c_ptr => u_init_obs_l
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+      init_n_domains_p_pdaf_c_ptr => u_init_n_domains_p
+      init_dim_l_pdaf_c_ptr => u_init_dim_l
+      init_dim_obs_l_pdaf_c_ptr => u_init_dim_obs_l
+      g2l_state_pdaf_c_ptr => u_g2l_state
+      l2g_state_pdaf_c_ptr => u_l2g_state
+      g2l_obs_pdaf_c_ptr => u_g2l_obs
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+      init_obsvar_l_pdaf_c_ptr => u_init_obsvar_l
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_assimilate_hyb3dvar_lestkf(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, f__prodrinva_pdaf, f__cvt_ens_pdaf,  &
+         f__cvt_adj_ens_pdaf, f__cvt_pdaf, f__cvt_adj_pdaf, f__obs_op_lin_pdaf, f__obs_op_adj_pdaf,  &
+         f__init_dim_obs_f_pdaf, f__obs_op_f_pdaf, f__init_obs_f_pdaf, f__init_obs_l_pdaf,  &
+         f__prodrinva_l_pdaf, f__init_n_domains_p_pdaf, f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf,  &
+         f__g2l_state_pdaf, f__l2g_state_pdaf, f__g2l_obs_pdaf, f__init_obsvar_pdaf, f__init_obsvar_l_pdaf,  &
+         f__prepoststep_pdaf, f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assimilate_hyb3dvar_lestkf
 
@@ -660,12 +880,37 @@ contains
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: u_prepoststep
 
-      call PDAF_assim_offline_hyb3dvar_lestkf(u_init_dim_obs, u_obs_op,  &
-         u_init_obs, u_prodrinva, u_cvt_ens, u_cvt_adj_ens, u_cvt, u_cvt_adj,  &
-         u_obs_op_lin, u_obs_op_adj, u_init_dim_obs_f, u_obs_op_f,  &
-         u_init_obs_f, u_init_obs_l, u_prodrinva_l, u_init_n_domains_p,  &
-         u_init_dim_l, u_init_dim_obs_l, u_g2l_state, u_l2g_state, u_g2l_obs,  &
-         u_init_obsvar, u_init_obsvar_l, u_prepoststep, outflag)
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_ens_pdaf_c_ptr => u_cvt_ens
+      cvt_adj_ens_pdaf_c_ptr => u_cvt_adj_ens
+      cvt_pdaf_c_ptr => u_cvt
+      cvt_adj_pdaf_c_ptr => u_cvt_adj
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+      init_dim_obs_f_pdaf_c_ptr => u_init_dim_obs_f
+      obs_op_f_pdaf_c_ptr => u_obs_op_f
+      init_obs_f_pdaf_c_ptr => u_init_obs_f
+      init_obs_l_pdaf_c_ptr => u_init_obs_l
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+      init_n_domains_p_pdaf_c_ptr => u_init_n_domains_p
+      init_dim_l_pdaf_c_ptr => u_init_dim_l
+      init_dim_obs_l_pdaf_c_ptr => u_init_dim_obs_l
+      g2l_state_pdaf_c_ptr => u_g2l_state
+      l2g_state_pdaf_c_ptr => u_l2g_state
+      g2l_obs_pdaf_c_ptr => u_g2l_obs
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+      init_obsvar_l_pdaf_c_ptr => u_init_obsvar_l
+      prepoststep_pdaf_c_ptr => u_prepoststep
+
+      call PDAF_assim_offline_hyb3dvar_lestkf(f__init_dim_obs_pdaf, f__obs_op_pdaf,  &
+         f__init_obs_pdaf, f__prodrinva_pdaf, f__cvt_ens_pdaf, f__cvt_adj_ens_pdaf, f__cvt_pdaf, f__cvt_adj_pdaf,  &
+         f__obs_op_lin_pdaf, f__obs_op_adj_pdaf, f__init_dim_obs_f_pdaf, f__obs_op_f_pdaf,  &
+         f__init_obs_f_pdaf, f__init_obs_l_pdaf, f__prodrinva_l_pdaf, f__init_n_domains_p_pdaf,  &
+         f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf, f__g2l_state_pdaf, f__l2g_state_pdaf, f__g2l_obs_pdaf,  &
+         f__init_obsvar_pdaf, f__init_obsvar_l_pdaf, f__prepoststep_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assim_offline_hyb3dvar_lestkf
 
@@ -712,11 +957,29 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_assimilate_lestkf(u_collect_state, u_distribute_state,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, u_init_obs_l, u_prepoststep,  &
-         u_prodrinva_l, u_init_n_domains_p, u_init_dim_l, u_init_dim_obs_l,  &
-         u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l,  &
-         u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      init_obs_l_pdaf_c_ptr => u_init_obs_l
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+      init_n_domains_p_pdaf_c_ptr => u_init_n_domains_p
+      init_dim_l_pdaf_c_ptr => u_init_dim_l
+      init_dim_obs_l_pdaf_c_ptr => u_init_dim_obs_l
+      g2l_state_pdaf_c_ptr => u_g2l_state
+      l2g_state_pdaf_c_ptr => u_l2g_state
+      g2l_obs_pdaf_c_ptr => u_g2l_obs
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+      init_obsvar_l_pdaf_c_ptr => u_init_obsvar_l
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_assimilate_lestkf(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, f__init_obs_l_pdaf, f__prepoststep_pdaf,  &
+         f__prodrinva_l_pdaf, f__init_n_domains_p_pdaf, f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf,  &
+         f__g2l_state_pdaf, f__l2g_state_pdaf, f__g2l_obs_pdaf, f__init_obsvar_pdaf, f__init_obsvar_l_pdaf,  &
+         f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assimilate_lestkf
 
@@ -756,10 +1019,25 @@ contains
       ! Initialize local mean observation error variance
       procedure(c__init_obsvar_l_pdaf) :: u_init_obsvar_l
 
-      call PDAF_assim_offline_lestkf(u_init_dim_obs, u_obs_op, u_init_obs,  &
-         u_init_obs_l, u_prepoststep, u_prodrinva_l, u_init_n_domains_p,  &
-         u_init_dim_l, u_init_dim_obs_l, u_g2l_state, u_l2g_state, u_g2l_obs,  &
-         u_init_obsvar, u_init_obsvar_l, outflag)
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      init_obs_l_pdaf_c_ptr => u_init_obs_l
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+      init_n_domains_p_pdaf_c_ptr => u_init_n_domains_p
+      init_dim_l_pdaf_c_ptr => u_init_dim_l
+      init_dim_obs_l_pdaf_c_ptr => u_init_dim_obs_l
+      g2l_state_pdaf_c_ptr => u_g2l_state
+      l2g_state_pdaf_c_ptr => u_l2g_state
+      g2l_obs_pdaf_c_ptr => u_g2l_obs
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+      init_obsvar_l_pdaf_c_ptr => u_init_obsvar_l
+
+      call PDAF_assim_offline_lestkf(f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf,  &
+         f__init_obs_l_pdaf, f__prepoststep_pdaf, f__prodrinva_l_pdaf, f__init_n_domains_p_pdaf,  &
+         f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf, f__g2l_state_pdaf, f__l2g_state_pdaf, f__g2l_obs_pdaf,  &
+         f__init_obsvar_pdaf, f__init_obsvar_l_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assim_offline_lestkf
 
@@ -788,9 +1066,19 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_assimilate_enkf(u_collect_state, u_distribute_state,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, u_prepoststep, u_add_obs_error,  &
-         u_init_obs_covar, u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      add_obs_err_pdaf_c_ptr => u_add_obs_error
+      init_obs_covar_pdaf_c_ptr => u_init_obs_covar
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_assimilate_enkf(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, f__prepoststep_pdaf, f__add_obs_err_pdaf,  &
+         f__init_obs_covar_pdaf, f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assimilate_enkf
 
@@ -812,8 +1100,15 @@ contains
       ! Initialize obs. error cov. matrix R in EnKF
       procedure(c__init_obs_covar_pdaf) :: u_init_obs_covar
 
-      call PDAF_assim_offline_enkf(u_init_dim_obs, u_obs_op, u_init_obs,  &
-         u_prepoststep, u_add_obs_err, u_init_obs_covar, outflag)
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      add_obs_err_pdaf_c_ptr => u_add_obs_err
+      init_obs_covar_pdaf_c_ptr => u_init_obs_covar
+
+      call PDAF_assim_offline_enkf(f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf,  &
+         f__prepoststep_pdaf, f__add_obs_err_pdaf, f__init_obs_covar_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assim_offline_enkf
 
@@ -860,11 +1155,29 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_assimilate_letkf(u_collect_state, u_distribute_state,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, u_init_obs_l, u_prepoststep,  &
-         u_prodrinva_l, u_init_n_domains_p, u_init_dim_l, u_init_dim_obs_l,  &
-         u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l,  &
-         u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      init_obs_l_pdaf_c_ptr => u_init_obs_l
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+      init_n_domains_p_pdaf_c_ptr => u_init_n_domains_p
+      init_dim_l_pdaf_c_ptr => u_init_dim_l
+      init_dim_obs_l_pdaf_c_ptr => u_init_dim_obs_l
+      g2l_state_pdaf_c_ptr => u_g2l_state
+      l2g_state_pdaf_c_ptr => u_l2g_state
+      g2l_obs_pdaf_c_ptr => u_g2l_obs
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+      init_obsvar_l_pdaf_c_ptr => u_init_obsvar_l
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_assimilate_letkf(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, f__init_obs_l_pdaf, f__prepoststep_pdaf,  &
+         f__prodrinva_l_pdaf, f__init_n_domains_p_pdaf, f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf,  &
+         f__g2l_state_pdaf, f__l2g_state_pdaf, f__g2l_obs_pdaf, f__init_obsvar_pdaf, f__init_obsvar_l_pdaf,  &
+         f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assimilate_letkf
 
@@ -904,10 +1217,25 @@ contains
       ! Initialize local mean observation error variance
       procedure(c__init_obsvar_l_pdaf) :: u_init_obsvar_l
 
-      call PDAF_assim_offline_letkf(u_init_dim_obs, u_obs_op, u_init_obs,  &
-         u_init_obs_l, u_prepoststep, u_prodrinva_l, u_init_n_domains_p,  &
-         u_init_dim_l, u_init_dim_obs_l, u_g2l_state, u_l2g_state, u_g2l_obs,  &
-         u_init_obsvar, u_init_obsvar_l, outflag)
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      init_obs_l_pdaf_c_ptr => u_init_obs_l
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+      init_n_domains_p_pdaf_c_ptr => u_init_n_domains_p
+      init_dim_l_pdaf_c_ptr => u_init_dim_l
+      init_dim_obs_l_pdaf_c_ptr => u_init_dim_obs_l
+      g2l_state_pdaf_c_ptr => u_g2l_state
+      l2g_state_pdaf_c_ptr => u_l2g_state
+      g2l_obs_pdaf_c_ptr => u_g2l_obs
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+      init_obsvar_l_pdaf_c_ptr => u_init_obsvar_l
+
+      call PDAF_assim_offline_letkf(f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf,  &
+         f__init_obs_l_pdaf, f__prepoststep_pdaf, f__prodrinva_l_pdaf, f__init_n_domains_p_pdaf,  &
+         f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf, f__g2l_state_pdaf, f__l2g_state_pdaf, f__g2l_obs_pdaf,  &
+         f__init_obsvar_pdaf, f__init_obsvar_l_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assim_offline_letkf
 
@@ -936,9 +1264,19 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_assimilate_seik(u_collect_state, u_distribute_state,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, u_prepoststep, u_prodrinva,  &
-         u_init_obsvar, u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_assimilate_seik(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, f__prepoststep_pdaf, f__prodrinva_pdaf,  &
+         f__init_obsvar_pdaf, f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assimilate_seik
 
@@ -960,8 +1298,15 @@ contains
       ! Initialize mean observation error variance
       procedure(c__init_obsvar_pdaf) :: u_init_obsvar
 
-      call PDAF_assim_offline_seik(u_init_dim_obs, u_obs_op, u_init_obs,  &
-         u_prepoststep, u_prodrinva, u_init_obsvar, outflag)
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+
+      call PDAF_assim_offline_seik(f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf,  &
+         f__prepoststep_pdaf, f__prodrinva_pdaf, f__init_obsvar_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assim_offline_seik
 
@@ -1003,10 +1348,26 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_assimilate_lnetf(u_collect_state, u_distribute_state,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, u_init_obs_l, u_prepoststep,  &
-         u_likelihood_l, u_init_n_domains_p, u_init_dim_l, u_init_dim_obs_l,  &
-         u_g2l_state, u_l2g_state, u_g2l_obs, u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      init_obs_l_pdaf_c_ptr => u_init_obs_l
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      likelihood_l_pdaf_c_ptr => u_likelihood_l
+      init_n_domains_p_pdaf_c_ptr => u_init_n_domains_p
+      init_dim_l_pdaf_c_ptr => u_init_dim_l
+      init_dim_obs_l_pdaf_c_ptr => u_init_dim_obs_l
+      g2l_state_pdaf_c_ptr => u_g2l_state
+      l2g_state_pdaf_c_ptr => u_l2g_state
+      g2l_obs_pdaf_c_ptr => u_g2l_obs
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_assimilate_lnetf(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, f__init_obs_l_pdaf, f__prepoststep_pdaf,  &
+         f__likelihood_l_pdaf, f__init_n_domains_p_pdaf, f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf,  &
+         f__g2l_state_pdaf, f__l2g_state_pdaf, f__g2l_obs_pdaf, f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assimilate_lnetf
 
@@ -1042,9 +1403,22 @@ contains
       ! Restrict full obs. vector to local analysis domain
       procedure(c__g2l_obs_pdaf) :: u_g2l_obs
 
-      call PDAF_assim_offline_lnetf(u_init_dim_obs, u_obs_op, u_init_obs,  &
-         u_init_obs_l, u_prepoststep, u_likelihood_l, u_init_n_domains_p,  &
-         u_init_dim_l, u_init_dim_obs_l, u_g2l_state, u_l2g_state, u_g2l_obs,  &
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      init_obs_l_pdaf_c_ptr => u_init_obs_l
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      likelihood_l_pdaf_c_ptr => u_likelihood_l
+      init_n_domains_p_pdaf_c_ptr => u_init_n_domains_p
+      init_dim_l_pdaf_c_ptr => u_init_dim_l
+      init_dim_obs_l_pdaf_c_ptr => u_init_dim_obs_l
+      g2l_state_pdaf_c_ptr => u_g2l_state
+      l2g_state_pdaf_c_ptr => u_l2g_state
+      g2l_obs_pdaf_c_ptr => u_g2l_obs
+
+      call PDAF_assim_offline_lnetf(f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf,  &
+         f__init_obs_l_pdaf, f__prepoststep_pdaf, f__likelihood_l_pdaf, f__init_n_domains_p_pdaf,  &
+         f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf, f__g2l_state_pdaf, f__l2g_state_pdaf, f__g2l_obs_pdaf,  &
          outflag)
 
    END SUBROUTINE c__PDAF_assim_offline_lnetf
@@ -1063,8 +1437,13 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_assimilate_prepost(u_collect_state, u_distribute_state,  &
-         u_prepoststep, u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_assimilate_prepost(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__prepoststep_pdaf, f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assimilate_prepost
 
@@ -1102,10 +1481,24 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_assimilate_en3dvar_estkf(u_collect_state, u_distribute_state,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, u_prodrinva, u_cvt_ens,  &
-         u_cvt_adj_ens, u_obs_op_lin, u_obs_op_adj, u_init_obsvar,  &
-         u_prepoststep, u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_ens_pdaf_c_ptr => u_cvt_ens
+      cvt_adj_ens_pdaf_c_ptr => u_cvt_adj_ens
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_assimilate_en3dvar_estkf(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, f__prodrinva_pdaf, f__cvt_ens_pdaf,  &
+         f__cvt_adj_ens_pdaf, f__obs_op_lin_pdaf, f__obs_op_adj_pdaf, f__init_obsvar_pdaf,  &
+         f__prepoststep_pdaf, f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assimilate_en3dvar_estkf
 
@@ -1136,9 +1529,20 @@ contains
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: u_prepoststep
 
-      call PDAF_assim_offline_en3dvar_estkf(u_init_dim_obs, u_obs_op,  &
-         u_init_obs, u_prodrinva, u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin,  &
-         u_obs_op_adj, u_init_obsvar, u_prepoststep, outflag)
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_ens_pdaf_c_ptr => u_cvt_ens
+      cvt_adj_ens_pdaf_c_ptr => u_cvt_adj_ens
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+      prepoststep_pdaf_c_ptr => u_prepoststep
+
+      call PDAF_assim_offline_en3dvar_estkf(f__init_dim_obs_pdaf, f__obs_op_pdaf,  &
+         f__init_obs_pdaf, f__prodrinva_pdaf, f__cvt_ens_pdaf, f__cvt_adj_ens_pdaf, f__obs_op_lin_pdaf,  &
+         f__obs_op_adj_pdaf, f__init_obsvar_pdaf, f__prepoststep_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assim_offline_en3dvar_estkf
 
@@ -1165,9 +1569,18 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_assimilate_netf(u_collect_state, u_distribute_state,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, u_prepoststep, u_likelihood,  &
-         u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      likelihood_pdaf_c_ptr => u_likelihood
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_assimilate_netf(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, f__prepoststep_pdaf, f__likelihood_pdaf,  &
+         f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assimilate_netf
 
@@ -1187,8 +1600,14 @@ contains
       ! Compute observation likelihood for an ensemble member
       procedure(c__likelihood_pdaf) :: u_likelihood
 
-      call PDAF_assim_offline_netf(u_init_dim_obs, u_obs_op, u_init_obs,  &
-         u_prepoststep, u_likelihood, outflag)
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      likelihood_pdaf_c_ptr => u_likelihood
+
+      call PDAF_assim_offline_netf(f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf,  &
+         f__prepoststep_pdaf, f__likelihood_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assim_offline_netf
 
@@ -1215,9 +1634,18 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_assimilate_pf(u_collect_state, u_distribute_state,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, u_prepoststep, u_likelihood,  &
-         u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      likelihood_pdaf_c_ptr => u_likelihood
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_assimilate_pf(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, f__prepoststep_pdaf, f__likelihood_pdaf,  &
+         f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assimilate_pf
 
@@ -1237,8 +1665,14 @@ contains
       ! Compute observation likelihood for an ensemble member
       procedure(c__likelihood_pdaf) :: u_likelihood
 
-      call PDAF_assim_offline_pf(u_init_dim_obs, u_obs_op, u_init_obs,  &
-         u_prepoststep, u_likelihood, outflag)
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      likelihood_pdaf_c_ptr => u_likelihood
+
+      call PDAF_assim_offline_pf(f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf,  &
+         f__prepoststep_pdaf, f__likelihood_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assim_offline_pf
 
@@ -1269,9 +1703,20 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_assimilate_lenkf(u_collect_state, u_distribute_state,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, u_prepoststep, u_localize,  &
-         u_add_obs_error, u_init_obs_covar, u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      localize_covar_pdaf_c_ptr => u_localize
+      add_obs_err_pdaf_c_ptr => u_add_obs_error
+      init_obs_covar_pdaf_c_ptr => u_init_obs_covar
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_assimilate_lenkf(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, f__prepoststep_pdaf, f__localize_covar_pdaf,  &
+         f__add_obs_err_pdaf, f__init_obs_covar_pdaf, f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assimilate_lenkf
 
@@ -1295,8 +1740,16 @@ contains
       ! Initialize obs. error cov. matrix R in EnKF
       procedure(c__init_obs_covar_pdaf) :: u_init_obs_covar
 
-      call PDAF_assim_offline_lenkf(u_init_dim_obs, u_obs_op, u_init_obs,  &
-         u_prepoststep, u_localize, u_add_obs_err, u_init_obs_covar, outflag)
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      localize_covar_pdaf_c_ptr => u_localize
+      add_obs_err_pdaf_c_ptr => u_add_obs_err
+      init_obs_covar_pdaf_c_ptr => u_init_obs_covar
+
+      call PDAF_assim_offline_lenkf(f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf,  &
+         f__prepoststep_pdaf, f__localize_covar_pdaf, f__add_obs_err_pdaf, f__init_obs_covar_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assim_offline_lenkf
 
@@ -1325,9 +1778,19 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_assimilate_etkf(u_collect_state, u_distribute_state,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, u_prepoststep, u_prodrinva,  &
-         u_init_obsvar, u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_assimilate_etkf(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, f__prepoststep_pdaf, f__prodrinva_pdaf,  &
+         f__init_obsvar_pdaf, f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assimilate_etkf
 
@@ -1349,8 +1812,15 @@ contains
       ! Initialize mean observation error variance
       procedure(c__init_obsvar_pdaf) :: u_init_obsvar
 
-      call PDAF_assim_offline_etkf(u_init_dim_obs, u_obs_op, u_init_obs,  &
-         u_prepoststep, u_prodrinva, u_init_obsvar, outflag)
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+
+      call PDAF_assim_offline_etkf(f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf,  &
+         f__prepoststep_pdaf, f__prodrinva_pdaf, f__init_obsvar_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assim_offline_etkf
 
@@ -1397,11 +1867,29 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_assimilate_lseik(u_collect_state, u_distribute_state,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, u_init_obs_l, u_prepoststep,  &
-         u_prodrinva_l, u_init_n_domains_p, u_init_dim_l, u_init_dim_obs_l,  &
-         u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l,  &
-         u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      init_obs_l_pdaf_c_ptr => u_init_obs_l
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+      init_n_domains_p_pdaf_c_ptr => u_init_n_domains_p
+      init_dim_l_pdaf_c_ptr => u_init_dim_l
+      init_dim_obs_l_pdaf_c_ptr => u_init_dim_obs_l
+      g2l_state_pdaf_c_ptr => u_g2l_state
+      l2g_state_pdaf_c_ptr => u_l2g_state
+      g2l_obs_pdaf_c_ptr => u_g2l_obs
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+      init_obsvar_l_pdaf_c_ptr => u_init_obsvar_l
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_assimilate_lseik(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, f__init_obs_l_pdaf, f__prepoststep_pdaf,  &
+         f__prodrinva_l_pdaf, f__init_n_domains_p_pdaf, f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf,  &
+         f__g2l_state_pdaf, f__l2g_state_pdaf, f__g2l_obs_pdaf, f__init_obsvar_pdaf, f__init_obsvar_l_pdaf,  &
+         f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assimilate_lseik
 
@@ -1441,10 +1929,25 @@ contains
       ! Initialize local mean observation error variance
       procedure(c__init_obsvar_l_pdaf) :: u_init_obsvar_l
 
-      call PDAF_assim_offline_lseik(u_init_dim_obs, u_obs_op, u_init_obs,  &
-         u_init_obs_l, u_prepoststep, u_prodrinva_l, u_init_n_domains_p,  &
-         u_init_dim_l, u_init_dim_obs_l, u_g2l_state, u_l2g_state, u_g2l_obs,  &
-         u_init_obsvar, u_init_obsvar_l, outflag)
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      init_obs_l_pdaf_c_ptr => u_init_obs_l
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+      init_n_domains_p_pdaf_c_ptr => u_init_n_domains_p
+      init_dim_l_pdaf_c_ptr => u_init_dim_l
+      init_dim_obs_l_pdaf_c_ptr => u_init_dim_obs_l
+      g2l_state_pdaf_c_ptr => u_g2l_state
+      l2g_state_pdaf_c_ptr => u_l2g_state
+      g2l_obs_pdaf_c_ptr => u_g2l_obs
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+      init_obsvar_l_pdaf_c_ptr => u_init_obsvar_l
+
+      call PDAF_assim_offline_lseik(f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf,  &
+         f__init_obs_l_pdaf, f__prepoststep_pdaf, f__prodrinva_l_pdaf, f__init_n_domains_p_pdaf,  &
+         f__init_dim_l_pdaf, f__init_dim_obs_l_pdaf, f__g2l_state_pdaf, f__l2g_state_pdaf, f__g2l_obs_pdaf,  &
+         f__init_obsvar_pdaf, f__init_obsvar_l_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_assim_offline_lseik
 
@@ -1471,9 +1974,18 @@ contains
       ! Routine to provide time step, time and dimension of next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_generate_obs(u_collect_state, u_distribute_state,  &
-         u_init_dim_obs_f, u_obs_op_f, u_init_obserr_f, u_get_obs_f,  &
-         u_prepoststep, u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_f_pdaf_c_ptr => u_init_dim_obs_f
+      obs_op_f_pdaf_c_ptr => u_obs_op_f
+      init_obserr_f_pdaf_c_ptr => u_init_obserr_f
+      get_obs_f_pdaf_c_ptr => u_get_obs_f
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_generate_obs(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_f_pdaf, f__obs_op_f_pdaf, f__init_obserr_f_pdaf, f__get_obs_f_pdaf,  &
+         f__prepoststep_pdaf, f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_generate_obs
 
@@ -1493,8 +2005,14 @@ contains
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: u_prepoststep
 
-      call PDAF_generate_obs_offline(u_init_dim_obs_f, u_obs_op_f,  &
-         u_init_obserr_f, u_get_obs_f, u_prepoststep, outflag)
+      init_dim_obs_f_pdaf_c_ptr => u_init_dim_obs_f
+      obs_op_f_pdaf_c_ptr => u_obs_op_f
+      init_obserr_f_pdaf_c_ptr => u_init_obserr_f
+      get_obs_f_pdaf_c_ptr => u_get_obs_f
+      prepoststep_pdaf_c_ptr => u_prepoststep
+
+      call PDAF_generate_obs_offline(f__init_dim_obs_f_pdaf, f__obs_op_f_pdaf,  &
+         f__init_obserr_f_pdaf, f__get_obs_f_pdaf, f__prepoststep_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_generate_obs_offline
 END MODULE pdaf_c_assim

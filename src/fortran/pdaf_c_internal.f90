@@ -1,9 +1,75 @@
 MODULE pdaf_c_internal
-use iso_c_binding, only: c_int, c_double, c_bool, c_char
+use iso_c_binding, only: c_int, c_double, c_bool, c_char, c_null_char
 use pdaf_c_cb_interface
+use pdaf_c_f_interface
 implicit none
 
 contains
+   SUBROUTINE c__PDAF_set_forget(step, localfilter, dim_obs_p, dim_ens, mens_p,  &
+      mstate_p, obs_p, u_init_obsvar, forget_in, forget_out, screen) bind(c)
+      use PDAF_analysis_utils
+      implicit none
+      ! Current time step
+      INTEGER(c_int), INTENT(in) :: step
+      ! Whether filter is domain-local
+      INTEGER(c_int), INTENT(in) :: localfilter
+      ! Dimension of observation vector
+      INTEGER(c_int), INTENT(in) :: dim_obs_p
+      ! Ensemble size
+      INTEGER(c_int), INTENT(in) :: dim_ens
+      ! Observed PE-local ensemble
+      REAL(c_double), DIMENSION(dim_obs_p, dim_ens), INTENT(in) :: mens_p
+      ! Observed PE-local mean state
+      REAL(c_double), DIMENSION(dim_obs_p), INTENT(in) :: mstate_p
+      ! Observation vector
+      REAL(c_double), DIMENSION(dim_obs_p), INTENT(in) :: obs_p
+      ! Prescribed forgetting factor
+      REAL(c_double), INTENT(in) :: forget_in
+      ! Adaptively estimated forgetting factor
+      REAL(c_double), INTENT(out) :: forget_out
+      ! Verbosity flag
+      INTEGER(c_int), INTENT(in) :: screen
+
+      ! Initialize mean obs. error variance
+      procedure(c__init_obsvar_pdaf) :: u_init_obsvar
+
+      init_obsvar_pdaf_c_ptr => u_init_obsvar
+
+      call PDAF_set_forget(step, localfilter, dim_obs_p, dim_ens, mens_p,  &
+         mstate_p, obs_p, f__init_obsvar_pdaf, forget_in, forget_out, screen)
+
+   END SUBROUTINE c__PDAF_set_forget
+
+   SUBROUTINE c__PDAF_set_iparam_filters(id, value, flag) bind(c)
+      use PDAF_utils_filters
+      implicit none
+      ! Index of parameter
+      INTEGER(c_int), INTENT(in) :: id
+      ! Parameter value
+      INTEGER(c_int), INTENT(in) :: value
+      ! Status flag: 0 for no error
+      INTEGER(c_int), INTENT(out) :: flag
+
+
+      call PDAF_set_iparam_filters(id, value, flag)
+
+   END SUBROUTINE c__PDAF_set_iparam_filters
+
+   SUBROUTINE c__PDAF_set_rparam_filters(id, value, flag) bind(c)
+      use PDAF_utils_filters
+      implicit none
+      ! Index of parameter
+      INTEGER(c_int), INTENT(in) :: id
+      ! Parameter value
+      REAL(c_double), INTENT(in) :: value
+      ! Status flag: 0 for no error
+      INTEGER(c_int), INTENT(out) :: flag
+
+
+      call PDAF_set_rparam_filters(id, value, flag)
+
+   END SUBROUTINE c__PDAF_set_rparam_filters
+
    SUBROUTINE c__PDAF_set_forget_local(domain, step, dim_obs_l, dim_ens, hx_l,  &
          hxbar_l, obs_l, u_init_obsvar_l, forget, aforget) bind(c)
          use PDAF_analysis_utils
@@ -30,8 +96,10 @@ contains
          ! Initialize local mean obs. error variance
          procedure(c__init_obsvar_l_pdaf) :: u_init_obsvar_l
 
+         init_obsvar_l_pdaf_c_ptr => u_init_obsvar_l
+
          call PDAF_set_forget_local(domain, step, dim_obs_l, dim_ens, hx_l,  &
-            hxbar_l, obs_l, u_init_obsvar_l, forget, aforget)
+            hxbar_l, obs_l, f__init_obsvar_l_pdaf, forget, aforget)
 
    END SUBROUTINE c__PDAF_set_forget_local
 
@@ -55,8 +123,15 @@ contains
       ! Initialize PE-local observation vector
       procedure(c__init_obs_pdaf) :: u_init_obs
 
-      call PDAF_fcst_operations(step, u_collect_state, u_distribute_state,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, outflag)
+
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+
+      call PDAF_fcst_operations(step, f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_fcst_operations
 
@@ -103,8 +178,10 @@ contains
       ! Provide product R^-1 A for local analysis domain
       procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
 
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+
       call PDAF_letkf_ana_T(domain_p, step, dim_l, dim_obs_l, dim_ens, state_l,  &
-         ainv_l, ens_l, hz_l, hxbar_l, obs_l, rndmat, forget, u_prodrinva_l,  &
+         ainv_l, ens_l, hz_l, hxbar_l, obs_l, rndmat, forget, f__prodrinva_l_pdaf,  &
          type_trans, screen, debug, flag)
 
    END SUBROUTINE c__PDAF_letkf_ana_T
@@ -455,9 +532,11 @@ contains
       ! Compute observation likelihood for an ensemble member
       procedure(c__likelihood_pdaf) :: u_likelihood
 
+      likelihood_pdaf_c_ptr => u_likelihood
+
       call PDAF_netf_ana(step, dim_p, dim_obs_p, dim_ens, state_p, ens_p,  &
          rndmat, t, type_forget, forget, type_winf, limit_winf, type_noise,  &
-         noise_amp, hz_p, obs_p, u_likelihood, screen, debug, flag)
+         noise_amp, hz_p, obs_p, f__likelihood_pdaf, screen, debug, flag)
 
    END SUBROUTINE c__PDAF_netf_ana
 
@@ -494,8 +573,13 @@ contains
       ! Compute observation likelihood for an ensemble member
       procedure(c__likelihood_pdaf) :: u_likelihood
 
+      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
+      obs_op_pdaf_c_ptr => u_obs_op
+      init_obs_pdaf_c_ptr => u_init_obs
+      likelihood_pdaf_c_ptr => u_likelihood
+
       call PDAF_netf_smootherT(step, dim_p, dim_obs_p, dim_ens, ens_p, rndmat,  &
-         t, u_init_dim_obs, u_obs_op, u_init_obs, u_likelihood, screen, flag)
+         t, f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, f__likelihood_pdaf, screen, flag)
 
    END SUBROUTINE c__PDAF_netf_smootherT
 
@@ -572,8 +656,10 @@ contains
       ! Compute observation likelihood for an ensemble member
       procedure(c__likelihood_l_pdaf) :: u_likelihood_l
 
+      likelihood_l_pdaf_c_ptr => u_likelihood_l
+
       call PDAF_lnetf_ana(domain_p, step, dim_l, dim_obs_l, dim_ens, ens_l,  &
-         hx_l, obs_l, rndmat, u_likelihood_l, type_forget, forget, type_winf,  &
+         hx_l, obs_l, rndmat, f__likelihood_l_pdaf, type_forget, forget, type_winf,  &
          limit_winf, cnt_small_svals, eff_dimens, t, screen, debug, flag)
 
    END SUBROUTINE c__PDAF_lnetf_ana
@@ -611,8 +697,12 @@ contains
       ! Compute observation likelihood for an ensemble member
       procedure(c__likelihood_l_pdaf) :: u_likelihood_l
 
+      g2l_obs_pdaf_c_ptr => u_g2l_obs
+      init_obs_l_pdaf_c_ptr => u_init_obs_l
+      likelihood_l_pdaf_c_ptr => u_likelihood_l
+
       call PDAF_lnetf_smootherT(domain_p, step, dim_obs_f, dim_obs_l, dim_ens,  &
-         hx_f, rndmat, u_g2l_obs, u_init_obs_l, u_likelihood_l, screen, t, flag)
+         hx_f, rndmat, f__g2l_obs_pdaf, f__init_obs_l_pdaf, f__likelihood_l_pdaf, screen, t, flag)
 
    END SUBROUTINE c__PDAF_lnetf_smootherT
 
@@ -649,8 +739,11 @@ contains
       ! Init full state from state on local analysis domain
       procedure(c__l2g_state_pdaf) :: u_l2g_state
 
+      g2l_state_pdaf_c_ptr => u_g2l_state
+      l2g_state_pdaf_c_ptr => u_l2g_state
+
       call PDAF_smoother_lnetf(domain_p, step, dim_p, dim_l, dim_ens, dim_lag,  &
-         ainv, ens_l, sens_p, cnt_maxlag, u_g2l_state, u_l2g_state, screen)
+         ainv, ens_l, sens_p, cnt_maxlag, f__g2l_state_pdaf, f__l2g_state_pdaf, screen)
 
    END SUBROUTINE c__PDAF_smoother_lnetf
 
@@ -669,12 +762,11 @@ contains
       use PDAF_memcounting
       implicit none
       ! Type of variable
-      CHARACTER(kind=c_char), INTENT(in) :: stortype
+      CHARACTER(kind=c_char), dimension(*), INTENT(in) :: stortype
       ! Word length for chosen type
       INTEGER(c_int), INTENT(in) :: wordlength
 
-
-      call PDAF_memcount_define(stortype, wordlength)
+      call PDAF_memcount_define(stortype(1), wordlength)
 
    END SUBROUTINE c__PDAF_memcount_define
 
@@ -684,12 +776,12 @@ contains
       ! Id of the counter
       INTEGER(c_int), INTENT(in) :: id
       ! Type of variable
-      CHARACTER(kind=c_char), INTENT(in) :: stortype
+      CHARACTER(kind=c_char), dimension(*), INTENT(in) :: stortype
       ! Dimension of allocated variable
       INTEGER(c_int), INTENT(in) :: dim
 
 
-      call PDAF_memcount(id, stortype, dim)
+      call PDAF_memcount(id, stortype(1), dim)
 
    END SUBROUTINE c__PDAF_memcount
 
@@ -702,16 +794,16 @@ contains
       INTEGER(c_int), INTENT(in) :: type_filter
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
-      ! Integer parameter array
-      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of integer parameters
       INTEGER(c_int), INTENT(in) :: dim_pint
-      ! Real parameter array
-      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
+      ! Integer parameter array
+      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of real parameters
       INTEGER(c_int), INTENT(in) :: dim_preal
+      ! Real parameter array
+      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
       ! Name of filter algorithm
-      CHARACTER(kind=c_char), INTENT(out) :: filterstr
+      CHARACTER(kind=c_char), dimension(*), INTENT(out) :: filterstr
       ! Is the chosen filter ensemble-based?
       LOGICAL(c_bool), INTENT(out) :: ensemblefilter
       ! Does the filter run with fixed error-space basis?
@@ -722,9 +814,15 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       logical :: ensemblefilter_out, fixedbasis_out
+      CHARACTER(len=10) :: local_filterstr  ! Local buffer for the string
+
       call PDAF_init_filters(type_filter, subtype, param_int, dim_pint,  &
-         param_real, dim_preal, filterstr, ensemblefilter_out, fixedbasis_out, screen,  &
+         param_real, dim_preal, local_filterstr, ensemblefilter_out, fixedbasis_out, screen,  &
          flag)
+
+      ! Copy the string to the output buffer
+      filterstr(1:len_trim(local_filterstr)+1) = trim(local_filterstr) // c_null_char
+
       ensemblefilter = ensemblefilter_out
       fixedbasis = fixedbasis_out
    END SUBROUTINE c__PDAF_init_filters
@@ -733,14 +831,23 @@ contains
       use PDAF_utils_filters
       implicit none
       ! Name of filter algorithm
-      CHARACTER(kind=c_char), INTENT(in) :: filterstr
+      CHARACTER(kind=c_char), dimension(*), INTENT(in) :: filterstr
       ! Sub-type of filter
       INTEGER(c_int), INTENT(in) :: subtype
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: flag
 
+      CHARACTER(len=10) :: clean_filterstr
+      INTEGER :: i
 
-      call PDAF_alloc_filters(filterstr, subtype, flag)
+      ! Remove null characters from filterstr
+      clean_filterstr = ""
+      DO WHILE (.true.)
+         IF (filterstr(i) == c_null_char) EXIT
+         clean_filterstr(i:i) = filterstr(i)
+      END DO
+
+      call PDAF_alloc_filters(clean_filterstr, subtype, flag)
 
    END SUBROUTINE c__PDAF_alloc_filters
 
@@ -871,14 +978,14 @@ contains
       implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
-      ! Integer parameter array
-      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of integer parameters
       INTEGER(c_int), INTENT(in) :: dim_pint
-      ! Real parameter array
-      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
+      ! Integer parameter array
+      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of real parameters
       INTEGER(c_int), INTENT(in) :: dim_preal
+      ! Real parameter array
+      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
       ! Is the chosen filter ensemble-based?
       LOGICAL(c_bool), INTENT(out) :: ensemblefilter
       ! Does the filter run with fixed error-space basis?
@@ -1008,8 +1115,10 @@ contains
       ! Provide product R^-1 with some matrix
       procedure(c__prodrinva_pdaf) :: u_prodrinva
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+
       call PDAF_estkf_ana_fixed(step, dim_p, dim_obs_p, dim_ens, rank, state_p,  &
-         ainv, ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, screen,  &
+         ainv, ens_p, hl_p, hxbar_p, obs_p, forget, f__prodrinva_pdaf, screen,  &
          type_sqrt, debug, flag)
 
    END SUBROUTINE c__PDAF_estkf_ana_fixed
@@ -1051,8 +1160,10 @@ contains
       ! Provide product R^-1 A
       procedure(c__prodrinva_pdaf) :: u_prodrinva
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+
       call PDAF_etkf_ana_fixed(step, dim_p, dim_obs_p, dim_ens, state_p, ainv,  &
-         ens_p, hz_p, hxbar_p, obs_p, forget, u_prodrinva, screen, debug, flag)
+         ens_p, hz_p, hxbar_p, obs_p, forget, f__prodrinva_pdaf, screen, debug, flag)
 
    END SUBROUTINE c__PDAF_etkf_ana_fixed
 
@@ -1300,9 +1411,11 @@ contains
       ! Provide product R^-1 A for local analysis domain
       procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
 
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+
       call PDAF_lseik_ana_trans(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
          rank, state_l, uinv_l, ens_l, hl_l, hxbar_l, obs_l, omegat_in, forget,  &
-         u_prodrinva_l, nm1vsn, type_sqrt, screen, debug, flag)
+         f__prodrinva_l_pdaf, nm1vsn, type_sqrt, screen, debug, flag)
 
    END SUBROUTINE c__PDAF_lseik_ana_trans
 
@@ -1345,9 +1458,15 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_ens_pdaf_c_ptr => u_cvt_ens
+      cvt_adj_ens_pdaf_c_ptr => u_cvt_adj_ens
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+
       call PDAF_en3dvar_optim_lbfgs(step, dim_p, dim_ens, dim_cvec_p,  &
-         dim_obs_p, ens_p, obs_p, dy_p, v_p, u_prodrinva, u_cvt_ens,  &
-         u_cvt_adj_ens, u_obs_op_lin, u_obs_op_adj, opt_parallel, screen)
+         dim_obs_p, ens_p, obs_p, dy_p, v_p, f__prodrinva_pdaf, f__cvt_ens_pdaf,  &
+         f__cvt_adj_ens_pdaf, f__obs_op_lin_pdaf, f__obs_op_adj_pdaf, opt_parallel, screen)
 
    END SUBROUTINE c__PDAF_en3dvar_optim_lbfgs
 
@@ -1390,9 +1509,15 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_ens_pdaf_c_ptr => u_cvt_ens
+      cvt_adj_ens_pdaf_c_ptr => u_cvt_adj_ens
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+
       call PDAF_en3dvar_optim_cgplus(step, dim_p, dim_ens, dim_cvec_p,  &
-         dim_obs_p, ens_p, obs_p, dy_p, v_p, u_prodrinva, u_cvt_ens,  &
-         u_cvt_adj_ens, u_obs_op_lin, u_obs_op_adj, opt_parallel, screen)
+         dim_obs_p, ens_p, obs_p, dy_p, v_p, f__prodrinva_pdaf, f__cvt_ens_pdaf,  &
+         f__cvt_adj_ens_pdaf, f__obs_op_lin_pdaf, f__obs_op_adj_pdaf, opt_parallel, screen)
 
    END SUBROUTINE c__PDAF_en3dvar_optim_cgplus
 
@@ -1435,9 +1560,15 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_ens_pdaf_c_ptr => u_cvt_ens
+      cvt_adj_ens_pdaf_c_ptr => u_cvt_adj_ens
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+
       call PDAF_en3dvar_optim_cg(step, dim_p, dim_ens, dim_cvec_p, dim_obs_p,  &
-         ens_p, obs_p, dy_p, v_p, u_prodrinva, u_cvt_ens, u_cvt_adj_ens,  &
-         u_obs_op_lin, u_obs_op_adj, opt_parallel, screen)
+         ens_p, obs_p, dy_p, v_p, f__prodrinva_pdaf, f__cvt_ens_pdaf, f__cvt_adj_ens_pdaf,  &
+         f__obs_op_lin_pdaf, f__obs_op_adj_pdaf, opt_parallel, screen)
 
    END SUBROUTINE c__PDAF_en3dvar_optim_cg
 
@@ -1484,9 +1615,15 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_ens_pdaf_c_ptr => u_cvt_ens
+      cvt_adj_ens_pdaf_c_ptr => u_cvt_adj_ens
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+
       call PDAF_en3dvar_costf_cvt(step, iter, dim_p, dim_ens, dim_cvec_p,  &
-         dim_obs_p, ens_p, obs_p, dy_p, v_p, j_tot, gradj, u_prodrinva,  &
-         u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin, u_obs_op_adj, opt_parallel)
+         dim_obs_p, ens_p, obs_p, dy_p, v_p, j_tot, gradj, f__prodrinva_pdaf,  &
+         f__cvt_ens_pdaf, f__cvt_adj_ens_pdaf, f__obs_op_lin_pdaf, f__obs_op_adj_pdaf, opt_parallel)
 
    END SUBROUTINE c__PDAF_en3dvar_costf_cvt
 
@@ -1538,9 +1675,15 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_ens_pdaf_c_ptr => u_cvt_ens
+      cvt_adj_ens_pdaf_c_ptr => u_cvt_adj_ens
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+
       call PDAF_en3dvar_costf_cg_cvt(step, iter, dim_p, dim_ens, dim_cvec_p,  &
          dim_obs_p, ens_p, obs_p, dy_p, v_p, d_p, j_tot, gradj, hessjd,  &
-         u_prodrinva, u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin, u_obs_op_adj,  &
+         f__prodrinva_pdaf, f__cvt_ens_pdaf, f__cvt_adj_ens_pdaf, f__obs_op_lin_pdaf, f__obs_op_adj_pdaf,  &
          opt_parallel)
 
    END SUBROUTINE c__PDAF_en3dvar_costf_cg_cvt
@@ -1631,10 +1774,18 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_pdaf_c_ptr => u_cvt
+      cvt_adj_pdaf_c_ptr => u_cvt_adj
+      cvt_ens_pdaf_c_ptr => u_cvt_ens
+      cvt_adj_ens_pdaf_c_ptr => u_cvt_adj_ens
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+
       call PDAF_hyb3dvar_optim_lbfgs(step, dim_p, dim_ens, dim_cv_par_p,  &
          dim_cv_ens_p, dim_obs_p, ens_p, obs_p, dy_p, v_par_p, v_ens_p,  &
-         u_prodrinva, u_cvt, u_cvt_adj, u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin,  &
-         u_obs_op_adj, opt_parallel, beta_3dvar, screen)
+         f__prodrinva_pdaf, f__cvt_pdaf, f__cvt_adj_pdaf, f__cvt_ens_pdaf, f__cvt_adj_ens_pdaf, f__obs_op_lin_pdaf,  &
+         f__obs_op_adj_pdaf, opt_parallel, beta_3dvar, screen)
 
    END SUBROUTINE c__PDAF_hyb3dvar_optim_lbfgs
 
@@ -1688,10 +1839,18 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_pdaf_c_ptr => u_cvt
+      cvt_adj_pdaf_c_ptr => u_cvt_adj
+      cvt_ens_pdaf_c_ptr => u_cvt_ens
+      cvt_adj_ens_pdaf_c_ptr => u_cvt_adj_ens
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+
       call PDAF_hyb3dvar_optim_cgplus(step, dim_p, dim_ens, dim_cv_par_p,  &
          dim_cv_ens_p, dim_obs_p, ens_p, obs_p, dy_p, v_par_p, v_ens_p,  &
-         u_prodrinva, u_cvt, u_cvt_adj, u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin,  &
-         u_obs_op_adj, opt_parallel, beta_3dvar, screen)
+         f__prodrinva_pdaf, f__cvt_pdaf, f__cvt_adj_pdaf, f__cvt_ens_pdaf, f__cvt_adj_ens_pdaf, f__obs_op_lin_pdaf,  &
+         f__obs_op_adj_pdaf, opt_parallel, beta_3dvar, screen)
 
    END SUBROUTINE c__PDAF_hyb3dvar_optim_cgplus
 
@@ -1745,10 +1904,18 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_pdaf_c_ptr => u_cvt
+      cvt_adj_pdaf_c_ptr => u_cvt_adj
+      cvt_ens_pdaf_c_ptr => u_cvt_ens
+      cvt_adj_ens_pdaf_c_ptr => u_cvt_adj_ens
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+
       call PDAF_hyb3dvar_optim_cg(step, dim_p, dim_ens, dim_cv_par_p,  &
          dim_cv_ens_p, dim_obs_p, ens_p, obs_p, dy_p, v_par_p, v_ens_p,  &
-         u_prodrinva, u_cvt, u_cvt_adj, u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin,  &
-         u_obs_op_adj, opt_parallel, beta_3dvar, screen)
+         f__prodrinva_pdaf, f__cvt_pdaf, f__cvt_adj_pdaf, f__cvt_ens_pdaf, f__cvt_adj_ens_pdaf, f__obs_op_lin_pdaf,  &
+         f__obs_op_adj_pdaf, opt_parallel, beta_3dvar, screen)
 
    END SUBROUTINE c__PDAF_hyb3dvar_optim_cg
 
@@ -1810,10 +1977,18 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_pdaf_c_ptr => u_cvt
+      cvt_adj_pdaf_c_ptr => u_cvt_adj
+      cvt_ens_pdaf_c_ptr => u_cvt_ens
+      cvt_adj_ens_pdaf_c_ptr => u_cvt_adj_ens
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+
       call PDAF_hyb3dvar_costf_cvt(step, iter, dim_p, dim_ens, dim_cv_p,  &
          dim_cv_par_p, dim_cv_ens_p, dim_obs_p, ens_p, obs_p, dy_p, v_par_p,  &
-         v_ens_p, v_p, j_tot, gradj, u_prodrinva, u_cvt, u_cvt_adj, u_cvt_ens,  &
-         u_cvt_adj_ens, u_obs_op_lin, u_obs_op_adj, opt_parallel, beta)
+         v_ens_p, v_p, j_tot, gradj, f__prodrinva_pdaf, f__cvt_pdaf, f__cvt_adj_pdaf, f__cvt_ens_pdaf,  &
+         f__cvt_adj_ens_pdaf, f__obs_op_lin_pdaf, f__obs_op_adj_pdaf, opt_parallel, beta)
 
    END SUBROUTINE c__PDAF_hyb3dvar_costf_cvt
 
@@ -1882,11 +2057,19 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_pdaf_c_ptr => u_cvt
+      cvt_adj_pdaf_c_ptr => u_cvt_adj
+      cvt_ens_pdaf_c_ptr => u_cvt_ens
+      cvt_adj_ens_pdaf_c_ptr => u_cvt_adj_ens
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+
       call PDAF_hyb3dvar_costf_cg_cvt(step, iter, dim_p, dim_ens, dim_cv_par_p,  &
          dim_cv_ens_p, dim_obs_p, ens_p, obs_p, dy_p, v_par_p, v_ens_p,  &
          d_par_p, d_ens_p, j_tot, gradj_par, gradj_ens, hessjd_par, hessjd_ens,  &
-         u_prodrinva, u_cvt, u_cvt_adj, u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin,  &
-         u_obs_op_adj, opt_parallel, beta)
+         f__prodrinva_pdaf, f__cvt_pdaf, f__cvt_adj_pdaf, f__cvt_ens_pdaf, f__cvt_adj_ens_pdaf, f__obs_op_lin_pdaf,  &
+         f__obs_op_adj_pdaf, opt_parallel, beta)
 
    END SUBROUTINE c__PDAF_hyb3dvar_costf_cg_cvt
 
@@ -2040,9 +2223,12 @@ contains
       ! Initialize observation error covariance matrix
       procedure(c__init_obs_covar_pdaf) :: u_init_obs_covar
 
+      add_obs_err_pdaf_c_ptr => u_add_obs_err
+      init_obs_covar_pdaf_c_ptr => u_init_obs_covar
+
       call PDAF_enkf_ana_rlm(step, dim_p, dim_obs_p, dim_ens, rank_ana,  &
-         state_p, ens_p, hzb, hx_p, hxbar_p, obs_p, u_add_obs_err,  &
-         u_init_obs_covar, screen, debug, flag)
+         state_p, ens_p, hzb, hx_p, hxbar_p, obs_p, f__add_obs_err_pdaf,  &
+         f__init_obs_covar_pdaf, screen, debug, flag)
 
    END SUBROUTINE c__PDAF_enkf_ana_rlm
 
@@ -2157,9 +2343,11 @@ contains
       ! Compute observation likelihood for an ensemble member
       procedure(c__likelihood_pdaf) :: u_likelihood
 
+      likelihood_pdaf_c_ptr => u_likelihood
+
       call PDAF_pf_ana(step, dim_p, dim_obs_p, dim_ens, state_p, ens_p,  &
          type_resample, type_winf, limit_winf, type_noise, noise_amp, hz_p,  &
-         obs_p, u_likelihood, screen, debug, flag)
+         obs_p, f__likelihood_pdaf, screen, debug, flag)
 
    END SUBROUTINE c__PDAF_pf_ana
 
@@ -2218,14 +2406,14 @@ contains
       implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
-      ! Integer parameter array
-      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of integer parameters
       INTEGER(c_int), INTENT(in) :: dim_pint
-      ! Real parameter array
-      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
+      ! Integer parameter array
+      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of real parameters
       INTEGER(c_int), INTENT(in) :: dim_preal
+      ! Real parameter array
+      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
       ! Is the chosen filter ensemble-based?
       LOGICAL(c_bool), INTENT(out) :: ensemblefilter
       ! Does the filter run with fixed error-space basis?
@@ -2378,8 +2566,14 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_pdaf_c_ptr => u_cvt
+      cvt_adj_pdaf_c_ptr => u_cvt_adj
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+
       call PDAF_3dvar_optim_lbfgs(step, dim_p, dim_cvec_p, dim_obs_p, obs_p,  &
-         dy_p, v_p, u_prodrinva, u_cvt, u_cvt_adj, u_obs_op_lin, u_obs_op_adj,  &
+         dy_p, v_p, f__prodrinva_pdaf, f__cvt_pdaf, f__cvt_adj_pdaf, f__obs_op_lin_pdaf, f__obs_op_adj_pdaf,  &
          opt_parallel, screen)
 
    END SUBROUTINE c__PDAF_3dvar_optim_lbfgs
@@ -2419,8 +2613,14 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_pdaf_c_ptr => u_cvt
+      cvt_adj_pdaf_c_ptr => u_cvt_adj
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+
       call PDAF_3dvar_optim_cgplus(step, dim_p, dim_cvec_p, dim_obs_p, obs_p,  &
-         dy_p, v_p, u_prodrinva, u_cvt, u_cvt_adj, u_obs_op_lin, u_obs_op_adj,  &
+         dy_p, v_p, f__prodrinva_pdaf, f__cvt_pdaf, f__cvt_adj_pdaf, f__obs_op_lin_pdaf, f__obs_op_adj_pdaf,  &
          opt_parallel, screen)
 
    END SUBROUTINE c__PDAF_3dvar_optim_cgplus
@@ -2460,8 +2660,14 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_pdaf_c_ptr => u_cvt
+      cvt_adj_pdaf_c_ptr => u_cvt_adj
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+
       call PDAF_3dvar_optim_cg(step, dim_p, dim_cvec_p, dim_obs_p, obs_p, dy_p,  &
-         v_p, u_prodrinva, u_cvt, u_cvt_adj, u_obs_op_lin, u_obs_op_adj,  &
+         v_p, f__prodrinva_pdaf, f__cvt_pdaf, f__cvt_adj_pdaf, f__obs_op_lin_pdaf, f__obs_op_adj_pdaf,  &
          opt_parallel, screen)
 
    END SUBROUTINE c__PDAF_3dvar_optim_cg
@@ -2505,9 +2711,15 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_pdaf_c_ptr => u_cvt
+      cvt_adj_pdaf_c_ptr => u_cvt_adj
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+
       call PDAF_3dvar_costf_cvt(step, iter, dim_p, dim_cvec_p, dim_obs_p,  &
-         obs_p, dy_p, v_p, j_tot, gradj, u_prodrinva, u_cvt, u_cvt_adj,  &
-         u_obs_op_lin, u_obs_op_adj, opt_parallel)
+         obs_p, dy_p, v_p, j_tot, gradj, f__prodrinva_pdaf, f__cvt_pdaf, f__cvt_adj_pdaf,  &
+         f__obs_op_lin_pdaf, f__obs_op_adj_pdaf, opt_parallel)
 
    END SUBROUTINE c__PDAF_3dvar_costf_cvt
 
@@ -2554,9 +2766,15 @@ contains
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+      cvt_pdaf_c_ptr => u_cvt
+      cvt_adj_pdaf_c_ptr => u_cvt_adj
+      obs_op_lin_pdaf_c_ptr => u_obs_op_lin
+      obs_op_adj_pdaf_c_ptr => u_obs_op_adj
+
       call PDAF_3dvar_costf_cg_cvt(step, iter, dim_p, dim_cvec_p, dim_obs_p,  &
-         obs_p, dy_p, v_p, d_p, j_tot, gradj, hessjd, u_prodrinva, u_cvt,  &
-         u_cvt_adj, u_obs_op_lin, u_obs_op_adj, opt_parallel)
+         obs_p, dy_p, v_p, d_p, j_tot, gradj, hessjd, f__prodrinva_pdaf, f__cvt_pdaf,  &
+         f__cvt_adj_pdaf, f__obs_op_lin_pdaf, f__obs_op_adj_pdaf, opt_parallel)
 
    END SUBROUTINE c__PDAF_3dvar_costf_cg_cvt
 
@@ -2621,9 +2839,13 @@ contains
       ! Provide likelihood of an ensemble state
       procedure(c__likelihood_l_pdaf) :: u_likelihood_l
 
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+      init_obsvar_l_pdaf_c_ptr => u_init_obsvar_l
+      likelihood_l_pdaf_c_ptr => u_likelihood_l
+
       call PDAF_lknetf_analysis_T(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
          state_l, ainv_l, ens_l, hx_l, hxbar_l, obs_l, rndmat, forget,  &
-         u_prodrinva_l, u_init_obsvar_l, u_likelihood_l, screen, type_forget,  &
+         f__prodrinva_l_pdaf, f__init_obsvar_l_pdaf, f__likelihood_l_pdaf, screen, type_forget,  &
          eff_dimens, type_hyb, hyb_g, hyb_k, gamma, skew_mabs, kurt_mabs, flag)
 
    END SUBROUTINE c__PDAF_lknetf_analysis_T
@@ -2648,14 +2870,14 @@ contains
       implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
-      ! Integer parameter array
-      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of integer parameters
       INTEGER(c_int), INTENT(in) :: dim_pint
-      ! Real parameter array
-      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
+      ! Integer parameter array
+      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of real parameters
       INTEGER(c_int), INTENT(in) :: dim_preal
+      ! Real parameter array
+      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
       ! Is the chosen filter ensemble-based?
       LOGICAL(c_bool), INTENT(out) :: ensemblefilter
       ! Does the filter run with fixed error-space basis?
@@ -2779,9 +3001,15 @@ contains
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: u_prepoststep
 
+      init_dim_obs_f_pdaf_c_ptr => u_init_dim_obs_f
+      obs_op_f_pdaf_c_ptr => u_obs_op_f
+      get_obs_f_pdaf_c_ptr => u_get_obs_f
+      init_obserr_f_pdaf_c_ptr => u_init_obserr_f
+      prepoststep_pdaf_c_ptr => u_prepoststep
+
       call PDAF_gen_obs(step, dim_p, dim_obs_f, dim_ens, state_p, ainv, ens_p,  &
-         u_init_dim_obs_f, u_obs_op_f, u_get_obs_f, u_init_obserr_f,  &
-         u_prepoststep, screen, flag)
+         f__init_dim_obs_f_pdaf, f__obs_op_f_pdaf, f__get_obs_f_pdaf, f__init_obserr_f_pdaf,  &
+         f__prepoststep_pdaf, screen, flag)
 
    END SUBROUTINE c__PDAF_gen_obs
 
@@ -2824,22 +3052,10 @@ contains
       ! Initialize observation vector
       procedure(c__init_obs_pdaf) :: u_init_obs
 
-      logical :: do_ens_mean_in
-      logical :: do_init_dim_in
-      logical :: do_hx_in
-      logical :: do_hxbar_in
-      logical :: do_init_obs_in
-
-      ! Convert logicals to C-compatible logicals
-      do_ens_mean_in = do_ens_mean
-      do_init_dim_in = do_init_dim
-      do_hx_in = do_hx
-      do_hxbar_in = do_hxbar
-      do_init_obs_in = do_init_obs
-
       call PDAFobs_init(step, dim_p, dim_ens, dim_obs_p, state_p, ens_p,  &
-         u_init_dim_obs, u_obs_op, u_init_obs, screen, debug, do_ens_mean_in,  &
-         do_init_dim_in, do_hx_in, do_hxbar_in, do_init_obs_in)
+         u_init_dim_obs, u_obs_op, u_init_obs, screen, debug, logical(do_ens_mean),  &
+         logical(do_init_dim), logical(do_hx), logical(do_hxbar), &
+         logical(do_init_obs))
 
    END SUBROUTINE c__PDAFobs_init
 
@@ -2907,14 +3123,14 @@ contains
       implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
-      ! Integer parameter array
-      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of integer parameters
       INTEGER(c_int), INTENT(in) :: dim_pint
-      ! Real parameter array
-      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
+      ! Integer parameter array
+      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of real parameters
       INTEGER(c_int), INTENT(in) :: dim_preal
+      ! Real parameter array
+      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
       ! Is the chosen filter ensemble-based?
       LOGICAL(c_bool), INTENT(out) :: ensemblefilter
       ! Does the filter run with fixed error-space basis?
@@ -3009,14 +3225,14 @@ contains
       implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
-      ! Integer parameter array
-      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of integer parameters
       INTEGER(c_int), INTENT(in) :: dim_pint
-      ! Real parameter array
-      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
+      ! Integer parameter array
+      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of real parameters
       INTEGER(c_int), INTENT(in) :: dim_preal
+      ! Real parameter array
+      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
       ! Is the chosen filter ensemble-based?
       LOGICAL(c_bool), INTENT(out) :: ensemblefilter
       ! Does the filter run with fixed error-space basis?
@@ -3113,14 +3329,14 @@ contains
       implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
-      ! Integer parameter array
-      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of integer parameters
       INTEGER(c_int), INTENT(in) :: dim_pint
-      ! Real parameter array
-      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
+      ! Integer parameter array
+      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of real parameters
       INTEGER(c_int), INTENT(in) :: dim_preal
+      ! Real parameter array
+      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
       ! Is the chosen filter ensemble-based?
       LOGICAL(c_bool), INTENT(out) :: ensemblefilter
       ! Does the filter run with fixed error-space basis?
@@ -3217,14 +3433,14 @@ contains
       implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
-      ! Integer parameter array
-      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of integer parameters
       INTEGER(c_int), INTENT(in) :: dim_pint
-      ! Real parameter array
-      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
+      ! Integer parameter array
+      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of real parameters
       INTEGER(c_int), INTENT(in) :: dim_preal
+      ! Real parameter array
+      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
       ! Is the chosen filter ensemble-based?
       LOGICAL(c_bool), INTENT(out) :: ensemblefilter
       ! Does the filter run with fixed error-space basis?
@@ -3365,14 +3581,14 @@ contains
       implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
-      ! Integer parameter array
-      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of integer parameters
       INTEGER(c_int), INTENT(in) :: dim_pint
-      ! Real parameter array
-      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
+      ! Integer parameter array
+      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of real parameters
       INTEGER(c_int), INTENT(in) :: dim_preal
+      ! Real parameter array
+      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
       ! Is the chosen filter ensemble-based?
       LOGICAL(c_bool), INTENT(out) :: ensemblefilter
       ! Does the filter run with fixed error-space basis?
@@ -3507,9 +3723,12 @@ contains
       ! Initialize local mean observation error variance
       procedure(c__init_obsvar_l_pdaf) :: u_init_obsvar_l
 
+      prodrinva_hyb_l_pdaf_c_ptr => u_prodrinva_hyb_l
+      init_obsvar_l_pdaf_c_ptr => u_init_obsvar_l
+
       call PDAF_lknetf_ana_letkfT(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
          state_l, ainv_l, ens_l, hz_l, hxbar_l, obs_l, rndmat, forget,  &
-         u_prodrinva_hyb_l, u_init_obsvar_l, gamma, screen, type_forget, flag)
+         f__prodrinva_hyb_l_pdaf, f__init_obsvar_l_pdaf, gamma, screen, type_forget, flag)
 
    END SUBROUTINE c__PDAF_lknetf_ana_letkfT
 
@@ -3550,8 +3769,10 @@ contains
       ! Compute observation likelihood for an ensemble member with hybrid weight
       procedure(c__likelihood_hyb_l_pdaf) :: u_likelihood_hyb_l
 
+      likelihood_hyb_l_pdaf_c_ptr => u_likelihood_hyb_l
+
       call PDAF_lknetf_ana_lnetf(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
-         ens_l, hx_l, rndmat, obs_l, u_likelihood_hyb_l, cnt_small_svals,  &
+         ens_l, hx_l, rndmat, obs_l, f__likelihood_hyb_l_pdaf, cnt_small_svals,  &
          n_eff_all, gamma, screen, flag)
 
    END SUBROUTINE c__PDAF_lknetf_ana_lnetf
@@ -3593,8 +3814,11 @@ contains
       ! Initialize observation error covariance matrix
       procedure(c__init_obs_covar_pdaf) :: u_init_obs_covar
 
+      add_obs_err_pdaf_c_ptr => u_add_obs_err
+      init_obs_covar_pdaf_c_ptr => u_init_obs_covar
+
       call PDAF_enkf_ana_rsm(step, dim_p, dim_obs_p, dim_ens, rank_ana,  &
-         state_p, ens_p, hx_p, hxbar_p, obs_p, u_add_obs_err, u_init_obs_covar,  &
+         state_p, ens_p, hx_p, hxbar_p, obs_p, f__add_obs_err_pdaf, f__init_obs_covar_pdaf,  &
          screen, debug, flag)
 
    END SUBROUTINE c__PDAF_enkf_ana_rsm
@@ -3605,14 +3829,14 @@ contains
       implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
-      ! Integer parameter array
-      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of integer parameters
       INTEGER(c_int), INTENT(in) :: dim_pint
-      ! Real parameter array
-      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
+      ! Integer parameter array
+      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of real parameters
       INTEGER(c_int), INTENT(in) :: dim_preal
+      ! Real parameter array
+      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
       ! Is the chosen filter ensemble-based?
       LOGICAL(c_bool), INTENT(out) :: ensemblefilter
       ! Does the filter run with fixed error-space basis?
@@ -3760,9 +3984,11 @@ contains
       ! Compute observation likelihood for an ensemble member
       procedure(c__likelihood_l_pdaf) :: u_likelihood_l
 
+      likelihood_l_pdaf_c_ptr => u_likelihood_l
+
       call PDAF_lknetf_compute_gamma(domain_p, step, dim_obs_l, dim_ens, hx_l,  &
          hxbar_l, obs_l, type_hyb, hyb_g, hyb_k, gamma, n_eff_out, skew_mabs,  &
-         kurt_mabs, u_likelihood_l, screen, flag)
+         kurt_mabs, f__likelihood_l_pdaf, screen, flag)
 
    END SUBROUTINE c__PDAF_lknetf_compute_gamma
 
@@ -3932,14 +4158,14 @@ contains
       implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
-      ! Integer parameter array
-      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of integer parameters
       INTEGER(c_int), INTENT(in) :: dim_pint
-      ! Real parameter array
-      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
+      ! Integer parameter array
+      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of real parameters
       INTEGER(c_int), INTENT(in) :: dim_preal
+      ! Real parameter array
+      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
       ! Is the chosen filter ensemble-based?
       LOGICAL(c_bool), INTENT(out) :: ensemblefilter
       ! Does the filter run with fixed error-space basis?
@@ -4067,8 +4293,10 @@ contains
       ! Provide product R^-1 A
       procedure(c__prodrinva_pdaf) :: u_prodrinva
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+
       call PDAF_seik_ana(step, dim_p, dim_obs_p, dim_ens, rank, state_p, uinv,  &
-         ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, debug, flag)
+         ens_p, hl_p, hxbar_p, obs_p, forget, f__prodrinva_pdaf, debug, flag)
 
    END SUBROUTINE c__PDAF_seik_ana
 
@@ -4148,8 +4376,10 @@ contains
       ! Provide product R^-1 A for local analysis domain
       procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
 
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+
       call PDAF_lseik_ana(domain_p, step, dim_l, dim_obs_l, dim_ens, rank,  &
-         state_l, uinv_l, ens_l, hl_l, hxbar_l, obs_l, forget, u_prodrinva_l,  &
+         state_l, uinv_l, ens_l, hl_l, hxbar_l, obs_l, forget, f__prodrinva_l_pdaf,  &
          screen, debug, flag)
 
    END SUBROUTINE c__PDAF_lseik_ana
@@ -4205,8 +4435,13 @@ contains
       ! Routine to provide time step, time and dimensionof next observation
       procedure(c__next_observation_pdaf) :: u_next_observation
 
-      call PDAF_prepost(u_collect_state, u_distribute_state, u_prepoststep,  &
-         u_next_observation, outflag)
+      collect_state_pdaf_c_ptr => u_collect_state
+      distribute_state_pdaf_c_ptr => u_distribute_state
+      prepoststep_pdaf_c_ptr => u_prepoststep
+      next_observation_pdaf_c_ptr => u_next_observation
+
+      call PDAF_prepost(f__collect_state_pdaf, f__distribute_state_pdaf, f__prepoststep_pdaf,  &
+         f__next_observation_pdaf, outflag)
 
    END SUBROUTINE c__PDAF_prepost
 
@@ -4286,11 +4521,7 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: flag
 
-      logical :: ensemblefilter_in, fixedbasis_in
-
-      ensemblefilter_in = ensemblefilter
-      fixedbasis_in = fixedbasis
-      call PDAF_init_parallel(dim_ens, ensemblefilter_in, fixedbasis_in, comm_model,  &
+      call PDAF_init_parallel(dim_ens, logical(ensemblefilter), logical(fixedbasis), comm_model,  &
          in_comm_filter, in_comm_couple, in_n_modeltasks, in_task_id, screen, flag)
 
    END SUBROUTINE c__PDAF_init_parallel
@@ -4301,14 +4532,14 @@ contains
       implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(in) :: subtype
-      ! Integer parameter array
-      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of integer parameters
       INTEGER(c_int), INTENT(in) :: dim_pint
-      ! Real parameter array
-      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
+      ! Integer parameter array
+      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of real parameters
       INTEGER(c_int), INTENT(in) :: dim_preal
+      ! Real parameter array
+      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
       ! Is the chosen filter ensemble-based?
       LOGICAL(c_bool), INTENT(out) :: ensemblefilter
       ! Does the filter run with fixed error-space basis?
@@ -4485,8 +4716,10 @@ contains
       ! Provide product R^-1 A
       procedure(c__prodrinva_pdaf) :: u_prodrinva
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+
       call PDAF_seik_ana_newT(step, dim_p, dim_obs_p, dim_ens, rank, state_p,  &
-         uinv, ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, screen, debug,  &
+         uinv, ens_p, hl_p, hxbar_p, obs_p, forget, f__prodrinva_pdaf, screen, debug,  &
          flag)
 
    END SUBROUTINE c__PDAF_seik_ana_newT
@@ -4565,9 +4798,13 @@ contains
       ! Apply localization to HP and HPH^T
       procedure(c__localize_covar_pdaf) :: u_localize
 
+      add_obs_err_pdaf_c_ptr => u_add_obs_err
+      init_obs_covar_pdaf_c_ptr => u_init_obs_covar
+      localize_covar_pdaf_c_ptr => u_localize
+
       call PDAF_lenkf_ana_rsm(step, dim_p, dim_obs_p, dim_ens, rank_ana,  &
-         state_p, ens_p, hx_p, hxbar_p, obs_p, u_add_obs_err, u_init_obs_covar,  &
-         u_localize, screen, debug, flag)
+         state_p, ens_p, hx_p, hxbar_p, obs_p, f__add_obs_err_pdaf, f__init_obs_covar_pdaf,  &
+         f__localize_covar_pdaf, screen, debug, flag)
 
    END SUBROUTINE c__PDAF_lenkf_ana_rsm
 
@@ -4620,9 +4857,11 @@ contains
       ! Provide product R^-1 A for local analysis domain
       procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
 
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+
       call PDAF_lestkf_ana(domain_p, step, dim_l, dim_obs_l, dim_ens, rank,  &
          state_l, ainv_l, ens_l, hl_l, hxbar_l, obs_l, omegat_in, forget,  &
-         u_prodrinva_l, envar_mode, type_sqrt, ta, screen, debug, flag)
+         f__prodrinva_l_pdaf, envar_mode, type_sqrt, ta, screen, debug, flag)
 
    END SUBROUTINE c__PDAF_lestkf_ana
 
@@ -4709,14 +4948,14 @@ contains
       implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
-      ! Integer parameter array
-      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of integer parameters
       INTEGER(c_int), INTENT(in) :: dim_pint
-      ! Real parameter array
-      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
+      ! Integer parameter array
+      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of real parameters
       INTEGER(c_int), INTENT(in) :: dim_preal
+      ! Real parameter array
+      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
       ! Is the chosen filter ensemble-based?
       LOGICAL(c_bool), INTENT(out) :: ensemblefilter
       ! Does the filter run with fixed error-space basis?
@@ -4811,14 +5050,14 @@ contains
       implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
-      ! Integer parameter array
-      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of integer parameters
       INTEGER(c_int), INTENT(in) :: dim_pint
-      ! Real parameter array
-      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
+      ! Integer parameter array
+      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of real parameters
       INTEGER(c_int), INTENT(in) :: dim_preal
+      ! Real parameter array
+      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
       ! Is the chosen filter ensemble-based?
       LOGICAL(c_bool), INTENT(out) :: ensemblefilter
       ! Does the filter run with fixed error-space basis?
@@ -4951,8 +5190,10 @@ contains
       ! Initialize observation error covariance matrix
       procedure(c__init_obs_covar_pdaf) :: u_init_obs_covar
 
+      init_obs_covar_pdaf_c_ptr => u_init_obs_covar
+
       call PDAF_enkf_obs_ensemble(step, dim_obs_p, dim_obs, dim_ens, obsens_p,  &
-         obs_p, u_init_obs_covar, screen, flag)
+         obs_p, f__init_obs_covar_pdaf, screen, flag)
 
    END SUBROUTINE c__PDAF_enkf_obs_ensemble
 
@@ -5263,9 +5504,7 @@ contains
       ! Whether to compute the ensemble mean state
       LOGICAL(c_bool), INTENT(in) :: do_ensmean
 
-      logical :: do_ensmean_in
-      do_ensmean_in = do_ensmean
-      call PDAF_inflate_ens(dim, dim_ens, meanstate, ens, forget, do_ensmean_in)
+      call PDAF_inflate_ens(dim, dim_ens, meanstate, ens, forget, logical(do_ensmean))
 
    END SUBROUTINE c__PDAF_inflate_ens
 
@@ -5358,8 +5597,11 @@ contains
       ! Init full state from state on local analysis domain
       procedure(c__l2g_state_pdaf) :: u_l2g_state
 
+      g2l_state_pdaf_c_ptr => u_g2l_state
+      l2g_state_pdaf_c_ptr => u_l2g_state
+
       call PDAF_smoothing_local(domain_p, step, dim_p, dim_l, dim_ens, dim_lag,  &
-         ainv, ens_l, sens_p, cnt_maxlag, u_g2l_state, u_l2g_state, forget, screen)
+         ainv, ens_l, sens_p, cnt_maxlag, f__g2l_state_pdaf, f__l2g_state_pdaf, forget, screen)
 
    END SUBROUTINE c__PDAF_smoothing_local
 
@@ -5494,8 +5736,10 @@ contains
       ! Provide product R^-1 A
       procedure(c__prodrinva_pdaf) :: u_prodrinva
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+
       call PDAF_etkf_ana(step, dim_p, dim_obs_p, dim_ens, state_p, ainv, ens_p,  &
-         hz_p, hxbar_p, obs_p, forget, u_prodrinva, screen, type_trans, debug,  &
+         hz_p, hxbar_p, obs_p, forget, f__prodrinva_pdaf, screen, type_trans, debug,  &
          flag)
 
    END SUBROUTINE c__PDAF_etkf_ana
@@ -5543,8 +5787,10 @@ contains
       ! Provide product R^-1 A for local analysis domain
       procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
 
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+
       call PDAF_letkf_ana(domain_p, step, dim_l, dim_obs_l, dim_ens, state_l,  &
-         ainv_l, ens_l, hz_l, hxbar_l, obs_l, rndmat, forget, u_prodrinva_l,  &
+         ainv_l, ens_l, hz_l, hxbar_l, obs_l, rndmat, forget, f__prodrinva_l_pdaf,  &
          type_trans, screen, debug, flag)
 
    END SUBROUTINE c__PDAF_letkf_ana
@@ -5555,14 +5801,14 @@ contains
       implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(inout) :: subtype
-      ! Integer parameter array
-      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of integer parameters
       INTEGER(c_int), INTENT(in) :: dim_pint
-      ! Real parameter array
-      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
+      ! Integer parameter array
+      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of real parameters
       INTEGER(c_int), INTENT(in) :: dim_preal
+      ! Real parameter array
+      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
       ! Is the chosen filter ensemble-based?
       LOGICAL(c_bool), INTENT(out) :: ensemblefilter
       ! Does the filter run with fixed error-space basis?
@@ -5699,8 +5945,10 @@ contains
       ! Provide product R^-1 with some matrix
       procedure(c__prodrinva_pdaf) :: u_prodrinva
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+
       call PDAF_estkf_ana(step, dim_p, dim_obs_p, dim_ens, rank, state_p, ainv,  &
-         ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, screen, envar_mode,  &
+         ens_p, hl_p, hxbar_p, obs_p, forget, f__prodrinva_pdaf, screen, envar_mode,  &
          type_sqrt, type_trans, ta, debug, flag)
 
    END SUBROUTINE c__PDAF_estkf_ana
@@ -5738,8 +5986,10 @@ contains
       ! Apply localization for single-observation vectors
       procedure(c__localize_covar_serial_pdaf) :: u_localize_covar_serial
 
+      localize_covar_serial_pdaf_c_ptr => u_localize_covar_serial
+
       call PDAF_ensrf_ana(step, dim_p, dim_obs_p, dim_ens, state_p, ens_p,  &
-         hx_p, hxbar_p, obs_p, var_obs_p, u_localize_covar_serial, screen, debug)
+         hx_p, hxbar_p, obs_p, var_obs_p, f__localize_covar_serial_pdaf, screen, debug)
 
    END SUBROUTINE c__PDAF_ensrf_ana
 
@@ -5776,8 +6026,10 @@ contains
       ! Apply localization for single-observation vectors
       procedure(c__localize_covar_serial_pdaf) :: u_localize_covar_serial
 
+      localize_covar_serial_pdaf_c_ptr => u_localize_covar_serial
+
       call PDAF_ensrf_ana_2step(step, dim_p, dim_obs_p, dim_ens, state_p,  &
-         ens_p, hx_p, hxbar_p, obs_p, var_obs_p, u_localize_covar_serial,  &
+         ens_p, hx_p, hxbar_p, obs_p, var_obs_p, f__localize_covar_serial_pdaf,  &
          screen, debug)
 
    END SUBROUTINE c__PDAF_ensrf_ana_2step
@@ -5894,8 +6146,10 @@ contains
       ! Provide product R^-1 A
       procedure(c__prodrinva_pdaf) :: u_prodrinva
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+
       call PDAF_seik_ana_trans(step, dim_p, dim_obs_p, dim_ens, rank, state_p,  &
-         uinv, ens_p, hl_p, hxbar_p, obs_p, forget, u_prodrinva, screen,  &
+         uinv, ens_p, hl_p, hxbar_p, obs_p, forget, f__prodrinva_pdaf, screen,  &
          type_sqrt, type_trans, nm1vsn, debug, flag)
 
    END SUBROUTINE c__PDAF_seik_ana_trans
@@ -6102,9 +6356,11 @@ contains
       ! Provide product R^-1 A for local analysis domain
       procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
 
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+
       call PDAF_lestkf_ana_fixed(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
          rank, state_l, ainv_l, ens_l, hl_l, hxbar_l, obs_l, forget,  &
-         u_prodrinva_l, type_sqrt, screen, debug, flag)
+         f__prodrinva_l_pdaf, type_sqrt, screen, debug, flag)
 
    END SUBROUTINE c__PDAF_lestkf_ana_fixed
 
@@ -6114,14 +6370,14 @@ contains
       implicit none
       ! Sub-type of filter
       INTEGER(c_int), INTENT(in) :: subtype
-      ! Integer parameter array
-      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of integer parameters
       INTEGER(c_int), INTENT(in) :: dim_pint
-      ! Real parameter array
-      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
+      ! Integer parameter array
+      INTEGER(c_int), DIMENSION(dim_pint), INTENT(inout) :: param_int
       ! Number of real parameters
       INTEGER(c_int), INTENT(in) :: dim_preal
+      ! Real parameter array
+      REAL(c_double), DIMENSION(dim_preal), INTENT(inout) :: param_real
       ! Is the chosen filter ensemble-based?
       LOGICAL(c_bool), INTENT(out) :: ensemblefilter
       ! Does the filter run with fixed error-space basis?
@@ -6224,8 +6480,10 @@ contains
       ! Provide product R^-1 A
       procedure(c__prodrinva_pdaf) :: u_prodrinva
 
+      prodrinva_pdaf_c_ptr => u_prodrinva
+
       call PDAF_etkf_ana_T(step, dim_p, dim_obs_p, dim_ens, state_p, ainv,  &
-         ens_p, hz_p, hxbar_p, obs_p, forget, u_prodrinva, screen, type_trans,  &
+         ens_p, hz_p, hxbar_p, obs_p, forget, f__prodrinva_pdaf, screen, type_trans,  &
          debug, flag)
 
    END SUBROUTINE c__PDAF_etkf_ana_T
@@ -6269,8 +6527,10 @@ contains
       ! Provide product R^-1 A for local analysis domain
       procedure(c__prodrinva_l_pdaf) :: u_prodrinva_l
 
+      prodrinva_l_pdaf_c_ptr => u_prodrinva_l
+
       call PDAF_letkf_ana_fixed(domain_p, step, dim_l, dim_obs_l, dim_ens,  &
-         state_l, ainv_l, ens_l, hz_l, hxbar_l, obs_l, forget, u_prodrinva_l,  &
+         state_l, ainv_l, ens_l, hz_l, hxbar_l, obs_l, forget, f__prodrinva_l_pdaf,  &
          screen, debug, flag)
 
    END SUBROUTINE c__PDAF_letkf_ana_fixed

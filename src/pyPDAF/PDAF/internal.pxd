@@ -1,4 +1,18 @@
 from pyPDAF.cfi_binding cimport CFI_cdesc_t
+
+cdef extern void c__pdaf_set_forget(int* step, int* localfilter,
+    int* dim_obs_p, int* dim_ens, double* mens_p, double* mstate_p,
+    double* obs_p,
+    void (*c__init_obsvar_pdaf)(int* , int* , double* , double* ),
+    double* forget_in, double* forget_out,
+    int* screen) noexcept nogil;
+
+cdef extern void c__pdaf_set_iparam_filters(int* id, int* value,
+    int* flag) noexcept nogil;
+
+cdef extern void c__pdaf_set_rparam_filters(int* id, double* value,
+    int* flag) noexcept nogil;
+
 cdef extern void c__pdaf_set_forget_local(int* domain, int* step,
     int* dim_obs_l, int* dim_ens, double* hx_l, double* hxbar_l,
     double* obs_l,
