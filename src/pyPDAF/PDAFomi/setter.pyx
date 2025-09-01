@@ -241,5 +241,17 @@ def set_domainsize(int  i_obs, int  ncoord, double [::1] domainsize):
     with nogil:
         c__pdafomi_set_domainsize(&i_obs, &ncoord, &domainsize[0])
 
+def set_name(int  i_obs, str obsname):
+    """Set a name for given observation type
 
-
+    Parameters
+    ----------
+    i_obs : int
+        index of observation type
+    obsname : str
+        name of observation type
+    """
+    obsname_byte = obsname.encode('UTF-8')
+    cdef char* obsname_ptr = obsname_byte
+    with nogil:
+        c__pdafomi_set_name(&i_obs, obsname_ptr)

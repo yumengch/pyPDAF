@@ -1,5 +1,10 @@
 from pyPDAF.cfi_binding cimport CFI_cdesc_t
 
+cdef extern void c__pdaf_mpi_init() noexcept nogil;
+
+cdef extern void c__pdaf_timeit(int* timerid, char* operation) noexcept nogil;
+
+
 cdef extern void c__pdaf_set_forget(int* step, int* localfilter,
     int* dim_obs_p, int* dim_ens, double* mens_p, double* mstate_p,
     double* obs_p,
@@ -63,7 +68,7 @@ cdef extern void c__pdaf3dvar_update(int* step, int* dim_p, int* dim_obs_p,
     void (*c__cvt_adj_pdaf)(int* , int* , int* , double* , double* ),
     void (*c__obs_op_lin_pdaf)(int* , int* , int* , double* , double* ),
     void (*c__obs_op_adj_pdaf)(int* , int* , int* , double* , double* ),
-    int* screen, int* subtype, int* flag) noexcept nogil;
+    int* screen, int* flag) noexcept nogil;
 
 cdef extern void c__pdafen3dvar_update_estkf(int* step, int* dim_p,
     int* dim_obs_p, int* dim_ens, int* dim_cvec_ens, double* state_p,
@@ -82,7 +87,7 @@ cdef extern void c__pdafen3dvar_update_estkf(int* step, int* dim_p,
     void (*c__obs_op_lin_pdaf)(int* , int* , int* , double* , double* ),
     void (*c__obs_op_adj_pdaf)(int* , int* , int* , double* , double* ),
     void (*c__init_obsvar_pdaf)(int* , int* , double* , double* ),
-    int* screen, int* subtype, int* flag) noexcept nogil;
+    int* screen, int* flag) noexcept nogil;
 
 cdef extern void c__pdafen3dvar_update_lestkf(int* step, int* dim_p,
     int* dim_obs_p, int* dim_ens, int* dim_cvec_ens, double* state_p,
@@ -117,7 +122,7 @@ cdef extern void c__pdafen3dvar_update_lestkf(int* step, int* dim_p,
     void (*c__init_obsvar_pdaf)(int* , int* , double* , double* ),
     void (*c__init_obsvar_l_pdaf)(int* , int* , int* , double* , int* ,
                                   double* ),
-    int* screen, int* subtype, int* flag) noexcept nogil;
+    int* screen, int* flag) noexcept nogil;
 
 cdef extern void c__pdafetkf_update(int* step, int* dim_p, int* dim_obs_p,
     int* dim_ens, double* state_p, double* ainv, double* ens_p,
@@ -141,10 +146,8 @@ cdef extern void c__pdaf_netf_ana(int* step, int* dim_p, int* dim_obs_p,
     int* screen, int* debug, int* flag) noexcept nogil;
 
 cdef extern void c__pdaf_netf_smoothert(int* step, int* dim_p,
-    int* dim_obs_p, int* dim_ens, double* ens_p, double* rndmat, double* t,
-    void (*c__init_dim_obs_pdaf)(int* , int* ),
-    void (*c__obs_op_pdaf)(int* , int* , int* , double* , double* ),
-    void (*c__init_obs_pdaf)(int* , int* , double* ),
+    int* dim_obs_p, int* dim_ens, double* ens_p, double* rndmat, double* ta,
+    double* hx_p, double* obs_p,
     void (*c__likelihood_pdaf)(int* , int* , double* , double* , double* ),
     int* screen, int* flag) noexcept nogil;
 
@@ -412,7 +415,7 @@ cdef extern void c__pdaf_en3dvar_costf_cg_cvt(int* step, int* iter,
     int* opt_parallel) noexcept nogil;
 
 cdef extern void c__pdaf_gather_ens(int* dim_p, int* dim_ens_p,
-    CFI_cdesc_t* ens, int* screen) noexcept nogil;
+    CFI_cdesc_t* ens, CFI_cdesc_t* state, int* screen) noexcept nogil;
 
 cdef extern void c__pdaf_scatter_ens(int* dim_p, int* dim_ens_p,
     CFI_cdesc_t* ens, CFI_cdesc_t* state,
@@ -524,7 +527,7 @@ cdef extern void c__pdaf_sisort(int* n,
     double* veca) noexcept nogil;
 
 cdef extern void c__pdaf_enkf_ana_rlm(int* step, int* dim_p,
-    int* dim_obs_p, int* dim_ens, int* rank_ana, double* state_p,
+    int* dim_obs_p, int* dim_obs, int* dim_ens, int* rank_ana, double* state_p,
     double* ens_p, double* hzb, double* hx_p, double* hxbar_p,
     double* obs_p,
     void (*c__add_obs_err_pdaf)(int* , int* , double* ),
@@ -862,7 +865,7 @@ cdef extern void c__pdaf_lknetf_ana_lnetf(int* domain_p, int* step,
     int* flag) noexcept nogil;
 
 cdef extern void c__pdaf_enkf_ana_rsm(int* step, int* dim_p,
-    int* dim_obs_p, int* dim_ens, int* rank_ana, double* state_p,
+    int* dim_obs_p, int* dim_obs, int* dim_ens, int* rank_ana, double* state_p,
     double* ens_p, double* hx_p, double* hxbar_p, double* obs_p,
     void (*c__add_obs_err_pdaf)(int* , int* , double* ),
     void (*c__init_obs_covar_pdaf)(int* , int* , int* , double* , double* ,
@@ -1060,7 +1063,7 @@ cdef extern void c__pdaf_seik_resample_newt(int* subtype, int* dim_p,
     int* flag) noexcept nogil;
 
 cdef extern void c__pdaf_lenkf_ana_rsm(int* step, int* dim_p,
-    int* dim_obs_p, int* dim_ens, int* rank_ana, double* state_p,
+    int* dim_obs_p, int* dim_obs, int* dim_ens, int* rank_ana, double* state_p,
     double* ens_p, double* hx_p, double* hxbar_p, double* obs_p,
     void (*c__add_obs_err_pdaf)(int* , int* , double* ),
     void (*c__init_obs_covar_pdaf)(int* , int* , int* , double* , double* ,
@@ -1220,8 +1223,12 @@ cdef extern void c__pdaf_inflate_ens(int* dim, int* dim_ens,
     bint* do_ensmean) noexcept nogil;
 
 cdef extern void c__pdaf_alloc(int* dim_p, int* dim_ens, int* dim_ens_task,
-    int* dim_es, int* dim_bias_p, int* dim_lag, int* statetask,
+    int* dim_es, int* statetask, int* outflag) noexcept nogil;
+
+cdef extern void c__pdaf_alloc_sens(int* dim_p, int* dim_ens, int* dim_lag,
     int* outflag) noexcept nogil;
+
+cdef extern void c__pdaf_alloc_bias(int* dim_bias_p, int* outflag) noexcept nogil;
 
 cdef extern void c__pdaf_smoothing(int* dim_p, int* dim_ens, int* dim_lag,
     double* ainv, double* sens_p, int* cnt_maxlag, double* forget,
@@ -1376,7 +1383,7 @@ cdef extern void c__pdafhyb3dvar_update_estkf(int* step, int* dim_p,
     void (*c__obs_op_lin_pdaf)(int* , int* , int* , double* , double* ),
     void (*c__obs_op_adj_pdaf)(int* , int* , int* , double* , double* ),
     void (*c__init_obsvar_pdaf)(int* , int* , double* , double* ),
-    int* screen, int* subtype, int* flag) noexcept nogil;
+    int* screen, int* flag) noexcept nogil;
 
 cdef extern void c__pdafhyb3dvar_update_lestkf(int* step, int* dim_p,
     int* dim_obs_p, int* dim_ens, int* dim_cvec, int* dim_cvec_ens,
@@ -1413,7 +1420,7 @@ cdef extern void c__pdafhyb3dvar_update_lestkf(int* step, int* dim_p,
     void (*c__init_obsvar_pdaf)(int* , int* , double* , double* ),
     void (*c__init_obsvar_l_pdaf)(int* , int* , int* , double* , int* ,
                                   double* ),
-    int* screen, int* subtype, int* flag) noexcept nogil;
+    int* screen, int* flag) noexcept nogil;
 
 cdef extern void c__pdaf_lestkf_ana_fixed(int* domain_p, int* step,
     int* dim_l, int* dim_obs_l, int* dim_ens, int* rank, double* state_l,

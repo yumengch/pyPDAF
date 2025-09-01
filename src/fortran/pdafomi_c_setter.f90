@@ -1,5 +1,5 @@
 MODULE pdafomi_c_setter
-use iso_c_binding, only: c_int, c_double, c_bool
+use iso_c_binding, only: c_int, c_double, c_bool, c_null_char, c_char
 use PDAF
 use pdaf_c_cb_interface
 use pdafomi_c, only: n_obs_omi, thisobs, thisobs_l
@@ -135,5 +135,29 @@ contains
       call PDAFomi_set_domainsize(thisobs(i_obs), ncoord, domainsize)
 
    END SUBROUTINE c__PDAFomi_set_domainsize
+
+   SUBROUTINE c__PDAFomi_set_name(i_obs, obsname) bind(c)
+      use PDAFOMI_obs_f, only: PDAFomi_set_name
+      IMPLICIT NONE
+      !< Data type with full observation
+      INTEGER(c_int), INTENT(inout) :: i_obs
+      !< Name of observation type
+      CHARACTER(kind=c_char), dimension(*), INTENT(in)  :: obsname
+
+      CHARACTER(len=20) :: clean_obsname
+      INTEGER :: i
+
+      ! Remove null characters from filterstr
+      clean_obsname = ""
+      i = 1
+      DO WHILE (.true.)
+         IF (obsname(i) == c_null_char) EXIT
+         clean_obsname(i:i) = obsname(i)
+         i = i + 1
+      END DO
+
+      call PDAFomi_set_name(thisobs(i_obs), clean_obsname)
+
+   END SUBROUTINE c__PDAFomi_set_name
 
 END MODULE pdafomi_c_setter

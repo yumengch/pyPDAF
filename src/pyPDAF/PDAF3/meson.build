@@ -1,5 +1,6 @@
 pypdaf_sources = files('assim.pyx',
                        'put.pyx',
+                       '_pdaf3_c.pyx'
                      )
 
 foreach file :pypdaf_sources

@@ -39,7 +39,7 @@ def global_except_hook(exctype, value, traceback):
 
 sys.excepthook = global_except_hook
 
-def _iau_init_weights(int  type_iau, int  nsteps_iau):
+def iau_init_weights(int  type_iau, int  nsteps_iau):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -58,7 +58,7 @@ def _iau_init_weights(int  type_iau, int  nsteps_iau):
 
 
 
-def _iau_update_inc(double [::1,:] ens_ana):
+def iau_update_inc(double [::1,:] ens_ana, double [::1] state_ana):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -67,6 +67,9 @@ def _iau_update_inc(double [::1,:] ens_ana):
     ens_ana : ndarray[np.float64, ndim=2]
         PE-local analysis ensemble
         Array shape: (:, :)
+    state_ana : ndarray[np.float64, ndim=1]
+        PE-local state vector
+        Array shape: (:)
 
     Returns
     -------
@@ -81,17 +84,29 @@ def _iau_update_inc(double [::1,:] ens_ana):
     ens_ana_extent[0] = ens_ana.shape[0]
     ens_ana_extent[1] = ens_ana.shape[1]
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_ana_np = np.asarray(ens_ana, dtype=np.float64, order="F")
+
+    cdef CFI_cdesc_rank1 state_ana_cfi
+    cdef CFI_cdesc_t *state_ana_ptr = <CFI_cdesc_t *> &state_ana_cfi
+    cdef size_t state_ana_nbytes = state_ana.nbytes
+    cdef CFI_index_t state_ana_extent[1]
+    state_ana_extent[0] = state_ana.shape[0]
+    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_ana_np = np.asarray(state_ana, dtype=np.float64, order="F")
+
+
     with nogil:
         CFI_establish(ens_ana_ptr, &ens_ana[0,0], CFI_attribute_other,
                       CFI_type_double , ens_ana_nbytes, 2, ens_ana_extent)
 
-        c__pdaf_iau_update_inc(ens_ana_ptr)
+        CFI_establish(state_ana_ptr, &state_ana[0], CFI_attribute_other,
+                      CFI_type_double , state_ana_nbytes, 1, state_ana_extent)
 
-    return ens_ana_np
+        c__pdaf_iau_update_inc(ens_ana_ptr, state_ana_ptr)
+
+    return ens_ana_np, state_ana_np
 
 
-def _iau_add_inc_ens(int  step, int  dim_p, int  dim_ens_task,
-    double [::1,:] ens, py__collect_state_pdaf, py__distribute_state_pdaf):
+def iau_add_inc_ens(int  step, int  dim_p, int  dim_ens_task,
+    double [::1,:] ens, double [::1] state, py__collect_state_pdaf, py__distribute_state_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -106,6 +121,9 @@ def _iau_add_inc_ens(int  step, int  dim_p, int  dim_ens_task,
     ens : ndarray[np.float64, ndim=2]
         PE-local state ensemble
         Array shape: (:, :)
+    state : ndarray[np.float64, ndim=1]
+        PE-local state vector
+        Array shape: (:)
     py__collect_state_pdaf : Callable
         Routine to collect a state vector
 
@@ -154,20 +172,31 @@ def _iau_add_inc_ens(int  step, int  dim_p, int  dim_ens_task,
     ens_extent[0] = ens.shape[0]
     ens_extent[1] = ens.shape[1]
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_np = np.asarray(ens, dtype=np.float64, order="F")
+
+    cdef CFI_cdesc_rank1 state_cfi
+    cdef CFI_cdesc_t *state_ptr = <CFI_cdesc_t *> &state_cfi
+    cdef size_t state_nbytes = state.nbytes
+    cdef CFI_index_t state_extent[1]
+    state_extent[0] = state.shape[0]
+    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_np = np.asarray(state, dtype=np.float64, order="F")
+
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
     pdaf_cb.distribute_state_pdaf = <void*>py__distribute_state_pdaf
     with nogil:
         CFI_establish(ens_ptr, &ens[0,0], CFI_attribute_other,
                       CFI_type_double , ens_nbytes, 2, ens_extent)
 
-        c__pdaf_iau_add_inc_ens(&step, &dim_p, &dim_ens_task, ens_ptr,
+        CFI_establish(state_ptr, &state[0], CFI_attribute_other,
+                      CFI_type_double , state_nbytes, 1, state_extent)
+
+        c__pdaf_iau_add_inc_ens(&step, &dim_p, &dim_ens_task, ens_ptr, state_ptr,
                                 pdaf_cb.c__collect_state_pdaf,
                                 pdaf_cb.c__distribute_state_pdaf)
 
-    return ens_np
+    return ens_np, state_np
 
 
-def _iau_update_ens(double [::1,:] ens):
+def iau_update_ens(double [::1,:] ens, double [::1] state):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -176,6 +205,9 @@ def _iau_update_ens(double [::1,:] ens):
     ens : ndarray[np.float64, ndim=2]
         PE-local state ensemble
         Array shape: (:, :)
+    state : ndarray[np.float64, ndim=1]
+        PE-local state vector
+        Array shape: (:)
 
     Returns
     -------
@@ -190,16 +222,27 @@ def _iau_update_ens(double [::1,:] ens):
     ens_extent[0] = ens.shape[0]
     ens_extent[1] = ens.shape[1]
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_np = np.asarray(ens, dtype=np.float64, order="F")
+
+    cdef CFI_cdesc_rank1 state_cfi
+    cdef CFI_cdesc_t *state_ptr = <CFI_cdesc_t *> &state_cfi
+    cdef size_t state_nbytes = state.nbytes
+    cdef CFI_index_t state_extent[1]
+    state_extent[0] = state.shape[0]
+    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_np = np.asarray(state, dtype=np.float64, order="F")
+
     with nogil:
         CFI_establish(ens_ptr, &ens[0,0], CFI_attribute_other,
                       CFI_type_double , ens_nbytes, 2, ens_extent)
 
-        c__pdaf_iau_update_ens(ens_ptr)
+        CFI_establish(state_ptr, &state[0], CFI_attribute_other,
+                      CFI_type_double , state_nbytes, 1, state_extent)
 
-    return ens_np
+        c__pdaf_iau_update_ens(ens_ptr, state_ptr)
+
+    return ens_np, state_np
 
 
-def _iau_dealloc():
+def iau_dealloc():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """

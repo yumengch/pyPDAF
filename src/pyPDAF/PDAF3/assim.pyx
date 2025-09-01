@@ -8181,8 +8181,8 @@ def assim_offline_global_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
 
 def assim_offline_lnetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
-    py__prepoststep_pdaf, py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
-    py__init_dim_obs_l_pdaf, py__likelihood_l_pdaf):
+    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
+    py__init_dim_obs_l_pdaf, py__likelihood_l_pdaf, py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -8369,20 +8369,21 @@ def assim_offline_lnetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     with nogil:
         c__pdaf3_assim_offline_lnetf_nondiagr(pdaf_cb.c__init_dim_obs_pdaf,
                                               pdaf_cb.c__obs_op_pdaf,
-                                              pdaf_cb.c__prepoststep_pdaf,
                                               pdaf_cb.c__init_n_domains_p_pdaf,
                                               pdaf_cb.c__init_dim_l_pdaf,
                                               pdaf_cb.c__init_dim_obs_l_pdaf,
                                               pdaf_cb.c__likelihood_l_pdaf,
+                                              pdaf_cb.c__prepoststep_pdaf,
                                               &outflag)
 
     return outflag
 
 
 def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
-    py__prepoststep_pdaf, py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
+    py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
     py__init_dim_obs_l_pdaf, py__prodrinva_l_pdaf,
-    py__prodrinva_hyb_l_pdaf, py__likelihood_l_pdaf, py__likelihood_hyb_l_pdaf):
+    py__prodrinva_hyb_l_pdaf, py__likelihood_l_pdaf, py__likelihood_hyb_l_pdaf,
+    py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -8662,7 +8663,6 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
         c__pdaf3_assim_offline_lknetf_nondiagr(
                                                pdaf_cb.c__init_dim_obs_pdaf,
                                                pdaf_cb.c__obs_op_pdaf,
-                                               pdaf_cb.c__prepoststep_pdaf,
                                                pdaf_cb.c__init_n_domains_p_pdaf,
                                                pdaf_cb.c__init_dim_l_pdaf,
                                                pdaf_cb.c__init_dim_obs_l_pdaf,
@@ -8670,6 +8670,7 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
                                                pdaf_cb.c__prodrinva_hyb_l_pdaf,
                                                pdaf_cb.c__likelihood_l_pdaf,
                                                pdaf_cb.c__likelihood_hyb_l_pdaf,
+                                               pdaf_cb.c__prepoststep_pdaf,
                                                &outflag)
 
     return outflag
@@ -8841,8 +8842,8 @@ def assim_offline_enkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
 
 def assim_offline_lenkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
-    py__prepoststep_pdaf, py__localize_covar_pdaf, py__add_obs_err_pdaf,
-    py__init_obs_covar_pdaf):
+    py__localize_covar_pdaf, py__add_obs_err_pdaf,
+    py__init_obs_covar_pdaf, py__prepoststep_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -9024,10 +9025,10 @@ def assim_offline_lenkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     with nogil:
         c__pdaf3_assim_offline_lenkf_nondiagr(pdaf_cb.c__init_dim_obs_pdaf,
                                               pdaf_cb.c__obs_op_pdaf,
-                                              pdaf_cb.c__prepoststep_pdaf,
                                               pdaf_cb.c__localize_covar_pdaf,
                                               pdaf_cb.c__add_obs_err_pdaf,
                                               pdaf_cb.c__init_obs_covar_pdaf,
+                                              pdaf_cb.c__prepoststep_pdaf,
                                               &outflag)
 
     return outflag
@@ -13611,8 +13612,9 @@ def assimilate_enkf_nondiagr(py__collect_state_pdaf,
 
 
 def assimilate_lenkf_nondiagr(py__collect_state_pdaf, py__distribute_state_pdaf,
-    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__prepoststep_pdaf,
-    py__localize_covar_pdaf, py__add_obs_err_pdaf, py__init_obs_covar_pdaf, py__next_observation_pdaf):
+    py__init_dim_obs_pdaf, py__obs_op_pdaf,
+    py__localize_covar_pdaf, py__add_obs_err_pdaf, py__init_obs_covar_pdaf,
+    py__prepoststep_pdaf, py__next_observation_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -13852,10 +13854,10 @@ def assimilate_lenkf_nondiagr(py__collect_state_pdaf, py__distribute_state_pdaf,
                                            pdaf_cb.c__distribute_state_pdaf,
                                            pdaf_cb.c__init_dim_obs_pdaf,
                                            pdaf_cb.c__obs_op_pdaf,
-                                           pdaf_cb.c__prepoststep_pdaf,
                                            pdaf_cb.c__localize_covar_pdaf,
                                            pdaf_cb.c__add_obs_err_pdaf,
                                            pdaf_cb.c__init_obs_covar_pdaf,
+                                           pdaf_cb.c__prepoststep_pdaf,
                                            pdaf_cb.c__next_observation_pdaf,
                                            &outflag)
 

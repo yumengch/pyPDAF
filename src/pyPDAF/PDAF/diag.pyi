@@ -242,12 +242,15 @@ def diag_rmsd(
         Status flag (0=success)
     """
 
-def diag_crps(
+def diag_crps_mpi(
     dim_p: int,
     dim_ens: int,
     element: int,
     oens: np.ndarray,
-    obs: np.ndarray
+    obs: np.ndarray,
+    comm_filter: int,
+    mype_filter:int,
+    npes_filter:int
 ) -> Tuple[float, float, float, float, int]:
     r"""Obtain a continuous rank probability score for an ensemble.
 
@@ -274,6 +277,12 @@ def diag_crps(
         State ensemble. shape: (dim_p, dim_ens)
     obs : ndarray[tuple[dim, ...], np.float64]
         State ensemble. shape: (dim_p)
+    comm_filter : int
+        MPI communicator for filter
+    mype_filter : int
+        rank of MPI communicator
+    npes_filter : int
+        size of MPI communicator
 
     Returns
     -------

@@ -650,6 +650,58 @@ def obs_op_gridavg(int  i_obs, int  nrows, double [::1] state_p,
 
     return obs_f_all_np
 
+def obs_op_extern(int  i_obs, double [::1] ostate_p,
+    double [::1] obs_f_all):
+    """Observation operator for given observed model state.
+
+    Application of observation operator for the case that
+    a user performs the actual observation operator elsewhere,
+    e.g., directly in the model during the forecast or offline.
+    For this case, the user can provide the observed model state
+    to this routine and it will just call :func:`pyPDAF.PDAFomi.gather_obsstate`,
+    to obtain the full observed vector `obs_f_all`.
+
+    This has to be called in all filter processes.
+
+    Parameters
+    ----------
+    i_obs : int
+        index into observation arrays
+    ostate_p : ndarray[np.float64, ndim=1]
+        PE-local observed model state
+        Array shape: (:)
+    obs_f_all : ndarray[np.float64, ndim=1]
+        Full observed model state for all observation types
+        Array shape: (:)
+
+    Returns
+    -------
+    obs_f_all : ndarray[np.float64, ndim=1]
+        Full observed state for all observation types
+        Array shape: (:)
+    """
+    cdef CFI_cdesc_rank1 obs_f_all_cfi
+    cdef CFI_cdesc_t *obs_f_all_ptr = <CFI_cdesc_t *> &obs_f_all_cfi
+    cdef size_t obs_f_all_nbytes = obs_f_all.nbytes
+    cdef CFI_index_t obs_f_all_extent[1]
+    obs_f_all_extent[0] = obs_f_all.shape[0]
+    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obs_f_all_np = np.asarray(obs_f_all, dtype=np.float64, order="F")
+    cdef CFI_cdesc_rank1 ostate_p_cfi
+    cdef CFI_cdesc_t *ostate_p_ptr = <CFI_cdesc_t *> &ostate_p_cfi
+    cdef size_t ostate_p_nbytes = ostate_p.nbytes
+    cdef CFI_index_t ostate_p_extent[1]
+    ostate_p_extent[0] = ostate_p.shape[0]
+    with nogil:
+        CFI_establish(ostate_p_ptr, &ostate_p[0], CFI_attribute_other,
+                      CFI_type_double , ostate_p_nbytes, 1, ostate_p_extent)
+
+        CFI_establish(obs_f_all_ptr, &obs_f_all[0], CFI_attribute_other,
+                      CFI_type_double , obs_f_all_nbytes, 1, obs_f_all_extent)
+
+        c__pdafomi_obs_op_extern(&i_obs, ostate_p_ptr, obs_f_all_ptr)
+
+    return obs_f_all_np
+
 
 def obs_op_interp_lin(int  i_obs, int  nrows, double [::1] state_p,
     double [::1] obs_f_all):

@@ -45,6 +45,10 @@ cdef extern void c__pdafomi_obs_op_gridavg(int* i_obs, int* nrows,
     CFI_cdesc_t* state_p,
     CFI_cdesc_t* obs_f_all) noexcept nogil;
 
+cdef extern void c__pdafomi_obs_op_extern(int* i_obs,
+    CFI_cdesc_t* ostate_p,
+    CFI_cdesc_t* obs_f_all) noexcept nogil;
+
 cdef extern void c__pdafomi_obs_op_interp_lin(int* i_obs, int* nrows,
     CFI_cdesc_t* state_p,
     CFI_cdesc_t* obs_f_all) noexcept nogil;

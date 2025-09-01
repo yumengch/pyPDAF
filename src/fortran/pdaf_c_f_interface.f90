@@ -491,7 +491,7 @@ contains
       ! Size of the full observation vector
       integer, intent(in) :: dim_obs_f
       ! Full vector of synthetic observations (process-local)
-      real, intent(out), dimension(dim_obs_f) :: observation_f
+      real, intent(in), dimension(dim_obs_f) :: observation_f
       call get_obs_f_pdaf_c_ptr(step, dim_obs_f, observation_f)
    END SUBROUTINE f__get_obs_f_pdaf
 

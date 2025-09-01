@@ -30,7 +30,7 @@ def extract_subroutines_from_dir(path):
     for root, _, files in os.walk(path):
         for file in files:
             if file.lower().endswith(('.f90', '.f', '.f95', '.f03', '.f08')):
-                if file.startswith('U_PDAF'):
+                if file == 'pdaf_c_f_interface.f90':
                     continue
                 full_path = os.path.join(root, file)
                 lines = preprocess_fortran_file(full_path)
@@ -74,6 +74,17 @@ def extract_subroutines_from_dir(path):
 def compare_subroutines(dir_old, dir_new):
     old_subs = extract_subroutines_from_dir(dir_old)
     new_subs = extract_subroutines_from_dir(dir_new)
+    # new_subs = set()
+
+    # print (old_subs)
+
+    # for sub in new_subs:
+    #     if 'pdaf3_assim_offline(' in sub:
+    #         print(f"New subroutine found: {sub}")
+
+    # for sub in old_subs:
+    #     if 'pdaf3_assim_offline(' in sub:
+    #         print(f"Old subroutine found: {sub}")
 
     added = new_subs - old_subs
     removed = old_subs - new_subs
@@ -82,8 +93,8 @@ def compare_subroutines(dir_old, dir_new):
     return added, removed, unchanged
 
 if __name__ == "__main__":
-    added, removed, unchanged = compare_subroutines('pyPDAF/src/fortran',
-                                                    'PDAF-PDAF_V3.0beta/src')
+    added, removed, unchanged = compare_subroutines('src/fortran',
+                                                    'PDAF/src')
 
     print("\n--- Added Subroutines ---")
     for sig in sorted(added):

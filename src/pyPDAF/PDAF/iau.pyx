@@ -238,5 +238,76 @@ def iau_add_inc(py__collect_state_pdaf, py__distribute_state_pdaf):
         c__pdaf_iau_add_inc(pdaf_cb.c__collect_state_pdaf,
                             pdaf_cb.c__distribute_state_pdaf)
 
+def iau_set_ens_pointer():
+    """Set a pointer to the ensemble increments array.
 
+    This is the same as :func:`pyPDAF.PDAF.iau_set_pointer`.
 
+    This gives direct access to the increment array,
+    e.g. to analyze it or to write it into a file for restarting.
+
+    If it is called by each single process, but it only provides a pointer to
+    the process-local part of the increment array.
+
+    For domain-decomposed models, this array only includes the state vector
+    part for the process domain. In addition, it usually only contains a
+    sub-ensemble unless one uses the flexible parallelization mode with a
+    single model task. For the fully parallel mode, the process(es) of a
+    single model task only hold a single ensemble state.
+
+    Returns
+    -------
+    iau_ptr_np : np.ndarray
+        The increment array (process-local part)
+    flag : int
+        Status flag
+    """
+    cdef CFI_cdesc_rank2 iau_ptr_cfi
+    cdef CFI_cdesc_t *iau_ptr_ptr = <CFI_cdesc_t *> &iau_ptr_cfi
+    cdef int  flag
+    with nogil:
+        c__pdaf_iau_set_ens_pointer(iau_ptr_ptr, &flag)
+
+    cdef CFI_index_t iau_ptr_subscripts[2]
+    iau_ptr_subscripts[0] = 0
+    iau_ptr_subscripts[1] = 0
+    cdef double * iau_ptr_ptr_np
+    iau_ptr_ptr_np = <double *>CFI_address(iau_ptr_ptr, iau_ptr_subscripts)
+    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] iau_ptr_np = np.asarray(<double [:iau_ptr_ptr.dim[0].extent:1,:iau_ptr_ptr.dim[1].extent]> iau_ptr_ptr_np, order="F")
+    return iau_ptr_np, flag
+
+def iau_set_state_pointer():
+    """Set a pointer to the state increments array.
+
+    This gives direct access to the increment array used in the ensemble
+    optimal interpolation mode. This can be used
+    e.g. to analyze it or to write it into a file for restarting.
+
+    If it is called by each single process, but it only provides a pointer to
+    the process-local part of the increment array.
+
+    For domain-decomposed models, this array only includes the state vector
+    part for the process domain. In addition, it usually only contains a
+    sub-ensemble unless one uses the flexible parallelization mode with a
+    single model task. For the fully parallel mode, the process(es) of a
+    single model task only hold a single ensemble state.
+
+    Returns
+    -------
+    iau_ptr_np : np.ndarray
+        The increment array (process-local part)
+    flag : int
+        Status flag
+    """
+    cdef CFI_cdesc_rank1 iau_x_ptr_cfi
+    cdef CFI_cdesc_t *iau_x_ptr_ptr = <CFI_cdesc_t *> &iau_x_ptr_cfi
+    cdef int  flag
+    with nogil:
+        c__pdaf_iau_set_state_pointer(iau_x_ptr_ptr, &flag)
+
+    cdef CFI_index_t iau_x_ptr_subscripts[1]
+    iau_x_ptr_subscripts[0] = 0
+    cdef double * iau_x_ptr_ptr_np
+    iau_x_ptr_ptr_np = <double *>CFI_address(iau_x_ptr_ptr, iau_x_ptr_subscripts)
+    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] iau_x_ptr_np = np.asarray(<double [:iau_x_ptr_ptr.dim[0].extent:1]> iau_x_ptr_ptr_np, order="F")
+    return iau_x_ptr_np, flag

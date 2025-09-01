@@ -307,9 +307,9 @@ def diag_rmsd(int  dim_p, double [::1] statea_p, double [::1] stateb_p,
 
     return rmsd_g, status
 
-
-def diag_crps(int  dim_p, int  dim_ens, int  element, double [::1,:] oens,
-    double [::1] obs):
+def diag_crps_mpi(int  dim_p, int  dim_ens, int  element,
+    double [::1,:] oens, double [::1] obs, int  comm_filter,
+    int  mype_filter, int  npes_filter):
     r"""Obtain a continuous rank probability score for an ensemble.
 
     The implementation is based on [1]_.
@@ -335,16 +335,22 @@ def diag_crps(int  dim_p, int  dim_ens, int  element, double [::1,:] oens,
         State ensemble. shape: (dim_p, dim_ens)
     obs : ndarray[tuple[dim, ...], np.float64]
         State ensemble. shape: (dim_p)
+    comm_filter : int
+        MPI communicator for filter
+    mype_filter : int
+        rank of MPI communicator
+    npes_filter : int
+        size of MPI communicator
 
     Returns
     -------
-    CRPS : float
+    crps : double
         CRPS
-    reli : float
+    reli : double
         Reliability
-    resol : float
-        resolution
-    uncert : float
+    pot_crps : double
+        potential CRPS
+    uncert : double
         uncertainty
     status : int
         Status flag (0=success)
@@ -355,14 +361,12 @@ def diag_crps(int  dim_p, int  dim_ens, int  element, double [::1,:] oens,
     cdef double  uncert
     cdef int  status
     with nogil:
-        c__pdaf_diag_crps(&dim_p, &dim_ens, &element, &oens[0,0], &obs[0],
-                          &crps, &reli, &pot_crps, &uncert, &status)
+        c__pdaf_diag_crps_mpi(&dim_p, &dim_ens, &element, &oens[0,0],
+                              &obs[0], &comm_filter, &mype_filter,
+                              &npes_filter, &crps, &reli, &pot_crps,
+                              &uncert, &status)
 
     return crps, reli, pot_crps, uncert, status
-
-
-
-
 
 def diag_crps_nompi(int  dim, int  dim_ens, int  element,
     double [::1,:] oens, double [::1] obs):

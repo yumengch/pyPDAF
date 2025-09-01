@@ -432,7 +432,7 @@ abstract interface
       ! Size of the full observation vector
       integer(c_int), intent(in) :: dim_obs_f
       ! Full vector of synthetic observations (process-local)
-      real(c_double), intent(out), dimension(dim_obs_f) :: observation_f
+      real(c_double), intent(in), dimension(dim_obs_f) :: observation_f
    END SUBROUTINE c__get_obs_f_pdaf
 
    SUBROUTINE c__cvt_adj_ens_pdaf(iter, dim_p, dim_ens, dim_cv_ens_p, ens_p, Vcv_p, cv_p) bind(c)

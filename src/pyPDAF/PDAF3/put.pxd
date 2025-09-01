@@ -228,13 +228,13 @@ cdef extern void c__pdaf3_put_state_local_nondiagr(
     void (*c__collect_state_pdaf)(int* , double* ),
     void (*c__init_dim_obs_pdaf)(int* , int* ),
     void (*c__obs_op_pdaf)(int* , int* , int* , double* , double* ),
-    void (*c__prepoststep_pdaf)(int* , int* , int* , int* , int* ,
-                                double* , double* , double* , int* ),
     void (*c__init_n_domains_p_pdaf)(int* , int* ),
     void (*c__init_dim_l_pdaf)(int* , int* , int* ),
     void (*c__init_dim_obs_l_pdaf)(int* , int* , int* , int* ),
     void (*c__prodrinva_l_pdaf)(int* , int* , int* , int* , double* ,
                                 double* , double* ),
+    void (*c__prepoststep_pdaf)(int* , int* , int* , int* , int* ,
+                                double* , double* , double* , int* ),
     int* outflag) noexcept nogil;
 
 cdef extern void c__pdaf3_put_state_global_nondiagr(
@@ -251,21 +251,19 @@ cdef extern void c__pdaf3_put_state_lnetf_nondiagr(
     void (*c__collect_state_pdaf)(int* , double* ),
     void (*c__init_dim_obs_pdaf)(int* , int* ),
     void (*c__obs_op_pdaf)(int* , int* , int* , double* , double* ),
-    void (*c__prepoststep_pdaf)(int* , int* , int* , int* , int* ,
-                                double* , double* , double* , int* ),
     void (*c__init_n_domains_p_pdaf)(int* , int* ),
     void (*c__init_dim_l_pdaf)(int* , int* , int* ),
     void (*c__init_dim_obs_l_pdaf)(int* , int* , int* , int* ),
     void (*c__likelihood_l_pdaf)(int* , int* , int* , double* , double* ,
                                  double* ),
+    void (*c__prepoststep_pdaf)(int* , int* , int* , int* , int* ,
+                                double* , double* , double* , int* ),
     int* outflag) noexcept nogil;
 
 cdef extern void c__pdaf3_put_state_lknetf_nondiagr(
     void (*c__collect_state_pdaf)(int* , double* ),
     void (*c__init_dim_obs_pdaf)(int* , int* ),
     void (*c__obs_op_pdaf)(int* , int* , int* , double* , double* ),
-    void (*c__prepoststep_pdaf)(int* , int* , int* , int* , int* ,
-                                double* , double* , double* , int* ),
     void (*c__init_n_domains_p_pdaf)(int* , int* ),
     void (*c__init_dim_l_pdaf)(int* , int* , int* ),
     void (*c__init_dim_obs_l_pdaf)(int* , int* , int* , int* ),
@@ -277,6 +275,8 @@ cdef extern void c__pdaf3_put_state_lknetf_nondiagr(
                                  double* ),
     void (*c__likelihood_hyb_l_pdaf)(int* , int* , int* , double* ,
                                      double* , double* , double* ),
+    void (*c__prepoststep_pdaf)(int* , int* , int* , int* , int* ,
+                                double* , double* , double* , int* ),
     int* outflag) noexcept nogil;
 
 cdef extern void c__pdaf3_put_state_enkf_nondiagr(
@@ -294,12 +294,12 @@ cdef extern void c__pdaf3_put_state_lenkf_nondiagr(
     void (*c__collect_state_pdaf)(int* , double* ),
     void (*c__init_dim_obs_pdaf)(int* , int* ),
     void (*c__obs_op_pdaf)(int* , int* , int* , double* , double* ),
-    void (*c__prepoststep_pdaf)(int* , int* , int* , int* , int* ,
-                                double* , double* , double* , int* ),
     void (*c__localize_covar_pdaf)(int* , int* , double* , double* ),
     void (*c__add_obs_err_pdaf)(int* , int* , double* ),
     void (*c__init_obs_covar_pdaf)(int* , int* , int* , double* , double* ,
                                    bint* ),
+    void (*c__prepoststep_pdaf)(int* , int* , int* , int* , int* ,
+                                double* , double* , double* , int* ),
     int* outflag) noexcept nogil;
 
 cdef extern void c__pdaf3_put_state_nonlin_nondiagr(

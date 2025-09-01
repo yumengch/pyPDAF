@@ -39,6 +39,27 @@ def global_except_hook(exctype, value, traceback):
 
 sys.excepthook = global_except_hook
 
+def mpi_init():
+    """Initialise MPI
+    """
+    with nogil:
+        c__pdaf_mpi_init()
+
+def timeit(int timerid, str operation):
+    """PDAF timer
+
+    Parameters
+    ----------
+    timerid : int
+        Timer ID
+    operation : str
+        Operation name
+    """
+    operation_byte = operation.encode('UTF-8')
+    cdef char* operation_ptr = operation_byte
+    with nogil:
+        c__pdaf_timeit(&timerid, operation_ptr)
+
 def set_forget(int  step, int  localfilter, int  dim_obs_p, int  dim_ens,
     double [::1,:] mens_p, double [::1] mstate_p, double [::1] obs_p,
     py__init_obsvar_pdaf, double  forget_in, int  screen):
@@ -102,7 +123,7 @@ def set_forget(int  step, int  localfilter, int  dim_obs_p, int  dim_ens,
 
     return forget_out
 
-def _set_iparam_filters(int  id, int  value):
+def set_iparam_filters(int  id, int  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -147,7 +168,7 @@ def set_rparam_filters(int  id, double  value):
 
     return flag
 
-def _set_forget_local(int  domain, int  step, int  dim_obs_l, int  dim_ens,
+def set_forget_local(int  domain, int  step, int  dim_obs_l, int  dim_ens,
     double [::1,:] hx_l, double [::1] hxbar_l, double [::1] obs_l,
     py__init_obsvar_l_pdaf, double  forget):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
@@ -213,7 +234,7 @@ def _set_forget_local(int  domain, int  step, int  dim_obs_l, int  dim_ens,
     return aforget
 
 
-def _fcst_operations(int  step, py__collect_state_pdaf,
+def fcst_operations(int  step, py__collect_state_pdaf,
     py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__init_obs_pdaf, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
@@ -336,7 +357,7 @@ def _fcst_operations(int  step, py__collect_state_pdaf,
     return outflag
 
 
-def _letkf_ana_t(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
+def letkf_ana_t(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     int  dim_ens, double [::1] state_l, double [::1,:] ens_l,
     double [::1,:] hz_l, double [::1] hxbar_l, double [::1] obs_l,
     double [::1,:] rndmat, double  forget, py__prodrinva_l_pdaf,
@@ -455,7 +476,7 @@ def _letkf_ana_t(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     return state_l_np, ainv_l_np, ens_l_np, hz_l_np, rndmat_np, forget, flag
 
 
-def _seik_update(int  step, int  dim_p, int  dim_ens, int  rank,
+def seik_update(int  step, int  dim_p, int  dim_ens, int  rank,
     double [::1] state_p, double [::1,:] uinv, double [::1,:] ens_p,
     py__init_dim_obs_pdaf, py__obs_op_pdaf, py__init_obs_pdaf,
     py__prodrinva_pdaf, py__init_obsvar_pdaf, py__prepoststep_pdaf,
@@ -687,7 +708,7 @@ def _3dvar_update(int  step, int  dim_p, int  dim_ens, int  dim_cvec,
     py__init_dim_obs_pdaf, py__obs_op_pdaf, py__init_obs_pdaf,
     py__prodrinva_pdaf, py__prepoststep_pdaf, py__cvt_pdaf,
     py__cvt_adj_pdaf, py__obs_op_lin_pdaf, py__obs_op_adj_pdaf,
-    int  screen, int  subtype, int  flag):
+    int  screen, int  flag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -987,18 +1008,18 @@ def _3dvar_update(int  step, int  dim_p, int  dim_ens, int  dim_cvec,
                             pdaf_cb.c__prepoststep_pdaf,
                             pdaf_cb.c__cvt_pdaf, pdaf_cb.c__cvt_adj_pdaf,
                             pdaf_cb.c__obs_op_lin_pdaf,
-                            pdaf_cb.c__obs_op_adj_pdaf, &screen, &subtype,
+                            pdaf_cb.c__obs_op_adj_pdaf, &screen,
                             &flag)
 
     return dim_obs_p, state_p_np, ainv_np, ens_p_np, flag
 
 
-def _en3dvar_update_estkf(int  step, int  dim_p, int  dim_ens,
+def en3dvar_update_estkf(int  step, int  dim_p, int  dim_ens,
     int  dim_cvec_ens, double [::1] state_p, double [::1,:] ainv,
     double [::1,:] ens_p, py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__init_obs_pdaf, py__prodrinva_pdaf, py__prepoststep_pdaf,
     py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf,
-    py__obs_op_adj_pdaf, py__init_obsvar_pdaf, int  screen, int  subtype,
+    py__obs_op_adj_pdaf, py__init_obsvar_pdaf, int  screen,
     int  flag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -1283,8 +1304,6 @@ def _en3dvar_update_estkf(int  step, int  dim_p, int  dim_ens,
 
     screen : int
         Verbosity flag
-    subtype : int
-        Filter subtype
     flag : int
         Status flag
 
@@ -1332,12 +1351,12 @@ def _en3dvar_update_estkf(int  step, int  dim_p, int  dim_ens,
                                     pdaf_cb.c__obs_op_lin_pdaf,
                                     pdaf_cb.c__obs_op_adj_pdaf,
                                     pdaf_cb.c__init_obsvar_pdaf, &screen,
-                                    &subtype, &flag)
+                                    &flag)
 
     return dim_obs_p, state_p_np, ainv_np, ens_p_np, flag
 
 
-def _en3dvar_update_lestkf(int  step, int  dim_p, int  dim_ens,
+def en3dvar_update_lestkf(int  step, int  dim_p, int  dim_ens,
     int  dim_cvec_ens, double [::1] state_p, double [::1,:] ainv,
     double [::1,:] ens_p, py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__init_obs_pdaf, py__prodrinva_pdaf, py__prepoststep_pdaf,
@@ -1347,7 +1366,7 @@ def _en3dvar_update_lestkf(int  step, int  dim_p, int  dim_ens,
     py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
     py__init_dim_obs_l_pdaf, py__g2l_state_pdaf, py__l2g_state_pdaf,
     py__g2l_obs_pdaf, py__init_obsvar_pdaf, py__init_obsvar_l_pdaf,
-    int  screen, int  subtype, int  flag):
+    int  screen, int  flag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -1872,8 +1891,6 @@ def _en3dvar_update_lestkf(int  step, int  dim_p, int  dim_ens,
 
     screen : int
         Verbosity flag
-    subtype : int
-        Filter subtype
     flag : int
         Status flag
 
@@ -1945,12 +1962,12 @@ def _en3dvar_update_lestkf(int  step, int  dim_p, int  dim_ens,
                                      pdaf_cb.c__g2l_obs_pdaf,
                                      pdaf_cb.c__init_obsvar_pdaf,
                                      pdaf_cb.c__init_obsvar_l_pdaf,
-                                     &screen, &subtype, &flag)
+                                     &screen, &flag)
 
     return dim_obs_p, state_p_np, ainv_np, ens_p_np, flag
 
 
-def _etkf_update(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
+def etkf_update(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
     double [::1,:] ainv, double [::1,:] ens_p, py__init_dim_obs_pdaf,
     py__obs_op_pdaf, py__init_obs_pdaf, py__prodrinva_pdaf,
     py__init_obsvar_pdaf, py__prepoststep_pdaf, int  screen, int  subtype,
@@ -2188,7 +2205,7 @@ def _etkf_update(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
     return dim_obs_p, state_p_np, ainv_np, ens_p_np, sens_p_np, cnt_maxlag, flag
 
 
-def _netf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
+def netf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     double [::1,:] ens_p, double [::1,:] rndmat, double [::1,:] t,
     int  type_forget, double  forget, int  type_winf, double  limit_winf,
     int  type_noise, double  noise_amp, double [::1,:] hz_p,
@@ -2291,9 +2308,9 @@ def _netf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     return state_p_np, ens_p_np, t_np, flag
 
 
-def _netf_smoothert(int  step, int  dim_p, int  dim_ens,
-    double [::1,:] ens_p, double [::1,:] rndmat, double [::1,:] t,
-    py__init_dim_obs_pdaf, py__obs_op_pdaf, py__init_obs_pdaf,
+def netf_smoothert(int  step, int  dim_p, int dim_obs_p, int  dim_ens,
+    double [::1,:] ens_p, double [::1,:] rndmat, double [::1,:] ta,
+    double [::1,:] hx_p, double[::1] obs_p,
     py__likelihood_pdaf, int  screen, int  flag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -2304,6 +2321,8 @@ def _netf_smoothert(int  step, int  dim_p, int  dim_ens,
         Current time step
     dim_p : int
         PE-local dimension of model state
+    dim_obs_p: int
+        PE-local dimension of observation vector
     dim_ens : int
         Size of ensemble
     ens_p : ndarray[np.float64, ndim=2]
@@ -2312,65 +2331,15 @@ def _netf_smoothert(int  step, int  dim_p, int  dim_ens,
     rndmat : ndarray[np.float64, ndim=2]
         Orthogonal random matrix
         Array shape: (dim_ens, dim_ens)
-    t : ndarray[np.float64, ndim=2]
+    ta : ndarray[np.float64, ndim=2]
         Ensemble transform matrix
         Array shape: (dim_ens, dim_ens)
-    py__init_dim_obs_pdaf : Callable
-        Initialize dimension of observation vector
-
-        Callback Parameters
-        -------------------
-        step : int
-                current time step
-
-        Callback Returns
-        ----------------
-        dim_obs_p : int
-                dimension of observation vector
-
-    py__obs_op_pdaf : Callable
-        Observation operator
-
-        Callback Parameters
-        -------------------
-        step : int
-                Current time step
-        dim_p : int
-                Size of state vector
-                (local part in case of parallel decomposed state)
-        dim_obs_p : int
-                Size of PE-local observation vector
-        state_p : ndarray[np.float64, ndim=1]
-                Model state vector
-                Array shape: (dim_p)
-        m_state_p : ndarray[np.float64, ndim=1]
-                Observed state vector
-                (i.e. the result after applying the observation operator to state_p)
-                Array shape: (dim_obs_p)
-
-        Callback Returns
-        ----------------
-        m_state_p : ndarray[np.float64, ndim=1]
-                Observed state vector
-                (i.e. the result after applying the observation operator to state_p)
-                Array shape: (dim_obs_p)
-
-    py__init_obs_pdaf : Callable
-        Initialize observation vector
-
-        Callback Parameters
-        -------------------
-        step : int
-                Current time step
-        dim_obs_p : int
-                Size of the observation vector
-
-        Callback Returns
-        ----------------
-        observation_p : ndarray[np.float64, ndim=1]
-                Vector of observations
-                Array shape: (dim_obs_p)
-
+    hx_p : ndarray[np.float64, ndim=1]
+        Temporary matrices for analysis
+        Array shape: (dim_p)
+    obs_p : ndarray[np.float64, ndim=1]
+        PE-local observation vector
+        Array shape: (dim_obs_p)
     py__likelihood_pdaf : Callable
         Compute observation likelihood for an ensemble member
 
@@ -2411,24 +2380,22 @@ def _netf_smoothert(int  step, int  dim_p, int  dim_ens,
         Status flag
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_p_np = np.asarray(ens_p, dtype=np.float64, order="F")
-    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] t_np = np.asarray(t, dtype=np.float64, order="F")
-    pdaf_cb.init_dim_obs_pdaf = <void*>py__init_dim_obs_pdaf
-    pdaf_cb.obs_op_pdaf = <void*>py__obs_op_pdaf
-    pdaf_cb.init_obs_pdaf = <void*>py__init_obs_pdaf
+    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ta_np = np.asarray(ta, dtype=np.float64, order="F")
+    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hx_p_np = np.asarray(hx_p, dtype=np.float64, order="F")
+    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obs_p_np = np.asarray(obs_p, dtype=np.float64, order="F")
+
     pdaf_cb.likelihood_pdaf = <void*>py__likelihood_pdaf
-    cdef int  dim_obs_p
+
     with nogil:
         c__pdaf_netf_smoothert(&step, &dim_p, &dim_obs_p, &dim_ens,
-                               &ens_p[0,0], &rndmat[0,0], &t[0,0],
-                               pdaf_cb.c__init_dim_obs_pdaf,
-                               pdaf_cb.c__obs_op_pdaf,
-                               pdaf_cb.c__init_obs_pdaf,
+                               &ens_p[0,0], &rndmat[0,0], &ta[0,0],
+                               &hx_p[0,0], &obs_p[0],
                                pdaf_cb.c__likelihood_pdaf, &screen, &flag)
 
-    return dim_obs_p, ens_p_np, t_np, flag
+    return ens_p_np, ta_np, flag
 
 
-def _smoother_netf(int  dim_p, int  dim_ens, int  dim_lag,
+def smoother_netf(int  dim_p, int  dim_ens, int  dim_lag,
     double [::1,:] ainv, double [::1,:,:] sens_p, int  cnt_maxlag, int  screen):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -2468,7 +2435,7 @@ def _smoother_netf(int  dim_p, int  dim_ens, int  dim_lag,
     return sens_p_np, cnt_maxlag
 
 
-def _lnetf_ana(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
+def lnetf_ana(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     int  dim_ens, double [::1,:] ens_l, double [::1,:] hx_l,
     double [::1] obs_l, double [::1,:] rndmat, py__likelihood_l_pdaf,
     int  type_forget, double  forget, int  type_winf, double  limit_winf,
@@ -2581,7 +2548,7 @@ def _lnetf_ana(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     return ens_l_np, cnt_small_svals, eff_dimens_np, t_np, flag
 
 
-def _lnetf_smoothert(int  domain_p, int  step, int  dim_obs_f,
+def lnetf_smoothert(int  domain_p, int  step, int  dim_obs_f,
     int  dim_obs_l, int  dim_ens, double [::1,:] hx_f,
     double [::1,:] rndmat, py__g2l_obs_pdaf, py__init_obs_l_pdaf,
     py__likelihood_l_pdaf, int  screen, double [::1,:] t, int  flag):
@@ -2708,7 +2675,7 @@ def _lnetf_smoothert(int  domain_p, int  step, int  dim_obs_f,
     return t_np, flag
 
 
-def _smoother_lnetf(int  domain_p, int  step, int  dim_p, int  dim_l,
+def smoother_lnetf(int  domain_p, int  step, int  dim_p, int  dim_l,
     int  dim_ens, int  dim_lag, double [::1,:] ainv, double [::1,:] ens_l,
     double [::1,:,:] sens_p, int  cnt_maxlag, py__g2l_state_pdaf,
     py__l2g_state_pdaf, int  screen):
@@ -2817,7 +2784,7 @@ def _smoother_lnetf(int  domain_p, int  step, int  dim_p, int  dim_l,
     return ens_l_np, sens_p_np, cnt_maxlag
 
 
-def _memcount_ini(int  ncounters):
+def memcount_ini(int  ncounters):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -2834,7 +2801,7 @@ def _memcount_ini(int  ncounters):
 
 
 
-def _memcount_define(str  stortype, int  wordlength):
+def memcount_define(str  stortype, int  wordlength):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -2855,7 +2822,7 @@ def _memcount_define(str  stortype, int  wordlength):
 
 
 
-def _memcount(int  id, str stortype, int  dim):
+def memcount(int  id, str stortype, int  dim):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -2878,7 +2845,7 @@ def _memcount(int  id, str stortype, int  dim):
 
 
 
-def _init_filters(int  type_filter, int  subtype, int [::1] param_int,
+def init_filters(int  type_filter, int  subtype, int [::1] param_int,
     int  dim_pint, double [::1] param_real, int  dim_preal, int  screen,
     int  flag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
@@ -2939,7 +2906,7 @@ def _init_filters(int  type_filter, int  subtype, int [::1] param_int,
     return subtype, param_int_np, param_real_np, filterstr, ensemblefilter, fixedbasis, flag
 
 
-def _alloc_filters(str  filterstr, int  subtype, int  flag):
+def alloc_filters(str  filterstr, int  subtype, int  flag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -2965,7 +2932,7 @@ def _alloc_filters(str  filterstr, int  subtype, int  flag):
     return flag
 
 
-def _configinfo_filters(int  subtype, int  verbose):
+def configinfo_filters(int  subtype, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -2987,7 +2954,7 @@ def _configinfo_filters(int  subtype, int  verbose):
     return subtype
 
 
-def _options_filters(int  type_filter):
+def options_filters(int  type_filter):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -3004,7 +2971,7 @@ def _options_filters(int  type_filter):
 
 
 
-def _print_info_filters(int  printtype):
+def print_info_filters(int  printtype):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -3019,7 +2986,7 @@ def _print_info_filters(int  printtype):
     with nogil:
         c__pdaf_print_info_filters(&printtype)
 
-def _allreduce(int  val_p, int  mpitype, int  mpiop):
+def allreduce(int  val_p, int  mpitype, int  mpiop):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -3047,7 +3014,7 @@ def _allreduce(int  val_p, int  mpitype, int  mpiop):
     return val_g, status
 
 
-def _lseik_update(int  step, int  dim_p, int  dim_ens, int  rank,
+def lseik_update(int  step, int  dim_p, int  dim_ens, int  rank,
     double [::1] state_p, double [::1,:] uinv, double [::1,:] ens_p,
     py__init_dim_obs_pdaf, py__obs_op_pdaf, py__init_obs_pdaf,
     py__init_obs_l_pdaf, py__prodrinva_l_pdaf, py__init_n_domains_p_pdaf,
@@ -3458,7 +3425,7 @@ def _lseik_update(int  step, int  dim_p, int  dim_ens, int  rank,
     return dim_obs_f, state_p_np, uinv_np, ens_p_np, flag
 
 
-def _ensrf_init(int  subtype, int [::1] param_int, int  dim_pint,
+def ensrf_init(int  subtype, int [::1] param_int, int  dim_pint,
     double [::1] param_real, int  dim_preal, int  verbose, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -3511,7 +3478,7 @@ def _ensrf_init(int  subtype, int [::1] param_int, int  dim_pint,
     return subtype, param_int_np, param_real_np, ensemblefilter, fixedbasis, outflag
 
 
-def _ensrf_alloc(int  outflag):
+def ensrf_alloc(int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -3531,7 +3498,7 @@ def _ensrf_alloc(int  outflag):
     return outflag
 
 
-def _ensrf_config(int  subtype, int  verbose):
+def ensrf_config(int  subtype, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -3553,7 +3520,7 @@ def _ensrf_config(int  subtype, int  verbose):
     return subtype
 
 
-def _ensrf_set_iparam(int  id, int  value):
+def ensrf_set_iparam(int  id, int  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -3576,7 +3543,7 @@ def _ensrf_set_iparam(int  id, int  value):
     return flag
 
 
-def _ensrf_set_rparam(int  id, double  value):
+def ensrf_set_rparam(int  id, double  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -3599,7 +3566,7 @@ def _ensrf_set_rparam(int  id, double  value):
     return flag
 
 
-def _ensrf_options():
+def ensrf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -3608,7 +3575,7 @@ def _ensrf_options():
 
 
 
-def _ensrf_memtime(int  printtype):
+def ensrf_memtime(int  printtype):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -3625,7 +3592,7 @@ def _ensrf_memtime(int  printtype):
 
 
 
-def _estkf_ana_fixed(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
+def estkf_ana_fixed(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     int  rank, double [::1] state_p, double [::1,:] ainv,
     double [::1,:] ens_p, double [::1,:] hl_p, double [::1] hxbar_p,
     double [::1] obs_p, double  forget, py__prodrinva_pdaf, int  screen,
@@ -3732,7 +3699,7 @@ def _estkf_ana_fixed(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     return state_p_np, ainv_np, ens_p_np, hl_p_np, flag
 
 
-def _etkf_ana_fixed(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
+def etkf_ana_fixed(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     double [::1,:] ens_p, double [::1,:] hz_p, double [::1] hxbar_p,
     double [::1] obs_p, double  forget, py__prodrinva_pdaf, int  screen,
     int  debug, int  flag):
@@ -3830,7 +3797,7 @@ def _etkf_ana_fixed(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     return state_p_np, ainv_np, ens_p_np, hz_p_np, flag
 
 
-def _estkf_update(int  step, int  dim_p, int  dim_ens,
+def estkf_update(int  step, int  dim_p, int  dim_ens,
     double [::1] state_p, double [::1,:] ainv, double [::1,:] ens_p,
     py__init_dim_obs_pdaf, py__obs_op_pdaf, py__init_obs_pdaf,
     py__prodrinva_pdaf, py__init_obsvar_pdaf, py__prepoststep_pdaf,
@@ -4072,7 +4039,7 @@ def _estkf_update(int  step, int  dim_p, int  dim_ens,
     return dim_obs_p, state_p_np, ainv_np, ens_p_np, sens_p_np, cnt_maxlag, flag
 
 
-def _lknetf_update_step(int  step, int  dim_p, int  dim_ens,
+def lknetf_update_step(int  step, int  dim_p, int  dim_ens,
     double [::1] state_p, double [::1,:] ainv, double [::1,:] ens_p,
     py__init_dim_obs_pdaf, py__obs_op_pdaf, py__init_obs_pdaf,
     py__init_obs_l_pdaf, py__prodrinva_hyb_l_pdaf,
@@ -4541,7 +4508,7 @@ def _lknetf_update_step(int  step, int  dim_p, int  dim_ens,
     return dim_obs_f, state_p_np, ainv_np, ens_p_np, flag
 
 
-def _letkf_update(int  step, int  dim_p, int  dim_ens,
+def letkf_update(int  step, int  dim_p, int  dim_ens,
     double [::1] state_p, double [::1,:] ainv, double [::1,:] ens_p,
     py__init_dim_obs_pdaf, py__obs_op_pdaf, py__init_obs_pdaf,
     py__init_obs_l_pdaf, py__prodrinva_l_pdaf, py__init_n_domains_p_pdaf,
@@ -4964,7 +4931,7 @@ def _letkf_update(int  step, int  dim_p, int  dim_ens,
     return dim_obs_f, state_p_np, ainv_np, ens_p_np, sens_p_np, cnt_maxlag, flag
 
 
-def _lseik_ana_trans(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
+def lseik_ana_trans(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     int  dim_ens, int  rank, double [::1] state_l, double [::1,:] uinv_l,
     double [::1,:] ens_l, double [::1,:] hl_l, double [::1] hxbar_l,
     double [::1] obs_l, double [::1,:] omegat_in, double  forget,
@@ -5090,7 +5057,7 @@ def _lseik_ana_trans(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     return state_l_np, uinv_l_np, ens_l_np, hl_l_np, omegat_in_np, forget, flag
 
 
-def _en3dvar_optim_lbfgs(int  step, int  dim_p, int  dim_ens,
+def en3dvar_optim_lbfgs(int  step, int  dim_p, int  dim_ens,
     int  dim_cvec_p, int  dim_obs_p, double [::1,:] ens_p,
     double [::1] obs_p, double [::1] dy_p, double [::1] v_p,
     py__prodrinva_pdaf, py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf,
@@ -5285,7 +5252,7 @@ def _en3dvar_optim_lbfgs(int  step, int  dim_p, int  dim_ens,
     return v_p_np
 
 
-def _en3dvar_optim_cgplus(int  step, int  dim_p, int  dim_ens,
+def en3dvar_optim_cgplus(int  step, int  dim_p, int  dim_ens,
     int  dim_cvec_p, int  dim_obs_p, double [::1,:] ens_p,
     double [::1] obs_p, double [::1] dy_p, double [::1] v_p,
     py__prodrinva_pdaf, py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf,
@@ -5480,7 +5447,7 @@ def _en3dvar_optim_cgplus(int  step, int  dim_p, int  dim_ens,
     return v_p_np
 
 
-def _en3dvar_optim_cg(int  step, int  dim_p, int  dim_ens, int  dim_cvec_p,
+def en3dvar_optim_cg(int  step, int  dim_p, int  dim_ens, int  dim_cvec_p,
     int  dim_obs_p, double [::1,:] ens_p, double [::1] obs_p,
     double [::1] dy_p, double [::1] v_p, py__prodrinva_pdaf,
     py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf,
@@ -5675,7 +5642,7 @@ def _en3dvar_optim_cg(int  step, int  dim_p, int  dim_ens, int  dim_cvec_p,
     return v_p_np
 
 
-def _en3dvar_costf_cvt(int  step, int  iter, int  dim_p, int  dim_ens,
+def en3dvar_costf_cvt(int  step, int  iter, int  dim_p, int  dim_ens,
     int  dim_cvec_p, int  dim_obs_p, double [::1,:] ens_p,
     double [::1] obs_p, double [::1] dy_p, double [::1] v_p,
     py__prodrinva_pdaf, py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf,
@@ -5873,7 +5840,7 @@ def _en3dvar_costf_cvt(int  step, int  iter, int  dim_p, int  dim_ens,
     return j_tot, gradj_np
 
 
-def _en3dvar_costf_cg_cvt(int  step, int  iter, int  dim_p, int  dim_ens,
+def en3dvar_costf_cg_cvt(int  step, int  iter, int  dim_p, int  dim_ens,
     int  dim_cvec_p, int  dim_obs_p, double [::1,:] ens_p,
     double [::1] obs_p, double [::1] dy_p, double [::1] v_p,
     double [::1] d_p, py__prodrinva_pdaf, py__cvt_ens_pdaf,
@@ -6085,7 +6052,8 @@ def _en3dvar_costf_cg_cvt(int  step, int  iter, int  dim_p, int  dim_ens,
     return d_p_np, j_tot, gradj_np, hessjd_np
 
 
-def _gather_ens(int  dim_p, int  dim_ens_p, double [::1,:] ens, int  screen):
+def gather_ens(int  dim_p, int  dim_ens_p, double [::1,:] ens,
+    double [::1] state, int  screen):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -6114,16 +6082,27 @@ def _gather_ens(int  dim_p, int  dim_ens_p, double [::1,:] ens, int  screen):
     ens_extent[0] = ens.shape[0]
     ens_extent[1] = ens.shape[1]
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_np = np.asarray(ens, dtype=np.float64, order="F")
+
+    cdef CFI_cdesc_rank1 state_cfi
+    cdef CFI_cdesc_t *state_ptr = <CFI_cdesc_t *> &state_cfi
+    cdef size_t state_nbytes = state.nbytes
+    cdef CFI_index_t state_extent[1]
+    state_extent[0] = state.shape[0]
+    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_np = np.asarray(state, dtype=np.float64, order="F")
+
     with nogil:
         CFI_establish(ens_ptr, &ens[0,0], CFI_attribute_other,
                       CFI_type_double , ens_nbytes, 2, ens_extent)
 
-        c__pdaf_gather_ens(&dim_p, &dim_ens_p, ens_ptr, &screen)
+        CFI_establish(state_ptr, &state[0], CFI_attribute_other,
+                      CFI_type_double , state_nbytes, 1, state_extent)
 
-    return ens_np
+        c__pdaf_gather_ens(&dim_p, &dim_ens_p, ens_ptr, state_ptr, &screen)
+
+    return ens_np, state_np
 
 
-def _scatter_ens(int  dim_p, int  dim_ens_p, double [::1,:] ens,
+def scatter_ens(int  dim_p, int  dim_ens_p, double [::1,:] ens,
     double [::1] state, int  screen):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -6177,7 +6156,7 @@ def _scatter_ens(int  dim_p, int  dim_ens_p, double [::1,:] ens,
     return ens_np, state_np
 
 
-def _hyb3dvar_optim_lbfgs(int  step, int  dim_p, int  dim_ens,
+def hyb3dvar_optim_lbfgs(int  step, int  dim_p, int  dim_ens,
     int  dim_cv_par_p, int  dim_cv_ens_p, int  dim_obs_p,
     double [::1,:] ens_p, double [::1] obs_p, double [::1] dy_p,
     double [::1] v_par_p, double [::1] v_ens_p, py__prodrinva_pdaf,
@@ -6438,7 +6417,7 @@ def _hyb3dvar_optim_lbfgs(int  step, int  dim_p, int  dim_ens,
     return v_par_p_np, v_ens_p_np
 
 
-def _hyb3dvar_optim_cgplus(int  step, int  dim_p, int  dim_ens,
+def hyb3dvar_optim_cgplus(int  step, int  dim_p, int  dim_ens,
     int  dim_cv_par_p, int  dim_cv_ens_p, int  dim_obs_p,
     double [::1,:] ens_p, double [::1] obs_p, double [::1] dy_p,
     double [::1] v_par_p, double [::1] v_ens_p, py__prodrinva_pdaf,
@@ -6699,7 +6678,7 @@ def _hyb3dvar_optim_cgplus(int  step, int  dim_p, int  dim_ens,
     return v_par_p_np, v_ens_p_np
 
 
-def _hyb3dvar_optim_cg(int  step, int  dim_p, int  dim_ens,
+def hyb3dvar_optim_cg(int  step, int  dim_p, int  dim_ens,
     int  dim_cv_par_p, int  dim_cv_ens_p, int  dim_obs_p,
     double [::1,:] ens_p, double [::1] obs_p, double [::1] dy_p,
     double [::1] v_par_p, double [::1] v_ens_p, py__prodrinva_pdaf,
@@ -6959,7 +6938,7 @@ def _hyb3dvar_optim_cg(int  step, int  dim_p, int  dim_ens,
     return v_par_p_np, v_ens_p_np
 
 
-def _hyb3dvar_costf_cvt(int  step, int  iter, int  dim_p, int  dim_ens,
+def hyb3dvar_costf_cvt(int  step, int  iter, int  dim_p, int  dim_ens,
     int  dim_cv_p, int  dim_cv_par_p, int  dim_cv_ens_p, int  dim_obs_p,
     double [::1,:] ens_p, double [::1] obs_p, double [::1] dy_p,
     double [::1] v_par_p, double [::1] v_ens_p, double [::1] v_p,
@@ -7234,7 +7213,7 @@ def _hyb3dvar_costf_cvt(int  step, int  iter, int  dim_p, int  dim_ens,
     return v_par_p_np, v_ens_p_np, j_tot, gradj_np
 
 
-def _hyb3dvar_costf_cg_cvt(int  step, int  iter, int  dim_p, int  dim_ens,
+def hyb3dvar_costf_cg_cvt(int  step, int  iter, int  dim_p, int  dim_ens,
     int  dim_cv_par_p, int  dim_cv_ens_p, int  dim_obs_p,
     double [::1,:] ens_p, double [::1] obs_p, double [::1] dy_p,
     double [::1] v_par_p, double [::1] v_ens_p, double [::1] d_par_p,
@@ -7527,7 +7506,7 @@ def _hyb3dvar_costf_cg_cvt(int  step, int  iter, int  dim_p, int  dim_ens,
     return d_par_p_np, d_ens_p_np, j_tot, gradj_par_np, gradj_ens_np, hessjd_par_np, hessjd_ens_np
 
 
-def _print_version():
+def print_version():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -7536,7 +7515,7 @@ def _print_version():
 
 
 
-def _en3dvar_analysis_cvt(int  step, int  dim_p, int  dim_obs_p,
+def en3dvar_analysis_cvt(int  step, int  dim_p, int  dim_obs_p,
     int  dim_ens, int  dim_cvec_ens, double [::1,:] ens_p,
     double [::1] state_inc_p, double [::1] hxbar_p, double [::1] obs_p,
     py__prodrinva_pdaf, py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf,
@@ -7748,7 +7727,7 @@ def _en3dvar_analysis_cvt(int  step, int  dim_p, int  dim_obs_p,
     return state_p_np, ens_p_np, state_inc_p_np, flag
 
 
-def _sisort(int  n, double [::1] veca):
+def sisort(int  n, double [::1] veca):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -7772,7 +7751,7 @@ def _sisort(int  n, double [::1] veca):
 
     return veca_np
 
-def _enkf_ana_rlm(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
+def enkf_ana_rlm(int  step, int  dim_p, int  dim_obs_p, int dim_obs, int  dim_ens,
     int  rank_ana, double [::1] state_p, double [::1,:] ens_p,
     double [::1,:] hzb, double [::1,:] hx_p, double [::1] hxbar_p,
     double [::1] obs_p, py__add_obs_err_pdaf, py__init_obs_covar_pdaf,
@@ -7788,6 +7767,8 @@ def _enkf_ana_rlm(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
         PE-local dimension of model state
     dim_obs_p : int
         PE-local dimension of observation vector
+    dim_obs : int
+        Global dimension of observation vector
     dim_ens : int
         Size of state ensemble
     rank_ana : int
@@ -7879,7 +7860,7 @@ def _enkf_ana_rlm(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     pdaf_cb.add_obs_err_pdaf = <void*>py__add_obs_err_pdaf
     pdaf_cb.init_obs_covar_pdaf = <void*>py__init_obs_covar_pdaf
     with nogil:
-        c__pdaf_enkf_ana_rlm(&step, &dim_p, &dim_obs_p, &dim_ens,
+        c__pdaf_enkf_ana_rlm(&step, &dim_p, &dim_obs_p, &dim_obs, &dim_ens,
                              &rank_ana, &state_p[0], &ens_p[0,0],
                              &hzb[0,0], &hx_p[0,0], &hxbar_p[0], &obs_p[0],
                              pdaf_cb.c__add_obs_err_pdaf,
@@ -7889,7 +7870,7 @@ def _enkf_ana_rlm(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     return state_p_np, ens_p_np, hzb_np, flag
 
 
-def _smoother_enkf(int  dim_p, int  dim_ens, int  dim_lag,
+def smoother_enkf(int  dim_p, int  dim_ens, int  dim_lag,
     double [::1,:] ainv, double [::1,:,:] sens_p, int  cnt_maxlag,
     double  forget, int  screen):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
@@ -7932,7 +7913,7 @@ def _smoother_enkf(int  dim_p, int  dim_ens, int  dim_lag,
     return sens_p_np, cnt_maxlag
 
 
-def _ensrf_update(int  step, int  dim_p, int  dim_ens,
+def ensrf_update(int  step, int  dim_p, int  dim_ens,
     double [::1] state_p, double [::1,:] ens_p, py__init_dim_obs_pdaf,
     py__obs_op_pdaf, py__init_obs_pdaf, py__init_obsvar_pdaf,
     py__localize_covar_serial_pdaf, py__prepoststep_pdaf, int  screen,
@@ -8151,7 +8132,7 @@ def _ensrf_update(int  step, int  dim_p, int  dim_ens,
     return dim_obs_p, state_p_np, ens_p_np, flag
 
 
-def _pf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
+def pf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     double [::1] state_p, double [::1,:] ens_p, int  type_resample,
     int  type_winf, double  limit_winf, int  type_noise, double  noise_amp,
     double [::1,:] hz_p, double [::1] obs_p, py__likelihood_pdaf,
@@ -8243,7 +8224,7 @@ def _pf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     return state_p_np, ens_p_np, flag
 
 
-def _pf_resampling(int  method, int  nin, int  nout, double [::1] weights,
+def pf_resampling(int  method, int  nin, int  nout, double [::1] weights,
     int  screen):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -8277,7 +8258,7 @@ def _pf_resampling(int  method, int  nin, int  nout, double [::1] weights,
     return ids_np
 
 
-def _mvnormalize(int  mode, int  dim_state, int  dim_field, int  offset,
+def mvnormalize(int  mode, int  dim_state, int  dim_field, int  offset,
     int  ncol, double [::1,:] states, double  stddev):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -8488,7 +8469,7 @@ def _3dvar_memtime(int  printtype):
 
 
 
-def _reset_dim_ens(int  dim_ens_in, int  outflag):
+def reset_dim_ens(int  dim_ens_in, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -8510,7 +8491,7 @@ def _reset_dim_ens(int  dim_ens_in, int  outflag):
     return outflag
 
 
-def _reset_dim_p(int  dim_p_in, int  outflag):
+def reset_dim_p(int  dim_p_in, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -9443,7 +9424,7 @@ def _3dvar_costf_cg_cvt(int  step, int  iter, int  dim_p, int  dim_cvec_p,
     return d_p_np, j_tot, gradj_np, hessjd_np
 
 
-def _lknetf_analysis_t(int  domain_p, int  step, int  dim_l,
+def lknetf_analysis_t(int  domain_p, int  step, int  dim_l,
     int  dim_obs_l, int  dim_ens, double [::1] state_l,
     double [::1,:] ens_l, double [::1,:] hx_l, double [::1] hxbar_l,
     double [::1] obs_l, double [::1,:] rndmat, double  forget,
@@ -9647,7 +9628,7 @@ def _lknetf_analysis_t(int  domain_p, int  step, int  dim_l,
     return state_l_np, ainv_l_np, ens_l_np, rndmat_np, forget, eff_dimens_np, gamma_np, skew_mabs_np, kurt_mabs_np, flag
 
 
-def _get_ensstats():
+def get_ensstats():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -9672,7 +9653,7 @@ def _get_ensstats():
     return skew_ptr_np, kurt_ptr_np, status
 
 
-def _estkf_init(int  subtype, int [::1] param_int, int  dim_pint,
+def estkf_init(int  subtype, int [::1] param_int, int  dim_pint,
     double [::1] param_real, int  dim_preal, int  verbose, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -9725,7 +9706,7 @@ def _estkf_init(int  subtype, int [::1] param_int, int  dim_pint,
     return subtype, param_int_np, param_real_np, ensemblefilter, fixedbasis, outflag
 
 
-def _estkf_alloc(int  outflag):
+def estkf_alloc(int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -9745,7 +9726,7 @@ def _estkf_alloc(int  outflag):
     return outflag
 
 
-def _estkf_config(int  subtype, int  verbose):
+def estkf_config(int  subtype, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -9767,7 +9748,7 @@ def _estkf_config(int  subtype, int  verbose):
     return subtype
 
 
-def _estkf_set_iparam(int  id, int  value):
+def estkf_set_iparam(int  id, int  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -9790,7 +9771,7 @@ def _estkf_set_iparam(int  id, int  value):
     return flag
 
 
-def _estkf_set_rparam(int  id, double  value):
+def estkf_set_rparam(int  id, double  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -9813,7 +9794,7 @@ def _estkf_set_rparam(int  id, double  value):
     return flag
 
 
-def _estkf_options():
+def estkf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -9822,7 +9803,7 @@ def _estkf_options():
 
 
 
-def _estkf_memtime(int  printtype):
+def estkf_memtime(int  printtype):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -9839,7 +9820,7 @@ def _estkf_memtime(int  printtype):
 
 
 
-def _gen_obs(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
+def gen_obs(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
     double [::1,:] ainv, double [::1,:] ens_p, py__init_dim_obs_f_pdaf,
     py__obs_op_f_pdaf, py__get_obs_f_pdaf, py__init_obserr_f_pdaf,
     py__prepoststep_pdaf, int  screen, int  flag):
@@ -10027,7 +10008,7 @@ def _gen_obs(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
     return dim_obs_f, state_p_np, ainv_np, ens_p_np, flag
 
 
-def _obs_init(int  step, int  dim_p, int  dim_ens, int  dim_obs_p,
+def obs_init(int  step, int  dim_p, int  dim_ens, int  dim_obs_p,
     double [::1] state_p, double [::1,:] ens_p, py__init_dim_obs_pdaf,
     py__obs_op_pdaf, py__init_obs_pdaf, int  screen, int  debug,
     bint  do_ens_mean, bint  do_init_dim, bint  do_hx, bint  do_hxbar,
@@ -10148,7 +10129,7 @@ def _obs_init(int  step, int  dim_p, int  dim_ens, int  dim_obs_p,
     return dim_obs_p, state_p_np, ens_p_np
 
 
-def _obs_init_local(int  domain_p, int  step, int  dim_ens,
+def obs_init_local(int  domain_p, int  step, int  dim_ens,
     py__init_dim_obs_l_pdaf, py__g2l_obs_pdaf, py__init_obs_l_pdaf, int  debug):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -10247,7 +10228,7 @@ def _obs_init_local(int  domain_p, int  step, int  dim_ens,
     return dim_obs_l, dim_obs_f
 
 
-def _obs_init_obsvars(int  step, int  dim_obs_p, py__init_obsvars_pdaf):
+def obs_init_obsvars(int  step, int  dim_obs_p, py__init_obsvars_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10283,7 +10264,7 @@ def _obs_init_obsvars(int  step, int  dim_obs_p, py__init_obsvars_pdaf):
 
 
 
-def _obs_dealloc():
+def obs_dealloc():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -10292,7 +10273,7 @@ def _obs_dealloc():
 
 
 
-def _obs_dealloc_local():
+def obs_dealloc_local():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -10301,7 +10282,7 @@ def _obs_dealloc_local():
 
 
 
-def _netf_init(int  subtype, int [::1] param_int, int  dim_pint,
+def netf_init(int  subtype, int [::1] param_int, int  dim_pint,
     double [::1] param_real, int  dim_preal, int  verbose, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -10354,7 +10335,7 @@ def _netf_init(int  subtype, int [::1] param_int, int  dim_pint,
     return subtype, param_int_np, param_real_np, ensemblefilter, fixedbasis, outflag
 
 
-def _netf_alloc(int  outflag):
+def netf_alloc(int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10374,7 +10355,7 @@ def _netf_alloc(int  outflag):
     return outflag
 
 
-def _netf_config(int  subtype, int  verbose):
+def netf_config(int  subtype, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10396,7 +10377,7 @@ def _netf_config(int  subtype, int  verbose):
     return subtype
 
 
-def _netf_set_iparam(int  id, int  value):
+def netf_set_iparam(int  id, int  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10419,7 +10400,7 @@ def _netf_set_iparam(int  id, int  value):
     return flag
 
 
-def _netf_set_rparam(int  id, double  value):
+def netf_set_rparam(int  id, double  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10442,7 +10423,7 @@ def _netf_set_rparam(int  id, double  value):
     return flag
 
 
-def _netf_options():
+def netf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -10451,7 +10432,7 @@ def _netf_options():
 
 
 
-def _netf_memtime(int  printtype):
+def netf_memtime(int  printtype):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10468,7 +10449,7 @@ def _netf_memtime(int  printtype):
 
 
 
-def _lenkf_init(int  subtype, int [::1] param_int, int  dim_pint,
+def lenkf_init(int  subtype, int [::1] param_int, int  dim_pint,
     double [::1] param_real, int  dim_preal, int  verbose, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -10521,7 +10502,7 @@ def _lenkf_init(int  subtype, int [::1] param_int, int  dim_pint,
     return subtype, param_int_np, param_real_np, ensemblefilter, fixedbasis, outflag
 
 
-def _lenkf_alloc(int  outflag):
+def lenkf_alloc(int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10541,7 +10522,7 @@ def _lenkf_alloc(int  outflag):
     return outflag
 
 
-def _lenkf_config(int  subtype, int  verbose):
+def lenkf_config(int  subtype, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10563,7 +10544,7 @@ def _lenkf_config(int  subtype, int  verbose):
     return subtype
 
 
-def _lenkf_set_iparam(int  id, int  value):
+def lenkf_set_iparam(int  id, int  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10586,7 +10567,7 @@ def _lenkf_set_iparam(int  id, int  value):
     return flag
 
 
-def _lenkf_set_rparam(int  id, double  value):
+def lenkf_set_rparam(int  id, double  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10609,7 +10590,7 @@ def _lenkf_set_rparam(int  id, double  value):
     return flag
 
 
-def _lenkf_options():
+def lenkf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -10618,7 +10599,7 @@ def _lenkf_options():
 
 
 
-def _lenkf_memtime(int  printtype):
+def lenkf_memtime(int  printtype):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10635,7 +10616,7 @@ def _lenkf_memtime(int  printtype):
 
 
 
-def _lseik_init(int  subtype, int [::1] param_int, int  dim_pint,
+def lseik_init(int  subtype, int [::1] param_int, int  dim_pint,
     double [::1] param_real, int  dim_preal, int  verbose, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -10688,7 +10669,7 @@ def _lseik_init(int  subtype, int [::1] param_int, int  dim_pint,
     return subtype, param_int_np, param_real_np, ensemblefilter, fixedbasis, outflag
 
 
-def _lseik_alloc(int  outflag):
+def lseik_alloc(int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10708,7 +10689,7 @@ def _lseik_alloc(int  outflag):
     return outflag
 
 
-def _lseik_config(int  subtype, int  verbose):
+def lseik_config(int  subtype, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10730,7 +10711,7 @@ def _lseik_config(int  subtype, int  verbose):
     return subtype
 
 
-def _lseik_set_iparam(int  id, int  value):
+def lseik_set_iparam(int  id, int  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10753,7 +10734,7 @@ def _lseik_set_iparam(int  id, int  value):
     return flag
 
 
-def _lseik_set_rparam(int  id, double  value):
+def lseik_set_rparam(int  id, double  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10776,7 +10757,7 @@ def _lseik_set_rparam(int  id, double  value):
     return flag
 
 
-def _lseik_options():
+def lseik_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -10785,7 +10766,7 @@ def _lseik_options():
 
 
 
-def _lseik_memtime(int  printtype):
+def lseik_memtime(int  printtype):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10802,7 +10783,7 @@ def _lseik_memtime(int  printtype):
 
 
 
-def _etkf_init(int  subtype, int [::1] param_int, int  dim_pint,
+def etkf_init(int  subtype, int [::1] param_int, int  dim_pint,
     double [::1] param_real, int  dim_preal, int  verbose, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -10855,7 +10836,7 @@ def _etkf_init(int  subtype, int [::1] param_int, int  dim_pint,
     return subtype, param_int_np, param_real_np, ensemblefilter, fixedbasis, outflag
 
 
-def _etkf_alloc(int  outflag):
+def etkf_alloc(int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10875,7 +10856,7 @@ def _etkf_alloc(int  outflag):
     return outflag
 
 
-def _etkf_config(int  subtype, int  verbose):
+def etkf_config(int  subtype, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10897,7 +10878,7 @@ def _etkf_config(int  subtype, int  verbose):
     return subtype
 
 
-def _etkf_set_iparam(int  id, int  value):
+def etkf_set_iparam(int  id, int  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10920,7 +10901,7 @@ def _etkf_set_iparam(int  id, int  value):
     return flag
 
 
-def _etkf_set_rparam(int  id, double  value):
+def etkf_set_rparam(int  id, double  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10943,7 +10924,7 @@ def _etkf_set_rparam(int  id, double  value):
     return flag
 
 
-def _etkf_options():
+def etkf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -10952,7 +10933,7 @@ def _etkf_options():
 
 
 
-def _etkf_memtime(int  printtype):
+def etkf_memtime(int  printtype):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -10969,7 +10950,7 @@ def _etkf_memtime(int  printtype):
 
 
 
-def _lenkf_update(int  step, int  dim_p, int  dim_ens,
+def lenkf_update(int  step, int  dim_p, int  dim_ens,
     double [::1] state_p, double [::1,:] ens_p, py__init_dim_obs_pdaf,
     py__obs_op_pdaf, py__add_obs_err_pdaf, py__init_obs_pdaf,
     py__init_obs_covar_pdaf, py__prepoststep_pdaf, py__localize_covar_pdaf,
@@ -11212,7 +11193,7 @@ def _lenkf_update(int  step, int  dim_p, int  dim_ens,
     return dim_obs_p, state_p_np, ens_p_np, flag
 
 
-def _pf_init(int  subtype, int [::1] param_int, int  dim_pint,
+def pf_init(int  subtype, int [::1] param_int, int  dim_pint,
     double [::1] param_real, int  dim_preal, int  verbose, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -11265,7 +11246,7 @@ def _pf_init(int  subtype, int [::1] param_int, int  dim_pint,
     return subtype, param_int_np, param_real_np, ensemblefilter, fixedbasis, outflag
 
 
-def _pf_alloc(int  outflag):
+def pf_alloc(int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -11285,7 +11266,7 @@ def _pf_alloc(int  outflag):
     return outflag
 
 
-def _pf_config(int  subtype, int  verbose):
+def pf_config(int  subtype, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -11307,7 +11288,7 @@ def _pf_config(int  subtype, int  verbose):
     return subtype
 
 
-def _pf_set_iparam(int  id, int  value):
+def pf_set_iparam(int  id, int  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -11330,7 +11311,7 @@ def _pf_set_iparam(int  id, int  value):
     return flag
 
 
-def _pf_set_rparam(int  id, double  value):
+def pf_set_rparam(int  id, double  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -11353,7 +11334,7 @@ def _pf_set_rparam(int  id, double  value):
     return flag
 
 
-def _pf_options():
+def pf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -11362,7 +11343,7 @@ def _pf_options():
 
 
 
-def _pf_memtime(int  printtype):
+def pf_memtime(int  printtype):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -11379,7 +11360,7 @@ def _pf_memtime(int  printtype):
 
 
 
-def _lknetf_ana_letkft(int  domain_p, int  step, int  dim_l,
+def lknetf_ana_letkft(int  domain_p, int  step, int  dim_l,
     int  dim_obs_l, int  dim_ens, double [::1] state_l,
     double [::1,:] ens_l, double [::1,:] hz_l, double [::1] hxbar_l,
     double [::1] obs_l, double [::1,:] rndmat, double  forget,
@@ -11529,7 +11510,7 @@ def _lknetf_ana_letkft(int  domain_p, int  step, int  dim_l,
     return state_l_np, ainv_l_np, ens_l_np, hz_l_np, rndmat_np, forget, gamma_np, flag
 
 
-def _lknetf_ana_lnetf(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
+def lknetf_ana_lnetf(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     int  dim_ens, double [::1,:] ens_l, double [::1,:] hx_l,
     double [::1,:] rndmat, double [::1] obs_l, py__likelihood_hyb_l_pdaf,
     int  cnt_small_svals, double [::1] n_eff_all, double [::1] gamma,
@@ -11633,7 +11614,7 @@ def _lknetf_ana_lnetf(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     return ens_l_np, cnt_small_svals, n_eff_all_np, gamma_np, flag
 
 
-def _enkf_ana_rsm(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
+def enkf_ana_rsm(int  step, int  dim_p, int  dim_obs_p, int dim_obs, int  dim_ens,
     int  rank_ana, double [::1] state_p, double [::1,:] ens_p,
     double [::1,:] hx_p, double [::1] hxbar_p, double [::1] obs_p,
     py__add_obs_err_pdaf, py__init_obs_covar_pdaf, int  screen, int  debug,
@@ -11649,6 +11630,8 @@ def _enkf_ana_rsm(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
         PE-local dimension of model state
     dim_obs_p : int
         PE-local dimension of observation vector
+    dim_obs : int
+        Global dimension of observation vector
     dim_ens : int
         Size of state ensemble
     rank_ana : int
@@ -11733,7 +11716,7 @@ def _enkf_ana_rsm(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     pdaf_cb.add_obs_err_pdaf = <void*>py__add_obs_err_pdaf
     pdaf_cb.init_obs_covar_pdaf = <void*>py__init_obs_covar_pdaf
     with nogil:
-        c__pdaf_enkf_ana_rsm(&step, &dim_p, &dim_obs_p, &dim_ens,
+        c__pdaf_enkf_ana_rsm(&step, &dim_p, &dim_obs_p, &dim_obs, &dim_ens,
                              &rank_ana, &state_p[0], &ens_p[0,0],
                              &hx_p[0,0], &hxbar_p[0], &obs_p[0],
                              pdaf_cb.c__add_obs_err_pdaf,
@@ -11743,7 +11726,7 @@ def _enkf_ana_rsm(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     return state_p_np, ens_p_np, flag
 
 
-def _lknetf_init(int  subtype, int [::1] param_int, int  dim_pint,
+def lknetf_init(int  subtype, int [::1] param_int, int  dim_pint,
     double [::1] param_real, int  dim_preal, int  verbose, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -11796,7 +11779,7 @@ def _lknetf_init(int  subtype, int [::1] param_int, int  dim_pint,
     return subtype, param_int_np, param_real_np, ensemblefilter, fixedbasis, outflag
 
 
-def _lknetf_alloc(int  outflag):
+def lknetf_alloc(int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -11816,7 +11799,7 @@ def _lknetf_alloc(int  outflag):
     return outflag
 
 
-def _lknetf_config(int  subtype, int  verbose):
+def lknetf_config(int  subtype, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -11838,7 +11821,7 @@ def _lknetf_config(int  subtype, int  verbose):
     return subtype
 
 
-def _lknetf_set_iparam(int  id, int  value):
+def lknetf_set_iparam(int  id, int  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -11861,7 +11844,7 @@ def _lknetf_set_iparam(int  id, int  value):
     return flag
 
 
-def _lknetf_set_rparam(int  id, double  value):
+def lknetf_set_rparam(int  id, double  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -11884,7 +11867,7 @@ def _lknetf_set_rparam(int  id, double  value):
     return flag
 
 
-def _lknetf_options():
+def lknetf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -11893,7 +11876,7 @@ def _lknetf_options():
 
 
 
-def _lknetf_memtime(int  printtype):
+def lknetf_memtime(int  printtype):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -11910,7 +11893,7 @@ def _lknetf_memtime(int  printtype):
 
 
 
-def _lknetf_alpha_neff(int  dim_ens, double [::1] weights, double  hlimit,
+def lknetf_alpha_neff(int  dim_ens, double [::1] weights, double  hlimit,
     double  alpha):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -11938,7 +11921,7 @@ def _lknetf_alpha_neff(int  dim_ens, double [::1] weights, double  hlimit,
     return alpha
 
 
-def _lknetf_compute_gamma(int  domain_p, int  step, int  dim_obs_l,
+def lknetf_compute_gamma(int  domain_p, int  step, int  dim_obs_l,
     int  dim_ens, double [::1,:] hx_l, double [::1] hxbar_l,
     double [::1] obs_l, int  type_hyb, double  hyb_g, double  hyb_k,
     double [::1] gamma, double [::1] n_eff_out, double [::1] skew_mabs,
@@ -12048,7 +12031,7 @@ def _lknetf_compute_gamma(int  domain_p, int  step, int  dim_obs_l,
     return gamma_np, n_eff_out_np, skew_mabs_np, kurt_mabs_np, flag
 
 
-def _lknetf_set_gamma(int  domain_p, int  dim_obs_l, int  dim_ens,
+def lknetf_set_gamma(int  domain_p, int  dim_obs_l, int  dim_ens,
     double [::1,:] hx_l, double [::1] hxbar_l, double [::1] weights,
     int  type_hyb, double  hyb_g, double  hyb_k, double [::1] gamma,
     double [::1] n_eff_out, double [::1] maskew, double [::1] makurt,
@@ -12127,7 +12110,7 @@ def _lknetf_set_gamma(int  domain_p, int  dim_obs_l, int  dim_ens,
     return gamma_np, n_eff_out_np, maskew_np, makurt_np, flag
 
 
-def _lknetf_reset_gamma(double  gamma_in):
+def lknetf_reset_gamma(double  gamma_in):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -12144,7 +12127,7 @@ def _lknetf_reset_gamma(double  gamma_in):
 
 
 
-def _hyb3dvar_analysis_cvt(int  step, int  dim_p, int  dim_obs_p,
+def hyb3dvar_analysis_cvt(int  step, int  dim_p, int  dim_obs_p,
     int  dim_ens, int  dim_cvec, int  dim_cvec_ens, double  beta_3dvar,
     double [::1] state_p, double [::1,:] ens_p, double [::1] state_inc_p,
     double [::1] hxbar_p, double [::1] obs_p, py__prodrinva_pdaf,
@@ -12598,7 +12581,7 @@ def _3dvar_analysis_cvt(int  step, int  dim_p, int  dim_obs_p,
     return state_p_np, flag
 
 
-def _lestkf_init(int  subtype, int [::1] param_int, int  dim_pint,
+def lestkf_init(int  subtype, int [::1] param_int, int  dim_pint,
     double [::1] param_real, int  dim_preal, int  verbose, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -12651,7 +12634,7 @@ def _lestkf_init(int  subtype, int [::1] param_int, int  dim_pint,
     return subtype, param_int_np, param_real_np, ensemblefilter, fixedbasis, outflag
 
 
-def _lestkf_alloc(int  outflag):
+def lestkf_alloc(int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -12671,7 +12654,7 @@ def _lestkf_alloc(int  outflag):
     return outflag
 
 
-def _lestkf_config(int  subtype, int  verbose):
+def lestkf_config(int  subtype, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -12693,7 +12676,7 @@ def _lestkf_config(int  subtype, int  verbose):
     return subtype
 
 
-def _lestkf_set_iparam(int  id, int  value):
+def lestkf_set_iparam(int  id, int  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -12716,7 +12699,7 @@ def _lestkf_set_iparam(int  id, int  value):
     return flag
 
 
-def _lestkf_set_rparam(int  id, double  value):
+def lestkf_set_rparam(int  id, double  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -12739,7 +12722,7 @@ def _lestkf_set_rparam(int  id, double  value):
     return flag
 
 
-def _lestkf_options():
+def lestkf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -12748,7 +12731,7 @@ def _lestkf_options():
 
 
 
-def _lestkf_memtime(int  printtype):
+def lestkf_memtime(int  printtype):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -12765,7 +12748,7 @@ def _lestkf_memtime(int  printtype):
 
 
 
-def _seik_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
+def seik_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     int  rank, double [::1] state_p, double [::1,:] uinv,
     double [::1,:] ens_p, double [::1,:] hl_p, double [::1] hxbar_p,
     double [::1] obs_p, double  forget, py__prodrinva_pdaf, int  debug,
@@ -12867,7 +12850,7 @@ def _seik_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     return state_p_np, uinv_np, ens_p_np, hl_p_np, flag
 
 
-def _seik_resample(int  subtype, int  dim_p, int  dim_ens, int  rank,
+def seik_resample(int  subtype, int  dim_p, int  dim_ens, int  rank,
     double [::1,:] uinv, double [::1] state_p, double [::1,:] enst_p,
     int  type_sqrt, int  type_trans, int  nm1vsn, int  screen, int  flag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
@@ -12928,7 +12911,7 @@ def _seik_resample(int  subtype, int  dim_p, int  dim_ens, int  rank,
     return uinv_np, state_p_np, enst_p_np, flag
 
 
-def _lseik_ana(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
+def lseik_ana(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     int  dim_ens, int  rank, double [::1] state_l, double [::1,:] uinv_l,
     double [::1,:] ens_l, double [::1,:] hl_l, double [::1] hxbar_l,
     double [::1] obs_l, double  forget, py__prodrinva_l_pdaf, int  screen,
@@ -13036,7 +13019,7 @@ def _lseik_ana(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     return state_l_np, uinv_l_np, hl_l_np, forget, flag
 
 
-def _lseik_resample(int  domain_p, int  subtype, int  dim_l, int  dim_ens,
+def lseik_resample(int  domain_p, int  subtype, int  dim_l, int  dim_ens,
     int  rank, double [::1,:] uinv_l, double [::1] state_l,
     double [::1,:] ens_l, double [::1,:] omegat_in, int  type_sqrt,
     int  screen, int  flag):
@@ -13104,7 +13087,7 @@ def _lseik_resample(int  domain_p, int  subtype, int  dim_l, int  dim_ens,
     return uinv_l_np, state_l_np, ens_l_np, omegat_in_np, flag
 
 
-def _prepost(py__collect_state_pdaf, py__distribute_state_pdaf,
+def prepost(py__collect_state_pdaf, py__distribute_state_pdaf,
     py__prepoststep_pdaf, py__next_observation_pdaf):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -13238,7 +13221,7 @@ def _prepost(py__collect_state_pdaf, py__distribute_state_pdaf,
     return outflag
 
 
-def _enkf_update(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
+def enkf_update(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
     double [::1,:] ens_p, py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__add_obs_err_pdaf, py__init_obs_pdaf, py__init_obs_covar_pdaf,
     py__prepoststep_pdaf, int  screen, int  subtype, int  dim_lag,
@@ -13467,7 +13450,7 @@ def _enkf_update(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
     return dim_obs_p, state_p_np, ens_p_np, sens_p_np, cnt_maxlag, flag
 
 
-def _init_parallel(int  dim_ens, bint  ensemblefilter, bint  fixedbasis,
+def init_parallel(int  dim_ens, bint  ensemblefilter, bint  fixedbasis,
     int  comm_model, int  in_comm_filter, int  in_comm_couple,
     int  in_n_modeltasks, int  in_task_id, int  screen, int  flag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
@@ -13512,7 +13495,7 @@ def _init_parallel(int  dim_ens, bint  ensemblefilter, bint  fixedbasis,
     return dim_ens, flag
 
 
-def _seik_init(int  subtype, int [::1] param_int, int  dim_pint,
+def seik_init(int  subtype, int [::1] param_int, int  dim_pint,
     double [::1] param_real, int  dim_preal, int  verbose, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -13563,7 +13546,7 @@ def _seik_init(int  subtype, int [::1] param_int, int  dim_pint,
     return param_int_np, param_real_np, ensemblefilter, fixedbasis, outflag
 
 
-def _seik_alloc(int  outflag):
+def seik_alloc(int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -13583,7 +13566,7 @@ def _seik_alloc(int  outflag):
     return outflag
 
 
-def _seik_config(int  subtype, int  verbose):
+def seik_config(int  subtype, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -13605,7 +13588,7 @@ def _seik_config(int  subtype, int  verbose):
     return subtype
 
 
-def _seik_set_iparam(int  id, int  value):
+def seik_set_iparam(int  id, int  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -13628,7 +13611,7 @@ def _seik_set_iparam(int  id, int  value):
     return flag
 
 
-def _seik_set_rparam(int  id, double  value):
+def seik_set_rparam(int  id, double  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -13651,7 +13634,7 @@ def _seik_set_rparam(int  id, double  value):
     return flag
 
 
-def _seik_options():
+def seik_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -13660,7 +13643,7 @@ def _seik_options():
 
 
 
-def _seik_memtime(int  printtype):
+def seik_memtime(int  printtype):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -13677,7 +13660,7 @@ def _seik_memtime(int  printtype):
 
 
 
-def _netf_update(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
+def netf_update(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
     double [::1,:] ainv, double [::1,:] ens_p, py__init_dim_obs_pdaf,
     py__obs_op_pdaf, py__init_obs_pdaf, py__likelihood_pdaf,
     py__prepoststep_pdaf, int  screen, int  subtype, int  dim_lag,
@@ -13890,7 +13873,7 @@ def _netf_update(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
     return dim_obs_p, state_p_np, ainv_np, ens_p_np, sens_p_np, cnt_maxlag, flag
 
 
-def _seik_ana_newt(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
+def seik_ana_newt(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     int  rank, double [::1] state_p, double [::1,:] uinv,
     double [::1,:] ens_p, double [::1,:] hl_p, double [::1] hxbar_p,
     double [::1] obs_p, double  forget, py__prodrinva_pdaf, int  screen,
@@ -13994,7 +13977,7 @@ def _seik_ana_newt(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     return state_p_np, uinv_np, ens_p_np, hl_p_np, flag
 
 
-def _seik_resample_newt(int  subtype, int  dim_p, int  dim_ens, int  rank,
+def seik_resample_newt(int  subtype, int  dim_p, int  dim_ens, int  rank,
     double [::1,:] uinv, double [::1] state_p, double [::1,:] ens_p,
     int  type_sqrt, int  type_trans, int  nm1vsn, int  screen, int  flag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
@@ -14056,7 +14039,7 @@ def _seik_resample_newt(int  subtype, int  dim_p, int  dim_ens, int  rank,
     return uinv_np, state_p_np, ens_p_np, flag
 
 
-def _lenkf_ana_rsm(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
+def lenkf_ana_rsm(int  step, int  dim_p, int  dim_obs_p, int dim_obs, int  dim_ens,
     int  rank_ana, double [::1] state_p, double [::1,:] ens_p,
     double [::1,:] hx_p, double [::1] hxbar_p, double [::1] obs_p,
     py__add_obs_err_pdaf, py__init_obs_covar_pdaf, py__localize_covar_pdaf,
@@ -14072,6 +14055,8 @@ def _lenkf_ana_rsm(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
         PE-local dimension of model state
     dim_obs_p : int
         PE-local dimension of observation vector
+    dim_obs: int
+        Global dimension of observation vector
     dim_ens : int
         Size of state ensemble
     rank_ana : int
@@ -14182,7 +14167,7 @@ def _lenkf_ana_rsm(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     pdaf_cb.init_obs_covar_pdaf = <void*>py__init_obs_covar_pdaf
     pdaf_cb.localize_covar_pdaf = <void*>py__localize_covar_pdaf
     with nogil:
-        c__pdaf_lenkf_ana_rsm(&step, &dim_p, &dim_obs_p, &dim_ens,
+        c__pdaf_lenkf_ana_rsm(&step, &dim_p, &dim_obs_p, &dim_obs, &dim_ens,
                               &rank_ana, &state_p[0], &ens_p[0,0],
                               &hx_p[0,0], &hxbar_p[0], &obs_p[0],
                               pdaf_cb.c__add_obs_err_pdaf,
@@ -14193,7 +14178,7 @@ def _lenkf_ana_rsm(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     return state_p_np, ens_p_np, flag
 
 
-def _lestkf_ana(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
+def lestkf_ana(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     int  dim_ens, int  rank, double [::1] state_l, double [::1,:] ainv_l,
     double [::1,:] ens_l, double [::1,:] hl_l, double [::1] hxbar_l,
     double [::1] obs_l, double [::1,:] omegat_in, double  forget,
@@ -14322,7 +14307,7 @@ def _lestkf_ana(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     return state_l_np, ainv_l_np, ens_l_np, hl_l_np, forget, ta_np, flag
 
 
-def _lestkf_update(int  step, int  dim_p, int  dim_ens, int  rank,
+def lestkf_update(int  step, int  dim_p, int  dim_ens, int  rank,
     double [::1] state_p, double [::1,:] ainv, double [::1,:] ens_p,
     py__init_dim_obs_pdaf, py__obs_op_pdaf, py__init_obs_pdaf,
     py__init_obs_l_pdaf, py__prodrinva_l_pdaf, py__init_n_domains_p_pdaf,
@@ -14750,7 +14735,7 @@ def _lestkf_update(int  step, int  dim_p, int  dim_ens, int  rank,
     return dim_obs_f, state_p_np, ainv_np, ens_p_np, sens_p_np, cnt_maxlag, flag
 
 
-def _lnetf_init(int  subtype, int [::1] param_int, int  dim_pint,
+def lnetf_init(int  subtype, int [::1] param_int, int  dim_pint,
     double [::1] param_real, int  dim_preal, int  verbose, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -14803,7 +14788,7 @@ def _lnetf_init(int  subtype, int [::1] param_int, int  dim_pint,
     return subtype, param_int_np, param_real_np, ensemblefilter, fixedbasis, outflag
 
 
-def _lnetf_alloc(int  outflag):
+def lnetf_alloc(int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -14823,7 +14808,7 @@ def _lnetf_alloc(int  outflag):
     return outflag
 
 
-def _lnetf_config(int  subtype, int  verbose):
+def lnetf_config(int  subtype, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -14845,7 +14830,7 @@ def _lnetf_config(int  subtype, int  verbose):
     return subtype
 
 
-def _lnetf_set_iparam(int  id, int  value):
+def lnetf_set_iparam(int  id, int  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -14868,7 +14853,7 @@ def _lnetf_set_iparam(int  id, int  value):
     return flag
 
 
-def _lnetf_set_rparam(int  id, double  value):
+def lnetf_set_rparam(int  id, double  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -14891,7 +14876,7 @@ def _lnetf_set_rparam(int  id, double  value):
     return flag
 
 
-def _lnetf_options():
+def lnetf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -14900,7 +14885,7 @@ def _lnetf_options():
 
 
 
-def _lnetf_memtime(int  printtype):
+def lnetf_memtime(int  printtype):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -14917,7 +14902,7 @@ def _lnetf_memtime(int  printtype):
 
 
 
-def _enkf_init(int  subtype, int [::1] param_int, int  dim_pint,
+def enkf_init(int  subtype, int [::1] param_int, int  dim_pint,
     double [::1] param_real, int  dim_preal, int  verbose, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -14970,7 +14955,7 @@ def _enkf_init(int  subtype, int [::1] param_int, int  dim_pint,
     return subtype, param_int_np, param_real_np, ensemblefilter, fixedbasis, outflag
 
 
-def _enkf_alloc(int  outflag):
+def enkf_alloc(int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -14990,7 +14975,7 @@ def _enkf_alloc(int  outflag):
     return outflag
 
 
-def _enkf_config(int  subtype, int  verbose):
+def enkf_config(int  subtype, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -15012,7 +14997,7 @@ def _enkf_config(int  subtype, int  verbose):
     return subtype
 
 
-def _enkf_set_iparam(int  id, int  value):
+def enkf_set_iparam(int  id, int  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -15035,7 +15020,7 @@ def _enkf_set_iparam(int  id, int  value):
     return flag
 
 
-def _enkf_set_rparam(int  id, double  value):
+def enkf_set_rparam(int  id, double  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -15058,7 +15043,7 @@ def _enkf_set_rparam(int  id, double  value):
     return flag
 
 
-def _enkf_options():
+def enkf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -15067,7 +15052,7 @@ def _enkf_options():
 
 
 
-def _enkf_memtime(int  printtype):
+def enkf_memtime(int  printtype):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -15084,7 +15069,7 @@ def _enkf_memtime(int  printtype):
 
 
 
-def _enkf_gather_resid(int  dim_obs, int  dim_obs_p, int  dim_ens,
+def enkf_gather_resid(int  dim_obs, int  dim_obs_p, int  dim_ens,
     double [::1,:] resid_p):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -15116,7 +15101,7 @@ def _enkf_gather_resid(int  dim_obs, int  dim_obs_p, int  dim_ens,
     return resid_np
 
 
-def _enkf_obs_ensemble(int  step, int  dim_obs_p, int  dim_obs,
+def enkf_obs_ensemble(int  step, int  dim_obs_p, int  dim_obs,
     int  dim_ens, double [::1] obs_p, py__init_obs_covar_pdaf, int  screen,
     int  flag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
@@ -15183,7 +15168,7 @@ def _enkf_obs_ensemble(int  step, int  dim_obs_p, int  dim_obs,
     return obsens_p_np, flag
 
 
-def _pf_update(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
+def pf_update(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
     double [::1,:] ainv, double [::1,:] ens_p, py__init_dim_obs_pdaf,
     py__obs_op_pdaf, py__init_obs_pdaf, py__likelihood_pdaf,
     py__prepoststep_pdaf, int  screen, int  subtype, int  flag):
@@ -15380,7 +15365,7 @@ def _pf_update(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
     return dim_obs_p, state_p_np, ainv_np, ens_p_np, flag
 
 
-def _generate_rndmat(int  dim, int  mattype):
+def generate_rndmat(int  dim, int  mattype):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -15405,7 +15390,7 @@ def _generate_rndmat(int  dim, int  mattype):
     return rndmat_np
 
 
-def _print_domain_stats(int  n_domains_p):
+def print_domain_stats(int  n_domains_p):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -15422,7 +15407,7 @@ def _print_domain_stats(int  n_domains_p):
 
 
 
-def _init_local_obsstats():
+def init_local_obsstats():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -15431,7 +15416,7 @@ def _init_local_obsstats():
 
 
 
-def _incr_local_obsstats(int  dim_obs_l):
+def incr_local_obsstats(int  dim_obs_l):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -15448,7 +15433,7 @@ def _incr_local_obsstats(int  dim_obs_l):
 
 
 
-def _print_local_obsstats(int  screen):
+def print_local_obsstats(int  screen):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -15469,7 +15454,7 @@ def _print_local_obsstats(int  screen):
     return n_domains_with_obs
 
 
-def _seik_matrixt(int  dim, int  dim_ens, double [::1,:] a):
+def seik_matrixt(int  dim, int  dim_ens, double [::1,:] a):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -15496,7 +15481,7 @@ def _seik_matrixt(int  dim, int  dim_ens, double [::1,:] a):
     return a_np
 
 
-def _seik_ttimesa(int  rank, int  dim_col, double [::1,:] a):
+def seik_ttimesa(int  rank, int  dim_col, double [::1,:] a):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -15524,7 +15509,7 @@ def _seik_ttimesa(int  rank, int  dim_col, double [::1,:] a):
     return b_np
 
 
-def _seik_omega(int  rank, double [::1,:] omega, int  omegatype, int  screen):
+def seik_omega(int  rank, double [::1,:] omega, int  omegatype, int  screen):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -15553,7 +15538,7 @@ def _seik_omega(int  rank, double [::1,:] omega, int  omegatype, int  screen):
     return omega_np
 
 
-def _seik_uinv(int  rank, double [::1,:] uinv):
+def seik_uinv(int  rank, double [::1,:] uinv):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -15578,7 +15563,7 @@ def _seik_uinv(int  rank, double [::1,:] uinv):
     return uinv_np
 
 
-def _ens_omega(int [::1] seed, int  r, int  dim_ens, double [::1,:] omega,
+def ens_omega(int [::1] seed, int  r, int  dim_ens, double [::1,:] omega,
     double  norm, int  otype, int  screen):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -15618,7 +15603,7 @@ def _ens_omega(int [::1] seed, int  r, int  dim_ens, double [::1,:] omega,
     return omega_np, norm
 
 
-def _estkf_omegaa(int  rank, int  dim_col, double [::1,:] a):
+def estkf_omegaa(int  rank, int  dim_col, double [::1,:] a):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -15646,7 +15631,7 @@ def _estkf_omegaa(int  rank, int  dim_col, double [::1,:] a):
     return b_np
 
 
-def _estkf_aomega(int  dim, int  dim_ens, double [::1,:] a):
+def estkf_aomega(int  dim, int  dim_ens, double [::1,:] a):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -15673,7 +15658,7 @@ def _estkf_aomega(int  dim, int  dim_ens, double [::1,:] a):
     return a_np
 
 
-def _subtract_rowmean(int  dim, int  dim_ens, double [::1,:] a):
+def subtract_rowmean(int  dim, int  dim_ens, double [::1,:] a):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -15700,7 +15685,7 @@ def _subtract_rowmean(int  dim, int  dim_ens, double [::1,:] a):
     return a_np
 
 
-def _subtract_colmean(int  dim_ens, int  dim, double [::1,:] a):
+def subtract_colmean(int  dim_ens, int  dim, double [::1,:] a):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -15727,7 +15712,7 @@ def _subtract_colmean(int  dim_ens, int  dim, double [::1,:] a):
     return a_np
 
 
-def _add_particle_noise(int  dim_p, int  dim_ens, double [::1] state_p,
+def add_particle_noise(int  dim_p, int  dim_ens, double [::1] state_p,
     double [::1,:] ens_p, int  type_noise, double  noise_amp, int  screen):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -15770,7 +15755,7 @@ def _add_particle_noise(int  dim_p, int  dim_ens, double [::1] state_p,
     return state_p_np, ens_p_np
 
 
-def _inflate_weights(int  screen, int  dim_ens, double  alpha,
+def inflate_weights(int  screen, int  dim_ens, double  alpha,
     double [::1] weights):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -15800,7 +15785,7 @@ def _inflate_weights(int  screen, int  dim_ens, double  alpha,
     return weights_np
 
 
-def _inflate_ens(int  dim, int  dim_ens, double [::1] meanstate,
+def inflate_ens(int  dim, int  dim_ens, double [::1] meanstate,
     double [::1,:] ens, double  forget, bint  do_ensmean):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -15840,8 +15825,8 @@ def _inflate_ens(int  dim, int  dim_ens, double [::1] meanstate,
     return meanstate_np, ens_np
 
 
-def _alloc(int  dim_p, int  dim_ens, int  dim_ens_task, int  dim_es,
-    int  dim_bias_p, int  dim_lag, int  statetask, int  outflag):
+def alloc(int  dim_p, int  dim_ens, int  dim_ens_task, int  dim_es,
+    int  statetask, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -15855,10 +15840,6 @@ def _alloc(int  dim_p, int  dim_ens, int  dim_ens_task, int  dim_es,
         Ensemble size handled by a model task
     dim_es : int
         Dimension of error space (size of Ainv)
-    dim_bias_p : int
-        Size of bias vector
-    dim_lag : int
-        Smoother lag
     statetask : int
         Task ID forecasting a single state
     outflag : int
@@ -15871,12 +15852,53 @@ def _alloc(int  dim_p, int  dim_ens, int  dim_ens_task, int  dim_es,
     """
     with nogil:
         c__pdaf_alloc(&dim_p, &dim_ens, &dim_ens_task, &dim_es,
-                      &dim_bias_p, &dim_lag, &statetask, &outflag)
+                      &statetask, &outflag)
 
     return outflag
 
+def alloc_sens(int dim_p, int dim_ens, int dim_lag, int outflag):
+    """Allocate PDAF smoother array
 
-def _smoothing(int  dim_p, int  dim_ens, int  dim_lag, double [::1,:] ainv,
+    Parameters
+    ----------
+    dim_p : int
+        Dimension of PE-local state vector
+    dim_ens: int
+        Ensemble size
+    dim_lag: int
+        Smoothing lag
+    outflag : int
+        Status flag
+
+    Returns
+    -------
+    outflag: int
+        Status flag
+    """
+    with nogil:
+        c__pdaf_alloc_sens(&dim_p, &dim_ens, &dim_lag, &outflag)
+    return outflag
+
+def alloc_bias(int dim_bias_p, int outflag):
+    """Allocate PDAF bias array
+
+    Parameters
+    ----------
+    dim_bias_p : int
+        Dimension of PE-local bias vector
+    outflag : int
+        Status flag
+
+    Returns
+    -------
+    outflag: int
+        Status flag
+    """
+    with nogil:
+        c__pdaf_alloc_bias(&dim_bias_p, &outflag)
+    return outflag
+
+def smoothing(int  dim_p, int  dim_ens, int  dim_lag, double [::1,:] ainv,
     double [::1,:,:] sens_p, int  cnt_maxlag, double  forget, int  screen):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -15918,7 +15940,7 @@ def _smoothing(int  dim_p, int  dim_ens, int  dim_lag, double [::1,:] ainv,
     return sens_p_np, cnt_maxlag
 
 
-def _smoothing_local(int  domain_p, int  step, int  dim_p, int  dim_l,
+def smoothing_local(int  domain_p, int  step, int  dim_p, int  dim_l,
     int  dim_ens, int  dim_lag, double [::1,:] ainv, double [::1,:] ens_l,
     double [::1,:,:] sens_p, int  cnt_maxlag, py__g2l_state_pdaf,
     py__l2g_state_pdaf, double  forget, int  screen):
@@ -16029,7 +16051,7 @@ def _smoothing_local(int  domain_p, int  step, int  dim_p, int  dim_l,
     return ens_l_np, sens_p_np, cnt_maxlag
 
 
-def _smoother_shift(int  dim_p, int  dim_ens, int  dim_lag,
+def smoother_shift(int  dim_p, int  dim_ens, int  dim_lag,
     double [::1,:,:] ens_p, double [::1,:,:] sens_p, int  cnt_maxlag,
     int  screen):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
@@ -16074,7 +16096,7 @@ def _smoother_shift(int  dim_p, int  dim_ens, int  dim_lag,
     return ens_p_np, sens_p_np, cnt_maxlag
 
 
-def _lknetf_update_sync(int  step, int  dim_p, int  dim_ens,
+def lknetf_update_sync(int  step, int  dim_p, int  dim_ens,
     double [::1] state_p, double [::1,:] ainv, double [::1,:] ens_p,
     py__init_dim_obs_pdaf, py__obs_op_pdaf, py__init_obs_pdaf,
     py__init_obs_l_pdaf, py__prodrinva_l_pdaf, py__init_n_domains_p_pdaf,
@@ -16511,7 +16533,7 @@ def _lknetf_update_sync(int  step, int  dim_p, int  dim_ens,
     return dim_obs_f, state_p_np, ainv_np, ens_p_np, flag
 
 
-def _etkf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
+def etkf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     double [::1,:] ens_p, double [::1,:] hz_p, double [::1] hxbar_p,
     double [::1] obs_p, double  forget, py__prodrinva_pdaf, int  screen,
     int  type_trans, int  debug, int  flag):
@@ -16610,7 +16632,7 @@ def _etkf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     return state_p_np, ainv_np, ens_p_np, hz_p_np, flag
 
 
-def _letkf_ana(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
+def letkf_ana(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     int  dim_ens, double [::1] state_l, double [::1,:] ens_l,
     double [::1,:] hz_l, double [::1] hxbar_l, double [::1] obs_l,
     double [::1,:] rndmat, double  forget, py__prodrinva_l_pdaf,
@@ -16728,7 +16750,7 @@ def _letkf_ana(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     return state_l_np, ainv_l_np, ens_l_np, hz_l_np, rndmat_np, forget, flag
 
 
-def _letkf_init(int  subtype, int [::1] param_int, int  dim_pint,
+def letkf_init(int  subtype, int [::1] param_int, int  dim_pint,
     double [::1] param_real, int  dim_preal, int  verbose, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -16781,7 +16803,7 @@ def _letkf_init(int  subtype, int [::1] param_int, int  dim_pint,
     return subtype, param_int_np, param_real_np, ensemblefilter, fixedbasis, outflag
 
 
-def _letkf_alloc(int  outflag):
+def letkf_alloc(int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -16801,7 +16823,7 @@ def _letkf_alloc(int  outflag):
     return outflag
 
 
-def _letkf_config(int  subtype, int  verbose):
+def letkf_config(int  subtype, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -16823,7 +16845,7 @@ def _letkf_config(int  subtype, int  verbose):
     return subtype
 
 
-def _letkf_set_iparam(int  id, int  value):
+def letkf_set_iparam(int  id, int  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -16846,7 +16868,7 @@ def _letkf_set_iparam(int  id, int  value):
     return flag
 
 
-def _letkf_set_rparam(int  id, double  value):
+def letkf_set_rparam(int  id, double  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -16869,7 +16891,7 @@ def _letkf_set_rparam(int  id, double  value):
     return flag
 
 
-def _letkf_options():
+def letkf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -16878,7 +16900,7 @@ def _letkf_options():
 
 
 
-def _letkf_memtime(int  printtype):
+def letkf_memtime(int  printtype):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -16895,7 +16917,7 @@ def _letkf_memtime(int  printtype):
 
 
 
-def _estkf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
+def estkf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     int  rank, double [::1] state_p, double [::1,:] ainv,
     double [::1,:] ens_p, double [::1,:] hl_p, double [::1] hxbar_p,
     double [::1] obs_p, double  forget, py__prodrinva_pdaf, int  screen,
@@ -17016,7 +17038,7 @@ def _estkf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     return dim_obs_p, state_p_np, ainv_np, ens_p_np, hl_p_np, ta_np, flag
 
 
-def _ensrf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
+def ensrf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     double [::1] state_p, double [::1,:] ens_p, double [::1,:] hx_p,
     double [::1] hxbar_p, double [::1] obs_p, double [::1] var_obs_p,
     py__localize_covar_serial_pdaf, int  screen, int  debug):
@@ -17113,7 +17135,7 @@ def _ensrf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     return state_p_np, ens_p_np, hx_p_np, hxbar_p_np
 
 
-def _ensrf_ana_2step(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
+def ensrf_ana_2step(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     double [::1] state_p, double [::1,:] ens_p, double [::1,:] hx_p,
     double [::1] hxbar_p, double [::1] obs_p, double [::1] var_obs_p,
     py__localize_covar_serial_pdaf, int  screen, int  debug):
@@ -17210,7 +17232,7 @@ def _ensrf_ana_2step(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     return state_p_np, ens_p_np, hx_p_np, hxbar_p_np
 
 
-def _lnetf_update(int  step, int  dim_p, int  dim_ens,
+def lnetf_update(int  step, int  dim_p, int  dim_ens,
     double [::1] state_p, double [::1,:] ainv, double [::1,:] ens_p,
     py__obs_op_pdaf, py__init_dim_obs_pdaf, py__init_obs_pdaf,
     py__init_obs_l_pdaf, py__likelihood_l_pdaf, py__init_n_domains_p_pdaf,
@@ -17586,7 +17608,7 @@ def _lnetf_update(int  step, int  dim_p, int  dim_ens,
     return dim_obs_f, state_p_np, ainv_np, ens_p_np, dim_lag, sens_p_np, cnt_maxlag, flag
 
 
-def _seik_ana_trans(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
+def seik_ana_trans(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     int  rank, double [::1] state_p, double [::1,:] uinv,
     double [::1,:] ens_p, double [::1,:] hl_p, double [::1] hxbar_p,
     double [::1] obs_p, double  forget, py__prodrinva_pdaf, int  screen,
@@ -17697,13 +17719,13 @@ def _seik_ana_trans(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     return state_p_np, uinv_np, ens_p_np, hl_p_np, flag
 
 
-def _hyb3dvar_update_estkf(int  step, int  dim_p, int  dim_ens,
+def hyb3dvar_update_estkf(int  step, int  dim_p, int  dim_ens,
     int  dim_cvec, int  dim_cvec_ens, double [::1] state_p,
     double [::1,:] ainv, double [::1,:] ens_p, py__init_dim_obs_pdaf,
     py__obs_op_pdaf, py__init_obs_pdaf, py__prodrinva_pdaf,
     py__prepoststep_pdaf, py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf,
     py__cvt_pdaf, py__cvt_adj_pdaf, py__obs_op_lin_pdaf,
-    py__obs_op_adj_pdaf, py__init_obsvar_pdaf, int  screen, int  subtype,
+    py__obs_op_adj_pdaf, py__init_obsvar_pdaf, int  screen,
     int  flag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -18038,8 +18060,6 @@ def _hyb3dvar_update_estkf(int  step, int  dim_p, int  dim_ens,
 
     screen : int
         Verbosity flag
-    subtype : int
-        Filter subtype
     flag : int
         Status flag
 
@@ -18091,12 +18111,12 @@ def _hyb3dvar_update_estkf(int  step, int  dim_p, int  dim_ens,
                                      pdaf_cb.c__obs_op_lin_pdaf,
                                      pdaf_cb.c__obs_op_adj_pdaf,
                                      pdaf_cb.c__init_obsvar_pdaf, &screen,
-                                     &subtype, &flag)
+                                     &flag)
 
     return dim_obs_p, state_p_np, ainv_np, ens_p_np, flag
 
 
-def _hyb3dvar_update_lestkf(int  step, int  dim_p, int  dim_ens,
+def hyb3dvar_update_lestkf(int  step, int  dim_p, int  dim_ens,
     int  dim_cvec, int  dim_cvec_ens, double [::1] state_p,
     double [::1,:] ainv, double [::1,:] ens_p, py__init_dim_obs_pdaf,
     py__obs_op_pdaf, py__init_obs_pdaf, py__prodrinva_pdaf,
@@ -18107,7 +18127,7 @@ def _hyb3dvar_update_lestkf(int  step, int  dim_p, int  dim_ens,
     py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
     py__init_dim_obs_l_pdaf, py__g2l_state_pdaf, py__l2g_state_pdaf,
     py__g2l_obs_pdaf, py__init_obsvar_pdaf, py__init_obsvar_l_pdaf,
-    int  screen, int  subtype, int  flag):
+    int  screen, int  flag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -18682,8 +18702,6 @@ def _hyb3dvar_update_lestkf(int  step, int  dim_p, int  dim_ens,
 
     screen : int
         Verbosity flag
-    subtype : int
-        Filter subtype
     flag : int
         Status flag
 
@@ -18759,12 +18777,11 @@ def _hyb3dvar_update_lestkf(int  step, int  dim_p, int  dim_ens,
                                       pdaf_cb.c__g2l_obs_pdaf,
                                       pdaf_cb.c__init_obsvar_pdaf,
                                       pdaf_cb.c__init_obsvar_l_pdaf,
-                                      &screen, &subtype, &flag)
+                                      &screen, &flag)
 
     return dim_obs_p, state_p_np, ainv_np, ens_p_np, flag
 
-
-def _lestkf_ana_fixed(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
+def lestkf_ana_fixed(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     int  dim_ens, int  rank, double [::1] state_l, double [::1,:] ainv_l,
     double [::1,:] ens_l, double [::1,:] hl_l, double [::1] hxbar_l,
     double [::1] obs_l, double  forget, py__prodrinva_l_pdaf,
@@ -18880,7 +18897,7 @@ def _lestkf_ana_fixed(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     return state_l_np, ainv_l_np, ens_l_np, hl_l_np, forget, flag
 
 
-def _genobs_init(int  subtype, int [::1] param_int, int  dim_pint,
+def genobs_init(int  subtype, int [::1] param_int, int  dim_pint,
     double [::1] param_real, int  dim_preal, int  verbose, int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -18931,7 +18948,7 @@ def _genobs_init(int  subtype, int [::1] param_int, int  dim_pint,
     return param_int_np, param_real_np, ensemblefilter, fixedbasis, outflag
 
 
-def _genobs_alloc(int  outflag):
+def genobs_alloc(int  outflag):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -18951,7 +18968,7 @@ def _genobs_alloc(int  outflag):
     return outflag
 
 
-def _genobs_config(int  subtype, int  verbose):
+def genobs_config(int  subtype, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -18973,7 +18990,7 @@ def _genobs_config(int  subtype, int  verbose):
     return subtype
 
 
-def _genobs_set_iparam(int  id, int  value):
+def genobs_set_iparam(int  id, int  value):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -18996,7 +19013,7 @@ def _genobs_set_iparam(int  id, int  value):
     return flag
 
 
-def _genobs_options():
+def genobs_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -19005,7 +19022,7 @@ def _genobs_options():
 
 
 
-def _etkf_ana_t(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
+def etkf_ana_t(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     double [::1,:] ens_p, double [::1,:] hz_p, double [::1] hxbar_p,
     double [::1] obs_p, double  forget, py__prodrinva_pdaf, int  screen,
     int  type_trans, int  debug, int  flag):
@@ -19105,7 +19122,7 @@ def _etkf_ana_t(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     return state_p_np, ainv_np, ens_p_np, hz_p_np, flag
 
 
-def _letkf_ana_fixed(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
+def letkf_ana_fixed(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     int  dim_ens, double [::1] state_l, double [::1,:] ens_l,
     double [::1,:] hz_l, double [::1] hxbar_l, double [::1] obs_l,
     double  forget, py__prodrinva_l_pdaf, int  screen, int  debug, int  flag):

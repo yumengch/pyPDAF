@@ -67,7 +67,8 @@ link_args = [
   '-Wl,-rpath,$ORIGIN/../',
 ]
 
-fortran_sources = files('PDAF/src/PDAF3_assimilate_3dvars.F90',
+fortran_sources = files('PDAF/src/PDAF3_init.F90',
+                        'PDAF/src/PDAF3_assimilate_3dvars.F90',
                         'PDAF/src/PDAF3_assimilate_3dvars_nondiagR.F90',
                         'PDAF/src/PDAF3_assimilate_ens.F90',
                         'PDAF/src/PDAF3_assimilate_ens_nondiagR.F90',

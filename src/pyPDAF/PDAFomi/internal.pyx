@@ -39,7 +39,7 @@ def global_except_hook(exctype, value, traceback):
 
 sys.excepthook = global_except_hook
 
-def _set_globalobs(int  globalobs_in):
+def set_globalobs(int  globalobs_in):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -56,7 +56,7 @@ def _set_globalobs(int  globalobs_in):
 
 
 
-def _diag_omit_by_inno():
+def diag_omit_by_inno():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -65,7 +65,7 @@ def _diag_omit_by_inno():
 
 
 
-def _cnt_dim_obs_l(int  i_obs, double [::1] coords_l):
+def cnt_dim_obs_l(int  i_obs, double [::1] coords_l):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -93,7 +93,7 @@ def _cnt_dim_obs_l(int  i_obs, double [::1] coords_l):
 
 
 
-def _cnt_dim_obs_l_noniso(int  i_obs, double [::1] coords_l):
+def cnt_dim_obs_l_noniso(int  i_obs, double [::1] coords_l):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -121,7 +121,7 @@ def _cnt_dim_obs_l_noniso(int  i_obs, double [::1] coords_l):
 
 
 
-def _init_obsarrays_l(int  i_obs, double [::1] coords_l, int  off_obs_l_all):
+def init_obsarrays_l(int  i_obs, double [::1] coords_l, int  off_obs_l_all):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -154,7 +154,7 @@ def _init_obsarrays_l(int  i_obs, double [::1] coords_l, int  off_obs_l_all):
     return off_obs_l_all
 
 
-def _init_obsarrays_l_noniso(int  i_obs, double [::1] coords_l,
+def init_obsarrays_l_noniso(int  i_obs, double [::1] coords_l,
     int  off_obs_l_all):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -188,7 +188,7 @@ def _init_obsarrays_l_noniso(int  i_obs, double [::1] coords_l,
     return off_obs_l_all
 
 
-def _g2l_obs(int  i_obs, double [::1] obs_f_all, double [::1] obs_l_all):
+def g2l_obs(int  i_obs, double [::1] obs_f_all, double [::1] obs_l_all):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -232,7 +232,7 @@ def _g2l_obs(int  i_obs, double [::1] obs_f_all, double [::1] obs_l_all):
     return obs_l_all_np
 
 
-def _init_obs_l(int  i_obs, double [::1] obs_l_all):
+def init_obs_l(int  i_obs, double [::1] obs_l_all):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -265,7 +265,7 @@ def _init_obs_l(int  i_obs, double [::1] obs_l_all):
     return obs_l_all_np
 
 
-def _init_obsvar_l(int  i_obs, double  meanvar_l, int  cnt_obs_l):
+def init_obsvar_l(int  i_obs, double  meanvar_l, int  cnt_obs_l):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -291,7 +291,7 @@ def _init_obsvar_l(int  i_obs, double  meanvar_l, int  cnt_obs_l):
     return meanvar_l, cnt_obs_l
 
 
-def _prodrinva_l(int  i_obs, int  nobs_all, int  ncols, double [::1,:] a_l,
+def prodrinva_l(int  i_obs, int  nobs_all, int  ncols, double [::1,:] a_l,
     double [::1,:] c_l, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -349,7 +349,7 @@ def _prodrinva_l(int  i_obs, int  nobs_all, int  ncols, double [::1,:] a_l,
     return a_l_np, c_l_np
 
 
-def _prodrinva_hyb_l(int  i_obs, int  nobs_all, int  ncols, double  gamma,
+def prodrinva_hyb_l(int  i_obs, int  nobs_all, int  ncols, double  gamma,
     double [::1,:] a_l, double [::1,:] c_l, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -409,7 +409,7 @@ def _prodrinva_hyb_l(int  i_obs, int  nobs_all, int  ncols, double  gamma,
     return a_l_np, c_l_np
 
 
-def _likelihood_l(int  i_obs, double [::1] resid_l_all, double  lhood_l,
+def likelihood_l(int  i_obs, double [::1] resid_l_all, double  lhood_l,
     int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -449,7 +449,7 @@ def _likelihood_l(int  i_obs, double [::1] resid_l_all, double  lhood_l,
     return resid_l_all_np, lhood_l
 
 
-def _likelihood_hyb_l(int  i_obs, double [::1] resid_l_all, double  gamma,
+def likelihood_hyb_l(int  i_obs, double [::1] resid_l_all, double  gamma,
     double  lhood_l, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -492,7 +492,7 @@ def _likelihood_hyb_l(int  i_obs, double [::1] resid_l_all, double  gamma,
     return resid_l_all_np, lhood_l
 
 
-def _g2l_obs_internal(int  i_obs, double [::1] obs_f_one,
+def g2l_obs_internal(int  i_obs, double [::1] obs_f_one,
     int  offset_obs_l_all, double [::1] obs_l_all):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -540,7 +540,7 @@ def _g2l_obs_internal(int  i_obs, double [::1] obs_f_one,
     return obs_l_all_np
 
 
-def _comp_dist2(int  i_obs, double [::1] coordsa, double [::1] coordsb,
+def comp_dist2(int  i_obs, double [::1] coordsa, double [::1] coordsb,
     int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -587,7 +587,7 @@ def _comp_dist2(int  i_obs, double [::1] coordsa, double [::1] coordsb,
     return distance2
 
 
-def _check_dist2(int  i_obs, double [::1] coordsa, double [::1] coordsb,
+def check_dist2(int  i_obs, double [::1] coordsa, double [::1] coordsb,
     int  verbose, int  cnt_obs):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -641,7 +641,7 @@ def _check_dist2(int  i_obs, double [::1] coordsa, double [::1] coordsb,
     return distance2, checkdist, cnt_obs
 
 
-def _check_dist2_noniso(int  i_obs, double [::1] coordsa,
+def check_dist2_noniso(int  i_obs, double [::1] coordsa,
     double [::1] coordsb, double [::1] dists, double  sradius,
     int  verbose, int  cnt_obs):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
@@ -719,7 +719,7 @@ def _check_dist2_noniso(int  i_obs, double [::1] coordsa,
     return distance2, dists_np, cradius, sradius, checkdist, cnt_obs
 
 
-def _weights_l(int  verbose, int  nobs_l, int  ncols, int  locweight,
+def weights_l(int  verbose, int  nobs_l, int  ncols, int  locweight,
     double [::1] cradius, double [::1] sradius, double [::1,:] mata,
     double [::1] ivar_obs_l, double [::1] dist_l, double [::1] weight_l):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
@@ -818,7 +818,7 @@ def _weights_l(int  verbose, int  nobs_l, int  ncols, int  locweight,
     return weight_l_np
 
 
-def _weights_l_sgnl(int  verbose, int  nobs_l, int  ncols, int  locweight,
+def weights_l_sgnl(int  verbose, int  nobs_l, int  ncols, int  locweight,
     double  cradius, double  sradius, double [::1,:] mata,
     double [::1] ivar_obs_l, double [::1] dist_l, double [::1] weight_l):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
@@ -899,7 +899,7 @@ def _weights_l_sgnl(int  verbose, int  nobs_l, int  ncols, int  locweight,
     return weight_l_np
 
 
-def _omit_by_inno_l(int  i_obs, double [::1] inno_l,
+def omit_by_inno_l(int  i_obs, double [::1] inno_l,
     double [::1] obs_l_all, int  obsid, int  cnt_all, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -949,7 +949,7 @@ def _omit_by_inno_l(int  i_obs, double [::1] inno_l,
     return cnt_all
 
 
-def _obsstats_l(int  screen):
+def obsstats_l(int  screen):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -966,7 +966,7 @@ def _obsstats_l(int  screen):
 
 
 
-def _dealloc():
+def dealloc():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
@@ -975,7 +975,7 @@ def _dealloc():
 
 
 
-def _ocoord_all(int  ncoord, double [::1,:] oc_all):
+def ocoord_all(int  ncoord, double [::1,:] oc_all):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -1009,7 +1009,7 @@ def _ocoord_all(int  ncoord, double [::1,:] oc_all):
     return oc_all_np
 
 
-def _local_weight(int  wtype, int  rtype, double  cradius, double  sradius,
+def local_weight(int  wtype, int  rtype, double  cradius, double  sradius,
     double  distance, int  nrows, int  ncols, double [::1,:] a,
     double  var_obs, int  verbose):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
@@ -1053,7 +1053,7 @@ def _local_weight(int  wtype, int  rtype, double  cradius, double  sradius,
     return weight
 
 
-def _check_dist2_loop(int  i_obs, double [::1] coordsa, int  cnt_obs,
+def check_dist2_loop(int  i_obs, double [::1] coordsa, int  cnt_obs,
     int  mode):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -1089,7 +1089,7 @@ def _check_dist2_loop(int  i_obs, double [::1] coordsa, int  cnt_obs,
     return cnt_obs
 
 
-def _check_dist2_noniso_loop(int  i_obs, double [::1] coordsa,
+def check_dist2_noniso_loop(int  i_obs, double [::1] coordsa,
     int  cnt_obs, int  mode):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -1125,7 +1125,7 @@ def _check_dist2_noniso_loop(int  i_obs, double [::1] coordsa,
     return cnt_obs
 
 
-def _obs_op_gatheronly(int  i_obs, double [::1] state_p,
+def obs_op_gatheronly(int  i_obs, double [::1] state_p,
     double [::1] obs_f_all):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -1170,7 +1170,7 @@ def _obs_op_gatheronly(int  i_obs, double [::1] state_p,
     return obs_f_all_np
 
 
-def _obs_op_adj_gatheronly(int  i_obs, double [::1] obs_f_all,
+def obs_op_adj_gatheronly(int  i_obs, double [::1] obs_f_all,
     double [::1] state_p):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -1215,7 +1215,7 @@ def _obs_op_adj_gatheronly(int  i_obs, double [::1] obs_f_all,
     return obs_f_all_np
 
 
-def _init_obs_f(int  i_obs, int  dim_obs_f, double [::1] obsstate_f,
+def init_obs_f(int  i_obs, int  dim_obs_f, double [::1] obsstate_f,
     int  offset):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -1255,7 +1255,7 @@ def _init_obs_f(int  i_obs, int  dim_obs_f, double [::1] obsstate_f,
     return obsstate_f_np, offset
 
 
-def _init_obsvars_f(int  i_obs, int  dim_obs_f, double [::1] var_f,
+def init_obsvars_f(int  i_obs, int  dim_obs_f, double [::1] var_f,
     int  offset):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -1295,7 +1295,7 @@ def _init_obsvars_f(int  i_obs, int  dim_obs_f, double [::1] var_f,
     return var_f_np, offset
 
 
-def _init_obsvar_f(int  i_obs, double  meanvar, int  cnt_obs):
+def init_obsvar_f(int  i_obs, double  meanvar, int  cnt_obs):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -1321,7 +1321,7 @@ def _init_obsvar_f(int  i_obs, double  meanvar, int  cnt_obs):
     return meanvar, cnt_obs
 
 
-def _prodrinva(int  i_obs, int  ncols, double [::1,:] a_p, double [::1,:] c_p):
+def prodrinva(int  i_obs, int  ncols, double [::1,:] a_p, double [::1,:] c_p):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -1369,7 +1369,7 @@ def _prodrinva(int  i_obs, int  ncols, double [::1,:] a_p, double [::1,:] c_p):
     return c_p_np
 
 
-def _likelihood(int  i_obs, double [::1] resid, double  lhood):
+def likelihood(int  i_obs, double [::1] resid, double  lhood):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -1402,7 +1402,7 @@ def _likelihood(int  i_obs, double [::1] resid, double  lhood):
     return lhood
 
 
-def _add_obs_error(int  i_obs, int  nobs_all, double [::1,:] matc):
+def add_obs_error(int  i_obs, int  nobs_all, double [::1,:] matc):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -1438,7 +1438,7 @@ def _add_obs_error(int  i_obs, int  nobs_all, double [::1,:] matc):
     return matc_np
 
 
-def _init_obscovar(int  i_obs, int  nobs_all, double [::1,:] covar):
+def init_obscovar(int  i_obs, int  nobs_all, double [::1,:] covar):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -1477,7 +1477,7 @@ def _init_obscovar(int  i_obs, int  nobs_all, double [::1,:] covar):
     return covar_np, isdiag
 
 
-def _init_obserr_f(int  i_obs, double [::1] obserr_f):
+def init_obserr_f(int  i_obs, double [::1] obserr_f):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -1510,7 +1510,7 @@ def _init_obserr_f(int  i_obs, double [::1] obserr_f):
     return obserr_f_np
 
 
-def _get_local_ids_obs_f(int  dim_obs_g, double  lradius,
+def get_local_ids_obs_f(int  dim_obs_g, double  lradius,
     double [::1,:] oc_f, int [::1] id_lim, int  disttype,
     double [::1] domainsize):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
@@ -1577,7 +1577,7 @@ def _get_local_ids_obs_f(int  dim_obs_g, double  lradius,
     return cnt_lim, id_lim_np
 
 
-def _limit_obs_f(int  i_obs, int  offset, double [::1] obs_f_one,
+def limit_obs_f(int  i_obs, int  offset, double [::1] obs_f_one,
     double [::1] obs_f_lim):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -1624,7 +1624,7 @@ def _limit_obs_f(int  i_obs, int  offset, double [::1] obs_f_one,
     return obs_f_lim_np
 
 
-def _gather_dim_obs_f(int  dim_obs_p):
+def gather_dim_obs_f(int  dim_obs_p):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -1645,7 +1645,7 @@ def _gather_dim_obs_f(int  dim_obs_p):
     return dim_obs_f
 
 
-def _gather_obs_f_flex(int  dim_obs_p, double [::1] obs_p, double [::1] obs_f):
+def gather_obs_f_flex(int  dim_obs_p, double [::1] obs_p, double [::1] obs_f):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -1692,7 +1692,7 @@ def _gather_obs_f_flex(int  dim_obs_p, double [::1] obs_p, double [::1] obs_f):
     return obs_f_np, status
 
 
-def _gather_obs_f2_flex(int  dim_obs_p, double [::1,:] coords_p,
+def gather_obs_f2_flex(int  dim_obs_p, double [::1,:] coords_p,
     double [::1,:] coords_f, int  nrows):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -1745,7 +1745,7 @@ def _gather_obs_f2_flex(int  dim_obs_p, double [::1,:] coords_p,
     return coords_f_np, status
 
 
-def _omit_by_inno(int  i_obs, double [::1] inno_f, double [::1] obs_f_all,
+def omit_by_inno(int  i_obs, double [::1] inno_f, double [::1] obs_f_all,
     int  obsid, int  cnt_all):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -1793,7 +1793,7 @@ def _omit_by_inno(int  i_obs, double [::1] inno_f, double [::1] obs_f_all,
     return cnt_all
 
 
-def _obsstats(int  screen):
+def obsstats(int  screen):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -1810,7 +1810,7 @@ def _obsstats(int  screen):
 
 
 
-def _gather_obsdims():
+def gather_obsdims():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """

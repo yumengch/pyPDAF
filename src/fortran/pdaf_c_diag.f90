@@ -164,8 +164,9 @@ contains
 
    END SUBROUTINE c__PDAF_diag_rmsd
 
-   SUBROUTINE c__PDAF_diag_crps(dim_p, dim_ens, element, oens, obs, crps, reli,  &
-      pot_crps, uncert, status) bind(c)
+   SUBROUTINE c__PDAF_diag_crps_mpi(dim_p, dim_ens, element, oens, obs,  &
+      comm_filter, mype_filter, npes_filter, crps, reli, pot_crps, uncert,  &
+      status) bind(c)
       ! PE-local state dimension
       INTEGER(c_int), INTENT(in) :: dim_p
       ! Ensemble size
@@ -176,6 +177,12 @@ contains
       REAL(c_double), DIMENSION(dim_p, dim_ens), INTENT(in) :: oens
       ! Observation / truth
       REAL(c_double), DIMENSION(dim_p), INTENT(in) :: obs
+      ! MPI communicator for filter
+      INTEGER(c_int), INTENT(in) :: comm_filter
+      ! rank of MPI communicator
+      INTEGER(c_int), INTENT(in) :: mype_filter
+      ! size of MPI communicator
+      INTEGER(c_int), INTENT(in) :: npes_filter
       ! CRPS
       REAL(c_double), INTENT(out) :: crps
       ! Reliability
@@ -188,10 +195,10 @@ contains
       INTEGER(c_int), INTENT(out) :: status
 
 
-      call PDAF_diag_crps(dim_p, dim_ens, element, oens, obs, crps, reli,  &
-         pot_crps, uncert, status)
+      call PDAF_diag_crps_mpi(dim_p, dim_ens, element, oens, obs, comm_filter,  &
+         mype_filter, npes_filter, crps, reli, pot_crps, uncert, status)
 
-   END SUBROUTINE c__PDAF_diag_crps
+   END SUBROUTINE c__PDAF_diag_crps_mpi
 
    SUBROUTINE c__PDAF_diag_CRPS_nompi(dim, dim_ens, element, oens, obs, crps,  &
       reli, resol, uncert, status) bind(c)

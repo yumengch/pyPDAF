@@ -85,4 +85,27 @@ contains
 
    END SUBROUTINE c__PDAF_iau_add_inc
 
+   SUBROUTINE c__PDAF_iau_set_ens_pointer(iau_ptr, flag) bind(c)
+      use PDAF_IAU, only: PDAF_iau_set_ens_pointer
+      IMPLICIT NONE
+      !< Pointer to IAU ensemble array
+      REAL(c_double), POINTER, DIMENSION(:,:), INTENT(out) :: iau_ptr
+      !< Status flag
+      INTEGER(c_int), INTENT(out)       :: flag
+
+      call PDAF_iau_set_ens_pointer(iau_ptr, flag)
+
+   END SUBROUTINE c__PDAF_iau_set_ens_pointer
+
+   SUBROUTINE c__PDAF_iau_set_state_pointer(iau_x_ptr, flag)
+      use PDAF_IAU, only: PDAF_iau_set_state_pointer
+      IMPLICIT NONE
+      !< Pointer to IAU state vector
+      REAL(c_double), POINTER, DIMENSION(:), INTENT(out) :: iau_x_ptr
+      !< Status flag
+      INTEGER(c_int), INTENT(out)       :: flag
+
+      call PDAF_iau_set_state_pointer(iau_x_ptr, flag)
+
+   END SUBROUTINE c__PDAF_iau_set_state_pointer
 END MODULE pdaf_c_iau

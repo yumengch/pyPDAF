@@ -5,6 +5,34 @@ use pdaf_c_f_interface
 implicit none
 
 contains
+   SUBROUTINE c__PDAF_MPI_init() bind(c)
+      use PDAF_mod_parallel
+      call PDAF_MPI_init()
+   END SUBROUTINE c__PDAF_MPI_init
+
+   SUBROUTINE c__PDAF_timeit(timerID, operation) bind(c)
+      use PDAF_timer, only: PDAF_timeit
+      implicit none
+      !< ID of timer
+      INTEGER(c_int), INTENT(in)          :: timerID
+      !< Requested operation
+      CHARACTER(kind=c_char), dimension(*), INTENT(in)  :: operation
+
+      CHARACTER(len=3) :: clean_operation
+      INTEGER :: i
+
+      ! Remove null characters from filterstr
+      clean_operation = ""
+      i = 1
+      DO WHILE (.true.)
+         IF (operation(i) == c_null_char) EXIT
+         clean_operation(i:i) = operation(i)
+         i = i + 1
+      END DO
+
+      call PDAF_timeit(timerID, clean_operation)
+   END SUBROUTINE c__PDAF_timeit
+
    SUBROUTINE c__PDAF_set_forget(step, localfilter, dim_obs_p, dim_ens, mens_p,  &
       mstate_p, obs_p, u_init_obsvar, forget_in, forget_out, screen) bind(c)
       use PDAF_analysis_utils
@@ -236,7 +264,7 @@ contains
    SUBROUTINE c__PDAF3dvar_update(step, dim_p, dim_obs_p, dim_ens, dim_cvec,  &
       state_p, ainv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_prodrinva,  &
       u_prepoststep, u_cvt, u_cvt_adj, u_obs_op_lin, u_obs_op_adj, screen,  &
-      subtype, flag) bind(c)
+      flag) bind(c)
       use PDAF_3dvar_update
       implicit none
       ! Current time step
@@ -257,8 +285,6 @@ contains
       REAL(c_double), DIMENSION(dim_p, dim_ens), INTENT(inout) :: ens_p
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: screen
-      ! Filter subtype
-      INTEGER(c_int), INTENT(in) :: subtype
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: flag
 
@@ -284,14 +310,14 @@ contains
       call PDAF3dvar_update(step, dim_p, dim_obs_p, dim_ens, dim_cvec, state_p,  &
          ainv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs, u_prodrinva,  &
          u_prepoststep, u_cvt, u_cvt_adj, u_obs_op_lin, u_obs_op_adj, screen,  &
-         subtype, flag)
+         flag)
 
    END SUBROUTINE c__PDAF3dvar_update
 
    SUBROUTINE c__PDAFen3dvar_update_estkf(step, dim_p, dim_obs_p, dim_ens,  &
       dim_cvec_ens, state_p, ainv, ens_p, u_init_dim_obs, u_obs_op, u_init_obs,  &
       u_prodrinva, u_prepoststep, u_cvt_ens, u_cvt_adj_ens, u_obs_op_lin,  &
-      u_obs_op_adj, u_init_obsvar, screen, subtype, flag) bind(c)
+      u_obs_op_adj, u_init_obsvar, screen, flag) bind(c)
       use PDAF_en3dvar_update
       implicit none
       ! Current time step
@@ -312,8 +338,6 @@ contains
       REAL(c_double), DIMENSION(dim_p, dim_ens), INTENT(inout) :: ens_p
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: screen
-      ! Filter subtype
-      INTEGER(c_int), INTENT(in) :: subtype
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: flag
 
@@ -341,7 +365,7 @@ contains
       call PDAFen3dvar_update_estkf(step, dim_p, dim_obs_p, dim_ens,  &
          dim_cvec_ens, state_p, ainv, ens_p, u_init_dim_obs, u_obs_op,  &
          u_init_obs, u_prodrinva, u_prepoststep, u_cvt_ens, u_cvt_adj_ens,  &
-         u_obs_op_lin, u_obs_op_adj, u_init_obsvar, screen, subtype, flag)
+         u_obs_op_lin, u_obs_op_adj, u_init_obsvar, screen, flag)
 
    END SUBROUTINE c__PDAFen3dvar_update_estkf
 
@@ -351,7 +375,7 @@ contains
       u_obs_op_adj, u_init_dim_obs_f, u_obs_op_f, u_init_obs_f, u_init_obs_l,  &
       u_prodrinva_l, u_init_n_domains_p, u_init_dim_l, u_init_dim_obs_l,  &
       u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l,  &
-      screen, subtype, flag) bind(c)
+      screen, flag) bind(c)
       use PDAF_en3dvar_update
       implicit none
       ! Current time step
@@ -372,8 +396,6 @@ contains
       REAL(c_double), DIMENSION(dim_p, dim_ens), INTENT(inout) :: ens_p
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: screen
-      ! Filter subtype
-      INTEGER(c_int), INTENT(in) :: subtype
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: flag
 
@@ -428,7 +450,7 @@ contains
          u_obs_op_lin, u_obs_op_adj, u_init_dim_obs_f, u_obs_op_f,  &
          u_init_obs_f, u_init_obs_l, u_prodrinva_l, u_init_n_domains_p,  &
          u_init_dim_l, u_init_dim_obs_l, u_g2l_state, u_l2g_state, u_g2l_obs,  &
-         u_init_obsvar, u_init_obsvar_l, screen, subtype, flag)
+         u_init_obsvar, u_init_obsvar_l, screen, flag)
 
    END SUBROUTINE c__PDAFen3dvar_update_lestkf
 
@@ -541,8 +563,7 @@ contains
    END SUBROUTINE c__PDAF_netf_ana
 
    SUBROUTINE c__PDAF_netf_smootherT(step, dim_p, dim_obs_p, dim_ens, ens_p,  &
-      rndmat, t, u_init_dim_obs, u_obs_op, u_init_obs, u_likelihood, screen,  &
-      flag) bind(c)
+      rndmat, TA, HX_p, obs_p, u_likelihood, screen, flag) bind(c)
       use PDAF_netf_analysis
       implicit none
       ! Current time step
@@ -550,7 +571,7 @@ contains
       ! PE-local dimension of model state
       INTEGER(c_int), INTENT(in) :: dim_p
       ! PE-local dimension of observation vector
-      INTEGER(c_int), INTENT(out) :: dim_obs_p
+      INTEGER(c_int), INTENT(in) :: dim_obs_p
       ! Size of ensemble
       INTEGER(c_int), INTENT(in) :: dim_ens
       ! PE-local state ensemble
@@ -558,28 +579,23 @@ contains
       ! Orthogonal random matrix
       REAL(c_double), DIMENSION(dim_ens, dim_ens), INTENT(in) :: rndmat
       ! Ensemble transform matrix
-      REAL(c_double), DIMENSION(dim_ens, dim_ens), INTENT(inout) :: t
+      REAL(c_double), DIMENSION(dim_ens, dim_ens), INTENT(inout) :: TA
+      !< Temporary matrices for analysis
+      REAL(c_double), DIMENSION(dim_obs_p, dim_ens), INTENT(in) :: HX_p
+      !< PE-local observation vector
+      REAL(c_double), DIMENSION(dim_obs_p), INTENT(in) :: obs_p
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: screen
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: flag
 
-      ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs
-      ! Observation operator
-      procedure(c__obs_op_pdaf) :: u_obs_op
-      ! Initialize observation vector
-      procedure(c__init_obs_pdaf) :: u_init_obs
       ! Compute observation likelihood for an ensemble member
       procedure(c__likelihood_pdaf) :: u_likelihood
 
-      init_dim_obs_pdaf_c_ptr => u_init_dim_obs
-      obs_op_pdaf_c_ptr => u_obs_op
-      init_obs_pdaf_c_ptr => u_init_obs
       likelihood_pdaf_c_ptr => u_likelihood
 
       call PDAF_netf_smootherT(step, dim_p, dim_obs_p, dim_ens, ens_p, rndmat,  &
-         t, f__init_dim_obs_pdaf, f__obs_op_pdaf, f__init_obs_pdaf, f__likelihood_pdaf, screen, flag)
+         TA, HX_p, obs_p, u_likelihood, screen, flag)
 
    END SUBROUTINE c__PDAF_netf_smootherT
 
@@ -842,9 +858,11 @@ contains
 
       ! Remove null characters from filterstr
       clean_filterstr = ""
+      i = 1
       DO WHILE (.true.)
          IF (filterstr(i) == c_null_char) EXIT
          clean_filterstr(i:i) = filterstr(i)
+         i = i + 1
       END DO
 
       call PDAF_alloc_filters(clean_filterstr, subtype, flag)
@@ -1688,7 +1706,7 @@ contains
 
    END SUBROUTINE c__PDAF_en3dvar_costf_cg_cvt
 
-   SUBROUTINE c__PDAF_gather_ens(dim_p, dim_ens_p, ens, screen) bind(c)
+   SUBROUTINE c__PDAF_gather_ens(dim_p, dim_ens_p, ens, state, screen) bind(c)
       use PDAF_communicate_ens
       implicit none
       ! PE-local dimension of model state
@@ -1697,11 +1715,13 @@ contains
       INTEGER(c_int), INTENT(in) :: dim_ens_p
       ! PE-local state ensemble
       REAL(c_double), DIMENSION(:, :), INTENT(inout) :: ens
+      !< PE-local state vector (for SEEK)
+      REAL(c_double), DIMENSION(:), INTENT(inout) :: state
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: screen
 
 
-      call PDAF_gather_ens(dim_p, dim_ens_p, ens, screen)
+      call PDAF_gather_ens(dim_p, dim_ens_p, ens, state, screen)
 
    END SUBROUTINE c__PDAF_gather_ens
 
@@ -2184,7 +2204,7 @@ contains
 
    ! END SUBROUTINE c__PDAF_biased_moments_from_summed_residuals
 
-   SUBROUTINE c__PDAF_enkf_ana_rlm(step, dim_p, dim_obs_p, dim_ens, rank_ana,  &
+   SUBROUTINE c__PDAF_enkf_ana_rlm(step, dim_p, dim_obs_p, dim_obs, dim_ens, rank_ana,  &
       state_p, ens_p, hzb, hx_p, hxbar_p, obs_p, u_add_obs_err,  &
       u_init_obs_covar, screen, debug, flag) bind(c)
       use PDAF_enkf_analysis_rlm
@@ -2195,6 +2215,8 @@ contains
       INTEGER(c_int), INTENT(in) :: dim_p
       ! PE-local dimension of observation vector
       INTEGER(c_int), INTENT(in) :: dim_obs_p
+      !< Global dimension of observation vector
+      INTEGER(c_int), INTENT(in) :: dim_obs
       ! Size of state ensemble
       INTEGER(c_int), INTENT(in) :: dim_ens
       ! Rank to be considered for inversion of HPH
@@ -2226,7 +2248,7 @@ contains
       add_obs_err_pdaf_c_ptr => u_add_obs_err
       init_obs_covar_pdaf_c_ptr => u_init_obs_covar
 
-      call PDAF_enkf_ana_rlm(step, dim_p, dim_obs_p, dim_ens, rank_ana,  &
+      call PDAF_enkf_ana_rlm(step, dim_p, dim_obs_p, dim_obs, dim_ens, rank_ana,  &
          state_p, ens_p, hzb, hx_p, hxbar_p, obs_p, f__add_obs_err_pdaf,  &
          f__init_obs_covar_pdaf, screen, debug, flag)
 
@@ -3777,7 +3799,7 @@ contains
 
    END SUBROUTINE c__PDAF_lknetf_ana_lnetf
 
-   SUBROUTINE c__PDAF_enkf_ana_rsm(step, dim_p, dim_obs_p, dim_ens, rank_ana,  &
+   SUBROUTINE c__PDAF_enkf_ana_rsm(step, dim_p, dim_obs_p, dim_obs, dim_ens, rank_ana,  &
       state_p, ens_p, hx_p, hxbar_p, obs_p, u_add_obs_err, u_init_obs_covar,  &
       screen, debug, flag) bind(c)
       use PDAF_enkf_analysis_rsm
@@ -3788,6 +3810,8 @@ contains
       INTEGER(c_int), INTENT(in) :: dim_p
       ! PE-local dimension of observation vector
       INTEGER(c_int), INTENT(in) :: dim_obs_p
+      !< Global dimension of observation vector
+      INTEGER(c_int), INTENT(in) :: dim_obs
       ! Size of state ensemble
       INTEGER(c_int), INTENT(in) :: dim_ens
       ! Rank to be considered for inversion of HPH
@@ -3817,7 +3841,7 @@ contains
       add_obs_err_pdaf_c_ptr => u_add_obs_err
       init_obs_covar_pdaf_c_ptr => u_init_obs_covar
 
-      call PDAF_enkf_ana_rsm(step, dim_p, dim_obs_p, dim_ens, rank_ana,  &
+      call PDAF_enkf_ana_rsm(step, dim_p, dim_obs_p, dim_obs, dim_ens, rank_ana,  &
          state_p, ens_p, hx_p, hxbar_p, obs_p, f__add_obs_err_pdaf, f__init_obs_covar_pdaf,  &
          screen, debug, flag)
 
@@ -4496,7 +4520,7 @@ contains
    END SUBROUTINE c__PDAFenkf_update
 
    SUBROUTINE c__PDAF_init_parallel(dim_ens, ensemblefilter, fixedbasis,  &
-      comm_model, in_comm_filter, in_comm_couple, in_n_modeltasks, in_task_id,  &
+      in_comm_model, in_comm_filter, in_comm_couple, in_n_modeltasks, in_task_id,  &
       screen, flag) bind(c)
       use PDAF_mod_parallel
       implicit none
@@ -4507,7 +4531,7 @@ contains
       ! Run with fixed error-space basis?
       LOGICAL(c_bool), INTENT(in) :: fixedbasis
       ! Model communicator (not shared)
-      INTEGER(c_int), INTENT(in) :: comm_model
+      INTEGER(c_int), INTENT(in) :: in_comm_model
       ! Filter communicator
       INTEGER(c_int), INTENT(in) :: in_comm_filter
       ! Coupling communicator
@@ -4521,7 +4545,7 @@ contains
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: flag
 
-      call PDAF_init_parallel(dim_ens, logical(ensemblefilter), logical(fixedbasis), comm_model,  &
+      call PDAF_init_parallel(dim_ens, logical(ensemblefilter), logical(fixedbasis), in_comm_model,  &
          in_comm_filter, in_comm_couple, in_n_modeltasks, in_task_id, screen, flag)
 
    END SUBROUTINE c__PDAF_init_parallel
@@ -4759,7 +4783,7 @@ contains
 
    END SUBROUTINE c__PDAF_seik_resample_newT
 
-   SUBROUTINE c__PDAF_lenkf_ana_rsm(step, dim_p, dim_obs_p, dim_ens, rank_ana,  &
+   SUBROUTINE c__PDAF_lenkf_ana_rsm(step, dim_p, dim_obs_p, dim_obs, dim_ens, rank_ana,  &
       state_p, ens_p, hx_p, hxbar_p, obs_p, u_add_obs_err, u_init_obs_covar,  &
       u_localize, screen, debug, flag) bind(c)
       use PDAF_lenkf_analysis_rsm
@@ -4770,6 +4794,8 @@ contains
       INTEGER(c_int), INTENT(in) :: dim_p
       ! PE-local dimension of observation vector
       INTEGER(c_int), INTENT(in) :: dim_obs_p
+      !< Global dimension of observation vector
+      INTEGER(c_int), INTENT(in) :: dim_obs
       ! Size of state ensemble
       INTEGER(c_int), INTENT(in) :: dim_ens
       ! Rank to be considered for inversion of HPH
@@ -4802,7 +4828,7 @@ contains
       init_obs_covar_pdaf_c_ptr => u_init_obs_covar
       localize_covar_pdaf_c_ptr => u_localize
 
-      call PDAF_lenkf_ana_rsm(step, dim_p, dim_obs_p, dim_ens, rank_ana,  &
+      call PDAF_lenkf_ana_rsm(step, dim_p, dim_obs_p, dim_obs, dim_ens, rank_ana,  &
          state_p, ens_p, hx_p, hxbar_p, obs_p, f__add_obs_err_pdaf, f__init_obs_covar_pdaf,  &
          f__localize_covar_pdaf, screen, debug, flag)
 
@@ -5508,8 +5534,8 @@ contains
 
    END SUBROUTINE c__PDAF_inflate_ens
 
-   SUBROUTINE c__PDAF_alloc(dim_p, dim_ens, dim_ens_task, dim_es, dim_bias_p,  &
-      dim_lag, statetask, outflag) bind(c)
+   SUBROUTINE c__PDAF_alloc(dim_p, dim_ens, dim_ens_task, dim_es,  &
+      statetask, outflag) bind(c)
       use pdaf_utils
       implicit none
       ! Size of state vector
@@ -5520,20 +5546,41 @@ contains
       INTEGER(c_int), INTENT(in) :: dim_ens_task
       ! Dimension of error space (size of Ainv)
       INTEGER(c_int), INTENT(in) :: dim_es
-      ! Size of bias vector
-      INTEGER(c_int), INTENT(in) :: dim_bias_p
-      ! Smoother lag
-      INTEGER(c_int), INTENT(in) :: dim_lag
       ! Task ID forecasting a single state
       INTEGER(c_int), INTENT(in) :: statetask
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
 
 
-      call PDAF_alloc(dim_p, dim_ens, dim_ens_task, dim_es, dim_bias_p,  &
-         dim_lag, statetask, outflag)
+      call PDAF_alloc(dim_p, dim_ens, dim_ens_task, dim_es, statetask, outflag)
 
    END SUBROUTINE c__PDAF_alloc
+
+   SUBROUTINE c__PDAF_alloc_sens(dim_p, dim_ens, dim_lag, outflag) bind(c)
+      use PDAF_utils, only: PDAF_alloc_sens
+      IMPLICIT NONE
+      !< Size of state vector
+      INTEGER(c_int), INTENT(in) :: dim_p
+      !< Ensemble size
+      INTEGER(c_int), INTENT(in) :: dim_ens
+      !< Smoother lag
+      INTEGER(c_int), INTENT(in) :: dim_lag
+      !< Status flag
+      INTEGER(c_int), INTENT(inout):: outflag
+
+      call PDAF_alloc_sens(dim_p, dim_ens, dim_lag, outflag)
+   END SUBROUTINE c__PDAF_alloc_sens
+
+   SUBROUTINE c__PDAF_alloc_bias(dim_bias_p, outflag) bind(c)
+      use PDAF_utils, only: PDAF_alloc_bias
+      IMPLICIT NONE
+      !< Size of bias vector
+      INTEGER(c_int), INTENT(in) :: dim_bias_p
+      !< Status flag
+      INTEGER(c_int), INTENT(inout):: outflag
+
+      call PDAF_alloc_bias(dim_bias_p, outflag)
+   END SUBROUTINE c__PDAF_alloc_bias
 
    SUBROUTINE c__PDAF_smoothing(dim_p, dim_ens, dim_lag, ainv, sens_p,  &
       cnt_maxlag, forget, screen) bind(c)
@@ -6157,8 +6204,7 @@ contains
    SUBROUTINE c__PDAFhyb3dvar_update_estkf(step, dim_p, dim_obs_p, dim_ens,  &
       dim_cvec, dim_cvec_ens, state_p, ainv, ens_p, u_init_dim_obs, u_obs_op,  &
       u_init_obs, u_prodrinva, u_prepoststep, u_cvt_ens, u_cvt_adj_ens, u_cvt,  &
-      u_cvt_adj, u_obs_op_lin, u_obs_op_adj, u_init_obsvar, screen, subtype,  &
-      flag) bind(c)
+      u_cvt_adj, u_obs_op_lin, u_obs_op_adj, u_init_obsvar, screen, flag) bind(c)
       use PDAF_hyb3dvar_update
       implicit none
       ! Current time step
@@ -6181,8 +6227,6 @@ contains
       REAL(c_double), DIMENSION(dim_p, dim_ens), INTENT(inout) :: ens_p
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: screen
-      ! Filter subtype
-      INTEGER(c_int), INTENT(in) :: subtype
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: flag
 
@@ -6215,7 +6259,7 @@ contains
          dim_cvec_ens, state_p, ainv, ens_p, u_init_dim_obs, u_obs_op,  &
          u_init_obs, u_prodrinva, u_prepoststep, u_cvt_ens, u_cvt_adj_ens,  &
          u_cvt, u_cvt_adj, u_obs_op_lin, u_obs_op_adj, u_init_obsvar, screen,  &
-         subtype, flag)
+         flag)
 
    END SUBROUTINE c__PDAFhyb3dvar_update_estkf
 
@@ -6225,7 +6269,7 @@ contains
       u_cvt_adj, u_obs_op_lin, u_obs_op_adj, u_init_dim_obs_f, u_obs_op_f,  &
       u_init_obs_f, u_init_obs_l, u_prodrinva_l, u_init_n_domains_p,  &
       u_init_dim_l, u_init_dim_obs_l, u_g2l_state, u_l2g_state, u_g2l_obs,  &
-      u_init_obsvar, u_init_obsvar_l, screen, subtype, flag) bind(c)
+      u_init_obsvar, u_init_obsvar_l, screen, flag) bind(c)
       use PDAF_hyb3dvar_update
       implicit none
       ! Current time step
@@ -6248,8 +6292,6 @@ contains
       REAL(c_double), DIMENSION(dim_p, dim_ens), INTENT(inout) :: ens_p
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: screen
-      ! Filter subtype
-      INTEGER(c_int), INTENT(in) :: subtype
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: flag
 
@@ -6309,7 +6351,7 @@ contains
          u_init_dim_obs_f, u_obs_op_f, u_init_obs_f, u_init_obs_l,  &
          u_prodrinva_l, u_init_n_domains_p, u_init_dim_l, u_init_dim_obs_l,  &
          u_g2l_state, u_l2g_state, u_g2l_obs, u_init_obsvar, u_init_obsvar_l,  &
-         screen, subtype, flag)
+         screen, flag)
 
    END SUBROUTINE c__PDAFhyb3dvar_update_lestkf
 

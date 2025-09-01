@@ -209,6 +209,18 @@ contains
 
    END SUBROUTINE c__PDAFomi_obs_op_gridavg
 
+   SUBROUTINE c__PDAFomi_obs_op_extern(i_obs, ostate_p, obs_f_all) bind(c)
+      IMPLICIT NONE
+      !< Data type with full observation
+      INTEGER(c_int), INTENT(in) :: i_obs
+      !< PE-local observed model state (dim: thisobs%dim_obs_p)
+      REAL(c_double), DIMENSION(:), INTENT(in)    :: ostate_p
+      !< Full observed state for all observation types (nobs_f_all)
+      REAL(c_double), DIMENSION(:), INTENT(inout) :: obs_f_all
+
+      call PDAFomi_obs_op_extern(thisobs(i_obs), ostate_p, obs_f_all)
+   END SUBROUTINE c__PDAFomi_obs_op_extern
+
    SUBROUTINE c__PDAFomi_obs_op_interp_lin(i_obs, nrows, state_p, obs_f_all) bind(c)
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs

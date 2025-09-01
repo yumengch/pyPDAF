@@ -29,3 +29,4 @@ cdef extern void c__pdafomi_set_icoeff_p(int* i_obs, int* nrows,
 cdef extern void c__pdafomi_set_domainsize(int* i_obs, int* ncoord,
     double* domainsize) noexcept nogil;
 
+cdef extern void c__pdafomi_set_name(int* i_obs, char* obsname) noexcept nogil;

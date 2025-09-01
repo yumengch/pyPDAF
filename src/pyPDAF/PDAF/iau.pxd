@@ -19,4 +19,8 @@ cdef extern void c__pdaf_iau_add_inc(
     void (*c__distribute_state_pdaf)(int* ,
                                      double* )) noexcept nogil;
 
+cdef extern void c__pdaf_iau_set_ens_pointer(CFI_cdesc_t* iau_ptr,
+    int* flag) noexcept nogil;
 
+cdef extern void c__pdaf_iau_set_state_pointer(CFI_cdesc_t* iau_x_ptr,
+    int* flag) noexcept nogil;

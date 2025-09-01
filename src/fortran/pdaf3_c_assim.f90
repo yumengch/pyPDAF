@@ -1295,8 +1295,8 @@ contains
    END SUBROUTINE c__PDAF3_assim_offline_global_nondiagR
 
    SUBROUTINE c__PDAF3_assim_offline_lnetf_nondiagR(init_dim_obs_pdaf,  &
-      obs_op_pdaf, prepoststep_pdaf, init_n_domains_pdaf, init_dim_l_pdaf,  &
-      init_dim_obs_l_pdaf, likelihood_l_pdaf, outflag) bind(c)
+      obs_op_pdaf, init_n_domains_pdaf, init_dim_l_pdaf,  &
+      init_dim_obs_l_pdaf, likelihood_l_pdaf, prepoststep_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(out) :: outflag
 
@@ -1324,15 +1324,15 @@ contains
       likelihood_l_pdaf_c_ptr => likelihood_l_pdaf
 
       call PDAF3_assim_offline_lnetf_nondiagR(f__init_dim_obs_pdaf, f__obs_op_pdaf,  &
-         f__prepoststep_pdaf, f__init_n_domains_p_pdaf, f__init_dim_l_pdaf,  &
-         f__init_dim_obs_l_pdaf, f__likelihood_l_pdaf, outflag)
+         f__init_n_domains_p_pdaf, f__init_dim_l_pdaf,  &
+         f__init_dim_obs_l_pdaf, f__likelihood_l_pdaf, f__prepoststep_pdaf, outflag)
 
    END SUBROUTINE c__PDAF3_assim_offline_lnetf_nondiagR
 
    SUBROUTINE c__PDAF3_assim_offline_lknetf_nondiagR(init_dim_obs_pdaf,  &
-      obs_op_pdaf, prepoststep_pdaf, init_n_domains_pdaf, init_dim_l_pdaf,  &
+      obs_op_pdaf, init_n_domains_pdaf, init_dim_l_pdaf,  &
       init_dim_obs_l_pdaf, prodrinva_l_pdaf, prodrinva_hyb_l_pdaf,  &
-      likelihood_l_pdaf, likelihood_hyb_l_pdaf, outflag) bind(c)
+      likelihood_l_pdaf, likelihood_hyb_l_pdaf, prepoststep_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(out) :: outflag
 
@@ -1369,9 +1369,9 @@ contains
       likelihood_hyb_l_pdaf_c_ptr => likelihood_hyb_l_pdaf
 
       call PDAF3_assim_offline_lknetf_nondiagR(f__init_dim_obs_pdaf, f__obs_op_pdaf,  &
-         f__prepoststep_pdaf, f__init_n_domains_p_pdaf, f__init_dim_l_pdaf,  &
+         f__init_n_domains_p_pdaf, f__init_dim_l_pdaf,  &
          f__init_dim_obs_l_pdaf, f__prodrinva_l_pdaf, f__prodrinva_hyb_l_pdaf,  &
-         f__likelihood_l_pdaf, f__likelihood_hyb_l_pdaf, outflag)
+         f__likelihood_l_pdaf, f__likelihood_hyb_l_pdaf, f__prepoststep_pdaf, outflag)
 
    END SUBROUTINE c__PDAF3_assim_offline_lknetf_nondiagR
 
@@ -1403,8 +1403,8 @@ contains
    END SUBROUTINE c__PDAF3_assim_offline_enkf_nondiagR
 
    SUBROUTINE c__PDAF3_assim_offline_lenkf_nondiagR(init_dim_obs_pdaf,  &
-      obs_op_pdaf, prepoststep_pdaf, localize_pdaf, add_obs_error_pdaf,  &
-      init_obscovar_pdaf, outflag) bind(c)
+      obs_op_pdaf, localize_pdaf, add_obs_error_pdaf,  &
+      init_obscovar_pdaf, prepoststep_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(out) :: outflag
 
@@ -1429,8 +1429,8 @@ contains
       init_obs_covar_pdaf_c_ptr => init_obscovar_pdaf
 
       call PDAF3_assim_offline_lenkf_nondiagR(f__init_dim_obs_pdaf, f__obs_op_pdaf,  &
-         f__prepoststep_pdaf, f__localize_covar_pdaf, f__add_obs_err_pdaf,  &
-         f__init_obs_covar_pdaf, outflag)
+         f__localize_covar_pdaf, f__add_obs_err_pdaf,  &
+         f__init_obs_covar_pdaf, f__prepoststep_pdaf, outflag)
    END SUBROUTINE c__PDAF3_assim_offline_lenkf_nondiagR
 
    SUBROUTINE c__PDAF3_assim_offline_nonlin_nondiagR(init_dim_obs_pdaf,  &
@@ -2132,8 +2132,8 @@ contains
    END SUBROUTINE c__PDAF3_assimilate_enkf_nondiagR
 
    SUBROUTINE c__PDAF3_assimilate_lenkf_nondiagR(collect_state_pdaf, distribute_state_pdaf, &
-      init_dim_obs_pdaf, obs_op_pdaf, prepoststep_pdaf, localize_pdaf,  &
-      add_obs_error_pdaf, init_obscovar_pdaf, next_observation_pdaf, outflag) bind(c)
+      init_dim_obs_pdaf, obs_op_pdaf, localize_pdaf,  &
+      add_obs_error_pdaf, init_obscovar_pdaf, prepoststep_pdaf, next_observation_pdaf, outflag) bind(c)
       ! Status flag
       INTEGER(c_int), INTENT(out) :: outflag
 
@@ -2167,8 +2167,8 @@ contains
       next_observation_pdaf_c_ptr => next_observation_pdaf
 
       call PDAF3_assimilate_lenkf_nondiagR(f__collect_state_pdaf,  f__distribute_state_pdaf, &
-         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__prepoststep_pdaf, f__localize_covar_pdaf,  &
-         f__add_obs_err_pdaf, f__init_obs_covar_pdaf, f__next_observation_pdaf, outflag)
+         f__init_dim_obs_pdaf, f__obs_op_pdaf, f__localize_covar_pdaf,  &
+         f__add_obs_err_pdaf, f__init_obs_covar_pdaf, f__prepoststep_pdaf, f__next_observation_pdaf, outflag)
    END SUBROUTINE c__PDAF3_assimilate_lenkf_nondiagR
 
    SUBROUTINE c__PDAF3_assimilate_nonlin_nondiagR(collect_state_pdaf,  &
