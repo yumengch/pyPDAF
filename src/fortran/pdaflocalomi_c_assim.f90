@@ -20,9 +20,9 @@ contains
       ! Routine to distribute a state vector
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
-      procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_f_pdaf
       ! User supplied pre/poststep routine
       procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
       ! Provide number of local analysis domains
@@ -219,15 +219,15 @@ contains
       ! Routine to distribute a state vector
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
-      procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_f_pdaf
       ! Apply control vector transform matrix to control vector
       procedure(c__cvt_ens_pdaf) :: cvt_ens_pdaf
       ! Apply adjoint control vector transform matrix
       procedure(c__cvt_adj_ens_pdaf) :: cvt_adj_ens_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_lin_pdaf
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! Provide number of local analysis domains
@@ -277,9 +277,9 @@ contains
       ! Routine to distribute a state vector
       procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
       ! Initialize dimension of full observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: init_dim_obs_f_pdaf
+      procedure(c__init_dim_obs_pdaf) :: init_dim_obs_f_pdaf
       ! Full observation operator
-      procedure(c__obs_op_f_pdaf) :: obs_op_f_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_f_pdaf
       ! Apply control vector transform matrix to control vector
       procedure(c__cvt_ens_pdaf) :: cvt_ens_pdaf
       ! Apply adjoint control vector transform matrix
@@ -289,7 +289,7 @@ contains
       ! Apply adjoint control vector transform matrix
       procedure(c__cvt_adj_pdaf) :: cvt_adj_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_lin_pdaf
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! Provide number of local analysis domains
@@ -352,7 +352,7 @@ contains
       ! Apply adjoint control vector transform matrix
       procedure(c__cvt_adj_ens_pdaf) :: cvt_adj_ens_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdafomi
+      procedure(c__obs_op_pdaf) :: obs_op_lin_pdafomi
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdafomi
       ! Provide product R^-1 A with localization
@@ -422,7 +422,7 @@ contains
       ! Apply adjoint control vector transform matrix
       procedure(c__cvt_adj_pdaf) :: cvt_adj_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdafomi
+      procedure(c__obs_op_pdaf) :: obs_op_lin_pdafomi
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdafomi
       ! Provide product R^-1 A

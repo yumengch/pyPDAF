@@ -32,6 +32,7 @@ blas_dep = declare_dependency(
   include_directories: incdirs,
 )
 
+
 c_cython_args = cc.get_supported_arguments(['/O2', '/GL', '-O3'], checked: 'warn')
 cython_args = ['-Xboundscheck=False', '-Xbinding=False', '-Xwraparound=False', '-Xinitializedcheck=False']
 
@@ -61,6 +62,10 @@ incdir_numpy = run_command(python,
   check : true
 ).stdout().strip()
 
+# due to a bug in install_rpath, we need to put rpath to link args
+link_args = [
+  '-Wl,-rpath,$ORIGIN/../',
+]
 
 fortran_sources = files('PDAF/src/PDAF3_assimilate_3dvars.F90',
                         'PDAF/src/PDAF3_assimilate_3dvars_nondiagR.F90',
@@ -270,7 +275,6 @@ if host_machine.system() == 'windows'
 endif
 
 
-
 pdaf_ext = static_library(
   'pdaf_ext',
   pdaf_ext_sources,
@@ -280,15 +284,14 @@ pdaf_ext = static_library(
 
 pdafc_lib = shared_library(
   'PDAFc',
-   pdafc_sources + fortran_sources,
+  pdafc_sources + fortran_sources,
   dependencies : [mpi, blas_dep],
   include_directories: include_directories([incdir_numpy]),
-  c_args: c_cython_args,
   fortran_args: fortran_args,
-  cython_args : cython_args,
   link_language: 'fortran',
   link_whole: [pdaf_ext],
   install_dir: python.get_install_dir() / 'pyPDAF',
+  vs_module_defs: 'pdaf_exports.def',
   install: true
 )
 

@@ -27,7 +27,7 @@ contains
       ! Apply adjoint control vector transform matrix
       procedure(c__cvt_adj_pdaf) :: cvt_adj_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_lin_pdaf
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! User supplied pre/poststep routine
@@ -71,7 +71,7 @@ contains
       ! Apply adjoint control vector transform matrix
       procedure(c__cvt_adj_ens_pdaf) :: cvt_adj_ens_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_lin_pdaf
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! User supplied pre/poststep routine
@@ -126,7 +126,7 @@ contains
       ! Apply adjoint control vector transform matrix
       procedure(c__cvt_adj_ens_pdaf) :: cvt_adj_ens_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_lin_pdaf
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! Provide product R^-1 A and apply localizations
@@ -187,7 +187,7 @@ contains
       ! Apply adjoint control vector transform matrix
       procedure(c__cvt_adj_pdaf) :: cvt_adj_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_lin_pdaf
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! User supplied pre/poststep routine
@@ -239,7 +239,7 @@ contains
       ! Apply adjoint control vector transform matrix
       procedure(c__cvt_adj_pdaf) :: cvt_adj_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_lin_pdaf
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! Provide product R^-1 A and apply localizations
@@ -300,7 +300,7 @@ contains
       ! Apply adjoint control vector transform matrix
       procedure(c__cvt_adj_pdaf) :: cvt_adj_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_lin_pdaf
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! Provide number of local analysis domains
@@ -350,7 +350,7 @@ contains
       ! Apply adjoint control vector transform matrix
       procedure(c__cvt_adj_pdaf) :: cvt_adj_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_lin_pdaf
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! User supplied pre/poststep routine
@@ -389,7 +389,7 @@ contains
       ! Apply adjoint control vector transform matrix
       procedure(c__cvt_adj_ens_pdaf) :: cvt_adj_ens_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_lin_pdaf
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! Provide number of local analysis domains
@@ -437,7 +437,7 @@ contains
       ! Apply adjoint control vector transform matrix
       procedure(c__cvt_adj_ens_pdaf) :: cvt_adj_ens_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_lin_pdaf
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! User supplied pre/poststep routine
@@ -476,7 +476,7 @@ contains
       ! Apply adjoint control vector transform matrix
       procedure(c__cvt_adj_ens_pdaf) :: cvt_adj_ens_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_lin_pdaf
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! Provide number of local analysis domains
@@ -529,7 +529,7 @@ contains
       ! Apply adjoint control vector transform matrix
       procedure(c__cvt_adj_pdaf) :: cvt_adj_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_lin_pdaf
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! Provide number of local analysis domains
@@ -584,7 +584,7 @@ contains
       ! Apply adjoint control vector transform matrix
       procedure(c__cvt_adj_pdaf) :: cvt_adj_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_lin_pdaf
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! User supplied pre/poststep routine
@@ -630,7 +630,7 @@ contains
       ! Apply adjoint control vector transform matrix
       procedure(c__cvt_adj_pdaf) :: cvt_adj_pdaf
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf) :: obs_op_lin_pdaf
+      procedure(c__obs_op_pdaf) :: obs_op_lin_pdaf
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: obs_op_adj_pdaf
       ! Provide number of local analysis domains

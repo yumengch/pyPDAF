@@ -191,7 +191,6 @@ EXPORTS
     c__pdaf3_assim_offline_en3dvar_estkf
     c__pdaf_lnetf_memtime
     c__pdafomi_get_domain_limits_unstr
-    c__pdaf_diag_crps_mpi
     c__pdaf_pf_resampling
     c__pdafomi_init_obscovar
     c__pdafensrf_update

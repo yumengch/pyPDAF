@@ -6,9 +6,6 @@ pypdaf_sources = files('assim.pyx',
                        'put.pyx',
                        'setter.pyx'
                      )
-link_args = [
-  '-Wl,-rpath,$ORIGIN/../',
-]
 
 foreach file :pypdaf_sources
 

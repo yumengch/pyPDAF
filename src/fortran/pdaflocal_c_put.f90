@@ -31,15 +31,15 @@ contains
       ! Apply adjoint control vector transform matrix (ensemble var)
       procedure(c__cvt_adj_ens_pdaf) :: u_cvt_adj_ens
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: u_init_dim_obs_f
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs_f
       ! Observation operator
-      procedure(c__obs_op_f_pdaf) :: u_obs_op_f
+      procedure(c__obs_op_pdaf) :: u_obs_op_f
       ! Initialize PE-local observation vector
-      procedure(c__init_obs_f_pdaf) :: u_init_obs_f
+      procedure(c__init_obs_pdaf) :: u_init_obs_f
       ! Init. observation vector on local analysis domain
       procedure(c__init_obs_l_pdaf) :: u_init_obs_l
       ! Provide product R^-1 A on local analysis domain
@@ -118,15 +118,15 @@ contains
       ! Apply adjoint control vector transform matrix
       procedure(c__cvt_adj_pdaf) :: u_cvt_adj
       ! Linearized observation operator
-      procedure(c__obs_op_lin_pdaf) :: u_obs_op_lin
+      procedure(c__obs_op_pdaf) :: u_obs_op_lin
       ! Adjoint observation operator
       procedure(c__obs_op_adj_pdaf) :: u_obs_op_adj
       ! Initialize dimension of observation vector
-      procedure(c__init_dim_obs_f_pdaf) :: u_init_dim_obs_f
+      procedure(c__init_dim_obs_pdaf) :: u_init_dim_obs_f
       ! Observation operator
-      procedure(c__obs_op_f_pdaf) :: u_obs_op_f
+      procedure(c__obs_op_pdaf) :: u_obs_op_f
       ! Initialize PE-local observation vector
-      procedure(c__init_obs_f_pdaf) :: u_init_obs_f
+      procedure(c__init_obs_pdaf) :: u_init_obs_f
       ! Init. observation vector on local analysis domain
       procedure(c__init_obs_l_pdaf) :: u_init_obs_l
       ! Provide product R^-1 A on local analysis domain

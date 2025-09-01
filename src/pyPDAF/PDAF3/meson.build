@@ -2,10 +2,6 @@ pypdaf_sources = files('assim.pyx',
                        'put.pyx',
                      )
 
-link_args = [
-  '-Wl,-rpath,$ORIGIN/../',
-]
-
 foreach file :pypdaf_sources
 
   cython_ext = python.extension_module(

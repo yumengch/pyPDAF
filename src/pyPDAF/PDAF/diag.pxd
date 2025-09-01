@@ -32,12 +32,6 @@ cdef extern void c__pdaf_diag_crps(int* dim_p, int* dim_ens, int* element,
     double* pot_crps, double* uncert,
     int* status) noexcept nogil;
 
-cdef extern void c__pdaf_diag_crps_mpi(int* dim_p, int* dim_ens,
-    int* element, double* oens, double* obs, int* comm_filter,
-    int* mype_filter, int* npes_filter, double* crps, double* reli,
-    double* pot_crps, double* uncert,
-    int* status) noexcept nogil;
-
 cdef extern void c__pdaf_diag_crps_nompi(int* dim, int* dim_ens,
     int* element, double* oens, double* obs, double* crps, double* reli,
     double* resol, double* uncert, int* status) noexcept nogil;

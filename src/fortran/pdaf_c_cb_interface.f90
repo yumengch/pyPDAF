@@ -129,15 +129,6 @@ abstract interface
       integer(c_int), intent(out) :: dim_obs_p
    end subroutine c__init_dim_obs_pdaf
 
-   subroutine c__init_dim_obs_f_pdaf(step, dim_obs_p) bind(c)
-      use iso_c_binding, only: c_double, c_int
-      implicit none
-      ! current time step
-      integer(c_int), intent(in)    :: step
-      ! dimension of observation vector
-      integer(c_int), intent(out) :: dim_obs_p
-   end subroutine c__init_dim_obs_f_pdaf
-
    SUBROUTINE c__init_obs_pdaf(step, dim_obs_p, observation_p) bind(c)
       use iso_c_binding, only: c_double, c_int
       implicit none
@@ -225,22 +216,7 @@ abstract interface
       real(c_double), intent(inout), dimension(dim_obs_p) :: m_state_p
    END SUBROUTINE c__obs_op_pdaf
 
-   SUBROUTINE c__obs_op_f_pdaf(step, dim_p, dim_obs_p, state_p, m_state_p) bind(c)
-      use iso_c_binding, only: c_double, c_int
-      implicit none
-      ! Current time step
-      integer(c_int), intent(in) :: step
-      ! Size of state vector (local part in case of parallel decomposed state)
-      integer(c_int), intent(in) :: dim_p
-      ! Size of observation vector
-      integer(c_int), intent(in) :: dim_obs_p
-      ! Model state vector
-      real(c_double), intent(in), dimension(dim_p) :: state_p
-      ! Observed state vector (i.e. the result after applying the observation operator to state_p)
-      real(c_double), intent(out), dimension(dim_obs_p) :: m_state_p
-   END SUBROUTINE c__obs_op_f_pdaf
-
-   SUBROUTINE c__g2l_obs_pdaf(domain_p, step, dim_obs_f, dim_obs_l, mstate_f, dim_p, mstate_l, dim_l) bind(c)
+   SUBROUTINE c__g2l_obs_pdaf(domain_p, step, dim_obs_f, dim_obs_l, mstate_f, mstate_l) bind(c)
       use iso_c_binding, only: c_int
       implicit none
       ! Index of current local analysis domain
@@ -251,14 +227,10 @@ abstract interface
       integer(c_int), intent(in) :: dim_obs_f
       ! Size of observation vector for local analysis domain
       integer(c_int), intent(in) :: dim_obs_l
-      ! Size of full observation vector for model sub-domain
-      integer(c_int), intent(in) :: dim_p
-      ! Size of observation vector for local analysis domain
-      integer(c_int), intent(in) :: dim_l
       ! Full observation vector for model sub-domain
-      integer(c_int), intent(in), dimension(dim_p) :: mstate_f
+      integer(c_int), intent(in), dimension(dim_obs_f) :: mstate_f
       ! Observation vector for local analysis domain
-      integer(c_int), intent(out), dimension(dim_l) :: mstate_l
+      integer(c_int), intent(out), dimension(dim_obs_l) :: mstate_l
    END SUBROUTINE c__g2l_obs_pdaf
 
    subroutine c__g2l_state_pdaf(step, domain_p, dim_p, state_p, dim_l, state_l) bind(c)
@@ -311,16 +283,6 @@ abstract interface
       integer(c_int), intent(out) :: n_domains_p
    end subroutine c__init_n_domains_p_pdaf
 
-   SUBROUTINE c__init_obs_f_pdaf(step, dim_obs_f, observation_f) bind(c)
-      use iso_c_binding, only: c_double, c_int
-      implicit none
-      ! Current time step
-      integer(c_int), intent(in) :: step
-      ! Size of the full observation vector
-      integer(c_int), intent(in) :: dim_obs_f
-      ! Full vector of observations
-      real(c_double), intent(out), dimension(dim_obs_f) :: observation_f
-   END SUBROUTINE c__init_obs_f_pdaf
 
    SUBROUTINE c__init_obs_l_pdaf(domain_p, step, dim_obs_l, observation_l) bind(c)
       use iso_c_binding, only: c_double, c_int
@@ -429,7 +391,6 @@ abstract interface
       ! Process-local part of matrix HX(HX_all) for full observations
       REAL(c_double), DIMENSION(dim_obs), INTENT(inout) :: HXY_p
    END SUBROUTINE c__localize_covar_serial_pdaf
-
 
    SUBROUTINE c__likelihood_pdaf(step, dim_obs_p, obs_p, resid, likely) bind(c)
       use iso_c_binding, only: c_double, c_int
@@ -557,34 +518,6 @@ abstract interface
       REAL(c_double), DIMENSION(dim_p), INTENT(inout) :: state_p
    END SUBROUTINE c__obs_op_adj_pdaf
 
-   SUBROUTINE c__obs_op_lin_pdaf(step, dim_p, dim_obs_p, state_p, m_state_p) bind(c)
-      use iso_c_binding, only: c_double, c_int
-      implicit none
-      ! Current time step
-      INTEGER(c_int), INTENT(in) :: step
-      ! PE-local dimension of state
-      INTEGER(c_int), INTENT(in) :: dim_p
-      ! Dimension of observed state
-      INTEGER(c_int), INTENT(in) :: dim_obs_p
-      ! PE-local model state
-      REAL(c_double), DIMENSION(dim_p), INTENT(in) :: state_p
-      ! PE-local observed state
-      REAL(c_double), DIMENSION(dim_obs_p), INTENT(inout) :: m_state_p
-   END SUBROUTINE c__obs_op_lin_pdaf
-
-   SUBROUTINE c__dist_stateinc_pdaf(dim_p, state_inc_p, first, steps) bind(c)
-      use iso_c_binding, only: c_double, c_int
-      implicit none
-      ! Dimension of PE-local state
-      INTEGER(c_int), INTENT(in) :: dim_p
-      ! PE-local increment of state vector
-      REAL(c_double), DIMENSION(dim_p), INTENT(in) :: state_inc_p
-      ! Flag for first call of each forecast
-      INTEGER(c_int), INTENT(in) :: first
-      ! number of time steps in forecast
-      INTEGER(c_int), INTENT(in) :: steps
-   END SUBROUTINE c__dist_stateinc_pdaf
-
    SUBROUTINE c__likelihood_hyb_l_pdaf(domain_p, step, dim_obs_l, obs_l, resid_l, gamma, likely_l) bind(c)
       use iso_c_binding, only: c_double, c_int
       implicit none
@@ -604,7 +537,7 @@ abstract interface
       real(c_double), intent(out) :: likely_l
    END SUBROUTINE c__likelihood_hyb_l_pdaf
 
-   SUBROUTINE c__prodRinvA_hyb_l_pdaf(domain_p, step, dim_obs_l, dim_ens, obs_l, gamma, A_l, C_l) bind(c)
+   SUBROUTINE c__prodRinvA_hyb_l_pdaf(domain_p, step, dim_obs_l, rank, obs_l, gamma, A_l, C_l) bind(c)
       use iso_c_binding, only: c_double, c_int
       implicit none
       ! Index of current local analysis domain
@@ -614,15 +547,15 @@ abstract interface
       ! Number of local observations at current time step (i.e. the size of the local observation vector)
       integer(c_int), intent(in) :: dim_obs_l
       ! Number of the columns in the matrix processes here. This is usually the ensemble size minus one (or the rank of the initial covariance matrix)
-      integer(c_int), intent(in) :: dim_ens
+      integer(c_int), intent(in) :: rank
       ! Local vector of observations
       real(c_double), dimension(dim_obs_l), intent(in) :: obs_l
       ! Hybrid weight provided by PDAF
       real(c_double), intent(in) :: gamma
       ! Input matrix provided by PDAF
-      real(c_double), dimension(dim_obs_l, dim_ens), intent(inout) :: A_l
+      real(c_double), dimension(dim_obs_l, rank), intent(inout) :: A_l
       ! Output matrix
-      real(c_double), dimension(dim_obs_l, dim_ens), intent(out) :: C_l
+      real(c_double), dimension(dim_obs_l, rank), intent(out) :: C_l
    END SUBROUTINE c__prodRinvA_hyb_l_pdaf
 end interface
 

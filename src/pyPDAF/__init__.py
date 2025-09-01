@@ -29,12 +29,10 @@ def _append_to_sharedlib_load_path():
         with `ctypes.WinDLL` may be preferred.
     """
     basedir = os.path.dirname(__file__)
-    subdir = os.path.dirname(os.path.dirname(basedir))
-    print (subdir)
     if os.name == 'nt':
-        os.add_dll_directory(subdir)
+        os.add_dll_directory(basedir)
     elif sys.platform == 'cygwin':
-        os.environ['PATH'] = os.pathsep.join((os.environ['PATH'], basedir, subdir))
+        os.environ['PATH'] = os.pathsep.join((os.environ['PATH'], basedir))
 
 
 _append_to_sharedlib_load_path()

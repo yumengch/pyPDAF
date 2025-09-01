@@ -1,45 +1,7 @@
-import sys
 import numpy as np
-cimport numpy as cnp
-from pyPDAF cimport pdaf_c_cb_interface as pdaf_cb
-from pyPDAF.cfi_binding cimport CFI_cdesc_t, CFI_address, CFI_index_t, CFI_establish
-from pyPDAF.cfi_binding cimport CFI_attribute_other, CFI_type_double, CFI_type_int
-from pyPDAF.cfi_binding cimport CFI_cdesc_rank1, CFI_cdesc_rank2, CFI_cdesc_rank3
+from typing import Callable, Tuple
 
-try:
-    import mpi4py
-    mpi4py.rc.initialize = False
-except ImportError:
-    pass
-
-# Global error handler
-def global_except_hook(exctype, value, traceback):
-    from traceback import print_exception
-    try:
-        import mpi4py.MPI
-
-        if mpi4py.MPI.Is_initialized():
-            try:
-                sys.stderr.write('Uncaught exception was ''detected on rank {}.\n'.format(
-                    mpi4py.MPI.COMM_WORLD.Get_rank()))
-                print_exception(exctype, value, traceback)
-                sys.stderr.write("\n")
-                sys.stderr.flush()
-            finally:
-                try:
-                    mpi4py.MPI.COMM_WORLD.Abort(1)
-                except Exception as e:
-                    sys.stderr.write('MPI Abort failed, this process will hang.\n')
-                    sys.stderr.flush()
-                    raise e
-        else:
-            sys.__excepthook__(exctype, value, traceback)
-    except ImportError:
-        sys.__excepthook__(exctype, value, traceback)
-
-sys.excepthook = global_except_hook
-
-def iau_init(int  type_iau_in, int  nsteps_iau_in):
+def iau_init(type_iau_in: int, nsteps_iau_in: int) -> int:
     """Initialise parameters for incremental analysis updates, IAU.
 
     It further allocates the array in which the ensemble increments are stored.
@@ -70,14 +32,8 @@ def iau_init(int  type_iau_in, int  nsteps_iau_in):
     flag : int
         Status flag
     """
-    cdef int  flag
-    with nogil:
-        c__pdaf_iau_init(&type_iau_in, &nsteps_iau_in, &flag)
 
-    return flag
-
-
-def iau_reset(int  type_iau_in, int  nsteps_iau_in):
+def iau_reset(type_iau_in: int, nsteps_iau_in: int) -> int:
     """Modify the IAU type and the number of IAU time steps during a run
 
     While :func:`pyPDAF.PDAF.iau_init` sets the IAU type and number of IAU steps
@@ -107,14 +63,8 @@ def iau_reset(int  type_iau_in, int  nsteps_iau_in):
     flag : int
         Status flag
     """
-    cdef int  flag
-    with nogil:
-        c__pdaf_iau_reset(&type_iau_in, &nsteps_iau_in, &flag)
 
-    return flag
-
-
-def iau_set_weights(int  iweights, double [::1] weights):
+def iau_set_weights(iweights: int, weights: np.ndarray) -> None:
     """Provide a user-specified vector of increment weights.
 
     While :func:`pyPDAF.PDAF.iau_init` allows to choose among
@@ -136,12 +86,8 @@ def iau_set_weights(int  iweights, double [::1] weights):
         Input weight vector
         Array shape: (iweights)
     """
-    with nogil:
-        c__pdaf_iau_set_weights(&iweights, &weights[0])
 
-
-
-def iau_set_pointer():
+def iau_set_pointer() -> Tuple[np.ndarray, int]:
     """Set a pointer to the ensemble increments array.
 
     This gives direct access to the increment array,
@@ -163,22 +109,8 @@ def iau_set_pointer():
     flag : int
         Status flag
     """
-    cdef CFI_cdesc_rank2 iau_ptr_cfi
-    cdef CFI_cdesc_t *iau_ptr_ptr = <CFI_cdesc_t *> &iau_ptr_cfi
-    cdef int  flag
-    with nogil:
-        c__pdaf_iau_set_pointer(iau_ptr_ptr, &flag)
 
-    cdef CFI_index_t iau_ptr_subscripts[2]
-    iau_ptr_subscripts[0] = 0
-    iau_ptr_subscripts[1] = 0
-    cdef double * iau_ptr_ptr_np
-    iau_ptr_ptr_np = <double *>CFI_address(iau_ptr_ptr, iau_ptr_subscripts)
-    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] iau_ptr_np = np.asarray(<double [:iau_ptr_ptr.dim[0].extent:1,:iau_ptr_ptr.dim[1].extent]> iau_ptr_ptr_np, order="F")
-    return iau_ptr_np, flag
-
-
-def iau_init_inc(int  dim_p, int  dim_ens_l, double [::1,:] ens_inc):
+def iau_init_inc(dim_p: int, dim_ens_l: int, ens_inc: np.ndarray) -> int:
     """Fill the process-local increment array.
 
     A common use is when the IAU should be applied from the initial time of a run,
@@ -209,14 +141,8 @@ def iau_init_inc(int  dim_p, int  dim_ens_l, double [::1,:] ens_inc):
     flag : int
         Status flag
     """
-    cdef int  flag
-    with nogil:
-        c__pdaf_iau_init_inc(&dim_p, &dim_ens_l, &ens_inc[0,0], &flag)
 
-    return flag
-
-
-def iau_add_inc(py__collect_state_pdaf, py__distribute_state_pdaf):
+def iau_add_inc(py__collect_state_pdaf: Callable, py__distribute_state_pdaf: Callable) -> None:
     """Apply IAU to model forecasts in flexible parallel mode.
 
     PDAF automatically apply IAU in fully parallel model. However, one has to
@@ -232,11 +158,3 @@ def iau_add_inc(py__collect_state_pdaf, py__distribute_state_pdaf):
     py__distribute_state_pdaf : Callable
         Distribute a state vector for PDAF
     """
-    pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
-    pdaf_cb.distribute_state_pdaf = <void*>py__distribute_state_pdaf
-    with nogil:
-        c__pdaf_iau_add_inc(pdaf_cb.c__collect_state_pdaf,
-                            pdaf_cb.c__distribute_state_pdaf)
-
-
-

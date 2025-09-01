@@ -3019,8 +3019,6 @@ def _print_info_filters(int  printtype):
     with nogil:
         c__pdaf_print_info_filters(&printtype)
 
-
-
 def _allreduce(int  val_p, int  mpitype, int  mpiop):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.

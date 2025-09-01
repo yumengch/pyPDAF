@@ -41,8 +41,7 @@ sys.excepthook = global_except_hook
 
 def diag_ensmean(int  dim, int  dim_ens, double [::1] state,
     double [::1,:] ens):
-    """
-    Compute the ensemble mean of the state ensemble.
+    r"""Compute the ensemble mean of the state ensemble.
 
     Parameters
     ----------
@@ -72,8 +71,7 @@ def diag_ensmean(int  dim, int  dim_ens, double [::1] state,
 
 def diag_stddev_nompi(int  dim, int  dim_ens, double [::1] state,
     double [::1,:] ens, int  do_mean):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Compute ensemble standard deviation and ensemble mean without MPI.
 
     Parameters
     ----------
@@ -112,8 +110,7 @@ def diag_stddev_nompi(int  dim, int  dim_ens, double [::1] state,
 
 def diag_stddev(int  dim_p, int  dim_ens, double [::1] state_p,
     double [::1,:] ens_p, int  do_mean, int  comm_filter):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Compute ensemble standard deviation and ensemble mean.
 
     Parameters
     ----------
@@ -154,8 +151,7 @@ def diag_stddev(int  dim_p, int  dim_ens, double [::1] state_p,
 
 def diag_variance_nompi(int  dim, int  dim_ens, double [::1] state,
     double [::1,:] ens, int  do_mean, int  do_stddev):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Compute ensemble variance/standard deviation and mean without MPI.
 
     Parameters
     ----------
@@ -202,8 +198,7 @@ def diag_variance_nompi(int  dim, int  dim_ens, double [::1] state,
 
 def diag_variance(int  dim_p, int  dim_ens, double [::1] state_p,
     double [::1,:] ens_p, int  do_mean, int  do_stddev, int  comm_filter):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Compute ensemble variance/standard deviation and mean.
 
     Parameters
     ----------
@@ -251,8 +246,7 @@ def diag_variance(int  dim_p, int  dim_ens, double [::1] state_p,
 
 
 def diag_rmsd_nompi(int  dim_p, double [::1] statea_p, double [::1] stateb_p):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Compute the root mean squared distance between two vectors without MPI.
 
     Parameters
     ----------
@@ -283,8 +277,7 @@ def diag_rmsd_nompi(int  dim_p, double [::1] statea_p, double [::1] stateb_p):
 
 def diag_rmsd(int  dim_p, double [::1] statea_p, double [::1] stateb_p,
     int  comm_filter):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Compute the root mean squared distance between two vectors.
 
     Parameters
     ----------
@@ -317,33 +310,41 @@ def diag_rmsd(int  dim_p, double [::1] statea_p, double [::1] stateb_p,
 
 def diag_crps(int  dim_p, int  dim_ens, int  element, double [::1,:] oens,
     double [::1] obs):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Obtain a continuous rank probability score for an ensemble.
+
+    The implementation is based on [1]_.
+
+    References
+    ----------
+    .. [1] Hersbach, H. (2000),
+           Decomposition of the Continuous Ranked Probability
+           Score for
+           Ensemble Prediction Systems,
+           Wea. Forecasting, 15, 559–570,
+           doi:10.1175/1520-0434(2000)015<0559:DOTCRP>2.0.CO;2
 
     Parameters
     ----------
-    dim_p : int
-        PE-local state dimension
-    dim_ens : int
+    dim_p: int
+        Dimension of state vector
+    dim_ens: int
         Ensemble size
     element : int
-        index of element in full state vector
-    oens : ndarray[np.float64, ndim=2]
-        State ensemble
-        Array shape: (dim_p, dim_ens)
-    obs : ndarray[np.float64, ndim=1]
-        Observation / truth
-        Array shape: (dim_p)
+        ID of element to be used. If element=0, mean values over all elements are computed
+    oens : ndarray[tuple[dim, dim_ens, ...], np.float64]
+        State ensemble. shape: (dim_p, dim_ens)
+    obs : ndarray[tuple[dim, ...], np.float64]
+        State ensemble. shape: (dim_p)
 
     Returns
     -------
-    crps : double
+    CRPS : float
         CRPS
-    reli : double
+    reli : float
         Reliability
-    pot_crps : double
-        potential CRPS
-    uncert : double
+    resol : float
+        resolution
+    uncert : float
         uncertainty
     status : int
         Status flag (0=success)
@@ -360,89 +361,46 @@ def diag_crps(int  dim_p, int  dim_ens, int  element, double [::1,:] oens,
     return crps, reli, pot_crps, uncert, status
 
 
-def diag_crps_mpi(int  dim_p, int  dim_ens, int  element,
-    double [::1,:] oens, double [::1] obs, int  comm_filter,
-    int  mype_filter, int  npes_filter):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
 
-    Parameters
-    ----------
-    dim_p : int
-        PE-local state dimension
-    dim_ens : int
-        Ensemble size
-    element : int
-        index of element in full state vector
-    oens : ndarray[np.float64, ndim=2]
-        State ensemble
-        Array shape: (dim_p, dim_ens)
-    obs : ndarray[np.float64, ndim=1]
-        Observation / truth
-        Array shape: (dim_p)
-    comm_filter : int
-        MPI communicator for filter
-    mype_filter : int
-        rank of MPI communicator
-    npes_filter : int
-        size of MPI communicator
-
-    Returns
-    -------
-    crps : double
-        CRPS
-    reli : double
-        Reliability
-    pot_crps : double
-        potential CRPS
-    uncert : double
-        uncertainty
-    status : int
-        Status flag (0=success)
-    """
-    cdef double  crps
-    cdef double  reli
-    cdef double  pot_crps
-    cdef double  uncert
-    cdef int  status
-    with nogil:
-        c__pdaf_diag_crps_mpi(&dim_p, &dim_ens, &element, &oens[0,0],
-                              &obs[0], &comm_filter, &mype_filter,
-                              &npes_filter, &crps, &reli, &pot_crps,
-                              &uncert, &status)
-
-    return crps, reli, pot_crps, uncert, status
 
 
 def diag_crps_nompi(int  dim, int  dim_ens, int  element,
     double [::1,:] oens, double [::1] obs):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Obtain a continuous rank probability score for an ensemble without MPI.
+
+    The implementation is based on [1]_.
+
+    References
+    ----------
+    .. [1] Hersbach, H. (2000),
+           Decomposition of the Continuous Ranked Probability
+           Score for
+           Ensemble Prediction Systems,
+           Wea. Forecasting, 15, 559–570,
+           doi:10.1175/1520-0434(2000)015<0559:DOTCRP>2.0.CO;2
 
     Parameters
     ----------
-    dim : int
-        PE-local state dimension
-    dim_ens : int
+    dim_p: int
+        Dimension of state vector
+    dim_ens: int
         Ensemble size
     element : int
-        ID of element to be used
-    oens : ndarray[np.float64, ndim=2]
-        State ensemble
-        Array shape: (dim, dim_ens)
-    obs : ndarray[np.float64, ndim=1]
-        State ensemble
-        Array shape: (dim)
+        ID of element to be used. If element=0, mean values over all elements are computed
+    oens : ndarray[tuple[dim, dim_ens, ...], np.float64]
+        State ensemble. shape: (dim_p, dim_ens)
+    obs : ndarray[tuple[dim, ...], np.float64]
+        State ensemble. shape: (dim_p)
 
     Returns
     -------
-    crps : double
+    CRPS : float
         CRPS
-    reli : double
+    reli : float
         Reliability
-    resol : double
+    resol : float
         resolution
-    uncert : double
+    uncert : float
         uncertainty
     status : int
         Status flag (0=success)
@@ -460,7 +418,7 @@ def diag_crps_nompi(int  dim, int  dim_ens, int  element,
 
 
 def diag_effsample(int  dim_sample, double [::1] weights):
-    """Calculating the effective sample size of a particle filter.
+    r"""Calculating the effective sample size of a particle filter.
 
     Based on [1]_, it is defined as the
     inverse of the sum of the squared particle filter weights:
@@ -508,7 +466,7 @@ def diag_effsample(int  dim_sample, double [::1] weights):
 
 def diag_ensstats(int  dim, int  dim_ens, int  element, double [::1] state,
     double [::1,:] ens):
-    """Computing the skewness and kurtosis of
+    r"""Computing the skewness and kurtosis of
     the ensemble of a given element of the state vector.
 
     The definition used for kurtosis follows that used by [1]_.
@@ -558,8 +516,8 @@ def diag_ensstats(int  dim, int  dim_ens, int  element, double [::1] state,
 
 def diag_compute_moments(int  dim_p, int  dim_ens, double [::1,:] ens,
     int  kmax, int  bias):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Computes the mean, the unbiased variance, the unbiased skewness,
+    and the unbiased excess kurtosis from an ensemble.
 
     Parameters
     ----------
@@ -574,11 +532,16 @@ def diag_compute_moments(int  dim_p, int  dim_ens, double [::1,:] ens,
         maximum order of central moment that is computed, maximum is 4
     bias : int
         if 0 bias correction is applied (default)
+        otherwise, no bias correction
 
     Returns
     -------
     moments : ndarray[np.float64, ndim=2]
         The columns contain the moments of the ensemble
+        - column 0: mean
+        - column 1: variance
+        - column 2: skewness
+        - column 3: excess kurtosis
         Array shape: (dim_p, kmax)
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] moments_np = np.zeros((dim_p, kmax), dtype=np.float64, order="F")
@@ -592,7 +555,7 @@ def diag_compute_moments(int  dim_p, int  dim_ens, double [::1,:] ens,
 
 def diag_histogram(int  ncall, int  dim, int  dim_ens, int  element,
     double [::1] state, double [::1,:] ens, int [::1] hist):
-    """Computing the rank histogram of an ensemble.
+    r"""Computing the rank histogram of an ensemble.
 
     A rank histogram is used to diagnose
     the reliability of the ensemble [1]_.
@@ -653,8 +616,47 @@ def diag_histogram(int  ncall, int  dim, int  dim_ens, int  element,
 
 def diag_reliability_budget(int  n_times, int  dim_ens, int  dim_p,
     double [::1,:,:] ens_p, double [::1,:,:] obsvar, double [::1,:] obs_p):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Compute ensemble reliability budget
+
+    The diagnostics derives a balance relationship that decomposes the
+    departure between the ensemble mean and observations:
+    Depar^2 = Bias^2 + EnsVar + ObsUnc^2 + Residual
+    under the assumption of a perfectly reliable ensemble [1]_. When the
+    residual term is not small, one can identify the sources of
+    problematic ensemble representation of the uncertainty by looking at
+    each terms. One of the benefits of
+    the reliability budget diagnostics is that it can identify spatially
+    local issues in ensemble perturbations.
+
+    In this subroutine, the budget array returns each term of the
+    reliability budget is given at each given time step. The returned
+    array can be used for significant t-test where each time step is used
+    as a sample from the population. The actual budget is the mean over
+    time steps except for Bias^2 term, which is given separately. This
+    is because the unsquared bias is used in the t-test in the original
+    paper.
+
+    The subroutine does not comes with a t-test to ensure that
+    the reliability budget is statistically significant as done
+    in the original paper. However, this can be achieved with external
+    libraries or software if the t-test is deemed important. The t-test
+    should account for the temporal autocorrelation between time steps
+    in the given trajectory.
+
+    The diagnostics requires a trajectory of ensemble and observations,
+    a trajectory of an ensemle of observation error variances. The
+    ensemble of observation error variances can be the square of
+    observation errors sampled from observation error distribution as
+    done in stochastic ensemble Kalman filter. In deterministic ensemble
+    systems, the ensemble of observation error variances can be the
+    observation error variances where each ensemble member has the same
+    value.
+
+    References
+    ----------
+    .. [1] Rodwell, M. J., Lang, S. T. K., Ingleby, N. B., Bormann, N., Holm,
+    E., Rabier, F., ... & Yamaguchi, M. (2016). Reliability in ensemble data assimilation.
+    Quarterly Journal of the Royal Meteorological Society, 142(694), 443-454.
 
     Parameters
     ----------
@@ -693,5 +695,3 @@ def diag_reliability_budget(int  n_times, int  dim_ens, int  dim_p,
                                         &obs_p[0,0], &budget[0,0,0], &bias_2[0])
 
     return budget_np, bias_2_np
-
-
