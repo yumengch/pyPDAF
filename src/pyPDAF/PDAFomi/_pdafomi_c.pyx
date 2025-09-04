@@ -40,49 +40,16 @@ def global_except_hook(exctype, value, traceback):
 sys.excepthook = global_except_hook
 
 def init(int  n_obs):
-    """Initialise the PDAF system.
+    r"""Allocating an array of `obs_f` derived types instances.
 
-    It is called once at the beginning of the assimilation.
-
-    The function specifies the type of DA methods,
-    parameters of the filters, the MPI communicators,
-    and other parallel options.
-    The filter options including `filtertype`, `subtype`,
-    `param_int`, and `param_real`
-    are introduced in
-    `PDAF filter options wiki page <https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF>`_.
-    Note that the size of `param_int` and `param_real` depends on
-    the filter type and subtype. However, for most filters,
-    they require at least the state vector size and ensemble size
-    for `param_int`, and the forgetting factor for `param_real`.
-
-    The MPI communicators asked by this function depends on
-    the parallelisation strategy.
-    For the default parallelisation strategy, the user
-    can use the parallelisation module
-    provided under in `example directory <https://github.com/yumengch/pyPDAF/blob/main/example>`_
-    without modifications.
-    The parallelisation can differ based on online and offline cases.
-    Users can also refer to `parallelisation documentation <https://yumengch.github.io/pyPDAF/parallel.html>`_ for
-    explanations or modifications.
-
-    This function also asks for a user-supplied function
-    :func:`py__init_ens_pdaf`.
-    This function is designed to provides an initial ensemble
-    to the internal PDAF ensemble array.
-    The internal PDAF ensemble then can be distributed to
-    initialise the model forecast using
-    :func:`pyPDAF.PDAF.get_state`.
-    This user-supplied function can be empty if the model
-    has already read the ensemble from restart files.
+    This function initialises the number of observation types,
+    which should be called at the start of the DA system
+    after :func:`pyPDAF.PDAF.init`.
 
     Parameters
     ----------
     n_obs : int
         number of observations
-
-    Returns
-    -------
     """
     with nogil:
         c__pdafomi_init(&n_obs)
@@ -90,8 +57,13 @@ def init(int  n_obs):
 
 
 def init_local():
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Allocating an array of `obs_l` derived types instances.
+
+    This function initialises the number of observation types
+    for each local analysis domain,
+    which should be called at the start of the local analysis loop
+    in :func:`py__init_dim_obs_l_pdaf`.
+
     """
     with nogil:
         c__pdafomi_init_local()
@@ -99,8 +71,19 @@ def init_local():
 
 
 def check_error(int  flag):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""This function returns the value of the PDAF-OMI internal error flag.
+
+    Since PDAF-OMI executes internal routines in which errors could occur due to
+    an inconsistent configuration of the observations. Directly returning
+    an error flag as a subroutine argument is not always possible.
+    For this reason there is this separate routine to check for the error flag.
+
+    The errors that are checked by PDAF-OMI relate to the configuration of
+    the observations, e.g. it is checked whether some dimensions are consistent.
+
+    This can be useful if an error occurred PDAF-OMI also prints an error message,
+    but it does not stop the program.
+
 
     Parameters
     ----------
@@ -121,32 +104,44 @@ def check_error(int  flag):
 def gather_obs(int  i_obs, int  dim_obs_p, double[::1] obs_p,
     double[::1] ivar_obs_p, double[::1,:] ocoord_p, int  ncoord,
     double  lradius):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Gather the dimension of a given type of observation across
+    multiple local domains/filter processors.
+
+    This function can be used in the user-supplied function of
+    :func:`py__init_dim_obs_f_pdaf`.
+
+    This function does three things:
+        1. Receiving observation dimension on each local process.
+        2. Gather the total dimension of given observation type
+           across local process and the displacement of PE-local
+           observations relative to the total observation vector
+        3. Set the observation vector, observation coordinates,
+           the inverse of the observation variance, and localisation
+           radius for this observation type.
 
     Parameters
     ----------
     i_obs : int
-        index into observation arrays
-    dim_obs_p : int
-        Number of process-local observation
-    obs_p : ndarray[np.float64, ndim=1]
-        Vector of process-local observations
-        Array shape: (:)
-    ivar_obs_p : ndarray[np.float64, ndim=1]
-        Vector of process-local inverse observation error variance
-        Array shape: (:)
-    ocoord_p : ndarray[np.float64, ndim=2]
-        Array of process-local observation coordinates
-        Array shape: (:,:)
-    ncoord : int
+        index of observation type
+    dim_obs_p: int
+        PE-local dimension of observation vector
+    obs_p : ndarray[tuple[dim_obs_p, ...], np.float64]
+        PE-local observation vector
+        The array dimension `dim_obs_p` is dimension of PE-local observation vector
+    ivar_obs_p : ndarray[tuple[dim_obs_p, ...], np.float64]
+        PE-local inverse of observation error variance
+        The array dimension `dim_obs_p` is dimension of PE-local observation vector
+    ocoord_p : ndarray[tuple[thisobs(i_obs)%ncoord, dim_obs_p, ...], np.float64]
+        pe-local observation coordinates
+        The 1st-th dimension dim_obs_p is dimension of PE-local observation vector
+    ncoord: int
         Number of rows of coordinate array
-    lradius : double
-        Localization radius (the maximum radius used in this process domain)
+    lradius : float
+        localization radius
 
     Returns
     -------
-    dim_obs_f : int
+    dim_obs : int
         Full number of observations
     """
     cdef CFI_cdesc_rank1 obs_p_cfi
@@ -185,25 +180,27 @@ def gather_obs(int  i_obs, int  dim_obs_p, double[::1] obs_p,
 
 def gather_obsstate(int  i_obs, double [::1] obsstate_p,
     double [::1] obsstate_f):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""This function is used to implement custom observation operators.
+
+    This function is used inside a custom observation operator.
+    See also `relevant PDAF wiki page <https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Implementingyourownobservationoperator>`_
 
     Parameters
     ----------
     i_obs : int
-        index into observation arrays
-    obsstate_p : ndarray[np.float64, ndim=1]
+        index of observations
+    obsstate_p : ndarray[tuple[thisobs(i_obs)%dim_obs_p, ...], np.float64]
         Vector of process-local observed state
-        Array shape: (:)
-    obsstate_f : ndarray[np.float64, ndim=1]
+    obsstate_f : ndarray[tuple[nobs_f_all, ...], np.float64]
         Full observed vector for all types
-        Array shape: (:)
+        The array dimension `nobs_f_all` is dimension of the observation
 
     Returns
     -------
-    obsstate_f : ndarray[np.float64, ndim=1]
-        Full observed vector for all types
-        Array shape: (:)
+    obsstate_f : ndarray[tuple[nobs_f_all, ...], np.float64]
+         Full observed vector for all types
+
+        The array dimension `nobs_f_all` is dimension of the observation
     """
     cdef CFI_cdesc_rank1 obsstate_f_cfi
     cdef CFI_cdesc_t *obsstate_f_ptr = <CFI_cdesc_t *> &obsstate_f_cfi
@@ -230,26 +227,31 @@ def gather_obsstate(int  i_obs, double [::1] obsstate_p,
 
 def get_interp_coeff_tri(double [::1,:] gpc, double [::1] oc,
     double [::1] icoeff):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""The coefficient for linear interpolation in 2D on unstructure triangular grid.
+
+    The resulting coefficient is used in :func:`pyPDAF.PDAFomi.obs_op_interp_lin`.
+
+    This function is for triangular model grid interpolation coefficients determined as barycentric coordinates.
 
     Parameters
     ----------
-    gpc : ndarray[np.float64, ndim=2]
-        Coordinates of grid points; dim(3,2)
-        Array shape: (:,:)
-    oc : ndarray[np.float64, ndim=1]
-        Coordinates of observation; dim(2)
-        Array shape: (:)
-    icoeff : ndarray[np.float64, ndim=1]
+    gpc : ndarray[tuple[3, 2, ...], np.float64]
+        Coordinates of grid points with dimension of (3, 2).
+        3 grid points surrounding the observation;
+        each containing lon and lat coordinates.
+        The order of the grid points in gcoords has to
+        be consistent with the order of the indices specified in
+        `id_obs_p` of `obs_f`.
+    oc : ndarray[tuple[2, ...], np.float64]
+        Coordinates of observation (targeted location); dim(2)
+    icoeff : ndarray[tuple[3, ...], np.float64]
         Interpolation coefficients; dim(3)
-        Array shape: (:)
 
     Returns
     -------
-    icoeff : ndarray[np.float64, ndim=1]
-        Interpolation coefficients; dim(3)
-        Array shape: (:)
+    icoeff : ndarray[tuple[3, ...], np.float64]
+         Interpolation coefficients; dim(3)
+
     """
     cdef CFI_cdesc_rank1 icoeff_cfi
     cdef CFI_cdesc_t *icoeff_ptr = <CFI_cdesc_t *> &icoeff_cfi
@@ -284,25 +286,24 @@ def get_interp_coeff_tri(double [::1,:] gpc, double [::1] oc,
 
 
 def get_interp_coeff_lin1d(double [::1] gpc, double  oc, double [::1] icoeff):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""The coefficient for linear interpolation in 1D.
+
+    The resulting coefficient is used in :func:`pyPDAF.PDAFomi.obs_op_interp_lin`.
 
     Parameters
     ----------
-    gpc : ndarray[np.float64, ndim=1]
-        Coordinates of grid points (dim=2)
-        Array shape: (:)
-    oc : double
-        Coordinates of observation
-    icoeff : ndarray[np.float64, ndim=1]
+    gpc : ndarray[tuple[2, ...], np.float64]
+        Coordinates of grid points surrounding the observations (dim=2)
+    oc : float
+        Coordinates of observation (targeted location)
+    icoeff : ndarray[tuple[2, ...], np.float64]
         Interpolation coefficients (dim=2)
-        Array shape: (:)
 
     Returns
     -------
-    icoeff : ndarray[np.float64, ndim=1]
-        Interpolation coefficients (dim=2)
-        Array shape: (:)
+    icoeff : ndarray[tuple[2, ...], np.float64]
+         Interpolation coefficients (dim=2)
+
     """
     cdef CFI_cdesc_rank1 icoeff_cfi
     cdef CFI_cdesc_t *icoeff_ptr = <CFI_cdesc_t *> &icoeff_cfi
@@ -329,30 +330,35 @@ def get_interp_coeff_lin1d(double [::1] gpc, double  oc, double [::1] icoeff):
 
 def get_interp_coeff_lin(int  num_gp, int  n_dim, double [::1,:] gpc,
     double [::1] oc, double [::1] icoeff):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""The coefficient for linear interpolation up to 3D.
+
+    The resulting coefficient is used in :func:`pyPDAF.PDAFomi.obs_op_interp_lin`.
+
+    See introduction in `relevant PDAF-OMI wiki page
+    <https://pdaf.awi.de/trac/wiki/OMI_observation_operators#PDAFomi_get_interp_coeff_lin>`_
 
     Parameters
     ----------
-    num_gp : int
-        Length of icoeff
-    n_dim : int
-        Number of dimensions in interpolation
-    gpc : ndarray[np.float64, ndim=2]
+    gpc : ndarray[tuple[num_gp, n_dim, ...], np.float64]
         Coordinates of grid points
-        Array shape: (:,:)
-    oc : ndarray[np.float64, ndim=1]
+        The order of the grid points in gcoords has to
+        be consistent with the order of the indices specified in
+        `id_obs_p` of `obs_f`.
+        The 1st-th dimension num_gp is Length of icoeff
+        The 2nd-th dimension n_dim is Number of dimensions in interpolation
+    oc : ndarray[tuple[n_dim, ...], np.float64]
         Coordinates of observation
-        Array shape: (:)
-    icoeff : ndarray[np.float64, ndim=1]
+        The array dimension `n_dim` is Number of dimensions in interpolation
+    icoeff : ndarray[tuple[num_gp, ...], np.float64]
         Interpolation coefficients (num_gp)
-        Array shape: (:)
+        The array dimension `num_gp` is Length of icoeff
 
     Returns
     -------
-    icoeff : ndarray[np.float64, ndim=1]
-        Interpolation coefficients (num_gp)
-        Array shape: (:)
+    icoeff : ndarray[tuple[num_gp, ...], np.float64]
+         Interpolation coefficients (num_gp)
+
+        The array dimension `num_gp` is Length of icoeff
     """
     cdef CFI_cdesc_rank1 icoeff_cfi
     cdef CFI_cdesc_t *icoeff_ptr = <CFI_cdesc_t *> &icoeff_cfi
@@ -389,22 +395,38 @@ def get_interp_coeff_lin(int  num_gp, int  n_dim, double [::1,:] gpc,
 
 def init_dim_obs_l_iso(int  i_obs, double [::1] coords_l, int  locweight,
     double  cradius, double  sradius, int  cnt_obs_l_all):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Initialize the observation information corresponding to an isotropic local analysis domain.
+
+    One can set localization parameters, like the localization radius, for each observation type.
+
+    The function has to be called in user-supplied function of
+    `init_dim_obs_l_OBTYPE` in each observation module if a
+    domain-localized filter (LESTKF/LETKF/LNETF/LSEIK)is used.
+
+    It initialises the local observation information for PDAF-OMI for a
+    single local analysis domain. This is used for isotropic localisation
+    where the localisation radius is the same in all directions.
+
+    See also `relevant PDAF wiki page <https://pdaf.awi.de/trac/wiki/OMI_observation_modules_PDAF3#init_dim_obs_l_OBSTYPE>`_
 
     Parameters
     ----------
     i_obs : int
-        index into observation arrays
-    coords_l : ndarray[np.float64, ndim=1]
+        index of observation type
+    coords_l : ndarray[tuple[ncoord, ...], np.float64]
         Coordinates of current analysis domain
-        Array shape: (:)
+        The array dimension `ncoord` is number of coordinate dimension
     locweight : int
-        Type of localization function
-    cradius : double
-        Localization cut-off radius
-    sradius : double
-        Support radius of localization function
+        Types of localization function
+        0) unit weight; 1) exponential; 2) 5-th order polynomial;
+        3) 5-th order polynomial with regulatioin using mean variance;
+        4) 5-th order polynomial with regulatioin using variance of single observation point;
+    cradius : float
+        Vector of localization cut-off radii; observation weight=0 if distance > cradius
+    sradius : float
+        Vector of support radii of localization function.
+        It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
+        weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
     cnt_obs_l_all : int
         Local dimension of current observation vector
 
@@ -431,24 +453,43 @@ def init_dim_obs_l_iso(int  i_obs, double [::1] coords_l, int  locweight,
 def init_dim_obs_l_noniso(int  i_obs, double [::1] coords_l,
     int  locweight, double [::1] cradius, double [::1] sradius,
     int  cnt_obs_l_all):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Initialize the observation information corresponding to a non-isotropic local analysis domain.
+
+    One can set localization parameters, like the localization radius, for each observation type.
+
+    Here, each dimension can use a different localisation radius.
+
+    The function has to be called in user-supplied function of
+    `init_dim_obs_l_OBTYPE` in each observation module if a
+    domain-localized filter (LESTKF/LETKF/LNETF/LSEIK)is used.
+
+    It initialises the local observation information for PDAF-OMI for a
+    single local analysis domain. This is used for isotropic localisation
+    where the localisation radius is the same in all directions.
+
+    See also `relevant PDAF wiki page <https://pdaf.awi.de/trac/wiki/OMI_observation_modules_PDAF3#init_dim_obs_l_OBSTYPE>`_
+    as well as `non-isotropic localisation page <https://pdaf.awi.de/trac/wiki/PDAFomi_additional_functionality#Non-isotropiclocalization>`_
 
     Parameters
     ----------
     i_obs : int
-        index into observation arrays
-    coords_l : ndarray[np.float64, ndim=1]
+        index of observation type
+    coords_l : ndarray[tuple[ncoord, ...], np.float64]
         Coordinates of current analysis domain
-        Array shape: (:)
+        The array dimension `ncoord` is number of coordinate dimension
     locweight : int
-        Type of localization function
-    cradius : ndarray[np.float64, ndim=1]
-        Vector of localization cut-off radii
-        Array shape: (:)
-    sradius : ndarray[np.float64, ndim=1]
-        Vector of support radii of localization function
-        Array shape: (:)
+        Types of localization function
+        0) unit weight; 1) exponential; 2) 5-th order polynomial;
+        3) 5-th order polynomial with regulatioin using mean variance;
+        4) 5-th order polynomial with regulatioin using variance of single observation point;
+    cradius : ndarray[tuple[ncoord, ...], np.float64]
+        Vector of localization cut-off radii; observation weight=0 if distance > cradius
+        The array dimension `ncoord` is number of coordinate dimension
+    sradius : ndarray[tuple[ncoord, ...], np.float64]
+        Vector of support radii of localization function.
+        It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
+        weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        The array dimension `ncoord` is number of coordinate dimension
     cnt_obs_l_all : int
         Local dimension of current observation vector
 
@@ -492,25 +533,45 @@ def init_dim_obs_l_noniso(int  i_obs, double [::1] coords_l,
 def init_dim_obs_l_noniso_locweights(int  i_obs, double [::1] coords_l,
     int [::1] locweights, double [::1] cradius, double [::1] sradius,
     int  cnt_obs_l):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Initialize the observation information corresponding to a non-isotropic local analysis domain.
+
+    One can set localization parameters, like the localization radius, for each observation type.
+
+    Here, each dimension can use a different localisation radius and a different
+    localisation weight.
+
+    The function has to be called in user-supplied function of
+    `init_dim_obs_l_OBTYPE` in each observation module if a
+    domain-localized filter (LESTKF/LETKF/LNETF/LSEIK)is used.
+
+    It initialises the local observation information for PDAF-OMI for a
+    single local analysis domain. This is used for isotropic localisation
+    where the localisation radius is the same in all directions.
+
+    See also `relevant PDAF wiki page <https://pdaf.awi.de/trac/wiki/OMI_observation_modules_PDAF3#init_dim_obs_l_OBSTYPE>`_
+    as well as `non-isotropic localisation page <https://pdaf.awi.de/trac/wiki/PDAFomi_additional_functionality#Non-isotropiclocalization>`_
 
     Parameters
     ----------
     i_obs : int
-        index into observation arrays
-    coords_l : ndarray[np.float64, ndim=1]
+        index of observation type
+    coords_l : ndarray[tuple[ncoord, ...], np.float64]
         Coordinates of current analysis domain
-        Array shape: (:)
-    locweights : ndarray[np.intc, ndim=1]
+        The array dimension `ncoord` is number of coordinate dimension
+    locweights : ndarray[tuple[2, ...], np.intc]
         Types of localization function
-        Array shape: (:)
-    cradius : ndarray[np.float64, ndim=1]
-        Vector of localization cut-off radii
-        Array shape: (:)
-    sradius : ndarray[np.float64, ndim=1]
-        Vector of support radii of localization function
-        Array shape: (:)
+        0) unit weight; 1) exponential; 2) 5-th order polynomial;
+        3) 5-th order polynomial with regulatioin using mean variance;
+        4) 5-th order polynomial with regulatioin using variance of single observation point;
+        The first dimension is horizontal weight function and the second is the vertical function
+    cradius : ndarray[tuple[ncoord, ...], np.float64]
+        Vector of localization cut-off radii for each dimension; observation weight=0 if distance > cradius
+        The array dimension `ncoord` is number of coordinate dimension
+    sradius : ndarray[tuple[ncoord, ...], np.float64]
+        Vector of support radii of localization function for each dimension.
+        It has no impact if locweight=0; 	weight = exp(-d / sradius) if locweight=1;
+        weight = 0 if d >= sradius else f(sradius, distance) if locweight in [2,3,4].
+        The array dimension `ncoord` is number of coordinate dimension
     cnt_obs_l : int
         Local dimension of current observation vector
 
@@ -561,25 +622,35 @@ def init_dim_obs_l_noniso_locweights(int  i_obs, double [::1] coords_l,
 
 
 def obs_op_gridpoint(int  i_obs, double [::1] state_p, double [::1] obs_f_all):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""A (partial) identity observation operator
+
+    This observation operator is used
+    when observations and model use the same grid.
+
+    The observations operator selects state vectors
+    where observations are present based on properties given
+    in `obs_f`, e.g., `id_obs_p`.
+
+    The function is used in
+    the user-supplied function :func:`py__obs_op_pdaf`.
 
     Parameters
     ----------
     i_obs : int
-        index into observation arrays
-    state_p : ndarray[np.float64, ndim=1]
+        index of observations
+    state_p : ndarray[tuple[dim_p, ...], np.float64]
         PE-local model state (dim_p)
-        Array shape: (:)
-    obs_f_all : ndarray[np.float64, ndim=1]
+        The array dimension `dim_p` is dimension of model state
+    obs_f_all : ndarray[tuple[nobs_f_all, ...], np.float64]
         Full observed state for all observation types (nobs_f_all)
-        Array shape: (:)
+        The array dimension `nobs_f_all` is dimension of the observation
 
     Returns
     -------
-    obs_f_all : ndarray[np.float64, ndim=1]
-        Full observed state for all observation types (nobs_f_all)
-        Array shape: (:)
+    obs_f_all : ndarray[tuple[nobs_f_all, ...], np.float64]
+         Full observed state for all observation types (nobs_f_all)
+
+        The array dimension `nobs_f_all` is dimension of the observation
     """
     cdef CFI_cdesc_rank1 obs_f_all_cfi
     cdef CFI_cdesc_t *obs_f_all_ptr = <CFI_cdesc_t *> &obs_f_all_cfi
@@ -606,27 +677,32 @@ def obs_op_gridpoint(int  i_obs, double [::1] state_p, double [::1] obs_f_all):
 
 def obs_op_gridavg(int  i_obs, int  nrows, double [::1] state_p,
     double [::1] obs_f_all):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Observation operator that average values on given model grid points.
+
+    The averaged model grid points are specified in `id_obs_p` property of `obs_f`,
+    which can be set in :func:`pyPDAF.PDAF.omi_set_id_obs_p`.
+
+    The function is used in the user-supplied function `py__obs_op_pdaf`.
 
     Parameters
     ----------
     i_obs : int
-        index into observation arrays
+        index of observations
     nrows : int
         Number of values to be averaged
-    state_p : ndarray[np.float64, ndim=1]
+    state_p : ndarray[tuple[dim_p, ...], np.float64]
         PE-local model state (dim_p)
-        Array shape: (:)
-    obs_f_all : ndarray[np.float64, ndim=1]
+        The array dimension `dim_p` is dimension of model state
+    obs_f_all : ndarray[tuple[nobs_f_all, ...], np.float64]
         Full observed state for all observation types (nobs_f_all)
-        Array shape: (:)
+        The array dimension `nobs_f_all` is dimension of the observation
 
     Returns
     -------
-    obs_f_all : ndarray[np.float64, ndim=1]
-        Full observed state for all observation types (nobs_f_all)
-        Array shape: (:)
+    obs_f_all : ndarray[tuple[nobs_f_all, ...], np.float64]
+         Full observed state for all observation types (nobs_f_all)
+
+        The array dimension `nobs_f_all` is dimension of the observation
     """
     cdef CFI_cdesc_rank1 obs_f_all_cfi
     cdef CFI_cdesc_t *obs_f_all_ptr = <CFI_cdesc_t *> &obs_f_all_cfi
@@ -705,27 +781,42 @@ def obs_op_extern(int  i_obs, double [::1] ostate_p,
 
 def obs_op_interp_lin(int  i_obs, int  nrows, double [::1] state_p,
     double [::1] obs_f_all):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Observation operator that linearly interpolates model grid values to observation location.
+
+    The grid points used by linear interpolation is specified in `id_obs_p` of `obs_f`,
+    which can be set by :func:`pyPDAF.PDAFomi.set_id_obs_p`.
+
+    The function also requires `icoeff_p` attribute of `obs_f`,
+    which can be set by :func:`pyPDAF.PDAFomi.set_icoeff_p`
+
+    The interpolation coefficient can be obtained by :func:`pyPDAF.PDAFomi.get_interp_coeff_lin1D`,
+    :func:`pyPDAF.PDAFomi.get_interp_coeff_lin`, and
+    :func:`pyPDAF.PDAFomi.get_interp_coeff_tri`
+
+    The details of interpolation setup can be found at
+    `relevant PDAF wiki page <https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Initializinginterpolationcoefficients>`_
+
+    The function is used in the user-supplied function `py__obs_op_pdaf`.
 
     Parameters
     ----------
     i_obs : int
-        index into observation arrays
+        index of observations
     nrows : int
         Number of values to be averaged
-    state_p : ndarray[np.float64, ndim=1]
+    state_p : ndarray[tuple[dim_p, ...], np.float64]
         PE-local model state (dim_p)
-        Array shape: (:)
-    obs_f_all : ndarray[np.float64, ndim=1]
+        The array dimension `dim_p` is dimension of model state
+    obs_f_all : ndarray[tuple[nobs_f_all, ...], np.float64]
         Full observed state for all observation types (nobs_f_all)
-        Array shape: (:)
+        The array dimension `nobs_f_all` is dimension of the observation
 
     Returns
     -------
-    obs_f_all : ndarray[np.float64, ndim=1]
-        Full observed state for all observation types (nobs_f_all)
-        Array shape: (:)
+    obs_f_all : ndarray[tuple[nobs_f_all, ...], np.float64]
+         Full observed state for all observation types (nobs_f_all)
+
+        The array dimension `nobs_f_all` is dimension of the observation
     """
     cdef CFI_cdesc_rank1 obs_f_all_cfi
     cdef CFI_cdesc_t *obs_f_all_ptr = <CFI_cdesc_t *> &obs_f_all_cfi
@@ -752,25 +843,31 @@ def obs_op_interp_lin(int  i_obs, int  nrows, double [::1] state_p,
 
 def obs_op_adj_gridpoint(int  i_obs, double [::1] obs_f_all,
     double [::1] state_p):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""The adjoint observation operator of :func:`pyPDAF.PDAFomi.obs_op_gridpoint`.
+
+    This function performs :math:`\mathbf{H}^\mathrm{T}\mathbf{y}`,
+    where :math:`\mathbf{H}` is the observation operator and
+    :math:`\mathbf{y}` is any state in observation space.
+
+    Here :math:`\mathbf{H}` is :func:`pyPDAF.PDAFomi.obs_op_gridpoint`.
 
     Parameters
     ----------
     i_obs : int
-        index into observation arrays
-    obs_f_all : ndarray[np.float64, ndim=1]
+        index of observations
+    obs_f_all : ndarray[tuple[nobs_f_all, ...], np.float64]
         Full observed state for all observation types (nobs_f_all)
-        Array shape: (:)
-    state_p : ndarray[np.float64, ndim=1]
+        The array dimension `nobs_f_all` is dimension of the observation
+    state_p : ndarray[tuple[dim_p, ...], np.float64]
         PE-local model state (dim_p)
-        Array shape: (:)
+        The array dimension `dim_p` is dimension of model state
 
     Returns
     -------
-    state_p : ndarray[np.float64, ndim=1]
+    state_p : ndarray[tuple[dim_p, ...], np.float64]
+        :math:`\mathbf{H}^\mathrm{T}\mathbf{y}`
         PE-local model state (dim_p)
-        Array shape: (:)
+        The array dimension `dim_p` is dimension of model state
     """
     cdef CFI_cdesc_rank1 state_p_cfi
     cdef CFI_cdesc_t *state_p_ptr = <CFI_cdesc_t *> &state_p_cfi
@@ -797,27 +894,33 @@ def obs_op_adj_gridpoint(int  i_obs, double [::1] obs_f_all,
 
 def obs_op_adj_gridavg(int  i_obs, int  nrows, double [::1] obs_f_all,
     double [::1] state_p):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""The adjoint observation operator of :func:`pyPDAF.PDAFomi.obs_op_gridavg`.
+
+    This function performs :math:`\mathbf{H}^\mathrm{T}\mathbf{y}`,
+    where :math:`\mathbf{H}` is the observation operator and
+    :math:`\mathbf{y}` is any state in observation space.
+
+    Here :math:`\mathbf{H}` is :func:`pyPDAF.PDAFomi.obs_op_gridavg`.
 
     Parameters
     ----------
     i_obs : int
-        index into observation arrays
+        index of observations
     nrows : int
         Number of values to be averaged
-    obs_f_all : ndarray[np.float64, ndim=1]
+    obs_f_all : ndarray[tuple[nobs_f_all, ...], np.float64]
         Full observed state for all observation types (nobs_f_all)
-        Array shape: (:)
-    state_p : ndarray[np.float64, ndim=1]
+        The array dimension `nobs_f_all` is dimension of the observation
+    state_p : ndarray[tuple[dim_p, ...], np.float64]
         PE-local model state (dim_p)
-        Array shape: (:)
+        The array dimension `dim_p` is dimension of model state
 
     Returns
     -------
-    state_p : ndarray[np.float64, ndim=1]
+    state_p : ndarray[tuple[dim_p, ...], np.float64]
+        :math:`\mathbf{H}^\mathrm{T}\mathbf{y}`
         PE-local model state (dim_p)
-        Array shape: (:)
+        The array dimension `dim_p` is dimension of model state
     """
     cdef CFI_cdesc_rank1 state_p_cfi
     cdef CFI_cdesc_t *state_p_ptr = <CFI_cdesc_t *> &state_p_cfi
@@ -845,27 +948,33 @@ def obs_op_adj_gridavg(int  i_obs, int  nrows, double [::1] obs_f_all,
 
 def obs_op_adj_interp_lin(int  i_obs, int  nrows, double [::1] obs_f_all,
     double [::1] state_p):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""The adjoint observation operator of :func:`pyPDAF.PDAFomi.obs_op_interp_lin`.
+
+    This function performs :math:`\mathbf{H}^\mathrm{T}\mathbf{y}`,
+    where :math:`\mathbf{H}` is the observation operator and
+    :math:`\mathbf{y}` is any state in observation space.
+
+    Here :math:`\mathbf{H}` is :func:`pyPDAF.PDAFomi.obs_op_interp_lin`.
 
     Parameters
     ----------
     i_obs : int
-        index into observation arrays
+        index of observations
     nrows : int
         Number of values to be averaged
-    obs_f_all : ndarray[np.float64, ndim=1]
+    obs_f_all : ndarray[tuple[nobs_f_all, ...], np.float64]
         Full observed state for all observation types (nobs_f_all)
-        Array shape: (:)
-    state_p : ndarray[np.float64, ndim=1]
+        The array dimension `nobs_f_all` is dimension of the observation
+    state_p : ndarray[tuple[dim_p, ...], np.float64]
         PE-local model state (dim_p)
-        Array shape: (:)
+        The array dimension `dim_p` is dimension of model state
 
     Returns
     -------
-    state_p : ndarray[np.float64, ndim=1]
+    state_p : ndarray[tuple[dim_p, ...], np.float64]
+        :math:`\mathbf{H}^\mathrm{T}\mathbf{y}`
         PE-local model state (dim_p)
-        Array shape: (:)
+        The array dimension `dim_p` is dimension of model state
     """
     cdef CFI_cdesc_rank1 state_p_cfi
     cdef CFI_cdesc_t *state_p_ptr = <CFI_cdesc_t *> &state_p_cfi
@@ -893,8 +1002,15 @@ def obs_op_adj_interp_lin(int  i_obs, int  nrows, double [::1] obs_f_all,
 
 def observation_localization_weights(int  i_obs, int  ncols,
     double [::1,:] a_l, int dim_obs_l, int  verbose):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Returns a vector of observation localisation weights.
+
+    The weights are based on specifications given by localisation setups and
+    observation coordinates in OMI. This function is used in the case of
+    non-diagonal observation error covariance matrix where one has to perform
+    localisation in user-supplied functions, e.g.,
+    :func:`pyPDAF.c__prodrinva_pdaf` or :func:`pyPDAF.c__likelihood_l_pdaf`.
+
+    Here, `a_l` is typically the input array in :func:`pyPDAF.c__prodrinva_pdaf`.
 
     Parameters
     ----------
@@ -936,25 +1052,19 @@ def observation_localization_weights(int  i_obs, int  ncols,
 
 
 def set_debug_flag(int  debugval):
-    """Activate the debug output of the PDAF.
+    """Activate the debug output of the PDAFomi.
 
     Starting from the use of this function,
     the debug infomation is sent to screen output.
     The screen output end when the debug flag is
     set to 0 by this function.
 
-    For the sake of simplicity,
-    we recommend using debugging output for
-    a single local domain, e.g.
-    `if domain_p == 1: pyPDAF.PDAF.set_debug_flag(1)`
+    See also `relevant PDAF wiki page <https://pdaf.awi.de/trac/wiki/OMI_debugging>`_
 
     Parameters
     ----------
     debugval : int
         Value for debugging flag
-
-    Returns
-    -------
     """
     with nogil:
         c__pdafomi_set_debug_flag(&debugval)
@@ -962,8 +1072,11 @@ def set_debug_flag(int  debugval):
 
 
 def set_dim_obs_l(int  i_obs, int  cnt_obs_l_all, int  cnt_obs_l):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    """Stores the local number of observations for OMI-internal initialisations.
+
+    This is used for alternative to :func:`pyPDF.PDAFomi.init_dim_obs_l`.
+
+    See more details in `relevant PDAF wiki page <https://pdaf.awi.de/trac/wiki/OMI_search_local_observations>`_
 
     Parameters
     ----------
@@ -989,8 +1102,12 @@ def set_dim_obs_l(int  i_obs, int  cnt_obs_l_all, int  cnt_obs_l):
 
 def set_localization(int  i_obs, double  cradius, double  sradius,
     int  locweight):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Stores the isotropic localization parameters (cradius, sradius, locweight) in OMI.
+
+    This is used for alternative to :func:`pyPDF.PDAFomi.init_dim_obs_l`.
+
+    See more details in `relevant PDAF wiki page <https://pdaf.awi.de/trac/wiki/OMI_search_local_observations>`_
+
 
     Parameters
     ----------
@@ -1002,9 +1119,6 @@ def set_localization(int  i_obs, double  cradius, double  sradius,
         Support radius of localization function
     locweight : int
         Type of localization function
-
-    Returns
-    -------
     """
     with nogil:
         c__pdafomi_set_localization(&i_obs, &cradius, &sradius, &locweight)
@@ -1013,8 +1127,13 @@ def set_localization(int  i_obs, double  cradius, double  sradius,
 
 def set_localization_noniso(int  i_obs, int  nradii, double [::1] cradius,
     double [::1] sradius, int  locweight, int  locweight_v):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Stores the non-isotropic localization parameters (cradius, sradius, locweight) in OMI.
+
+    This is used for alternative to :func:`pyPDF.PDAFomi.init_dim_obs_l`.
+
+    See more details in `relevant PDAF wiki page <https://pdaf.awi.de/trac/wiki/OMI_search_local_observations>`_
+
+
 
     Parameters
     ----------
@@ -1045,8 +1164,10 @@ def set_localization_noniso(int  i_obs, int  nradii, double [::1] cradius,
 
 def set_localize_covar_iso(int  i_obs, int  dim, int  ncoords,
     double [::1,:] coords, int  locweight, double  cradius, double  sradius):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Initialise local observation information for isotropic covariance localisation.
+
+    This is only used in stochastic EnKF. This is called in user-supplied functions
+    :func:`pyPDAF.c__init_dim_obs_pdaf`.
 
     Parameters
     ----------
@@ -1065,9 +1186,6 @@ def set_localize_covar_iso(int  i_obs, int  dim, int  ncoords,
         localization radius
     sradius : double
         support radius for weight functions
-
-    Returns
-    -------
     """
     cdef CFI_cdesc_rank2 coords_cfi
     cdef CFI_cdesc_t *coords_ptr = <CFI_cdesc_t *> &coords_cfi
@@ -1088,8 +1206,12 @@ def set_localize_covar_iso(int  i_obs, int  dim, int  ncoords,
 def set_localize_covar_noniso(int  i_obs, int  dim, int  ncoords,
     double [::1,:] coords, int  locweight, double [::1] cradius,
     double [::1] sradius):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Initialise local observation information for non-isotropic covariance localisation.
+
+    This is only used in stochastic EnKF. This is called in user-supplied functions
+    :func:`pyPDAF.c__init_dim_obs_pdaf`.
+
+    Here, localisation radii differ for each spatial dimension.
 
     Parameters
     ----------
@@ -1110,9 +1232,6 @@ def set_localize_covar_noniso(int  i_obs, int  dim, int  ncoords,
     sradius : ndarray[np.float64, ndim=1]
         Vector of support radii of localization function
         Array shape: (:)
-
-    Returns
-    -------
     """
     cdef CFI_cdesc_rank2 coords_cfi
     cdef CFI_cdesc_t *coords_ptr = <CFI_cdesc_t *> &coords_cfi
@@ -1149,8 +1268,12 @@ def set_localize_covar_noniso(int  i_obs, int  dim, int  ncoords,
 def set_localize_covar_noniso_locweights(int  i_obs, int  dim,
     int  ncoords, double [::1,:] coords, int [::1] locweights,
     double [::1] cradius, double [::1] sradius):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Initialise local observation information for non-isotropic covariance localisation.
+
+    This is only used in stochastic EnKF. This is called in user-supplied functions
+    :func:`pyPDAF.c__init_dim_obs_pdaf`.
+
+    Here, both weighting function and localisation radii differ for each spatial dimension.
 
     Parameters
     ----------
@@ -1172,9 +1295,6 @@ def set_localize_covar_noniso_locweights(int  i_obs, int  dim,
     sradius : ndarray[np.float64, ndim=1]
         Vector of support radii of localization function
         Array shape: (:)
-
-    Returns
-    -------
     """
     cdef CFI_cdesc_rank2 coords_cfi
     cdef CFI_cdesc_t *coords_ptr = <CFI_cdesc_t *> &coords_cfi
@@ -1220,16 +1340,29 @@ def set_localize_covar_noniso_locweights(int  i_obs, int  dim,
 
 
 def set_obs_diag(int  diag):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    """Activate or deactivate the observation diagnostics.
+
+    By default, observation diagnostics are activated that stores
+    additional information for diagnostics.
+    However, as this functionality increases the required memory,
+    it might be desirable to deactivate this functionality.
+
+    This function is used deactivate the observation diagnostics.
+    Once deactivated, one cannot use diagnostics in :mod:`pyPDAF.PDAFomi.diag`.
+    It is also possible to re-activate the observation diagnostics at a later time.
+
+    The function can be called by all processes, but it is sufficient to call it
+    for those processes that handle observations, which usually are the filter processes.
+
+    This function can be called after the initialization of PDAF in `pyPDAF.PDAF.init`.
+
 
     Parameters
     ----------
     diag : int
         Value for observation diagnostics mode
-
-    Returns
-    -------
+        - > 0: activates observation diagnostics
+        - 0: deactivates observation diagnostics
     """
     with nogil:
         c__pdafomi_set_obs_diag(&diag)
@@ -1237,17 +1370,18 @@ def set_obs_diag(int  diag):
 
 
 def set_domain_limits(double [::1,:] lim_coords):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Set the domain limits for domain decomposed local domain.
+
+    This is for the use of :func:`pyPDAF.PDAFomi.set_use_global_obs`.
+    Currently, it only supports 2D limitations.
+
+    See `relevant PDAF wiki page <https://pdaf.awi.de/trac/wiki/PDAFomi_additional_functionality#PDAFomi_set_domain_limits>`_
+
 
     Parameters
     ----------
-    lim_coords : ndarray[np.float64, ndim=2]
+    lim_coords : ndarray[tuple[2, 2, ...], np.float64]
         geographic coordinate array (1: longitude, 2: latitude)
-        Array shape: (2,2)
-
-    Returns
-    -------
     """
     with nogil:
         c__pdafomi_set_domain_limits(&lim_coords[0,0])
@@ -1255,19 +1389,22 @@ def set_domain_limits(double [::1,:] lim_coords):
 
 
 def get_domain_limits_unstr(int  npoints_p, double [::1,:] coords_p):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Set the domain limits for unstructured domain decomposed local domain.
+
+    This is for the use of :func:`pyPDAF.PDAFomi.set_use_global_obs`.
+    Currently, it only supports 2D limitations.
+
+    See also `relevant PDAF wiki page <https://pdaf.awi.de/trac/wiki/PDAFomi_additional_functionality#PDAFomi_get_domain_limits_unstrc>`_
 
     Parameters
     ----------
     npoints_p : int
         number of process-local grid points
     coords_p : ndarray[np.float64, ndim=2]
-        geographic coordinate array (row 1: longitude, 2: latitude)
+        geographic coordinate array, dimension (2, npoints_p)
+        (row 1: longitude, 2: latitude)
+        ranges: longitude (-pi, pi), latitude (-pi/2, pi/2)
         Array shape: (:,:)
-
-    Returns
-    -------
     """
     cdef CFI_cdesc_rank2 coords_p_cfi
     cdef CFI_cdesc_t *coords_p_ptr = <CFI_cdesc_t *> &coords_p_cfi
@@ -1285,15 +1422,17 @@ def get_domain_limits_unstr(int  npoints_p, double [::1,:] coords_p):
 
 def store_obs_l_index(int  i_obs, int  idx, int  id_obs_l,
     double  distance, double  cradius_l, double  sradius_l):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Save local observation information in PDAF.
+
+    One should check `relevant PDAF wiki page <https://pdaf.awi.de/trac/wiki/OMI_search_local_observations>`_
+    before using this function.
 
     Parameters
     ----------
     i_obs : int
         index into observation arrays
     idx : int
-        Element of local observation array to be filled
+        index of the valid local observations in current local analysis domain
     id_obs_l : int
         Index of local observation in full observation array
     distance : double
@@ -1302,9 +1441,6 @@ def store_obs_l_index(int  i_obs, int  idx, int  id_obs_l,
         cut-off radius for this local observation
     sradius_l : double
         support radius for this local observation
-
-    Returns
-    -------
     """
     with nogil:
         c__pdafomi_store_obs_l_index(&i_obs, &idx, &id_obs_l, &distance,
@@ -1314,15 +1450,17 @@ def store_obs_l_index(int  i_obs, int  idx, int  id_obs_l,
 
 def store_obs_l_index_vdist(int  i_obs, int  idx, int  id_obs_l,
     double  distance, double  cradius_l, double  sradius_l, double  vdist):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Save local observation information for 2+1D factorized localization in the vertical direction in PDAF.
+
+    One should check `relevant PDAF wiki page <https://pdaf.awi.de/trac/wiki/OMI_search_local_observations>`_
+    before using this function.
 
     Parameters
     ----------
     i_obs : int
         index into observation arrays
     idx : int
-        Element of local observation array to be filled
+        index of the valid local observations in current local analysis domain
     id_obs_l : int
         Index of local observation in full observation array
     distance : double
@@ -1333,9 +1471,6 @@ def store_obs_l_index_vdist(int  i_obs, int  idx, int  id_obs_l,
         support radius for this local observation
     vdist : double
         support radius in vertical direction for 2+1D factorized localization
-
-    Returns
-    -------
     """
     with nogil:
         c__pdafomi_store_obs_l_index_vdist(&i_obs, &idx, &id_obs_l,

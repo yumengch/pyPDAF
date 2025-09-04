@@ -1,6 +1,5 @@
 from pyPDAF.cfi_binding cimport CFI_cdesc_t
-cdef extern void c__pdaf_get_fcst_info(int* steps, double* time,
-    int* doexit) noexcept nogil;
+
 
 cdef extern void c__pdaf3_assimilate_3dvar_nondiagr(
     void (*c__collect_state_pdaf)(int* , double* ),

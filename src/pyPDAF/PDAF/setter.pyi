@@ -58,7 +58,7 @@ def set_ens_pointer() -> typing.Tuple[np.ndarray, int]:
     """
 
 def set_iparam(idval: int, value: int, flag: int) -> int:
-    """This routine is used to set integer parameters for PDAF.
+    """Set integer parameters for PDAF.
 
     The integer parameters specific to a DA method can be set in the array
     `param_int` that is an argument of :func:`pyPDAF.PDAF.init`
@@ -123,7 +123,7 @@ def set_offline_mode(screen: int) -> None:
     """
 
 def set_rparam(idval: int, value: float, flag: int) -> int:
-    """This routine is used to set floating-point parameters for PDAF.
+    """Set floating-point parameters for PDAF.
 
     The floating-point parameters specific to a DA method can be set in the array
     `filter_param_r` that is an argument of :func:`pyPDAF.PDAF.init`
@@ -162,7 +162,7 @@ def set_rparam(idval: int, value: float, flag: int) -> int:
     """
 
 def set_seedset(seedset_in: int) -> None:
-    """This routine can be called to choose a seedset for the random number generator used in PDAF.
+    """Choose a seedset for the random number generator used in PDAF.
 
     Parameters
     ----------
@@ -173,7 +173,7 @@ def set_seedset(seedset_in: int) -> None:
     -------
     """
 
-def set_smootherens(maxlag: int) -> typing.Tuple[np.ndarray, int]:
+def set_smoother_ens(maxlag: int) -> typing.Tuple[np.ndarray, int]:
     """Get a pointer to smoother ensemble.
 
     When smoother is used, the smoothed ensemble states

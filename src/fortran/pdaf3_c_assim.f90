@@ -7,19 +7,6 @@ use pdaf_c_f_interface
 implicit none
 
 contains
-   SUBROUTINE c__PDAF_get_fcst_info(steps, time, doexit) bind(c)
-      ! Flag and number of time steps
-      INTEGER(c_int), INTENT(inout) :: steps
-      ! current model time
-      REAL(c_double), INTENT(inout) :: time
-      ! Whether to exit from forecasts
-      INTEGER(c_int), INTENT(inout) :: doexit
-
-
-      call PDAF_get_fcst_info(steps, time, doexit)
-
-   END SUBROUTINE c__PDAF_get_fcst_info
-
    SUBROUTINE c__PDAF3_assimilate_3dvar_nondiagR(collect_state_pdaf,  &
       distribute_state_pdaf, init_dim_obs_pdaf, obs_op_pdaf, prodrinva_pdaf,  &
       cvt_pdaf, cvt_adj_pdaf, obs_op_lin_pdaf, obs_op_adj_pdaf,  &

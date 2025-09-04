@@ -21,3 +21,6 @@ foreach file :pypdaf_sources
     install_rpath: '$ORIGIN'
   )
 endforeach
+
+
+python.install_sources(['__init__.py', 'py.typed', '_pdaf3_c.pyi', 'assim.pyi'], subdir: 'pyPDAF/PDAF3/')

@@ -763,16 +763,15 @@ def init_dim_obs_l_noniso_locweights_old(int  i_obs, double [::1] coords_l,
 
 
 def deallocate_obs(int  i_obs):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    r"""Deallocate OMI-internal obsrevation arrays
+
+    This function should not be called by users
+    because it is called internally in PDAF.
 
     Parameters
     ----------
     i_obs : int
-        index into observation arrays
-
-    Returns
-    -------
+        index of observations
     """
     with nogil:
         c__pdafomi_deallocate_obs(&i_obs)

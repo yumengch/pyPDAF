@@ -5,6 +5,19 @@ use pdaf_c_cb_interface
 implicit none
 
 contains
+   SUBROUTINE c__PDAF_get_fcst_info(steps, time, doexit) bind(c)
+      ! Flag and number of time steps
+      INTEGER(c_int), INTENT(inout) :: steps
+      ! current model time
+      REAL(c_double), INTENT(inout) :: time
+      ! Whether to exit from forecasts
+      INTEGER(c_int), INTENT(inout) :: doexit
+
+
+      call PDAF_get_fcst_info(steps, time, doexit)
+
+   END SUBROUTINE c__PDAF_get_fcst_info
+
    SUBROUTINE c__PDAF_correlation_function(ctype, length, distance, value) bind(c)
       ! Type of correlation function
       INTEGER(c_int), INTENT(in) :: ctype

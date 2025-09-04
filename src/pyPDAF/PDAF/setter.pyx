@@ -116,7 +116,7 @@ def set_ens_pointer():
 
 
 def set_iparam(int  idval, int  value, int  flag):
-    """This routine is used to set integer parameters for PDAF.
+    """Set integer parameters for PDAF.
 
     The integer parameters specific to a DA method can be set in the array
     `filter_param_i` that is an argument of :func:`pyPDAF.PDAF.init`
@@ -194,7 +194,7 @@ def set_offline_mode(int  screen):
 
 
 def set_rparam(int  idval, double  value, int  flag):
-    """This routine is used to set floating-point parameters for PDAF.
+    """Set floating-point parameters for PDAF.
 
     The floating-point parameters specific to a DA method can be set in the array
     `filter_param_r` that is an argument of :func:`pyPDAF.PDAF.init`
@@ -237,7 +237,7 @@ def set_rparam(int  idval, double  value, int  flag):
 
 
 def set_seedset(int  seedset_in):
-    """This routine can be called to choose a seedset for the random number generator used in PDAF.
+    """Choose a seedset for the random number generator used in PDAF.
 
     Parameters
     ----------
@@ -252,7 +252,7 @@ def set_seedset(int  seedset_in):
 
 
 
-def set_smootherens(int  maxlag):
+def set_smoother_ens(int  maxlag):
     """Get a pointer to smoother ensemble.
 
     When smoother is used, the smoothed ensemble states

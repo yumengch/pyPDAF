@@ -40,8 +40,12 @@ def global_except_hook(exctype, value, traceback):
 sys.excepthook = global_except_hook
 
 def diag_dimobs():
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    """Observation dimension for each observation type.
+
+    Returns
+    -------
+    dim_obs: np.ndarray
+        Observation dimension for each observation type. shape: (n_obs,)
     """
     cdef CFI_cdesc_rank1 dim_obs_ptr_cfi
     cdef CFI_cdesc_t *dim_obs_ptr_ptr = <CFI_cdesc_t *> &dim_obs_ptr_cfi
@@ -57,8 +61,7 @@ def diag_dimobs():
 
 
 def diag_get_hx(int  id_obs):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    """Observed ensemble for given observation type.
 
     Parameters
     ----------
@@ -71,7 +74,7 @@ def diag_get_hx(int  id_obs):
         Observation dimension
     hx_p_ptr : ndarray[np.float64, ndim=2]
         Pointer to observed ensemble mean
-        Array shape: (:,:)
+        Array shape: (dim_obs_p_diag, dim_ens)
     """
     cdef CFI_cdesc_rank2 hx_p_ptr_cfi
     cdef CFI_cdesc_t *hx_p_ptr_ptr = <CFI_cdesc_t *> &hx_p_ptr_cfi
@@ -89,8 +92,7 @@ def diag_get_hx(int  id_obs):
 
 
 def diag_get_hxmean(int  id_obs):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    """Observed ensemble mean for given observation type.
 
     Parameters
     ----------
@@ -120,8 +122,7 @@ def diag_get_hxmean(int  id_obs):
 
 
 def diag_get_ivar(int  id_obs):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    """Inverse of observation error variance for given observation type.
 
     Parameters
     ----------
@@ -151,8 +152,7 @@ def diag_get_ivar(int  id_obs):
 
 
 def diag_get_obs(int  id_obs):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    """Observation vector and corresponding coordinates for specified observation type.
 
     Parameters
     ----------
@@ -197,13 +197,12 @@ def diag_get_obs(int  id_obs):
 
 
 def diag_nobstypes(int  nobs):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    """The number of observation types that are active in an assimilation run.
 
     Parameters
     ----------
     nobs : int
-        Number of observation types
+        Number of observation types (input can be an arbitrary number)
 
     Returns
     -------
@@ -217,8 +216,8 @@ def diag_nobstypes(int  nobs):
 
 
 def diag_obs_rmsd(int  nobs, int  verbose):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    """Root mean squared distance between observation and obseved model state
+    for each observation type.
 
     Parameters
     ----------
@@ -249,8 +248,8 @@ def diag_obs_rmsd(int  nobs, int  verbose):
 
 
 def diag_stats(int  nobs, int  verbose):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
+    """A selection of 6 statistics comparing the observations and the
+    observed ensemble mean for each observation type.
 
     Parameters
     ----------
@@ -265,6 +264,13 @@ def diag_stats(int  nobs, int  verbose):
         Number of observation types
     obsstats_ptr : ndarray[np.float64, ndim=2]
         Array of observation statistics
+        Included statistics are:
+        - (1,:) correlations between observation and observed ensemble mean
+        - (2,:) centered RMS difference between observation and observed ensemble mean
+        - (3,:) mean bias (observation minus observed ensemble mean)
+        - (4,:) mean absolute difference between observation and observed ensemble mean
+        - (5,:) variance of observations
+        - (6,:) variance of observed ensemble mean
         Array shape: (:,:)
     """
     cdef CFI_cdesc_rank2 obsstats_ptr_cfi

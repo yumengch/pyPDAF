@@ -85,7 +85,7 @@ def get_obsmemberid(memberid: int) -> int:
         Index in the local ensemble
     """
 
-def get_smootherens() -> typing.Tuple[np.ndarray, int, int]:
+def get_smoother_ens() -> typing.Tuple[np.ndarray, int, int]:
     """Return the smoothed ensemble in earlier time steps.
 
     It is only used when the smoother options is used .

@@ -1,5 +1,8 @@
-import numpy as np
+# pylint: disable=unused-argument
+"""Stub file for PDAF IAU module
+"""
 from typing import Callable, Tuple
+import numpy as np
 
 def iau_init(type_iau_in: int, nsteps_iau_in: int) -> int:
     """Initialise parameters for incremental analysis updates, IAU.

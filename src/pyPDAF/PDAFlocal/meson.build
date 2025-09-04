@@ -1,6 +1,7 @@
 pypdaf_sources = files('assim.pyx',
                        '_pdaflocal_c.pyx',
                        'put.pyx',
+                       'internal.pyx'
                      )
 
 foreach file :pypdaf_sources
@@ -21,3 +22,5 @@ foreach file :pypdaf_sources
     install_rpath: '$ORIGIN'
   )
 endforeach
+
+python.install_sources(['__init__.py', 'py.typed', '_pdaflocal_c.pyi'], subdir: 'pyPDAF/PDAFlocal/')

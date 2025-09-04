@@ -1,5 +1,8 @@
-import numpy as np
+# pylint: disable=unused-argument, too-many-lines
+"""Stub file for user-supplied functions.
+"""
 from typing import Tuple
+import numpy as np
 
 def add_obs_err_pdaf(step: int, dim_obs_p: int, c_p: np.ndarray) -> np.ndarray:
     """Add the observation error covariance matrix to the matrix C.
@@ -31,7 +34,8 @@ def add_obs_err_pdaf(step: int, dim_obs_p: int, c_p: np.ndarray) -> np.ndarray:
     """
 
 def init_ens_pdaf(filtertype: int, dim_p: int, dim_ens: int, state_p: np.ndarray,
-    uinv: np.ndarray, ens_p: np.ndarray, flag: int) -> Tuple[np.ndarray, np.ndarray, np.ndarray, int]:
+    uinv: np.ndarray, ens_p: np.ndarray, flag: int
+    ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, int]:
     """Fill the ensemble array that is provided by PDAF with an initial ensemble of model states.
 
     This function is called by :func:`pyPDAF.PDAF.init`. The initialised
@@ -333,7 +337,8 @@ def init_obs_f_pdaf(step: int, dim_obs_f: int, observation_f: np.ndarray) -> np.
     """
 
 def init_obs_covar_pdaf(step: int, dim_obs: int, dim_obs_p: int,
-                        covar: np.ndarray, obs_p: np.ndarray, isdiag: bool) -> Tuple[np.ndarray, bool]:
+                        covar: np.ndarray, obs_p: np.ndarray,
+                        isdiag: bool) -> Tuple[np.ndarray, bool]:
     """Provide observation error covariance matrix to PDAF.
 
     This function is used in stochastic EnKF for generating observation perturbations.
@@ -404,8 +409,9 @@ def init_obsvars_pdaf(step: int, dim_obs_f: int, var_f: np.ndarray) -> np.ndarra
         Observation variance vector. shape: (dim_obs_f,)
     """
 
-def prodrinva_pdaf(step: int, dim_obs_p: int, rank: int, obs_p: np.ndarray, a_p: np.ndarray, c_p: np.ndarray) -> np.ndarray:
-    """Provide :math:`\mathbf{R}^{-1} \\times \mathbf{A}`.
+def prodrinva_pdaf(step: int, dim_obs_p: int, rank: int,
+                   obs_p: np.ndarray, a_p: np.ndarray, c_p: np.ndarray) -> np.ndarray:
+    r"""Provide :math:`\mathbf{R}^{-1} \times \mathbf{A}`.
 
     Here, one should compute :math:`\mathbf{R}^{-1} \times \mathbf{A}` where
     :math:`\mathbf{R}` is observation error covariance matrix.
@@ -436,8 +442,9 @@ def prodrinva_pdaf(step: int, dim_obs_p: int, rank: int, obs_p: np.ndarray, a_p:
         shape: (dim_obs_p, rank)
     """
 
-def obs_op_pdaf(step: int, dim_p: int, dim_obs_p: int, state_p: np.ndarray, m_state_p: np.ndarray) -> np.ndarray:
-    """Apply observation operator
+def obs_op_pdaf(step: int, dim_p: int, dim_obs_p: int,
+                state_p: np.ndarray, m_state_p: np.ndarray) -> np.ndarray:
+    r"""Apply observation operator
 
     This function computes :math:`\mathbf{H} \mathbf{x}`, where
     :math:`\mathbf{H}` is the observation operator and
@@ -462,13 +469,15 @@ def obs_op_pdaf(step: int, dim_p: int, dim_obs_p: int, state_p: np.ndarray, m_st
         Observed state vector. shape: (dim_obs_p,)
     """
 
-def obs_op_f_pdaf(step: int, dim_p: int, dim_obs_p: int, state_p: np.ndarray, m_state_p: np.ndarray) -> np.ndarray:
-    """Apply observation operator for full observed state vector
+def obs_op_f_pdaf(step: int, dim_p: int, dim_obs_p: int,
+                  state_p: np.ndarray, m_state_p: np.ndarray) -> np.ndarray:
+    r"""Apply observation operator for full observed state vector
 
     This function computes :math:`\mathbf{H} \mathbf{x}`, where
     :math:`\mathbf{H}` is the observation operator and
     :math:`\mathbf{x}` is state vector.
-    See `here <https://pdaf.awi.de/trac/wiki/ImplementAnalysislestkf#Explanationoffullobservations>`_
+    See `here
+    <https://pdaf.awi.de/trac/wiki/ImplementAnalysislestkf#Explanationoffullobservations>`_
     for the meaning of full observations.
 
     Parameters
@@ -490,7 +499,8 @@ def obs_op_f_pdaf(step: int, dim_p: int, dim_obs_p: int, state_p: np.ndarray, m_
         Observed state vector. shape: (dim_obs_p,)
     """
 
-def g2l_obs_pdaf(domain_p: int, step: int, dim_obs_f: int, dim_obs_l: int, mstate_f: np.ndarray, mstate_l: np.ndarray) -> np.ndarray:
+def g2l_obs_pdaf(domain_p: int, step: int, dim_obs_f: int,
+                 dim_obs_l: int, mstate_f: np.ndarray, mstate_l: np.ndarray) -> np.ndarray:
     """Convert global observed state vector to local vector.
 
     This is used by domain localisation methods. In these methods, each local
@@ -517,7 +527,8 @@ def g2l_obs_pdaf(domain_p: int, step: int, dim_obs_f: int, dim_obs_l: int, mstat
         Local observed state vector. shape: (dim_obs_l,)
     """
 
-def g2l_state_pdaf(step: int, domain_p: int, dim_p: int, state_p: np.ndarray, dim_l: int, state_l: np.ndarray) -> np.ndarray:
+def g2l_state_pdaf(step: int, domain_p: int, dim_p: int,
+                   state_p: np.ndarray, dim_l: int, state_l: np.ndarray) -> np.ndarray:
     """Get local state vector.
 
     Get the state vector for analysis local domain.
@@ -601,7 +612,8 @@ def init_n_domains_p_pdaf(step: int, n_domains_p: int) -> int:
         Number of analysis domains.
     """
 
-def init_obs_l_pdaf(domain_p: int, step: int, dim_obs_l: int, observation_l: np.ndarray) -> np.ndarray:
+def init_obs_l_pdaf(domain_p: int, step: int, dim_obs_l: int,
+                    observation_l: np.ndarray) -> np.ndarray:
     """Initialise observation vector for local analysis domain.
 
     Parameters
@@ -621,7 +633,8 @@ def init_obs_l_pdaf(domain_p: int, step: int, dim_obs_l: int, observation_l: np.
         Local observation vector.
     """
 
-def init_obsvar_l_pdaf(domain_p: int, step: int, dim_obs_l: int, obs_l: np.ndarray, dim_obs_p: int, meanvar_l: float) -> float:
+def init_obsvar_l_pdaf(domain_p: int, step: int, dim_obs_l: int,
+                       obs_l: np.ndarray, dim_obs_p: int, meanvar_l: float) -> float:
     """Get mean of analysis domain local observation variance.
 
     This is used by local adaptive forgetting factor (type_forget=2)
@@ -647,7 +660,8 @@ def init_obsvar_l_pdaf(domain_p: int, step: int, dim_obs_l: int, obs_l: np.ndarr
         Mean of analysis domain local observation variance.
     """
 
-def init_obserr_f_pdaf(step: int, dim_obs_f: int, obs_f: np.ndarray, obserr_f: np.ndarray) -> np.ndarray:
+def init_obserr_f_pdaf(step: int, dim_obs_f: int,
+                       obs_f: np.ndarray, obserr_f: np.ndarray) -> np.ndarray:
     """Initializes the full vector of observations error standard deviations.
 
     Parameters
@@ -667,7 +681,8 @@ def init_obserr_f_pdaf(step: int, dim_obs_f: int, obs_f: np.ndarray, obserr_f: n
         Full observation error vector.
     """
 
-def l2g_state_pdaf(step: int, domain_p: int, dim_l: int, state_l: np.ndarray, dim_p: int, state_p: np.ndarray) -> np.ndarray:
+def l2g_state_pdaf(step: int, domain_p: int, dim_l: int,
+                   state_l: np.ndarray, dim_p: int, state_p: np.ndarray) -> np.ndarray:
     """Assign local state vector to process-local global state vector.
 
     Parameters
@@ -691,8 +706,10 @@ def l2g_state_pdaf(step: int, domain_p: int, dim_l: int, state_l: np.ndarray, di
         Process-local global state vector.
     """
 
-def prodrinva_l_pdaf(domain_p: int, step: int, dim_obs_l: int, rank: int, obs_l: np.ndarray, a_l: np.ndarray, c_l: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
-    """Provide :math:`\mathbf{R}^{-1}_l \times \mathbf{A}_l`.
+def prodrinva_l_pdaf(domain_p: int, step: int, dim_obs_l: int,
+                     rank: int, obs_l: np.ndarray, a_l: np.ndarray,
+                     c_l: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    r"""Provide :math:`\mathbf{R}^{-1}_l \times \mathbf{A}_l`.
 
     Here, one should do :math:`\mathbf{R}^{-1}_l \times \mathbf{A}_l`.
     The matrix :math:`\mathbf{A}_l` depends on the filter algorithm.
@@ -727,7 +744,8 @@ def prodrinva_l_pdaf(domain_p: int, step: int, dim_obs_l: int, rank: int, obs_l:
         shape: (dim_obs_l, rank)
     """
 
-def localize_covar_pdaf(dim_p: int, dim_obs: int, hp_p: np.ndarray, hph: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+def localize_covar_pdaf(dim_p: int, dim_obs: int, hp_p: np.ndarray,
+                        hph: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
     """Perform covariance localisation.
 
     This is only used for stochastic EnKF. The localisation is performed
@@ -756,7 +774,8 @@ def localize_covar_pdaf(dim_p: int, dim_obs: int, hp_p: np.ndarray, hph: np.ndar
     """
 
 def localize_covar_serial_pdaf(iobs: int, dim_p: int, dim_obs:int,
-                               hp_p: np.ndarray, hph: np.ndarray, hxy_p: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+                               hp_p: np.ndarray, hph: np.ndarray,
+                               hxy_p: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
     """Apply covariance localisation in EnSRF/EAKF.
 
     The localisation is applied to each observation element. The weight can be
@@ -783,8 +802,9 @@ def localize_covar_serial_pdaf(iobs: int, dim_p: int, dim_obs:int,
         Localised matrix HPH.T. Shape: (dim_obs)
     """
 
-def likelihood_pdaf(step: int, dim_obs_p: int, obs_p: np.ndarray, resid: np.ndarray, likely: float) -> float:
-    """Compute the likelihood of the observation for a given ensemble member.
+def likelihood_pdaf(step: int, dim_obs_p: int, obs_p: np.ndarray,
+                    resid: np.ndarray, likely: float) -> float:
+    r"""Compute the likelihood of the observation for a given ensemble member.
 
     The function is used with the nonlinear filter NETF and particle filter. The likelihood
     depends on the assumed observation error distribution.
@@ -813,8 +833,9 @@ def likelihood_pdaf(step: int, dim_obs_p: int, obs_p: np.ndarray, resid: np.ndar
     """
 
 def likelihood_l_pdaf(domain_p: int, step: int, dim_obs_l: int,
-                      obs_l: np.ndarray, resid_l: np.ndarray, double: float) -> float:
-    """Compute the likelihood of the observation for a given ensemble member
+                      obs_l: np.ndarray, resid_l: np.ndarray,
+                      double: float) -> float:
+    r"""Compute the likelihood of the observation for a given ensemble member
     according to the observations used for the local analysis.
 
     The function is used in the localized nonlinear filter LNETF. The likelihood
@@ -872,7 +893,7 @@ def get_obs_f_pdaf(step: int, dim_obs_f: int, observation_f: np.ndarray) -> np.n
 
 def cvt_adj_ens_pdaf(iter: int, dim_p: int, dim_ens: int, dim_cv_ens_p:int,
                      ens: np.ndarray, vcv_p: np.ndarray, cv_p: np.ndarray) -> np.ndarray:
-    """The adjoint control variable transformation involving ensembles.
+    r"""The adjoint control variable transformation involving ensembles.
 
     Here, this function performs
     :math:`\mathbf{U}^\mathrm{T} \mathbf{v}_h`. Here, the input vector can be
@@ -908,8 +929,9 @@ def cvt_adj_ens_pdaf(iter: int, dim_p: int, dim_ens: int, dim_cv_ens_p:int,
         :math:`\mathbf{U}^\mathrm{T} \mathbf{v}_h`. shape: (dim_cv_ens_p, )
     """
 
-def cvt_adj_pdaf(iter: int, dim_p: int, dim_cvec: int, vcv_p: np.ndarray, cv_p: np.ndarray) -> np.ndarray:
-    """The adjoint control variable transformation.
+def cvt_adj_pdaf(iter: int, dim_p: int, dim_cvec: int,
+                 vcv_p: np.ndarray, cv_p: np.ndarray) -> np.ndarray:
+    r"""The adjoint control variable transformation.
 
     Here, this function performs
     :math:`\mathbf{U}^\mathrm{T} \mathbf{v}_h`. Here, the input vector can be
@@ -941,8 +963,9 @@ def cvt_adj_pdaf(iter: int, dim_p: int, dim_cvec: int, vcv_p: np.ndarray, cv_p: 
         :math:`\mathbf{U}^\mathrm{T} \mathbf{v}_h`. shape: (dim_cvec, )
     """
 
-def cvt_pdaf(iter: int, dim_p: int, dim_cvec: int, cv_p: np.ndarray, vv_p: np.ndarray) -> np.ndarray:
-    """The control variable transformation.
+def cvt_pdaf(iter: int, dim_p: int, dim_cvec: int,
+             cv_p: np.ndarray, vv_p: np.ndarray) -> np.ndarray:
+    r"""The control variable transformation.
 
     Here, this function performs :math:`\mathbf{U} \mathbf{v}` with
     :math:`\mathbf{v}` the control vector and :math:`\mathbf{U}` the transformation
@@ -971,7 +994,7 @@ def cvt_pdaf(iter: int, dim_p: int, dim_cvec: int, cv_p: np.ndarray, vv_p: np.nd
 
 def cvt_ens_pdaf(iter: int, dim_p: int, dim_ens: int, dim_cv_ens_p: int,
                  v_p: np.ndarray, vv_p: np.ndarray) -> np.ndarray:
-    """The  control variable transformation involving ensembles.
+    r"""The control variable transformation involving ensembles.
 
     Here, this function performs :math:`\mathbf{U} \mathbf{v}` with
     :math:`\mathbf{v}` the control vector and :math:`\mathbf{U}` the transformation
@@ -1002,8 +1025,9 @@ def cvt_ens_pdaf(iter: int, dim_p: int, dim_ens: int, dim_cv_ens_p: int,
         :math:`\mathbf{U} \mathbf{v}`. shape: (dim_p, )
     """
 
-def obs_op_adj_pdaf(step: int, dim_p: int, dim_obs_p: int, m_state_p: np.ndarray, state_p: np.ndarray) -> np.ndarray:
-    """Apply adjoint observation operator
+def obs_op_adj_pdaf(step: int, dim_p: int, dim_obs_p: int,
+                    m_state_p: np.ndarray, state_p: np.ndarray) -> np.ndarray:
+    r"""Apply adjoint observation operator
 
     This function computes :math:`\mathbf{H}^\mathrm{T} \mathbf{w}`, where
     :math:`\mathbf{H}` is the observation operator and
@@ -1028,8 +1052,9 @@ def obs_op_adj_pdaf(step: int, dim_p: int, dim_obs_p: int, m_state_p: np.ndarray
         :math:`\mathbf{H}^\mathrm{T} \mathbf{w}`. shape: (dim_p,)
     """
 
-def obs_op_lin_pdaf(step: int, dim_p: int, dim_obs_p: int, state_p: np.ndarray, m_state_p: np.ndarray) -> np.ndarray:
-    """Apply linearised observation operator
+def obs_op_lin_pdaf(step: int, dim_p: int, dim_obs_p: int,
+                    state_p: np.ndarray, m_state_p: np.ndarray) -> np.ndarray:
+    r"""Apply linearised observation operator
 
     This function computes :math:`\mathbf{H} \mathbf{x}`, where
     :math:`\mathbf{H}` is the linearised observation operator and
@@ -1057,7 +1082,7 @@ def obs_op_lin_pdaf(step: int, dim_p: int, dim_obs_p: int, state_p: np.ndarray, 
 def likelihood_hyb_l_pdaf(domain_p: int, step: int, dim_obs_l: int,
                           obs_l: np.ndarray, gamma: float, resid_l: np.ndarray,
                           likely_l: np.ndarray) -> float:
-    """Compute the likelihood of the observation for a given ensemble member
+    r"""Compute the likelihood of the observation for a given ensemble member
     according to the observations used for the local analysis with hybrid weight.
 
     The function is used in the localized nonlinear filter LKNETF. The likelihood
@@ -1101,7 +1126,7 @@ def likelihood_hyb_l_pdaf(domain_p: int, step: int, dim_obs_l: int,
 def prodrinva_hyb_l_pdaf(domain_p: int, step: int, dim_obs_l: int, rank: int,
                          obs_l: np.ndarray, gamma: float,
                          a_l: np.ndarray, c_l: np.ndarray) -> np.ndarray:
-    """Provide :math:`\mathbf{R}^{-1}_l \times \mathbf{A}_l` with weighting.
+    r"""Provide :math:`\mathbf{R}^{-1}_l \times \mathbf{A}_l` with weighting.
 
     Here, one should do :math:`\mathbf{R}^{-1}_l \times \mathbf{A}_l`.
     The matrix :math:`\mathbf{A}_l` depends on the filter algorithm.

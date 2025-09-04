@@ -3,6 +3,36 @@ from typing import Tuple, Callable, Any
 import numpy as np
 from numpy.typing import NDArray
 
+def get_fcst_info(steps: int, time : float, doexit:int) -> Tuple[int, float, int]:
+    """Return the number of time steps, current model time, and a flag
+    whether the forecasting should be exited.
+
+    This is used when the flexible parallelization mode is used with
+    :func:`pyPDAF.PDAF3.assimilate`. This is also relevant for the
+    legacy assimilation functions.
+
+    See also `relevant PDAF page <https://pdaf.awi.de/trac/wiki/ExternalModelLoop>`_.
+
+    Parameters
+    ----------
+    steps : int
+        number of forecast time steps for next assimilation
+        The input value can be an arbitrary integer
+    time : float
+        current model time
+    doexit : int
+        Whether to exit from forecasts
+
+    Returns
+    -------
+    steps : int
+        number of forecast time steps for next assimilation
+        The input value can be an arbitrary integer
+    time : float
+        current model time
+    doexit : int
+        Whether to exit from forecasts
+    """
 
 def correlation_function(ctype: int, length: float, distance: float) -> float:
     """The value of the chosen correlation function according to the specified
@@ -718,7 +748,7 @@ def reset_forget(forget_in: float) -> None:
     """
 
 
-def sampleens(
+def sample_ens(
     dim: int,
     dim_ens: int,
     modes: NDArray[np.float64],

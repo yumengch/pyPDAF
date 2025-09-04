@@ -39,6 +39,42 @@ def global_except_hook(exctype, value, traceback):
 
 sys.excepthook = global_except_hook
 
+def get_fcst_info(int  steps, double  time, int  doexit):
+    """Return the number of time steps, current model time, and a flag
+    whether the forecasting should be exited.
+
+    This is used when the flexible parallelization mode is used with
+    :func:`pyPDAF.PDAF3.assimilate`. This is also relevant for the
+    legacy assimilation functions.
+
+    See also `relevant PDAF page <https://pdaf.awi.de/trac/wiki/ExternalModelLoop>`_.
+
+    Parameters
+    ----------
+    steps : int
+        number of forecast time steps for next assimilation
+        The input value can be an arbitrary integer
+    time : float
+        current model time
+    doexit : int
+        Whether to exit from forecasts
+
+    Returns
+    -------
+    steps : int
+        number of forecast time steps for next assimilation
+        The input value can be an arbitrary integer
+    time : float
+        current model time
+    doexit : int
+        Whether to exit from forecasts
+    """
+    with nogil:
+        c__pdaf_get_fcst_info(&steps, &time, &doexit)
+
+    return steps, time, doexit
+
+
 def correlation_function(int  ctype, double  length, double  distance):
     """The value of the chosen correlation function according to the specified
     length scale.
@@ -810,7 +846,7 @@ def reset_forget(double  forget_in):
 
 
 
-def sampleens(int  dim, int  dim_ens, double [::1,:] modes,
+def sample_ens(int  dim, int  dim_ens, double [::1,:] modes,
     double [::1] svals, double [::1] state, int  verbose, int  flag):
     r"""Generate an ensemble from singular values and
     their vectors (EOF modes) of an ensemble anomaly matrix.

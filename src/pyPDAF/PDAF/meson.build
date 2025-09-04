@@ -27,3 +27,6 @@ foreach file :pypdaf_sources
     install: true,
   )
 endforeach
+
+python.install_sources(['__init__.py', 'py.typed', 'diag.pyi', 'get.pyi',
+                             'iau.pyi', '_pdaf_c.pyi', 'setter.pyi'], subdir: 'pyPDAF/PDAF')

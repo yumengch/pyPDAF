@@ -1,4 +1,8 @@
 from pyPDAF.cfi_binding cimport CFI_cdesc_t
+
+cdef extern void c__pdaf_get_fcst_info(int* steps, double* time,
+    int* doexit) noexcept nogil;
+
 cdef extern void c__pdaf_correlation_function(int* ctype, double* length,
     double* distance, double* value) noexcept nogil;
 

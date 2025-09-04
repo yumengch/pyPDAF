@@ -1,45 +1,9 @@
-import sys
+# pylint: disable=unused-argument
+"""Stub file for PDAFomi setter module
+"""
 import numpy as np
-cimport numpy as cnp
-from pyPDAF cimport pdaf_c_cb_interface as pdaf_cb
-from pyPDAF.cfi_binding cimport CFI_cdesc_t, CFI_address, CFI_index_t, CFI_establish
-from pyPDAF.cfi_binding cimport CFI_attribute_other, CFI_type_double, CFI_type_int
-from pyPDAF.cfi_binding cimport CFI_cdesc_rank1, CFI_cdesc_rank2, CFI_cdesc_rank3
 
-try:
-    import mpi4py
-    mpi4py.rc.initialize = False
-except ImportError:
-    pass
-
-# Global error handler
-def global_except_hook(exctype, value, traceback):
-    from traceback import print_exception
-    try:
-        import mpi4py.MPI
-
-        if mpi4py.MPI.Is_initialized():
-            try:
-                sys.stderr.write('Uncaught exception was ''detected on rank {}.\n'.format(
-                    mpi4py.MPI.COMM_WORLD.Get_rank()))
-                print_exception(exctype, value, traceback)
-                sys.stderr.write("\n")
-                sys.stderr.flush()
-            finally:
-                try:
-                    mpi4py.MPI.COMM_WORLD.Abort(1)
-                except Exception as e:
-                    sys.stderr.write('MPI Abort failed, this process will hang.\n')
-                    sys.stderr.flush()
-                    raise e
-        else:
-            sys.__excepthook__(exctype, value, traceback)
-    except ImportError:
-        sys.__excepthook__(exctype, value, traceback)
-
-sys.excepthook = global_except_hook
-
-def set_doassim(int  i_obs, int  doassim):
+def set_doassim(i_obs: int, doassim: int) -> None:
     r"""Setting the `doassim` attribute of `obs_f`
     for `i`-th observation type. This property must be
     explicitly set for OMI functionality.
@@ -58,10 +22,8 @@ def set_doassim(int  i_obs, int  doassim):
         0) do not assimilate;
         1) assimilate the observation type
     """
-    with nogil:
-        c__pdafomi_set_doassim(&i_obs, &doassim)
 
-def set_disttype(int  i_obs, int  disttype):
+def set_disttype(i_obs: int, disttype: int) -> None:
     r"""Setting the observation localisation distance
     calculation method
     for `i`-th observation type. This is a mandatory property
@@ -72,10 +34,12 @@ def set_disttype(int  i_obs, int  disttype):
 
     `disttype` determines the way the distance
     between observation and model grid is calculated in OMI.
-    To perform distance computation, the observation coordinatesshould be given by `ocoord_p` argument
+    To perform distance computation, the observation coordinates should be
+    given by `ocoord_p` argument
     when :func:`pyPDAF.PDAF.omi_gather_obs` is called.
 
-    See also `PDAF distance computation <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsdisttype>`_.
+    See also `PDAF distance computation
+    <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsdisttype>`_.
 
     Parameters
     ----------
@@ -100,12 +64,8 @@ def set_disttype(int  i_obs, int  disttype):
               distance is in units chosen by users where the horizontal
               and vertical distances are treated separately
     """
-    with nogil:
-        c__pdafomi_set_disttype(&i_obs, &disttype)
 
-
-
-def set_ncoord(int  i_obs, int  ncoord):
+def set_ncoord(i_obs: int, ncoord: int) -> None:
     r"""Setting the number of spatial dimensions of observations
     for `i`-th observation type. This is a mandatory property
     for OMI functionality.
@@ -125,12 +85,8 @@ def set_ncoord(int  i_obs, int  ncoord):
     ncoord : int
         Dimension of the observation coordinate
     """
-    with nogil:
-        c__pdafomi_set_ncoord(&i_obs, &ncoord)
 
-
-
-def set_obs_err_type(int  i_obs, int  obs_err_type):
+def set_obs_err_type(i_obs: int, obs_err_type: int) -> None:
     r"""Setting the type of observation error distribution
     for `i`-th observation type. This property is optional
     unless a laplacian observation error distribution is used.
@@ -147,12 +103,8 @@ def set_obs_err_type(int  i_obs, int  obs_err_type):
             0) Gaussian (default)
             1) double exponential (Laplacian)
     """
-    with nogil:
-        c__pdafomi_set_obs_err_type(&i_obs, &obs_err_type)
 
-
-
-def set_use_global_obs(int  i_obs, int  use_global_obs):
+def set_use_global_obs(i_obs: int, use_global_obs: int) -> None:
     r"""Switch for only use process-local observations
     for `i`-th observation type.
 
@@ -197,12 +149,8 @@ def set_use_global_obs(int  i_obs, int  use_global_obs):
             0) Using process-local observations;
             1) using cross-process observations (default)
     """
-    with nogil:
-        c__pdafomi_set_use_global_obs(&i_obs, &use_global_obs)
 
-
-
-def set_inno_omit(int  i_obs, double  inno_omit):
+def set_inno_omit(i_obs: int, inno_omit: float) -> None:
     r"""Setting innovation threshold for removing observation
     outliers. By default, no observations are omitted.
 
@@ -226,12 +174,8 @@ def set_inno_omit(int  i_obs, double  inno_omit):
     inno_omit : float
         Threshold of innovation to be omitted
     """
-    with nogil:
-        c__pdafomi_set_inno_omit(&i_obs, &inno_omit)
 
-
-
-def set_inno_omit_ivar(int  i_obs, double  inno_omit_ivar):
+def set_inno_omit_ivar(i_obs: int, inno_omit_ivar: float) -> None:
     r"""Setting the inverse of observation error variance for
     omitted observations.
 
@@ -248,12 +192,8 @@ def set_inno_omit_ivar(int  i_obs, double  inno_omit_ivar):
     inno_omit_ivar : float
         Inverse of observation variance for omiited observations
     """
-    with nogil:
-        c__pdafomi_set_inno_omit_ivar(&i_obs, &inno_omit_ivar)
 
-
-
-def set_id_obs_p(int  i_obs, int  nrows, int  dim_obs_p, int [::1,:] id_obs_p):
+def set_id_obs_p(i_obs: int, nrows: int, dim_obs_p: int, id_obs_p: np.ndarray) -> None:
     r"""Setting the `id_obs_p` attribute of `obs_f`
     for `i`-th observation type. This is a mandatory property
     for OMI functionality.
@@ -290,7 +230,8 @@ def set_id_obs_p(int  i_obs, int  nrows, int  dim_obs_p, int [::1,:] id_obs_p):
       :func:`pyPDAF.PDAFomi.get_interp_coeff_lin1D`,
       and :func:`pyPDAF.PDAFomi.get_interp_coeff_tri` functions.
       The details of interpolation setup can be found at
-      `PDAF wiki page <https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Initializinginterpolationcoefficients>`_.
+      `PDAF wiki page
+      <https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Initializinginterpolationcoefficients>`_.
 
 
     Parameters
@@ -302,13 +243,8 @@ def set_id_obs_p(int  i_obs, int  nrows, int  dim_obs_p, int [::1,:] id_obs_p):
         The 1st-th dimension nrows is number of values to be averaged or used for interpolation
         The 2nd-th dimension dim_obs_p is dimension of PE local obs
     """
-    with nogil:
-        c__pdafomi_set_id_obs_p(&i_obs, &nrows, &dim_obs_p, &id_obs_p[0,0])
 
-
-
-def set_icoeff_p(int  i_obs, int  nrows, int  dim_obs_p,
-    double [::1,:] icoeff_p):
+def set_icoeff_p(i_obs: int, nrows: int, dim_obs_p: int, icoeff_p: np.ndarray) -> None:
     r"""Setting the observation interpolation coefficient
     for `i`-th observation type. This property is optional
     unless interpolations needed in observation operators
@@ -334,7 +270,8 @@ def set_icoeff_p(int  i_obs, int  nrows, int  dim_obs_p,
         - :func:`pyPDAF.PDAFomi.get_interp_coeff_tri`
           2D linear interpolation for triangular grids
 
-    See also `PDAF documentation for OMI interpolations <https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Initializinginterpolationcoefficients>`_.
+    See also `PDAF documentation for OMI interpolations
+    <https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Initializinginterpolationcoefficients>`_.
 
     Parameters
     ----------
@@ -346,12 +283,8 @@ def set_icoeff_p(int  i_obs, int  nrows, int  dim_obs_p,
         to one observation location
         The 2nd-th dimension dim_obs_p is dimension of PE local obs
     """
-    with nogil:
-        c__pdafomi_set_icoeff_p(&i_obs, &nrows, &dim_obs_p, &icoeff_p[0,0])
 
-
-
-def set_domainsize(int  i_obs, int  ncoord, double [::1] domainsize):
+def set_domainsize(i_obs: int, ncoord: int, domainsize: np.ndarray) -> None:
     r"""Setting the domain periodicity
     attribute of `obs_f`
     for `i`-th observation type. This property is optional
@@ -378,10 +311,8 @@ def set_domainsize(int  i_obs, int  ncoord, double [::1] domainsize):
         Size of the domain in each dimension
         The array dimension `ncoord` is state dimension
     """
-    with nogil:
-        c__pdafomi_set_domainsize(&i_obs, &ncoord, &domainsize[0])
 
-def set_name(int  i_obs, str obsname):
+def set_name(i_obs: int, obsname: str) -> None:
     """Set a name for given observation type
 
     Parameters
@@ -391,7 +322,3 @@ def set_name(int  i_obs, str obsname):
     obsname : str
         name of observation type
     """
-    obsname_byte = obsname.encode('UTF-8')
-    cdef char* obsname_ptr = obsname_byte
-    with nogil:
-        c__pdafomi_set_name(&i_obs, obsname_ptr)

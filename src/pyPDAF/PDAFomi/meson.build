@@ -25,3 +25,6 @@ foreach file :pypdaf_sources
     install_rpath: '$ORIGIN'
   )
 endforeach
+
+python.install_sources(['__init__.py', 'py.typed', '_pdafomi_c.pyi',
+                              'diag.pyi', 'setter.pyi'], subdir: 'pyPDAF/PDAFomi/')
