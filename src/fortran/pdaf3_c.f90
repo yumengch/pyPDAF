@@ -1,4 +1,4 @@
-module pdaf_c
+module pdaf3_c
 use iso_c_binding, only: c_int, c_double, c_bool
 use pdaf
 implicit none
@@ -8,6 +8,7 @@ contains
       param_real, dim_preal, U_init_ens, in_screen, outflag) bind(c)
       use pdaf_c_f_interface, only: init_ens_pdaf_c_ptr, &
                                     f__init_ens_pdaf
+      use pdaf_c_cb_interface, only: c__init_ens_pdaf
       IMPLICIT NONE
 
       ! *** Arguments ***
@@ -63,6 +64,9 @@ contains
                                     f__distribute_state_pdaf, &
                                     prepoststep_pdaf_c_ptr, &
                                     f__prepoststep_pdaf
+      use pdaf_c_cb_interface, only: c__next_observation_pdaf, &
+                                     c__distribute_state_pdaf, &
+                                     c__prepoststep_pdaf
       implicit none
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: outflag
@@ -105,3 +109,4 @@ contains
       call PDAF3_set_parallel(in_COMM_pdaf, in_COMM_model, in_COMM_filter, in_COMM_couple, &
          in_task_id, in_n_modeltasks, logical(in_filterpe), flag)
    END SUBROUTINE c__PDAF3_set_parallel
+end module pdaf3_c

@@ -97,7 +97,7 @@ contains
 
    END SUBROUTINE c__PDAF_iau_set_ens_pointer
 
-   SUBROUTINE c__PDAF_iau_set_state_pointer(iau_x_ptr, flag)
+   SUBROUTINE c__PDAF_iau_set_state_pointer(iau_x_ptr, flag) bind(c)
       use PDAF_IAU, only: PDAF_iau_set_state_pointer
       IMPLICIT NONE
       !< Pointer to IAU state vector

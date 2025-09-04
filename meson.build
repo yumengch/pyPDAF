@@ -1,4 +1,4 @@
-project('pyPDAF', 'cython', 'fortran', 'c', version: '0.1.0',
+project('pyPDAF', 'cython', 'fortran', 'c', version: '1.0.4',
   meson_version: '>=1.5.0', default_options: ['b_asneeded=false'])
 
 fs = import('fs')
@@ -245,6 +245,7 @@ pdaf_ext_sources = files('PDAF/external/CG+/cgfam.f',
 
 pdafc_sources = files('src/fortran/pdaf3_c_assim.f90',
                       'src/fortran/pdaf3_c_put.f90',
+                      'src/fortran/pdaf3_c.f90',
                       'src/fortran/pdaf_c_assim.f90',
                       'src/fortran/pdaf_c_callback.f90',
                       'src/fortran/pdaf_c_cb_interface.f90',
@@ -316,9 +317,4 @@ subdir('src/pyPDAF/PDAFlocal')
 subdir('src/pyPDAF/PDAFlocalomi')
 subdir('src/pyPDAF/PDAFomi')
 
-python.install_sources(['src/pyPDAF/__init__.py'], subdir: 'pyPDAF')
-python.install_sources(['src/pyPDAF/PDAF/__init__.py'], subdir: 'pyPDAF/PDAF/')
-python.install_sources(['src/pyPDAF/PDAFlocal/__init__.py'], subdir: 'pyPDAF/PDAFlocal/')
-python.install_sources(['src/pyPDAF/PDAFlocalomi/__init__.py'], subdir: 'pyPDAF/PDAFlocalomi/')
-python.install_sources(['src/pyPDAF/PDAFomi/__init__.py'], subdir: 'pyPDAF/PDAFomi/')
-python.install_sources(['src/pyPDAF/PDAF3/__init__.py'], subdir: 'pyPDAF/PDAF3/')
+python.install_sources(['src/pyPDAF/__init__.py', ], subdir: 'pyPDAF')
