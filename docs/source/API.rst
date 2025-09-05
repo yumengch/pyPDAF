@@ -255,8 +255,8 @@ Statistical diagnostics
    pyPDAF.PDAF.diag_effsample
    pyPDAF.PDAF.diag_ensstats
    pyPDAF.PDAF.diag_histogram
-   pyPDAF.PDAF.diag_CRPS
-   pyPDAF.PDAF.diag_CRPS_nompi
+   pyPDAF.PDAF.diag_crps_mpi
+   pyPDAF.PDAF.diag_crps_nompi
 
 Ensemble generation
 ^^^^^^^^^^^^^^^^^^^

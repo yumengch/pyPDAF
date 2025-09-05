@@ -418,7 +418,7 @@ EXPORTS
     c__pdaf_assimilate_etkf
     c__pdafomi_init_local
     c__pdaf_diag_crps_nompi
-    c__pdaf_diag_crps
+    c__pdaf_diag_crps_mpi
     c__pdafomi_put_state_lenkf_nondiagr
     c__pdaflocal_assimilate_lnetf
     c__pdafomi_observation_localization_weights
@@ -629,3 +629,14 @@ EXPORTS
     c__pdaf_lknetf_compute_gamma
     c__pdaf_estkf_options
     c__pdafomi_put_state_enkf_nondiagr
+    c__pdaf3_init
+    c__pdaf3_init_forecast
+    c__pdaf3_set_parallel
+    c__pdaf_iau_set_ens_pointer
+    c__pdaf_iau_set_state_pointer
+    c__pdafomi_obs_op_extern
+    c__pdafomi_set_name
+    c__pdaf_mpi_init
+    c__pdaf_timeit
+    c__pdaf_alloc_sens
+    c__pdaf_alloc_bias

@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import log
 
 import numpy as np
-import pyPDAF.PDAF as PDAF
+import pyPDAF.PDAFomi
 
 import config_obsB as config
 import localisation
@@ -303,7 +303,7 @@ class obsB:
             state vector transformed by identity matrix
         """
         if self.nrows == 1:
-            return PDAF.omi_obs_op_gridpoint(self.i_obs, state_p, ostate)
+            return pyPDAF.PDAFomi.obs_op_gridpoint(self.i_obs, state_p, ostate)
         else:
             # if interpolation is required
-            return PDAF.omi_obs_op_interp_lin(self.i_obs, self.nrows, state_p, ostate)
+            return pyPDAF.PDAFomi.obs_op_interp_lin(self.i_obs, self.nrows, state_p, ostate)

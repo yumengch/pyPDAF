@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import log
 
 import numpy as np
-import pyPDAF.PDAF as PDAF
+import pyPDAF.PDAFomi
 
 import config_obsA as config
 import localisation
@@ -126,12 +126,12 @@ class obsA:
             log.logger.info(f'Assimilate observations: {self.obs_name}')
 
         # switch for assimilation of the observation
-        PDAF.omi_set_doassim(self.i_obs, self.doassim)
+        pyPDAF.PDAFomi.set_doassim(self.i_obs, self.doassim)
         # Type of distance computation to use for localization
         # It is mandatory for OMI even if we don't use localisation
-        PDAF.omi_set_disttype(self.i_obs, self.disttype)
+        pyPDAF.PDAFomi.set_disttype(self.i_obs, self.disttype)
         # Number of coordinates used for distance computation
-        PDAF.omi_set_ncoord(self.i_obs, self.ncoord)
+        pyPDAF.PDAFomi.set_ncoord(self.i_obs, self.ncoord)
 
         # read observations
         filename = self.filename.format(i=step)
@@ -186,29 +186,29 @@ class obsA:
                 # here gcoords are set to 0 in this example
                 # in real applications, it must be the actual coordinates
                 gcoords:np.ndarray = np.zeros((self.nrows, self.ncoord))
-                icoeff_p[:, i] = PDAF.omi_get_interp_coeff_lin(gcoords, ocoord_p[:, i], icoeff_p[:, i])
-            PDAF.omi_set_icoeff_p(self.i_obs, icoeff_p)
-        PDAF.omi_set_id_obs_p(self.i_obs, id_obs_p)
+                icoeff_p[:, i] = pyPDAF.PDAFomi.get_interp_coeff_lin(gcoords, ocoord_p[:, i], icoeff_p[:, i])
+            pyPDAF.PDAFomi.set_icoeff_p(self.i_obs, icoeff_p)
+        pyPDAF.PDAFomi.set_id_obs_p(self.i_obs, id_obs_p)
 
         # Type of observation error: (0) Gauss, (1) Laplace
         # This is optional
         # Without explicit setting, this is 0
-        PDAF.omi_set_obs_err_type(self.i_obs, 0)
+        pyPDAF.PDAFomi.set_obs_err_type(self.i_obs, 0)
 
         # Whether to use (1) global full obs.
         # (0) obs. restricted to those relevant for a process domain
         # Without explicit setting, this is 1 (using all obs.)
-        PDAF.omi_set_use_global_obs(self.i_obs, 1)
+        pyPDAF.PDAFomi.set_use_global_obs(self.i_obs, 1)
 
         # when localisation is used we need to
         if self.local.local_filter:
             # Size of domain for periodicity for disttype=1
             # (<0 for no periodicity)
             domainsize:np.ndarray = np.array([self.model.nx, self.model.ny], dtype=float)
-            PDAF.omi_set_domainsize(self.i_obs, domainsize)
+            pyPDAF.PDAFomi.set_domainsize(self.i_obs, domainsize)
 
         # PDAF need to gather observation information
-        dim_obs = PDAF.omi_gather_obs(self.i_obs,
+        dim_obs = pyPDAF.PDAFomi.gather_obs(self.i_obs,
                                       obs_p,
                                       ivar_obs_p,
                                       ocoord_p,
@@ -252,7 +252,7 @@ class obsA:
         coords_l[1] = np.repeat(np.arange(self.model.ny_p), self.model.nx_p)[domain_p - 1]
         coords_l = coords_l + 1.
 
-        return PDAF.omi_init_dim_obs_l_iso(self.i_obs, coords_l,
+        return pyPDAF.PDAFomi.init_dim_obs_l_iso(self.i_obs, coords_l,
                                       self.local.loc_weight,
                                       self.local.cradius,
                                       self.local.sradius, dim_obs_l)

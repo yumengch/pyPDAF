@@ -32,15 +32,14 @@ blas_dep = declare_dependency(
   include_directories: incdirs,
 )
 
-
 c_cython_args = cc.get_supported_arguments(['/O2', '/GL', '-O3'], checked: 'warn')
 cython_args = ['-Xboundscheck=False', '-Xbinding=False', '-Xwraparound=False', '-Xinitializedcheck=False']
 
 is_flang = ff.get_id() in ['llvm-flang', 'flang', 'flang-new']
 fruntime_dep = dependency('', required : false)
 if is_flang
-  fortran_ext_args = ['-O0', '-g', ]
-  fortran_args = ['-O0', '-g', '-fdefault-real-8', '-DUSE_PDAF']  # no probe
+  fortran_ext_args = ['-O2', ]
+  fortran_args = ['-O2', '-fdefault-real-8', '-DUSE_PDAF']  # no probe
   fortran_runtime_lib = ff.find_library('FortranRuntime', dirs: libdirs, required : true)
   fortran_decimal_lib = ff.find_library('FortranDecimal', dirs: libdirs, required : true)
   fruntime_dep = declare_dependency(
@@ -61,6 +60,13 @@ incdir_numpy = run_command(python,
   ['-c', 'import os; os.chdir(".."); import numpy; print(numpy.get_include())'],
   check : true
 ).stdout().strip()
+
+incdir_f_header = '.'
+if host_machine.system() == 'darwin'
+  incdir_f_header = run_command(ff.cmd_array() + ['-print-file-name=include'],
+                            check: true).stdout().strip()
+  fs.copyfile(incdir_f_header / 'ISO_Fortran_binding.h', 'ISO_Fortran_binding.h')
+endif
 
 # due to a bug in install_rpath, we need to put rpath to link args
 link_args = [
@@ -288,7 +294,6 @@ pdafc_lib = shared_library(
   'PDAFc',
   pdafc_sources + fortran_sources,
   dependencies : [mpi, blas_dep],
-  include_directories: include_directories([incdir_numpy]),
   fortran_args: fortran_args,
   link_language: 'fortran',
   link_whole: [pdaf_ext],

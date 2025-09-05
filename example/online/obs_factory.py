@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import log
 
 import numpy as np
-import pyPDAF.PDAF as PDAF
+import pyPDAF.PDAFomi
 
 import config_obsA
 import config_obsB
@@ -62,7 +62,7 @@ class obs_factory:
             self.obs_list.append(obsB.obsB(self.nobs, self.pe, self.model, self.local)
             )
         log.logger.info (f'total number of observation types: {self.nobs}')
-        PDAF.omi_init(self.nobs)
+        pyPDAF.PDAFomi.init(self.nobs)
 
     def init_dim_obs_pdafomi(self, step:int, dim_obs:int) -> int:
         """initialise observation dimensions
@@ -147,38 +147,3 @@ class obs_factory:
                 dim_obs_l = dim_obs_l + dim_obs_l_o
 
         return dim_obs_l
-
-    def localize_covar_pdafomi(self, dim_p:int, dim_obs:int, HP_p:np.ndarray, HPH:np.ndarray) -> tuple[np.ndarray, np.ndarray]:
-        """getting localised covariance matrix
-
-        Parameters
-        ----------
-        dim_p: int
-            dimension of state vector on local processor
-        dim_obs_p: int
-            dimension of observation vector on local processor
-        HP_p : ndarray
-            matrix HP
-        HPH : ndarray
-            matrix HPH
-
-        Returns
-        -------
-        HP_p : ndarray
-            matrix HP
-        HPH : ndarray
-            matrix HPH
-        """
-        # coords_p is the coordinate of the state vector which should have the same
-        # unit as the obervation coordinates
-        coords_p = np.zeros((2, dim_p))
-        offset = self.pe.mype_filter*self.model.nx_p
-
-        coords_p[0] = np.tile(np.arange(self.model.nx_p) + offset, self.model.ny_p)
-        coords_p[1] = np.repeat(np.arange(self.model.ny_p), self.model.nx_p)
-        coords_p = coords_p + 1
-
-        for obs in self.obs_list:
-            obs.localize_covar(dim_p, dim_obs, HP_p, HPH, coords_p)
-
-        return HP_p, HPH

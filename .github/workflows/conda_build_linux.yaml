@@ -17,14 +17,13 @@ jobs:
       - name: install pyPDAF
         shell: bash -el {0}
         run: |
-          cp PDAFBuild/setup_conda_linux.cfg setup.cfg
           conda install python anaconda-client conda-build conda-verify
           anaconda login --username yumengch --password ${{ secrets.ANACONDA }}
           conda  config --set anaconda_upload yes
           conda-build -c conda-forge conda.recipe/
           conda install -y -c conda-forge --use-local pypdaf
           cd example
-          mpiexec -n 4 python -u online/main.py 
+          mpiexec -n 4 python -u online/main.py
 
       - name: Setup tmate session
         if: ${{ failure() }}
