@@ -19,17 +19,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import log
 
 import numpy as np
-import pyPDAF.PDAFomi
 
 import config_obsA
 import config_obsB
 import localisation
 import model
-import obsA
-import obsB
+import obs_a
+import obs_b
 import parallelisation
 
-class obs_factory:
+class ObsFactory:
     """This class implements all user-supplied functions
     used by PDAFomi. These functions are called at every time steps
 
@@ -46,23 +45,25 @@ class obs_factory:
     nobs : int
         total number of observation types
     """
-    def __init__(self, pe:parallelisation.parallelisation, model_t:model.model, local:localisation.localisation) -> None:
+    def __init__(self, pe:parallelisation.Parallelisation,
+                 model_t:model.Model, local:localisation.Localisation) -> None:
         # Initialise observations
-        self.pe: parallelisation.parallelisation =  pe
-        self.model:model.model = model_t
-        self.local:localisation.localisation = local
+        self.pe: parallelisation.Parallelisation =  pe
+        self.model:model.Model = model_t
+        self.local:localisation.Localisation = local
         self.obs_list:list = []
         self.nobs:int = 0
         if config_obsA.assim:
             self.nobs += 1
-            self.obs_list.append(obsA.obsA(self.nobs, self.pe, self.model, self.local)
+            self.obs_list.append(obs_a.ObsA(self.nobs, self.pe, self.model, self.local)
             )
         if config_obsB.assim:
             self.nobs += 1
-            self.obs_list.append(obsB.obsB(self.nobs, self.pe, self.model, self.local)
+            self.obs_list.append(obs_b.ObsB(self.nobs, self.pe, self.model, self.local)
             )
-        log.logger.info (f'total number of observation types: {self.nobs}')
-        pyPDAF.PDAFomi.init(self.nobs)
+        output_str = f'total number of observation types: {self.nobs}'
+        log.logger.info (output_str)
+
 
     def init_dim_obs_pdafomi(self, step:int, dim_obs:int) -> int:
         """initialise observation dimensions
@@ -94,7 +95,8 @@ class obs_factory:
 
         return dim_obs
 
-    def obs_op_pdafomi(self, step:int, dim_p:int, dim_obs_p:int, state_p:np.ndarray, ostate:np.ndarray) -> np.ndarray:
+    def obs_op_pdafomi(self, step:int, _dim_p:int, _dim_obs_p:int,
+                       state_p:np.ndarray, ostate:np.ndarray) -> np.ndarray:
         """turn state vector to observation space
 
         Parameters

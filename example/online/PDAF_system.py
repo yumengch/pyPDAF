@@ -29,9 +29,9 @@ import parallelisation
 import prepost_processing
 import state_vector
 
-import pyPDAF.PDAF as PDAF
+import pyPDAF
 
-class PDAF_system:
+class PDAFsystem:
 
     """PDAF system
 
@@ -50,18 +50,18 @@ class PDAF_system:
     filter_options : filter_options.filter_options
         filter options
     """
-    def __init__(self, pe:parallelisation.parallelisation, model_ens:list[model.model]) -> None:
-        self.pe:parallelisation.parallelisation = pe
-        self.model_ens:list[model.model] = model_ens
+    def __init__(self, pe:parallelisation.Parallelisation, model_ens:list[model.Model]) -> None:
+        self.pe = pe
+        self.model_ens = model_ens
 
-        self.filter_options = filter_options.filter_options()
-        self.sv = state_vector.state_vector(model_ens[0], dim_ens=pe.dim_ens)
-        self.local = localisation.localisation(sv=self.sv)
+        self.filter_options = filter_options.FilterOptions()
+        self.sv = state_vector.StateVector(model_ens[0], dim_ens=pe.dim_ens)
+        self.local = localisation.Localisation(sv=self.sv)
         # here, observation only uses the domain observation of the model ensemble.
         # Therefore, only one ensemble member (i.e., model_ens[0]) is passed to obs_factory.
         # In a more complicated system, it is possible to have domain class for model,
         # in which case only the domain object is required here.
-        self.obs = obs_factory.obs_factory(self.pe, self.model_ens[0], self.local)
+        self.obs = obs_factory.ObsFactory(self.pe, self.model_ens[0], self.local)
         # initial time step
         self.steps_for = config.init_step
 
@@ -77,47 +77,40 @@ class PDAF_system:
         filter_param_r:np.ndarray
         if self.filter_options.filtertype == 2:
             # EnKF with Monte Carlo init
-            filter_param_i, filter_param_r = self.setEnKFOptions(6, 2)
+            filter_param_i, filter_param_r = self.set_enkf_options(6, 2)
         else:
             # All other filters
-            filter_param_i, filter_param_r = self.setETKFOptions(7, 2)
+            filter_param_i, filter_param_r = self.set_etkf_options(7, 2)
 
         status:int = 0
-        cltor:collector.collector = collector.collector(self.model_ens[0], self.pe)
+        cltor = collector.Collector(self.model_ens[0], self.pe)
         # initialise PDAF filters, communicators, ensemble
-        _, _, status = PDAF.init(self.filter_options.filtertype,
-                                 self.filter_options.subtype,
-                                 0,
-                                 filter_param_i,
-                                 filter_param_r,
-                                 self.pe.comm_model.py2f(),
-                                 self.pe.comm_filter.py2f(),
-                                 self.pe.comm_couple.py2f(), self.pe.task_id,
-                                 self.pe.n_modeltasks, self.pe.filter_pe,
-                                 cltor.init_ens_pdaf, screen)
+        _, _, status = pyPDAF.init(self.filter_options.filtertype, self.filter_options.subtype,
+                                   0, filter_param_i, len(filter_param_i), filter_param_r, 2,
+                                   cltor.init_ens_pdaf, screen)
 
         assert status == 0, f'ERROR {status} \
                 in initialization of PDAF - stopping! \
                 (PE f{self.pe.mype_ens})'
 
-        lfilter = PDAF.get_localfilter()
+        pyPDAF.PDAFomi.init(self.obs.nobs)
+        pyPDAF.PDAFomi.init_local()
+        lfilter = pyPDAF.PDAF.get_localfilter()
         self.local.local_filter = lfilter == 1
 
         # PDAF distribute the initial ensemble to model field
-        doexit:int = 0
-        prepost:prepost_processing.prepost = prepost_processing.prepost(self.model_ens[0], self.pe)
+        prepost = prepost_processing.Prepost(self.model_ens[0], self.pe)
         for i in range(self.pe.dim_ens_l):
-            dist = distributor.distributor(self.model_ens[i])
-            self.steps_for, time, doexit, status = PDAF.get_state(self.steps_for, doexit,
-                                             dist.next_observation,
-                                             dist.distribute_state,
-                                             prepost.initial_process,
-                                             status)
+            dist = distributor.Distributor(self.model_ens[i])
+            status = pyPDAF.init_forecast(dist.next_observation,
+                                          dist.distribute_state_ini,
+                                          prepost.initial_process,
+                                          status)
         # set local domain on each model process
         if self.local.local_filter:
             self.local.set_lim_coords(self.model_ens[0].nx_p, self.model_ens[0].ny_p, self.pe)
 
-    def setEnKFOptions(self, dim_pint:int, dim_preal:int) -> tuple[np.ndarray, np.ndarray]:
+    def set_enkf_options(self, dim_pint:int, dim_preal:int) -> tuple[np.ndarray, np.ndarray]:
         """set ensemble kalman filter options
 
         Parameters
@@ -140,7 +133,7 @@ class PDAF_system:
 
         return filter_param_i, filter_param_r
 
-    def setETKFOptions(self, dim_pint:int, dim_preal:int) -> tuple[np.ndarray, np.ndarray]:
+    def set_etkf_options(self, dim_pint:int, dim_preal:int) -> tuple[np.ndarray, np.ndarray]:
         """Summary
 
         Parameters
@@ -165,97 +158,35 @@ class PDAF_system:
 
         return filter_param_i, filter_param_r
 
-    def assimilate_full_parallel(self) -> None:
-        """Assimilation function for the full parallel implementation
+    def assimilate(self, i:int) -> None:
+        """Calling assimilation function of PDAF
+
+        Parameters
+        ----------
+        i : int
+            index of the ensemble in current model task.
         """
-        doexit:int = 0
         status:int = 0
-        cltor:collector.collector = collector.collector(self.model_ens[0], self.pe)
-        prepost:prepost_processing.prepost = prepost_processing.prepost(self.model_ens[0], self.pe)
-        dist = distributor.distributor(self.model_ens[0])
-        if self.local.local_filter:
-            status = \
-                   PDAF.localomi_assimilate(cltor.collect_state,
-                                           dist.distribute_state,
-                                           self.obs.init_dim_obs_pdafomi,
-                                           self.obs.obs_op_pdafomi,
-                                           prepost.prepostprocess,
-                                           self.local.init_n_domains_pdaf,
-                                           self.local.init_dim_l_pdaf,
-                                           self.obs.init_dim_obs_l_pdafomi,
-                                           dist.next_observation, status)
-        else:
-            if self.filter_options.filtertype == 8:
-                status = \
-                       PDAF.omi_assimilate_lenkf(cltor.collect_state,
-                                               dist.distribute_state,
-                                               self.obs.init_dim_obs_pdafomi,
-                                               self.obs.obs_op_pdafomi,
-                                               prepost.prepostprocess,
-                                               self.obs.localize_covar_pdafomi,
-                                               dist.next_observation)
-            else:
-                status = \
-                       PDAF.omi_assimilate_global(cltor.collect_state,
-                                               dist.distribute_state,
-                                               self.obs.init_dim_obs_pdafomi,
-                                               self.obs.obs_op_pdafomi,
-                                               prepost.prepostprocess,
-                                               dist.next_observation)
-
-        assert status == 0, f'ERROR {status} in PDAF_put_state - stopping! (PE {self.pe.mype_ens})'
-
-    def assimilate_flexible(self) -> None:
-        """This function implement the assimilation in flexibble implementation.
-
-        The put_state_XXX functions put model fields into PDAF state vectors using
-        i.e. PDAF will collect state vectors from models (from a user-supplied functions p.o.v.).
-        When all ensemble members are collected, the PDAF distribute each model fields
-        """
-        doexit:int = 0
-        status:int = 0
-        cltor: collector.collector
-        prepost:prepost_processing.prepost = prepost_processing.prepost(self.model_ens[0], self.pe)
-        if self.local.local_filter:
-            for i in range(self.pe.dim_ens_l):
-                cltor = collector.collector(self.model_ens[i], self.pe)
-                status = PDAF.localomi_put_state(cltor.collect_state,
-                    self.obs.init_dim_obs_pdafomi,
-                    self.obs.obs_op_pdafomi,
-                    prepost.prepostprocess,
-                    self.local.init_n_domains_pdaf,
-                    self.local.init_dim_l_pdaf,
-                    self.obs.init_dim_obs_l_pdafomi,
-                    status)
-        else:
-            if self.filter_options.filtertype == 8:
-                for i in range(self.pe.dim_ens_l):
-                    cltor = collector.collector(self.model_ens[i], self.pe)
-                    status = PDAF.omi_put_state_lenkf(cltor.collect_state,
-                                  self.obs.init_dim_obs_pdafomi, self.obs.obs_op_pdafomi,
+        cltor = collector.Collector(self.model_ens[i], self.pe)
+        prepost = prepost_processing.Prepost(self.model_ens[i], self.pe)
+        dist = distributor.Distributor(self.model_ens[i])
+        status = \
+                pyPDAF.assimilate(cltor.collect_state,
+                                  dist.distribute_state,
+                                  self.obs.init_dim_obs_pdafomi,
+                                  self.obs.obs_op_pdafomi,
+                                  self.local.init_n_domains_pdaf,
+                                  self.local.init_dim_l_pdaf,
+                                  self.obs.init_dim_obs_l_pdafomi,
                                   prepost.prepostprocess,
-                                  self.obs.localize_covar_pdafomi)
-            else:
-                for i in range(self.pe.dim_ens_l):
-                    cltor = collector.collector(self.model_ens[i], self.pe)
-                    status = PDAF.omi_put_state_global(cltor.collect_state,
-                                  self.obs.init_dim_obs_pdafomi, self.obs.obs_op_pdafomi,
-                                  prepost.prepostprocess)
-
-        for i in range(self.pe.dim_ens_l):
-            dist = distributor.distributor(self.model_ens[i])
-            time:float
-            self.steps_for, time, doexit, status = PDAF.get_state(self.steps_for, doexit,
-                                              dist.next_observation,
-                                              dist.distribute_state,
-                                              prepost.prepostprocess,
-                                              status)
+                                  dist.next_observation, status)
 
         assert status == 0, f'ERROR {status} in PDAF_put_state - stopping! (PE {self.pe.mype_ens})'
-
 
     def finalise(self) -> None:
-        PDAF.print_info(11)
-        if (self.pe.mype_ens == 0): PDAF.print_info(3)
-        PDAF.deallocate()
-
+        """finalise PDAF
+        """
+        pyPDAF.PDAF.print_info(11)
+        if self.pe.mype_ens == 0:
+            pyPDAF.PDAF.print_info(3)
+        pyPDAF.deallocate()

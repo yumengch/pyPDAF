@@ -1,3 +1,4 @@
+"""Namespace for PDAF3 module."""
 from pyPDAF.PDAF3._pdaf3_c import init, init_forecast, set_parallel
 from pyPDAF.PDAF3.assim import assimilate, assim_offline, \
                                assimilate_3dvar_all, assim_offline_3dvar_all, \

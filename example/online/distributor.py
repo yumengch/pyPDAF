@@ -22,7 +22,7 @@ import config_obsA
 import config_obsB
 import model
 
-class distributor:
+class Distributor:
     """This class implements the function where
     PDAF distributes ensemble to the model field
 
@@ -31,11 +31,11 @@ class distributor:
     model: model.model
         model instance
     """
-    def __init__(self, model_t:model.model) -> None:
+    def __init__(self, model_t:model.Model) -> None:
         # get the model insta
         self.model = model_t
 
-    def distribute_state(self, dim_p:int, state_p:np.ndarray) -> np.ndarray:
+    def distribute_state_ini(self, _dim_p:int, state_p:np.ndarray) -> np.ndarray:
         """PDAF will distribute state vector (state_p) to model field
 
         Parameters
@@ -53,7 +53,28 @@ class distributor:
         self.model.field_p[:] = state_p.reshape(self.model.ny_p, self.model.nx_p)
         return state_p
 
-    def next_observation(self, stepnow:int, nsteps:int, doexit:int, time:float) -> tuple[int, int, float]:
+
+    def distribute_state(self, _dim_p:int, state_p:np.ndarray) -> np.ndarray:
+        """PDAF will distribute state vector (state_p) to model field
+
+        Parameters
+        ----------
+        dim_p: int
+            Dimension of the state vector on local processor
+        state_p: np.ndarray
+            state vector on local processor
+
+        Returns
+        -------
+        state_p: np.ndarray
+            state vector
+        """
+        self.model.field_p[:] = state_p.reshape(self.model.ny_p, self.model.nx_p)
+        print ("distribute state to model", state_p[:6])
+        return state_p
+
+    def next_observation(self, _stepnow:int, nsteps:int,
+                         doexit:int, time:float) -> tuple[int, int, float]:
         """Providing PDAF the information on the number of model integration steps
         to next analysis
         """

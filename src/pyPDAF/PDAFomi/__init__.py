@@ -1,3 +1,4 @@
+"""PDAFomi module"""
 from pyPDAF.PDAFomi._pdafomi_c import init, init_local, check_error, gather_obs, \
                                       gather_obsstate, get_interp_coeff_tri, \
                                       get_interp_coeff_lin1d, get_interp_coeff_lin, \

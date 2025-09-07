@@ -297,6 +297,11 @@ def set_id_obs_p(int  i_obs, int  nrows, int  dim_obs_p, int [::1,:] id_obs_p):
     ----------
     i_obs : int
         index of observations
+    nrows : int
+        number of state vector used to interpolate
+        to one observation location
+    dim_obs_p : int
+        dimension of PE local obs vector
     id_obs_p : ndarray[tuple[nrows, dim_obs_p, ...], np.intc]
         indice corresponds to observations in the state vector
         The 1st-th dimension nrows is number of values to be averaged or used for interpolation
@@ -340,6 +345,11 @@ def set_icoeff_p(int  i_obs, int  nrows, int  dim_obs_p,
     ----------
     i_obs : int
         index of observations
+    nrows : int
+        number of state vector used to interpolate
+        to one observation location
+    dim_obs_p : int
+        dimension of PE local obs vector
     icoeff_p : ndarray[tuple[nrows, dim_obs_p, ...], np.float64]
         weighting coefficients for interpolations
         The 1st-th dimension nrows is number of state vector used to interpolate

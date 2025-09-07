@@ -21,8 +21,10 @@ import log
 from mpi4py import MPI
 import numpy as np
 
+import pyPDAF
 
-class parallelisation:
+
+class Parallelisation:
 
     """Summary
 
@@ -96,7 +98,7 @@ class parallelisation:
         self.comm_ens, self.npes_ens, self.mype_ens = self.init_parallel()
 
         self.is_task_consistent()
-        self.is_CPU_consistent()
+        self.is_cpu_consistent()
 
         # Initialize communicators for ensemble evaluations
         if self.mype_ens == 0:
@@ -121,10 +123,11 @@ class parallelisation:
         self.all_dim_ens_l:np.ndarray
         self.dim_ens_l, self.all_dim_ens_l = self.get_dim_ens_l()
 
-        log.logger.info(f'MODEL: mype(w)= {self.mype_ens};'
-                     f'; model task: {self.task_id}'
-                     f'; mype(m)= {self.mype_model}'
-                     f'; npes(m)= {self.npes_model}')
+        output_str = f'MODEL: mype(w)= {self.mype_ens}' \
+                     f'; model task: {self.task_id}' \
+                     f'; mype(m)= {self.mype_model}' \
+                     f'; npes(m)= {self.npes_model}'
+        log.logger.info(output_str)
 
         # Generate communicator for filter
         self.filter_pe:bool
@@ -138,6 +141,11 @@ class parallelisation:
         self.comm_couple:MPI.Comm = self.get_couple_communicator()
 
         self.print_info()
+
+        status = 0
+        status = pyPDAF.set_parallel(self.comm_ens.py2f(), self.comm_model.py2f(),
+                                     self.comm_filter.py2f(), self.comm_couple.py2f(),
+                                     self.task_id, self.n_modeltasks, self.filter_pe, status)
 
     def init_parallel(self) -> tuple[MPI.Comm, int, int]:
         """Initialize MPI
@@ -180,7 +188,8 @@ class parallelisation:
         """
         pe_index:np.ndarray = np.cumsum(self.local_npes_model, dtype=int)
         # task id of the current processor
-        task_id:int = np.arange(self.n_modeltasks)[pe_index <= self.mype_ens + self.local_npes_model[0]][-1] + 1
+        task_id:int = np.arange(self.n_modeltasks)[pe_index <=
+                                                   self.mype_ens + self.local_npes_model[0]][-1] + 1
 
         return task_id
 
@@ -207,7 +216,8 @@ class parallelisation:
         # number of tasks on local PE
         dim_ens_l = all_dim_ens_l[self.task_id - 1]
         if self.mype_ens == 0:
-            log.logger.debug (f'number of Ens per PE {all_dim_ens_l}')
+            output_str = f'number of Ens per PE {all_dim_ens_l}'
+            log.logger.debug (output_str)
         return dim_ens_l, all_dim_ens_l
 
     def get_filter_communicator(self) -> tuple[bool, MPI.Comm]:
@@ -229,7 +239,7 @@ class parallelisation:
         """
         return MPI.COMM_WORLD.Split(self.mype_model, self.mype_ens)
 
-    def is_CPU_consistent(self) -> None:
+    def is_cpu_consistent(self) -> None:
         """Check consistency of number of parallel ensemble tasks
         """
         if self.n_modeltasks > self.npes_ens:
@@ -262,23 +272,25 @@ class parallelisation:
         #  Variables for communicator-splitting
         color_couple = self.mype_model + 1
 
-        if (self.mype_ens == 0):
+        if self.mype_ens == 0:
             log.logger.info('PE configuration:')
             log.logger.info('ens     filter       model        couple   filterPE')
             log.logger.info('rank    rank  task   rank task       rank       T/F')
             log.logger.info('-----------------------------------------------------')
         MPI.COMM_WORLD.Barrier()
-        if (self.task_id == 1):
-            log.logger.info(f'{self.mype_ens},      {self.mype_filter},'
-                   f'    {self.task_id}      {self.mype_model},'
-                   f'   {color_couple},         {mype_couple},       {self.filter_pe}')
+        if self.task_id == 1:
+            output_str = f'{self.mype_ens},      {self.mype_filter},' \
+                   f'    {self.task_id}      {self.mype_model},' \
+                   f'   {color_couple},         {mype_couple},       {self.filter_pe}'
+            log.logger.info(output_str)
         MPI.COMM_WORLD.Barrier()
-        if (self.task_id > 1):
-            log.logger.info(f'{self.mype_ens},      {self.mype_filter},'
-                   f'    {self.task_id}      {self.mype_model},'
-                   f'   {color_couple},         {mype_couple},       {self.filter_pe}')
+        if self.task_id > 1:
+            output_str = f'{self.mype_ens},      {self.mype_filter},' \
+                   f'    {self.task_id}      {self.mype_model},' \
+                   f'   {color_couple},         {mype_couple},       {self.filter_pe}'
+            log.logger.info(output_str)
         MPI.COMM_WORLD.Barrier()
-        if (self.mype_ens == 0):
+        if self.mype_ens == 0:
             log.logger.info('')
 
     def finalize_parallel(self) -> None:

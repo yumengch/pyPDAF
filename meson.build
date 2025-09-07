@@ -299,7 +299,8 @@ pdaf_ext = static_library(
   'pdaf_ext',
   pdaf_ext_sources,
   dependencies : [mpi, blas_dep],
-  fortran_args: fortran_ext_args
+  fortran_args: fortran_ext_args,
+  link_language: 'fortran'
 )
 
 pdafc_lib = shared_library(
@@ -334,4 +335,4 @@ subdir('src/pyPDAF/PDAFlocal')
 subdir('src/pyPDAF/PDAFlocalomi')
 subdir('src/pyPDAF/PDAFomi')
 
-python.install_sources(['src/pyPDAF/__init__.py', ], subdir: 'pyPDAF')
+python.install_sources(['src/pyPDAF/__init__.py', 'src/pyPDAF/py.typed'], subdir: 'pyPDAF')

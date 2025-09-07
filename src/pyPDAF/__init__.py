@@ -1,12 +1,11 @@
-# pylint: disable=invalid-name, no-name-in-module, wrong-import-position
+# pylint: disable=wrong-import-position
+"""Python interface to the PDAF library."""
 import os
 import sys
+from traceback import print_exception
 
-try:
-    import mpi4py
-    mpi4py.rc.initialize = False
-except ImportError:
-    pass
+import mpi4py
+mpi4py.rc.initialize = False
 
 def _append_to_sharedlib_load_path():
     """Ensure the shared libraries in this package can be loaded on Windows.
@@ -42,28 +41,24 @@ def _append_to_sharedlib_load_path():
 
 # Global error handler
 def global_except_hook(exctype, value, traceback):
-    from traceback import print_exception
-    try:
-        import mpi4py.MPI
-
-        if mpi4py.MPI.Is_initialized():
+    """Global error handler that aborts MPI jobs on uncaught exceptions."""
+    if mpi4py.MPI.Is_initialized():
+        try:
+            sys.stderr.write('Uncaught exception was detected on rank'
+                                f' {mpi4py.MPI.COMM_WORLD.Get_rank()}.\n')
+            print_exception(exctype, value, traceback)
+            sys.stderr.write("\n")
+            sys.stderr.flush()
+        finally:
             try:
-                sys.stderr.write('Uncaught exception was ''detected on rank {}.\n'.format(
-                    mpi4py.MPI.COMM_WORLD.Get_rank()))
-                print_exception(exctype, value, traceback)
-                sys.stderr.write("\n")
+                mpi4py.MPI.COMM_WORLD.Abort(1)
+            except Exception as e:
+                sys.stderr.write('MPI Abort failed, this process will hang.\n')
                 sys.stderr.flush()
-            finally:
-                try:
-                    mpi4py.MPI.COMM_WORLD.Abort(1)
-                except Exception as e:
-                    sys.stderr.write('MPI Abort failed, this process will hang.\n')
-                    sys.stderr.flush()
-                    raise e
-        else:
-            sys.__excepthook__(exctype, value, traceback)
-    except ImportError:
+                raise e
+    else:
         sys.__excepthook__(exctype, value, traceback)
+
 
 sys.excepthook = global_except_hook
 
@@ -91,4 +86,10 @@ from pyPDAF.PDAF3 import assim_offline_3dvar_nondiagr, assim_offline_en3dvar_est
                          assim_offline_hyb3dvar_estkf_nondiagr, \
                          assim_offline_hyb3dvar_lestkf_nondiagr
 from pyPDAF.PDAF3 import generate_obs, generate_obs_offline
-from pyPDAF.PDAF import deallocate
+from pyPDAF.PDAF import get_fcst_info, deallocate
+
+from . import PDAF
+from . import PDAFomi
+from . import PDAF3
+from . import PDAFlocal
+from . import PDAFlocalomi

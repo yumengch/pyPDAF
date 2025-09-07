@@ -2,6 +2,7 @@
 
 set CXX=clang-cl
 set CC=clang-cl
+set FC=flang-new
 set MSMPI_INC=%LIBRARY_INC%
 set MSMPI_LIB64=%LIBRARY_LIB%
 

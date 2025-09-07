@@ -184,24 +184,24 @@ def get_interp_coeff_lin(num_gp: int, n_dim: int, gpc: np.ndarray,
 
     Parameters
     ----------
+    num_gp: int
+        Number of grid points used in interpolation
+    n_dim: int
+        Number of dimensions in interpolation
     gpc : ndarray[tuple[num_gp, n_dim, ...], np.float64]
         Coordinates of grid points
         The order of the grid points in gcoords has to
         be consistent with the order of the indices specified in
-        `id_obs_p` of `obs_f`.
-        The 1st-th dimension num_gp is Length of icoeff
-        The 2nd-th dimension n_dim is Number of dimensions in interpolation
+        `id_obs_p` of `obs_f`. shape: (num_gp, n_dim)
     oc : ndarray[tuple[n_dim, ...], np.float64]
-        Coordinates of observation
-        The array dimension `n_dim` is Number of dimensions in interpolation
+        Coordinates of observation. shape: (n_dim)
     icoeff : ndarray[tuple[num_gp, ...], np.float64]
-        Interpolation coefficients (num_gp)
-        The array dimension `num_gp` is Length of icoeff
+        Interpolation coefficients. shape: (num_gp)
 
     Returns
     -------
     icoeff : ndarray[tuple[num_gp, ...], np.float64]
-         Interpolation coefficients (num_gp)
+         Interpolation coefficients. shape: (num_gp)
 
         The array dimension `num_gp` is Length of icoeff
     """
@@ -716,7 +716,7 @@ def set_localize_covar_iso(i_obs: int, dim: int, ncoords: int, coords: np.ndarra
                            locweight: int, cradius: float, sradius: float) -> None:
     r"""Initialise local observation information for isotropic covariance localisation.
 
-    This is only used in stochastic EnKF. This is called in user-supplied functions
+    This is used in stochastic EnKF/EAKF/EnSRF. This is called in user-supplied functions
     :func:`pyPDAF.c__init_dim_obs_pdaf`.
 
     Parameters
@@ -743,7 +743,7 @@ def set_localize_covar_noniso(i_obs: int, dim: int, ncoords: int,
                               cradius: np.ndarray, sradius: np.ndarray) -> None:
     r"""Initialise local observation information for non-isotropic covariance localisation.
 
-    This is only used in stochastic EnKF. This is called in user-supplied functions
+    This is used in stochastic EnKF/EAKF/EnSRF. This is called in user-supplied functions
     :func:`pyPDAF.c__init_dim_obs_pdaf`.
 
     Here, localisation radii differ for each spatial dimension.
@@ -774,7 +774,7 @@ def set_localize_covar_noniso_locweights(i_obs: int, dim: int, ncoords: int,
                                          cradius: np.ndarray, sradius: np.ndarray) -> None:
     r"""Initialise local observation information for non-isotropic covariance localisation.
 
-    This is only used in stochastic EnKF. This is called in user-supplied functions
+    This is used in stochastic EnKF/EAKF/EnSRF. This is called in user-supplied functions
     :func:`pyPDAF.c__init_dim_obs_pdaf`.
 
     Here, both weighting function and localisation radii differ for each spatial dimension.

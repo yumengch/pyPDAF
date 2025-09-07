@@ -15,9 +15,9 @@ requirements:
     - python
     - meson-python {{ pymeson }}
     - numpy {{numpy_version}}
-    - {{ mpi }}
+    - mpi=*={{ mpi }}
     - mpi4py
-    - openblas
+    - blas=*=openblas
     - flang-rt_win-64 # [win]
     - libflang # [win]
   build:
@@ -31,14 +31,14 @@ requirements:
     - flang-rt_win-64 # [win]
     - python
     - numpy
-    - {{ mpi }}
+    - mpi=*={{ mpi }}
     - mpi4py
-    - openblas
+    - blas=*=openblas
 
 pin_run_as_build:
-    {{ mpi }}: x.x
+    mpi: x.x
     mpi4py: x.x
-    openblas: x.x
+    blas: x.x
 
 about:
   home: https://github.com/yumengch/pyPDAF

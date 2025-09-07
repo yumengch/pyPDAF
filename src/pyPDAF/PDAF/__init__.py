@@ -1,4 +1,3 @@
-# pylint: disable=no-name-in-module
 """Namespace for pyPDAF.PDAF package
 """
 from pyPDAF.PDAF._pdaf_c import correlation_function, deallocate, eofcovar, \

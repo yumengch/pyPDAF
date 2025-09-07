@@ -1166,7 +1166,7 @@ def set_localize_covar_iso(int  i_obs, int  dim, int  ncoords,
     double [::1,:] coords, int  locweight, double  cradius, double  sradius):
     r"""Initialise local observation information for isotropic covariance localisation.
 
-    This is only used in stochastic EnKF. This is called in user-supplied functions
+    This is used in stochastic EnKF/EAKF/EnSRF. This is called in user-supplied functions
     :func:`pyPDAF.c__init_dim_obs_pdaf`.
 
     Parameters
@@ -1208,7 +1208,7 @@ def set_localize_covar_noniso(int  i_obs, int  dim, int  ncoords,
     double [::1] sradius):
     r"""Initialise local observation information for non-isotropic covariance localisation.
 
-    This is only used in stochastic EnKF. This is called in user-supplied functions
+    This is used in stochastic EnKF/EAKF/EnSRF. This is called in user-supplied functions
     :func:`pyPDAF.c__init_dim_obs_pdaf`.
 
     Here, localisation radii differ for each spatial dimension.
@@ -1270,7 +1270,7 @@ def set_localize_covar_noniso_locweights(int  i_obs, int  dim,
     double [::1] cradius, double [::1] sradius):
     r"""Initialise local observation information for non-isotropic covariance localisation.
 
-    This is only used in stochastic EnKF. This is called in user-supplied functions
+    This is used in stochastic EnKF/EAKF/EnSRF. This is called in user-supplied functions
     :func:`pyPDAF.c__init_dim_obs_pdaf`.
 
     Here, both weighting function and localisation radii differ for each spatial dimension.
