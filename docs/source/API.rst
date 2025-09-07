@@ -1,5 +1,14 @@
 API
 ===
+
+This page provides a list of pyPDAF functions that are intended for users.
+They are grouped by functionalities. Clicking on a function name will lead to
+its documentation page.
+
+These are not all available functions in pyPDAF. Similar to PDAF, pyPDAF maintains
+backward compatible legacy functions. For a complete list of functions,
+please refer to the (hidden and legacy function page)[hidden_functions.md]
+
 .. contents::
    :local:
    :depth: 2
@@ -202,6 +211,7 @@ PDAF state and setup information
    :toctree: _autosummary
    :recursive:
 
+   pyPDAF.get_fcst_info
    pyPDAF.PDAF.get_assim_flag
    pyPDAF.PDAF.get_localfilter
    pyPDAF.PDAF.get_local_type

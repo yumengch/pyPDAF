@@ -53,94 +53,10 @@ def get_state(int  steps, int  doexit, py__next_observation_pdaf,
         Whether to exit from forecasts
     py__next_observation_pdaf : Callable
         Provide information on next forecast
-
-        Callback Parameters
-        -------------------
-        stepnow : int
-                the current time step given by PDAF
-
-        Callback Returns
-        ----------------
-        nsteps : int
-                number of forecast time steps until next assimilation;
-                this can also be interpreted as
-                number of assimilation function calls
-                to perform a new assimilation
-        doexit : int
-                whether to exit forecasting (1 for exit)
-        time : double
-                current model (physical) time
-
     py__distribute_state_pdaf : Callable
         Routine to distribute a state vector
-
-        Callback Parameters
-        -------------------
-        dim_p : int
-                PE-local state dimension
-        state_p : ndarray[np.float64, ndim=1]
-                PE-local state vector
-                Array shape: (dim_p)
-
-        Callback Returns
-        ----------------
-        state_p : ndarray[np.float64, ndim=1]
-                PE-local state vector
-                Array shape: (dim_p)
-
     py__prepoststep_pdaf : Callable
         User supplied pre/poststep routine
-
-        Callback Parameters
-        -------------------
-        step : int
-                current time step
-                (negative for call before analysis/preprocessing)
-        dim_p : int
-                PE-local state vector dimension
-        dim_ens : int
-                number of ensemble members
-        dim_ens_l : int
-                number of ensemble members run serially
-                on each model task
-        dim_obs_p : int
-                PE-local dimension of observation vector
-        state_p : ndarray[np.float64, ndim=1]
-                pe-local forecast/analysis state
-                (the array 'state_p' is generally not
-                initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                so it can be used freely here.)
-                Array shape: (dim_p)
-        uinv : ndarray[np.float64, ndim=2]
-                Inverse of the transformation matrix in ETKF and ESKTF;
-                inverse of matrix formed by right singular vectors of error
-                covariance matrix of ensemble perturbations in SEIK/SEEK.
-                not used in EnKF.
-                Array shape: (dim_ens-1, dim_ens-1)
-        ens_p : ndarray[np.float64, ndim=2]
-                PE-local ensemble
-                Array shape: (dim_p, dim_ens)
-        flag : int
-                pdaf status flag
-
-        Callback Returns
-        ----------------
-        state_p : ndarray[np.float64, ndim=1]
-                pe-local forecast/analysis state
-                (the array 'state_p' is generally not
-                initialised in the case of ESTKF/ETKF/EnKF/SEIK,
-                so it can be used freely here.)
-                Array shape: (dim_p)
-        uinv : ndarray[np.float64, ndim=2]
-                Inverse of the transformation matrix in ETKF and ESKTF;
-                inverse of matrix formed by right singular vectors of error
-                covariance matrix of ensemble perturbations in SEIK/SEEK.
-                not used in EnKF.
-                Array shape: (dim_ens-1, dim_ens-1)
-        ens_p : ndarray[np.float64, ndim=2]
-                PE-local ensemble
-                Array shape: (dim_p, dim_ens)
-
     outflag : int
         Status flag
 

@@ -1,7 +1,9 @@
-
 # Variable naming conventions
 
 The suffix of variables in (py)PDAF follows a few naming conventions.
+Understanding these suffixes can help us understand the meaning of variables
+in user-supplied functions. In this way, one can implement the user-supplied
+functions more efficiently.
 
 `_p` typically means process-local variables. In weather and climate models, to
 use multiple CPUs, the computational domain is decomposed into many sub-domains.

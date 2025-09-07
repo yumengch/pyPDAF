@@ -15,4 +15,4 @@ pyPDAF - A Python interface to Parallel Data Assimilation Framework
    parallel
    develop
    API
-   API_legacy
+   hidden_functions

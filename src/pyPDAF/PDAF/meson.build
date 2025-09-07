@@ -28,4 +28,5 @@ foreach file :pypdaf_sources
 endforeach
 
 python.install_sources(['__init__.py', 'py.typed', 'diag.pyi', 'get.pyi',
-                             'iau.pyi', '_pdaf_c.pyi', 'setter.pyi'], subdir: 'pyPDAF/PDAF')
+                        'iau.pyi', '_pdaf_c.pyi', 'setter.pyi',
+                        'assim.pyi'], subdir: 'pyPDAF/PDAF')

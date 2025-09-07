@@ -4,28 +4,71 @@
 There are two ways of installing pyPDAF.
 
 ## Conda
-The easiest approach is using `conda`. Currently, `pyPDAF` is available from `conda` for `Windows`, `Linux` and `MacOS`. The installation can be obtained via:
+The easiest approach is using `conda`. Currently, `pyPDAF` is available from
+`conda` for `Windows`, `Linux` and `MacOS`. The installation can be obtained via:
 ```bash
-conda create -n pypdaf -c conda-forge yumengch::pypdaf==1.0.2
+conda create -n pypdaf -c conda-forge yumengch::pypdaf
 ```
-After installation, `pyPDAF` can be used by activating the conda environment `conda activate pypdaf`.
+After installation, `pyPDAF` can be used by activating the conda environment
+`conda activate pypdaf`.
 
 ## Source code
-In some cases, it might be desirable to compile pyPDAF using your preferred compilers and environment. In this case, pyPDAF can be installed from source
-```bash
-git clone https://github.com/yumengch/pyPDAF.git
-cd pyPDAF
-git submodule update --init --recursive
-pip install -v .
-```
-The installation congifuration is specified in `setup.cfg`. Example setup configurations are provided in [PDAFBuild directory](https://github.com/yumengch/pyPDAF/tree/main/PDAFBuild).
+In some cases, it is desirable to compile pyPDAF so that one can use their
+favourite compiler as well as MPI and BLAS implementation.
 
-Each entry of the configuration file is listed here:
-- `pwd`: This is the path to the current directory of the repository, e.g. `/home/users/xxxx/pyPDAF`
-- `PDAF_dir`: This is the absolute, or relative (to `pwd`) path where PDAF directory is located. One do not need to change this option.
-- `cmake_config_path` is the path to the `.cmake` file for PDAF compilation. This file contains CMake configurations for PDAF. There are example configurations in the [`PDAFBuild` directory](https://github.com/yumengch/pyPDAF/tree/main/PDAFBuild)
-- `condaBuild` is a switch for building a conda package. If the purpose of compiling is not building a conda package, this option should always be `False`.
-- `c_compiler` and `fortran_compiler` specifies the compiler being used. `c_compiler` can be: `gcc`, `msvc`, `icc`, `clang` and `fortran_compiler` can be: `gfortran` and `ifort`. The `fortran_compiler` should be consistent with the compiler used in cmake configuration file.
-- `useMKL` decides if you use Intel's Math Kernel Library (MKL). If `True` is given, `MKLROOT` must be specified which is the absolute path to the static MKL library
-- `LAPACK_PATH` and `LAPACK_Flag` is the path to the BLAS and LAPACK directory and the linking flag respectively. They can be delimited by `,`. For example, we can have `LAPACK_Flag=blas,lapack`. Do not give `-lblas` as `setuptools` deal with the format to the linker.
-- `MPI_LIB_PATH` is the path to the MPI library. In windows, this path is usually  `C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x64`.
+In this case, pyPDAF source code can be obtained from source
+```bash
+git clone --recurse-submodules https://github.com/yumengch/pyPDAF.git
+cd pyPDAF
+```
+
+The package can be installed with:
+```bash
+python -m pip install . -v \
+    --config-settings=setup-args="-Dblas_lib=[LIBS]" \
+    --config-settings=setup-args="-Dincdirs=[INCDIRS]" \
+    --config-settings=setup-args="-Dlibdirs=[LIBDIRS]" \
+    --config-settings=setup-args="-Dmpi_mod=MPIF90"^
+    --config-settings=setup-args="-Dbuildtype=release"
+```
+Here, `LIBS`, `INCDIRS`, and `LIBDIRS` are elements of a list, separated by
+`,` similar to a Python list.
+   - `LIBS` are all the required library names for BLAS libraries.
+   - `LIBDIRS` are directories of these libraries
+   - `INCDIRS` are include directories of libraries
+   - `MPIF90` is the path to `mpi.f90`. This is useful for the case where
+     `mpi.mod` is not directly provided but requires compiling by the user. This
+     is optional.
+
+One can adjust the compiler, compiler and linker flags by changing environment
+variables such as `CC`, `FC`, `CFLAGS` and `FCFLAGS`. See [flags](https://mesonbuild.com/Reference-tables.html#compiler-and-linker-flag-environment-variables) and [compiler](https://mesonbuild.com/Reference-tables.html#compiler-and-linker-selection-variables) table for references. One could also directly
+modify [`meson.build`](meson.build) which might require more knowledge of meson.
+
+An example of installing pyPDAF in Linux or Mac:
+```bash
+CC=mpicc FC=mpifort python -m pip install . -v -Cbuild-dir=build \
+    --config-settings=setup-args="-Dblas_lib=['openblas']" \
+    --config-settings=setup-args="-Dincdirs=['/usr/lib/']" \
+    --config-settings=setup-args="-Dlibdirs=['/usr/include']" \
+    --config-settings=setup-args="-Dbuildtype=release"
+```
+In Windows, one can use
+```cmd
+set CXX=clang-cl
+set CC=clang-cl
+set FC=flang-new
+set MSMPI_INC=C:\Program Files (x86)\Microsoft SDKs\MPI\Include
+set MSMPI_LIB64=C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x64
+
+python -m pip install . -v ^
+    -Cbuild-dir=build --config-settings=setup-args="-Dblas_lib=openblas"^
+    --config-settings=setup-args="-Dincdirs="C:\Program Files (x86)\blas\include"^
+    --config-settings=setup-args="-Dlibdirs="C:\Program Files (x86)\blas\lib"^
+    --config-settings=setup-args="-Dmpi_mod=C:\Program Files (x86)\Microsoft SDKs\MPI\Include\mpi.f90"^
+    --config-settings=setup-args="-Dbuildtype=release"
+```
+where the variable `MSMPI_INC` and `MSMPI_LIB64` are required environment
+variable for using `MSMPI`.
+
+Please [raise an issue](https://github.com/yumengch/pyPDAF/issues/new) if you
+have any questions or problems with this.
