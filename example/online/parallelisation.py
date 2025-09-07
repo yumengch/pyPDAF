@@ -119,9 +119,9 @@ class Parallelisation:
         # When n_modeltasks = dim_ens, dim_ens_l = 1
         # Here dim_ens_l is the ensemble size for current model task
         # all_dim_ens_l is the ensemble size for all task ids.
-        self.dim_ens_l:int
-        self.all_dim_ens_l:np.ndarray
-        self.dim_ens_l, self.all_dim_ens_l = self.get_dim_ens_l()
+        # self.dim_ens_l:int
+        # self.all_dim_ens_l:np.ndarray
+        # self.dim_ens_l, self.all_dim_ens_l = self.get_dim_ens_l()
 
         output_str = f'MODEL: mype(w)= {self.mype_ens}' \
                      f'; model task: {self.task_id}' \

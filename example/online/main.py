@@ -37,14 +37,14 @@ def main():
     # Initialise model
     # throughout this example and PDAF, we must assume that each ensemble member
     # uses the same domain decomposition.
-    model_ens = [model.Model(pe=pe) for i in range(pe.dim_ens_l)]
-    model_ens[0].print_info(pe)
+    model_t = model.Model(pe=pe)
+    model_t.print_info(pe)
 
     # Initialise model integrator
-    integrator = model_integrator.ModelIntegrator(model_ens)
+    integrator = model_integrator.ModelIntegrator(model_t)
 
     # Initialise PDAF system
-    das = PDAFsystem(pe, model_ens)
+    das = PDAFsystem(pe, model_t)
     das.init_pdaf(screen=config.screen)
 
     integrator.forward(config.nsteps, das)

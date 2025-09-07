@@ -21,11 +21,11 @@ import log
 
 import config
 import model
-from parallelisation import parallelisation
-from PDAF_system import PDAF_system
+from parallelisation import Parallelisation
+from pdaf_system import PDAFsystem
 
 def main():
-    pe = parallelisation(dim_ens=config.dim_ens)
+    pe = Parallelisation(dim_ens=config.dim_ens)
 
     # Initial Screen output
     if pe.mype_ens == 0:
@@ -33,11 +33,11 @@ def main():
         log.logger.info('2D model with parallelization')
 
     # Initialise model grid for localisation/observation operator
-    model_grid = model.model_grid(pe=pe)
+    model_grid = model.ModelGrid(pe=pe)
     model_grid.print_info(pe)
 
     # Initialise PDAF system
-    das = PDAF_system(pe, model_grid)
+    das = PDAFsystem(pe, model_grid)
 
     das.init_pdaf(screen=config.screen)
 

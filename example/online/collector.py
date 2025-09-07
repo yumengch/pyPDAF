@@ -33,7 +33,7 @@ class Collector:
     """
     def __init__(self, model_t:model.Model, pe: parallelisation.Parallelisation) -> None:
         # initialise the model instance
-        self.model: model.Model = model_t
+        self.model_t: model.Model = model_t
         self.pe: parallelisation.Parallelisation = pe
 
     def init_ens_pdaf(self, _filtertype:int, _dim_p:int, dim_ens:int,
@@ -51,7 +51,7 @@ class Collector:
         # function as a dummy function without doing anything
         # However, you still need to set a distributor to call PDAF.get_state, which
         # does nothing as well.
-        nx_p:int = self.model.nx_p
+        nx_p:int = self.model_t.nx_p
         offset:int = self.pe.mype_filter*nx_p
         for i in range(dim_ens):
             ens_p[:, i] = np.loadtxt(
@@ -75,6 +75,7 @@ class Collector:
         state_p: np.ndarray
             state vector filled with model field
         """
-        # The [:] treatment ensures that we only change values of state_p not the memory address
-        state_p[:] = self.model.field_p.ravel()
+        # The [:] treatment ensures that we only change values of
+        # state_p not the memory address
+        state_p[:] = self.model_t.field_p.ravel()
         return state_p

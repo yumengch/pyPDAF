@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import config
 
 
-class filter_options:
+class FilterOptions:
     """Here, we provide all filter options
 
     Attributes

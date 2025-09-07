@@ -19,14 +19,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import log
 
 import numpy as np
-import pyPDAF.PDAF as PDAF
+import pyPDAF.PDAFomi
 
 import config_obsB as config
 import localisation
 import model
 import parallelisation
 
-class obsB:
+class ObsB:
 
     """observation functions for type-B observation
     Attributes
@@ -60,9 +60,8 @@ class obsB:
     """
 
     def __init__(self, i_obs:int,
-                 pe:parallelisation.parallelisation,
-                 model_grid:model.model_grid,
-                 local:localisation.localisation) -> None:
+                 pe:parallelisation.Parallelisation,
+                 model_t:model.ModelGrid, local:localisation.Localisation) -> None:
         # i_obs-th observations in the system starting from 1
         self.i_obs:int = i_obs
         self.obs_name:str = config.obs_name
@@ -70,7 +69,7 @@ class obsB:
         # observation filename
         self.filename:str = config.obs_path
         # whether this observation is assimilated
-        self.doassim:int = 1
+        self.doassim:int = 0
         # Type of distance computation to use for localization
         # It is mandatory for OMI even if we don't use localisation
         # 0=Cartesian 1=Cartesian periodic
@@ -96,9 +95,9 @@ class obsB:
         self.dtobs = config.dtobs
         # specify the missing/filled value of the observations
         self.missing_value:float = config.missing_value
-        self.model_grid:model.model_grid = model_grid
-        self.pe:parallelisation.parallelisation = pe
-        self.local:localisation.localisation = local
+        self.model:model.ModelGrid = model_t
+        self.pe:parallelisation.Parallelisation = pe
+        self.local:localisation.Localisation = local
 
 
     def init_dim(self, step:int, dim_obs:int) -> int:
@@ -123,112 +122,105 @@ class obsB:
             dimension of observation vector
         """
         if self.pe.mype_filter == 0:
-            log.logger.info(f'Assimilate observations: {self.obs_name}')
+            output_str = f'Assimilate observations: {self.obs_name}'
+            log.logger.info(output_str)
 
         # switch for assimilation of the observation
-        PDAF.omi_set_doassim(self.i_obs, self.doassim)
+        pyPDAF.PDAFomi.set_doassim(self.i_obs, self.doassim)
         # Type of distance computation to use for localization
         # It is mandatory for OMI even if we don't use localisation
-        PDAF.omi_set_disttype(self.i_obs, self.disttype)
+        pyPDAF.PDAFomi.set_disttype(self.i_obs, self.disttype)
         # Number of coordinates used for distance computation
-        PDAF.omi_set_ncoord(self.i_obs, self.ncoord)
+        pyPDAF.PDAFomi.set_ncoord(self.i_obs, self.ncoord)
 
         # read observations
-        filename = self.filename
+        filename = self.filename.format(i=step)
         obs_field:np.ndarray = np.loadtxt(filename)
         # when domain decomposition is used, we only need observations
         # within the local model domain
-        pe_start:int = self.model_grid.nx_p*self.pe.mype_filter
-        pe_end:int = pe_start + self.model_grid.nx_p
+        pe_start:int = self.model.nx_p*self.pe.mype_filter
+        pe_end:int = pe_start + self.model.nx_p
         obs_field_p:np.ndarray = obs_field[:, pe_start:pe_end].ravel()
         # get total number of valid observations
         # a mask for invalid observations
-        condition:np.ndarray = np.logical_not(
-            np.isclose(obs_field_p, self.missing_value))
-        dim_obs_p:int = np.count_nonzero(condition)
+        condition:np.ndarray = np.logical_not(np.isclose(obs_field_p, self.missing_value))
+        dim_obs_p:int = np.sum(condition)
         # obtain the observation vector
         obs_p:np.ndarray = obs_field_p[condition]
-        assert len(obs_p) == dim_obs_p, 'dimension of the ' \
-            f'observation vector ({len(obs_p)})' \
-                f'should be the same as the dim_obs_p ({dim_obs_p})'
+        assert len(obs_p) == dim_obs_p, f'dimension of the observation vector ({len(obs_p)})'\
+                                        f'should be the same as the dim_obs_p ({dim_obs_p})'
 
         # inverse of observation variance
         # here we specify/hard-code the standard deviation of observation is 0.5
         ivar_obs_p:np.ndarray = (1./config.rms_obs/config.rms_obs)*np.ones_like(obs_p)
 
         # coordinate of each observations
-        ocoord_p:np.ndarray = np.zeros((self.ncoord, len(obs_p)))
-        ocoord_p[0] = np.tile(np.arange(self.model_grid.nx_p) +
-                              pe_start,
-                              self.model_grid.ny_p)[condition]
-        ocoord_p[1] = np.repeat(np.arange(self.model_grid.ny_p),
-                                self.model_grid.nx_p)[condition]
+        ocoord_p:np.ndarray = np.zeros((self.ncoord, len(obs_p)), order='F')
+        ocoord_p[0] = np.tile(np.arange(self.model.nx_p) + pe_start, self.model.ny_p)[condition]
+        ocoord_p[1] = np.repeat(np.arange(self.model.ny_p), self.model.nx_p)[condition]
         ocoord_p = ocoord_p + 1.
 
 
-        id_obs_p:np.ndarray = np.zeros((self.nrows, len(obs_p)), dtype=np.intc)
+        id_obs_p:np.ndarray = np.zeros((self.nrows, len(obs_p)), dtype=np.intc, order='F')
         if self.nrows == 1:
             # The relationship between observation and state vector
-            # id_obs_p gives the indices of observed field
-            # in state vector; the index starts from 1
-            # The index is based on the full state vector
-            # instead of the index in the local domain
-            # The following code is used because in our example,
-            # observations are masked and
+            # id_obs_p gives the indices of observed field in state vector
+            # the index starts from 1
+            # The index is based on the full state vector instead of the index in the local domain
+            # The following code is used because in our example, observations are masked and
             # have the same shape as the model grid
-            state_vector_index_p:np.ndarray = \
-                np.arange(1,
-                          self.model_grid.nx_p*self.model_grid.ny_p +
-                          1, dtype=np.intc)
+            state_vector_index_p:np.ndarray = np.arange(1,
+                                                        self.model.nx_p*self.model.ny_p + 1,
+                                                        dtype=np.intc)
             id_obs_p[0] = state_vector_index_p[condition]
         else:
             # If interpolation is required for a 2D domain
             # id_obs_p has a dimension of (4, dim_obs_p)
-            # id_obs_p[0] is the index of the grid point in
-            # the state vector at lower left of the observation
+            # id_obs_p[0] is the index of the grid point in the state vector
+            # at lower left of the observation
             # for more details of the interpolation see:
             # https://pdaf.awi.de/trac/wiki/OMI_observation_modules#thisobsid_obs_p
             # and
             # https://pdaf.awi.de/trac/wiki/OMI_observation_operators#PDAFomi_get_interp_coeff_lin
             # In this case, we also need to specify the coefficients for linear interpolation
             # using PDAF.omi_get_interp_coeff_lin() function and set icoeff_p to PDAF
-            icoeff_p:np.ndarray = np.zeros((self.nrows, len(obs_p)))
+            icoeff_p:np.ndarray = np.zeros((self.nrows, len(obs_p)), order='F')
             for i in range(dim_obs_p):
                 # here gcoords are set to 0 in this example
                 # in real applications, it must be the actual coordinates
-                gcoords:np.ndarray = np.zeros((self.nrows, self.ncoord))
-                icoeff_p[:, i] = PDAF.omi_get_interp_coeff_lin(gcoords, ocoord_p[:, i], icoeff_p[:, i])
-            PDAF.omi_set_icoeff_p(self.i_obs, icoeff_p)
-        PDAF.omi_set_id_obs_p(self.i_obs, id_obs_p)
+                gcoords:np.ndarray = np.zeros((self.nrows, self.ncoord), order='F')
+                icoeff_p[:, i] = pyPDAF.PDAFomi.get_interp_coeff_lin(self.nrows, self.ncoord,
+                                                                     gcoords, ocoord_p[:, i],
+                                                                     icoeff_p[:, i])
+            pyPDAF.PDAFomi.set_icoeff_p(self.i_obs, self.nrows, dim_obs_p, icoeff_p)
+        pyPDAF.PDAFomi.set_id_obs_p(self.i_obs, self.nrows, dim_obs_p, id_obs_p)
 
         # Type of observation error: (0) Gauss, (1) Laplace
         # This is optional
         # Without explicit setting, this is 0
-        PDAF.omi_set_obs_err_type(self.i_obs, 0)
+        pyPDAF.PDAFomi.set_obs_err_type(self.i_obs, 0)
 
         # Whether to use (1) global full obs.
         # (0) obs. restricted to those relevant for a process domain
         # Without explicit setting, this is 1 (using all obs.)
-        PDAF.omi_set_use_global_obs(self.i_obs, 1)
+        pyPDAF.PDAFomi.set_use_global_obs(self.i_obs, 1)
 
-        # when localisation is used we need to
+        # when localisation is used
         if self.local.local_filter:
             # Size of domain for periodicity for disttype=1
             # (<0 for no periodicity)
-            domainsize:np.ndarray = np.array([self.model_grid.nx,
-                                              self.model_grid.ny],
-                                              dtype=float)
-            PDAF.omi_set_domainsize(self.i_obs, domainsize)
+            domainsize:np.ndarray = np.array([self.model.nx, self.model.ny], dtype=float)
+            pyPDAF.PDAFomi.set_domainsize(self.i_obs, self.ncoord, domainsize)
 
         # PDAF need to gather observation information
-        dim_obs = PDAF.omi_gather_obs(self.i_obs,
+        dim_obs = pyPDAF.PDAFomi.gather_obs(self.i_obs, dim_obs_p,
                                       obs_p,
                                       ivar_obs_p,
-                                      ocoord_p,
+                                      ocoord_p, self.ncoord,
                                       self.local.cradius)
         return dim_obs
 
-    def init_dim_obs_l(self, domain_p:int, step:int, dim_obs:int, dim_obs_l:int) -> int:
+    def init_dim_obs_l(self, domain_p:int, _step:int, _dim_obs:int, dim_obs_l:int) -> int:
         """intialise local observation vector for domain localisation
 
         Parameters
@@ -260,49 +252,18 @@ class obsB:
 
         # here is a brutal force way where we simply list all coordinates on each local processor
         # and index them based on domain_p
-        offset:int = self.pe.mype_filter*self.model_grid.nx_p
-        coords_l[0] = np.tile(np.arange(self.model_grid.nx_p) +
-                              offset,
-                              self.model_grid.ny_p)[domain_p - 1]
-        coords_l[1] = np.repeat(np.arange(self.model_grid.ny_p),
-                                self.model_grid.nx_p)[domain_p - 1]
+        offset:int = self.pe.mype_filter*self.model.nx_p
+        coords_l[0] = np.tile(np.arange(self.model.nx_p) + offset, self.model.ny_p)[domain_p - 1]
+        coords_l[1] = np.repeat(np.arange(self.model.ny_p), self.model.nx_p)[domain_p - 1]
         coords_l = coords_l + 1.
 
-        return PDAF.omi_init_dim_obs_l_iso(self.i_obs, coords_l,
+        return pyPDAF.PDAFomi.init_dim_obs_l_iso(self.i_obs, coords_l,
                                       self.local.loc_weight,
                                       self.local.cradius,
                                       self.local.sradius, dim_obs_l)
 
-    def localize_covar(self, dim_p:int, dim_obs:int, HP_p:np.ndarray, HPH:np.ndarray, coords_p:np.ndarray) -> tuple[np.ndarray, np.ndarray]:
-        """localze covariance matrix for covariance localisation
 
-        Parameters
-        ----------
-        dim_p: int
-            dimension of state vector on local processor
-        dim_obs_p: int
-            dimension of observation vector on local processor
-        HP_p : ndarray
-            matrix HPH
-        HPH : ndarray
-            PE local part of matrix HP
-        coords_p : ndarray
-            coordinates of state vector elements
-
-        Returns
-        -------
-        HP_p : ndarray
-            matrix HP
-        HPH : ndarray
-            matrix HPH
-        """
-        return PDAF.omi_localize_covar_iso(self.i_obs, self.local.loc_weight,
-                                       self.local.cradius,
-                                       self.local.sradius,
-                                       coords_p, HP_p, HPH)
-
-
-    def obs_op(self, step:int, state_p:np.ndarray, ostate:np.ndarray) -> np.ndarray:
+    def obs_op(self, _step:int, state_p:np.ndarray, ostate:np.ndarray) -> np.ndarray:
         """convert state vector by observation operator
 
         Parameters
@@ -320,7 +281,7 @@ class obsB:
             state vector transformed by identity matrix
         """
         if self.nrows == 1:
-            return PDAF.omi_obs_op_gridpoint(self.i_obs, state_p, ostate)
-        else:
-            # if interpolation is required
-            return PDAF.omi_obs_op_interp_lin(self.i_obs, self.nrows, state_p, ostate)
+            return pyPDAF.PDAFomi.obs_op_gridpoint(self.i_obs, state_p, ostate)
+
+        # if interpolation is required
+        return pyPDAF.PDAFomi.obs_op_interp_lin(self.i_obs, self.nrows, state_p, ostate)

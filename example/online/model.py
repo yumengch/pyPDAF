@@ -37,6 +37,8 @@ class Model:
         number of grid points in y-direction
     ny_p : int
         number of grid points in y-direction on local PE
+    current_step : int
+        current time step
     total_steps : int
         total number of time steps
     """
@@ -95,6 +97,21 @@ class Model:
         """
         offset = self.nx_p*mype_model
         self.field_p[:] = np.loadtxt(config.init_truth_path)[:, offset:self.nx_p + offset]
+
+    def step(self, pe:parallelisation.Parallelisation, timenow:float) -> None:
+        """shifting model forward 'integration'
+
+        Parameters
+        ----------
+        pe : `parallelization.parallelization`
+            parallelization object from example
+        """
+        if pe.task_id == 1 and pe.mype_model == 0:
+            output_str = f'model step: {timenow}'
+            log.logger.info(output_str)
+
+        self.field_p = np.roll(self.field_p, 1, axis=0)
+
 
     def print_info(self, pe:parallelisation.Parallelisation) -> None:
         """print model info

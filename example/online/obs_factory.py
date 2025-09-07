@@ -64,7 +64,6 @@ class ObsFactory:
         output_str = f'total number of observation types: {self.nobs}'
         log.logger.info (output_str)
 
-
     def init_dim_obs_pdafomi(self, step:int, dim_obs:int) -> int:
         """initialise observation dimensions
 

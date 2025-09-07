@@ -43,7 +43,7 @@ ny = 18
 # initial time step
 init_step = 0
 # total number of time steps
-nsteps:int = 4 # 18
+nsteps:int = 17
 
 #### filter options ####
 # number of ensemble members
