@@ -19,7 +19,7 @@ jobs:
         run: |
           conda install python anaconda-client conda-build conda-verify
           anaconda logout --at anaconda.org
-          anaconda login  --at anaconda.org --username yumengch --password ${{ secrets.ANACONDA }}
+          anaconda login  --at anaconda.org --hostname "$GITHUB_RUN_ID-$GITHUB_RUN_NUMBER" --username yumengch --password ${{ secrets.ANACONDA }}
           conda  config --set anaconda_upload yes
           conda-build -c conda-forge conda.recipe/
           conda install -y -c conda-forge --use-local pypdaf
