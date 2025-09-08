@@ -11,16 +11,31 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           auto-activate-base: true
-          auto-update-conda: true
           activate-environment: ""
 
-      - name: install pyPDAF
-        shell: bash -el {0}
+      - name: setup anaconda
+        shell: cmd /C CALL {0}
         run: |
-          conda install python anaconda-client conda-build conda-verify
-          anaconda login  --at anaconda.org --username yumengch --password ${{ secrets.ANACONDA }}
+          conda install -n base python anaconda-client conda-build conda-verify
+
+
+      - name: anaconda login
+        shell: cmd /C CALL {0}
+        run: |
+          call conda activate base
+          anaconda login  --at anaconda.org  --hostname "$GITHUB_RUN_ID-$GITHUB_RUN_NUMBER" --username yumengch --password ${{ secrets.ANACONDA }}
+
+      - name: set anaconda upload
+        shell: cmd /C CALL {0}
+        run: |
+          call conda activate base
           conda  config --set anaconda_upload yes
-          conda-build -c conda-forge conda.recipe/
+
+      - name: build pyPDAF
+        shell: cmd /C CALL {0}
+        run: |
+          call conda activate base
+          conda build -c conda-forge conda.recipe/
           conda install -y -c conda-forge --use-local pypdaf
           cd example
           mpiexec -n 4 python -u online/main.py
