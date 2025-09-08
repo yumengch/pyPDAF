@@ -1,0 +1,4 @@
+option('incdirs', type : 'array', value : ['/usr/include'], description : 'Include directories for BLAS')
+option('libdirs', type : 'array', value : ['/usr/lib'], description : 'Library directories for BLAS and other runtime libraries')
+option('blas_lib', type : 'array', value : ['blas', 'lapack'], description : 'BLAS library name')
+option('mpi_mod', type : 'string', value : '/usr/include/msmpi.f90', description : 'Path to mpi.f90 for MSMPI only')

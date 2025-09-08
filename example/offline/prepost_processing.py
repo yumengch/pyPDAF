@@ -16,17 +16,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-import log
 import os
 import typing
 
 from mpi4py import MPI
 import numpy as np
 
+import log
 import model
 import parallelisation
 
-class prepost:
+class Prepost:
     """User-supplied functions for pre and post processing of the ensemble.
 
     Attributes
@@ -37,17 +37,18 @@ class prepost:
         parallelisation object
     -------
     """
-    def __init__(self, model_grid: model.model_grid,
-                  pe:parallelisation.parallelisation) -> None:
-        self.model_grid:model.model_grid = model_grid
-        self.pe:parallelisation.parallelisation = pe
+    def __init__(self, model_grid: model.ModelGrid,
+                  pe:parallelisation.Parallelisation) -> None:
+        self.model_grid:model.ModelGrid = model_grid
+        self.pe:parallelisation.Parallelisation = pe
         os.makedirs('outputs_offline', exist_ok=True)
 
     def get_full_ens(self, dim_p:int, dim_ens:int, ens_p:np.ndarray
                      ) -> typing.Union[np.ndarray, None]:
         """Gather total ensemble from each local processors
         """
-        if self.pe.npes_filter == 1: return ens_p
+        if self.pe.npes_filter == 1:
+            return ens_p
         # get total dim
 
         ## collect full ensemble from domain decomposed ensemble
@@ -100,15 +101,17 @@ class prepost:
 
         return ens
 
-    def initial_process(self, step:int, dim_p:int, dim_ens:int, dim_ens_p:int,
-                        dim_obs_p:int, state_p:np.ndarray, uinv:np.ndarray,
-                        ens_p:np.ndarray, flag:int) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    def initial_process(self, _step:int, dim_p:int, dim_ens:int, _dim_ens_p:int,
+                        _dim_obs_p:int, state_p:np.ndarray, uinv:np.ndarray,
+                        ens_p:np.ndarray, _flag:int) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
         """initial processing of the ensemble before it is distributed to model fields
         """
         ens = self.get_full_ens(dim_p, dim_ens, ens_p)
         if self.pe.mype_filter == 0:
             assert isinstance(ens, np.ndarray), 'ens should be a numpy array'
-            log.logger.info (f'RMS error according to sampled variance: {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}')
+            output_str = 'RMS error according to sampled variance: ' \
+                         f'{np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}'
+            log.logger.info (output_str)
         return state_p, uinv, ens_p
 
     def preprocess(self, step:int, dim_p:int, dim_ens:int, ens_p:np.ndarray) -> None:
@@ -117,9 +120,9 @@ class prepost:
         ens = self.get_full_ens(dim_p, dim_ens, ens_p)
         if self.pe.mype_filter == 0:
             assert isinstance(ens, np.ndarray), 'ens should be a numpy array'
-            log.logger.info ('Forecast RMS error according to sampled variance:'
+            output_str = 'Forecast RMS error according to sampled variance:' \
                              f' {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}'
-                             )
+            log.logger.info (output_str)
             os.makedirs('outputs_offline', exist_ok=True)
             for i in range(dim_ens):
                 np.savetxt(
@@ -137,9 +140,9 @@ class prepost:
         ens = self.get_full_ens(dim_p, dim_ens, ens_p)
         if self.pe.mype_filter == 0:
             assert isinstance(ens, np.ndarray), 'ens should be a numpy array'
-            log.logger.info (f'Analysis RMS error according to sampled variance:'
+            output_str = 'Analysis RMS error according to sampled variance:' \
                              f' {np.sqrt(np.mean(np.var(ens, axis=1, ddof=1)))}'
-                             )
+            log.logger.info (output_str )
             os.makedirs('outputs_offline', exist_ok=True)
             for i in range(dim_ens):
                 np.savetxt(
@@ -151,14 +154,14 @@ class prepost:
                                         self.model_grid.nx)
                 )
 
-    def prepostprocess(self, step:int, dim_p:int, dim_ens:int, dim_ens_p:int,
-                       dim_obs_p:int, state_p:np.ndarray, uinv:np.ndarray,
-                       ens_p:np.ndarray, flag:int
+    def prepostprocess(self, step:int, dim_p:int, dim_ens:int, _dim_ens_p:int,
+                       _dim_obs_p:int, state_p:np.ndarray, uinv:np.ndarray,
+                       ens_p:np.ndarray, _flag:int
                        ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
         """pre-/post-processing of the ensemble as user-supplied functions
         """
         if step < 0:
-          self.preprocess(step, dim_p, dim_ens, ens_p)
+            self.preprocess(step, dim_p, dim_ens, ens_p)
         else:
-          self.postprocess(step, dim_p, dim_ens, ens_p)
+            self.postprocess(step, dim_p, dim_ens, ens_p)
         return state_p, uinv, ens_p

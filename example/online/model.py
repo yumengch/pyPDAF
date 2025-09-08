@@ -22,7 +22,7 @@ import numpy as np
 import config
 import parallelisation
 
-class model:
+class Model:
     """Model information in PDAF
 
     Attributes
@@ -37,11 +37,13 @@ class model:
         number of grid points in y-direction
     ny_p : int
         number of grid points in y-direction on local PE
+    current_step : int
+        current time step
     total_steps : int
         total number of time steps
     """
 
-    def __init__(self, pe:parallelisation.parallelisation) -> None:
+    def __init__(self, pe:parallelisation.Parallelisation) -> None:
         """constructor
 
         Parameters
@@ -67,12 +69,12 @@ class model:
         # model field
         self.field_p:np.ndarray = np.zeros((self.ny_p, self.nx_p))
 
-    def get_local_domain(self, pe:parallelisation.parallelisation) -> tuple[int, int]:
+    def get_local_domain(self, pe:parallelisation.Parallelisation) -> tuple[int, int]:
         """Compute local-PE domain size/domain decomposition
 
         Parameters
         ----------
-        pe : `parallelization.parallelization`
+        pe : `parallelization.Parallelisation`
             parallelization object
         """
         nx_p:int = self.nx
@@ -96,17 +98,36 @@ class model:
         offset = self.nx_p*mype_model
         self.field_p[:] = np.loadtxt(config.init_truth_path)[:, offset:self.nx_p + offset]
 
-    def print_info(self, pe:parallelisation.parallelisation) -> None:
-        """print model info
+    def step(self, pe:parallelisation.Parallelisation, timenow:float) -> None:
+        """shifting model forward 'integration'
 
         Parameters
         ----------
         pe : `parallelization.parallelization`
+            parallelization object from example
+        """
+        if pe.task_id == 1 and pe.mype_model == 0:
+            output_str = f'model step: {timenow}'
+            log.logger.info(output_str)
+
+        self.field_p = np.roll(self.field_p, 1, axis=0)
+
+
+    def print_info(self, pe:parallelisation.Parallelisation) -> None:
+        """print model info
+
+        Parameters
+        ----------
+        pe : `parallelization.Parallelisation`
             parallelization object
         """
         if pe.task_id == 1 and pe.mype_model == 0:
             log.logger.info('MODEL-side: INITIALIZE PARALLELIZED Shifting model MODEL')
-            log.logger.info(f'Grid size: {self.nx} x {self.ny}')
-            log.logger.info(f'Time steps {self.total_steps}')
-            log.logger.info(f'-- Domain decomposition over {pe.npes_model} PEs')
-            log.logger.info(f'-- local domain sizes: {self.nx_p} x {self.ny_p}')
+            output_str = f'Grid size: {self.nx} x {self.ny}'
+            log.logger.info(output_str)
+            output_str = f'Time steps {self.total_steps}'
+            log.logger.info(output_str)
+            output_str = f'-- Domain decomposition over {pe.npes_model} PEs'
+            log.logger.info(output_str)
+            output_str = f'-- local domain sizes: {self.nx_p} x {self.ny_p}'
+            log.logger.info(output_str)

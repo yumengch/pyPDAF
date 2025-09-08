@@ -32,13 +32,30 @@ supported methods can be found
 ## Getting Started
 It is recommended to install pyPDAF via `conda`:
 ```bash
-conda create -n pypdaf -c conda-forge yumengch::pypdaf==1.0.2
+conda create -n pypdaf -c conda-forge yumengch::pypdaf
 ```
-You can also install locally from the source code using `pip`
-by setting up `setup.cfg` and `cmake` configurations
-with examples given in [PDAFBuild](PDAFBuild).
+You can also install from the source code using `pip` and `meson`. One can
+find the information in .
 
 ## Building a DA system with pyPDAF
+To construct a data assimilation system, only 7 pyPDAF functions are necessary:
+### Initialise PDAF
+  - pyPDAF.set_parallel - one can omit it without parallelisation
+  - pyPDAF.init
+  - pyPDAF.PDAFomi.init
+  - pyPDAF.PDAFomi.init_local - only used in domain localisation
+  - pyPDAF.PDAFomi.set_domain_limits - only used in domain localisation
+  - pyPDAF.init_forecast
+
+### Data assimilation
+  - pyPDAF.assimilate
+
+### Finalise PDAF
+  - pyPDAF.deallocate
+
+However, users have to implement user-supplied functions to provide state vector
+and observation information.
+
 For users without prior experience with PDAF, we highly recommend to
 start with the tutorial here:
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yumengch/pyPDAF/).
@@ -50,7 +67,8 @@ pyPDAF and PDAF both utilise `Message Passing Interface (MPI)`
 parallelisation. Hence, to run the example, it needs to be executed
 from commandline using `mpiexec`. For example,
 ```bash
-mpiexec -n 4 python -u example/online/main.py
+cd example
+mpiexec -n 4 python -u online/main.py
 ```
 will run the example with 4 processes.
 The example is based on
@@ -58,24 +76,11 @@ the [tutorials](http://pdaf.awi.de/trac/wiki/FirstSteps) of the original PDAF.
 
 
 ## Documentation:
-The most up-to-date pyPDAF has interface with ```PDAF-V2.3.1```.
+The most up-to-date pyPDAF has interface with ```PDAF-V3.0```.
 A [documentation](https://yumengch.github.io/pyPDAF/index.html) is provided.
-The interface follows the naming convention of PDAF.
-One major difference is the localisation functions
-in the [Observation Module Infrastructure (OMI)](https://pdaf.awi.de/trac/wiki/PDAF_OMI_Overview).
-In PDAF, one can simply call `PDAFomi_init_dim_obs_l` or `PDAFomi_localize_covar`.
-In pyPDAF, these subroutines are broken into three functions:
-`pyPDAF.PDAF.omi_init_dim_obs_l_iso`,
-`pyPDAF.PDAF.omi_init_dim_obs_l_noniso`,
-`pyPDAF.PDAF.omi_init_dim_obs_l_noniso_locweights` for isotropic,
-non-isotropic and horizontal and vertically separated
-non-isotropic localisation. The suffix is applied similarly
-to `pyPDAF.PDAF.omi_localize_covar`.
-Details of the application of these localisation for
-[`PDAFomi_init_dim_obs_l`](https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE)
-and
-[`PDAFomi_localize_covar`](https://pdaf.awi.de/trac/wiki/OMI_observation_modules#localize_covar_OBSTYPE)
-can be found in PDAF documentation.
+The interface follows the naming convention of PDAF. We divide PDAF subroutines
+into several subpackages including `PDAF`, `PDAF3`, `PDAFomi`, `PDAFlocal`, and
+`PDAFlocalomi`. These provide
 
 
 ## Having questions?

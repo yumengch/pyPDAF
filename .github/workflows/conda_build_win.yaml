@@ -1,0 +1,30 @@
+name: conda_build_win
+on: [workflow_dispatch]
+jobs:
+  upload_conda_win:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          auto-activate-base: true
+          auto-update-conda: true
+          activate-environment: ""
+
+      - name: install pyPDAF
+        shell: bash -el {0}
+        run: |
+          conda install python anaconda-client conda-build conda-verify
+          anaconda login  --at anaconda.org --username yumengch --password ${{ secrets.ANACONDA }}
+          conda  config --set anaconda_upload yes
+          conda-build -c conda-forge conda.recipe/
+          conda install -y -c conda-forge --use-local pypdaf
+          cd example
+          mpiexec -n 4 python -u online/main.py
+
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3

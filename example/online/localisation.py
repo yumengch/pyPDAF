@@ -16,18 +16,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-import log
-
 import numpy as np
-import pyPDAF.PDAF as PDAF
+
+import pyPDAF
 
 import config
+import log
 import parallelisation
 import state_vector
 
 
-class localisation:
-
+class Localisation:
     """class for localization information and user-supplied functions
 
     Attributes
@@ -56,7 +55,7 @@ class localisation:
         initialise the number of local domains
     """
 
-    def __init__(self, sv:state_vector.state_vector) -> None:
+    def __init__(self, sv:state_vector.StateVector) -> None:
         """class constructor
 
         Parameters
@@ -72,13 +71,13 @@ class localisation:
         # in init_pdaf
         self.local_filter:bool = False
         # a reference to the state vector object
-        self.sv:state_vector.state_vector = sv
+        self.sv:state_vector.StateVector = sv
 
-    def init_n_domains_pdaf(self, step:int, ndomains:int) -> int:
+    def init_n_domains_pdaf(self, _step:int, _ndomains:int) -> int:
         """initialize the number of local domains
 
         Parameters
-        ----------`
+        ----------
         step : int
             current time step
         ndomains: int
@@ -89,10 +88,11 @@ class localisation:
         n_domains_p : int
             PE-local number of analysis domains
         """
-        log.logger.info(f'ndomains: ndomains {self.sv.dim_state_p}')
+        output_str = f'ndomains: ndomains {self.sv.dim_state_p}'
+        log.logger.info(output_str)
         return self.sv.dim_state_p
 
-    def set_lim_coords(self, nx_p:int, ny_p:int, pe:parallelisation.parallelisation) -> None:
+    def set_lim_coords(self, nx_p:int, ny_p:int, pe:parallelisation.Parallelisation) -> None:
         """set local domain
 
         Parameters
@@ -111,15 +111,15 @@ class localisation:
         # starts from 1
         off_nx = nx_p*pe.mype_filter
 
-        lim_coords = np.zeros((2, 2))
+        lim_coords = np.zeros((2, 2), order='F')
         lim_coords[0, 0] = float(off_nx + 1)
         lim_coords[0, 1] = float(off_nx + nx_p)
         lim_coords[1, 0] = ny_p
         lim_coords[1, 1] = 1
 
-        PDAF.omi_set_domain_limits(lim_coords)
+        pyPDAF.PDAFomi.set_domain_limits(lim_coords)
 
-    def init_dim_l_pdaf(self, step:int, domain_p:int, dim_l:int) -> int:
+    def init_dim_l_pdaf(self, _step:int, domain_p:int, dim_l:int) -> int:
         """initialise the local dimension of PDAF.
 
         The function returns
@@ -142,53 +142,5 @@ class localisation:
         # initialize local state dimension
         dim_l = 1
         id_lstate_in_pstate:np.ndarray = domain_p*np.ones((dim_l), dtype=np.intc)
-        PDAF.local_set_indices(id_lstate_in_pstate)
+        pyPDAF.PDAFlocal.set_indices(dim_l, id_lstate_in_pstate)
         return dim_l
-
-    def g2l_state_pdaf(self, step:int, domain_p:int, dim_p:int, state_p:np.ndarray, dim_l:int, state_l:np.ndarray) -> np.ndarray:
-        """convert state vector (on each processor) to domain local state vector
-
-        Parameters
-        ----------
-        step : int
-            current time step
-        domain_p : int
-            local domain index
-        dim_p : int
-            dimension of state vector
-        state_p : ndarray
-            state vector
-        dim_l : int
-            dimension of domain local state vector
-        state_l : ndarray
-            domain local state vector for local analysis
-        """
-        # generic initialization
-        # domain_p is the *domain_p*-th local domain on the local processor
-        # The dimension of the state vector on the local domain is dim_l defined in init_dim_l_pdaf
-        # Here, because we set dim_l = 1, each local domain is one element of the state vector
-        # In more complex cases, it is possible to define a relationship matrix between local domain
-        # and the element of the state vector.
-        state_l[:] = state_p[domain_p - 1]
-        return state_l
-
-    def l2g_state_pdaf(self, step:int, domain_p:int, dim_l:int, state_l:np.ndarray, dim_p:int, state_p:np.ndarray) -> np.ndarray:
-        """convert local state vector to PE-local global state vector
-
-        Parameters
-        ----------
-        step : int
-            current time step
-        domain_p : int
-            local domain index
-        dim_l : int
-            dimension of local state vector
-        state_l : ndarray
-            local state vector for local analysis
-        dim_p : int
-            dimension of state vector
-        state_p : ndarray
-            state vector
-        """
-        state_p[domain_p -1] = state_l[:]
-        return state_p

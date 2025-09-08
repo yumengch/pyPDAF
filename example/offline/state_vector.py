@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import model
 
-class state_vector:
+class StateVector:
 
     """Dimension of state vector and ensemble size
 
@@ -32,7 +32,7 @@ class state_vector:
         dimension of PE-local state vector
     """
 
-    def __init__(self, model_grid:model.model_grid, dim_ens:int
+    def __init__(self, model_grid:model.ModelGrid, dim_ens:int
                  ) -> None:
         """AssimilationDimensions constructor
 

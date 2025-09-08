@@ -12,8 +12,8 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../build/lib.linux-x86_64-cpython-39'))
-# sys.path.insert(0, os.path.abspath('../pyPDAF'))
+# sys.path.insert(0, os.path.abspath('../../build/lib.linux-x86_64-cpython-39'))
+# # sys.path.insert(0, os.path.abspath('../pyPDAF'))
 
 
 # -- Project information -----------------------------------------------------

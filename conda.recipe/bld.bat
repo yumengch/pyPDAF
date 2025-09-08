@@ -1,3 +1,14 @@
-call "C:\Program Files (x86)\Intel\oneAPI\compiler\2024.2\env\vars.bat" intel64 vs2022
+@echo on
 
-"%PYTHON%" -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
+set CXX=clang-cl
+set CC=clang-cl
+set FC=flang-new
+set MSMPI_INC=%LIBRARY_INC%
+set MSMPI_LIB64=%LIBRARY_LIB%
+
+"%PYTHON%" -m pip install . -v --no-build-isolation^
+    -Cbuild-dir=build --config-settings=setup-args="-Dblas_lib=openblas"^
+    --config-settings=setup-args="-Dincdirs="%LIBRARY_INC%^
+    --config-settings=setup-args="-Dlibdirs="%LIBRARY_LIB%^
+    --config-settings=setup-args="-Dmpi_mod="%LIBRARY_INC%"\mpi.f90"^
+    --config-settings=setup-args="-Dbuildtype=release"

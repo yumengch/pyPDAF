@@ -1,51 +1,49 @@
-{% set version = "1.0.2" %}
+{% set version = "1.0.4" %}
 
 package:
   name: pypdaf
-  version: 1.0.2
+  version: {{ version }}
 
 source:
-  noarch: python
   path: ..
 
 build:
-  preserve_egg_dir: True
+  number: 0
 
 requirements:
   host:
-    - python {{python}}
-    - intel-fortran-rt==2024.2.0=h2466b09_978 # [win]
-    - setuptools
-    - pip
-    - cython
-    - numpy {{ numpy }}
-    - mpi4py {{ mpi4py }}
-    - {{ mpi }}
-    - blas-devel=*=*mkl* # [win]
-    - liblapack=*=*mkl* # [win]
-    - blas-devel=*=*openblas* # [not win]
-    - liblapack=*=*openblas* # [not win]
+    - python
+    - meson-python {{ pymeson }}
+    - numpy {{numpy_version}}
+    - mpi=*={{ mpi }}
+    - mpi4py
+    - blas=*=openblas
+    - flang-rt_win-64 # [win]
+    - libflang # [win]
   build:
+    - python
     - {{ compiler('c') }}
-    - {{ compiler('fortran') }}  # [not win]
-    - cmake   # [not win]
-    - make    # [not win]
+    - {{ compiler('fortran') }}
+    - vs2022_win-64     # [win]
+    - numpy {{numpy_version}}
+    - cython
   run:
-    - python {{python}}
-    - numpy {{ numpy }}
-    - mpi4py {{ mpi4py }}
-    - {{ mpi }}
-    - intel-fortran-rt==2024.2.0=h2466b09_978 # [win]
-    - blas-devel=*=*mkl* # [win]
-    - liblapack=*=*mkl* # [win]
-    - blas-devel=*=*openblas* # [not win]
-    - liblapack=*=*openblas* # [not win]
+    - flang-rt_win-64 # [win]
+    - python
+    - numpy
+    - mpi=*={{ mpi }}
+    - mpi4py
+    - blas=*=openblas
+
+pin_run_as_build:
+    mpi: x.x
+    mpi4py: x.x
+    blas: x.x
 
 about:
   home: https://github.com/yumengch/pyPDAF
   summary: A Python interface to PDAF
-  description: |
-    pyPDAF is a python interface to the Fortran-based PDAF library
+  description: pyPDAF is a python interface to the Fortran-based PDAF library
   license: GPL
   doc_url: https://yumengch.github.io/pyPDAF/index.html
   dev_url: https://github.com/yumengch/pyPDAF

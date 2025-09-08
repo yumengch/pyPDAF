@@ -23,7 +23,7 @@ import model
 import parallelisation
 
 
-class collector:
+class Collector:
     """Here, the background/forecast ensemble is read from files.
 
     Attributes
@@ -31,13 +31,13 @@ class collector:
     model: model.model_grid
         model instance
     """
-    def __init__(self, model_grid:model.model_grid,
-                 pe: parallelisation.parallelisation) -> None:
+    def __init__(self, model_grid:model.ModelGrid,
+                 pe: parallelisation.Parallelisation) -> None:
         # initialise the model instance
-        self.model_grid: model.model_grid = model_grid
-        self.pe: parallelisation.parallelisation = pe
+        self.model_grid: model.ModelGrid = model_grid
+        self.pe: parallelisation.Parallelisation = pe
 
-    def init_ens_pdaf(self, filtertype:int, dim_p:int, dim_ens:int,
+    def init_ens_pdaf(self, _filtertype:int, _dim_p:int, dim_ens:int,
                       state_p:np.ndarray, uinv:np.ndarray, ens_p:np.ndarray,
                       status_pdaf:int) -> tuple[np.ndarray, np.ndarray, np.ndarray, int]:
         """read forecast ensemble for DA
@@ -74,24 +74,3 @@ class collector:
                 config.init_ens_path.format(i=i+1)
                 )[:, offset:offset+nx_p].ravel()
         return state_p, uinv, ens_p, status_pdaf
-
-    def collect_state(self, dim_p:int, state_p:np.ndarray
-                      ) -> np.ndarray:
-        """PDAF will collect state vector (state_p) from model field.
-
-
-        Parameters
-        ----------
-        dim_p: int
-            Dimension of the state vector on local processor
-        state_p: np.ndarray
-            state vector on local processor.
-            This argument is used by PDAF to form the state vector
-            of a single ensemble member.
-
-        Returns
-        -------
-        state_p: np.ndarray
-            state vector filled with model field
-        """
-        return state_p

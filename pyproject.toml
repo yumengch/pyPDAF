@@ -1,22 +1,18 @@
 [build-system]
-requires = ["setuptools", "wheel", "cython", "numpy"]
-build-backend = "setuptools.build_meta"
+    requires = ["meson-python", "cython", "numpy"]
+    build-backend = "mesonpy"
 
 [project]
 name = "pyPDAF"
 authors = [
     {name = "Yumeng Chen", email = "yumeng.chen@reading.ac.uk"},
 ]
-version = "1.0.2"
+version = "1.0.4"
 description = "A Python interface to Parallel Data Assimilation Framework (PDAF)"
 readme = "README.md"
 requires-python = ">=3.10"
 keywords = ["data assimilation", "PDAF"]
 license = {text = "GPL License"}
-classifiers = [
-    "Programming Language :: Python :: 3",
-]
 dependencies = [
     "numpy", "mpi4py"
 ]
-

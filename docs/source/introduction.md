@@ -1,8 +1,8 @@
 pyPDAF is a Python interface to the `Parallel Data Assimilation Framwork (PDAF) <http://pdaf.awi.de/trac/wiki>`_ written in Fortran.
-The latest pyPDAF supports PDAF-V2.3.
+The latest pyPDAF supports PDAF-V3.0.
 
 As an interface to PDAF, pyPDAF supports all PDAF functionalities. You can use pyPDAF to construct
-a parallel ensemble data assimilation system in pure Python. The pyPDAF is designed as a framework
+a parallel ensemble data assimilation system purely in Python. The pyPDAF is designed as a framework
 that defines the workflow of given DA algorithms. Considering the versatility of the software,
 information on the model and observations are passed to the DA algorithms through user-supplied
 functions. With pyPDAF, all user-supplied functions can be implemented in Python. We expect that

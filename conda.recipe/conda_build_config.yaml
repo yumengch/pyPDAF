@@ -1,38 +1,31 @@
 python:
-    - 3.10
     - 3.11
     - 3.12
     - 3.13
 
+c_compiler_version:
+    - 14 # [linux]
+
+# there seems to be bug in gfortran 15.1.0
+# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=119928
+# therefore, we pin gfortran 14
+fortran_compiler_version:
+    - 14 # [not win]
+
 c_compiler:
-    - vs2022   # [win]
+    - clang      # [win]
 
-numpy:
-    - 2.2.0
+fortran_compiler:
+    - flang      # [win]
 
-mpi4py:
-    - 4.0.1=py310h741f8d3_0 # [win]
-    - 4.0.1=py311h04a8612_0 # [win]
-    - 4.0.1=py312h880a0dc_0 # [win]
-    - 4.0.1=py313h5ecaadf_0 # [win]
-    - 4.0.1=py310h9e472cc_0 # [osx and arm64]
-    - 4.0.1=py311h3f9ec3c_0 # [osx and arm64]
-    - 4.0.1=py312h5450814_0 # [osx and arm64]
-    - 4.0.1=py313h41ff552_0 # [osx and arm64]
-    - 4.0.1=py310h7afbf91_0 # [osx and x86_64]
-    - 4.0.1=py311hb5d555c_0 # [osx and x86_64]
-    - 4.0.1=py312h017ff69_0 # [osx and x86_64]
-    - 4.0.1=py313h9b2bcec_0 # [osx and x86_64]
-    - 4.0.1=py310hc9139ab_0 # [linux]
-    - 4.0.1=py311h0799f86_0 # [linux]
-    - 4.0.1=py312h0a6c937_0 # [linux]
-    - 4.0.1=py313h7246b6a_0 # [linux]
-    
+numpy_version:
+    - '>2'
 
 mpi:
-    - mpich=4.2.3    # [not win]
-    - msmpi=10.1.1=h3502643_7    # [win]
+    - mpich    # [not win]
+    - msmpi    # [win]
 
-zip_keys:
-    - python
-    - mpi4py
+# meson-python 0.18 cannot be installed on Windows
+pymeson:
+    - <0.18  # [win]
+    - '>=0.18'  # [not win]

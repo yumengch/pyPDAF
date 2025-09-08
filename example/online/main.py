@@ -22,11 +22,12 @@ import log
 import config
 import model
 import model_integrator
-from parallelisation import parallelisation
-from PDAF_system import PDAF_system
+from parallelisation import Parallelisation
+from pdaf_system import PDAFsystem
 
 def main():
-    pe = parallelisation(dim_ens=config.dim_ens, n_modeltasks=config.n_modeltasks)
+    """main function for the example of online data assimilation"""
+    pe = Parallelisation(dim_ens=config.dim_ens, n_modeltasks=config.n_modeltasks)
 
     # Initial Screen output
     if pe.mype_ens == 0:
@@ -36,24 +37,19 @@ def main():
     # Initialise model
     # throughout this example and PDAF, we must assume that each ensemble member
     # uses the same domain decomposition.
-    model_ens = [model.model(pe=pe) for i in range(pe.dim_ens_l)]
-    model_ens[0].print_info(pe)
-
-    if not config.USE_PDAF:
-        model_ens.init_field(pe.mype_model)
+    model_t = model.Model(pe=pe)
+    model_t.print_info(pe)
 
     # Initialise model integrator
-    integrator = model_integrator.model_integrator(model_ens)
+    integrator = model_integrator.ModelIntegrator(model_t)
 
     # Initialise PDAF system
-    das = PDAF_system(pe, model_ens)
-    if config.USE_PDAF:
-        das.init_pdaf(screen=config.screen)
+    das = PDAFsystem(pe, model_t)
+    das.init_pdaf(screen=config.screen)
 
     integrator.forward(config.nsteps, das)
 
-    if config.USE_PDAF:
-        das.finalise()
+    das.finalise()
 
     pe.finalize_parallel()
 

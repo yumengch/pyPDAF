@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import config
 
 
-class filter_options:
+class FilterOptions:
     """Here, we provide all filter options
 
     Attributes
@@ -29,7 +29,8 @@ class filter_options:
         1=SEIK, 2=EnKF, 3=LSEIK, 4=ETKF, 5=LETKF, 6=ESTKF, 7=LESTKF
         8=LEnKF, 9=NETF, 10=LNETF, 11=LKNETF, 12=PF, 100=GENOBS,
         200=3DVar, 0=SEEK
-        For a simplified documentation, see:https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF
+        For a simplified documentation, see:
+        https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF
         Different DA scheme requires different user-supplied functions
         More information can be found in the PDAF documentation
     subtype : int

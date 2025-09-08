@@ -17,12 +17,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import log
-import numpy as np
 
 import config
 import parallelisation
 
-class model_grid:
+class ModelGrid:
     """Model information in PDAF
 
     Attributes
@@ -41,7 +40,7 @@ class model_grid:
         total number of time steps
     """
 
-    def __init__(self, pe:parallelisation.parallelisation) -> None:
+    def __init__(self, pe:parallelisation.Parallelisation) -> None:
         """constructor
 
         Parameters
@@ -57,7 +56,7 @@ class model_grid:
         self.ny_p:int
         self.nx_p, self.ny_p = self.get_local_domain(pe)
 
-    def get_local_domain(self, pe:parallelisation.parallelisation
+    def get_local_domain(self, pe:parallelisation.Parallelisation
                          ) -> tuple[int, int]:
         """Compute local-PE domain size/domain decomposition
 
@@ -76,7 +75,7 @@ class model_grid:
 
         return nx_p, ny_p
 
-    def print_info(self, pe:parallelisation.parallelisation) -> None:
+    def print_info(self, pe:parallelisation.Parallelisation) -> None:
         """print model info
 
         Parameters
@@ -86,8 +85,9 @@ class model_grid:
         """
         if pe.mype_model == 0:
             log.logger.info('Initialise model grid')
-            log.logger.info(f'Grid size: {self.nx} x {self.ny}')
-            log.logger.info('-- Domain decomposition over '
-                            f'{pe.npes_model} PEs')
-            log.logger.info('-- local domain sizes: '
-                            f'{self.nx_p} x {self.ny_p}')
+            output_str = f'Grid size: {self.nx} x {self.ny}'
+            log.logger.info(output_str)
+            output_str = f'-- Domain decomposition over {pe.npes_model} PEs'
+            log.logger.info(output_str)
+            output_str = f'-- local domain sizes: {self.nx_p} x {self.ny_p}'
+            log.logger.info(output_str)

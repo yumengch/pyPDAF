@@ -15,9 +15,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-"""
 
-"""
 This is a template file for PDAF configurations.
 
 The module can be modified to be adjusted to read configparser/YAML/JSON etc. to initialise
@@ -28,9 +26,6 @@ import os
 
 # verbosity of the PDAF screen output
 screen:int = 2
-# When USE_PDAF is False, the truth model trajectory is generated without DA
-USE_PDAF:bool = True
-
 
 ### Filepath ###
 # path to initial ensemble, the filename is formatted for different time step
@@ -62,7 +57,7 @@ n_modeltasks:int = 4
 # For a simplified documentation, see:https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF
 # Different DA scheme requires different user-supplied functions
 # More information can be found in the PDAF documentation
-filtertype:int = 7
+filtertype:int = 6
 # Variants of each DA scheme check https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF
 subtype:int = 0
 # type of forgetting factor
