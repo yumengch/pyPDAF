@@ -23,7 +23,7 @@ jobs:
         shell: cmd /C CALL {0}
         run: |
           call conda activate base
-          anaconda login  --at anaconda.org --username yumengch --password ${{ secrets.ANACONDA }}
+          anaconda login  --at anaconda.org  --hostname "$GITHUB_RUN_ID-$GITHUB_RUN_NUMBER" --username yumengch --password ${{ secrets.ANACONDA }}
 
       - name: set anaconda upload
         shell: cmd /C CALL {0}
