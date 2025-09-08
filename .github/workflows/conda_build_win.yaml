@@ -18,13 +18,14 @@ jobs:
         shell: cmd /C CALL {0}
         run: |
           conda install python anaconda-client conda-build conda-verify
-          anaconda login  --at anaconda.org --username yumengch --password ${{ secrets.ANACONDA }}
-          conda  config --set anaconda_upload yes
+
 
       - name: build pyPDAF
         shell: cmd /C CALL {0}
         run: |
-          conda-build -c conda-forge conda.recipe/
+          anaconda login  --at anaconda.org --username yumengch --password ${{ secrets.ANACONDA }}
+          conda  config --set anaconda_upload yes
+          conda build -c conda-forge conda.recipe/
           conda install -y -c conda-forge --use-local pypdaf
           cd example
           mpiexec -n 4 python -u online/main.py
