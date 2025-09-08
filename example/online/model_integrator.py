@@ -31,7 +31,7 @@ class ModelIntegrator:
         # When each model task runs one ensemble member,
         # i.e. no need to run each ensemble member sequentially,
         # we call this full parallel implementation
-        if da_system.pe.dim_ens_l == 1:
+        if da_system.pe.n_modeltasks >= da_system.pe.dim_ens:
             self.forward_full_parallel(nsteps, da_system)
         else:
             self.forward_flexible(da_system)
