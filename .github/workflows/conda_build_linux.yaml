@@ -18,6 +18,7 @@ jobs:
         shell: bash -el {0}
         run: |
           conda install python anaconda-client conda-build conda-verify
+          anaconda logout --at anaconda.org
           anaconda login  --at anaconda.org --username yumengch --password ${{ secrets.ANACONDA }}
           conda  config --set anaconda_upload yes
           conda-build -c conda-forge conda.recipe/
