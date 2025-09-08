@@ -89,18 +89,18 @@ class PDAFsystem:
                 (PE f{self.pe.mype_ens})'
 
         pyPDAF.PDAFomi.init(self.obs.nobs)
-        pyPDAF.PDAFomi.init_local()
         lfilter = pyPDAF.PDAF.get_localfilter()
         self.local.local_filter = lfilter == 1
+        # set local domain on each model process
+        if self.local.local_filter:
+            pyPDAF.PDAFomi.init_local()
+            self.local.set_lim_coords(self.model_ens.nx_p, self.model_ens.ny_p, self.pe)
 
         # PDAF distribute the initial ensemble to model field
         status = pyPDAF.init_forecast(self.dist.next_observation,
                                       self.dist.distribute_state,
                                       self.prepost.initial_process,
                                       status)
-        # set local domain on each model process
-        if self.local.local_filter:
-            self.local.set_lim_coords(self.model_ens.nx_p, self.model_ens.ny_p, self.pe)
 
     def assimilate(self) -> None:
         """Calling assimilation function of PDAF

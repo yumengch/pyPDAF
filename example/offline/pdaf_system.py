@@ -91,15 +91,15 @@ class PDAFsystem:
                 (PE f{self.pe.mype_ens})'
 
         pyPDAF.PDAFomi.init(self.obs.nobs)
-        pyPDAF.PDAFomi.init_local()
 
         lfilter:int = pyPDAF.PDAF.get_localfilter()
         self.local.local_filter = lfilter == 1
-
         # set local domain on each model process
         if self.local.local_filter:
+            pyPDAF.PDAFomi.init_local()
             self.local.set_lim_coords(self.model_grid.nx_p,
                                       self.model_grid.ny_p, self.pe)
+
 
     def assimilate(self) -> None:
         """offline assimilation function.
