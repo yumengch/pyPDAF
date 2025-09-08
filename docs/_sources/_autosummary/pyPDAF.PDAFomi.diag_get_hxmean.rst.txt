@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.diag\_get\_hxmean
+================================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: diag_get_hxmean

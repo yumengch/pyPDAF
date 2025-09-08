@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.set\_localize\_covar\_iso
+========================================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: set_localize_covar_iso

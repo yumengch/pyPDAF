@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>pyPDAF.PDAF.iau_reset &#8212; pyPDAF  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=8203d6f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pyPDAF.PDAF.iau_set_pointer" href="pyPDAF.PDAF.iau_set_pointer.html" />
+    <link rel="prev" title="pyPDAF.PDAF.iau_init" href="pyPDAF.PDAF.iau_init.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="pypdaf-pdaf-iau-reset">
+<h1>pyPDAF.PDAF.iau_reset<a class="headerlink" href="#pypdaf-pdaf-iau-reset" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAF.iau_reset">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">iau_reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.iau_reset" title="Link to this definition">¶</a></dt>
+<dd><p>Modify the IAU type and the number of IAU time steps during a run</p>
+<p>While <a class="reference internal" href="pyPDAF.PDAF.iau_init.html#pyPDAF.PDAF.iau_init" title="pyPDAF.PDAF.iau_init"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.iau_init()</span></code></a> sets the IAU type and number of IAU steps
+initially, one can change these settings during a model run.</p>
+<p>This function has to be called by all processes that are model processes.
+A common place is to call the function after an analysis step or
+in <cite>distribute_state_pdaf</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type_iau_in</strong> (<em>int</em>) – <ul>
+<li><ol class="arabic simple" start="0">
+<li><p>no IAU</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple">
+<li><p>constant increment weight 1/nsteps_iau</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="2">
+<li><p>Linear IAU weight with maximum in middle of IAU period. This weight
+linearly increases and decreases. This type is usually used if
+the IAU is applied in re-running over the previous observation period.</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="3">
+<li><p>Zero weights for null mode (can be used to apply IAU on user side).
+This stores the increment information, but does not apply the increment.
+One can use <a class="reference internal" href="pyPDAF.PDAF.iau_set_pointer.html#pyPDAF.PDAF.iau_set_pointer" title="pyPDAF.PDAF.iau_set_pointer"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.iau_set_pointer()</span></code></a> to access the increment
+array.</p></li>
+</ol>
+</li>
+</ul>
+</p></li>
+<li><p><strong>nsteps_iau_in</strong> (<em>int</em>) – number of time steps in IAU</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>flag</strong> – Status flag</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">pyPDAF</a></h1>
+
+
+
+<p class="blurb">A Python interface to Parallel Data Assimilation Framework.</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=yumengch&repo=pyPDAF&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallelisation Strategy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../develop.html">Developer Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../API.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../API.html#initialisation-and-finalisation">Initialisation and finalisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#da-algorithms">DA algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#omi-functions">OMI functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#localisation-functions">Localisation functions</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../API.html#utilities">Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../hidden_functions.html">Legacy and internal PDAF functions</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../API.html">API</a><ul>
+      <li>Previous: <a href="pyPDAF.PDAF.iau_init.html" title="previous chapter">pyPDAF.PDAF.iau_init</a></li>
+      <li>Next: <a href="pyPDAF.PDAF.iau_set_pointer.html" title="next chapter">pyPDAF.PDAF.iau_set_pointer</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2022 University of Reading and National Centre for Earth Observation.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/_autosummary/pyPDAF.PDAF.iau_reset.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

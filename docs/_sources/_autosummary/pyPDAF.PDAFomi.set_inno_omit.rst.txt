@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.set\_inno\_omit
+==============================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: set_inno_omit

@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.set\_disttype
+============================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: set_disttype

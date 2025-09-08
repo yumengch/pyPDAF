@@ -1,0 +1,6 @@
+﻿pyPDAF.assimilate\_enkf\_nondiagr
+=================================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: assimilate_enkf_nondiagr

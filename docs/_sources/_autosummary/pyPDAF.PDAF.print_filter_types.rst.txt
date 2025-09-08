@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.print\_filter\_types
+================================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: print_filter_types

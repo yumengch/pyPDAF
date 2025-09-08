@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Parallelisation Strategy &#8212; pyPDAF  documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
-    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=df3fedd5" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=8203d6f3" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
     <script src="_static/documentation_options.js?v=5929fcd5"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
@@ -41,7 +41,7 @@ In either cases, Message Parsing Interface (MPI) is used.
 In (py)PDAF, users need to specify the MPI communicators for the model (<code class="docutils literal notranslate"><span class="pre">comm_model</span></code>),
 the filter(<code class="docutils literal notranslate"><span class="pre">comm_filter</span></code>), and the coupling (<code class="docutils literal notranslate"><span class="pre">comm_couple</span></code>)
 between the model and the filter. These communicators are specified when PDAF is initialised
-by <a class="reference internal" href="_autosummary/pyPDAF.PDAF.init.html#pyPDAF.PDAF.init" title="pyPDAF.PDAF.init"><span class="xref myst py py-func"><code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAF.init</span></code></span></a>.
+by <a class="reference internal" href="#pyPDAF.PDAF.init"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAF.init</span></code></span></a>.
 In MPI, a communicator is formed by a group of processes.
 The default communicator in MPI is called <code class="docutils literal notranslate"><span class="pre">MPI_COMM_WORLD</span></code>.</p>
 <p>If we design a program run by <code class="docutils literal notranslate"><span class="pre">npes_world</span> <span class="pre">=</span> <span class="pre">12</span></code> processes,
@@ -65,15 +65,25 @@ The model is decomposed into 4 sub-domains in this figure. Each coupling communi
 collects state vector from each model process running the same model domain.</em></p>
 <section id="model-communicator">
 <h3>Model communicator<a class="headerlink" href="#model-communicator" title="Link to this heading">¶</a></h3>
-<p>Here, <code class="docutils literal notranslate"><span class="pre">comm_ens</span></code> can be divided into 3 model communicators (<code class="docutils literal notranslate"><span class="pre">model_comm</span></code>), each of which has <code class="docutils literal notranslate"><span class="pre">npes_model</span> <span class="pre">=</span> <span class="pre">4</span></code> processes. In the context of PDAF, each model communicator can perform an independent model run. That is, we have 3 parallel model tasks (<code class="docutils literal notranslate"><span class="pre">n_modeltasks</span> <span class="pre">=</span> <span class="pre">3</span></code>). In this specific example,</p>
+<p>Here, <code class="docutils literal notranslate"><span class="pre">comm_ens</span></code> can be divided into 3 model communicators (<code class="docutils literal notranslate"><span class="pre">model_comm</span></code>),
+each of which has <code class="docutils literal notranslate"><span class="pre">npes_model</span> <span class="pre">=</span> <span class="pre">4</span></code> processes.
+In the context of PDAF, each model communicator can perform an independent model run.
+That is, we have 3 parallel model tasks (<code class="docutils literal notranslate"><span class="pre">n_modeltasks</span> <span class="pre">=</span> <span class="pre">3</span></code>). In this specific example,</p>
 <ul class="simple">
 <li><p>if we have 3 ensemble members (<code class="docutils literal notranslate"><span class="pre">dim_ens</span> <span class="pre">=</span> <span class="pre">3</span></code>), each model task runs one ensemble member. This is the case in the figure above. This means that the ensemble members local to the model task, <code class="docutils literal notranslate"><span class="pre">dim_ens_l</span> <span class="pre">=</span> <span class="pre">1</span></code>. This setup is called <code class="docutils literal notranslate"><span class="pre">fully</span> <span class="pre">flexible</span></code> setup in PDAF. One should uses functions for <a class="reference internal" href="API.html#fully-parallel-da-algorithms"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fully</span> <span class="pre">parallel</span></code> functions</span></a></p></li>
-<li><p>in the case that <code class="docutils literal notranslate"><span class="pre">dim_ens</span> <span class="pre">&gt;</span> <span class="pre">3</span></code>, each model task runs more than one ensemble member serially.  Each model task could also have different number of local ensemble members as <code class="docutils literal notranslate"><span class="pre">dim_ens</span></code> is not necessarily a multiple of <code class="docutils literal notranslate"><span class="pre">n_modeltasks</span></code>. For example, if <code class="docutils literal notranslate"><span class="pre">dim_ens</span> <span class="pre">=</span> <span class="pre">4</span></code>, one model task runs <code class="docutils literal notranslate"><span class="pre">dim_ens_l</span> <span class="pre">=</span> <span class="pre">2</span></code> ensemble members serially and others just runs <code class="docutils literal notranslate"><span class="pre">dim_ens_l</span> <span class="pre">=</span> <span class="pre">1</span></code> ensemble member. In this case, functions for <a class="reference internal" href="API.html#flexible-da-algorithms"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">flexible</span></code> functions</span></a> must be used followed by <a class="reference internal" href="_autosummary/pyPDAF.PDAF.get_state.html#pyPDAF.PDAF.get_state" title="pyPDAF.PDAF.get_state"><span class="xref myst py py-func"><code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_state</span></code></span></a>.</p></li>
+<li><p>in the case that <code class="docutils literal notranslate"><span class="pre">dim_ens</span> <span class="pre">&gt;</span> <span class="pre">3</span></code>, each model task runs more than one ensemble member serially.  Each model task could also have different number of local ensemble members as <code class="docutils literal notranslate"><span class="pre">dim_ens</span></code> is not necessarily a multiple of <code class="docutils literal notranslate"><span class="pre">n_modeltasks</span></code>. For example, if <code class="docutils literal notranslate"><span class="pre">dim_ens</span> <span class="pre">=</span> <span class="pre">4</span></code>, one model task runs <code class="docutils literal notranslate"><span class="pre">dim_ens_l</span> <span class="pre">=</span> <span class="pre">2</span></code> ensemble members serially and others just runs <code class="docutils literal notranslate"><span class="pre">dim_ens_l</span> <span class="pre">=</span> <span class="pre">1</span></code> ensemble member. In this case, functions for <a class="reference internal" href="API.html#flexible-da-algorithms"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">flexible</span></code> functions</span></a> must be used followed by <a class="reference internal" href="#pyPDAF.PDAF.get_state"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_state</span></code></span></a>.</p></li>
 </ul>
 </section>
 <section id="filter-communicator">
 <h3>Filter communicator<a class="headerlink" href="#filter-communicator" title="Link to this heading">¶</a></h3>
-<p>In our example, one model task runs on <code class="docutils literal notranslate"><span class="pre">npes_model</span> <span class="pre">=</span> <span class="pre">4</span></code> processes. For the sake of efficiency, most physical climate models perform domain decomposition. Under the domain decomposition, the model domain is divided into smaller domains, and each process only simulates a sub-domain. To make the example more concrete, if the model has 2 variables and 44 grid points, each sub-domain will simulate 11 grid points. The model domain decomposition fits well with the concept of domain localisation where the filtering algorithm perform assimilation for each element of the state vector individually, e.g.:</p>
+<p>In our example, one model task runs on <code class="docutils literal notranslate"><span class="pre">npes_model</span> <span class="pre">=</span> <span class="pre">4</span></code> processes.
+For the sake of efficiency, most physical climate models perform domain decomposition.
+Under the domain decomposition, the model domain is divided into smaller domains,
+and each process only simulates a sub-domain. To make the example more concrete,
+if the model has 2 variables and 44 grid points, each sub-domain will
+simulate 11 grid points. The model domain decomposition fits well with the
+concept of domain localisation where the filtering algorithm perform assimilation
+for each element of the state vector individually, e.g.:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">state_vector</span><span class="p">:</span>
     <span class="n">do_assimilation</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
 </pre></div>
@@ -139,7 +149,9 @@ collects state vector from each model process running the same model domain.</em
 </li>
 <li class="toctree-l1"><a class="reference internal" href="develop.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="API_legacy.html">API (legacy)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hidden_functions.html">Legacy and internal PDAF functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hidden_functions.html#pypdaf-pdaflocal">pyPDAF.PDAFlocal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hidden_functions.html#pypdaf-pdaflocalomi">pyPDAF.PDAFlocalomi</a></li>
 </ul>
 
 <div class="relations">
@@ -167,7 +179,7 @@ collects state vector from each model process running the same model domain.</em
       &#169;2022 University of Reading and National Centre for Earth Observation.
       
       |
-      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>
       &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
       |

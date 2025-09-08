@@ -1,0 +1,6 @@
+﻿pyPDAF.assim\_offline\_3dvar\_all
+=================================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: assim_offline_3dvar_all

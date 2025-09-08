@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.print\_da\_types
+============================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: print_da_types

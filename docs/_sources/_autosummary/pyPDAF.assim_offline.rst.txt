@@ -1,0 +1,6 @@
+﻿pyPDAF.assim\_offline
+=====================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: assim_offline

@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFlocal.set\_indices
+=============================
+
+.. currentmodule:: pyPDAF.PDAFlocal
+
+.. autofunction:: set_indices

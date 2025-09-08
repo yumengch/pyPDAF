@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.set\_localize\_covar\_noniso\_locweights
+=======================================================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: set_localize_covar_noniso_locweights

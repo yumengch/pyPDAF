@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.set\_debug\_flag
+===============================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: set_debug_flag

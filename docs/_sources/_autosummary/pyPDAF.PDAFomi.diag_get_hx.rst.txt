@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.diag\_get\_hx
+============================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: diag_get_hx

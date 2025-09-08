@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.obs\_op\_interp\_lin
+===================================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: obs_op_interp_lin

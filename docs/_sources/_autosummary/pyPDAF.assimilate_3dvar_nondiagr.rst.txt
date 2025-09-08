@@ -1,0 +1,6 @@
+﻿pyPDAF.assimilate\_3dvar\_nondiagr
+==================================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: assimilate_3dvar_nondiagr

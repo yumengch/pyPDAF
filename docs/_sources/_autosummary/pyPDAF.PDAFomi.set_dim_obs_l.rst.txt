@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.set\_dim\_obs\_l
+===============================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: set_dim_obs_l

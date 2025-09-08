@@ -1,0 +1,6 @@
+﻿pyPDAF.assimilate
+=================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: assimilate

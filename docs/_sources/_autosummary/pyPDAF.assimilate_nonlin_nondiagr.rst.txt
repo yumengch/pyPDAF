@@ -1,0 +1,6 @@
+﻿pyPDAF.assimilate\_nonlin\_nondiagr
+===================================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: assimilate_nonlin_nondiagr

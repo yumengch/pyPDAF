@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.set\_obs\_err\_type
+==================================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: set_obs_err_type

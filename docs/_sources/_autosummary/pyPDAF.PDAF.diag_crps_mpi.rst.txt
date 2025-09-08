@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.diag\_crps\_mpi
+===========================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: diag_crps_mpi

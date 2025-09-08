@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>pyPDAF.PDAFlocal.set_indices &#8212; pyPDAF  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=8203d6f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pyPDAF.PDAFlocal.set_increment_weights" href="pyPDAF.PDAFlocal.set_increment_weights.html" />
+    <link rel="prev" title="pyPDAF.PDAFomi.diag_stats" href="pyPDAF.PDAFomi.diag_stats.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="pypdaf-pdaflocal-set-indices">
+<h1>pyPDAF.PDAFlocal.set_indices<a class="headerlink" href="#pypdaf-pdaflocal-set-indices" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAFlocal.set_indices">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAFlocal.</span></span><span class="sig-name descname"><span class="pre">set_indices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAFlocal.set_indices" title="Link to this definition">¶</a></dt>
+<dd><p>Set index vector to map local state vector to global state vectors.</p>
+<p>This is called in the user-supplied function <cite>py__init_dim_l_pdaf</cite>.
+This function only sets the mapping for given domain index <cite>domain_p</cite>
+between local state vector and global state vector.
+Each element of map is an index of the global state vector. The index starts from 1.</p>
+<p>E.g., map[0] = 2 means that the first element of local state vector is the
+2rd element of the global state vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dim_l</strong> (<em>int</em>) – Dimension of local state vector</p></li>
+<li><p><strong>map</strong> (<em>ndarray</em><em>[</em><em>np.intc</em><em>, </em><em>dim=1</em><em>]</em>) – Index array for mapping between local and global state vector
+shape: (dim_l,)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">pyPDAF</a></h1>
+
+
+
+<p class="blurb">A Python interface to Parallel Data Assimilation Framework.</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=yumengch&repo=pyPDAF&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallelisation Strategy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../develop.html">Developer Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../API.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../API.html#initialisation-and-finalisation">Initialisation and finalisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#da-algorithms">DA algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#omi-functions">OMI functions</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../API.html#localisation-functions">Localisation functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#utilities">Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../hidden_functions.html">Legacy and internal PDAF functions</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../API.html">API</a><ul>
+      <li>Previous: <a href="pyPDAF.PDAFomi.diag_stats.html" title="previous chapter">pyPDAF.PDAFomi.diag_stats</a></li>
+      <li>Next: <a href="pyPDAF.PDAFlocal.set_increment_weights.html" title="next chapter">pyPDAF.PDAFlocal.set_increment_weights</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2022 University of Reading and National Centre for Earth Observation.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/_autosummary/pyPDAF.PDAFlocal.set_indices.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

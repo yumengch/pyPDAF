@@ -1,0 +1,6 @@
+﻿pyPDAF.init
+===========
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: init

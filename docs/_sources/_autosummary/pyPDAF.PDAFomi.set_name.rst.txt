@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.set\_name
+========================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: set_name

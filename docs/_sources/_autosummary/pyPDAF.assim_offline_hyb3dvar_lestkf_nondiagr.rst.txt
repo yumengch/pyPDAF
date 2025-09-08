@@ -1,0 +1,6 @@
+﻿pyPDAF.assim\_offline\_hyb3dvar\_lestkf\_nondiagr
+=================================================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: assim_offline_hyb3dvar_lestkf_nondiagr

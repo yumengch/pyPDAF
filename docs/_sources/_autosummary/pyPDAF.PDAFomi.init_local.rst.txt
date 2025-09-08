@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.init\_local
+==========================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: init_local

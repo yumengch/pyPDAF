@@ -1,0 +1,6 @@
+﻿pyPDAF.deallocate
+=================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: deallocate

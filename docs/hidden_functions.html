@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Legacy and internal PDAF functions &#8212; pyPDAF  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=8203d6f3" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="pyPDAF.PDAF.reset_forget" href="_autosummary/pyPDAF.PDAF.reset_forget.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="legacy-and-internal-pdaf-functions">
+<h1>Legacy and internal PDAF functions<a class="headerlink" href="#legacy-and-internal-pdaf-functions" title="Link to this heading">¶</a></h1>
+<p>This page gives all available functions in pyPDAF. They are accesible in the
+submodules. Due to the amount of functions available, this documentation cannot
+provide detailed explanations for each function.</p>
+<p>To use these functions, one has to import the individual module first. For example,
+if one wants to use PDAF subroutine <code class="docutils literal notranslate"><span class="pre">PDAF_assimilate_3dvar</span></code> located in
+<code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAF.assim</span></code>, one can only use <code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAF.assim.assimilate_3dvar</span></code> after
+<code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pyPDAF.PDAF.assim</span></code>. One cannot simply access these functions by <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pyPDAF</span></code>
+like those functions given in <a class="reference internal" href="API.html"><span class="std std-doc">API</span></a>.</p>
+<p>However, the developers encourage the users to create new issues to request
+information for specific function or functionalities so that the developers
+can understand the needs from users.</p>
+<p>Explanations of certain legacy functions may be found in PDAF wiki page by the
+corresponding PDAF subroutines. One can find the name of PDAF subroutines by
+the pyPDAF subpackage name and function names. For example,
+<code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAF._pdaf_c.deallocate</span></code> calls <code class="docutils literal notranslate"><span class="pre">PDAF_deallocate</span></code> in PDAF. The module names
+are typically irrelevant. This is similar for <code class="docutils literal notranslate"><span class="pre">PDAFomi</span></code> subroutines, e.g.,
+<code class="docutils literal notranslate"><span class="pre">PDAFomi_check_error</span></code> is <code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi._pdafomi_c.check_error</span></code>.</p>
+<p>One exception is for some <code class="docutils literal notranslate"><span class="pre">3dvar</span></code> functions. As numbers cannot be the first
+letter of variable or function names, an additional <code class="docutils literal notranslate"><span class="pre">_</span></code> is added for some PDAF
+internal functionss.</p>
+<section id="pypdaf-pdaf">
+<h2>pyPDAF.PDAF<a class="headerlink" href="#pypdaf-pdaf" title="Link to this heading">¶</a></h2>
+<section id="pypdaf-pdaf-pdaf-c">
+<h3>pyPDAF.PDAF._pdaf_c<a class="headerlink" href="#pypdaf-pdaf-pdaf-c" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAF._pdaf_c.correlation_function
+- pyPDAF.PDAF._pdaf_c.deallocate
+- pyPDAF.PDAF._pdaf_c.eofcovar
+- pyPDAF.PDAF._pdaf_c.force_analysis
+- pyPDAF.PDAF._pdaf_c.gather_dim_obs_f
+- pyPDAF.PDAF._pdaf_c.gather_obs_f
+- pyPDAF.PDAF._pdaf_c.gather_obs_f2
+- pyPDAF.PDAF._pdaf_c.gather_obs_f2_flex
+- pyPDAF.PDAF._pdaf_c.gather_obs_f_flex
+- pyPDAF.PDAF._pdaf_c.get_fcst_info
+- pyPDAF.PDAF._pdaf_c.init
+- pyPDAF.PDAF._pdaf_c.init_forecast
+- pyPDAF.PDAF._pdaf_c.local_weight
+- pyPDAF.PDAF._pdaf_c.local_weights
+- pyPDAF.PDAF._pdaf_c.print_da_types
+- pyPDAF.PDAF._pdaf_c.print_filter_types
+- pyPDAF.PDAF._pdaf_c.print_info
+- pyPDAF.PDAF._pdaf_c.reset_forget
+- pyPDAF.PDAF._pdaf_c.sample_ens
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdaf-assim">
+<h3>pyPDAF.PDAF.assim<a class="headerlink" href="#pypdaf-pdaf-assim" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAF.assim.assim_offline_3dvar
+- pyPDAF.PDAF.assim.assim_offline_en3dvar_estkf
+- pyPDAF.PDAF.assim.assim_offline_en3dvar_lestkf
+- pyPDAF.PDAF.assim.assim_offline_enkf
+- pyPDAF.PDAF.assim.assim_offline_ensrf
+- pyPDAF.PDAF.assim.assim_offline_estkf
+- pyPDAF.PDAF.assim.assim_offline_etkf
+- pyPDAF.PDAF.assim.assim_offline_hyb3dvar_estkf
+- pyPDAF.PDAF.assim.assim_offline_hyb3dvar_lestkf
+- pyPDAF.PDAF.assim.assim_offline_lenkf
+- pyPDAF.PDAF.assim.assim_offline_lestkf
+- pyPDAF.PDAF.assim.assim_offline_letkf
+- pyPDAF.PDAF.assim.assim_offline_lknetf
+- pyPDAF.PDAF.assim.assim_offline_lnetf
+- pyPDAF.PDAF.assim.assim_offline_lseik
+- pyPDAF.PDAF.assim.assim_offline_netf
+- pyPDAF.PDAF.assim.assim_offline_pf
+- pyPDAF.PDAF.assim.assim_offline_seik
+- pyPDAF.PDAF.assim.assimilate_3dvar
+- pyPDAF.PDAF.assim.assimilate_en3dvar_estkf
+- pyPDAF.PDAF.assim.assimilate_en3dvar_lestkf
+- pyPDAF.PDAF.assim.assimilate_enkf
+- pyPDAF.PDAF.assim.assimilate_ensrf
+- pyPDAF.PDAF.assim.assimilate_estkf
+- pyPDAF.PDAF.assim.assimilate_etkf
+- pyPDAF.PDAF.assim.assimilate_hyb3dvar_estkf
+- pyPDAF.PDAF.assim.assimilate_hyb3dvar_lestkf
+- pyPDAF.PDAF.assim.assimilate_lenkf
+- pyPDAF.PDAF.assim.assimilate_lestkf
+- pyPDAF.PDAF.assim.assimilate_letkf
+- pyPDAF.PDAF.assim.assimilate_lknetf
+- pyPDAF.PDAF.assim.assimilate_lnetf
+- pyPDAF.PDAF.assim.assimilate_lseik
+- pyPDAF.PDAF.assim.assimilate_netf
+- pyPDAF.PDAF.assim.assimilate_pf
+- pyPDAF.PDAF.assim.assimilate_prepost
+- pyPDAF.PDAF.assim.assimilate_seik
+- pyPDAF.PDAF.assim.generate_obs
+- pyPDAF.PDAF.assim.generate_obs_offline
+- pyPDAF.PDAF.assim.get_state
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdaf-callback">
+<h3>pyPDAF.PDAF.callback<a class="headerlink" href="#pypdaf-pdaf-callback" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAF.callback.add_obs_error_cb
+- pyPDAF.PDAF.callback.g2l_obs_cb
+- pyPDAF.PDAF.callback.init_obs_f_cb
+- pyPDAF.PDAF.callback.init_obs_l_cb
+- pyPDAF.PDAF.callback.init_obscovar_cb
+- pyPDAF.PDAF.callback.init_obserr_f_cb
+- pyPDAF.PDAF.callback.init_obsvar_cb
+- pyPDAF.PDAF.callback.init_obsvar_l_cb
+- pyPDAF.PDAF.callback.init_obsvars_f_cb
+- pyPDAF.PDAF.callback.likelihood_cb
+- pyPDAF.PDAF.callback.likelihood_hyb_l_cb
+- pyPDAF.PDAF.callback.likelihood_l_cb
+- pyPDAF.PDAF.callback.localize_covar_cb
+- pyPDAF.PDAF.callback.localize_covar_serial_cb
+- pyPDAF.PDAF.callback.omit_by_inno_cb
+- pyPDAF.PDAF.callback.omit_by_inno_l_cb
+- pyPDAF.PDAF.callback.prodrinva_cb
+- pyPDAF.PDAF.callback.prodrinva_hyb_l_cb
+- pyPDAF.PDAF.callback.prodrinva_l_cb
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdaf-diag">
+<h3>pyPDAF.PDAF.diag<a class="headerlink" href="#pypdaf-pdaf-diag" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAF.diag.diag_compute_moments
+- pyPDAF.PDAF.diag.diag_crps_mpi
+- pyPDAF.PDAF.diag.diag_crps_nompi
+- pyPDAF.PDAF.diag.diag_effsample
+- pyPDAF.PDAF.diag.diag_ensmean
+- pyPDAF.PDAF.diag.diag_ensstats
+- pyPDAF.PDAF.diag.diag_histogram
+- pyPDAF.PDAF.diag.diag_reliability_budget
+- pyPDAF.PDAF.diag.diag_rmsd
+- pyPDAF.PDAF.diag.diag_rmsd_nompi
+- pyPDAF.PDAF.diag.diag_stddev
+- pyPDAF.PDAF.diag.diag_stddev_nompi
+- pyPDAF.PDAF.diag.diag_variance
+- pyPDAF.PDAF.diag.diag_variance_nompi
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdaf-get">
+<h3>pyPDAF.PDAF.get<a class="headerlink" href="#pypdaf-pdaf-get" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAF.get.get_assim_flag
+- pyPDAF.PDAF.get.get_local_type
+- pyPDAF.PDAF.get.get_localfilter
+- pyPDAF.PDAF.get.get_memberid
+- pyPDAF.PDAF.get.get_obsmemberid
+- pyPDAF.PDAF.get.get_smoother_ens
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdaf-iau-internal">
+<h3>pyPDAF.PDAF.iau_internal<a class="headerlink" href="#pypdaf-pdaf-iau-internal" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAF.iau_internal.iau_add_inc_ens
+- pyPDAF.PDAF.iau_internal.iau_dealloc
+- pyPDAF.PDAF.iau_internal.iau_init_weights
+- pyPDAF.PDAF.iau_internal.iau_update_ens
+- pyPDAF.PDAF.iau_internal.iau_update_inc
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdaf-iau">
+<h3>pyPDAF.PDAF.iau<a class="headerlink" href="#pypdaf-pdaf-iau" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAF.iau.iau_add_inc
+- pyPDAF.PDAF.iau.iau_init
+- pyPDAF.PDAF.iau.iau_init_inc
+- pyPDAF.PDAF.iau.iau_reset
+- pyPDAF.PDAF.iau.iau_set_ens_pointer
+- pyPDAF.PDAF.iau.iau_set_pointer
+- pyPDAF.PDAF.iau.iau_set_state_pointer
+- pyPDAF.PDAF.iau.iau_set_weights
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdaf-internal">
+<h3>pyPDAF.PDAF.internal<a class="headerlink" href="#pypdaf-pdaf-internal" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAF.internal._3dvar_alloc
+- pyPDAF.PDAF.internal._3dvar_analysis_cvt
+- pyPDAF.PDAF.internal._3dvar_config
+- pyPDAF.PDAF.internal._3dvar_costf_cg_cvt
+- pyPDAF.PDAF.internal._3dvar_costf_cvt
+- pyPDAF.PDAF.internal._3dvar_init
+- pyPDAF.PDAF.internal._3dvar_memtime
+- pyPDAF.PDAF.internal._3dvar_optim_cg
+- pyPDAF.PDAF.internal._3dvar_optim_cgplus
+- pyPDAF.PDAF.internal._3dvar_optim_lbfgs
+- pyPDAF.PDAF.internal._3dvar_options
+- pyPDAF.PDAF.internal._3dvar_set_iparam
+- pyPDAF.PDAF.internal._3dvar_set_rparam
+- pyPDAF.PDAF.internal._3dvar_update
+- pyPDAF.PDAF.internal.add_particle_noise
+- pyPDAF.PDAF.internal.alloc
+- pyPDAF.PDAF.internal.alloc_bias
+- pyPDAF.PDAF.internal.alloc_filters
+- pyPDAF.PDAF.internal.alloc_sens
+- pyPDAF.PDAF.internal.allreduce
+- pyPDAF.PDAF.internal.configinfo_filters
+- pyPDAF.PDAF.internal.en3dvar_analysis_cvt
+- pyPDAF.PDAF.internal.en3dvar_costf_cg_cvt
+- pyPDAF.PDAF.internal.en3dvar_costf_cvt
+- pyPDAF.PDAF.internal.en3dvar_optim_cg
+- pyPDAF.PDAF.internal.en3dvar_optim_cgplus
+- pyPDAF.PDAF.internal.en3dvar_optim_lbfgs
+- pyPDAF.PDAF.internal.en3dvar_update_estkf
+- pyPDAF.PDAF.internal.en3dvar_update_lestkf
+- pyPDAF.PDAF.internal.enkf_alloc
+- pyPDAF.PDAF.internal.enkf_ana_rlm
+- pyPDAF.PDAF.internal.enkf_ana_rsm
+- pyPDAF.PDAF.internal.enkf_config
+- pyPDAF.PDAF.internal.enkf_gather_resid
+- pyPDAF.PDAF.internal.enkf_init
+- pyPDAF.PDAF.internal.enkf_memtime
+- pyPDAF.PDAF.internal.enkf_obs_ensemble
+- pyPDAF.PDAF.internal.enkf_options
+- pyPDAF.PDAF.internal.enkf_set_iparam
+- pyPDAF.PDAF.internal.enkf_set_rparam
+- pyPDAF.PDAF.internal.enkf_update
+- pyPDAF.PDAF.internal.ens_omega
+- pyPDAF.PDAF.internal.ensrf_alloc
+- pyPDAF.PDAF.internal.ensrf_ana
+- pyPDAF.PDAF.internal.ensrf_ana_2step
+- pyPDAF.PDAF.internal.ensrf_config
+- pyPDAF.PDAF.internal.ensrf_init
+- pyPDAF.PDAF.internal.ensrf_memtime
+- pyPDAF.PDAF.internal.ensrf_options
+- pyPDAF.PDAF.internal.ensrf_set_iparam
+- pyPDAF.PDAF.internal.ensrf_set_rparam
+- pyPDAF.PDAF.internal.ensrf_update
+- pyPDAF.PDAF.internal.estkf_alloc
+- pyPDAF.PDAF.internal.estkf_ana
+- pyPDAF.PDAF.internal.estkf_ana_fixed
+- pyPDAF.PDAF.internal.estkf_aomega
+- pyPDAF.PDAF.internal.estkf_config
+- pyPDAF.PDAF.internal.estkf_init
+- pyPDAF.PDAF.internal.estkf_memtime
+- pyPDAF.PDAF.internal.estkf_omegaa
+- pyPDAF.PDAF.internal.estkf_options
+- pyPDAF.PDAF.internal.estkf_set_iparam
+- pyPDAF.PDAF.internal.estkf_set_rparam
+- pyPDAF.PDAF.internal.estkf_update
+- pyPDAF.PDAF.internal.etkf_alloc
+- pyPDAF.PDAF.internal.etkf_ana
+- pyPDAF.PDAF.internal.etkf_ana_fixed
+- pyPDAF.PDAF.internal.etkf_ana_t
+- pyPDAF.PDAF.internal.etkf_config
+- pyPDAF.PDAF.internal.etkf_init
+- pyPDAF.PDAF.internal.etkf_memtime
+- pyPDAF.PDAF.internal.etkf_options
+- pyPDAF.PDAF.internal.etkf_set_iparam
+- pyPDAF.PDAF.internal.etkf_set_rparam
+- pyPDAF.PDAF.internal.etkf_update
+- pyPDAF.PDAF.internal.fcst_operations
+- pyPDAF.PDAF.internal.gather_ens
+- pyPDAF.PDAF.internal.gen_obs
+- pyPDAF.PDAF.internal.generate_rndmat
+- pyPDAF.PDAF.internal.genobs_alloc
+- pyPDAF.PDAF.internal.genobs_config
+- pyPDAF.PDAF.internal.genobs_init
+- pyPDAF.PDAF.internal.genobs_options
+- pyPDAF.PDAF.internal.genobs_set_iparam
+- pyPDAF.PDAF.internal.get_ensstats
+- pyPDAF.PDAF.internal.hyb3dvar_analysis_cvt
+- pyPDAF.PDAF.internal.hyb3dvar_costf_cg_cvt
+- pyPDAF.PDAF.internal.hyb3dvar_costf_cvt
+- pyPDAF.PDAF.internal.hyb3dvar_optim_cg
+- pyPDAF.PDAF.internal.hyb3dvar_optim_cgplus
+- pyPDAF.PDAF.internal.hyb3dvar_optim_lbfgs
+- pyPDAF.PDAF.internal.hyb3dvar_update_estkf
+- pyPDAF.PDAF.internal.hyb3dvar_update_lestkf
+- pyPDAF.PDAF.internal.incr_local_obsstats
+- pyPDAF.PDAF.internal.inflate_ens
+- pyPDAF.PDAF.internal.inflate_weights
+- pyPDAF.PDAF.internal.init_filters
+- pyPDAF.PDAF.internal.init_local_obsstats
+- pyPDAF.PDAF.internal.init_parallel
+- pyPDAF.PDAF.internal.lenkf_alloc
+- pyPDAF.PDAF.internal.lenkf_ana_rsm
+- pyPDAF.PDAF.internal.lenkf_config
+- pyPDAF.PDAF.internal.lenkf_init
+- pyPDAF.PDAF.internal.lenkf_memtime
+- pyPDAF.PDAF.internal.lenkf_options
+- pyPDAF.PDAF.internal.lenkf_set_iparam
+- pyPDAF.PDAF.internal.lenkf_set_rparam
+- pyPDAF.PDAF.internal.lenkf_update
+- pyPDAF.PDAF.internal.lestkf_alloc
+- pyPDAF.PDAF.internal.lestkf_ana
+- pyPDAF.PDAF.internal.lestkf_ana_fixed
+- pyPDAF.PDAF.internal.lestkf_config
+- pyPDAF.PDAF.internal.lestkf_init
+- pyPDAF.PDAF.internal.lestkf_memtime
+- pyPDAF.PDAF.internal.lestkf_options
+- pyPDAF.PDAF.internal.lestkf_set_iparam
+- pyPDAF.PDAF.internal.lestkf_set_rparam
+- pyPDAF.PDAF.internal.lestkf_update
+- pyPDAF.PDAF.internal.letkf_alloc
+- pyPDAF.PDAF.internal.letkf_ana
+- pyPDAF.PDAF.internal.letkf_ana_fixed
+- pyPDAF.PDAF.internal.letkf_ana_t
+- pyPDAF.PDAF.internal.letkf_config
+- pyPDAF.PDAF.internal.letkf_init
+- pyPDAF.PDAF.internal.letkf_memtime
+- pyPDAF.PDAF.internal.letkf_options
+- pyPDAF.PDAF.internal.letkf_set_iparam
+- pyPDAF.PDAF.internal.letkf_set_rparam
+- pyPDAF.PDAF.internal.letkf_update
+- pyPDAF.PDAF.internal.lknetf_alloc
+- pyPDAF.PDAF.internal.lknetf_alpha_neff
+- pyPDAF.PDAF.internal.lknetf_ana_letkft
+- pyPDAF.PDAF.internal.lknetf_ana_lnetf
+- pyPDAF.PDAF.internal.lknetf_analysis_t
+- pyPDAF.PDAF.internal.lknetf_compute_gamma
+- pyPDAF.PDAF.internal.lknetf_config
+- pyPDAF.PDAF.internal.lknetf_init
+- pyPDAF.PDAF.internal.lknetf_memtime
+- pyPDAF.PDAF.internal.lknetf_options
+- pyPDAF.PDAF.internal.lknetf_reset_gamma
+- pyPDAF.PDAF.internal.lknetf_set_gamma
+- pyPDAF.PDAF.internal.lknetf_set_iparam
+- pyPDAF.PDAF.internal.lknetf_set_rparam
+- pyPDAF.PDAF.internal.lknetf_update_step
+- pyPDAF.PDAF.internal.lknetf_update_sync
+- pyPDAF.PDAF.internal.lnetf_alloc
+- pyPDAF.PDAF.internal.lnetf_ana
+- pyPDAF.PDAF.internal.lnetf_config
+- pyPDAF.PDAF.internal.lnetf_init
+- pyPDAF.PDAF.internal.lnetf_memtime
+- pyPDAF.PDAF.internal.lnetf_options
+- pyPDAF.PDAF.internal.lnetf_set_iparam
+- pyPDAF.PDAF.internal.lnetf_set_rparam
+- pyPDAF.PDAF.internal.lnetf_smoothert
+- pyPDAF.PDAF.internal.lnetf_update
+- pyPDAF.PDAF.internal.lseik_alloc
+- pyPDAF.PDAF.internal.lseik_ana
+- pyPDAF.PDAF.internal.lseik_ana_trans
+- pyPDAF.PDAF.internal.lseik_config
+- pyPDAF.PDAF.internal.lseik_init
+- pyPDAF.PDAF.internal.lseik_memtime
+- pyPDAF.PDAF.internal.lseik_options
+- pyPDAF.PDAF.internal.lseik_resample
+- pyPDAF.PDAF.internal.lseik_set_iparam
+- pyPDAF.PDAF.internal.lseik_set_rparam
+- pyPDAF.PDAF.internal.lseik_update
+- pyPDAF.PDAF.internal.memcount
+- pyPDAF.PDAF.internal.memcount_define
+- pyPDAF.PDAF.internal.memcount_ini
+- pyPDAF.PDAF.internal.mpi_init
+- pyPDAF.PDAF.internal.mvnormalize
+- pyPDAF.PDAF.internal.netf_alloc
+- pyPDAF.PDAF.internal.netf_ana
+- pyPDAF.PDAF.internal.netf_config
+- pyPDAF.PDAF.internal.netf_init
+- pyPDAF.PDAF.internal.netf_memtime
+- pyPDAF.PDAF.internal.netf_options
+- pyPDAF.PDAF.internal.netf_set_iparam
+- pyPDAF.PDAF.internal.netf_set_rparam
+- pyPDAF.PDAF.internal.netf_smoothert
+- pyPDAF.PDAF.internal.netf_update
+- pyPDAF.PDAF.internal.obs_dealloc
+- pyPDAF.PDAF.internal.obs_dealloc_local
+- pyPDAF.PDAF.internal.obs_init
+- pyPDAF.PDAF.internal.obs_init_local
+- pyPDAF.PDAF.internal.obs_init_obsvars
+- pyPDAF.PDAF.internal.options_filters
+- pyPDAF.PDAF.internal.pf_alloc
+- pyPDAF.PDAF.internal.pf_ana
+- pyPDAF.PDAF.internal.pf_config
+- pyPDAF.PDAF.internal.pf_init
+- pyPDAF.PDAF.internal.pf_memtime
+- pyPDAF.PDAF.internal.pf_options
+- pyPDAF.PDAF.internal.pf_resampling
+- pyPDAF.PDAF.internal.pf_set_iparam
+- pyPDAF.PDAF.internal.pf_set_rparam
+- pyPDAF.PDAF.internal.pf_update
+- pyPDAF.PDAF.internal.prepost
+- pyPDAF.PDAF.internal.print_domain_stats
+- pyPDAF.PDAF.internal.print_info_filters
+- pyPDAF.PDAF.internal.print_local_obsstats
+- pyPDAF.PDAF.internal.print_version
+- pyPDAF.PDAF.internal.reset_dim_ens
+- pyPDAF.PDAF.internal.reset_dim_p
+- pyPDAF.PDAF.internal.scatter_ens
+- pyPDAF.PDAF.internal.seik_alloc
+- pyPDAF.PDAF.internal.seik_ana
+- pyPDAF.PDAF.internal.seik_ana_newt
+- pyPDAF.PDAF.internal.seik_ana_trans
+- pyPDAF.PDAF.internal.seik_config
+- pyPDAF.PDAF.internal.seik_init
+- pyPDAF.PDAF.internal.seik_matrixt
+- pyPDAF.PDAF.internal.seik_memtime
+- pyPDAF.PDAF.internal.seik_omega
+- pyPDAF.PDAF.internal.seik_options
+- pyPDAF.PDAF.internal.seik_resample
+- pyPDAF.PDAF.internal.seik_resample_newt
+- pyPDAF.PDAF.internal.seik_set_iparam
+- pyPDAF.PDAF.internal.seik_set_rparam
+- pyPDAF.PDAF.internal.seik_ttimesa
+- pyPDAF.PDAF.internal.seik_uinv
+- pyPDAF.PDAF.internal.seik_update
+- pyPDAF.PDAF.internal.set_forget
+- pyPDAF.PDAF.internal.set_forget_local
+- pyPDAF.PDAF.internal.set_iparam_filters
+- pyPDAF.PDAF.internal.set_rparam_filters
+- pyPDAF.PDAF.internal.sisort
+- pyPDAF.PDAF.internal.smoother_enkf
+- pyPDAF.PDAF.internal.smoother_lnetf
+- pyPDAF.PDAF.internal.smoother_netf
+- pyPDAF.PDAF.internal.smoother_shift
+- pyPDAF.PDAF.internal.smoothing
+- pyPDAF.PDAF.internal.smoothing_local
+- pyPDAF.PDAF.internal.subtract_colmean
+- pyPDAF.PDAF.internal.subtract_rowmean
+- pyPDAF.PDAF.internal.timeit
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdaf-put">
+<h3>pyPDAF.PDAF.put<a class="headerlink" href="#pypdaf-pdaf-put" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAF.put.put_state_3dvar
+- pyPDAF.PDAF.put.put_state_en3dvar_estkf
+- pyPDAF.PDAF.put.put_state_en3dvar_lestkf
+- pyPDAF.PDAF.put.put_state_enkf
+- pyPDAF.PDAF.put.put_state_ensrf
+- pyPDAF.PDAF.put.put_state_estkf
+- pyPDAF.PDAF.put.put_state_etkf
+- pyPDAF.PDAF.put.put_state_generate_obs
+- pyPDAF.PDAF.put.put_state_hyb3dvar_estkf
+- pyPDAF.PDAF.put.put_state_hyb3dvar_lestkf
+- pyPDAF.PDAF.put.put_state_lenkf
+- pyPDAF.PDAF.put.put_state_lestkf
+- pyPDAF.PDAF.put.put_state_letkf
+- pyPDAF.PDAF.put.put_state_lknetf
+- pyPDAF.PDAF.put.put_state_lnetf
+- pyPDAF.PDAF.put.put_state_lseik
+- pyPDAF.PDAF.put.put_state_netf
+- pyPDAF.PDAF.put.put_state_pf
+- pyPDAF.PDAF.put.put_state_prepost
+- pyPDAF.PDAF.put.put_state_seik
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdaf-setter">
+<h3>pyPDAF.PDAF.setter<a class="headerlink" href="#pypdaf-pdaf-setter" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAF.setter.set_comm_pdaf
+- pyPDAF.PDAF.setter.set_debug_flag
+- pyPDAF.PDAF.setter.set_ens_pointer
+- pyPDAF.PDAF.setter.set_iparam
+- pyPDAF.PDAF.setter.set_memberid
+- pyPDAF.PDAF.setter.set_offline_mode
+- pyPDAF.PDAF.setter.set_rparam
+- pyPDAF.PDAF.setter.set_seedset
+- pyPDAF.PDAF.setter.set_smoother_ens
+</pre></div>
+</div>
+</section>
+</section>
+<section id="pypdaf-pdaf3">
+<h2>pyPDAF.PDAF3<a class="headerlink" href="#pypdaf-pdaf3" title="Link to this heading">¶</a></h2>
+<section id="pypdaf-pdaf3-pdaf3-c">
+<h3>pyPDAF.PDAF3._pdaf3_c<a class="headerlink" href="#pypdaf-pdaf3-pdaf3-c" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAF3._pdaf3_c.init
+- pyPDAF.PDAF3._pdaf3_c.init_forecast
+- pyPDAF.PDAF3._pdaf3_c.set_parallel
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdaf3-assim">
+<h3>pyPDAF.PDAF3.assim<a class="headerlink" href="#pypdaf-pdaf3-assim" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAF3.assim.assim_offline
+- pyPDAF.PDAF3.assim.assim_offline_3dvar
+- pyPDAF.PDAF3.assim.assim_offline_3dvar_all
+- pyPDAF.PDAF3.assim.assim_offline_3dvar_nondiagr
+- pyPDAF.PDAF3.assim.assim_offline_en3dvar
+- pyPDAF.PDAF3.assim.assim_offline_en3dvar_estkf
+- pyPDAF.PDAF3.assim.assim_offline_en3dvar_estkf_nondiagr
+- pyPDAF.PDAF3.assim.assim_offline_en3dvar_lestkf
+- pyPDAF.PDAF3.assim.assim_offline_en3dvar_lestkf_nondiagr
+- pyPDAF.PDAF3.assim.assim_offline_enkf_nondiagr
+- pyPDAF.PDAF3.assim.assim_offline_ensrf
+- pyPDAF.PDAF3.assim.assim_offline_global
+- pyPDAF.PDAF3.assim.assim_offline_global_nondiagr
+- pyPDAF.PDAF3.assim.assim_offline_hyb3dvar
+- pyPDAF.PDAF3.assim.assim_offline_hyb3dvar_estkf
+- pyPDAF.PDAF3.assim.assim_offline_hyb3dvar_estkf_nondiagr
+- pyPDAF.PDAF3.assim.assim_offline_hyb3dvar_lestkf
+- pyPDAF.PDAF3.assim.assim_offline_hyb3dvar_lestkf_nondiagr
+- pyPDAF.PDAF3.assim.assim_offline_lenkf
+- pyPDAF.PDAF3.assim.assim_offline_lenkf_nondiagr
+- pyPDAF.PDAF3.assim.assim_offline_lknetf_nondiagr
+- pyPDAF.PDAF3.assim.assim_offline_lnetf_nondiagr
+- pyPDAF.PDAF3.assim.assim_offline_local
+- pyPDAF.PDAF3.assim.assim_offline_local_nondiagr
+- pyPDAF.PDAF3.assim.assim_offline_nonlin_nondiagr
+- pyPDAF.PDAF3.assim.assimilate
+- pyPDAF.PDAF3.assim.assimilate_3dvar
+- pyPDAF.PDAF3.assim.assimilate_3dvar_all
+- pyPDAF.PDAF3.assim.assimilate_3dvar_nondiagr
+- pyPDAF.PDAF3.assim.assimilate_en3dvar
+- pyPDAF.PDAF3.assim.assimilate_en3dvar_estkf
+- pyPDAF.PDAF3.assim.assimilate_en3dvar_estkf_nondiagr
+- pyPDAF.PDAF3.assim.assimilate_en3dvar_lestkf
+- pyPDAF.PDAF3.assim.assimilate_en3dvar_lestkf_nondiagr
+- pyPDAF.PDAF3.assim.assimilate_enkf_nondiagr
+- pyPDAF.PDAF3.assim.assimilate_ensrf
+- pyPDAF.PDAF3.assim.assimilate_global
+- pyPDAF.PDAF3.assim.assimilate_global_nondiagr
+- pyPDAF.PDAF3.assim.assimilate_hyb3dvar
+- pyPDAF.PDAF3.assim.assimilate_hyb3dvar_estkf
+- pyPDAF.PDAF3.assim.assimilate_hyb3dvar_estkf_nondiagr
+- pyPDAF.PDAF3.assim.assimilate_hyb3dvar_lestkf
+- pyPDAF.PDAF3.assim.assimilate_hyb3dvar_lestkf_nondiagr
+- pyPDAF.PDAF3.assim.assimilate_lenkf
+- pyPDAF.PDAF3.assim.assimilate_lenkf_nondiagr
+- pyPDAF.PDAF3.assim.assimilate_lknetf_nondiagr
+- pyPDAF.PDAF3.assim.assimilate_lnetf_nondiagr
+- pyPDAF.PDAF3.assim.assimilate_local
+- pyPDAF.PDAF3.assim.assimilate_local_nondiagr
+- pyPDAF.PDAF3.assim.assimilate_nonlin_nondiagr
+- pyPDAF.PDAF3.assim.generate_obs
+- pyPDAF.PDAF3.assim.generate_obs_offline
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdaf3-put">
+<h3>pyPDAF.PDAF3.put<a class="headerlink" href="#pypdaf-pdaf3-put" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAF3.put.put_state
+- pyPDAF.PDAF3.put.put_state_3dvar
+- pyPDAF.PDAF3.put.put_state_3dvar_all
+- pyPDAF.PDAF3.put.put_state_3dvar_nondiagr
+- pyPDAF.PDAF3.put.put_state_en3dvar
+- pyPDAF.PDAF3.put.put_state_en3dvar_estkf
+- pyPDAF.PDAF3.put.put_state_en3dvar_estkf_nondiagr
+- pyPDAF.PDAF3.put.put_state_en3dvar_lestkf
+- pyPDAF.PDAF3.put.put_state_en3dvar_lestkf_nondiagr
+- pyPDAF.PDAF3.put.put_state_enkf_nondiagr
+- pyPDAF.PDAF3.put.put_state_ensrf
+- pyPDAF.PDAF3.put.put_state_generate_obs
+- pyPDAF.PDAF3.put.put_state_global
+- pyPDAF.PDAF3.put.put_state_global_nondiagr
+- pyPDAF.PDAF3.put.put_state_hyb3dvar
+- pyPDAF.PDAF3.put.put_state_hyb3dvar_estkf
+- pyPDAF.PDAF3.put.put_state_hyb3dvar_estkf_nondiagr
+- pyPDAF.PDAF3.put.put_state_hyb3dvar_lestkf
+- pyPDAF.PDAF3.put.put_state_hyb3dvar_lestkf_nondiagr
+- pyPDAF.PDAF3.put.put_state_lenkf
+- pyPDAF.PDAF3.put.put_state_lenkf_nondiagr
+- pyPDAF.PDAF3.put.put_state_lknetf_nondiagr
+- pyPDAF.PDAF3.put.put_state_lnetf_nondiagr
+- pyPDAF.PDAF3.put.put_state_local
+- pyPDAF.PDAF3.put.put_state_local_nondiagr
+- pyPDAF.PDAF3.put.put_state_nonlin_nondiagr
+</pre></div>
+</div>
+</section>
+</section>
+<section id="pypdaf-pdaflocal">
+<h2>pyPDAF.PDAFlocal<a class="headerlink" href="#pypdaf-pdaflocal" title="Link to this heading">¶</a></h2>
+<section id="pypdaf-pdaflocal-pdaflocal-c">
+<h3>pyPDAF.PDAFlocal._pdaflocal_c<a class="headerlink" href="#pypdaf-pdaflocal-pdaflocal-c" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAFlocal._pdaflocal_c.clear_increment_weights
+- pyPDAF.PDAFlocal._pdaflocal_c.set_increment_weights
+- pyPDAF.PDAFlocal._pdaflocal_c.set_indices
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdaflocal-assim">
+<h3>pyPDAF.PDAFlocal.assim<a class="headerlink" href="#pypdaf-pdaflocal-assim" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAFlocal.assim.assimilate_en3dvar_lestkf
+- pyPDAF.PDAFlocal.assim.assimilate_hyb3dvar_lestkf
+- pyPDAF.PDAFlocal.assim.assimilate_lestkf
+- pyPDAF.PDAFlocal.assim.assimilate_letkf
+- pyPDAF.PDAFlocal.assim.assimilate_lknetf
+- pyPDAF.PDAFlocal.assim.assimilate_lnetf
+- pyPDAF.PDAFlocal.assim.assimilate_lseik
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdaflocal-internal">
+<h3>pyPDAF.PDAFlocal.internal<a class="headerlink" href="#pypdaf-pdaflocal-internal" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAFlocal.internal.g2l_cb
+- pyPDAF.PDAFlocal.internal.l2g_cb
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdaflocal-put">
+<h3>pyPDAF.PDAFlocal.put<a class="headerlink" href="#pypdaf-pdaflocal-put" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAFlocal.put.put_state_en3dvar_lestkf
+- pyPDAF.PDAFlocal.put.put_state_hyb3dvar_lestkf
+- pyPDAF.PDAFlocal.put.put_state_lestkf
+- pyPDAF.PDAFlocal.put.put_state_letkf
+- pyPDAF.PDAFlocal.put.put_state_lknetf
+- pyPDAF.PDAFlocal.put.put_state_lnetf
+- pyPDAF.PDAFlocal.put.put_state_lseik
+</pre></div>
+</div>
+</section>
+</section>
+<section id="pypdaf-pdaflocalomi">
+<h2>pyPDAF.PDAFlocalomi<a class="headerlink" href="#pypdaf-pdaflocalomi" title="Link to this heading">¶</a></h2>
+<section id="pypdaf-pdaflocalomi-assim">
+<h3>pyPDAF.PDAFlocalomi.assim<a class="headerlink" href="#pypdaf-pdaflocalomi-assim" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAFlocalomi.assim.assimilate
+- pyPDAF.PDAFlocalomi.assim.assimilate_en3dvar_lestkf
+- pyPDAF.PDAFlocalomi.assim.assimilate_en3dvar_lestkf_nondiagr
+- pyPDAF.PDAFlocalomi.assim.assimilate_hyb3dvar_lestkf
+- pyPDAF.PDAFlocalomi.assim.assimilate_hyb3dvar_lestkf_nondiagr
+- pyPDAF.PDAFlocalomi.assim.assimilate_lknetf_nondiagr
+- pyPDAF.PDAFlocalomi.assim.assimilate_lnetf_nondiagr
+- pyPDAF.PDAFlocalomi.assim.assimilate_nondiagr
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdaflocalomi-put">
+<h3>pyPDAF.PDAFlocalomi.put<a class="headerlink" href="#pypdaf-pdaflocalomi-put" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAFlocalomi.put.put_state
+- pyPDAF.PDAFlocalomi.put.put_state_en3dvar_lestkf
+- pyPDAF.PDAFlocalomi.put.put_state_en3dvar_lestkf_nondiagr
+- pyPDAF.PDAFlocalomi.put.put_state_hyb3dvar_lestkf
+- pyPDAF.PDAFlocalomi.put.put_state_hyb3dvar_lestkf_nondiagr
+- pyPDAF.PDAFlocalomi.put.put_state_lknetf_nondiagr
+- pyPDAF.PDAFlocalomi.put.put_state_lnetf_nondiagr
+- pyPDAF.PDAFlocalomi.put.put_state_nondiagr
+</pre></div>
+</div>
+</section>
+</section>
+<section id="pypdaf-pdafomi">
+<h2>pyPDAF.PDAFomi<a class="headerlink" href="#pypdaf-pdafomi" title="Link to this heading">¶</a></h2>
+<section id="pypdaf-pdafomi-pdafomi-c">
+<h3>pyPDAF.PDAFomi._pdafomi_c<a class="headerlink" href="#pypdaf-pdafomi-pdafomi-c" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAFomi._pdafomi_c.check_error
+- pyPDAF.PDAFomi._pdafomi_c.gather_obs
+- pyPDAF.PDAFomi._pdafomi_c.gather_obsstate
+- pyPDAF.PDAFomi._pdafomi_c.get_domain_limits_unstr
+- pyPDAF.PDAFomi._pdafomi_c.get_interp_coeff_lin
+- pyPDAF.PDAFomi._pdafomi_c.get_interp_coeff_lin1d
+- pyPDAF.PDAFomi._pdafomi_c.get_interp_coeff_tri
+- pyPDAF.PDAFomi._pdafomi_c.init
+- pyPDAF.PDAFomi._pdafomi_c.init_dim_obs_l_iso
+- pyPDAF.PDAFomi._pdafomi_c.init_dim_obs_l_noniso
+- pyPDAF.PDAFomi._pdafomi_c.init_dim_obs_l_noniso_locweights
+- pyPDAF.PDAFomi._pdafomi_c.init_local
+- pyPDAF.PDAFomi._pdafomi_c.obs_op_adj_gridavg
+- pyPDAF.PDAFomi._pdafomi_c.obs_op_adj_gridpoint
+- pyPDAF.PDAFomi._pdafomi_c.obs_op_adj_interp_lin
+- pyPDAF.PDAFomi._pdafomi_c.obs_op_extern
+- pyPDAF.PDAFomi._pdafomi_c.obs_op_gridavg
+- pyPDAF.PDAFomi._pdafomi_c.obs_op_gridpoint
+- pyPDAF.PDAFomi._pdafomi_c.obs_op_interp_lin
+- pyPDAF.PDAFomi._pdafomi_c.observation_localization_weights
+- pyPDAF.PDAFomi._pdafomi_c.set_debug_flag
+- pyPDAF.PDAFomi._pdafomi_c.set_dim_obs_l
+- pyPDAF.PDAFomi._pdafomi_c.set_domain_limits
+- pyPDAF.PDAFomi._pdafomi_c.set_localization
+- pyPDAF.PDAFomi._pdafomi_c.set_localization_noniso
+- pyPDAF.PDAFomi._pdafomi_c.set_localize_covar_iso
+- pyPDAF.PDAFomi._pdafomi_c.set_localize_covar_noniso
+- pyPDAF.PDAFomi._pdafomi_c.set_localize_covar_noniso_locweights
+- pyPDAF.PDAFomi._pdafomi_c.set_obs_diag
+- pyPDAF.PDAFomi._pdafomi_c.store_obs_l_index
+- pyPDAF.PDAFomi._pdafomi_c.store_obs_l_index_vdist
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdafomi-assim">
+<h3>pyPDAF.PDAFomi.assim<a class="headerlink" href="#pypdaf-pdafomi-assim" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAFomi.assim.assimilate_3dvar
+- pyPDAF.PDAFomi.assim.assimilate_3dvar_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_en3dvar_estkf
+- pyPDAF.PDAFomi.assim.assimilate_en3dvar_estkf_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_en3dvar_lestkf
+- pyPDAF.PDAFomi.assim.assimilate_en3dvar_lestkf_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_enkf_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_ensrf
+- pyPDAF.PDAFomi.assim.assimilate_global
+- pyPDAF.PDAFomi.assim.assimilate_global_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_hyb3dvar_estkf
+- pyPDAF.PDAFomi.assim.assimilate_hyb3dvar_estkf_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_hyb3dvar_lestkf
+- pyPDAF.PDAFomi.assim.assimilate_hyb3dvar_lestkf_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_lenkf
+- pyPDAF.PDAFomi.assim.assimilate_lenkf_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_lknetf_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_lnetf_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_local
+- pyPDAF.PDAFomi.assim.assimilate_local_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_nonlin_nondiagr
+- pyPDAF.PDAFomi.assim.generate_obs
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdafomi-diag">
+<h3>pyPDAF.PDAFomi.diag<a class="headerlink" href="#pypdaf-pdafomi-diag" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAFomi.diag.diag_dimobs
+- pyPDAF.PDAFomi.diag.diag_get_hx
+- pyPDAF.PDAFomi.diag.diag_get_hxmean
+- pyPDAF.PDAFomi.diag.diag_get_ivar
+- pyPDAF.PDAFomi.diag.diag_get_obs
+- pyPDAF.PDAFomi.diag.diag_nobstypes
+- pyPDAF.PDAFomi.diag.diag_obs_rmsd
+- pyPDAF.PDAFomi.diag.diag_stats
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdafomi-internal">
+<h3>pyPDAF.PDAFomi.internal<a class="headerlink" href="#pypdaf-pdafomi-internal" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAFomi.internal.add_obs_error
+- pyPDAF.PDAFomi.internal.check_dist2
+- pyPDAF.PDAFomi.internal.check_dist2_loop
+- pyPDAF.PDAFomi.internal.check_dist2_noniso
+- pyPDAF.PDAFomi.internal.check_dist2_noniso_loop
+- pyPDAF.PDAFomi.internal.cnt_dim_obs_l
+- pyPDAF.PDAFomi.internal.cnt_dim_obs_l_noniso
+- pyPDAF.PDAFomi.internal.comp_dist2
+- pyPDAF.PDAFomi.internal.dealloc
+- pyPDAF.PDAFomi.internal.diag_omit_by_inno
+- pyPDAF.PDAFomi.internal.g2l_obs
+- pyPDAF.PDAFomi.internal.g2l_obs_internal
+- pyPDAF.PDAFomi.internal.gather_dim_obs_f
+- pyPDAF.PDAFomi.internal.gather_obs_f2_flex
+- pyPDAF.PDAFomi.internal.gather_obs_f_flex
+- pyPDAF.PDAFomi.internal.gather_obsdims
+- pyPDAF.PDAFomi.internal.get_local_ids_obs_f
+- pyPDAF.PDAFomi.internal.init_obs_f
+- pyPDAF.PDAFomi.internal.init_obs_l
+- pyPDAF.PDAFomi.internal.init_obsarrays_l
+- pyPDAF.PDAFomi.internal.init_obsarrays_l_noniso
+- pyPDAF.PDAFomi.internal.init_obscovar
+- pyPDAF.PDAFomi.internal.init_obserr_f
+- pyPDAF.PDAFomi.internal.init_obsvar_f
+- pyPDAF.PDAFomi.internal.init_obsvar_l
+- pyPDAF.PDAFomi.internal.init_obsvars_f
+- pyPDAF.PDAFomi.internal.likelihood
+- pyPDAF.PDAFomi.internal.likelihood_hyb_l
+- pyPDAF.PDAFomi.internal.likelihood_l
+- pyPDAF.PDAFomi.internal.limit_obs_f
+- pyPDAF.PDAFomi.internal.local_weight
+- pyPDAF.PDAFomi.internal.obs_op_adj_gatheronly
+- pyPDAF.PDAFomi.internal.obs_op_gatheronly
+- pyPDAF.PDAFomi.internal.obsstats
+- pyPDAF.PDAFomi.internal.obsstats_l
+- pyPDAF.PDAFomi.internal.ocoord_all
+- pyPDAF.PDAFomi.internal.omit_by_inno
+- pyPDAF.PDAFomi.internal.omit_by_inno_l
+- pyPDAF.PDAFomi.internal.prodrinva
+- pyPDAF.PDAFomi.internal.prodrinva_hyb_l
+- pyPDAF.PDAFomi.internal.prodrinva_l
+- pyPDAF.PDAFomi.internal.set_globalobs
+- pyPDAF.PDAFomi.internal.weights_l
+- pyPDAF.PDAFomi.internal.weights_l_sgnl
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdafomi-legacy">
+<h3>pyPDAF.PDAFomi.legacy<a class="headerlink" href="#pypdaf-pdafomi-legacy" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAFomi.legacy.deallocate_obs
+- pyPDAF.PDAFomi.legacy.init_dim_obs_l_iso_old
+- pyPDAF.PDAFomi.legacy.init_dim_obs_l_noniso_locweights_old
+- pyPDAF.PDAFomi.legacy.init_dim_obs_l_noniso_old
+- pyPDAF.PDAFomi.legacy.localize_covar_iso
+- pyPDAF.PDAFomi.legacy.localize_covar_noniso
+- pyPDAF.PDAFomi.legacy.localize_covar_noniso_locweights
+- pyPDAF.PDAFomi.legacy.localize_covar_serial_iso
+- pyPDAF.PDAFomi.legacy.localize_covar_serial_noniso
+- pyPDAF.PDAFomi.legacy.localize_covar_serial_noniso_locweights
+</pre></div>
+</div>
+</section>
+<section id="id1">
+<h3>pyPDAF.PDAFomi.assim<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAFomi.assim.assimilate_3dvar
+- pyPDAF.PDAFomi.assim.assimilate_3dvar_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_en3dvar_estkf
+- pyPDAF.PDAFomi.assim.assimilate_en3dvar_estkf_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_en3dvar_lestkf
+- pyPDAF.PDAFomi.assim.assimilate_en3dvar_lestkf_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_enkf_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_ensrf
+- pyPDAF.PDAFomi.assim.assimilate_global
+- pyPDAF.PDAFomi.assim.assimilate_global_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_hyb3dvar_estkf
+- pyPDAF.PDAFomi.assim.assimilate_hyb3dvar_estkf_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_hyb3dvar_lestkf
+- pyPDAF.PDAFomi.assim.assimilate_hyb3dvar_lestkf_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_lenkf
+- pyPDAF.PDAFomi.assim.assimilate_lenkf_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_lknetf_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_lnetf_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_local
+- pyPDAF.PDAFomi.assim.assimilate_local_nondiagr
+- pyPDAF.PDAFomi.assim.assimilate_nonlin_nondiagr
+- pyPDAF.PDAFomi.assim.generate_obs
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdafomi-put">
+<h3>pyPDAF.PDAFomi.put<a class="headerlink" href="#pypdaf-pdafomi-put" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAFomi.put.put_state_3dvar
+- pyPDAF.PDAFomi.put.put_state_3dvar_nondiagr
+- pyPDAF.PDAFomi.put.put_state_en3dvar_estkf
+- pyPDAF.PDAFomi.put.put_state_en3dvar_estkf_nondiagr
+- pyPDAF.PDAFomi.put.put_state_en3dvar_lestkf
+- pyPDAF.PDAFomi.put.put_state_en3dvar_lestkf_nondiagr
+- pyPDAF.PDAFomi.put.put_state_enkf_nondiagr
+- pyPDAF.PDAFomi.put.put_state_ensrf
+- pyPDAF.PDAFomi.put.put_state_generate_obs
+- pyPDAF.PDAFomi.put.put_state_global
+- pyPDAF.PDAFomi.put.put_state_global_nondiagr
+- pyPDAF.PDAFomi.put.put_state_hyb3dvar_estkf
+- pyPDAF.PDAFomi.put.put_state_hyb3dvar_estkf_nondiagr
+- pyPDAF.PDAFomi.put.put_state_hyb3dvar_lestkf
+- pyPDAF.PDAFomi.put.put_state_hyb3dvar_lestkf_nondiagr
+- pyPDAF.PDAFomi.put.put_state_lenkf
+- pyPDAF.PDAFomi.put.put_state_lenkf_nondiagr
+- pyPDAF.PDAFomi.put.put_state_lknetf_nondiagr
+- pyPDAF.PDAFomi.put.put_state_lnetf_nondiagr
+- pyPDAF.PDAFomi.put.put_state_local
+- pyPDAF.PDAFomi.put.put_state_local_nondiagr
+- pyPDAF.PDAFomi.put.put_state_nonlin_nondiagr
+</pre></div>
+</div>
+</section>
+<section id="pypdaf-pdafomi-setter">
+<h3>pyPDAF.PDAFomi.setter<a class="headerlink" href="#pypdaf-pdafomi-setter" title="Link to this heading">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- pyPDAF.PDAFomi.setter.set_disttype
+- pyPDAF.PDAFomi.setter.set_doassim
+- pyPDAF.PDAFomi.setter.set_domainsize
+- pyPDAF.PDAFomi.setter.set_icoeff_p
+- pyPDAF.PDAFomi.setter.set_id_obs_p
+- pyPDAF.PDAFomi.setter.set_inno_omit
+- pyPDAF.PDAFomi.setter.set_inno_omit_ivar
+- pyPDAF.PDAFomi.setter.set_name
+- pyPDAF.PDAFomi.setter.set_ncoord
+- pyPDAF.PDAFomi.setter.set_obs_err_type
+- pyPDAF.PDAFomi.setter.set_use_global_obs
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">pyPDAF</a></h1>
+
+
+
+<p class="blurb">A Python interface to Parallel Data Assimilation Framework.</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=yumengch&repo=pyPDAF&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Parallelisation Strategy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Legacy and internal PDAF functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pypdaf-pdaf">pyPDAF.PDAF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pypdaf-pdaf3">pyPDAF.PDAF3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pypdaf-pdaflocal">pyPDAF.PDAFlocal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pypdaf-pdaflocalomi">pyPDAF.PDAFlocalomi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pypdaf-pdafomi">pyPDAF.PDAFomi</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="_autosummary/pyPDAF.PDAF.reset_forget.html" title="previous chapter">pyPDAF.PDAF.reset_forget</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2022 University of Reading and National Centre for Earth Observation.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/hidden_functions.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

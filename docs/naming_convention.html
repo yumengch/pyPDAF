@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Variable naming conventions &#8212; pyPDAF  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=8203d6f3" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="variable-naming-conventions">
+<h1>Variable naming conventions<a class="headerlink" href="#variable-naming-conventions" title="Link to this heading">¶</a></h1>
+<p>The suffix of variables in (py)PDAF follows a few naming conventions.
+Understanding these suffixes can help us understand the meaning of variables
+in user-supplied functions. In this way, one can implement the user-supplied
+functions more efficiently.</p>
+<p><code class="docutils literal notranslate"><span class="pre">_p</span></code> typically means process-local variables. In weather and climate models, to
+use multiple CPUs, the computational domain is decomposed into many sub-domains.
+Each sub-domain is simulated by one processor. This is called domain decomposition.
+The <code class="docutils literal notranslate"><span class="pre">_p</span></code> variables typically means that they only contains information of the
+sub-domain. This is relevant for implementing observations. For example, <code class="docutils literal notranslate"><span class="pre">obs_p</span></code>
+means observations reside in the region of corresponding sub-domains. If the model
+is not parallel, <code class="docutils literal notranslate"><span class="pre">_p</span></code> is simply the global domain.</p>
+<p><code class="docutils literal notranslate"><span class="pre">_l</span></code> suffix is related to the local domain of domain localisation of ensemble filters.
+This is different from the domain decomposition used for model parallelisation.
+In domain localisation, each local domain does data assimilation independently.
+One local domain typically only assimilates observations within given localisation radius.
+Therefore, <code class="docutils literal notranslate"><span class="pre">_l</span></code> suffix corresponds to each local analysis domain.</p>
+<p><code class="docutils literal notranslate"><span class="pre">_f</span></code> denotes full observations. However, this does not necessarily mean all
+observations or global observations. Instead, the meaning of these
+variables depends on the <code class="docutils literal notranslate"><span class="pre">use_global_obs</span></code> set by :func:<code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_use_global_obs</span></code>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">use_global_obs=0</span></code>,</p>
+<ul>
+<li><p>for filters using domain localisation: <code class="docutils literal notranslate"><span class="pre">_f</span></code> means observations within localisation radius.</p></li>
+<li><p>for filters without domain localisation: <code class="docutils literal notranslate"><span class="pre">_f</span></code> means observations in each processor
+making it the same as <code class="docutils literal notranslate"><span class="pre">_p</span></code>.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">use_global_obs=1</span></code>, <code class="docutils literal notranslate"><span class="pre">_f</span></code> means all observations globally.</p></li>
+</ul>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">pyPDAF</a></h1>
+
+
+
+<p class="blurb">A Python interface to Parallel Data Assimilation Framework.</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=yumengch&repo=pyPDAF&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Parallelisation Strategy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hidden_functions.html">Legacy and internal PDAF functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hidden_functions.html#pypdaf-pdaflocal">pyPDAF.PDAFlocal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hidden_functions.html#pypdaf-pdaflocalomi">pyPDAF.PDAFlocalomi</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2022 University of Reading and National Centre for Earth Observation.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/naming_convention.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

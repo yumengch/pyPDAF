@@ -1,0 +1,6 @@
+﻿pyPDAF.assim\_offline\_lnetf\_nondiagr
+======================================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: assim_offline_lnetf_nondiagr

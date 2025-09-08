@@ -6,17 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>pyPDAF.PDAF.eofcovar &#8212; pyPDAF  documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
-    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=df3fedd5" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=8203d6f3" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pyPDAF.PDAF.SampleEns" href="pyPDAF.PDAF.SampleEns.html" />
-    <link rel="prev" title="pyPDAF.PDAF.diag_CRPS_nompi" href="pyPDAF.PDAF.diag_CRPS_nompi.html" />
+    <link rel="next" title="pyPDAF.PDAF.sample_ens" href="pyPDAF.PDAF.sample_ens.html" />
+    <link rel="prev" title="pyPDAF.PDAF.diag_crps_nompi" href="pyPDAF.PDAF.diag_crps_nompi.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -40,105 +39,55 @@
 <dt class="sig sig-object py" id="pyPDAF.PDAF.eofcovar">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">eofcovar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.eofcovar" title="Link to this definition">¶</a></dt>
 <dd><p>EOF analysis of an ensemble of state vectors by singular value decomposition.</p>
-<p>Typically, this function is used with
-<a class="reference internal" href="pyPDAF.PDAF.SampleEns.html#pyPDAF.PDAF.SampleEns" title="pyPDAF.PDAF.SampleEns"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.SampleEns()</span></code></a>
-to generate an ensemble of a chosen size
-(up to the number of EOFs plus one).</p>
+<p>Typically, this function is used with <code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.SampleEns()</span></code>
+to generate an ensemble of a chosen size (up to the number of EOFs plus one).</p>
 <p>Here, the function performs a singular value decomposition
 of the ensemble anomaly of the input matrix,
 which is usually an ensemble formed by state vectors
 at multiple time steps.
 The singular values and corresponding singular vectors
-can be used to
-construct a covariance matrix.
-This can be used as the initial error covariance
-for the initial ensemble.</p>
-<p>A multivariate scaling can be performed to ensure that all fields in the state vectors have unit variance.</p>
+can be used to construct a covariance matrix.
+This can be used as the initial error covariance for the initial ensemble.</p>
+<p>A multivariate scaling can be performed to ensure that all fields
+in the state vectors have unit variance.</p>
 <p>It can be useful to store more EOFs than one finally
 might want to use to have the flexibility
 to carry the ensemble size.</p>
-<p>See also
-<a class="reference external" href="https://pdaf.awi.de/trac/wiki/EnsembleGeneration">PDAF webpage</a></p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://pdaf.awi.de/trac/wiki/EnsembleGeneration">PDAF webpage</a></p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dim_fields</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>nfields</em><em>]</em><em>, </em><em>np.intc</em><em>]</em>) – <p>Size of each model field. This argument is effective only when <cite>do_mv = 1</cite>.
-Each model field, e.g., sea surface temperature, or 3D sea salinity,
-can be 2D or 3D with different number of grid points. Each element
-of the array specifies the size of each model field.</p>
-<p>The array dimension <cite>nfields</cite> is the number of model fields in state vector.
-For example, if the state vector contains temperature and humidity,
-<cite>nfields=2</cite>. This variable is effective only when <cite>do_mv = 1</cite>..</p>
-</p></li>
-<li><p><strong>offsets</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>nfields</em><em>]</em><em>, </em><em>np.intc</em><em>]</em>) – <p>Starting position of each field.
-This variable is effective only when <cite>do_mv = 1</cite>.
-For example, if the state vector contains temperature and humidity,
-this array specifies the first index of the physical field in the state vector.
-Following Fortran notation, the offset values start from 1.</p>
-<p>The array dimension <cite>nfields</cite> is the number of model fields in state vector.
-For example, if the state vector contains temperature and humidity,
-<cite>nfields=2</cite>. This variable is effective only when <cite>do_mv = 1</cite>..</p>
-</p></li>
-<li><p><strong>remove_mstate</strong> (<em>int</em>) – <p>Switch for only computing EOF of the ensemble anomaly.</p>
-<dl class="simple">
-<dt>This option can be used if <cite>states</cite> are not centred on 0, i.e., anomaly values.</dt><dd><ol class="arabic simple" start="0">
-<li><p>do nothing</p></li>
-<li><p>remove the mean of <cite>states</cite> over <cite>nstates</cite> dimension
-before EOF computation</p></li>
-</ol>
-</dd>
-</dl>
-</p></li>
-<li><p><strong>do_mv</strong> (<em>int</em>) – <dl class="simple">
-<dt>Switch for multivariate scaling</dt><dd><ol class="arabic simple" start="0">
-<li><p>do nothing</p></li>
-<li><p>Each model field are scaled by its standard deviation
-such that each model field has unit standard deviation.
-This option makes use of <cite>nfields</cite>, <cite>dim_fields</cite> and <cite>offsets</cite> arguments.</p></li>
-</ol>
-</dd>
-</dl>
-</p></li>
-<li><p><strong>states</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_state</em><em>, </em><em>nstates</em><em>]</em><em>, </em><em>np.float64</em><em>]</em>) – <p>An ensemble of state vectors.
-This argument should ideally be the anomalies of an ensemble,
-and each member is from a different model time.
-However, one can set <cite>remove_mstate = 1</cite> if this is not an ensemble anomaly.</p>
-<p>The1st-th dimension dim_state is the dimension of state vector.;
-the2nd-th dimension nstates is the number of state vectors, typically number of different time steps, or number of ensemble members..</p>
-</p></li>
-<li><p><strong>meanstate</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_state</em><em>]</em><em>, </em><em>np.float64</em><em>]</em>) – <p>Mean state
-The returned value equlas to the input unless <cite>remove_mstate=1</cite></p>
-<p>The array dimension <cite>dim_state</cite> is the dimension of state vector..</p>
-</p></li>
+<li><p><strong>dim</strong> (<em>int</em>) – Dimension of state vector</p></li>
+<li><p><strong>nstates</strong> (<em>int</em>) – Number of state vectors</p></li>
+<li><p><strong>nfields</strong> (<em>int</em>) – Number of fields in state vector</p></li>
+<li><p><strong>dim_fields</strong> (<em>ndarray</em><em>[</em><em>np.intc</em><em>, </em><em>ndim=1</em><em>]</em>) – Size of each field
+Array shape: (nfields)</p></li>
+<li><p><strong>offsets</strong> (<em>ndarray</em><em>[</em><em>np.intc</em><em>, </em><em>ndim=1</em><em>]</em>) – Start position of each field
+Array shape: (nfields)</p></li>
+<li><p><strong>remove_mstate</strong> (<em>int</em>) – 1: subtract mean state from states</p></li>
+<li><p><strong>do_mv</strong> (<em>int</em>) – 1: Do multivariate scaling; 0: no scaling</p></li>
+<li><p><strong>states</strong> (<em>ndarray</em><em>[</em><em>np.float64</em><em>, </em><em>ndim=2</em><em>]</em>) – State perturbations
+Array shape: (dim, nstates)</p></li>
+<li><p><strong>meanstate</strong> (<em>ndarray</em><em>[</em><em>np.float64</em><em>, </em><em>ndim=1</em><em>]</em>) – Mean state (only changed if remove_mstate=1)
+Array shape: (dim)</p></li>
 <li><p><strong>verbose</strong> (<em>int</em>) – Verbosity flag</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul>
-<li><p><strong>states</strong> (<em>ndarray[tuple[dim_state, nstates], np.float64]</em>) – An ensemble of state vectors.
-This argument should ideally be the anomalies of an ensemble,
-and each member is from a different model time.
-However, one can set <cite>remove_mstate = 1</cite> if this is not an ensemble anomaly.</p>
-<p>The 1st-th dimension dim_state is the dimension of state vector.
-The 2nd-th dimension nstates is the number of state vectors, typically number of different time steps, or number of ensemble members.</p>
-</li>
-<li><p><strong>stddev</strong> (<em>ndarray[tuple[nfields], np.float64]</em>) – Standard deviation of each model field in <cite>states</cite>.
-If <cite>do_mv = 1</cite>, stddev should be <cite>1.0</cite>.</p>
-<p>The array dimension <cite>nfields</cite> is the number of model fields in state vector.
-For example, if the state vector contains temperature and humidity,
-<cite>nfields=2</cite>. This variable is effective only when <cite>do_mv = 1</cite>.</p>
-</li>
-<li><p><strong>svals</strong> (<em>ndarray[tuple[nstates], np.float64]</em>) – Singular values of <cite>states</cite> scaled by <span class="math notranslate nohighlight">\(\frac{1}{\sqrt{nstates-1}}\)</span>.</p>
-<p>The array dimension <cite>nstates</cite> is the number of state vectors, typically number of different time steps, or number of ensemble members.</p>
-</li>
-<li><p><strong>svec</strong> (<em>ndarray[tuple[dim_state, nstates], np.float64]</em>) – Singular vectors of <cite>states</cite></p>
-<p>The 1st-th dimension dim_state is the dimension of state vector.
-The 2nd-th dimension nstates is the number of state vectors, typically number of different time steps, or number of ensemble members.</p>
-</li>
-<li><p><strong>meanstate</strong> (<em>ndarray[tuple[dim_state], np.float64]</em>) – Mean state
-The returned value equlas to the input unless <cite>remove_mstate=1</cite></p>
-<p>The array dimension <cite>dim_state</cite> is the dimension of state vector.</p>
-</li>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>states</strong> (<em>ndarray[np.float64, ndim=2]</em>) – State perturbations
+Array shape: (dim, nstates)</p></li>
+<li><p><strong>stddev</strong> (<em>ndarray[np.float64, ndim=1]</em>) – Standard deviation of field variability
+Array shape: (nfields)</p></li>
+<li><p><strong>svals</strong> (<em>ndarray[np.float64, ndim=1]</em>) – Singular values divided by sqrt(nstates-1)
+Array shape: (nstates)</p></li>
+<li><p><strong>svec</strong> (<em>ndarray[np.float64, ndim=2]</em>) – Singular vectors
+Array shape: (dim, nstates)</p></li>
+<li><p><strong>meanstate</strong> (<em>ndarray[np.float64, ndim=1]</em>) – Mean state (only changed if remove_mstate=1)
+Array shape: (dim)</p></li>
 <li><p><strong>status</strong> (<em>int</em>) – Status flag</p></li>
 </ul>
 </p>
@@ -190,16 +139,13 @@ The returned value equlas to the input unless <cite>remove_mstate=1</cite></p>
 <li class="toctree-l1"><a class="reference internal" href="../develop.html">Developer Guide</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../API.html">API</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../API.html#initialisation-and-finalisation">Initialisation and finalisation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#fully-parallel-da-algorithms"><cite>Fully parallel</cite> DA algorithms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#flexible-da-algorithms"><cite>Flexible</cite> DA algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#da-algorithms">DA algorithms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#omi-functions">OMI functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#local-module-functions">Local module functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#localisation-functions">Localisation functions</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../API.html#utilities">Utilities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#internal-matrix-operations">Internal matrix operations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#internal-callback-functions">Internal callback functions</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../API_legacy.html">API (legacy)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hidden_functions.html">Legacy and internal PDAF functions</a></li>
 </ul>
 
 <div class="relations">
@@ -207,8 +153,8 @@ The returned value equlas to the input unless <cite>remove_mstate=1</cite></p>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="../API.html">API</a><ul>
-      <li>Previous: <a href="pyPDAF.PDAF.diag_CRPS_nompi.html" title="previous chapter">pyPDAF.PDAF.diag_CRPS_nompi</a></li>
-      <li>Next: <a href="pyPDAF.PDAF.SampleEns.html" title="next chapter">pyPDAF.PDAF.SampleEns</a></li>
+      <li>Previous: <a href="pyPDAF.PDAF.diag_crps_nompi.html" title="previous chapter">pyPDAF.PDAF.diag_crps_nompi</a></li>
+      <li>Next: <a href="pyPDAF.PDAF.sample_ens.html" title="next chapter">pyPDAF.PDAF.sample_ens</a></li>
   </ul></li>
   </ul></li>
 </ul>
@@ -229,7 +175,7 @@ The returned value equlas to the input unless <cite>remove_mstate=1</cite></p>
       &#169;2022 University of Reading and National Centre for Earth Observation.
       
       |
-      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>
       &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
       |

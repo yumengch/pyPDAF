@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.gather\_obsstate
+===============================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: gather_obsstate

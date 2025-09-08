@@ -1,0 +1,6 @@
+﻿pyPDAF.assim\_offline\_nonlin\_nondiagr
+=======================================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: assim_offline_nonlin_nondiagr

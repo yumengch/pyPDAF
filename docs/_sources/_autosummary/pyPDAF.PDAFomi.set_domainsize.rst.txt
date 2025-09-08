@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.set\_domainsize
+==============================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: set_domainsize

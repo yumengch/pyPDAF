@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.get\_smoother\_ens
+==============================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: get_smoother_ens

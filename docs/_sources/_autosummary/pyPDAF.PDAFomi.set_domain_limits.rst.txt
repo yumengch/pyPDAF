@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.set\_domain\_limits
+==================================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: set_domain_limits

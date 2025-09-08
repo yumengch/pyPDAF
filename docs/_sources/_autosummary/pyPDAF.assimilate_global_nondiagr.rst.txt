@@ -1,0 +1,6 @@
+﻿pyPDAF.assimilate\_global\_nondiagr
+===================================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: assimilate_global_nondiagr

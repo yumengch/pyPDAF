@@ -1,0 +1,6 @@
+﻿pyPDAF.generate\_obs
+====================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: generate_obs

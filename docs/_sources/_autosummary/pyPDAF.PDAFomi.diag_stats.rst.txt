@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.diag\_stats
+==========================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: diag_stats

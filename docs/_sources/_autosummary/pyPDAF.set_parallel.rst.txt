@@ -1,0 +1,6 @@
+﻿pyPDAF.set\_parallel
+====================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: set_parallel

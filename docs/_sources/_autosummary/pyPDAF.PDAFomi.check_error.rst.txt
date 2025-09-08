@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.check\_error
+===========================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: check_error

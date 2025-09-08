@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.set\_localization
+================================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: set_localization

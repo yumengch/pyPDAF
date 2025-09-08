@@ -1,0 +1,6 @@
+﻿pyPDAF.get\_fcst\_info
+======================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: get_fcst_info

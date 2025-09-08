@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.set\_localization\_noniso
+========================================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: set_localization_noniso

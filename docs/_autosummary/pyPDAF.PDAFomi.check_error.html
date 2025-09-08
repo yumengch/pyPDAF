@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>pyPDAF.PDAFomi.check_error &#8212; pyPDAF  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=8203d6f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pyPDAF.PDAFomi.set_debug_flag" href="pyPDAF.PDAFomi.set_debug_flag.html" />
+    <link rel="prev" title="pyPDAF.PDAFomi.store_obs_l_index_vdist" href="pyPDAF.PDAFomi.store_obs_l_index_vdist.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="pypdaf-pdafomi-check-error">
+<h1>pyPDAF.PDAFomi.check_error<a class="headerlink" href="#pypdaf-pdafomi-check-error" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPDAF.PDAFomi.check_error">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">check_error</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAFomi.check_error" title="Link to this definition">¶</a></dt>
+<dd><p>This function returns the value of the PDAF-OMI internal error flag.</p>
+<p>Since PDAF-OMI executes internal routines in which errors could occur due to
+an inconsistent configuration of the observations. Directly returning
+an error flag as a subroutine argument is not always possible.
+For this reason there is this separate routine to check for the error flag.</p>
+<p>The errors that are checked by PDAF-OMI relate to the configuration of
+the observations, e.g. it is checked whether some dimensions are consistent.</p>
+<p>This can be useful if an error occurred PDAF-OMI also prints an error message,
+but it does not stop the program.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>flag</strong> (<em>int</em>) – Error flag</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>flag</strong> – Error flag</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">pyPDAF</a></h1>
+
+
+
+<p class="blurb">A Python interface to Parallel Data Assimilation Framework.</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=yumengch&repo=pyPDAF&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallelisation Strategy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../develop.html">Developer Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../API.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../API.html#initialisation-and-finalisation">Initialisation and finalisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#da-algorithms">DA algorithms</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../API.html#omi-functions">OMI functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#localisation-functions">Localisation functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#utilities">Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../hidden_functions.html">Legacy and internal PDAF functions</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../API.html">API</a><ul>
+      <li>Previous: <a href="pyPDAF.PDAFomi.store_obs_l_index_vdist.html" title="previous chapter">pyPDAF.PDAFomi.store_obs_l_index_vdist</a></li>
+      <li>Next: <a href="pyPDAF.PDAFomi.set_debug_flag.html" title="next chapter">pyPDAF.PDAFomi.set_debug_flag</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2022 University of Reading and National Centre for Earth Observation.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/_autosummary/pyPDAF.PDAFomi.check_error.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -6,16 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>pyPDAF.PDAF.gather_obs_f_flex &#8212; pyPDAF  documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
-    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=df3fedd5" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=8203d6f3" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pyPDAF.PDAF.seik_TtimesA" href="pyPDAF.PDAF.seik_TtimesA.html" />
-    <link rel="prev" title="pyPDAF.PDAF.gather_obs_f2_flex" href="pyPDAF.PDAF.gather_obs_f2_flex.html" />
+    <link rel="next" title="pyPDAF.PDAF.gather_obs_f2_flex" href="pyPDAF.PDAF.gather_obs_f2_flex.html" />
+    <link rel="prev" title="pyPDAF.PDAF.gather_obs_f2" href="pyPDAF.PDAF.gather_obs_f2.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -38,22 +38,32 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAF.gather_obs_f_flex">
 <span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">gather_obs_f_flex</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.gather_obs_f_flex" title="Link to this definition">¶</a></dt>
-<dd><p>In the local filters (LESKTF, LETKF, LSEIK, LNETF) this function returns the total observation vector from process-local observations. <cite>pyPDAF.PDAF.gather_obs_f2_flex</cite> is used to get corresponding coordinates.
-Unlike <cite>pyPDAF.PDAF.gather_obs_f</cite>, the function does not use depends on <cite>pyPDAF.PDAF.gather_dim_obs_f</cite></p>
+<dd><p>Gather full observation from processor
+local observation without PDAF-internal info.</p>
+<p>In the local filters (LESKTF, LETKF, LSEIK, LNETF)
+this function returns the full observation
+from process-local observation.</p>
+<p>This function has a similar functionality as
+<a class="reference internal" href="pyPDAF.PDAF.gather_obs_f.html#pyPDAF.PDAF.gather_obs_f" title="pyPDAF.PDAF.gather_obs_f"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.gather_obs_f()</span></code></a>, but it does not depend
+on PDAF-internal observation dimension information,
+which is specified once <a class="reference internal" href="pyPDAF.PDAF.gather_dim_obs_f.html#pyPDAF.PDAF.gather_dim_obs_f" title="pyPDAF.PDAF.gather_dim_obs_f"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.gather_dim_obs_f()</span></code></a>
+is executed.</p>
+<p>This function can also be used as a generic function
+to gather any 2D arrays
+where the second dimension should be concatenated.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>dim_obs_p</strong> (<em>int</em>) – PE-local observation dimension</p></li>
 <li><p><strong>dim_obs_f</strong> (<em>int</em>) – Full observation dimension</p></li>
-<li><p><strong>obs_p</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>dim_obs_p</em><em>]</em><em>, </em><em>np.float64</em><em>]</em>) – <p>PE-local vector</p>
-<p>The array dimension <cite>dim_obs_p</cite> is PE-local observation dimension.</p>
-</p></li>
+<li><p><strong>obs_p</strong> (<em>ndarray</em><em>[</em><em>np.float64</em><em>, </em><em>ndim=1</em><em>]</em>) – PE-local vector
+Array shape: (dim_obs_p)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul>
-<li><p><strong>obs_f</strong> (<em>ndarray[tuple[dim_obs_f], np.float64]</em>) – Full gathered vector</p>
-<p>The array dimension <cite>dim_obs_f</cite> is Full observation dimension</p>
-</li>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>obs_f</strong> (<em>ndarray[np.float64, ndim=1]</em>) – Full gathered vector
+Array shape: (dim_obs_f)</p></li>
 <li><p><strong>status</strong> (<em>int</em>) – Status flag: (0) no error</p></li>
 </ul>
 </p>
@@ -105,16 +115,13 @@ Unlike <cite>pyPDAF.PDAF.gather_obs_f</cite>, the function does not use depends 
 <li class="toctree-l1"><a class="reference internal" href="../develop.html">Developer Guide</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../API.html">API</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../API.html#initialisation-and-finalisation">Initialisation and finalisation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#fully-parallel-da-algorithms"><cite>Fully parallel</cite> DA algorithms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#flexible-da-algorithms"><cite>Flexible</cite> DA algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#da-algorithms">DA algorithms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#omi-functions">OMI functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#local-module-functions">Local module functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#localisation-functions">Localisation functions</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../API.html#utilities">Utilities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#internal-matrix-operations">Internal matrix operations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#internal-callback-functions">Internal callback functions</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../API_legacy.html">API (legacy)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hidden_functions.html">Legacy and internal PDAF functions</a></li>
 </ul>
 
 <div class="relations">
@@ -122,8 +129,8 @@ Unlike <cite>pyPDAF.PDAF.gather_obs_f</cite>, the function does not use depends 
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="../API.html">API</a><ul>
-      <li>Previous: <a href="pyPDAF.PDAF.gather_obs_f2_flex.html" title="previous chapter">pyPDAF.PDAF.gather_obs_f2_flex</a></li>
-      <li>Next: <a href="pyPDAF.PDAF.seik_TtimesA.html" title="next chapter">pyPDAF.PDAF.seik_TtimesA</a></li>
+      <li>Previous: <a href="pyPDAF.PDAF.gather_obs_f2.html" title="previous chapter">pyPDAF.PDAF.gather_obs_f2</a></li>
+      <li>Next: <a href="pyPDAF.PDAF.gather_obs_f2_flex.html" title="next chapter">pyPDAF.PDAF.gather_obs_f2_flex</a></li>
   </ul></li>
   </ul></li>
 </ul>
@@ -144,7 +151,7 @@ Unlike <cite>pyPDAF.PDAF.gather_obs_f</cite>, the function does not use depends 
       &#169;2022 University of Reading and National Centre for Earth Observation.
       
       |
-      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>
       &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
       |

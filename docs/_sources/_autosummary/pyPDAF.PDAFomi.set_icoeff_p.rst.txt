@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.set\_icoeff\_p
+=============================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: set_icoeff_p

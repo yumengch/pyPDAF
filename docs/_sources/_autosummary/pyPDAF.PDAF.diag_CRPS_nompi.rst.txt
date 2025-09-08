@@ -1,6 +1,6 @@
-﻿pyPDAF.PDAF.diag\_CRPS\_nompi
+﻿pyPDAF.PDAF.diag\_crps\_nompi
 =============================
 
 .. currentmodule:: pyPDAF.PDAF
 
-.. autofunction:: diag_CRPS_nompi
+.. autofunction:: diag_crps_nompi

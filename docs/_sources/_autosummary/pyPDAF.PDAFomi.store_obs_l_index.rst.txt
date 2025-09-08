@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.store\_obs\_l\_index
+===================================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: store_obs_l_index

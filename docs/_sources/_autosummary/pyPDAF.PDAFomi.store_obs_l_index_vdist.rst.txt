@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.store\_obs\_l\_index\_vdist
+==========================================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: store_obs_l_index_vdist

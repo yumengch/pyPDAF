@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.obs\_op\_adj\_gridpoint
+======================================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: obs_op_adj_gridpoint

@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.diag\_nobstypes
+==============================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: diag_nobstypes

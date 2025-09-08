@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFlocal.clear\_increment\_weights
+==========================================
+
+.. currentmodule:: pyPDAF.PDAFlocal
+
+.. autofunction:: clear_increment_weights

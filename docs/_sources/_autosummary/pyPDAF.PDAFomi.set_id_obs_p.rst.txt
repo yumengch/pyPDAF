@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.set\_id\_obs\_p
+==============================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: set_id_obs_p

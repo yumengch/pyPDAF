@@ -1,0 +1,6 @@
+﻿pyPDAF.generate\_obs\_offline
+=============================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: generate_obs_offline

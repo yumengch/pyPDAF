@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.observation\_localization\_weights
+=================================================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: observation_localization_weights

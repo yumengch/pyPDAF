@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.get\_local\_type
+============================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: get_local_type

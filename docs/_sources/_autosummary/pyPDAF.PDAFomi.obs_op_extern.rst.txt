@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.obs\_op\_extern
+==============================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: obs_op_extern

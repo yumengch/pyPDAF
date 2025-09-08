@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.gather\_obs
+==========================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: gather_obs
