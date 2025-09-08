@@ -63,7 +63,7 @@ def set_iparam(idval: int, value: int, flag: int) -> int:
     The integer parameters specific to a DA method can be set in the array
     `param_int` that is an argument of :func:`pyPDAF.PDAF.init`
     (see the page on
-    `initializing PDAF<https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF>`_).
+    `initializing PDAF <https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF>`_).
 
     This function provides an alternative way.
     Instead of providing all parameters in the call to :func:`pyPDAF.PDAF.init`,
@@ -128,7 +128,7 @@ def set_rparam(idval: int, value: float, flag: int) -> int:
     The floating-point parameters specific to a DA method can be set in the array
     `filter_param_r` that is an argument of :func:`pyPDAF.PDAF.init`
     (see the page on
-    `initializing PDAF<https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF>`_).
+    `initializing PDAF <https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF>`_).
 
     This function provides an alternative way.
     Instead of providing all parameters in the call to :func:`pyPDAF.PDAF.init`,

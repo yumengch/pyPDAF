@@ -31,12 +31,22 @@ The model is decomposed into 4 sub-domains in this figure. Each coupling communi
 collects state vector from each model process running the same model domain.*
 
 ### Model communicator
-Here, `comm_ens` can be divided into 3 model communicators (`model_comm`), each of which has `npes_model = 4` processes. In the context of PDAF, each model communicator can perform an independent model run. That is, we have 3 parallel model tasks (`n_modeltasks = 3`). In this specific example,
+Here, `comm_ens` can be divided into 3 model communicators (`model_comm`),
+each of which has `npes_model = 4` processes.
+In the context of PDAF, each model communicator can perform an independent model run.
+That is, we have 3 parallel model tasks (`n_modeltasks = 3`). In this specific example,
 - if we have 3 ensemble members (`dim_ens = 3`), each model task runs one ensemble member. This is the case in the figure above. This means that the ensemble members local to the model task, `dim_ens_l = 1`. This setup is called `fully flexible` setup in PDAF. One should uses functions for [`fully parallel` functions](./API.rst#fully-parallel-da-algorithms)
 - in the case that `dim_ens > 3`, each model task runs more than one ensemble member serially.  Each model task could also have different number of local ensemble members as `dim_ens` is not necessarily a multiple of `n_modeltasks`. For example, if `dim_ens = 4`, one model task runs `dim_ens_l = 2` ensemble members serially and others just runs `dim_ens_l = 1` ensemble member. In this case, functions for [`flexible` functions](./API.rst#flexible-da-algorithms) must be used followed by [`pyPDAF.PDAF.get_state`](#pyPDAF.PDAF.get_state).
 
 ### Filter communicator
-In our example, one model task runs on `npes_model = 4` processes. For the sake of efficiency, most physical climate models perform domain decomposition. Under the domain decomposition, the model domain is divided into smaller domains, and each process only simulates a sub-domain. To make the example more concrete, if the model has 2 variables and 44 grid points, each sub-domain will simulate 11 grid points. The model domain decomposition fits well with the concept of domain localisation where the filtering algorithm perform assimilation for each element of the state vector individually, e.g.:
+In our example, one model task runs on `npes_model = 4` processes.
+For the sake of efficiency, most physical climate models perform domain decomposition.
+Under the domain decomposition, the model domain is divided into smaller domains,
+and each process only simulates a sub-domain. To make the example more concrete,
+if the model has 2 variables and 44 grid points, each sub-domain will
+simulate 11 grid points. The model domain decomposition fits well with the
+concept of domain localisation where the filtering algorithm perform assimilation
+for each element of the state vector individually, e.g.:
 ```python
 for element in state_vector:
     do_assimilation(element)

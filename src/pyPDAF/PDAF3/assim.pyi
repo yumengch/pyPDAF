@@ -104,9 +104,8 @@ def assim_offline(py__init_dim_obs_pdaf: Callable, py__obs_op_pdaf: Callable,
             1. py__init_dim_l_pdaf
             2. py__init_dim_obs_l_pdaf
             3. core DA algorithm
-        7. py__prepoststep_state_pdaf
-        8. py__distribute_state_pdaf
-        9. py__next_observation_pdaf
+        6. py__prepoststep_state_pdaf
+
 
     References
     ----------
@@ -642,6 +641,13 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf: Callable,
         7. py__prepoststep_state_pdaf
         8. py__distribute_state_pdaf
         9. py__next_observation_pdaf
+
+    References
+    ----------
+    .. [1] Nerger, L.. (2022)
+           Data assimilation for nonlinear systems with
+           a hybrid nonlinear Kalman ensemble transform filter.
+           Q J R Meteorol Soc, 620–640. doi:10.1002/qj.4221
 
     Parameters
     ----------
@@ -1379,6 +1385,7 @@ def assim_offline_global_nondiagr(py__init_dim_obs_pdaf:Callable, py__obs_op_pda
            A unification of ensemble square root Kalman filters.
            Monthly Weather Review, 140, 2335-2345.
            doi:10.1175/MWR-D-11-00102.1
+
     Parameters
     ----------
     py__init_dim_obs_pdaf : Callable
@@ -1495,6 +1502,14 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf:Callable, py__obs_op_pda
             7. py__likelihood_hyb_l_pdaf
             8. py__prodRinvA_hyb_l_pdaf
         6. py__prepoststep_state_pdaf
+
+    References
+    ----------
+    .. [1] Nerger, L.. (2022)
+           Data assimilation for nonlinear systems with
+           a hybrid nonlinear Kalman ensemble transform filter.
+           Q J R Meteorol Soc, 620–640. doi:10.1002/qj.4221
+
 
     Parameters
     ----------

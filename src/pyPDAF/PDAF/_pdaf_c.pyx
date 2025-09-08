@@ -6,38 +6,6 @@ from pyPDAF.cfi_binding cimport CFI_cdesc_t, CFI_address, CFI_index_t, CFI_estab
 from pyPDAF.cfi_binding cimport CFI_attribute_other, CFI_type_double, CFI_type_int
 from pyPDAF.cfi_binding cimport CFI_cdesc_rank1, CFI_cdesc_rank2, CFI_cdesc_rank3
 
-try:
-    import mpi4py
-    mpi4py.rc.initialize = False
-except ImportError:
-    pass
-
-# Global error handler
-def global_except_hook(exctype, value, traceback):
-    from traceback import print_exception
-    try:
-        import mpi4py.MPI
-
-        if mpi4py.MPI.Is_initialized():
-            try:
-                sys.stderr.write('Uncaught exception was ''detected on rank {}.\n'.format(
-                    mpi4py.MPI.COMM_WORLD.Get_rank()))
-                print_exception(exctype, value, traceback)
-                sys.stderr.write("\n")
-                sys.stderr.flush()
-            finally:
-                try:
-                    mpi4py.MPI.COMM_WORLD.Abort(1)
-                except Exception as e:
-                    sys.stderr.write('MPI Abort failed, this process will hang.\n')
-                    sys.stderr.flush()
-                    raise e
-        else:
-            sys.__excepthook__(exctype, value, traceback)
-    except ImportError:
-        sys.__excepthook__(exctype, value, traceback)
-
-sys.excepthook = global_except_hook
 
 def get_fcst_info(int  steps, double  time, int  doexit):
     """Return the number of time steps, current model time, and a flag
@@ -593,28 +561,28 @@ def local_weight(int  wtype, int  rtype, double  cradius, double  sradius,
     ----------
     wtype : int
         type of weight function:
-        * `wtype=0`: unit weight
-            (`weight=1` up to distance=cradius)
-        * `wtype=1`: exponential decrease
-            (`weight=1/e` at distance=sradius;
-            `weight=0` for distance>cradius)
-        * `wtype=2`: 5th order polynomial
-            (Gaspari and Cohn 1999; `weight=0` for distance>cradius)
+            * `wtype=0`: unit weight
+              (`weight=1` up to distance=cradius)
+            * `wtype=1`: exponential decrease
+              (`weight=1/e` at distance=sradius;
+              `weight=0` for distance>cradius)
+            * `wtype=2`: 5th order polynomial
+              (Gaspari and Cohn 1999; `weight=0` for distance>cradius)
     rtype : int
         type of regulated weighting:
-        * `rtype/=1`: no regulation
-        * `rtype=1`: regulated by variance of the matrix A and
-            the observation variance
+            * `rtype/=1`: no regulation
+            * `rtype=1`: regulated by variance of the matrix A and
+              the observation variance
     cradius : float
         cut-off radius where weight = 0 beyond the cradius
     sradius : float
         support radius of localisation function. This depends on `wtype`:
-        * `wtype=0`: sradius is not used
-        * `wtype=1`: weight = :math:`e^{-\frac{distance}{sradius}}`
-        * `wtype=2`: weight = 0 if distance > sradius
-            else weight = f(distance ,sradius)
+            * `wtype=0`: sradius is not used
+            * `wtype=1`: weight = :math:`e^{-\\frac{distance}{sradius}}`
+            * `wtype=2`: weight = 0 if distance > sradius
+              else weight = f(distance ,sradius)
 
-        See also: `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
+        See also: `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_
     distance : float
         distance to observation
     nrows : int
@@ -668,26 +636,26 @@ def local_weights(int  wtype, double  cradius, double  sradius, int  dim,
     ----------
     wtype : int
         type of weight function:
-        * `wtype=0`: unit weight
-            (`weight=1` up to distance=cradius)
-        * `wtype=1`: exponential decrease
-            (`weight=1/e` at distance=sradius;
-            `weight=0` for distance>cradius)
-        * `wtype=2`: 5th order polynomial
-            (Gaspari and Cohn 1999; `weight=0` for distance>cradius)
+            * `wtype=0`: unit weight
+              (`weight=1` up to distance=cradius)
+            * `wtype=1`: exponential decrease
+              (`weight=1/e` at distance=sradius;
+              `weight=0` for distance>cradius)
+            * `wtype=2`: 5th order polynomial
+              (Gaspari and Cohn 1999; `weight=0` for distance>cradius)
     rtype : int
         type of regulated weighting:
-        * `rtype/=1`: no regulation
-        * `rtype=1`: regulated by variance of the matrix A and
-            the observation variance
+            * `rtype/=1`: no regulation
+            * `rtype=1`: regulated by variance of the matrix A and
+              the observation variance
     cradius : float
         cut-off radius where weight = 0 beyond the cradius
     sradius : float
         support radius of localisation function. This depends on `wtype`:
-        * `wtype=0`: sradius is not used
-        * `wtype=1`: weight = :math:`e^{-\frac{distance}{sradius}}`
-        * `wtype=2`: weight = 0 if distance > sradius
-            else weight = f(distance ,sradius)
+            * `wtype=0`: sradius is not used
+            * `wtype=1`: weight = :math:`e^{-\\frac{distance}{sradius}}`
+            * `wtype=2`: weight = 0 if distance > sradius
+               else weight = f(distance ,sradius)
     dim : int
         Size of distance and weight arrays
     distance : ndarray[np.float64, ndim=1]

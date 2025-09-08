@@ -6,8 +6,9 @@ They are grouped by functionalities. Clicking on a function name will lead to
 its documentation page.
 
 These are not all available functions in pyPDAF. Similar to PDAF, pyPDAF maintains
-backward compatible legacy functions. For a complete list of functions,
-please refer to the (hidden and legacy function page)[hidden_functions.md]
+backward compatible legacy functions used prior to PDAF 3.0.
+For a complete list of functions,
+please refer to the [hidden and legacy function page](hidden_functions.md)
 
 .. contents::
    :local:
@@ -178,7 +179,6 @@ Diagnostics
    pyPDAF.PDAFomi.check_error
    pyPDAF.PDAFomi.set_debug_flag
    pyPDAF.PDAFomi.set_obs_diag
-   pyPDAF.PDAFomi.check_error
    pyPDAF.PDAFomi.diag_dimobs
    pyPDAF.PDAFomi.diag_get_hx
    pyPDAF.PDAFomi.diag_get_hxmean

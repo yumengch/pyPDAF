@@ -145,7 +145,8 @@ class Parallelisation:
         status = 0
         status = pyPDAF.set_parallel(self.comm_ens.py2f(), self.comm_model.py2f(),
                                      self.comm_filter.py2f(), self.comm_couple.py2f(),
-                                     self.task_id, self.n_modeltasks, self.filter_pe, status)
+                                     self.task_id, self.n_modeltasks, self.filter_pe,
+                                     status)
 
     def init_parallel(self) -> tuple[MPI.Comm, int, int]:
         """Initialize MPI

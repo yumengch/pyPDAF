@@ -6,40 +6,6 @@ from pyPDAF.cfi_binding cimport CFI_cdesc_t, CFI_address, CFI_index_t, CFI_estab
 from pyPDAF.cfi_binding cimport CFI_attribute_other, CFI_type_double, CFI_type_int
 from pyPDAF.cfi_binding cimport CFI_cdesc_rank1, CFI_cdesc_rank2, CFI_cdesc_rank3
 
-try:
-    import mpi4py
-    mpi4py.rc.initialize = False
-except ImportError:
-    pass
-
-
-# Global error handler
-def global_except_hook(exctype, value, traceback):
-    from traceback import print_exception
-    try:
-        import mpi4py.MPI
-
-        if mpi4py.MPI.Is_initialized():
-            try:
-                sys.stderr.write('Uncaught exception was ''detected on rank {}.\n'.format(
-                    mpi4py.MPI.COMM_WORLD.Get_rank()))
-                print_exception(exctype, value, traceback)
-                sys.stderr.write("\n")
-                sys.stderr.flush()
-            finally:
-                try:
-                    mpi4py.MPI.COMM_WORLD.Abort(1)
-                except Exception as e:
-                    sys.stderr.write('MPI Abort failed, this process will hang.\n')
-                    sys.stderr.flush()
-                    raise e
-        else:
-            sys.__excepthook__(exctype, value, traceback)
-    except ImportError:
-        sys.__excepthook__(exctype, value, traceback)
-
-sys.excepthook = global_except_hook
-
 def set_comm_pdaf(int  in_comm_pdaf):
     """Set the MPI communicator used by PDAF.
 
@@ -120,7 +86,7 @@ def set_iparam(int  idval, int  value, int  flag):
 
     The integer parameters specific to a DA method can be set in the array
     `filter_param_i` that is an argument of :func:`pyPDAF.PDAF.init`
-    (see the page on `initializing PDAF<https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF>`_).
+    (see the page on `initializing PDAF <https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF>`_).
 
     This function provides an alternative way.
     Instead of providing all parameters in the call to :func:`pyPDAF.PDAF.init`,
@@ -198,7 +164,7 @@ def set_rparam(int  idval, double  value, int  flag):
 
     The floating-point parameters specific to a DA method can be set in the array
     `filter_param_r` that is an argument of :func:`pyPDAF.PDAF.init`
-    (see the page on `initializing PDAF<https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF>`_).
+    (see the page on `initializing PDAF <https://pdaf.awi.de/trac/wiki/AvailableOptionsforInitPDAF>`_).
 
     This function provides an alternative way.
     Instead of providing all parameters in the call to :func:`pyPDAF.PDAF.init`,

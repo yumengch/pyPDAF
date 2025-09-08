@@ -527,28 +527,28 @@ def local_weight(
     ----------
     wtype : int
         type of weight function:
-        * `wtype=0`: unit weight
-            (`weight=1` up to distance=cradius)
-        * `wtype=1`: exponential decrease
-            (`weight=1/e` at distance=sradius;
-            `weight=0` for distance>cradius)
-        * `wtype=2`: 5th order polynomial
-            (Gaspari and Cohn 1999; `weight=0` for distance>cradius)
+            * `wtype=0`: unit weight
+              (`weight=1` up to distance=cradius)
+            * `wtype=1`: exponential decrease
+              (`weight=1/e` at distance=sradius;
+              `weight=0` for distance>cradius)
+            * `wtype=2`: 5th order polynomial
+              (Gaspari and Cohn 1999; `weight=0` for distance>cradius)
     rtype : int
         type of regulated weighting:
-        * `rtype/=1`: no regulation
-        * `rtype=1`: regulated by variance of the matrix A and
-            the observation variance
+            * `rtype/=1`: no regulation
+            * `rtype=1`: regulated by variance of the matrix A and
+              the observation variance
     cradius : float
         cut-off radius where weight = 0 beyond the cradius
     sradius : float
         support radius of localisation function. This depends on `wtype`:
-        * `wtype=0`: sradius is not used
-        * `wtype=1`: weight = :math:`e^{-\frac{distance}{sradius}}`
-        * `wtype=2`: weight = 0 if distance > sradius
-            else weight = f(distance ,sradius)
+            * `wtype=0`: sradius is not used
+            * `wtype=1`: weight = :math:`e^{-\\frac{distance}{sradius}}`
+            * `wtype=2`: weight = 0 if distance > sradius
+              else weight = f(distance ,sradius)
 
-        See also: `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_)
+        See also: `PDAF-OMI wiki <https://pdaf.awi.de/trac/wiki/OMI_observation_modules#init_dim_obs_l_OBSTYPE>`_
     distance : float
         distance to observation
     nrows : int
@@ -601,26 +601,26 @@ def local_weights(
     ----------
     wtype : int
         type of weight function:
-        * `wtype=0`: unit weight
-            (`weight=1` up to distance=cradius)
-        * `wtype=1`: exponential decrease
-            (`weight=1/e` at distance=sradius;
-            `weight=0` for distance>cradius)
-        * `wtype=2`: 5th order polynomial
-            (Gaspari and Cohn 1999; `weight=0` for distance>cradius)
+            * `wtype=0`: unit weight
+              (`weight=1` up to distance=cradius)
+            * `wtype=1`: exponential decrease
+              (`weight=1/e` at distance=sradius;
+              `weight=0` for distance>cradius)
+            * `wtype=2`: 5th order polynomial
+              (Gaspari and Cohn 1999; `weight=0` for distance>cradius)
     rtype : int
         type of regulated weighting:
-        * `rtype/=1`: no regulation
-        * `rtype=1`: regulated by variance of the matrix A and
-            the observation variance
+            * `rtype/=1`: no regulation
+            * `rtype=1`: regulated by variance of the matrix A and
+              the observation variance
     cradius : float
         cut-off radius where weight = 0 beyond the cradius
     sradius : float
         support radius of localisation function. This depends on `wtype`:
-        * `wtype=0`: sradius is not used
-        * `wtype=1`: weight = :math:`e^{-\frac{distance}{sradius}}`
-        * `wtype=2`: weight = 0 if distance > sradius
-            else weight = f(distance ,sradius)
+            * `wtype=0`: sradius is not used
+            * `wtype=1`: weight = :math:`e^{-\\frac{distance}{sradius}}`
+            * `wtype=2`: weight = 0 if distance > sradius
+               else weight = f(distance ,sradius)
     dim : int
         Size of distance and weight arrays
     distance : ndarray[np.float64, ndim=1]

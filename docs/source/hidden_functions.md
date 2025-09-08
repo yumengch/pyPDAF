@@ -511,7 +511,7 @@ internal functionss.
     - pyPDAF.PDAF3.put.put_state_local_nondiagr
     - pyPDAF.PDAF3.put.put_state_nonlin_nondiagr
 
-# pyPDAF.PDAFlocal
+## pyPDAF.PDAFlocal
 ### pyPDAF.PDAFlocal._pdaflocal_c
     - pyPDAF.PDAFlocal._pdaflocal_c.clear_increment_weights
     - pyPDAF.PDAFlocal._pdaflocal_c.set_increment_weights
@@ -539,7 +539,7 @@ internal functionss.
     - pyPDAF.PDAFlocal.put.put_state_lnetf
     - pyPDAF.PDAFlocal.put.put_state_lseik
 
-# pyPDAF.PDAFlocalomi
+## pyPDAF.PDAFlocalomi
 ### pyPDAF.PDAFlocalomi.assim
     - pyPDAF.PDAFlocalomi.assim.assimilate
     - pyPDAF.PDAFlocalomi.assim.assimilate_en3dvar_lestkf

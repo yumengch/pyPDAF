@@ -1674,5 +1674,3 @@ cdef void c__prodrinva_hyb_l_pdaf(int* domain_p, int* step, int* dim_obs_l,
         c_l_new[...] = c_l_np
         warnings.warn("The memory address of c_l is changed in c__add_obs_err_pdaf."
             "The values are copied to the original Fortran array, and can slow-down the system.", RuntimeWarning)
-
-
