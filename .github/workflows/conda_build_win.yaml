@@ -18,7 +18,7 @@ jobs:
         shell: bash -el {0}
         run: |
           conda install python anaconda-client conda-build conda-verify
-          anaconda login --username yumengch --password ${{ secrets.ANACONDA }}
+          anaconda login  --at anaconda.org --username yumengch --password ${{ secrets.ANACONDA }}
           conda  config --set anaconda_upload yes
           conda-build -c conda-forge conda.recipe/
           conda install -y -c conda-forge --use-local pypdaf
