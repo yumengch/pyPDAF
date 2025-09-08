@@ -19,12 +19,22 @@ jobs:
           conda install -n base python anaconda-client conda-build conda-verify
 
 
-      - name: build pyPDAF
+      - name: anaconda login
         shell: cmd /C CALL {0}
         run: |
           call conda activate base
           anaconda login  --at anaconda.org --username yumengch --password ${{ secrets.ANACONDA }}
+
+      - name: set anaconda upload
+        shell: cmd /C CALL {0}
+        run: |
+          call conda activate base
           conda  config --set anaconda_upload yes
+
+      - name: build pyPDAF
+        shell: cmd /C CALL {0}
+        run: |
+          call conda activate base
           conda build -c conda-forge conda.recipe/
           conda install -y -c conda-forge --use-local pypdaf
           cd example
