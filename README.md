@@ -91,4 +91,4 @@ Yumeng Chen, Lars Nerger
 
 pyPDAF is mainly developed and maintained by National Centre for Earth Observation and University of Reading.
 
-<img src="https://github.com/nansencenter/DAPPER/blob/master/docs/imgs/UoR-logo.png?raw=true" height="50" /> <img src="https://github.com/nansencenter/DAPPER/blob/master/docs/imgs/nceologo1000.png?raw=true" height="50">
+<img src="[https://github.com/nansencenter/DAPPER/blob/master/docs/imgs/UoR-logo.png](https://github.com/nansencenter/DAPPER/blob/master/docs/images/logos/UoR-logo.png)?raw=true" height="50" /> <img src="[https://github.com/nansencenter/DAPPER/blob/master/docs/imgs/nceologo1000.png](https://github.com/nansencenter/DAPPER/blob/master/docs/images/logos/nceologo1000.png)?raw=true" height="50">
