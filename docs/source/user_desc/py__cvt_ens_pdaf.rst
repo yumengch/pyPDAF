@@ -1,4 +1,7 @@
-.. function:: py__cvt_ens_pdaf
+py__cvt_ens_pdaf
+================
+
+.. py:function:: py__cvt_ens_pdaf(iter: int, dim_p: int, dim_ens: int, dim_cv_ens_p: int, v_p: np.ndarray, vv_p: np.ndarray) -> np.ndarray
 
     The  control variable transformation involving ensembles.
 

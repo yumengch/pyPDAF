@@ -4,22 +4,11 @@
 # list see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-# -- Path setup --------------------------------------------------------------
-
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use os.path.abspath to make it absolute, like shown here.
-#
-import os
-import sys
-# sys.path.insert(0, os.path.abspath('../../build/lib.linux-x86_64-cpython-39'))
-# # sys.path.insert(0, os.path.abspath('../pyPDAF'))
-
 
 # -- Project information -----------------------------------------------------
 
 project = 'pyPDAF'
-copyright = '2022 University of Reading and National Centre for Earth Observation'
+copyright = '2025 University of Reading and National Centre for Earth Observation'
 author = 'Yumeng Chen, Lars Nerger'
 
 

@@ -1,4 +1,7 @@
-.. function:: py__init_obsvar_pdaf
+py__init_obsvar_pdaf
+======================
+
+.. py:function:: py__init_obsvar_pdaf(step: int, dim_obs_p: int, obs_p: np.ndarray, meanvar: float) -> float
 
     Compute mean observation error variance.
 

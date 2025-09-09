@@ -1,4 +1,8 @@
-.. function:: py__init_ens_pdaf
+py__init_ens_pdaf
+=================
+
+.. py:function:: py__init_ens_pdaf(filtertype: int, dim_p: int, dim_ens: int, state_p: np.ndarray, uinv: np.ndarray, ens_p: np.ndarray, flag: int) -> Tuple[np.ndarray, np.ndarray, np.ndarray, int]
+
     Fill the ensemble array that is provided by PDAF with an initial ensemble of model states.
 
     This function is called by :func:`pyPDAF.PDAF.init`. The initialised

@@ -1,4 +1,7 @@
-.. function:: py__cvt_adj_pdaf
+py__cvt_adj_pdaf
+================
+
+.. py:function:: py__cvt_adj_pdaf(iter: int, dim_p: int, dim_cvec: int, vcv_p: np.ndarray, cv_p: np.ndarray) -> np.ndarray
 
     The adjoint control variable transformation.
 

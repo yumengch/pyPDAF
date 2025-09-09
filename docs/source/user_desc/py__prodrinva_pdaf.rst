@@ -1,4 +1,7 @@
-.. function:: py__prodrinva_pdaf
+py__prodrinva_pdaf
+==================
+
+.. py:function:: py__prodrinva_pdaf(step: int, dim_obs_p: int, rank: int, obs_p: np.ndarray, a_p: np.ndarray, c_p: np.ndarray) -> np.ndarray
 
     Provide :math:`\mathbf{R}^{-1} \times \mathbf{A}`.
 

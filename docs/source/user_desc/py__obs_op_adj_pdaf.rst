@@ -1,4 +1,7 @@
-.. function:: py__obs_op_adj_pdaf
+py__obs_op_adj_pdaf
+====================
+
+.. py:function:: py__obs_op_adj_pdaf(step: int, dim_p: int, dim_obs_p: int, m_state_p: np.ndarray, state_p: np.ndarray) -> np.ndarray
 
     Apply adjoint observation operator
 

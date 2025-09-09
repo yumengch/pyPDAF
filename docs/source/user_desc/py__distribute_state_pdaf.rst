@@ -1,4 +1,8 @@
-.. function:: py__distribute_state_pdaf
+py__distribute_state_pdaf
+=========================
+
+.. py:function:: py__distribute_state_pdaf(dim_p: int, state_p: np.ndarray) -> np.ndarray
+
     Distribute a state vector from pdaf to the model/any arrays
 
     Parameters

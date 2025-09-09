@@ -1,4 +1,7 @@
-.. function:: py__init_dim_l_pdaf
+py__init_dim_l_pdaf
+===================
+
+.. py:function:: py__init_dim_l_pdaf(step: int, domain_p: int, dim_l: int) -> int
 
     Initialise local analysis domain state vector dimension.
 

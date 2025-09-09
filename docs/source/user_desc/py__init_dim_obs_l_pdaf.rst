@@ -1,4 +1,7 @@
-.. function:: py__init_dim_obs_l_pdaf
+py__init_dim_obs_l_pdaf
+=======================
+
+.. py:function:: py__init_dim_obs_l_pdaf(domain_p: int, step: int, dim_obs_f: int, dim_obs_l: int) -> int
 
     Initialise the dimension of local analysis domain observation vector.
 

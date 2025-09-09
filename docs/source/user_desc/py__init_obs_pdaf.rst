@@ -1,4 +1,8 @@
-.. function:: py__init_obs_pdaf
+py__init_obs_pdaf
+=================
+
+.. py:function:: py__init_obs_pdaf(step: int, dim_obs_p: int, observation_p: np.ndarray) -> np.ndarray
+
     Provide the observation vector for the current time step.
 
     Parameters

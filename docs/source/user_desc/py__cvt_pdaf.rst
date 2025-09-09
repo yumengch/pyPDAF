@@ -1,4 +1,7 @@
-.. function:: py__cvt_pdaf
+py__cvt_pdaf
+============
+
+.. py:function:: py__cvt_pdaf(iter: int, dim_p: int, dim_cvec: int, cv_p: np.ndarray, vv_p: np.ndarray) -> np.ndarray
 
     The control variable transformation.
 

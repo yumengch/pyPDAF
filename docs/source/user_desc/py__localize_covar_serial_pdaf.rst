@@ -1,4 +1,7 @@
-.. function:: py__localize_covar_serial_pdaf
+py__localize_covar_serial_pdaf
+==============================
+
+.. py:function:: py__localize_covar_serial_pdaf(iobs: int, dim_p: int, dim_obs:int, hp_p: np.ndarray, hxy_p: np.ndarray) -> Tuple[np.ndarray, np.ndarray]
 
     Apply covariance localisation in EnSRF/EAKF.
 
@@ -15,12 +18,12 @@
         Dimension of the observation vector.
     hp_p: np.ndarray[np.float, dim=1]
         Matrix HP. Shape: (dim_p)
-    hph: np.ndarray[np.float, dim=1]
-        Matrix HPH.T. Shape: (dim_obs)
+    hxy_p: np.ndarray[np.float, dim=1]
+        Matrix HX (observed state). Shape: (dim_obs)
 
     Returns
     -------
     hp_p: np.ndarray[np.float, dim=1]
         Localised matrix HP. Shape: (dim_p)
-    hph: np.ndarray[np.float, dim=1]
-        Localised matrix HPH.T. Shape: (dim_obs)
+    hxy_p: np.ndarray[np.float, dim=1]
+        Localised matrix HX (observed state). Shape: (dim_obs)

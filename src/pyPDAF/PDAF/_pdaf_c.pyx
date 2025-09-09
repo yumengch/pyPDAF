@@ -8,7 +8,9 @@ from pyPDAF.cfi_binding cimport CFI_cdesc_rank1, CFI_cdesc_rank2, CFI_cdesc_rank
 
 
 def get_fcst_info(int  steps, double  time, int  doexit):
-    """Return the number of time steps, current model time, and a flag
+    """get_fcst_info(steps: int, time : float, doexit:int) -> Tuple[int, float, int]
+
+    Return the number of time steps, current model time, and a flag
     whether the forecasting should be exited.
 
     This is used when the flexible parallelization mode is used with
@@ -44,7 +46,9 @@ def get_fcst_info(int  steps, double  time, int  doexit):
 
 
 def correlation_function(int  ctype, double  length, double  distance):
-    """The value of the chosen correlation function according to the specified
+    """correlation_function(ctype: int, length: float, distance: float) -> float
+
+    The value of the chosen correlation function according to the specified
     length scale.
 
     Parameters
@@ -73,7 +77,9 @@ def correlation_function(int  ctype, double  length, double  distance):
 
 
 def deallocate():
-    """Finalise the PDAF systems including freeing some of the memory used by PDAF.
+    """deallocate() -> None
+
+    Finalise the PDAF systems including freeing some of the memory used by PDAF.
 
     This function cannot be used to free all allocated PDAF memory.
     Therefore, one should not use :func:`pyPDAF.PDAF.init` afterwards.
@@ -85,7 +91,8 @@ def deallocate():
 def eofcovar(int  dim, int  nstates, int  nfields, int [::1] dim_fields,
     int [::1] offsets, int  remove_mstate, int  do_mv,
     double [::1,:] states, double [::1] meanstate, int  verbose):
-    """
+    """eofcovar(dim: int, nstates: int, nfields: int, dim_fields: ndarray[np.intc, ndim=1], offsets: ndarray[np.intc, ndim=1], remove_mstate: int, do_mv: int, states: ndarray[np.float64, ndim=2], meanstate: ndarray[np.float64, ndim=1], verbose: int) -> Tuple[ndarray[np.float64, ndim=2], ndarray[np.float64, ndim=1], ndarray[np.float64, ndim=1], ndarray[np.float64, ndim=2], ndarray[np.float64, ndim=1], int]
+
     EOF analysis of an ensemble of state vectors by singular value decomposition.
 
     Typically, this function is used with :func:`pyPDAF.PDAF.SampleEns`
@@ -177,7 +184,9 @@ def eofcovar(int  dim, int  nstates, int  nfields, int [::1] dim_fields,
 
 
 def force_analysis():
-    """Perform assimilation after this function call.
+    """force_analysis() -> None
+
+    Perform assimilation after this function call.
 
     This function overwrite member index of the ensemble state
     by local_dim_ens (number of ensembles for current process,
@@ -192,7 +201,9 @@ def force_analysis():
 
 
 def gather_dim_obs_f(int  dim_obs_p):
-    """Gather the dimension of observation vector
+    """gather_dim_obs_f(dim_obs_p:int) -> int
+
+    Gather the dimension of observation vector
     across multiple local domains/filter processors.
 
     This function is typically used in deprecated PDAF functions
@@ -231,7 +242,9 @@ def gather_dim_obs_f(int  dim_obs_p):
 
 
 def gather_obs_f(double [::1] obs_p, int  dimobs_f):
-    """In the local filters (LESKTF, LETKF, LSEIK, LNETF) this function
+    """gather_obs_f(obs_p: NDArray[np.float64], dimobs_f: int) -> Tuple[NDArray[np.float64], int]
+
+    In the local filters (LESKTF, LETKF, LSEIK, LNETF) this function
     returns the total observation vector from process-local observations.
     The function depends on :func:`pyPDAF.PDAF.gather_dim_obs_f` which defines
     the process-local observation dimensions. Further,
@@ -264,7 +277,9 @@ def gather_obs_f(double [::1] obs_p, int  dimobs_f):
 
 
 def gather_obs_f2(double [::1,:] coords_p, int  nrows, int  dimobs_f):
-    """In the local filters (LESKTF, LETKF, LSEIK, LNETF)
+    """gather_obs_f2(coords_p: NDArray[np.float64], nrows: int, dimobs_f: int) -> Tuple[NDArray[np.float64], int]
+
+    In the local filters (LESKTF, LETKF, LSEIK, LNETF)
     this function returns the full observation coordinates from process-local
     observation coordinates. The function depends on
     func:`pyPDAF.PDAF.gather_dim_obs_f` which defines the process-local
@@ -303,7 +318,9 @@ def gather_obs_f2(double [::1,:] coords_p, int  nrows, int  dimobs_f):
 
 
 def gather_obs_f_flex(int  dim_obs_p, int  dim_obs_f, double [::1] obs_p):
-    """Gather full observation from processor
+    """gather_obs_f_flex(dim_obs_p: int, dim_obs_f: int, obs_p: NDArray[np.float64]) -> Tuple[NDArray[np.float64], int]
+
+    Gather full observation from processor
     local observation without PDAF-internal info.
 
     In the local filters (LESKTF, LETKF, LSEIK, LNETF)
@@ -350,7 +367,9 @@ def gather_obs_f_flex(int  dim_obs_p, int  dim_obs_f, double [::1] obs_p):
 
 def gather_obs_f2_flex(int  dim_obs_p, int  dim_obs_f,
     double [::1,:] coords_p, int  nrows):
-    """Gather full observation coordinates from processor
+    """gather_obs_f2_flex(dim_obs_p: int, dim_obs_f: int, coords_p: NDArray[np.float64], nrows: int) -> Tuple[NDArray[np.float64], int]
+
+    Gather full observation coordinates from processor
     local observation coordinates without PDAF-internal info.
 
     In the local filters (LESKTF, LETKF, LSEIK, LNETF)
@@ -401,7 +420,9 @@ def init(int  filtertype, int  subtype, int  stepnull, int [::1] param_int,
     int  dim_pint, double [::1] param_real, int  dim_preal,
     int  comm_model, int  comm_filter, int  comm_couple, int  task_id,
     int  n_modeltasks, bint  in_filterpe, py__init_ens_pdaf, int  in_screen):
-    """Initialise the PDAF system.
+    """init(filtertype: int, subtype: int, stepnull: int, param_int: NDArray[np.int32], dim_pint: int, param_real: NDArray[np.float64], dim_preal: int, comm_model: int, comm_filter: int, comm_couple: int, task_id: int, n_modeltasks: int, in_filterpe: bool, py__init_ens_pdaf: Callable[..., Any], in_screen: int) -> Tuple[NDArray[np.int32], NDArray[np.float64], int]
+
+    Initialise the PDAF system.
 
     It is called once at the beginning of the assimilation.
 
@@ -499,7 +520,9 @@ def init(int  filtertype, int  subtype, int  stepnull, int [::1] param_int,
 
 def init_forecast(py__next_observation_pdaf, py__distribute_state_pdaf,
     py__prepoststep_pdaf, int  outflag):
-    """The routine PDAF_init_forecast has to be called once at the end of the
+    """init_forecast(py__next_observation_pdaf: Callable[..., Any], py__distribute_state_pdaf: Callable[..., Any], py__prepoststep_pdaf: Callable[..., Any], outflag: int) -> int
+
+    The routine PDAF_init_forecast has to be called once at the end of the
     initialization of PDAF/start of DA cycles.
 
     This function has the purpose to initialize the model fields to be
@@ -543,7 +566,9 @@ def init_forecast(py__next_observation_pdaf, py__distribute_state_pdaf,
 def local_weight(int  wtype, int  rtype, double  cradius, double  sradius,
     double  distance, int  nrows, int  ncols, double [::1,:] a,
     double  var_obs, int  verbose):
-    """Get localisation weight for given distance,
+    """local_weight(wtype: int, rtype: int, cradius: float, sradius: float, distance: float, nrows: int, ncols: int, a: NDArray[np.float64], var_obs: float, verbose: int) -> float
+
+    Get localisation weight for given distance,
     cut-off radius, support radius, weighting type,
     and weighting function.
 
@@ -615,7 +640,9 @@ def local_weight(int  wtype, int  rtype, double  cradius, double  sradius,
 
 def local_weights(int  wtype, double  cradius, double  sradius, int  dim,
     double [::1] distance, int  verbose):
-    """Get a vector of localisation weights for given distances,
+    """local_weights(wtype: int, cradius: float, sradius: float, dim: int, distance: NDArray[np.float64], verbose: int) -> NDArray[np.float64]
+
+    Get a vector of localisation weights for given distances,
     cut-off radius, support radius, weighting type,
     and weighting function.
 
@@ -680,7 +707,9 @@ def local_weights(int  wtype, double  cradius, double  sradius, int  dim,
 
 
 def print_filter_types(int  verbose):
-    """Print the list of available named filter types and their IDs.
+    """print_filter_types(verbose: int) -> None
+
+    Print the list of available named filter types and their IDs.
 
     This is a thin wrapper of the Fortran routine
     ``PDAF_print_filter_types(verbose)``. If ``verbose > 0``, it writes to
@@ -722,7 +751,9 @@ def print_filter_types(int  verbose):
 
 
 def print_da_types(int  verbose):
-    """Print the list of available named DA method types and their IDs.
+    """print_da_types(verbose: int) -> None
+
+    Print the list of available named DA method types and their IDs.
 
     Wrapper of the Fortran routine ``PDAF_print_DA_types(verbose)``. If
     ``verbose > 0``, it writes to stdout the names and corresponding integer
@@ -763,7 +794,9 @@ def print_da_types(int  verbose):
 
 
 def print_info(int  printtype):
-    """Print PDAF timing and memory information.
+    """print_info(printtype: int) -> None
+
+    Print PDAF timing and memory information.
 
     Wrapper of the Fortran routine ``PDAF_print_info(printtype)``. Prints
     aggregated timing information and/or memory usage depending on
@@ -786,7 +819,9 @@ def print_info(int  printtype):
 
 
 def reset_forget(double  forget_in):
-    """Reset the forgetting factor manually
+    """reset_forget(forget_in: float) -> None
+
+    Reset the forgetting factor manually
     during the assimilation process.
 
     For the local ensemble Kalman filters
@@ -816,7 +851,9 @@ def reset_forget(double  forget_in):
 
 def sample_ens(int  dim, int  dim_ens, double [::1,:] modes,
     double [::1] svals, double [::1] state, int  verbose, int  flag):
-    r"""Generate an ensemble from singular values and
+    r"""sample_ens(dim: int, dim_ens: int, modes: NDArray[np.float64], svals: NDArray[np.float64], state: NDArray[np.float64], verbose: int, flag: int) -> Tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64], int,]
+
+    Generate an ensemble from singular values and
     their vectors (EOF modes) of an ensemble anomaly matrix.
 
     The singular values and vectors are derived from
@@ -868,5 +905,3 @@ def sample_ens(int  dim, int  dim_ens, double [::1,:] modes,
                           &state[0], &ens[0,0], &verbose, &flag)
 
     return modes_np, state_np, ens_np, flag
-
-

@@ -1,4 +1,8 @@
-.. function:: py__g2l_obs_pdaf
+py__g2l_obs_pdaf
+================
+
+.. py:function:: py__g2l_obs_pdaf(domain_p: int, step: int, dim_obs_f: int, dim_obs_l: int, mstate_f: np.ndarray, mstate_l: np.ndarray) -> np.ndarray
+
     Convert global observed state vector to local vector.
 
     This is used by domain localisation methods. In these methods, each local

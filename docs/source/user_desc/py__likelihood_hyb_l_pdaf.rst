@@ -1,4 +1,7 @@
-.. function:: py__likelihood_hyb_l_pdaf
+py__likelihood_hyb_l_pdaf
+=========================
+
+.. py:function:: py__likelihood_hyb_l_pdaf(domain_p: int, step: int, dim_obs_l: int, obs_l: np.ndarray, gamma: float, resid_l: np.ndarray, likely_l: np.ndarray) -> float
 
     Compute the likelihood of the observation for a given ensemble member
     according to the observations used for the local analysis with hybrid weight.

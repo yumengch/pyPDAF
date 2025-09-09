@@ -1,4 +1,8 @@
-.. function:: py__init_dim_obs_pdaf
+py__init_dim_obs_pdaf
+=====================
+
+.. py:function:: py__init_dim_obs_pdaf(step: int, dim_obs_p: int) -> int
+
     Determine the size of the vector of observations
 
     The primary purpose of this function is to
