@@ -1,4 +1,7 @@
-.. function:: py__init_obs_covar_pdaf
+py__init_obs_covar_pdaf
+=======================
+
+.. py:function:: py__init_obs_covar_pdaf(step: int, dim_obs: int, dim_obs_p: int, covar: np.ndarray, obs_p: np.ndarray, isdiag: bool) -> Tuple[np.ndarray, bool]
 
     Provide observation error covariance matrix to PDAF.
 

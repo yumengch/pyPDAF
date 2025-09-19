@@ -37,7 +37,7 @@
 <h1>pyPDAF.assimilate_enkf_nondiagr<a class="headerlink" href="#pypdaf-assimilate-enkf-nondiagr" title="Link to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.assimilate_enkf_nondiagr">
-<span class="sig-prename descclassname"><span class="pre">pyPDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_enkf_nondiagr</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.assimilate_enkf_nondiagr" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.</span></span><span class="sig-name descname"><span class="pre">assimilate_enkf_nondiagr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">py__collect_state_pdaf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">py__distribute_state_pdaf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">py__init_dim_obs_pdaf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">py__obs_op_pdaf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">py__add_obs_err_pdaf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">py__init_obs_covar_pdaf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">py__prepoststep_pdaf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">py__next_observation_pdaf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pyPDAF.assimilate_enkf_nondiagr" title="Link to this definition">¶</a></dt>
 <dd><p>Online assimilation of global or Covariance localised stochastic EnKF
 for a single DA step using non-diagonal observation error covariance matrix.</p>
 <p>See <code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF3.assimilate()</span></code>
@@ -134,6 +134,7 @@ doi: 10.1175/1520-0493(1998)126&lt;0796:DAUAEK&gt;2.0.CO;2.</p>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../naming_convention.html">Variable naming conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallelisation Strategy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../develop.html">Developer Guide</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../API.html">API</a><ul class="current">
@@ -144,7 +145,9 @@ doi: 10.1175/1520-0493(1998)126&lt;0796:DAUAEK&gt;2.0.CO;2.</p>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#utilities">Utilities</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../user_functions.html">User-supplied functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../hidden_functions.html">Legacy and internal PDAF functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../links.html">Other useful links</a></li>
 </ul>
 
 <div class="relations">
@@ -171,7 +174,7 @@ doi: 10.1175/1520-0493(1998)126&lt;0796:DAUAEK&gt;2.0.CO;2.</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &#169;2022 University of Reading and National Centre for Earth Observation.
+      &#169;2025 University of Reading and National Centre for Earth Observation.
       
       |
       Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>

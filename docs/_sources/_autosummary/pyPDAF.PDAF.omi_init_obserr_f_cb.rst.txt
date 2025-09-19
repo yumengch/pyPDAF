@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_init\_obserr\_f\_cb
-====================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_init_obserr_f_cb

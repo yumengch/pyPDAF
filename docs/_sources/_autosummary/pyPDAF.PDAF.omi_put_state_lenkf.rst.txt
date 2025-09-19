@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_put\_state\_lenkf
-==================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_put_state_lenkf

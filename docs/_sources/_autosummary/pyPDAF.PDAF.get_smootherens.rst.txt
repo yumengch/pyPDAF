@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.get\_smootherens
-============================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: get_smootherens

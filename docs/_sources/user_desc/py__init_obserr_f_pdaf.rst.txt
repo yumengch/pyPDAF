@@ -1,4 +1,7 @@
-.. function:: py__init_obserr_f_pdaf
+py__init_obserr_f_pdaf
+======================
+
+.. py:function:: py__init_obserr_f_pdaf(step: int, dim_obs_f: int, obs_f: np.ndarray, obserr_f: np.ndarray) -> np.ndarray
 
     Initializes the full vector of observations error standard deviations.
 

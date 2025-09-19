@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.assimilate\_lenkf
-=============================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: assimilate_lenkf

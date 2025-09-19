@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.assimilate\_pf
-==========================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: assimilate_pf

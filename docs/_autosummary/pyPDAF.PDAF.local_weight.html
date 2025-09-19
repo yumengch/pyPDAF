@@ -38,7 +38,7 @@
 <h1>pyPDAF.PDAF.local_weight<a class="headerlink" href="#pypdaf-pdaf-local-weight" title="Link to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAF.local_weight">
-<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">local_weight</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.local_weight" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">local_weight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cradius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sradius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ncols</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_obs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#pyPDAF.PDAF.local_weight" title="Link to this definition">¶</a></dt>
 <dd><p>Get localisation weight for given distance,
 cut-off radius, support radius, weighting type,
 and weighting function.</p>
@@ -47,7 +47,7 @@ to computes a localisation weight.</p>
 <p>Typically, in domain-localised filters, the function
 is called in user-supplied <code class="xref py py-func docutils literal notranslate"><span class="pre">py__prodRinvA_l_pdaf()</span></code>.
 In LEnKF, this function is called
-in user-supplied <code class="xref py py-func docutils literal notranslate"><span class="pre">py__localize_covar_pdaf()</span></code>.</p>
+in user-supplied <a class="reference internal" href="../user_desc/py__localize_covar_pdaf.html#py__localize_covar_pdaf" title="py__localize_covar_pdaf"><code class="xref py py-func docutils literal notranslate"><span class="pre">py__localize_covar_pdaf()</span></code></a>.</p>
 <p>This function is usually only used without PDAF-OMI.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -146,6 +146,7 @@ Array shape: (nrows, ncols)</p></li>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../naming_convention.html">Variable naming conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallelisation Strategy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../develop.html">Developer Guide</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../API.html">API</a><ul class="current">
@@ -156,7 +157,9 @@ Array shape: (nrows, ncols)</p></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#utilities">Utilities</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../user_functions.html">User-supplied functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../hidden_functions.html">Legacy and internal PDAF functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../links.html">Other useful links</a></li>
 </ul>
 
 <div class="relations">
@@ -183,7 +186,7 @@ Array shape: (nrows, ncols)</p></li>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &#169;2022 University of Reading and National Centre for Earth Observation.
+      &#169;2025 University of Reading and National Centre for Earth Observation.
       
       |
       Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>

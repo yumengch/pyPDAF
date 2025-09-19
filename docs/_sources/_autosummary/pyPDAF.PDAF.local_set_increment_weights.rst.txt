@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.local\_set\_increment\_weights
-==========================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: local_set_increment_weights

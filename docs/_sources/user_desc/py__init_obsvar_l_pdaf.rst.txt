@@ -1,4 +1,7 @@
-.. function:: py__init_obsvar_l_pdaf
+py__init_obsvar_l_pdaf
+=======================
+
+.. py:function:: py__init_obsvar_l_pdaf(domain_p: int, step: int, dim_obs_l: int, obs_l: np.ndarray, dim_obs_p: int, meanvar_l: float) -> float
 
     Get mean of analysis domain local observation variance.
 

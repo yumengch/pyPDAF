@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_set\_use\_global\_obs
-======================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_set_use_global_obs

@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.print\_domain\_stats
-================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: print_domain_stats

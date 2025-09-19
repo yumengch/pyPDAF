@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_assimilate\_enkf\_nondiagR
-===========================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_assimilate_enkf_nondiagR

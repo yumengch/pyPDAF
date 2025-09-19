@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_assimilate\_lnetf\_nondiagR
-============================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_assimilate_lnetf_nondiagR

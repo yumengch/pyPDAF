@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_set\_ncoord
-============================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_set_ncoord

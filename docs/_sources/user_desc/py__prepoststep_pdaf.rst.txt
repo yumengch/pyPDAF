@@ -1,4 +1,8 @@
-.. function:: py__prepoststep_pdaf
+py__prepoststep_pdaf
+====================
+
+.. py:function:: py__prepoststep_pdaf(step: int, dim_p: int, dim_ens: int, dim_ens_l: int, dim_obs_p: int, state_p: np.ndarray, uinv: np.ndarray, ens_p: np.ndarray, flag: int) -> Tuple[np.ndarray, np.ndarray, np.ndarray]
+
     Process ensemble before or after DA.
 
     Parameters

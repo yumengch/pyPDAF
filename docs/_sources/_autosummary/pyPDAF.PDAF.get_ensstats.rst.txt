@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.get\_ensstats
-=========================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: get_ensstats

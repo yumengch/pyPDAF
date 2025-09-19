@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.localomi\_assimilate
-================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: localomi_assimilate

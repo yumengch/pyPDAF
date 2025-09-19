@@ -55,7 +55,7 @@ or submitting pull requests with code enhancements.</p>
 <section id="fortran-subroutines-and-wrappers">
 <h3>Fortran Subroutines and Wrappers<a class="headerlink" href="#fortran-subroutines-and-wrappers" title="Link to this heading">¶</a></h3>
 <p>The Fortran subroutine wrappers that are interoperable with C functions are
-given in <a class="reference internal" href="#src/fortran"><span class="xref myst">src/fortran</span></a>.</p>
+given in <a class="reference external" href="https://github.com/yumengch/pyPDAF/tree/main/src/fortran">src/fortran</a>.</p>
 <section id="interoperability-with-bind-c">
 <h4>Interoperability with <code class="docutils literal notranslate"><span class="pre">bind(c)</span></code><a class="headerlink" href="#interoperability-with-bind-c" title="Link to this heading">¶</a></h4>
 <p>Fortran subroutines use the <code class="docutils literal notranslate"><span class="pre">bind(c)</span></code> keyword for compatibility with C.</p>
@@ -63,9 +63,9 @@ given in <a class="reference internal" href="#src/fortran"><span class="xref mys
 <ol class="arabic simple">
 <li><p>Subroutine names begin with the prefix <code class="docutils literal notranslate"><span class="pre">c__</span></code> to denote compatibility.</p></li>
 <li><p>Arguments use corresponding C types.</p></li>
-<li><p>User-supplied functions must be declared with <a class="reference internal" href="#src/fortran/pdaf_c_cb_interface.f90"><span class="xref myst">specified interface</span></a></p></li>
+<li><p>User-supplied functions must be declared with <a class="reference external" href="https://github.com/yumengch/pyPDAF/tree/main/src/fortran/pdaf_c_cb_interface.f90">specified interface</a></p></li>
 <li><p>Bind(c) user-supplied functions must be converted to Fortran subroutines by
-pointers and wrapper subroutines in <a class="reference internal" href="#src/fortran/pdaf_c_f_interface.f90"><span class="xref myst">src/fortran/pdaf_c_f_interface.f90</span></a>.
+pointers and wrapper subroutines in <a class="reference external" href="https://github.com/yumengch/pyPDAF/tree/main/src/fortran/pdaf_c_f_interface.f90">src/fortran/pdaf_c_f_interface.f90</a>.
 This is a requirement in <code class="docutils literal notranslate"><span class="pre">flang</span></code>.</p></li>
 <li><p>We do not use features that interoperable with derived types. This is because
 current standard does not support allocatable arrays in derived types.
@@ -403,6 +403,7 @@ to stub files ending with <code class="docutils literal notranslate"><span class
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="naming_convention.html">Variable naming conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="parallel.html">Parallelisation Strategy</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Developer Guide</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
@@ -410,9 +411,9 @@ to stub files ending with <code class="docutils literal notranslate"><span class
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_functions.html">User-supplied functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hidden_functions.html">Legacy and internal PDAF functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hidden_functions.html#pypdaf-pdaflocal">pyPDAF.PDAFlocal</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hidden_functions.html#pypdaf-pdaflocalomi">pyPDAF.PDAFlocalomi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="links.html">Other useful links</a></li>
 </ul>
 
 <div class="relations">
@@ -437,7 +438,7 @@ to stub files ending with <code class="docutils literal notranslate"><span class
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &#169;2022 University of Reading and National Centre for Earth Observation.
+      &#169;2025 University of Reading and National Centre for Earth Observation.
       
       |
       Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>

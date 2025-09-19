@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.put\_state\_lnetf
-=============================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: put_state_lnetf

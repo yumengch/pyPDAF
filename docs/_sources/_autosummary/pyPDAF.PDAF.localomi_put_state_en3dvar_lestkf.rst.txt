@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.localomi\_put\_state\_en3dvar\_lestkf
-=================================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: localomi_put_state_en3dvar_lestkf

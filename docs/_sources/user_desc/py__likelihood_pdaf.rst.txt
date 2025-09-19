@@ -1,4 +1,7 @@
-.. function:: py__likelihood_pdaf
+py__likelihood_pdaf
+===================
+
+.. py:function:: py__likelihood_pdaf(step: int, dim_obs_p: int, obs_p: np.ndarray, resid: np.ndarray, likely: float) -> float
 
     Compute the likelihood of the observation for a given ensemble member.
 

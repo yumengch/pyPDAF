@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.local\_assimilate\_letkf
-====================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: local_assimilate_letkf

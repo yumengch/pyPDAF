@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_g2l\_obs\_cb
-=============================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_g2l_obs_cb

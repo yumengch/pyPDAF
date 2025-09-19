@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_omit\_by\_inno\_l\_cb
-======================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_omit_by_inno_l_cb

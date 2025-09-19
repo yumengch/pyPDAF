@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_generate\_obs
-==============================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_generate_obs

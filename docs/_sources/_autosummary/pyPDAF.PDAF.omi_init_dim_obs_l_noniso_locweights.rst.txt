@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_init\_dim\_obs\_l\_noniso\_locweights
-======================================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_init_dim_obs_l_noniso_locweights

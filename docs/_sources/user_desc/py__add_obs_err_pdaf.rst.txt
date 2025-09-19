@@ -1,5 +1,9 @@
-.. function:: py__add_obs_err_pdaf
-   Add the observation error covariance matrix to the matrix ``C``.
+py__add_obs_err_pdaf
+====================
+
+.. py:function:: py__add_obs_err_pdaf(step: int, dim_obs_p: int, c_p: np.ndarray) -> np.ndarray
+
+   Add the observation error covariance matrix to the matrix :math:`\mathbf{C}_p`.
 
    The input matrix is the projection of the ensemble covariance
    matrix onto the observation space that is computed during the

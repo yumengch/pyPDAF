@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Parameters &#8212; pyPDAF  documentation</title>
+    <title>py__prepoststep_pdaf &#8212; pyPDAF  documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
     <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=8203d6f3" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
@@ -14,6 +14,8 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="py__prodrinva_hyb_l_pdaf" href="py__prodrinva_hyb_l_pdaf.html" />
+    <link rel="prev" title="py__obs_op_pdaf" href="py__obs_op_pdaf.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -31,13 +33,14 @@
 
           <div class="body" role="main">
             
-  <dl class="py function">
+  <section id="py-prepoststep-pdaf">
+<h1>py__prepoststep_pdaf<a class="headerlink" href="#py-prepoststep-pdaf" title="Link to this heading">¶</a></h1>
+<dl class="py function">
 <dt class="sig sig-object py" id="py__prepoststep_pdaf">
-<span class="sig-name descname"><span class="pre">py__prepoststep_pdaf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#py__prepoststep_pdaf" title="Link to this definition">¶</a></dt>
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Process</span> <span class="pre">ensemble</span> <span class="pre">before</span> <span class="pre">or</span> <span class="pre">after</span> <span class="pre">DA.</span></span></dt>
-<dd><section id="parameters">
-<h1>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h1>
+<span class="sig-name descname"><span class="pre">py__prepoststep_pdaf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim_ens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim_ens_l</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim_obs_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">np.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uinv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">np.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ens_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">np.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">np.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">np.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">np.ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py__prepoststep_pdaf" title="Link to this definition">¶</a></dt>
+<dd><p>Process ensemble before or after DA.</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>step<span class="classifier">int</span></dt><dd><p>current time step
 (negative for call before analysis/preprocessing)</p>
@@ -71,7 +74,7 @@ Array shape: (dim_p, dim_ens)</p>
 </dl>
 </section>
 <section id="returns">
-<h1>Returns<a class="headerlink" href="#returns" title="Link to this heading">¶</a></h1>
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt>state_p<span class="classifier">ndarray[np.float64, ndim=1]</span></dt><dd><p>pe-local forecast/analysis state
 (the array ‘state_p’ is generally not
@@ -92,6 +95,7 @@ Array shape: (dim_p, dim_ens)</p>
 </section>
 </dd></dl>
 
+</section>
 
 
           </div>
@@ -129,13 +133,54 @@ Array shape: (dim_p, dim_ens)</p>
 </search>
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../naming_convention.html">Variable naming conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallelisation Strategy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../develop.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../API.html">API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../user_functions.html">User-supplied functions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../user_functions.html">User-supplied functions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="py__add_obs_err_pdaf.html">py__add_obs_err_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__collect_state_pdaf.html">py__collect_state_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__cvt_adj_ens_pdaf.html">py__cvt_adj_ens_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__cvt_adj_pdaf.html">py__cvt_adj_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__cvt_ens_pdaf.html">py__cvt_ens_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__cvt_pdaf.html">py__cvt_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__distribute_state_pdaf.html">py__distribute_state_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__g2l_obs_pdaf.html">py__g2l_obs_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__g2l_state_pdaf.html">py__g2l_state_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__get_obs_f_pdaf.html">py__get_obs_f_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__init_dim_l_pdaf.html">py__init_dim_l_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__init_dim_obs_f_pdaf.html">py__init_dim_obs_f_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__init_dim_obs_l_pdaf.html">py__init_dim_obs_l_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__init_dim_obs_pdaf.html">py__init_dim_obs_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__init_ens_pdaf.html">py__init_ens_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__init_n_domains_p_pdaf.html">py__init_n_domains_p_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__init_obs_covar_pdaf.html">py__init_obs_covar_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__init_obs_f_pdaf.html">py__init_obs_f_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__init_obs_l_pdaf.html">py__init_obs_l_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__init_obs_pdaf.html">py__init_obs_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__init_obserr_f_pdaf.html">py__init_obserr_f_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__init_obsvar_l_pdaf.html">py__init_obsvar_l_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__init_obsvar_pdaf.html">py__init_obsvar_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__init_obsvars_pdaf.html">py__init_obsvars_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__l2g_state_pdaf.html">py__l2g_state_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__likelihood_hyb_l_pdaf.html">py__likelihood_hyb_l_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__likelihood_l_pdaf.html">py__likelihood_l_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__likelihood_pdaf.html">py__likelihood_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__localize_covar_pdaf.html">py__localize_covar_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__localize_covar_serial_pdaf.html">py__localize_covar_serial_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__next_observation_pdaf.html">py__next_observation_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__obs_op_adj_pdaf.html">py__obs_op_adj_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__obs_op_f_pdaf.html">py__obs_op_f_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__obs_op_lin_pdaf.html">py__obs_op_lin_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__obs_op_pdaf.html">py__obs_op_pdaf</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">py__prepoststep_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__prodrinva_hyb_l_pdaf.html">py__prodrinva_hyb_l_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__prodrinva_l_pdaf.html">py__prodrinva_l_pdaf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py__prodrinva_pdaf.html">py__prodrinva_pdaf</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../hidden_functions.html">Legacy and internal PDAF functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../links.html">Other useful links</a></li>
 </ul>
@@ -144,6 +189,10 @@ Array shape: (dim_p, dim_ens)</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../user_functions.html">User-supplied functions</a><ul>
+      <li>Previous: <a href="py__obs_op_pdaf.html" title="previous chapter">py__obs_op_pdaf</a></li>
+      <li>Next: <a href="py__prodrinva_hyb_l_pdaf.html" title="next chapter">py__prodrinva_hyb_l_pdaf</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>
@@ -160,7 +209,7 @@ Array shape: (dim_p, dim_ens)</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &#169;2022 University of Reading and National Centre for Earth Observation.
+      &#169;2025 University of Reading and National Centre for Earth Observation.
       
       |
       Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>

@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_put\_state\_hyb3dvar\_lestkf\_nondiagR
-=======================================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_put_state_hyb3dvar_lestkf_nondiagR

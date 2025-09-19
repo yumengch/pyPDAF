@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.local\_put\_state\_lknetf
-=====================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: local_put_state_lknetf

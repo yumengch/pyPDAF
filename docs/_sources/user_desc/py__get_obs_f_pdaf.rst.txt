@@ -1,4 +1,7 @@
-.. function:: py__get_obs_f_pdaf
+py__get_obs_f_pdaf
+==================
+
+.. py:function:: py__get_obs_f_pdaf(step: int, dim_obs_f: int, observation_f: np.ndarray) -> np.ndarray
 
     Receive synthetic observations from PDAF.
 

@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.localomi\_assimilate\_en3dvar\_lestkf\_nondiagR
-===========================================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: localomi_assimilate_en3dvar_lestkf_nondiagR

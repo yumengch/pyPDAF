@@ -14,7 +14,7 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Parallelisation Strategy" href="parallel.html" />
+    <link rel="next" title="Variable naming conventions" href="naming_convention.html" />
     <link rel="prev" title="pyPDAF - A Python interface to Parallel Data Assimilation Framework" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -76,7 +76,7 @@ is optional.</p></li>
 </ul>
 <p>One can adjust the compiler, compiler and linker flags by changing environment
 variables such as <code class="docutils literal notranslate"><span class="pre">CC</span></code>, <code class="docutils literal notranslate"><span class="pre">FC</span></code>, <code class="docutils literal notranslate"><span class="pre">CFLAGS</span></code> and <code class="docutils literal notranslate"><span class="pre">FCFLAGS</span></code>. See <a class="reference external" href="https://mesonbuild.com/Reference-tables.html#compiler-and-linker-flag-environment-variables">flags</a> and <a class="reference external" href="https://mesonbuild.com/Reference-tables.html#compiler-and-linker-selection-variables">compiler</a> table for references. One could also directly
-modify <a class="reference internal" href="#meson.build"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">meson.build</span></code></span></a> which might require more knowledge of meson.</p>
+modify <a class="reference external" href="https://github.com/yumengch/pyPDAF/blob/main/meson.build"><code class="docutils literal notranslate"><span class="pre">meson.build</span></code></a> which might require more knowledge of meson.</p>
 <p>An example of installing pyPDAF in Linux or Mac:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">CC</span><span class="o">=</span>mpicc<span class="w"> </span><span class="nv">FC</span><span class="o">=</span>mpifort<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>.<span class="w"> </span>-v<span class="w"> </span>-Cbuild-dir<span class="o">=</span>build<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--config-settings<span class="o">=</span>setup-args<span class="o">=</span><span class="s2">&quot;-Dblas_lib=[&#39;openblas&#39;]&quot;</span><span class="w"> </span><span class="se">\</span>
@@ -86,18 +86,18 @@ modify <a class="reference internal" href="#meson.build"><span class="xref myst"
 </pre></div>
 </div>
 <p>In Windows, one can use</p>
-<div class="highlight-cmd notranslate"><div class="highlight"><pre><span></span>set CXX=clang-cl
-set CC=clang-cl
-set FC=flang-new
-set MSMPI_INC=C:\Program Files (x86)\Microsoft SDKs\MPI\Include
-set MSMPI_LIB64=C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x64
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">set CXX=clang-cl</span>
+<span class="go">set CC=clang-cl</span>
+<span class="go">set FC=flang-new</span>
+<span class="go">set MSMPI_INC=C:\Program Files (x86)\Microsoft SDKs\MPI\Include</span>
+<span class="go">set MSMPI_LIB64=C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x64</span>
 
-python -m pip install . -v ^
-    -Cbuild-dir=build --config-settings=setup-args=&quot;-Dblas_lib=openblas&quot;^
-    --config-settings=setup-args=&quot;-Dincdirs=&quot;C:\Program Files (x86)\blas\include&quot;^
-    --config-settings=setup-args=&quot;-Dlibdirs=&quot;C:\Program Files (x86)\blas\lib&quot;^
-    --config-settings=setup-args=&quot;-Dmpi_mod=C:\Program Files (x86)\Microsoft SDKs\MPI\Include\mpi.f90&quot;^
-    --config-settings=setup-args=&quot;-Dbuildtype=release&quot;
+<span class="go">python -m pip install . -v ^</span>
+<span class="go">    -Cbuild-dir=build --config-settings=setup-args=&quot;-Dblas_lib=openblas&quot;^</span>
+<span class="go">    --config-settings=setup-args=&quot;-Dincdirs=&quot;C:\Program Files (x86)\blas\include&quot;^</span>
+<span class="go">    --config-settings=setup-args=&quot;-Dlibdirs=&quot;C:\Program Files (x86)\blas\lib&quot;^</span>
+<span class="go">    --config-settings=setup-args=&quot;-Dmpi_mod=C:\Program Files (x86)\Microsoft SDKs\MPI\Include\mpi.f90&quot;^</span>
+<span class="go">    --config-settings=setup-args=&quot;-Dbuildtype=release&quot;</span>
 </pre></div>
 </div>
 <p>where the variable <code class="docutils literal notranslate"><span class="pre">MSMPI_INC</span></code> and <code class="docutils literal notranslate"><span class="pre">MSMPI_LIB64</span></code> are required environment
@@ -149,12 +149,13 @@ have any questions or problems with this.</p>
 <li class="toctree-l2"><a class="reference internal" href="#source-code">Source code</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="naming_convention.html">Variable naming conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="parallel.html">Parallelisation Strategy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="develop.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_functions.html">User-supplied functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hidden_functions.html">Legacy and internal PDAF functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hidden_functions.html#pypdaf-pdaflocal">pyPDAF.PDAFlocal</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hidden_functions.html#pypdaf-pdaflocalomi">pyPDAF.PDAFlocalomi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="links.html">Other useful links</a></li>
 </ul>
 
 <div class="relations">
@@ -162,7 +163,7 @@ have any questions or problems with this.</p>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="index.html" title="previous chapter">pyPDAF - A Python interface to Parallel Data Assimilation Framework</a></li>
-      <li>Next: <a href="parallel.html" title="next chapter">Parallelisation Strategy</a></li>
+      <li>Next: <a href="naming_convention.html" title="next chapter">Variable naming conventions</a></li>
   </ul></li>
 </ul>
 </div>
@@ -179,7 +180,7 @@ have any questions or problems with this.</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &#169;2022 University of Reading and National Centre for Earth Observation.
+      &#169;2025 University of Reading and National Centre for Earth Observation.
       
       |
       Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>

@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_assimilate\_hyb3dvar\_estkf\_nondiagR
-======================================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_assimilate_hyb3dvar_estkf_nondiagR

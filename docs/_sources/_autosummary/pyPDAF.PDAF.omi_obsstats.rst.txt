@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_obsstats
-=========================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_obsstats

@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_localize\_covar\_noniso\_locweights
-====================================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_localize_covar_noniso_locweights

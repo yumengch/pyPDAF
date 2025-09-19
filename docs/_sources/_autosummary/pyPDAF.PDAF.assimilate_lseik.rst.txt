@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.assimilate\_lseik
-=============================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: assimilate_lseik

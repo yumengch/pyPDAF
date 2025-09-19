@@ -14,7 +14,7 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Legacy and internal PDAF functions" href="../hidden_functions.html" />
+    <link rel="next" title="User-supplied functions" href="../user_functions.html" />
     <link rel="prev" title="pyPDAF.PDAF.force_analysis" href="pyPDAF.PDAF.force_analysis.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -37,7 +37,7 @@
 <h1>pyPDAF.PDAF.reset_forget<a class="headerlink" href="#pypdaf-pdaf-reset-forget" title="Link to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAF.reset_forget">
-<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">reset_forget</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.reset_forget" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">reset_forget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forget_in</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyPDAF.PDAF.reset_forget" title="Link to this definition">¶</a></dt>
 <dd><p>Reset the forgetting factor manually
 during the assimilation process.</p>
 <p>For the local ensemble Kalman filters
@@ -99,6 +99,7 @@ for the forgetting factor (beyond what is implemented in PDAF) are possible.</p>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../naming_convention.html">Variable naming conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallelisation Strategy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../develop.html">Developer Guide</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../API.html">API</a><ul class="current">
@@ -109,7 +110,9 @@ for the forgetting factor (beyond what is implemented in PDAF) are possible.</p>
 <li class="toctree-l2 current"><a class="reference internal" href="../API.html#utilities">Utilities</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../user_functions.html">User-supplied functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../hidden_functions.html">Legacy and internal PDAF functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../links.html">Other useful links</a></li>
 </ul>
 
 <div class="relations">
@@ -118,7 +121,7 @@ for the forgetting factor (beyond what is implemented in PDAF) are possible.</p>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="../API.html">API</a><ul>
       <li>Previous: <a href="pyPDAF.PDAF.force_analysis.html" title="previous chapter">pyPDAF.PDAF.force_analysis</a></li>
-      <li>Next: <a href="../hidden_functions.html" title="next chapter">Legacy and internal PDAF functions</a></li>
+      <li>Next: <a href="../user_functions.html" title="next chapter">User-supplied functions</a></li>
   </ul></li>
   </ul></li>
 </ul>
@@ -136,7 +139,7 @@ for the forgetting factor (beyond what is implemented in PDAF) are possible.</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &#169;2022 University of Reading and National Centre for Earth Observation.
+      &#169;2025 University of Reading and National Centre for Earth Observation.
       
       |
       Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>

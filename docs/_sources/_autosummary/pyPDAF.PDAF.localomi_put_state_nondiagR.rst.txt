@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.localomi\_put\_state\_nondiagR
-==========================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: localomi_put_state_nondiagR

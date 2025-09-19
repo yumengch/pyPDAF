@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_obs\_op\_gridavg
-=================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_obs_op_gridavg

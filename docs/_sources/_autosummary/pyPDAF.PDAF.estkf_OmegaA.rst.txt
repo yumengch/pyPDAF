@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.estkf\_OmegaA
-=========================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: estkf_OmegaA

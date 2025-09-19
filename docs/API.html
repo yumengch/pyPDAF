@@ -80,22 +80,22 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h2><a class="toc-backref" href="#id3" role="doc-backlink">Initialisation and finalisation</a><a class="headerlink" href="#initialisation-and-finalisation" title="Link to this heading">¶</a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.init.html#pyPDAF.init" title="pyPDAF.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.init</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.init.html#pyPDAF.init" title="pyPDAF.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.init</span></code></a>(filtertype, subtype, stepnull, ...)</p></td>
 <td><p>Initialise the PDAF system.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.set_parallel.html#pyPDAF.set_parallel" title="pyPDAF.set_parallel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.set_parallel</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.set_parallel.html#pyPDAF.set_parallel" title="pyPDAF.set_parallel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.set_parallel</span></code></a>(in_comm_pdaf, ...)</p></td>
 <td><p>Set MPI communicators and parallelisation in PDAF.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.init_forecast.html#pyPDAF.init_forecast" title="pyPDAF.init_forecast"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.init_forecast</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.init_forecast.html#pyPDAF.init_forecast" title="pyPDAF.init_forecast"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.init_forecast</span></code></a>(...)</p></td>
 <td><p>The routine PDAF_init_forecast has to be called once at the end of the initialization of PDAF/start of DA cycles.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.init.html#pyPDAF.PDAFomi.init" title="pyPDAF.PDAFomi.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.init</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.init.html#pyPDAF.PDAFomi.init" title="pyPDAF.PDAFomi.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.init</span></code></a>(n_obs)</p></td>
 <td><p>Allocating an array of <cite>obs_f</cite> derived types instances.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.init_local.html#pyPDAF.PDAFomi.init_local" title="pyPDAF.PDAFomi.init_local"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.init_local</span></code></a>(self, /)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.init_local.html#pyPDAF.PDAFomi.init_local" title="pyPDAF.PDAFomi.init_local"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.init_local</span></code></a>()</p></td>
 <td><p>Allocating an array of <cite>obs_l</cite> derived types instances.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.deallocate.html#pyPDAF.deallocate" title="pyPDAF.deallocate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.deallocate</span></code></a>(self, /)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.deallocate.html#pyPDAF.deallocate" title="pyPDAF.deallocate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.deallocate</span></code></a>()</p></td>
 <td><p>Finalise the PDAF systems including freeing some of the memory used by PDAF.</p></td>
 </tr>
 </tbody>
@@ -109,10 +109,10 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h4>diagnoal observation matrix<a class="headerlink" href="#diagnoal-observation-matrix" title="Link to this heading">¶</a></h4>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate.html#pyPDAF.assimilate" title="pyPDAF.assimilate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate.html#pyPDAF.assimilate" title="pyPDAF.assimilate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate</span></code></a>(py__collect_state_pdaf, ...)</p></td>
 <td><p>Online ensemble filters and smoothers except for 3DVars for a single DA step using diagnoal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline.html#pyPDAF.assim_offline" title="pyPDAF.assim_offline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline.html#pyPDAF.assim_offline" title="pyPDAF.assim_offline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline</span></code></a>(py__init_dim_obs_pdaf, ...)</p></td>
 <td><p>Offline ensemble filters and smoothers except for 3DVars for a single DA step using diagnoal observation error covariance matrix.</p></td>
 </tr>
 </tbody>
@@ -122,43 +122,43 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h4>non-diagnoal observation matrix<a class="headerlink" href="#non-diagnoal-observation-matrix" title="Link to this heading">¶</a></h4>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_local_nondiagr.html#pyPDAF.assimilate_local_nondiagr" title="pyPDAF.assimilate_local_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_local_nondiagr</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_local_nondiagr.html#pyPDAF.assimilate_local_nondiagr" title="pyPDAF.assimilate_local_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_local_nondiagr</span></code></a>(...)</p></td>
 <td><p>Online assimilation of domain local filters for a single DA step using non-diagnoal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_global_nondiagr.html#pyPDAF.assimilate_global_nondiagr" title="pyPDAF.assimilate_global_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_global_nondiagr</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_global_nondiagr.html#pyPDAF.assimilate_global_nondiagr" title="pyPDAF.assimilate_global_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_global_nondiagr</span></code></a>(...)</p></td>
 <td><p>Online assimilation of global filters except for 3DVar and stochastic EnKF for a single DA step using non-diagnoal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_lnetf_nondiagr.html#pyPDAF.assimilate_lnetf_nondiagr" title="pyPDAF.assimilate_lnetf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_lnetf_nondiagr</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_lnetf_nondiagr.html#pyPDAF.assimilate_lnetf_nondiagr" title="pyPDAF.assimilate_lnetf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_lnetf_nondiagr</span></code></a>(...)</p></td>
 <td><p>Online assimilation of LNETF for a single DA step using non-diagnoal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_lknetf_nondiagr.html#pyPDAF.assimilate_lknetf_nondiagr" title="pyPDAF.assimilate_lknetf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_lknetf_nondiagr</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_lknetf_nondiagr.html#pyPDAF.assimilate_lknetf_nondiagr" title="pyPDAF.assimilate_lknetf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_lknetf_nondiagr</span></code></a>(...)</p></td>
 <td><p>Online assimilation of LKNETF for a single DA step using non-diagonal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_enkf_nondiagr.html#pyPDAF.assimilate_enkf_nondiagr" title="pyPDAF.assimilate_enkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_enkf_nondiagr</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_enkf_nondiagr.html#pyPDAF.assimilate_enkf_nondiagr" title="pyPDAF.assimilate_enkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_enkf_nondiagr</span></code></a>(...)</p></td>
 <td><p>Online assimilation of global or Covariance localised stochastic EnKF for a single DA step using non-diagonal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_nonlin_nondiagr.html#pyPDAF.assimilate_nonlin_nondiagr" title="pyPDAF.assimilate_nonlin_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_nonlin_nondiagr</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_nonlin_nondiagr.html#pyPDAF.assimilate_nonlin_nondiagr" title="pyPDAF.assimilate_nonlin_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_nonlin_nondiagr</span></code></a>(...)</p></td>
 <td><p>Online assimilation of global nonlinear filters for a single DA step using non-diagonal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_local_nondiagr.html#pyPDAF.assim_offline_local_nondiagr" title="pyPDAF.assim_offline_local_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_local_nondiagr</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_local_nondiagr.html#pyPDAF.assim_offline_local_nondiagr" title="pyPDAF.assim_offline_local_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_local_nondiagr</span></code></a>(...)</p></td>
 <td><p>Offline assimilation of domain local filters for a single DA step using non-diagnoal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_global_nondiagr.html#pyPDAF.assim_offline_global_nondiagr" title="pyPDAF.assim_offline_global_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_global_nondiagr</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_global_nondiagr.html#pyPDAF.assim_offline_global_nondiagr" title="pyPDAF.assim_offline_global_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_global_nondiagr</span></code></a>(...)</p></td>
 <td><p>Offline assimilation of global filters except for 3DVar and stochastic EnKF for a single DA step using non-diagnoal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_lnetf_nondiagr.html#pyPDAF.assim_offline_lnetf_nondiagr" title="pyPDAF.assim_offline_lnetf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_lnetf_nondiagr</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_lnetf_nondiagr.html#pyPDAF.assim_offline_lnetf_nondiagr" title="pyPDAF.assim_offline_lnetf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_lnetf_nondiagr</span></code></a>(...)</p></td>
 <td><p>Offline assimilation of LNETF for a single DA step using non-diagnoal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_lknetf_nondiagr.html#pyPDAF.assim_offline_lknetf_nondiagr" title="pyPDAF.assim_offline_lknetf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_lknetf_nondiagr</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_lknetf_nondiagr.html#pyPDAF.assim_offline_lknetf_nondiagr" title="pyPDAF.assim_offline_lknetf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_lknetf_nondiagr</span></code></a>(...)</p></td>
 <td><p>Offline assimilation of LKNETF for a single DA step using non-diagonal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_enkf_nondiagr.html#pyPDAF.assim_offline_enkf_nondiagr" title="pyPDAF.assim_offline_enkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_enkf_nondiagr</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_enkf_nondiagr.html#pyPDAF.assim_offline_enkf_nondiagr" title="pyPDAF.assim_offline_enkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_enkf_nondiagr</span></code></a>(...)</p></td>
 <td><p>Offline assimilation of global or Covariance localised stochastic EnKF for a single DA step using non-diagonal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_lenkf_nondiagr.html#pyPDAF.assim_offline_lenkf_nondiagr" title="pyPDAF.assim_offline_lenkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_lenkf_nondiagr</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_lenkf_nondiagr.html#pyPDAF.assim_offline_lenkf_nondiagr" title="pyPDAF.assim_offline_lenkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_lenkf_nondiagr</span></code></a>(...)</p></td>
 <td><p>Online assimilation of covariance localised stochastic EnKF for a single DA step using non-diagonal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_nonlin_nondiagr.html#pyPDAF.assim_offline_nonlin_nondiagr" title="pyPDAF.assim_offline_nonlin_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_nonlin_nondiagr</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_nonlin_nondiagr.html#pyPDAF.assim_offline_nonlin_nondiagr" title="pyPDAF.assim_offline_nonlin_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_nonlin_nondiagr</span></code></a>(...)</p></td>
 <td><p>Offline assimilation of global nonlinear filters for a single DA step using non-diagonal observation error covariance matrix.</p></td>
 </tr>
 </tbody>
@@ -171,10 +171,10 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h4>diagnoal observation matrix<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h4>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_3dvar_all.html#pyPDAF.assimilate_3dvar_all" title="pyPDAF.assimilate_3dvar_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_3dvar_all</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_3dvar_all.html#pyPDAF.assimilate_3dvar_all" title="pyPDAF.assimilate_3dvar_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_3dvar_all</span></code></a>(...)</p></td>
 <td><p>Online assimilation for all types of 3DVar DA for a single DA step using diagonal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_3dvar_all.html#pyPDAF.assim_offline_3dvar_all" title="pyPDAF.assim_offline_3dvar_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_3dvar_all</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_3dvar_all.html#pyPDAF.assim_offline_3dvar_all" title="pyPDAF.assim_offline_3dvar_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_3dvar_all</span></code></a>(...)</p></td>
 <td><p>Offline assimilation for all types of 3DVar DA for a single DA step using diagonal observation error covariance matrix.</p></td>
 </tr>
 </tbody>
@@ -184,34 +184,34 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h4>non-diagnoal observation matrix<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h4>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_3dvar_nondiagr.html#pyPDAF.assimilate_3dvar_nondiagr" title="pyPDAF.assimilate_3dvar_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_3dvar_nondiagr</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_3dvar_nondiagr.html#pyPDAF.assimilate_3dvar_nondiagr" title="pyPDAF.assimilate_3dvar_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_3dvar_nondiagr</span></code></a>(...)</p></td>
 <td><p>3DVar DA for a single DA step using non-diagnoal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_en3dvar_estkf_nondiagr.html#pyPDAF.assimilate_en3dvar_estkf_nondiagr" title="pyPDAF.assimilate_en3dvar_estkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_en3dvar_estkf_nondiagr</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_en3dvar_estkf_nondiagr.html#pyPDAF.assimilate_en3dvar_estkf_nondiagr" title="pyPDAF.assimilate_en3dvar_estkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_en3dvar_estkf_nondiagr</span></code></a>(...)</p></td>
 <td><p>3DEnVar for a single DA step using non-diagnoal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_en3dvar_lestkf_nondiagr.html#pyPDAF.assimilate_en3dvar_lestkf_nondiagr" title="pyPDAF.assimilate_en3dvar_lestkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_en3dvar_lestkf_nondiagr</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_en3dvar_lestkf_nondiagr.html#pyPDAF.assimilate_en3dvar_lestkf_nondiagr" title="pyPDAF.assimilate_en3dvar_lestkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_en3dvar_lestkf_nondiagr</span></code></a>(...)</p></td>
 <td><p>3DEnVar for a single DA step where the ensemble anomaly is generated by LESTKF using non-diagonal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_hyb3dvar_estkf_nondiagr.html#pyPDAF.assimilate_hyb3dvar_estkf_nondiagr" title="pyPDAF.assimilate_hyb3dvar_estkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_hyb3dvar_estkf_nondiagr</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_hyb3dvar_estkf_nondiagr.html#pyPDAF.assimilate_hyb3dvar_estkf_nondiagr" title="pyPDAF.assimilate_hyb3dvar_estkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_hyb3dvar_estkf_nondiagr</span></code></a>(...)</p></td>
 <td><p>Hybrid 3DEnVar for a single DA step using non-diagnoal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_hyb3dvar_lestkf_nondiagr.html#pyPDAF.assimilate_hyb3dvar_lestkf_nondiagr" title="pyPDAF.assimilate_hyb3dvar_lestkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_hyb3dvar_lestkf_nondiagr</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assimilate_hyb3dvar_lestkf_nondiagr.html#pyPDAF.assimilate_hyb3dvar_lestkf_nondiagr" title="pyPDAF.assimilate_hyb3dvar_lestkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assimilate_hyb3dvar_lestkf_nondiagr</span></code></a>(...)</p></td>
 <td><p>Hybrid 3DEnVar for a single DA step using non-diagonal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_3dvar_nondiagr.html#pyPDAF.assim_offline_3dvar_nondiagr" title="pyPDAF.assim_offline_3dvar_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_3dvar_nondiagr</span></code></a></p></td>
-<td><p>Offline 3DVar DA for a single DA step using non-diagnoal observation error covariance matrix.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_3dvar_nondiagr.html#pyPDAF.assim_offline_3dvar_nondiagr" title="pyPDAF.assim_offline_3dvar_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_3dvar_nondiagr</span></code></a>(...)</p></td>
+<td><p>Offline 3DVar DA for a single DA step using non-diagonal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_en3dvar_estkf_nondiagr.html#pyPDAF.assim_offline_en3dvar_estkf_nondiagr" title="pyPDAF.assim_offline_en3dvar_estkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_en3dvar_estkf_nondiagr</span></code></a></p></td>
-<td><p>Offline 3DEnVar for a single DA step using non-diagnoal observation error covariance matrix.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_en3dvar_estkf_nondiagr.html#pyPDAF.assim_offline_en3dvar_estkf_nondiagr" title="pyPDAF.assim_offline_en3dvar_estkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_en3dvar_estkf_nondiagr</span></code></a>(...)</p></td>
+<td><p>Offline 3DEnVar for a single DA step using non-diagonal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_en3dvar_lestkf_nondiagr.html#pyPDAF.assim_offline_en3dvar_lestkf_nondiagr" title="pyPDAF.assim_offline_en3dvar_lestkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_en3dvar_lestkf_nondiagr</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_en3dvar_lestkf_nondiagr.html#pyPDAF.assim_offline_en3dvar_lestkf_nondiagr" title="pyPDAF.assim_offline_en3dvar_lestkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_en3dvar_lestkf_nondiagr</span></code></a>(...)</p></td>
 <td><p>Offline 3DEnVar for a single DA step where the ensemble anomaly is generated by LESTKF using non-diagonal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_hyb3dvar_estkf_nondiagr.html#pyPDAF.assim_offline_hyb3dvar_estkf_nondiagr" title="pyPDAF.assim_offline_hyb3dvar_estkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_hyb3dvar_estkf_nondiagr</span></code></a></p></td>
-<td><p>Offline hybrid 3DEnVar for a single DA step using non-diagnoal observation error covariance matrix.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_hyb3dvar_estkf_nondiagr.html#pyPDAF.assim_offline_hyb3dvar_estkf_nondiagr" title="pyPDAF.assim_offline_hyb3dvar_estkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_hyb3dvar_estkf_nondiagr</span></code></a>(...)</p></td>
+<td><p>Offline hybrid 3DEnVar for a single DA step using non-diagonal observation error covariance matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_hyb3dvar_lestkf_nondiagr.html#pyPDAF.assim_offline_hyb3dvar_lestkf_nondiagr" title="pyPDAF.assim_offline_hyb3dvar_lestkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_hyb3dvar_lestkf_nondiagr</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.assim_offline_hyb3dvar_lestkf_nondiagr.html#pyPDAF.assim_offline_hyb3dvar_lestkf_nondiagr" title="pyPDAF.assim_offline_hyb3dvar_lestkf_nondiagr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.assim_offline_hyb3dvar_lestkf_nondiagr</span></code></a>(...)</p></td>
 <td><p>Offline hybrid 3DEnVar for a single DA step using non-diagonal observation error covariance matrix.</p></td>
 </tr>
 </tbody>
@@ -225,40 +225,40 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h3><a class="toc-backref" href="#id8" role="doc-backlink">setter functions</a><a class="headerlink" href="#setter-functions" title="Link to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_doassim.html#pyPDAF.PDAFomi.set_doassim" title="pyPDAF.PDAFomi.set_doassim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_doassim</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_doassim.html#pyPDAF.PDAFomi.set_doassim" title="pyPDAF.PDAFomi.set_doassim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_doassim</span></code></a>(i_obs, doassim)</p></td>
 <td><p>Setting the <cite>doassim</cite> attribute of <cite>obs_f</cite> for <cite>i</cite>-th observation type.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_disttype.html#pyPDAF.PDAFomi.set_disttype" title="pyPDAF.PDAFomi.set_disttype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_disttype</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_disttype.html#pyPDAF.PDAFomi.set_disttype" title="pyPDAF.PDAFomi.set_disttype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_disttype</span></code></a>(i_obs, disttype)</p></td>
 <td><p>Setting the observation localisation distance calculation method for <cite>i</cite>-th observation type.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_ncoord.html#pyPDAF.PDAFomi.set_ncoord" title="pyPDAF.PDAFomi.set_ncoord"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_ncoord</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_ncoord.html#pyPDAF.PDAFomi.set_ncoord" title="pyPDAF.PDAFomi.set_ncoord"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_ncoord</span></code></a>(i_obs, ncoord)</p></td>
 <td><p>Setting the number of spatial dimensions of observations for <cite>i</cite>-th observation type.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_obs_err_type.html#pyPDAF.PDAFomi.set_obs_err_type" title="pyPDAF.PDAFomi.set_obs_err_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_obs_err_type</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_obs_err_type.html#pyPDAF.PDAFomi.set_obs_err_type" title="pyPDAF.PDAFomi.set_obs_err_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_obs_err_type</span></code></a>(i_obs, ...)</p></td>
 <td><p>Setting the type of observation error distribution for <cite>i</cite>-th observation type.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_use_global_obs.html#pyPDAF.PDAFomi.set_use_global_obs" title="pyPDAF.PDAFomi.set_use_global_obs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_use_global_obs</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_use_global_obs.html#pyPDAF.PDAFomi.set_use_global_obs" title="pyPDAF.PDAFomi.set_use_global_obs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_use_global_obs</span></code></a>(i_obs, ...)</p></td>
 <td><p>Switch for only use process-local observations for <cite>i</cite>-th observation type.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_inno_omit.html#pyPDAF.PDAFomi.set_inno_omit" title="pyPDAF.PDAFomi.set_inno_omit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_inno_omit</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_inno_omit.html#pyPDAF.PDAFomi.set_inno_omit" title="pyPDAF.PDAFomi.set_inno_omit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_inno_omit</span></code></a>(i_obs, inno_omit)</p></td>
 <td><p>Setting innovation threshold for removing observation outliers.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_inno_omit_ivar.html#pyPDAF.PDAFomi.set_inno_omit_ivar" title="pyPDAF.PDAFomi.set_inno_omit_ivar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_inno_omit_ivar</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_inno_omit_ivar.html#pyPDAF.PDAFomi.set_inno_omit_ivar" title="pyPDAF.PDAFomi.set_inno_omit_ivar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_inno_omit_ivar</span></code></a>(i_obs, ...)</p></td>
 <td><p>Setting the inverse of observation error variance for omitted observations.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_id_obs_p.html#pyPDAF.PDAFomi.set_id_obs_p" title="pyPDAF.PDAFomi.set_id_obs_p"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_id_obs_p</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_id_obs_p.html#pyPDAF.PDAFomi.set_id_obs_p" title="pyPDAF.PDAFomi.set_id_obs_p"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_id_obs_p</span></code></a>(i_obs, nrows, ...)</p></td>
 <td><p>Setting the <cite>id_obs_p</cite> attribute of <cite>obs_f</cite> for <cite>i</cite>-th observation type.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_icoeff_p.html#pyPDAF.PDAFomi.set_icoeff_p" title="pyPDAF.PDAFomi.set_icoeff_p"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_icoeff_p</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_icoeff_p.html#pyPDAF.PDAFomi.set_icoeff_p" title="pyPDAF.PDAFomi.set_icoeff_p"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_icoeff_p</span></code></a>(i_obs, nrows, ...)</p></td>
 <td><p>Setting the observation interpolation coefficient for <cite>i</cite>-th observation type.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_domainsize.html#pyPDAF.PDAFomi.set_domainsize" title="pyPDAF.PDAFomi.set_domainsize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_domainsize</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_domainsize.html#pyPDAF.PDAFomi.set_domainsize" title="pyPDAF.PDAFomi.set_domainsize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_domainsize</span></code></a>(i_obs, ncoord, ...)</p></td>
 <td><p>Setting the domain periodicity attribute of <cite>obs_f</cite> for <cite>i</cite>-th observation type.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_name.html#pyPDAF.PDAFomi.set_name" title="pyPDAF.PDAFomi.set_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_name</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_name.html#pyPDAF.PDAFomi.set_name" title="pyPDAF.PDAFomi.set_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_name</span></code></a>(i_obs, obsname)</p></td>
 <td><p>Set a name for given observation type</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.gather_obs.html#pyPDAF.PDAFomi.gather_obs" title="pyPDAF.PDAFomi.gather_obs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.gather_obs</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.gather_obs.html#pyPDAF.PDAFomi.gather_obs" title="pyPDAF.PDAFomi.gather_obs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.gather_obs</span></code></a>(i_obs, dim_obs_p, ...)</p></td>
 <td><p>Gather the dimension of a given type of observation across multiple local domains/filter processors.</p></td>
 </tr>
 </tbody>
@@ -268,28 +268,28 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h3><a class="toc-backref" href="#id9" role="doc-backlink">Observation operators</a><a class="headerlink" href="#observation-operators" title="Link to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.obs_op_gridpoint.html#pyPDAF.PDAFomi.obs_op_gridpoint" title="pyPDAF.PDAFomi.obs_op_gridpoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.obs_op_gridpoint</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.obs_op_gridpoint.html#pyPDAF.PDAFomi.obs_op_gridpoint" title="pyPDAF.PDAFomi.obs_op_gridpoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.obs_op_gridpoint</span></code></a>(i_obs, ...)</p></td>
 <td><p>A (partial) identity observation operator</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.obs_op_gridavg.html#pyPDAF.PDAFomi.obs_op_gridavg" title="pyPDAF.PDAFomi.obs_op_gridavg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.obs_op_gridavg</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.obs_op_gridavg.html#pyPDAF.PDAFomi.obs_op_gridavg" title="pyPDAF.PDAFomi.obs_op_gridavg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.obs_op_gridavg</span></code></a>(i_obs, nrows, ...)</p></td>
 <td><p>Observation operator that average values on given model grid points.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.obs_op_extern.html#pyPDAF.PDAFomi.obs_op_extern" title="pyPDAF.PDAFomi.obs_op_extern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.obs_op_extern</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.obs_op_extern.html#pyPDAF.PDAFomi.obs_op_extern" title="pyPDAF.PDAFomi.obs_op_extern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.obs_op_extern</span></code></a>(i_obs, ...)</p></td>
 <td><p>Observation operator for given observed model state.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.obs_op_interp_lin.html#pyPDAF.PDAFomi.obs_op_interp_lin" title="pyPDAF.PDAFomi.obs_op_interp_lin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.obs_op_interp_lin</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.obs_op_interp_lin.html#pyPDAF.PDAFomi.obs_op_interp_lin" title="pyPDAF.PDAFomi.obs_op_interp_lin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.obs_op_interp_lin</span></code></a>(i_obs, ...)</p></td>
 <td><p>Observation operator that linearly interpolates model grid values to observation location.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.obs_op_adj_gridavg.html#pyPDAF.PDAFomi.obs_op_adj_gridavg" title="pyPDAF.PDAFomi.obs_op_adj_gridavg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.obs_op_adj_gridavg</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.obs_op_adj_gridavg.html#pyPDAF.PDAFomi.obs_op_adj_gridavg" title="pyPDAF.PDAFomi.obs_op_adj_gridavg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.obs_op_adj_gridavg</span></code></a>(i_obs, ...)</p></td>
 <td><p>The adjoint observation operator of <a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.obs_op_gridavg.html#pyPDAF.PDAFomi.obs_op_gridavg" title="pyPDAF.PDAFomi.obs_op_gridavg"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.obs_op_gridavg()</span></code></a>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.obs_op_adj_gridpoint.html#pyPDAF.PDAFomi.obs_op_adj_gridpoint" title="pyPDAF.PDAFomi.obs_op_adj_gridpoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.obs_op_adj_gridpoint</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.obs_op_adj_gridpoint.html#pyPDAF.PDAFomi.obs_op_adj_gridpoint" title="pyPDAF.PDAFomi.obs_op_adj_gridpoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.obs_op_adj_gridpoint</span></code></a>(i_obs, ...)</p></td>
 <td><p>The adjoint observation operator of <a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.obs_op_gridpoint.html#pyPDAF.PDAFomi.obs_op_gridpoint" title="pyPDAF.PDAFomi.obs_op_gridpoint"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.obs_op_gridpoint()</span></code></a>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.obs_op_adj_interp_lin.html#pyPDAF.PDAFomi.obs_op_adj_interp_lin" title="pyPDAF.PDAFomi.obs_op_adj_interp_lin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.obs_op_adj_interp_lin</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.obs_op_adj_interp_lin.html#pyPDAF.PDAFomi.obs_op_adj_interp_lin" title="pyPDAF.PDAFomi.obs_op_adj_interp_lin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.obs_op_adj_interp_lin</span></code></a>(i_obs, ...)</p></td>
 <td><p>The adjoint observation operator of <a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.obs_op_interp_lin.html#pyPDAF.PDAFomi.obs_op_interp_lin" title="pyPDAF.PDAFomi.obs_op_interp_lin"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.obs_op_interp_lin()</span></code></a>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.gather_obsstate.html#pyPDAF.PDAFomi.gather_obsstate" title="pyPDAF.PDAFomi.gather_obsstate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.gather_obsstate</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.gather_obsstate.html#pyPDAF.PDAFomi.gather_obsstate" title="pyPDAF.PDAFomi.gather_obsstate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.gather_obsstate</span></code></a>(i_obs, ...)</p></td>
 <td><p>This function is used to implement custom observation operators.</p></td>
 </tr>
 </tbody>
@@ -299,13 +299,13 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h3><a class="toc-backref" href="#id10" role="doc-backlink">Interpolations</a><a class="headerlink" href="#interpolations" title="Link to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.get_interp_coeff_tri.html#pyPDAF.PDAFomi.get_interp_coeff_tri" title="pyPDAF.PDAFomi.get_interp_coeff_tri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.get_interp_coeff_tri</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.get_interp_coeff_tri.html#pyPDAF.PDAFomi.get_interp_coeff_tri" title="pyPDAF.PDAFomi.get_interp_coeff_tri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.get_interp_coeff_tri</span></code></a>(gpc, oc, ...)</p></td>
 <td><p>The coefficient for linear interpolation in 2D on unstructure triangular grid.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.get_interp_coeff_lin1d.html#pyPDAF.PDAFomi.get_interp_coeff_lin1d" title="pyPDAF.PDAFomi.get_interp_coeff_lin1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.get_interp_coeff_lin1d</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.get_interp_coeff_lin1d.html#pyPDAF.PDAFomi.get_interp_coeff_lin1d" title="pyPDAF.PDAFomi.get_interp_coeff_lin1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.get_interp_coeff_lin1d</span></code></a>(gpc, ...)</p></td>
 <td><p>The coefficient for linear interpolation in 1D.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.get_interp_coeff_lin.html#pyPDAF.PDAFomi.get_interp_coeff_lin" title="pyPDAF.PDAFomi.get_interp_coeff_lin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.get_interp_coeff_lin</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.get_interp_coeff_lin.html#pyPDAF.PDAFomi.get_interp_coeff_lin" title="pyPDAF.PDAFomi.get_interp_coeff_lin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.get_interp_coeff_lin</span></code></a>(num_gp, ...)</p></td>
 <td><p>The coefficient for linear interpolation up to 3D.</p></td>
 </tr>
 </tbody>
@@ -315,31 +315,31 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h3><a class="toc-backref" href="#id11" role="doc-backlink">Localisation</a><a class="headerlink" href="#localisation" title="Link to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.init_dim_obs_l_iso.html#pyPDAF.PDAFomi.init_dim_obs_l_iso" title="pyPDAF.PDAFomi.init_dim_obs_l_iso"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.init_dim_obs_l_iso</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.init_dim_obs_l_iso.html#pyPDAF.PDAFomi.init_dim_obs_l_iso" title="pyPDAF.PDAFomi.init_dim_obs_l_iso"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.init_dim_obs_l_iso</span></code></a>(i_obs, ...)</p></td>
 <td><p>Initialize the observation information corresponding to an isotropic local analysis domain.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.init_dim_obs_l_noniso.html#pyPDAF.PDAFomi.init_dim_obs_l_noniso" title="pyPDAF.PDAFomi.init_dim_obs_l_noniso"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.init_dim_obs_l_noniso</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.init_dim_obs_l_noniso.html#pyPDAF.PDAFomi.init_dim_obs_l_noniso" title="pyPDAF.PDAFomi.init_dim_obs_l_noniso"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.init_dim_obs_l_noniso</span></code></a>(i_obs, ...)</p></td>
 <td><p>Initialize the observation information corresponding to a non-isotropic local analysis domain.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.init_dim_obs_l_noniso_locweights.html#pyPDAF.PDAFomi.init_dim_obs_l_noniso_locweights" title="pyPDAF.PDAFomi.init_dim_obs_l_noniso_locweights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.init_dim_obs_l_noniso_locweights</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.init_dim_obs_l_noniso_locweights.html#pyPDAF.PDAFomi.init_dim_obs_l_noniso_locweights" title="pyPDAF.PDAFomi.init_dim_obs_l_noniso_locweights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.init_dim_obs_l_noniso_locweights</span></code></a>(...)</p></td>
 <td><p>Initialize the observation information corresponding to a non-isotropic local analysis domain.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.observation_localization_weights.html#pyPDAF.PDAFomi.observation_localization_weights" title="pyPDAF.PDAFomi.observation_localization_weights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.observation_localization_weights</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.observation_localization_weights.html#pyPDAF.PDAFomi.observation_localization_weights" title="pyPDAF.PDAFomi.observation_localization_weights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.observation_localization_weights</span></code></a>(...)</p></td>
 <td><p>Returns a vector of observation localisation weights.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_domain_limits.html#pyPDAF.PDAFomi.set_domain_limits" title="pyPDAF.PDAFomi.set_domain_limits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_domain_limits</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_domain_limits.html#pyPDAF.PDAFomi.set_domain_limits" title="pyPDAF.PDAFomi.set_domain_limits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_domain_limits</span></code></a>(lim_coords)</p></td>
 <td><p>Set the domain limits for domain decomposed local domain.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.get_domain_limits_unstr.html#pyPDAF.PDAFomi.get_domain_limits_unstr" title="pyPDAF.PDAFomi.get_domain_limits_unstr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.get_domain_limits_unstr</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.get_domain_limits_unstr.html#pyPDAF.PDAFomi.get_domain_limits_unstr" title="pyPDAF.PDAFomi.get_domain_limits_unstr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.get_domain_limits_unstr</span></code></a>(...)</p></td>
 <td><p>Set the domain limits for unstructured domain decomposed local domain.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_localize_covar_iso.html#pyPDAF.PDAFomi.set_localize_covar_iso" title="pyPDAF.PDAFomi.set_localize_covar_iso"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_localize_covar_iso</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_localize_covar_iso.html#pyPDAF.PDAFomi.set_localize_covar_iso" title="pyPDAF.PDAFomi.set_localize_covar_iso"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_localize_covar_iso</span></code></a>(i_obs, ...)</p></td>
 <td><p>Initialise local observation information for isotropic covariance localisation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_localize_covar_noniso.html#pyPDAF.PDAFomi.set_localize_covar_noniso" title="pyPDAF.PDAFomi.set_localize_covar_noniso"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_localize_covar_noniso</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_localize_covar_noniso.html#pyPDAF.PDAFomi.set_localize_covar_noniso" title="pyPDAF.PDAFomi.set_localize_covar_noniso"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_localize_covar_noniso</span></code></a>(...)</p></td>
 <td><p>Initialise local observation information for non-isotropic covariance localisation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_localize_covar_noniso_locweights.html#pyPDAF.PDAFomi.set_localize_covar_noniso_locweights" title="pyPDAF.PDAFomi.set_localize_covar_noniso_locweights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_localize_covar_noniso_locweights</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_localize_covar_noniso_locweights.html#pyPDAF.PDAFomi.set_localize_covar_noniso_locweights" title="pyPDAF.PDAFomi.set_localize_covar_noniso_locweights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_localize_covar_noniso_locweights</span></code></a>(...)</p></td>
 <td><p>Initialise local observation information for non-isotropic covariance localisation.</p></td>
 </tr>
 </tbody>
@@ -349,19 +349,19 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h3><a class="toc-backref" href="#id12" role="doc-backlink">Custom local observation initialisation</a><a class="headerlink" href="#custom-local-observation-initialisation" title="Link to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_localization.html#pyPDAF.PDAFomi.set_localization" title="pyPDAF.PDAFomi.set_localization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_localization</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_localization.html#pyPDAF.PDAFomi.set_localization" title="pyPDAF.PDAFomi.set_localization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_localization</span></code></a>(i_obs, ...)</p></td>
 <td><p>Stores the isotropic localization parameters (cradius, sradius, locweight) in OMI.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_localization_noniso.html#pyPDAF.PDAFomi.set_localization_noniso" title="pyPDAF.PDAFomi.set_localization_noniso"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_localization_noniso</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_localization_noniso.html#pyPDAF.PDAFomi.set_localization_noniso" title="pyPDAF.PDAFomi.set_localization_noniso"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_localization_noniso</span></code></a>(...)</p></td>
 <td><p>Stores the non-isotropic localization parameters (cradius, sradius, locweight) in OMI.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_dim_obs_l.html#pyPDAF.PDAFomi.set_dim_obs_l" title="pyPDAF.PDAFomi.set_dim_obs_l"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_dim_obs_l</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_dim_obs_l.html#pyPDAF.PDAFomi.set_dim_obs_l" title="pyPDAF.PDAFomi.set_dim_obs_l"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_dim_obs_l</span></code></a>(i_obs, ...)</p></td>
 <td><p>Stores the local number of observations for OMI-internal initialisations.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.store_obs_l_index.html#pyPDAF.PDAFomi.store_obs_l_index" title="pyPDAF.PDAFomi.store_obs_l_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.store_obs_l_index</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.store_obs_l_index.html#pyPDAF.PDAFomi.store_obs_l_index" title="pyPDAF.PDAFomi.store_obs_l_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.store_obs_l_index</span></code></a>(i_obs, idx, ...)</p></td>
 <td><p>Save local observation information in PDAF.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.store_obs_l_index_vdist.html#pyPDAF.PDAFomi.store_obs_l_index_vdist" title="pyPDAF.PDAFomi.store_obs_l_index_vdist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.store_obs_l_index_vdist</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.store_obs_l_index_vdist.html#pyPDAF.PDAFomi.store_obs_l_index_vdist" title="pyPDAF.PDAFomi.store_obs_l_index_vdist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.store_obs_l_index_vdist</span></code></a>(...)</p></td>
 <td><p>Save local observation information for 2+1D factorized localization in the vertical direction in PDAF.</p></td>
 </tr>
 </tbody>
@@ -371,37 +371,37 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h3><a class="toc-backref" href="#id13" role="doc-backlink">Diagnostics</a><a class="headerlink" href="#diagnostics" title="Link to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.check_error.html#pyPDAF.PDAFomi.check_error" title="pyPDAF.PDAFomi.check_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.check_error</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.check_error.html#pyPDAF.PDAFomi.check_error" title="pyPDAF.PDAFomi.check_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.check_error</span></code></a>(flag)</p></td>
 <td><p>This function returns the value of the PDAF-OMI internal error flag.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_debug_flag.html#pyPDAF.PDAFomi.set_debug_flag" title="pyPDAF.PDAFomi.set_debug_flag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_debug_flag</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_debug_flag.html#pyPDAF.PDAFomi.set_debug_flag" title="pyPDAF.PDAFomi.set_debug_flag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_debug_flag</span></code></a>(debugval)</p></td>
 <td><p>Activate the debug output of the PDAFomi.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_obs_diag.html#pyPDAF.PDAFomi.set_obs_diag" title="pyPDAF.PDAFomi.set_obs_diag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_obs_diag</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.set_obs_diag.html#pyPDAF.PDAFomi.set_obs_diag" title="pyPDAF.PDAFomi.set_obs_diag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.set_obs_diag</span></code></a>(diag)</p></td>
 <td><p>Activate or deactivate the observation diagnostics.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.diag_dimobs.html#pyPDAF.PDAFomi.diag_dimobs" title="pyPDAF.PDAFomi.diag_dimobs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.diag_dimobs</span></code></a>(self, /)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.diag_dimobs.html#pyPDAF.PDAFomi.diag_dimobs" title="pyPDAF.PDAFomi.diag_dimobs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.diag_dimobs</span></code></a>()</p></td>
 <td><p>Observation dimension for each observation type.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.diag_get_hx.html#pyPDAF.PDAFomi.diag_get_hx" title="pyPDAF.PDAFomi.diag_get_hx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.diag_get_hx</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.diag_get_hx.html#pyPDAF.PDAFomi.diag_get_hx" title="pyPDAF.PDAFomi.diag_get_hx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.diag_get_hx</span></code></a>(id_obs)</p></td>
 <td><p>Observed ensemble for given observation type.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.diag_get_hxmean.html#pyPDAF.PDAFomi.diag_get_hxmean" title="pyPDAF.PDAFomi.diag_get_hxmean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.diag_get_hxmean</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.diag_get_hxmean.html#pyPDAF.PDAFomi.diag_get_hxmean" title="pyPDAF.PDAFomi.diag_get_hxmean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.diag_get_hxmean</span></code></a>(id_obs)</p></td>
 <td><p>Observed ensemble mean for given observation type.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.diag_get_ivar.html#pyPDAF.PDAFomi.diag_get_ivar" title="pyPDAF.PDAFomi.diag_get_ivar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.diag_get_ivar</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.diag_get_ivar.html#pyPDAF.PDAFomi.diag_get_ivar" title="pyPDAF.PDAFomi.diag_get_ivar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.diag_get_ivar</span></code></a>(id_obs)</p></td>
 <td><p>Inverse of observation error variance for given observation type.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.diag_get_obs.html#pyPDAF.PDAFomi.diag_get_obs" title="pyPDAF.PDAFomi.diag_get_obs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.diag_get_obs</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.diag_get_obs.html#pyPDAF.PDAFomi.diag_get_obs" title="pyPDAF.PDAFomi.diag_get_obs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.diag_get_obs</span></code></a>(id_obs)</p></td>
 <td><p>Observation vector and corresponding coordinates for specified observation type.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.diag_nobstypes.html#pyPDAF.PDAFomi.diag_nobstypes" title="pyPDAF.PDAFomi.diag_nobstypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.diag_nobstypes</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.diag_nobstypes.html#pyPDAF.PDAFomi.diag_nobstypes" title="pyPDAF.PDAFomi.diag_nobstypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.diag_nobstypes</span></code></a>(nobs)</p></td>
 <td><p>The number of observation types that are active in an assimilation run.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.diag_obs_rmsd.html#pyPDAF.PDAFomi.diag_obs_rmsd" title="pyPDAF.PDAFomi.diag_obs_rmsd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.diag_obs_rmsd</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.diag_obs_rmsd.html#pyPDAF.PDAFomi.diag_obs_rmsd" title="pyPDAF.PDAFomi.diag_obs_rmsd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.diag_obs_rmsd</span></code></a>(nobs, verbose)</p></td>
 <td><p>Root mean squared distance between observation and obseved model state for each observation type.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.diag_stats.html#pyPDAF.PDAFomi.diag_stats" title="pyPDAF.PDAFomi.diag_stats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.diag_stats</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFomi.diag_stats.html#pyPDAF.PDAFomi.diag_stats" title="pyPDAF.PDAFomi.diag_stats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.diag_stats</span></code></a>(nobs, verbose)</p></td>
 <td><p>A selection of 6 statistics comparing the observations and the observed ensemble mean for each observation type.</p></td>
 </tr>
 </tbody>
@@ -412,22 +412,22 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h2><a class="toc-backref" href="#id14" role="doc-backlink">Localisation functions</a><a class="headerlink" href="#localisation-functions" title="Link to this heading">¶</a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFlocal.set_indices.html#pyPDAF.PDAFlocal.set_indices" title="pyPDAF.PDAFlocal.set_indices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFlocal.set_indices</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFlocal.set_indices.html#pyPDAF.PDAFlocal.set_indices" title="pyPDAF.PDAFlocal.set_indices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFlocal.set_indices</span></code></a>(dim_l, map)</p></td>
 <td><p>Set index vector to map local state vector to global state vectors.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFlocal.set_increment_weights.html#pyPDAF.PDAFlocal.set_increment_weights" title="pyPDAF.PDAFlocal.set_increment_weights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFlocal.set_increment_weights</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFlocal.set_increment_weights.html#pyPDAF.PDAFlocal.set_increment_weights" title="pyPDAF.PDAFlocal.set_increment_weights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFlocal.set_increment_weights</span></code></a>(...)</p></td>
 <td><p>Initialises a PDAF_internal local array of increment weights.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFlocal.clear_increment_weights.html#pyPDAF.PDAFlocal.clear_increment_weights" title="pyPDAF.PDAFlocal.clear_increment_weights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFlocal.clear_increment_weights</span></code></a>(self, /)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAFlocal.clear_increment_weights.html#pyPDAF.PDAFlocal.clear_increment_weights" title="pyPDAF.PDAFlocal.clear_increment_weights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAFlocal.clear_increment_weights</span></code></a>()</p></td>
 <td><p>Deallocates the local increment weight vector in <a class="reference internal" href="_autosummary/pyPDAF.PDAFlocal.set_increment_weights.html#pyPDAF.PDAFlocal.set_increment_weights" title="pyPDAF.PDAFlocal.set_increment_weights"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAFlocal.set_increment_weights()</span></code></a>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.correlation_function.html#pyPDAF.PDAF.correlation_function" title="pyPDAF.PDAF.correlation_function"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.correlation_function</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.correlation_function.html#pyPDAF.PDAF.correlation_function" title="pyPDAF.PDAF.correlation_function"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.correlation_function</span></code></a>(ctype, ...)</p></td>
 <td><p>The value of the chosen correlation function according to the specified length scale.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.local_weight.html#pyPDAF.PDAF.local_weight" title="pyPDAF.PDAF.local_weight"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.local_weight</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.local_weight.html#pyPDAF.PDAF.local_weight" title="pyPDAF.PDAF.local_weight"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.local_weight</span></code></a>(wtype, rtype, ...)</p></td>
 <td><p>Get localisation weight for given distance, cut-off radius, support radius, weighting type, and weighting function.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.local_weights.html#pyPDAF.PDAF.local_weights" title="pyPDAF.PDAF.local_weights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.local_weights</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.local_weights.html#pyPDAF.PDAF.local_weights" title="pyPDAF.PDAF.local_weights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.local_weights</span></code></a>(wtype, cradius, ...)</p></td>
 <td><p>Get a vector of localisation weights for given distances, cut-off radius, support radius, weighting type, and weighting function.</p></td>
 </tr>
 </tbody>
@@ -439,34 +439,34 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h3><a class="toc-backref" href="#id16" role="doc-backlink">PDAF state and setup information</a><a class="headerlink" href="#pdaf-state-and-setup-information" title="Link to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.get_fcst_info.html#pyPDAF.get_fcst_info" title="pyPDAF.get_fcst_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.get_fcst_info</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.get_fcst_info.html#pyPDAF.get_fcst_info" title="pyPDAF.get_fcst_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.get_fcst_info</span></code></a>(steps, time, doexit)</p></td>
 <td><p>Return the number of time steps, current model time, and a flag whether the forecasting should be exited.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.get_assim_flag.html#pyPDAF.PDAF.get_assim_flag" title="pyPDAF.PDAF.get_assim_flag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_assim_flag</span></code></a>(self, /)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.get_assim_flag.html#pyPDAF.PDAF.get_assim_flag" title="pyPDAF.PDAF.get_assim_flag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_assim_flag</span></code></a>()</p></td>
 <td><p>Return the flag that indicates if the DA is performed in the last time step.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.get_localfilter.html#pyPDAF.PDAF.get_localfilter" title="pyPDAF.PDAF.get_localfilter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_localfilter</span></code></a>(self, /)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.get_localfilter.html#pyPDAF.PDAF.get_localfilter" title="pyPDAF.PDAF.get_localfilter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_localfilter</span></code></a>()</p></td>
 <td><p>Return whether a local filter is used.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.get_local_type.html#pyPDAF.PDAF.get_local_type" title="pyPDAF.PDAF.get_local_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_local_type</span></code></a>(self, /)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.get_local_type.html#pyPDAF.PDAF.get_local_type" title="pyPDAF.PDAF.get_local_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_local_type</span></code></a>()</p></td>
 <td><p>The routine returns the information on the localization type of the selected filter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.get_memberid.html#pyPDAF.PDAF.get_memberid" title="pyPDAF.PDAF.get_memberid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_memberid</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.get_memberid.html#pyPDAF.PDAF.get_memberid" title="pyPDAF.PDAF.get_memberid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_memberid</span></code></a>(memberid)</p></td>
 <td><p>Return the ensemble member id on the current process.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.get_obsmemberid.html#pyPDAF.PDAF.get_obsmemberid" title="pyPDAF.PDAF.get_obsmemberid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_obsmemberid</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.get_obsmemberid.html#pyPDAF.PDAF.get_obsmemberid" title="pyPDAF.PDAF.get_obsmemberid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_obsmemberid</span></code></a>(memberid)</p></td>
 <td><p>Return the ensemble member id when observation operator is being applied.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.get_smoother_ens.html#pyPDAF.PDAF.get_smoother_ens" title="pyPDAF.PDAF.get_smoother_ens"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_smoother_ens</span></code></a>(self, /)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.get_smoother_ens.html#pyPDAF.PDAF.get_smoother_ens" title="pyPDAF.PDAF.get_smoother_ens"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_smoother_ens</span></code></a>()</p></td>
 <td><p>Return the smoothed ensemble in earlier time steps.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.print_filter_types.html#pyPDAF.PDAF.print_filter_types" title="pyPDAF.PDAF.print_filter_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.print_filter_types</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.print_filter_types.html#pyPDAF.PDAF.print_filter_types" title="pyPDAF.PDAF.print_filter_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.print_filter_types</span></code></a>(verbose)</p></td>
 <td><p>Print the list of available named filter types and their IDs.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.print_da_types.html#pyPDAF.PDAF.print_da_types" title="pyPDAF.PDAF.print_da_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.print_da_types</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.print_da_types.html#pyPDAF.PDAF.print_da_types" title="pyPDAF.PDAF.print_da_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.print_da_types</span></code></a>(verbose)</p></td>
 <td><p>Print the list of available named DA method types and their IDs.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.print_info.html#pyPDAF.PDAF.print_info" title="pyPDAF.PDAF.print_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.print_info</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.print_info.html#pyPDAF.PDAF.print_info" title="pyPDAF.PDAF.print_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.print_info</span></code></a>(printtype)</p></td>
 <td><p>Print PDAF timing and memory information.</p></td>
 </tr>
 </tbody>
@@ -476,19 +476,19 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h3><a class="toc-backref" href="#id17" role="doc-backlink">Observation MPI handling</a><a class="headerlink" href="#observation-mpi-handling" title="Link to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.gather_dim_obs_f.html#pyPDAF.PDAF.gather_dim_obs_f" title="pyPDAF.PDAF.gather_dim_obs_f"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.gather_dim_obs_f</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.gather_dim_obs_f.html#pyPDAF.PDAF.gather_dim_obs_f" title="pyPDAF.PDAF.gather_dim_obs_f"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.gather_dim_obs_f</span></code></a>(dim_obs_p)</p></td>
 <td><p>Gather the dimension of observation vector across multiple local domains/filter processors.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.gather_obs_f.html#pyPDAF.PDAF.gather_obs_f" title="pyPDAF.PDAF.gather_obs_f"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.gather_obs_f</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.gather_obs_f.html#pyPDAF.PDAF.gather_obs_f" title="pyPDAF.PDAF.gather_obs_f"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.gather_obs_f</span></code></a>(obs_p, dimobs_f)</p></td>
 <td><p>In the local filters (LESKTF, LETKF, LSEIK, LNETF) this function returns the total observation vector from process-local observations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.gather_obs_f2.html#pyPDAF.PDAF.gather_obs_f2" title="pyPDAF.PDAF.gather_obs_f2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.gather_obs_f2</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.gather_obs_f2.html#pyPDAF.PDAF.gather_obs_f2" title="pyPDAF.PDAF.gather_obs_f2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.gather_obs_f2</span></code></a>(coords_p, nrows, ...)</p></td>
 <td><p>In the local filters (LESKTF, LETKF, LSEIK, LNETF) this function returns the full observation coordinates from process-local observation coordinates.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.gather_obs_f_flex.html#pyPDAF.PDAF.gather_obs_f_flex" title="pyPDAF.PDAF.gather_obs_f_flex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.gather_obs_f_flex</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.gather_obs_f_flex.html#pyPDAF.PDAF.gather_obs_f_flex" title="pyPDAF.PDAF.gather_obs_f_flex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.gather_obs_f_flex</span></code></a>(dim_obs_p, ...)</p></td>
 <td><p>Gather full observation from processor local observation without PDAF-internal info.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.gather_obs_f2_flex.html#pyPDAF.PDAF.gather_obs_f2_flex" title="pyPDAF.PDAF.gather_obs_f2_flex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.gather_obs_f2_flex</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.gather_obs_f2_flex.html#pyPDAF.PDAF.gather_obs_f2_flex" title="pyPDAF.PDAF.gather_obs_f2_flex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.gather_obs_f2_flex</span></code></a>(dim_obs_p, ...)</p></td>
 <td><p>Gather full observation coordinates from processor local observation coordinates without PDAF-internal info.</p></td>
 </tr>
 </tbody>
@@ -498,10 +498,10 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h3><a class="toc-backref" href="#id18" role="doc-backlink">Synthetic experiments</a><a class="headerlink" href="#synthetic-experiments" title="Link to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.generate_obs.html#pyPDAF.generate_obs" title="pyPDAF.generate_obs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.generate_obs</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.generate_obs.html#pyPDAF.generate_obs" title="pyPDAF.generate_obs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.generate_obs</span></code></a>(py__collect_state_pdaf, ...)</p></td>
 <td><p>Generation of synthetic observations based on given error statistics and observation operator.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.generate_obs_offline.html#pyPDAF.generate_obs_offline" title="pyPDAF.generate_obs_offline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.generate_obs_offline</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.generate_obs_offline.html#pyPDAF.generate_obs_offline" title="pyPDAF.generate_obs_offline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.generate_obs_offline</span></code></a>(...)</p></td>
 <td><p>Generation of synthetic observations based on given error statistics and observation operator in offline setup.</p></td>
 </tr>
 </tbody>
@@ -511,13 +511,13 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h3><a class="toc-backref" href="#id19" role="doc-backlink">Incremental analysis update</a><a class="headerlink" href="#incremental-analysis-update" title="Link to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.iau_init.html#pyPDAF.PDAF.iau_init" title="pyPDAF.PDAF.iau_init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.iau_init</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.iau_init.html#pyPDAF.PDAF.iau_init" title="pyPDAF.PDAF.iau_init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.iau_init</span></code></a>(type_iau_in, nsteps_iau_in)</p></td>
 <td><p>Initialise parameters for incremental analysis updates, IAU.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.iau_reset.html#pyPDAF.PDAF.iau_reset" title="pyPDAF.PDAF.iau_reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.iau_reset</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.iau_reset.html#pyPDAF.PDAF.iau_reset" title="pyPDAF.PDAF.iau_reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.iau_reset</span></code></a>(type_iau_in, nsteps_iau_in)</p></td>
 <td><p>Modify the IAU type and the number of IAU time steps during a run</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.iau_set_pointer.html#pyPDAF.PDAF.iau_set_pointer" title="pyPDAF.PDAF.iau_set_pointer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.iau_set_pointer</span></code></a>(self, /)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.iau_set_pointer.html#pyPDAF.PDAF.iau_set_pointer" title="pyPDAF.PDAF.iau_set_pointer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.iau_set_pointer</span></code></a>()</p></td>
 <td><p>Set a pointer to the ensemble increments array.</p></td>
 </tr>
 </tbody>
@@ -527,19 +527,19 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h3><a class="toc-backref" href="#id20" role="doc-backlink">Statistical diagnostics</a><a class="headerlink" href="#statistical-diagnostics" title="Link to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.diag_effsample.html#pyPDAF.PDAF.diag_effsample" title="pyPDAF.PDAF.diag_effsample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.diag_effsample</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.diag_effsample.html#pyPDAF.PDAF.diag_effsample" title="pyPDAF.PDAF.diag_effsample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.diag_effsample</span></code></a>(dim_sample, weights)</p></td>
 <td><p>Calculating the effective sample size of a particle filter.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.diag_ensstats.html#pyPDAF.PDAF.diag_ensstats" title="pyPDAF.PDAF.diag_ensstats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.diag_ensstats</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.diag_ensstats.html#pyPDAF.PDAF.diag_ensstats" title="pyPDAF.PDAF.diag_ensstats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.diag_ensstats</span></code></a>(dim, dim_ens, ...)</p></td>
 <td><p>Computing the skewness and kurtosis of the ensemble of a given element of the state vector.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.diag_histogram.html#pyPDAF.PDAF.diag_histogram" title="pyPDAF.PDAF.diag_histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.diag_histogram</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.diag_histogram.html#pyPDAF.PDAF.diag_histogram" title="pyPDAF.PDAF.diag_histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.diag_histogram</span></code></a>(ncall, dim, ...)</p></td>
 <td><p>Computing the rank histogram of an ensemble.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.diag_crps_mpi.html#pyPDAF.PDAF.diag_crps_mpi" title="pyPDAF.PDAF.diag_crps_mpi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.diag_crps_mpi</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.diag_crps_mpi.html#pyPDAF.PDAF.diag_crps_mpi" title="pyPDAF.PDAF.diag_crps_mpi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.diag_crps_mpi</span></code></a>(dim_p, dim_ens, ...)</p></td>
 <td><p>Obtain a continuous rank probability score for an ensemble.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.diag_crps_nompi.html#pyPDAF.PDAF.diag_crps_nompi" title="pyPDAF.PDAF.diag_crps_nompi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.diag_crps_nompi</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.diag_crps_nompi.html#pyPDAF.PDAF.diag_crps_nompi" title="pyPDAF.PDAF.diag_crps_nompi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.diag_crps_nompi</span></code></a>(dim, dim_ens, ...)</p></td>
 <td><p>Obtain a continuous rank probability score for an ensemble without MPI.</p></td>
 </tr>
 </tbody>
@@ -549,10 +549,10 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h3><a class="toc-backref" href="#id21" role="doc-backlink">Ensemble generation</a><a class="headerlink" href="#ensemble-generation" title="Link to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.eofcovar.html#pyPDAF.PDAF.eofcovar" title="pyPDAF.PDAF.eofcovar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.eofcovar</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.eofcovar.html#pyPDAF.PDAF.eofcovar" title="pyPDAF.PDAF.eofcovar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.eofcovar</span></code></a>(dim, nstates, nfields, ...)</p></td>
 <td><p>EOF analysis of an ensemble of state vectors by singular value decomposition.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.sample_ens.html#pyPDAF.PDAF.sample_ens" title="pyPDAF.PDAF.sample_ens"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.sample_ens</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.sample_ens.html#pyPDAF.PDAF.sample_ens" title="pyPDAF.PDAF.sample_ens"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.sample_ens</span></code></a>(dim, dim_ens, modes, ...)</p></td>
 <td><p>Generate an ensemble from singular values and their vectors (EOF modes) of an ensemble anomaly matrix.</p></td>
 </tr>
 </tbody>
@@ -562,7 +562,7 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h3><a class="toc-backref" href="#id22" role="doc-backlink">PDAF debug options</a><a class="headerlink" href="#pdaf-debug-options" title="Link to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.set_debug_flag.html#pyPDAF.PDAF.set_debug_flag" title="pyPDAF.PDAF.set_debug_flag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.set_debug_flag</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.set_debug_flag.html#pyPDAF.PDAF.set_debug_flag" title="pyPDAF.PDAF.set_debug_flag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.set_debug_flag</span></code></a>(debugval)</p></td>
 <td><p>Activate the debug output of the PDAF.</p></td>
 </tr>
 </tbody>
@@ -572,34 +572,34 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <h3><a class="toc-backref" href="#id23" role="doc-backlink">Advanced manipulation</a><a class="headerlink" href="#advanced-manipulation" title="Link to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.set_iparam.html#pyPDAF.PDAF.set_iparam" title="pyPDAF.PDAF.set_iparam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.set_iparam</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.set_iparam.html#pyPDAF.PDAF.set_iparam" title="pyPDAF.PDAF.set_iparam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.set_iparam</span></code></a>(idval, value, flag)</p></td>
 <td><p>Set integer parameters for PDAF.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.set_rparam.html#pyPDAF.PDAF.set_rparam" title="pyPDAF.PDAF.set_rparam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.set_rparam</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.set_rparam.html#pyPDAF.PDAF.set_rparam" title="pyPDAF.PDAF.set_rparam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.set_rparam</span></code></a>(idval, value, flag)</p></td>
 <td><p>Set floating-point parameters for PDAF.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.set_comm_pdaf.html#pyPDAF.PDAF.set_comm_pdaf" title="pyPDAF.PDAF.set_comm_pdaf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.set_comm_pdaf</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.set_comm_pdaf.html#pyPDAF.PDAF.set_comm_pdaf" title="pyPDAF.PDAF.set_comm_pdaf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.set_comm_pdaf</span></code></a>(in_comm_pdaf)</p></td>
 <td><p>Set the MPI communicator used by PDAF.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.set_ens_pointer.html#pyPDAF.PDAF.set_ens_pointer" title="pyPDAF.PDAF.set_ens_pointer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.set_ens_pointer</span></code></a>(self, /)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.set_ens_pointer.html#pyPDAF.PDAF.set_ens_pointer" title="pyPDAF.PDAF.set_ens_pointer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.set_ens_pointer</span></code></a>()</p></td>
 <td><p>Return the ensemble in a numpy array.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.set_memberid.html#pyPDAF.PDAF.set_memberid" title="pyPDAF.PDAF.set_memberid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.set_memberid</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.set_memberid.html#pyPDAF.PDAF.set_memberid" title="pyPDAF.PDAF.set_memberid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.set_memberid</span></code></a>(int  memberid)</p></td>
 <td><p>Set the ensemble member index to given value.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.set_offline_mode.html#pyPDAF.PDAF.set_offline_mode" title="pyPDAF.PDAF.set_offline_mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.set_offline_mode</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.set_offline_mode.html#pyPDAF.PDAF.set_offline_mode" title="pyPDAF.PDAF.set_offline_mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.set_offline_mode</span></code></a>(screen)</p></td>
 <td><p>Activate offline mode of PDAF.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.set_seedset.html#pyPDAF.PDAF.set_seedset" title="pyPDAF.PDAF.set_seedset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.set_seedset</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.set_seedset.html#pyPDAF.PDAF.set_seedset" title="pyPDAF.PDAF.set_seedset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.set_seedset</span></code></a>(seedset_in)</p></td>
 <td><p>Choose a seedset for the random number generator used in PDAF.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.set_smoother_ens.html#pyPDAF.PDAF.set_smoother_ens" title="pyPDAF.PDAF.set_smoother_ens"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.set_smoother_ens</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.set_smoother_ens.html#pyPDAF.PDAF.set_smoother_ens" title="pyPDAF.PDAF.set_smoother_ens"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.set_smoother_ens</span></code></a>(maxlag)</p></td>
 <td><p>Get a pointer to smoother ensemble.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.force_analysis.html#pyPDAF.PDAF.force_analysis" title="pyPDAF.PDAF.force_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.force_analysis</span></code></a>(self, /)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.force_analysis.html#pyPDAF.PDAF.force_analysis" title="pyPDAF.PDAF.force_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.force_analysis</span></code></a>()</p></td>
 <td><p>Perform assimilation after this function call.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.reset_forget.html#pyPDAF.PDAF.reset_forget" title="pyPDAF.PDAF.reset_forget"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.reset_forget</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/pyPDAF.PDAF.reset_forget.html#pyPDAF.PDAF.reset_forget" title="pyPDAF.PDAF.reset_forget"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyPDAF.PDAF.reset_forget</span></code></a>(forget_in)</p></td>
 <td><p>Reset the forgetting factor manually during the assimilation process.</p></td>
 </tr>
 </tbody>
@@ -657,7 +657,9 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
 <li class="toctree-l2"><a class="reference internal" href="#utilities">Utilities</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="user_functions.html">User-supplied functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hidden_functions.html">Legacy and internal PDAF functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="links.html">Other useful links</a></li>
 </ul>
 
 <div class="relations">
@@ -682,7 +684,7 @@ please refer to the [hidden and legacy function page](hidden_functions.md)</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &#169;2022 University of Reading and National Centre for Earth Observation.
+      &#169;2025 University of Reading and National Centre for Earth Observation.
       
       |
       Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>

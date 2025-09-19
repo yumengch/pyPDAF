@@ -1,4 +1,7 @@
-.. function:: py__localize_covar_pdaf
+py__localize_covar_pdaf
+========================
+
+.. py:function:: py__localize_covar_pdaf(dim_p: int, dim_obs: int, hp_p: np.ndarray, hph: np.ndarray) -> Tuple[np.ndarray, np.ndarray]
 
     Perform covariance localisation.
 

@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_likelihood\_hyb\_l\_cb
-=======================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_likelihood_hyb_l_cb

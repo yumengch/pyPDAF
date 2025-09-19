@@ -1,4 +1,7 @@
-.. function:: py__obs_op_pdaf
+py__obs_op_pdaf
+===================
+
+.. py:function:: py__obs_op_pdaf(step: int, dim_p: int, dim_obs_p: int, state_p: np.ndarray, m_state_p: np.ndarray) -> np.ndarray
 
     Apply observation operator
 

@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.prepost
-===================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: prepost

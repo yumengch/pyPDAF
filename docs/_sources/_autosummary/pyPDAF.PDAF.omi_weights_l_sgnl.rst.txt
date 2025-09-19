@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_weights\_l\_sgnl
-=================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_weights_l_sgnl

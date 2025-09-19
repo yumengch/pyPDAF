@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_gather\_obs
-============================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_gather_obs

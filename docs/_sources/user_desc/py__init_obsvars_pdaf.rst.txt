@@ -1,4 +1,7 @@
-.. function:: py__init_obsvars_pdaf
+py__init_obsvars_pdaf
+=======================
+
+.. py:function:: py__init_obsvars_pdaf(step: int, dim_obs_f: int, var_f: np.ndarray) -> np.ndarray
 
     Provide a vector observation variance.
 

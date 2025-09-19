@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.assimilate\_estkf
-=============================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: assimilate_estkf

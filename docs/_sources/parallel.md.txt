@@ -5,7 +5,7 @@ In either cases, Message Parsing Interface (MPI) is used.
 In (py)PDAF, users need to specify the MPI communicators for the model (`comm_model`),
 the filter(`comm_filter`), and the coupling (`comm_couple`)
 between the model and the filter. These communicators are specified when PDAF is initialised
-by [`pyPDAF.PDAF.init`](#pyPDAF.PDAF.init).
+by [`pyPDAF.PDAF.init`](#pyPDAF.init).
 In MPI, a communicator is formed by a group of processes.
 The default communicator in MPI is called `MPI_COMM_WORLD`.
 
@@ -35,8 +35,8 @@ Here, `comm_ens` can be divided into 3 model communicators (`model_comm`),
 each of which has `npes_model = 4` processes.
 In the context of PDAF, each model communicator can perform an independent model run.
 That is, we have 3 parallel model tasks (`n_modeltasks = 3`). In this specific example,
-- if we have 3 ensemble members (`dim_ens = 3`), each model task runs one ensemble member. This is the case in the figure above. This means that the ensemble members local to the model task, `dim_ens_l = 1`. This setup is called `fully flexible` setup in PDAF. One should uses functions for [`fully parallel` functions](./API.rst#fully-parallel-da-algorithms)
-- in the case that `dim_ens > 3`, each model task runs more than one ensemble member serially.  Each model task could also have different number of local ensemble members as `dim_ens` is not necessarily a multiple of `n_modeltasks`. For example, if `dim_ens = 4`, one model task runs `dim_ens_l = 2` ensemble members serially and others just runs `dim_ens_l = 1` ensemble member. In this case, functions for [`flexible` functions](./API.rst#flexible-da-algorithms) must be used followed by [`pyPDAF.PDAF.get_state`](#pyPDAF.PDAF.get_state).
+- if we have 3 ensemble members (`dim_ens = 3`), each model task runs one ensemble member. This is the case in the figure above. This means that the ensemble members local to the model task, `dim_ens_l = 1`. This setup is called `fully flexible` setup in PDAF.
+- in the case that `dim_ens > 3`, each model task runs more than one ensemble member serially.  Each model task could also have different number of local ensemble members as `dim_ens` is not necessarily a multiple of `n_modeltasks`. For example, if `dim_ens = 4`, one model task runs `dim_ens_l = 2` ensemble members serially and others just runs `dim_ens_l = 1` ensemble member.
 
 ### Filter communicator
 In our example, one model task runs on `npes_model = 4` processes.

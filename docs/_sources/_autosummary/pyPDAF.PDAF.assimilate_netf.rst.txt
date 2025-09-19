@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.assimilate\_netf
-============================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: assimilate_netf

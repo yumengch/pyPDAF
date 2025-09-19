@@ -37,7 +37,7 @@
 <h1>pyPDAF.PDAFomi.obs_op_gridpoint<a class="headerlink" href="#pypdaf-pdafomi-obs-op-gridpoint" title="Link to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAFomi.obs_op_gridpoint">
-<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">obs_op_gridpoint</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAFomi.obs_op_gridpoint" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">obs_op_gridpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_obs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">np.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs_f_all</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">np.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">np.ndarray</span></span></span><a class="headerlink" href="#pyPDAF.PDAFomi.obs_op_gridpoint" title="Link to this definition">¶</a></dt>
 <dd><p>A (partial) identity observation operator</p>
 <p>This observation operator is used
 when observations and model use the same grid.</p>
@@ -45,7 +45,7 @@ when observations and model use the same grid.</p>
 where observations are present based on properties given
 in <cite>obs_f</cite>, e.g., <cite>id_obs_p</cite>.</p>
 <p>The function is used in
-the user-supplied function <code class="xref py py-func docutils literal notranslate"><span class="pre">py__obs_op_pdaf()</span></code>.</p>
+the user-supplied function <a class="reference internal" href="../user_desc/py__obs_op_pdaf.html#py__obs_op_pdaf" title="py__obs_op_pdaf"><code class="xref py py-func docutils literal notranslate"><span class="pre">py__obs_op_pdaf()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -107,6 +107,7 @@ The array dimension <cite>nobs_f_all</cite> is dimension of the observation</p><
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../naming_convention.html">Variable naming conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallelisation Strategy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../develop.html">Developer Guide</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../API.html">API</a><ul class="current">
@@ -117,7 +118,9 @@ The array dimension <cite>nobs_f_all</cite> is dimension of the observation</p><
 <li class="toctree-l2"><a class="reference internal" href="../API.html#utilities">Utilities</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../user_functions.html">User-supplied functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../hidden_functions.html">Legacy and internal PDAF functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../links.html">Other useful links</a></li>
 </ul>
 
 <div class="relations">
@@ -144,7 +147,7 @@ The array dimension <cite>nobs_f_all</cite> is dimension of the observation</p><
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &#169;2022 University of Reading and National Centre for Earth Observation.
+      &#169;2025 University of Reading and National Centre for Earth Observation.
       
       |
       Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>

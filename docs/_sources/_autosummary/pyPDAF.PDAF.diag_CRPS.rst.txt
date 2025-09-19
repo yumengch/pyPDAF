@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.diag\_CRPS
-======================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: diag_CRPS

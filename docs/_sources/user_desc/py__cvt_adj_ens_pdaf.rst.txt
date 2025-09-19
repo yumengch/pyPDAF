@@ -1,4 +1,7 @@
-.. function:: py__cvt_adj_ens_pdaf
+py__cvt_adj_ens_pdaf
+=====================
+
+.. py:function:: py__cvt_adj_ens_pdaf(iter: int, dim_p: int, dim_ens: int, dim_cv_ens_p:int, ens: np.ndarray, vcv_p: np.ndarray, cv_p: np.ndarray) -> np.ndarray:
 
     The adjoint control variable transformation involving ensembles.
 

@@ -1,4 +1,7 @@
-.. function:: py__prodrinva_l_pdaf
+py__prodrinva_l_pdaf
+====================
+
+.. py:function:: py__prodrinva_l_pdaf(domain_p: int, step: int, dim_obs_l: int, rank: int, obs_l: np.ndarray, a_l: np.ndarray, c_l: np.ndarray) -> Tuple[np.ndarray, np.ndarray]
 
     Provide :math:`\mathbf{R}^{-1}_l \times \mathbf{A}_l`.
 

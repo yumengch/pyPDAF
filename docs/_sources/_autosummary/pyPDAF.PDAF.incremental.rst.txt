@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.incremental
-=======================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: incremental

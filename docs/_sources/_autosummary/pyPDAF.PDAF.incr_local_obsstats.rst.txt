@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.incr\_local\_obsstats
-=================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: incr_local_obsstats

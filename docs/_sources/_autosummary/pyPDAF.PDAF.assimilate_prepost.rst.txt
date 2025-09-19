@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.assimilate\_prepost
-===============================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: assimilate_prepost

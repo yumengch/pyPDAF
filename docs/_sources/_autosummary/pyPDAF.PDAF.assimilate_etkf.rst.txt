@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.assimilate\_etkf
-============================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: assimilate_etkf

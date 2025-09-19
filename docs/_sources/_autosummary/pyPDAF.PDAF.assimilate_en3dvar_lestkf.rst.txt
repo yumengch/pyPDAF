@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.assimilate\_en3dvar\_lestkf
-=======================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: assimilate_en3dvar_lestkf

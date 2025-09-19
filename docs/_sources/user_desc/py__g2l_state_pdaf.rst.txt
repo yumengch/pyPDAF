@@ -1,4 +1,8 @@
-.. function:: py__g2l_state_pdaf
+py__g2l_state_pdaf
+==================
+
+.. py:function:: py__g2l_state_pdaf(step: int, domain_p: int, dim_p: int, state_p: np.ndarray, dim_l: int, state_l: np.ndarray) -> np.ndarray
+
     Get local state vector.
 
     Get the state vector for analysis local domain.

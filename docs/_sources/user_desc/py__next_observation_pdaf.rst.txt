@@ -1,4 +1,8 @@
-.. function:: py__next_observation_pdaf
+py__next_observation_pdaf
+=========================
+
+.. py:function:: py__next_observation_pdaf(stepnow: int, nsteps: int, doexit: int, time: float) -> Tuple[int, int, float]
+
     Get the number of time steps to be computed in the forecast phase.
 
     At the beginning of a forecast phase, this is called once by

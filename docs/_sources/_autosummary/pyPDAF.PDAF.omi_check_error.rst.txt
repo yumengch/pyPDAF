@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_check\_error
-=============================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_check_error

@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.assimilate\_lestkf
-==============================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: assimilate_lestkf

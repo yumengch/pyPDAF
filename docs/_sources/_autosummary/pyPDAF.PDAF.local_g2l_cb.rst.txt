@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.local\_g2l\_cb
-==========================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: local_g2l_cb

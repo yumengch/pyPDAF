@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.omi\_gather\_obsdims
-================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: omi_gather_obsdims

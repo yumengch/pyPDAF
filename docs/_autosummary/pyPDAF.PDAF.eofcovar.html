@@ -37,7 +37,7 @@
 <h1>pyPDAF.PDAF.eofcovar<a class="headerlink" href="#pypdaf-pdaf-eofcovar" title="Link to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAF.eofcovar">
-<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">eofcovar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAF.eofcovar" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">eofcovar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">dim:</span> <span class="pre">int,</span> <span class="pre">nstates:</span> <span class="pre">int,</span> <span class="pre">nfields:</span> <span class="pre">int,</span> <span class="pre">dim_fields:</span> <span class="pre">ndarray[np.intc,</span> <span class="pre">ndim=1],</span> <span class="pre">offsets:</span> <span class="pre">ndarray[np.intc,</span> <span class="pre">ndim=1],</span> <span class="pre">remove_mstate:</span> <span class="pre">int,</span> <span class="pre">do_mv:</span> <span class="pre">int,</span> <span class="pre">states:</span> <span class="pre">ndarray[np.float64,</span> <span class="pre">ndim=2],</span> <span class="pre">meanstate:</span> <span class="pre">ndarray[np.float64,</span> <span class="pre">ndim=1],</span> <span class="pre">verbose:</span> <span class="pre">int</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple[ndarray[np.float64,</span> <span class="pre">ndim=2],</span> <span class="pre">ndarray[np.float64,</span> <span class="pre">ndim=1],</span> <span class="pre">ndarray[np.float64,</span> <span class="pre">ndim=1],</span> <span class="pre">ndarray[np.float64,</span> <span class="pre">ndim=2],</span> <span class="pre">ndarray[np.float64,</span> <span class="pre">ndim=1],</span> <span class="pre">int]</span></span></span><a class="headerlink" href="#pyPDAF.PDAF.eofcovar" title="Link to this definition">¶</a></dt>
 <dd><p>EOF analysis of an ensemble of state vectors by singular value decomposition.</p>
 <p>Typically, this function is used with <code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.SampleEns()</span></code>
 to generate an ensemble of a chosen size (up to the number of EOFs plus one).</p>
@@ -135,6 +135,7 @@ Array shape: (dim)</p></li>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../naming_convention.html">Variable naming conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallelisation Strategy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../develop.html">Developer Guide</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../API.html">API</a><ul class="current">
@@ -145,7 +146,9 @@ Array shape: (dim)</p></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../API.html#utilities">Utilities</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../user_functions.html">User-supplied functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../hidden_functions.html">Legacy and internal PDAF functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../links.html">Other useful links</a></li>
 </ul>
 
 <div class="relations">
@@ -172,7 +175,7 @@ Array shape: (dim)</p></li>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &#169;2022 University of Reading and National Centre for Earth Observation.
+      &#169;2025 University of Reading and National Centre for Earth Observation.
       
       |
       Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>

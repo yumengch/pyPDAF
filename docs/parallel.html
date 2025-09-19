@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Developer Guide" href="develop.html" />
-    <link rel="prev" title="Installation" href="install.html" />
+    <link rel="prev" title="Variable naming conventions" href="naming_convention.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -41,7 +41,7 @@ In either cases, Message Parsing Interface (MPI) is used.
 In (py)PDAF, users need to specify the MPI communicators for the model (<code class="docutils literal notranslate"><span class="pre">comm_model</span></code>),
 the filter(<code class="docutils literal notranslate"><span class="pre">comm_filter</span></code>), and the coupling (<code class="docutils literal notranslate"><span class="pre">comm_couple</span></code>)
 between the model and the filter. These communicators are specified when PDAF is initialised
-by <a class="reference internal" href="#pyPDAF.PDAF.init"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAF.init</span></code></span></a>.
+by <a class="reference internal" href="_autosummary/pyPDAF.init.html#pyPDAF.init" title="pyPDAF.init"><span class="xref myst py py-func"><code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAF.init</span></code></span></a>.
 In MPI, a communicator is formed by a group of processes.
 The default communicator in MPI is called <code class="docutils literal notranslate"><span class="pre">MPI_COMM_WORLD</span></code>.</p>
 <p>If we design a program run by <code class="docutils literal notranslate"><span class="pre">npes_world</span> <span class="pre">=</span> <span class="pre">12</span></code> processes,
@@ -70,8 +70,8 @@ each of which has <code class="docutils literal notranslate"><span class="pre">n
 In the context of PDAF, each model communicator can perform an independent model run.
 That is, we have 3 parallel model tasks (<code class="docutils literal notranslate"><span class="pre">n_modeltasks</span> <span class="pre">=</span> <span class="pre">3</span></code>). In this specific example,</p>
 <ul class="simple">
-<li><p>if we have 3 ensemble members (<code class="docutils literal notranslate"><span class="pre">dim_ens</span> <span class="pre">=</span> <span class="pre">3</span></code>), each model task runs one ensemble member. This is the case in the figure above. This means that the ensemble members local to the model task, <code class="docutils literal notranslate"><span class="pre">dim_ens_l</span> <span class="pre">=</span> <span class="pre">1</span></code>. This setup is called <code class="docutils literal notranslate"><span class="pre">fully</span> <span class="pre">flexible</span></code> setup in PDAF. One should uses functions for <a class="reference internal" href="API.html#fully-parallel-da-algorithms"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fully</span> <span class="pre">parallel</span></code> functions</span></a></p></li>
-<li><p>in the case that <code class="docutils literal notranslate"><span class="pre">dim_ens</span> <span class="pre">&gt;</span> <span class="pre">3</span></code>, each model task runs more than one ensemble member serially.  Each model task could also have different number of local ensemble members as <code class="docutils literal notranslate"><span class="pre">dim_ens</span></code> is not necessarily a multiple of <code class="docutils literal notranslate"><span class="pre">n_modeltasks</span></code>. For example, if <code class="docutils literal notranslate"><span class="pre">dim_ens</span> <span class="pre">=</span> <span class="pre">4</span></code>, one model task runs <code class="docutils literal notranslate"><span class="pre">dim_ens_l</span> <span class="pre">=</span> <span class="pre">2</span></code> ensemble members serially and others just runs <code class="docutils literal notranslate"><span class="pre">dim_ens_l</span> <span class="pre">=</span> <span class="pre">1</span></code> ensemble member. In this case, functions for <a class="reference internal" href="API.html#flexible-da-algorithms"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">flexible</span></code> functions</span></a> must be used followed by <a class="reference internal" href="#pyPDAF.PDAF.get_state"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAF.get_state</span></code></span></a>.</p></li>
+<li><p>if we have 3 ensemble members (<code class="docutils literal notranslate"><span class="pre">dim_ens</span> <span class="pre">=</span> <span class="pre">3</span></code>), each model task runs one ensemble member. This is the case in the figure above. This means that the ensemble members local to the model task, <code class="docutils literal notranslate"><span class="pre">dim_ens_l</span> <span class="pre">=</span> <span class="pre">1</span></code>. This setup is called <code class="docutils literal notranslate"><span class="pre">fully</span> <span class="pre">flexible</span></code> setup in PDAF.</p></li>
+<li><p>in the case that <code class="docutils literal notranslate"><span class="pre">dim_ens</span> <span class="pre">&gt;</span> <span class="pre">3</span></code>, each model task runs more than one ensemble member serially.  Each model task could also have different number of local ensemble members as <code class="docutils literal notranslate"><span class="pre">dim_ens</span></code> is not necessarily a multiple of <code class="docutils literal notranslate"><span class="pre">n_modeltasks</span></code>. For example, if <code class="docutils literal notranslate"><span class="pre">dim_ens</span> <span class="pre">=</span> <span class="pre">4</span></code>, one model task runs <code class="docutils literal notranslate"><span class="pre">dim_ens_l</span> <span class="pre">=</span> <span class="pre">2</span></code> ensemble members serially and others just runs <code class="docutils literal notranslate"><span class="pre">dim_ens_l</span> <span class="pre">=</span> <span class="pre">1</span></code> ensemble member.</p></li>
 </ul>
 </section>
 <section id="filter-communicator">
@@ -142,6 +142,7 @@ for each element of the state vector individually, e.g.:</p>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="naming_convention.html">Variable naming conventions</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Parallelisation Strategy</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#online-mode">Online mode</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#offline-mode">Offline mode</a></li>
@@ -149,16 +150,16 @@ for each element of the state vector individually, e.g.:</p>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="develop.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_functions.html">User-supplied functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hidden_functions.html">Legacy and internal PDAF functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hidden_functions.html#pypdaf-pdaflocal">pyPDAF.PDAFlocal</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hidden_functions.html#pypdaf-pdaflocalomi">pyPDAF.PDAFlocalomi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="links.html">Other useful links</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="install.html" title="previous chapter">Installation</a></li>
+      <li>Previous: <a href="naming_convention.html" title="previous chapter">Variable naming conventions</a></li>
       <li>Next: <a href="develop.html" title="next chapter">Developer Guide</a></li>
   </ul></li>
 </ul>
@@ -176,7 +177,7 @@ for each element of the state vector individually, e.g.:</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &#169;2022 University of Reading and National Centre for Earth Observation.
+      &#169;2025 University of Reading and National Centre for Earth Observation.
       
       |
       Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>

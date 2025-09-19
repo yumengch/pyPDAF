@@ -37,11 +37,11 @@
 <h1>pyPDAF.PDAFomi.gather_obs<a class="headerlink" href="#pypdaf-pdafomi-gather-obs" title="Link to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPDAF.PDAFomi.gather_obs">
-<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">gather_obs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyPDAF.PDAFomi.gather_obs" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">gather_obs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_obs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim_obs_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">np.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ivar_obs_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">np.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ocoord_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">np.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ncoord</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lradius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pyPDAF.PDAFomi.gather_obs" title="Link to this definition">¶</a></dt>
 <dd><p>Gather the dimension of a given type of observation across
 multiple local domains/filter processors.</p>
 <p>This function can be used in the user-supplied function of
-<code class="xref py py-func docutils literal notranslate"><span class="pre">py__init_dim_obs_f_pdaf()</span></code>.</p>
+<a class="reference internal" href="../user_desc/py__init_dim_obs_f_pdaf.html#py__init_dim_obs_f_pdaf" title="py__init_dim_obs_f_pdaf"><code class="xref py py-func docutils literal notranslate"><span class="pre">py__init_dim_obs_f_pdaf()</span></code></a>.</p>
 <dl class="simple">
 <dt>This function does three things:</dt><dd><ol class="arabic simple">
 <li><p>Receiving observation dimension on each local process.</p></li>
@@ -118,6 +118,7 @@ The 1st-th dimension dim_obs_p is dimension of PE-local observation vector</p></
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../naming_convention.html">Variable naming conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallelisation Strategy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../develop.html">Developer Guide</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../API.html">API</a><ul class="current">
@@ -128,7 +129,9 @@ The 1st-th dimension dim_obs_p is dimension of PE-local observation vector</p></
 <li class="toctree-l2"><a class="reference internal" href="../API.html#utilities">Utilities</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../user_functions.html">User-supplied functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../hidden_functions.html">Legacy and internal PDAF functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../links.html">Other useful links</a></li>
 </ul>
 
 <div class="relations">
@@ -155,7 +158,7 @@ The 1st-th dimension dim_obs_p is dimension of PE-local observation vector</p></
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &#169;2022 University of Reading and National Centre for Earth Observation.
+      &#169;2025 University of Reading and National Centre for Earth Observation.
       
       |
       Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>

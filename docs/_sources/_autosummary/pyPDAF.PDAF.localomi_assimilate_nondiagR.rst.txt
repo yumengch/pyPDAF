@@ -1,6 +1,0 @@
-﻿pyPDAF.PDAF.localomi\_assimilate\_nondiagR
-==========================================
-
-.. currentmodule:: pyPDAF.PDAF
-
-.. autofunction:: localomi_assimilate_nondiagR
