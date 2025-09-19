@@ -1,4 +1,3 @@
-import sys
 import numpy as np
 cimport numpy as cnp
 from pyPDAF cimport pdaf_c_cb_interface as pdaf_cb
@@ -6,41 +5,11 @@ from pyPDAF.cfi_binding cimport CFI_cdesc_t, CFI_address, CFI_index_t, CFI_estab
 from pyPDAF.cfi_binding cimport CFI_attribute_other, CFI_type_double, CFI_type_int
 from pyPDAF.cfi_binding cimport CFI_cdesc_rank1, CFI_cdesc_rank2, CFI_cdesc_rank3
 
-try:
-    import mpi4py
-    mpi4py.rc.initialize = False
-except ImportError:
-    pass
-
-# Global error handler
-def global_except_hook(exctype, value, traceback):
-    from traceback import print_exception
-    try:
-        import mpi4py.MPI
-
-        if mpi4py.MPI.Is_initialized():
-            try:
-                sys.stderr.write('Uncaught exception was ''detected on rank {}.\n'.format(
-                    mpi4py.MPI.COMM_WORLD.Get_rank()))
-                print_exception(exctype, value, traceback)
-                sys.stderr.write("\n")
-                sys.stderr.flush()
-            finally:
-                try:
-                    mpi4py.MPI.COMM_WORLD.Abort(1)
-                except Exception as e:
-                    sys.stderr.write('MPI Abort failed, this process will hang.\n')
-                    sys.stderr.flush()
-                    raise e
-        else:
-            sys.__excepthook__(exctype, value, traceback)
-    except ImportError:
-        sys.__excepthook__(exctype, value, traceback)
-
-sys.excepthook = global_except_hook
 
 def diag_dimobs():
-    """Observation dimension for each observation type.
+    """diag_dimobs() -> np.ndarray
+
+    Observation dimension for each observation type.
 
     Returns
     -------
@@ -61,7 +30,9 @@ def diag_dimobs():
 
 
 def diag_get_hx(int  id_obs):
-    """Observed ensemble for given observation type.
+    """diag_get_hx(id_obs: int) -> Tuple[int, np.ndarray]
+
+    Observed ensemble for given observation type.
 
     Parameters
     ----------
@@ -92,7 +63,9 @@ def diag_get_hx(int  id_obs):
 
 
 def diag_get_hxmean(int  id_obs):
-    """Observed ensemble mean for given observation type.
+    """diag_get_hxmean(id_obs: int) -> Tuple[int, np.ndarray]
+
+    Observed ensemble mean for given observation type.
 
     Parameters
     ----------
@@ -122,7 +95,9 @@ def diag_get_hxmean(int  id_obs):
 
 
 def diag_get_ivar(int  id_obs):
-    """Inverse of observation error variance for given observation type.
+    """diag_get_ivar(id_obs: int) -> Tuple[int, np.ndarray]
+
+    Inverse of observation error variance for given observation type.
 
     Parameters
     ----------
@@ -152,7 +127,9 @@ def diag_get_ivar(int  id_obs):
 
 
 def diag_get_obs(int  id_obs):
-    """Observation vector and corresponding coordinates for specified observation type.
+    """diag_get_obs(id_obs: int) -> Tuple[int, int, np.ndarray, np.ndarray]
+
+    Observation vector and corresponding coordinates for specified observation type.
 
     Parameters
     ----------
@@ -197,7 +174,9 @@ def diag_get_obs(int  id_obs):
 
 
 def diag_nobstypes(int  nobs):
-    """The number of observation types that are active in an assimilation run.
+    """diag_nobstypes(nobs: int) -> int
+
+    The number of observation types that are active in an assimilation run.
 
     Parameters
     ----------
@@ -216,7 +195,9 @@ def diag_nobstypes(int  nobs):
 
 
 def diag_obs_rmsd(int  nobs, int  verbose):
-    """Root mean squared distance between observation and obseved model state
+    """diag_obs_rmsd(nobs: int, verbose: int) -> Tuple[int, np.ndarray]
+
+    Root mean squared distance between observation and obseved model state
     for each observation type.
 
     Parameters
@@ -248,7 +229,9 @@ def diag_obs_rmsd(int  nobs, int  verbose):
 
 
 def diag_stats(int  nobs, int  verbose):
-    """A selection of 6 statistics comparing the observations and the
+    """diag_stats(nobs: int, verbose: int) -> Tuple[int, np.ndarray]
+
+    A selection of 6 statistics comparing the observations and the
     observed ensemble mean for each observation type.
 
     Parameters

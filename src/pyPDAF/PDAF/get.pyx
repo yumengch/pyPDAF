@@ -7,7 +7,9 @@ from pyPDAF.cfi_binding cimport CFI_type_double
 from pyPDAF.cfi_binding cimport CFI_cdesc_rank3
 
 def get_assim_flag():
-    r"""Return the flag that
+    r"""get_assim_flag() -> int
+
+    Return the flag that
     indicates if the DA is performed in the last time step.
     It only works for online DA systems.
 
@@ -25,7 +27,9 @@ def get_assim_flag():
 
 
 def get_localfilter():
-    r"""Return whether a local filter is used.
+    r"""get_localfilter() -> int
+
+    Return whether a local filter is used.
 
 
     Returns
@@ -43,7 +47,9 @@ def get_localfilter():
 
 
 def get_local_type():
-    r"""The routine returns the information on the localization type of the selected filter.
+    r"""get_local_type() -> int
+
+    The routine returns the information on the localization type of the selected filter.
 
     With this one can distinguish filters using
     * domain localization (LESTKF, LETKF, LSEIK, LNETF),
@@ -67,7 +73,9 @@ def get_local_type():
 
 
 def get_memberid(int  memberid):
-    """Return the ensemble member id on the current process.
+    """get_memberid(memberid: int) -> int
+
+    Return the ensemble member id on the current process.
 
     For example, it can be called during the ensemble
     integration if ensemble-specific forcing is read.
@@ -92,7 +100,9 @@ def get_memberid(int  memberid):
 
 
 def get_obsmemberid(int  memberid):
-    """Return the ensemble member id
+    """get_obsmemberid(memberid: int) -> int
+
+    Return the ensemble member id
     when observation operator is being applied.
 
     This function is used specifically for
@@ -115,7 +125,9 @@ def get_obsmemberid(int  memberid):
 
 
 def get_smoother_ens():
-    """Return the smoothed ensemble in earlier time steps.
+    """get_smoother_ens() -> typing.Tuple[np.ndarray, int, int]
+
+    Return the smoothed ensemble in earlier time steps.
 
     It is only used when the smoother options is used .
 

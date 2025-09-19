@@ -1,5 +1,5 @@
 py__l2g_state_pdaf
-=================
+==================
 
 .. py:function:: py__l2g_state_pdaf(step: int, domain_p: int, dim_l: int, state_l: np.ndarray, dim_p: int, state_p: np.ndarray) -> np.ndarray
 

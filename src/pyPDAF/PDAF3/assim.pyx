@@ -6,7 +6,9 @@ def assimilate(py__collect_state_pdaf, py__distribute_state_pdaf,
     py__init_dim_obs_pdaf, py__obs_op_pdaf, py__init_n_domains_p_pdaf,
     py__init_dim_l_pdaf, py__init_dim_obs_l_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf, int  outflag):
-    r"""Online ensemble filters and smoothers except for 3DVars for a single DA step
+    r"""assimilate(py__collect_state_pdaf:Callable, py__distribute_state_pdaf:Callable, py__init_dim_obs_pdaf:Callable, py__obs_op_pdaf:Callable, py__init_n_domains_p_pdaf:Callable, py__init_dim_l_pdaf:Callable, py__init_dim_obs_l_pdaf:Callable, py__prepoststep_pdaf:Callable, py__next_observation_pdaf:Callable, outflag:int) -> int
+
+    Online ensemble filters and smoothers except for 3DVars for a single DA step
     using diagnoal observation error covariance matrix.
 
     Here, this function call is used for
@@ -104,7 +106,9 @@ def assimilate(py__collect_state_pdaf, py__distribute_state_pdaf,
 def assim_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
     py__init_dim_obs_l_pdaf, py__prepoststep_pdaf, int  outflag):
-    r"""Offline ensemble filters and smoothers except for 3DVars for a single DA step
+    r"""assim_offline(py__init_dim_obs_pdaf: Callable, py__obs_op_pdaf: Callable, py__init_n_domains_p_pdaf: Callable, py__init_dim_l_pdaf: Callable, py__init_dim_obs_l_pdaf: Callable, py__prepoststep_pdaf: Callable, outflag:int) -> int
+
+    Offline ensemble filters and smoothers except for 3DVars for a single DA step
     using diagnoal observation error covariance matrix.
 
     Here, this function call is used for
@@ -197,7 +201,9 @@ def assimilate_3dvar_all(py__collect_state_pdaf, py__distribute_state_pdaf,
     py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf,
     py__init_dim_l_pdaf, py__init_dim_obs_l_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf, int  outflag):
-    r"""Online assimilation for all types of 3DVar DA for a single DA step
+    r"""assimilate_3dvar_all(py__collect_state_pdaf: Callable, py__distribute_state_pdaf: Callable, py__init_dim_obs_pdaf: Callable, py__obs_op_pdaf: Callable, py__cvt_ens_pdaf: Callable, py__cvt_adj_ens_pdaf: Callable, py__cvt_pdaf: Callable, py__cvt_adj_pdaf: Callable, py__obs_op_lin_pdaf: Callable, py__obs_op_adj_pdaf: Callable, py__init_n_domains_p_pdaf: Callable, py__init_dim_l_pdaf: Callable, py__init_dim_obs_l_pdaf: Callable, py__prepoststep_pdaf: Callable, py__next_observation_pdaf: Callable, outflag:int) -> int
+
+    Online assimilation for all types of 3DVar DA for a single DA step
     using diagonal observation error covariance matrix.
 
     See :func:`pyPDAF.PDAF3.assimilate_3dvar_nondiagR`,
@@ -363,7 +369,9 @@ def assim_offline_3dvar_all(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf,
     py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__init_n_domains_p_pdaf,
     py__init_dim_l_pdaf, py__init_dim_obs_l_pdaf, py__prepoststep_pdaf):
-    r"""Offline assimilation for all types of 3DVar DA for a single DA step
+    r"""assim_offline_3dvar_all(py__init_dim_obs_pdaf: Callable, py__obs_op_pdaf: Callable, py__cvt_ens_pdaf: Callable, py__cvt_adj_ens_pdaf: Callable, py__cvt_pdaf: Callable, py__cvt_adj_pdaf: Callable, py__obs_op_lin_pdaf: Callable, py__obs_op_adj_pdaf: Callable, py__init_n_domains_p_pdaf: Callable, py__init_dim_l_pdaf: Callable, py__init_dim_obs_l_pdaf: Callable, py__prepoststep_pdaf: Callable) -> int
+
+    Offline assimilation for all types of 3DVar DA for a single DA step
     using diagonal observation error covariance matrix.
 
     See :func:`pyPDAF.PDAF3.put_state_3dvar_nondiagR`,
@@ -507,7 +515,9 @@ def assimilate_local_nondiagr(py__collect_state_pdaf,
     py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
     py__init_dim_obs_l_pdaf, py__prodrinva_l_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf, int  outflag):
-    r"""Online assimilation of domain local filters for a single DA step
+    r"""assimilate_local_nondiagr(py__collect_state_pdaf: Callable, py__distribute_state_pdaf: Callable, py__init_dim_obs_pdaf: Callable, py__obs_op_pdaf: Callable, py__init_n_domains_p_pdaf: Callable, py__init_dim_l_pdaf: Callable, py__init_dim_obs_l_pdaf: Callable, py__prodrinva_l_pdaf: Callable, py__prepoststep_pdaf: Callable, py__next_observation_pdaf: Callable, outflag: int) -> int
+
+    Online assimilation of domain local filters for a single DA step
     using non-diagnoal observation error covariance matrix.
 
     Here, this function call is used for LE(S)TKF [1]_ and LSEIK [1]_
@@ -596,7 +606,9 @@ def assimilate_local_nondiagr(py__collect_state_pdaf,
 def assimilate_global_nondiagr(py__collect_state_pdaf,
     py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__prodrinva_pdaf, py__prepoststep_pdaf, py__next_observation_pdaf):
-    r"""Online assimilation of global filters except for 3DVar and stochastic EnKF
+    r"""assimilate_global_nondiagr(py__collect_state_pdaf: Callable, py__distribute_state_pdaf: Callable, py__init_dim_obs_pdaf: Callable, py__obs_op_pdaf: Callable, py__prodrinva_pdaf: Callable, py__prepoststep_pdaf: Callable, py__next_observation_pdaf: Callable) -> int
+
+    Online assimilation of global filters except for 3DVar and stochastic EnKF
     for a single DA step using non-diagnoal observation
     error covariance matrix.
 
@@ -675,7 +687,9 @@ def assimilate_lnetf_nondiagr(py__collect_state_pdaf,
     py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
     py__init_dim_obs_l_pdaf, py__likelihood_l_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf, int  outflag):
-    r"""Online assimilation of LNETF for a single DA step using
+    r"""assimilate_lnetf_nondiagr(py__collect_state_pdaf: Callable, py__distribute_state_pdaf: Callable, py__init_dim_obs_pdaf: Callable, py__obs_op_pdaf: Callable, py__init_n_domains_p_pdaf: Callable, py__init_dim_l_pdaf: Callable, py__init_dim_obs_l_pdaf: Callable, py__likelihood_l_pdaf: Callable, py__prepoststep_pdaf: Callable, py__next_observation_pdaf: Callable, outflag:int) -> int
+
+    Online assimilation of LNETF for a single DA step using
     non-diagnoal observation error covariance matrix.
 
     See :func:`pyPDAF.PDAF3.assimilate` for
@@ -769,7 +783,9 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
     py__prodrinva_hyb_l_pdaf, py__likelihood_l_pdaf,
     py__likelihood_hyb_l_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf, int  outflag):
-    r"""Online assimilation of LKNETF for a single DA step using
+    r"""assimilate_lknetf_nondiagr(py__collect_state_pdaf: Callable, py__distribute_state_pdaf: Callable, py__init_dim_obs_pdaf: Callable, py__obs_op_pdaf: Callable, py__init_n_domains_p_pdaf: Callable, py__init_dim_l_pdaf: Callable, py__init_dim_obs_l_pdaf: Callable, py__prodrinva_l_pdaf: Callable, py__prodrinva_hyb_l_pdaf: Callable, py__likelihood_l_pdaf: Callable, py__likelihood_hyb_l_pdaf: Callable, py__prepoststep_pdaf: Callable, py__next_observation_pdaf: Callable, outflag: int) -> int
+
+    Online assimilation of LKNETF for a single DA step using
     non-diagonal observation error covariance matrix.
 
 
@@ -883,7 +899,9 @@ def assimilate_enkf_nondiagr(py__collect_state_pdaf,
     py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__add_obs_err_pdaf, py__init_obs_covar_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf):
-    r"""Online assimilation of global or Covariance localised stochastic EnKF
+    r"""assimilate_enkf_nondiagr(py__collect_state_pdaf: Callable, py__distribute_state_pdaf: Callable, py__init_dim_obs_pdaf: Callable, py__obs_op_pdaf: Callable, py__add_obs_err_pdaf: Callable, py__init_obs_covar_pdaf: Callable, py__prepoststep_pdaf: Callable, py__next_observation_pdaf: Callable) -> int
+
+    Online assimilation of global or Covariance localised stochastic EnKF
     for a single DA step using non-diagonal observation error covariance matrix.
 
     See :func:`pyPDAF.PDAF3.assimilate`
@@ -966,7 +984,9 @@ def assimilate_lenkf_nondiagr(py__collect_state_pdaf, py__distribute_state_pdaf,
     py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__localize_covar_pdaf, py__add_obs_err_pdaf, py__init_obs_covar_pdaf,
     py__prepoststep_pdaf, py__next_observation_pdaf):
-    r"""Covariance localised stochastic EnKF
+    r"""assimilate_lenkf_nondiagr(py__collect_state_pdaf: Callable, py__distribute_state_pdaf: Callable, py__init_dim_obs_pdaf: Callable, py__obs_op_pdaf: Callable, py__localize_covar_pdaf: Callable, py__add_obs_err_pdaf: Callable, py__init_obs_covar_pdaf: Callable, py__prepoststep_pdaf: Callable, py__next_observation_pdaf: Callable) -> int
+
+    Covariance localised stochastic EnKF
     for a single DA step using non-diagnoal observation error covariance matrix.
 
     See :func:`pyPDAF.PDAF3.assimilate` or :func:`pyPDAF.PDAF3.assim_offline`
@@ -1052,7 +1072,9 @@ def assimilate_lenkf_nondiagr(py__collect_state_pdaf, py__distribute_state_pdaf,
 def assimilate_nonlin_nondiagr(py__collect_state_pdaf,
     py__distribute_state_pdaf, py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__likelihood_pdaf, py__prepoststep_pdaf, py__next_observation_pdaf):
-    r"""Online assimilation of global nonlinear filters for a single DA step
+    r"""assimilate_nonlin_nondiagr(py__collect_state_pdaf: Callable, py__distribute_state_pdaf: Callable, py__init_dim_obs_pdaf: Callable, py__obs_op_pdaf: Callable, py__likelihood_pdaf: Callable, py__prepoststep_pdaf: Callable, py__next_observation_pdaf: Callable) -> int
+
+    Online assimilation of global nonlinear filters for a single DA step
     using non-diagonal observation error covariance matrix.
 
     See :func:`pyPDAF.PDAF3.assimilate`
@@ -1143,7 +1165,9 @@ def assimilate_3dvar_nondiagr(py__collect_state_pdaf,
     py__prodrinva_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf,
     py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf):
-    r"""3DVar DA for a single DA step
+    r"""assimilate_3dvar_nondiagr(py__collect_state_pdaf: Callable, py__distribute_state_pdaf: Callable, py__init_dim_obs_pdaf: Callable, py__obs_op_pdaf: Callable, py__prodrinva_pdaf: Callable, py__cvt_pdaf: Callable, py__cvt_adj_pdaf: Callable, py__obs_op_lin_pdaf: Callable, py__obs_op_adj_pdaf: Callable, py__prepoststep_pdaf: Callable, py__next_observation_pdaf: Callable) -> int
+
+    3DVar DA for a single DA step
     using non-diagnoal observation error covariance matrix.
 
     See :func:`pyPDAF.PDAF3.assimilate_3dvar_all`
@@ -1236,7 +1260,9 @@ def assimilate_en3dvar_estkf_nondiagr(py__collect_state_pdaf,
     py__prodrinva_pdaf, py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf,
     py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf):
-    r"""3DEnVar for a single DA step
+    r"""assimilate_en3dvar_estkf_nondiagr(py__collect_state_pdaf: Callable, py__distribute_state_pdaf: Callable, py__init_dim_obs_pdaf: Callable, py__obs_op_pdaf: Callable, py__prodrinva_pdaf: Callable, py__cvt_ens_pdaf: Callable, py__cvt_adj_ens_pdaf: Callable, py__obs_op_lin_pdaf: Callable, py__obs_op_adj_pdaf: Callable, py__prepoststep_pdaf: Callable, py__next_observation_pdaf: Callable) -> int
+
+    3DEnVar for a single DA step
     using non-diagnoal observation error covariance matrix.
 
     See :func:`pyPDAF.PDAF3.assimilate_3dvar_all`
@@ -1338,7 +1364,9 @@ def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
     py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
     py__init_dim_obs_l_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf, int  outflag):
-    r"""3DEnVar for a single DA step where the ensemble anomaly
+    r"""assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf: Callable, py__distribute_state_pdaf: Callable, py__init_dim_obs_pdaf: Callable, py__obs_op_pdaf: Callable, py__prodrinva_pdaf: Callable, py__cvt_ens_pdaf: Callable, py__cvt_adj_ens_pdaf: Callable, py__obs_op_lin_pdaf: Callable, py__obs_op_adj_pdaf: Callable, py__prodrinva_l_pdaf: Callable, py__init_n_domains_p_pdaf: Callable, py__init_dim_l_pdaf: Callable, py__init_dim_obs_l_pdaf: Callable, py__prepoststep_pdaf: Callable, py__next_observation_pdaf:Callable, outflag:int) -> int
+
+    3DEnVar for a single DA step where the ensemble anomaly
     is generated by LESTKF using non-diagonal observation
     error covariance matrix.
 
@@ -1463,7 +1491,9 @@ def assimilate_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf,
     py__prodrinva_pdaf, py__cvt_ens_pdaf, py__cvt_adj_ens_pdaf,
     py__cvt_pdaf, py__cvt_adj_pdaf, py__obs_op_lin_pdaf,
     py__obs_op_adj_pdaf, py__prepoststep_pdaf, py__next_observation_pdaf):
-    r"""Hybrid 3DEnVar for a single DA step
+    r"""assimilate_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf: Callable, py__distribute_state_pdaf: Callable, py__init_dim_obs_pdaf: Callable, py__obs_op_pdaf: Callable, py__prodrinva_pdaf: Callable, py__cvt_ens_pdaf: Callable, py__cvt_adj_ens_pdaf: Callable, py__cvt_pdaf: Callable, py__cvt_adj_pdaf: Callable, py__obs_op_lin_pdaf: Callable, py__obs_op_adj_pdaf: Callable, py__prepoststep_pdaf: Callable, py__next_observation_pdaf: Callable) -> int
+
+    Hybrid 3DEnVar for a single DA step
     using non-diagnoal observation error covariance matrix.
 
     See :func:`pyPDAF.PDAF3.assimilate_3dvar_all`
@@ -1581,7 +1611,9 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
     py__obs_op_adj_pdaf, py__prodrinva_l_pdaf, py__init_n_domains_p_pdaf,
     py__init_dim_l_pdaf, py__init_dim_obs_l_pdaf, py__prepoststep_pdaf,
     py__next_observation_pdaf, int  outflag):
-    r"""Hybrid 3DEnVar for a single DA step
+    r"""assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf: Callable, py__distribute_state_pdaf: Callable, py__init_dim_obs_pdaf: Callable, py__obs_op_pdaf: Callable, py__prodrinva_pdaf: Callable, py__cvt_ens_pdaf: Callable, py__cvt_adj_ens_pdaf: Callable, py__cvt_pdaf: Callable, py__cvt_adj_pdaf: Callable, py__obs_op_lin_pdaf: Callable, py__obs_op_adj_pdaf: Callable, py__prodrinva_l_pdaf: Callable, py__init_n_domains_p_pdaf: Callable, py__init_dim_l_pdaf: Callable, py__init_dim_obs_l_pdaf: Callable, py__prepoststep_pdaf: Callable, py__next_observation_pdaf: Callable, outflag:int) -> int
+
+    Hybrid 3DEnVar for a single DA step
     using non-diagonal observation error covariance matrix.
 
     Here, the background error covariance is
@@ -1733,7 +1765,9 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
 def assim_offline_local_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
     py__init_dim_obs_l_pdaf, py__prodrinva_l_pdaf, py__prepoststep_pdaf):
-    r"""Offline assimilation of domain local filters for a single DA step
+    r"""assim_offline_local_nondiagr(py__init_dim_obs_pdaf:Callable, py__obs_op_pdaf:Callable, py__init_n_domains_p_pdaf:Callable, py__init_dim_l_pdaf:Callable, py__init_dim_obs_l_pdaf:Callable, py__prodrinva_l_pdaf:Callable, py__prepoststep_pdaf:Callable) -> int
+
+    Offline assimilation of domain local filters for a single DA step
     using non-diagnoal observation error covariance matrix.
 
     Here, this function call is used for LE(S)TKF [1]_ and LSEIK [1]_
@@ -1811,7 +1845,9 @@ def assim_offline_local_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
 def assim_offline_global_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__prodrinva_pdaf, py__prepoststep_pdaf):
-    r"""Offline assimilation of global filters except for 3DVar and stochastic EnKF
+    r"""assim_offline_global_nondiagr(py__init_dim_obs_pdaf:Callable, py__obs_op_pdaf:Callable, py__prodrinva_pdaf:Callable, py__prepoststep_pdaf:Callable) -> int
+
+    Offline assimilation of global filters except for 3DVar and stochastic EnKF
     for a single DA step using non-diagnoal observation
     error covariance matrix.
 
@@ -1877,7 +1913,9 @@ def assim_offline_global_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 def assim_offline_lnetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
     py__init_dim_obs_l_pdaf, py__likelihood_l_pdaf, py__prepoststep_pdaf):
-    r"""Offline assimilation of LNETF for a single DA step using
+    r"""assim_offline_lnetf_nondiagr(py__init_dim_obs_pdaf:Callable, py__obs_op_pdaf:Callable, py__init_n_domains_p_pdaf:Callable, py__init_dim_l_pdaf:Callable, py__init_dim_obs_l_pdaf:Callable, py__likelihood_l_pdaf:Callable, py__prepoststep_pdaf:Callable) -> int
+
+    Offline assimilation of LNETF for a single DA step using
     non-diagnoal observation error covariance matrix.
 
     See :func:`pyPDAF.PDAF3.assim_offline` for
@@ -1959,7 +1997,9 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__init_dim_obs_l_pdaf, py__prodrinva_l_pdaf,
     py__prodrinva_hyb_l_pdaf, py__likelihood_l_pdaf, py__likelihood_hyb_l_pdaf,
     py__prepoststep_pdaf):
-    r"""Offline assimilation of LKNETF for a single DA step using
+    r"""assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf:Callable, py__obs_op_pdaf:Callable, py__init_n_domains_p_pdaf:Callable, py__init_dim_l_pdaf:Callable, py__init_dim_obs_l_pdaf:Callable, py__prodrinva_l_pdaf:Callable, py__prodrinva_hyb_l_pdaf:Callable, py__likelihood_l_pdaf:Callable, py__likelihood_hyb_l_pdaf:Callable, py__prepoststep_pdaf:Callable) -> int
+
+    Offline assimilation of LKNETF for a single DA step using
     non-diagonal observation error covariance matrix.
 
 
@@ -2066,7 +2106,9 @@ def assim_offline_lknetf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
 def assim_offline_enkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__add_obs_err_pdaf, py__init_obs_covar_pdaf, py__prepoststep_pdaf):
-    r"""Offline assimilation of global or Covariance localised stochastic EnKF
+    r"""assim_offline_enkf_nondiagr(py__init_dim_obs_pdaf:Callable, py__obs_op_pdaf:Callable, py__add_obs_err_pdaf:Callable, py__init_obs_covar_pdaf:Callable, py__prepoststep_pdaf:Callable) -> int
+
+    Offline assimilation of global or Covariance localised stochastic EnKF
     for a single DA step using non-diagonal observation error covariance matrix.
 
     See :func:`pyPDAF.PDAF3.assim_offline`
@@ -2137,7 +2179,9 @@ def assim_offline_enkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 def assim_offline_lenkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__localize_covar_pdaf, py__add_obs_err_pdaf,
     py__init_obs_covar_pdaf, py__prepoststep_pdaf):
-    r"""Online assimilation of covariance localised stochastic EnKF
+    r"""assim_offline_lenkf_nondiagr(py__init_dim_obs_pdaf:Callable, py__obs_op_pdaf:Callable, py__localize_covar_pdaf:Callable, py__add_obs_err_pdaf:Callable, py__init_obs_covar_pdaf:Callable, py__prepoststep_pdaf:Callable) -> int
+
+    Online assimilation of covariance localised stochastic EnKF
     for a single DA step using non-diagonal observation error covariance matrix.
 
     See :func:`pyPDAF.PDAF3.assim_offline`
@@ -2212,7 +2256,9 @@ def assim_offline_lenkf_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 
 def assim_offline_nonlin_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__likelihood_pdaf, py__prepoststep_pdaf):
-    r"""Offline assimilation of global nonlinear filters for a single DA step
+    r"""assim_offline_nonlin_nondiagr(py__init_dim_obs_pdaf:Callable, py__obs_op_pdaf:Callable, py__likelihood_pdaf:Callable, py__prepoststep_pdaf:Callable) -> int
+
+    Offline assimilation of global nonlinear filters for a single DA step
     using non-diagonal observation error covariance matrix.
 
     See :func:`pyPDAF.PDAF3.assim_offline`
@@ -3162,7 +3208,9 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
 def generate_obs(py__collect_state_pdaf, py__distribute_state_pdaf,
     py__init_dim_obs_pdaf, py__obs_op_pdaf, py__get_obs_f_pdaf,
     py__prepoststep_pdaf, py__next_observation_pdaf, int  outflag):
-    """Generation of synthetic observations based on
+    """generate_obs(py__collect_state_pdaf:Callable, py__distribute_state_pdaf:Callable, py__init_dim_obs_pdaf:Callable, py__obs_op_pdaf:Callable, py__get_obs_f_pdaf:Callable, py__prepoststep_pdaf:Callable, py__next_observation_pdaf:Callable, outflag:int) -> int
+
+    Generation of synthetic observations based on
     given error statistics and observation operator.
 
     The generated synthetic observations are based on
@@ -3230,7 +3278,9 @@ def generate_obs(py__collect_state_pdaf, py__distribute_state_pdaf,
 
 def generate_obs_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__get_obs_f_pdaf, py__prepoststep_pdaf):
-    """Generation of synthetic observations based on
+    """generate_obs_offline(py__init_dim_obs_pdaf:Callable, py__obs_op_pdaf:Callable, py__get_obs_f_pdaf:Callable, py__prepoststep_pdaf:Callable) -> int
+
+    Generation of synthetic observations based on
     given error statistics and observation operator in offline setup.
 
     The generated synthetic observations are based on
@@ -3757,8 +3807,10 @@ def assim_offline_hyb3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
 def assim_offline_3dvar_nondiagr(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     py__prodrinva_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf,
     py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prepoststep_pdaf):
-    r"""Offline 3DVar DA for a single DA step
-    using non-diagnoal observation error covariance matrix.
+    r"""assim_offline_3dvar_nondiagr(py__init_dim_obs_pdaf:Callable, py__obs_op_pdaf:Callable, py__prodrinva_pdaf:Callable, py__cvt_pdaf:Callable, py__cvt_adj_pdaf:Callable, py__obs_op_lin_pdaf:Callable, py__obs_op_adj_pdaf:Callable, py__prepoststep_pdaf:Callable) -> int
+
+    Offline 3DVar DA for a single DA step
+    using non-diagonal observation error covariance matrix.
 
     See :func:`pyPDAF.PDAF3.assim_offline_3dvar_all`
     for diagonal observation error covariance matrix.
@@ -3840,11 +3892,13 @@ def assim_offline_en3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
     py__obs_op_pdaf, py__prodrinva_pdaf, py__cvt_ens_pdaf,
     py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf, py__obs_op_adj_pdaf,
     py__prepoststep_pdaf):
-    r"""Offline 3DEnVar for a single DA step
-    using non-diagnoal observation error covariance matrix.
+    r"""assim_offline_en3dvar_estkf_nondiagr(py__init_dim_obs_pdaf:Callable, py__obs_op_pdaf:Callable, py__prodrinva_pdaf:Callable, py__cvt_ens_pdaf:Callable, py__cvt_adj_ens_pdaf:Callable, py__obs_op_lin_pdaf:Callable, py__obs_op_adj_pdaf:Callable, py__prepoststep_pdaf:Callable) -> int
+
+    Offline 3DEnVar for a single DA step
+    using non-diagonal observation error covariance matrix.
 
     See :func:`pyPDAF.PDAF3.assim_offline_3dvar_all`
-    for diagonal observation error covariance matirx.
+    for diagonal observation error covariance matrix.
 
     Here, the background error covariance matrix is
     estimated by an ensemble.
@@ -3931,7 +3985,9 @@ def assim_offline_en3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
     py__cvt_adj_ens_pdaf, py__obs_op_lin_pdaf, py__obs_op_adj_pdaf,
     py__prodrinva_l_pdaf, py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
     py__init_dim_obs_l_pdaf, py__prepoststep_pdaf):
-    r"""Offline 3DEnVar for a single DA step where the ensemble anomaly
+    r"""assim_offline_en3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf:Callable, py__obs_op_pdaf:Callable, py__prodrinva_pdaf:Callable, py__cvt_ens_pdaf:Callable, py__cvt_adj_ens_pdaf:Callable, py__obs_op_lin_pdaf:Callable, py__obs_op_adj_pdaf:Callable, py__prodrinva_l_pdaf:Callable, py__init_n_domains_p_pdaf:Callable, py__init_dim_l_pdaf:Callable, py__init_dim_obs_l_pdaf:Callable, py__prepoststep_pdaf:Callable) -> int
+
+    Offline 3DEnVar for a single DA step where the ensemble anomaly
     is generated by LESTKF using non-diagonal observation
     error covariance matrix.
 
@@ -4047,8 +4103,10 @@ def assim_offline_hyb3dvar_estkf_nondiagr(py__init_dim_obs_pdaf,
     py__obs_op_pdaf, py__prodrinva_pdaf, py__cvt_ens_pdaf,
     py__cvt_adj_ens_pdaf, py__cvt_pdaf, py__cvt_adj_pdaf,
     py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prepoststep_pdaf):
-    r"""Offline hybrid 3DEnVar for a single DA step
-    using non-diagnoal observation error covariance matrix.
+    r"""assim_offline_hyb3dvar_estkf_nondiagr(py__init_dim_obs_pdaf:Callable, py__obs_op_pdaf:Callable, py__prodrinva_pdaf:Callable, py__cvt_ens_pdaf:Callable, py__cvt_adj_ens_pdaf:Callable, py__cvt_pdaf:Callable, py__cvt_adj_pdaf:Callable, py__obs_op_lin_pdaf:Callable, py__obs_op_adj_pdaf:Callable, py__prepoststep_pdaf:Callable) -> int
+
+    Offline hybrid 3DEnVar for a single DA step
+    using non-diagonal observation error covariance matrix.
 
     See :func:`pyPDAF.PDAF3.assim_offline_3dvar_all`
     for diagonal observation error covariance matrix.
@@ -4155,7 +4213,9 @@ def assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf,
     py__obs_op_lin_pdaf, py__obs_op_adj_pdaf, py__prodrinva_l_pdaf,
     py__init_n_domains_p_pdaf, py__init_dim_l_pdaf,
     py__init_dim_obs_l_pdaf, py__prepoststep_pdaf):
-    r"""Offline hybrid 3DEnVar for a single DA step
+    r"""assim_offline_hyb3dvar_lestkf_nondiagr(py__init_dim_obs_pdaf:Callable, py__obs_op_pdaf:Callable, py__prodrinva_pdaf:Callable, py__cvt_ens_pdaf:Callable, py__cvt_adj_ens_pdaf:Callable, py__cvt_pdaf:Callable, py__cvt_adj_pdaf:Callable, py__obs_op_lin_pdaf:Callable, py__obs_op_adj_pdaf:Callable, py__prodrinva_l_pdaf:Callable, py__init_n_domains_p_pdaf:Callable, py__init_dim_l_pdaf:Callable, py__init_dim_obs_l_pdaf:Callable, py__prepoststep_pdaf:Callable) -> int
+
+    Offline hybrid 3DEnVar for a single DA step
     using non-diagonal observation error covariance matrix.
 
     Here, the background error covariance is

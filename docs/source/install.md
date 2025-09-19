@@ -42,7 +42,7 @@ Here, `LIBS`, `INCDIRS`, and `LIBDIRS` are elements of a list, separated by
 
 One can adjust the compiler, compiler and linker flags by changing environment
 variables such as `CC`, `FC`, `CFLAGS` and `FCFLAGS`. See [flags](https://mesonbuild.com/Reference-tables.html#compiler-and-linker-flag-environment-variables) and [compiler](https://mesonbuild.com/Reference-tables.html#compiler-and-linker-selection-variables) table for references. One could also directly
-modify [`meson.build`](meson.build) which might require more knowledge of meson.
+modify [`meson.build`](https://github.com/yumengch/pyPDAF/blob/main/meson.build) which might require more knowledge of meson.
 
 An example of installing pyPDAF in Linux or Mac:
 ```bash
@@ -53,7 +53,7 @@ CC=mpicc FC=mpifort python -m pip install . -v -Cbuild-dir=build \
     --config-settings=setup-args="-Dbuildtype=release"
 ```
 In Windows, one can use
-```cmd
+```console
 set CXX=clang-cl
 set CC=clang-cl
 set FC=flang-new

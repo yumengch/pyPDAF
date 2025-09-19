@@ -134,3 +134,5 @@ dmypy.json
 *.npz
 *.a
 *.c
+docs/build/
+docs/source/_autosummary

@@ -161,3 +161,52 @@ def iau_add_inc(py__collect_state_pdaf: Callable, py__distribute_state_pdaf: Cal
     py__distribute_state_pdaf : Callable
         Distribute a state vector for PDAF
     """
+
+def iau_set_ens_pointer() -> Tuple[np.ndarray, int]:
+    """Set a pointer to the ensemble increments array.
+
+    This is the same as :func:`pyPDAF.PDAF.iau_set_pointer`.
+
+    This gives direct access to the increment array,
+    e.g. to analyze it or to write it into a file for restarting.
+
+    If it is called by each single process, but it only provides a pointer to
+    the process-local part of the increment array.
+
+    For domain-decomposed models, this array only includes the state vector
+    part for the process domain. In addition, it usually only contains a
+    sub-ensemble unless one uses the flexible parallelization mode with a
+    single model task. For the fully parallel mode, the process(es) of a
+    single model task only hold a single ensemble state.
+
+    Returns
+    -------
+    iau_ptr_np : np.ndarray
+        The increment array (process-local part)
+    flag : int
+        Status flag
+    """
+
+def iau_set_state_pointer() -> Tuple[np.ndarray, int]:
+    """Set a pointer to the state increments array.
+
+    This gives direct access to the increment array used in the ensemble
+    optimal interpolation mode. This can be used
+    e.g. to analyze it or to write it into a file for restarting.
+
+    If it is called by each single process, but it only provides a pointer to
+    the process-local part of the increment array.
+
+    For domain-decomposed models, this array only includes the state vector
+    part for the process domain. In addition, it usually only contains a
+    sub-ensemble unless one uses the flexible parallelization mode with a
+    single model task. For the fully parallel mode, the process(es) of a
+    single model task only hold a single ensemble state.
+
+    Returns
+    -------
+    iau_ptr_np : np.ndarray
+        The increment array (process-local part)
+    flag : int
+        Status flag
+    """

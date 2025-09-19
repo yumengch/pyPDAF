@@ -6,7 +6,9 @@ from pyPDAF cimport pdaf_c_cb_interface as pdaf_cb
 def init(int  filtertype, int  subtype, int  stepnull, int [::1] param_int,
     int  dim_pint, double [::1] param_real, int  dim_preal,
     py__init_ens_pdaf, int  in_screen):
-    """Initialise the PDAF system.
+    """init(filtertype: int, subtype: int, stepnull: int, param_int: np.ndarray, dim_pint: int, param_real: np.ndarray, dim_preal: int, py__init_ens_pdaf: Callable, in_screen: int) -> Tuple[np.ndarray, np.ndarray, int]
+
+    Initialise the PDAF system.
 
     It is called once at the beginning of the assimilation.
     The function has to be used in tandem with :func:`pyPDAF.PDAF3.set_parallel`.
@@ -80,7 +82,9 @@ def init(int  filtertype, int  subtype, int  stepnull, int [::1] param_int,
 
 def init_forecast(py__next_observation_pdaf, py__distribute_state_pdaf,
     py__prepoststep_pdaf, int  outflag):
-    """The routine PDAF_init_forecast has to be called once at the end of the
+    """init_forecast(py__next_observation_pdaf: Callable, py__distribute_state_pdaf: Callable, py__prepoststep_pdaf: Callable, outflag: int) -> int
+
+    The routine PDAF_init_forecast has to be called once at the end of the
     initialization of PDAF/start of DA cycles.
 
     This function has the purpose to initialize the model fields to be
@@ -123,7 +127,9 @@ def init_forecast(py__next_observation_pdaf, py__distribute_state_pdaf,
 def set_parallel(int in_comm_pdaf,
     int in_comm_model, int in_comm_filter, int in_comm_couple, int in_task_id,
     int in_n_modeltasks, bint in_filterpe, int flag):
-    """Set MPI communicators and parallelisation in PDAF.
+    """set_parallel(in_comm_pdaf: int, in_comm_model: int, in_comm_filter: int, in_comm_couple: int, in_task_id: int, in_n_modeltasks: int, in_filterpe: bool, flag: int) -> int
+
+    Set MPI communicators and parallelisation in PDAF.
 
     The MPI communicators asked by this function depends on
     the parallelisation strategy.

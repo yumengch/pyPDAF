@@ -7,7 +7,9 @@ from pyPDAF.cfi_binding cimport CFI_attribute_other, CFI_type_double, CFI_type_i
 from pyPDAF.cfi_binding cimport CFI_cdesc_rank1, CFI_cdesc_rank2, CFI_cdesc_rank3
 
 def set_doassim(int  i_obs, int  doassim):
-    r"""Setting the `doassim` attribute of `obs_f`
+    r"""set_doassim(i_obs: int, doassim: int) -> None
+
+    Setting the `doassim` attribute of `obs_f`
     for `i`-th observation type. This property must be
     explicitly set for OMI functionality.
 
@@ -29,7 +31,9 @@ def set_doassim(int  i_obs, int  doassim):
         c__pdafomi_set_doassim(&i_obs, &doassim)
 
 def set_disttype(int  i_obs, int  disttype):
-    r"""Setting the observation localisation distance
+    r"""set_disttype(i_obs: int, disttype: int) -> None
+
+    Setting the observation localisation distance
     calculation method
     for `i`-th observation type. This is a mandatory property
     for OMI functionality.
@@ -73,7 +77,9 @@ def set_disttype(int  i_obs, int  disttype):
 
 
 def set_ncoord(int  i_obs, int  ncoord):
-    r"""Setting the number of spatial dimensions of observations
+    r"""set_ncoord(i_obs: int, ncoord: int) -> None
+
+    Setting the number of spatial dimensions of observations
     for `i`-th observation type. This is a mandatory property
     for OMI functionality.
 
@@ -98,7 +104,9 @@ def set_ncoord(int  i_obs, int  ncoord):
 
 
 def set_obs_err_type(int  i_obs, int  obs_err_type):
-    r"""Setting the type of observation error distribution
+    r"""set_obs_err_type(i_obs: int, obs_err_type: int) -> None
+
+    Setting the type of observation error distribution
     for `i`-th observation type. This property is optional
     unless a laplacian observation error distribution is used.
 
@@ -120,7 +128,9 @@ def set_obs_err_type(int  i_obs, int  obs_err_type):
 
 
 def set_use_global_obs(int  i_obs, int  use_global_obs):
-    r"""Switch for only use process-local observations
+    r"""set_use_global_obs(i_obs: int, use_global_obs: int) -> None
+
+    Switch for only use process-local observations
     for `i`-th observation type.
 
     The function is typically used in user-supplied
@@ -170,7 +180,9 @@ def set_use_global_obs(int  i_obs, int  use_global_obs):
 
 
 def set_inno_omit(int  i_obs, double  inno_omit):
-    r"""Setting innovation threshold for removing observation
+    r"""set_inno_omit(i_obs: int, inno_omit: float) -> None
+
+    Setting innovation threshold for removing observation
     outliers. By default, no observations are omitted.
 
     This function is typically used in user-supplied
@@ -199,7 +211,9 @@ def set_inno_omit(int  i_obs, double  inno_omit):
 
 
 def set_inno_omit_ivar(int  i_obs, double  inno_omit_ivar):
-    r"""Setting the inverse of observation error variance for
+    r"""set_inno_omit_ivar(i_obs: int, inno_omit_ivar: float) -> None
+
+    Setting the inverse of observation error variance for
     omitted observations.
 
     This should be set to a very small value relative to
@@ -221,7 +235,9 @@ def set_inno_omit_ivar(int  i_obs, double  inno_omit_ivar):
 
 
 def set_id_obs_p(int  i_obs, int  nrows, int  dim_obs_p, int [::1,:] id_obs_p):
-    r"""Setting the `id_obs_p` attribute of `obs_f`
+    r"""set_id_obs_p(i_obs: int, nrows: int, dim_obs_p: int, id_obs_p: np.ndarray) -> None
+
+    Setting the `id_obs_p` attribute of `obs_f`
     for `i`-th observation type. This is a mandatory property
     for OMI functionality.
 
@@ -281,7 +297,9 @@ def set_id_obs_p(int  i_obs, int  nrows, int  dim_obs_p, int [::1,:] id_obs_p):
 
 def set_icoeff_p(int  i_obs, int  nrows, int  dim_obs_p,
     double [::1,:] icoeff_p):
-    r"""Setting the observation interpolation coefficient
+    r"""set_icoeff_p(i_obs: int, nrows: int, dim_obs_p: int, icoeff_p: np.ndarray) -> None
+
+    Setting the observation interpolation coefficient
     for `i`-th observation type. This property is optional
     unless interpolations needed in observation operators
     operator.
@@ -329,8 +347,9 @@ def set_icoeff_p(int  i_obs, int  nrows, int  dim_obs_p,
 
 
 def set_domainsize(int  i_obs, int  ncoord, double [::1] domainsize):
-    r"""Setting the domain periodicity
-    attribute of `obs_f`
+    r"""set_domainsize(i_obs: int, ncoord: int, domainsize: np.ndarray) -> None
+
+    Setting the domain periodicity attribute of `obs_f`
     for `i`-th observation type. This property is optional
     unless localisation is used.
 
@@ -359,7 +378,9 @@ def set_domainsize(int  i_obs, int  ncoord, double [::1] domainsize):
         c__pdafomi_set_domainsize(&i_obs, &ncoord, &domainsize[0])
 
 def set_name(int  i_obs, str obsname):
-    """Set a name for given observation type
+    """set_name(i_obs: int, obsname: str) -> None
+
+    Set a name for given observation type
 
     Parameters
     ----------

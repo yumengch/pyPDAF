@@ -7,7 +7,9 @@ from pyPDAF.cfi_binding cimport CFI_attribute_other, CFI_type_double, CFI_type_i
 from pyPDAF.cfi_binding cimport CFI_cdesc_rank1, CFI_cdesc_rank2, CFI_cdesc_rank3
 
 def set_indices(int  dim_l, int [::1] map):
-    r"""Set index vector to map local state vector to global state vectors.
+    r"""set_indices(dim_l: int, map: np.ndarray) -> None
+
+    Set index vector to map local state vector to global state vectors.
 
     This is called in the user-supplied function `py__init_dim_l_pdaf`.
     This function only sets the mapping for given domain index `domain_p`
@@ -31,7 +33,9 @@ def set_indices(int  dim_l, int [::1] map):
 
 
 def set_increment_weights(int  dim_l, double [::1] weights):
-    r"""Initialises a PDAF_internal local array of increment weights.
+    r"""set_increment_weights(dim_l: int, weights: np.ndarray) -> None
+
+    Initialises a PDAF_internal local array of increment weights.
 
     This is called in the user-supplied function `py__init_dim_l_pdaf`.
 
@@ -60,7 +64,9 @@ def set_increment_weights(int  dim_l, double [::1] weights):
 
 
 def clear_increment_weights():
-    r"""Deallocates the local increment weight vector in :func:`pyPDAF.PDAFlocal.set_increment_weights`.
+    r"""clear_increment_weights() -> None
+
+    Deallocates the local increment weight vector in :func:`pyPDAF.PDAFlocal.set_increment_weights`.
     """
     with nogil:
         c__pdaflocal_clear_increment_weights()

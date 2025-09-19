@@ -7,7 +7,9 @@ from pyPDAF.cfi_binding cimport CFI_attribute_other, CFI_type_double, CFI_type_i
 from pyPDAF.cfi_binding cimport CFI_cdesc_rank1, CFI_cdesc_rank2, CFI_cdesc_rank3
 
 def set_comm_pdaf(int  in_comm_pdaf):
-    """Set the MPI communicator used by PDAF.
+    """set_comm_pdaf(in_comm_pdaf:int) -> None
+
+    Set the MPI communicator used by PDAF.
 
     By default, PDAF assumes it can use all available
     processes, i.e., `MPI_COMM_WORLD`.
@@ -18,9 +20,6 @@ def set_comm_pdaf(int  in_comm_pdaf):
     ----------
     in_comm_pdaf : int
         MPI communicator for PDAF
-
-    Returns
-    -------
     """
     with nogil:
         c__pdaf_set_comm_pdaf(&in_comm_pdaf)
@@ -28,7 +27,9 @@ def set_comm_pdaf(int  in_comm_pdaf):
 
 
 def set_debug_flag(int  debugval):
-    """Activate the debug output of the PDAF.
+    """set_debug_flag(debugval:int) -> None
+
+    Activate the debug output of the PDAF.
 
     Starting from the use of this function,
     the debug infomation is sent to screen output.
@@ -45,8 +46,6 @@ def set_debug_flag(int  debugval):
     debugval : int
         Value for debugging flag
 
-    Returns
-    -------
     """
     with nogil:
         c__pdaf_set_debug_flag(&debugval)
@@ -54,7 +53,9 @@ def set_debug_flag(int  debugval):
 
 
 def set_ens_pointer():
-    """Return the ensemble in a numpy array.
+    """set_ens_pointer() -> Tuple[np.ndarray, int]
+
+    Return the ensemble in a numpy array.
 
     Here the internal array data has the same memoery address
     as PDAF ensemble array allowing for manual ensemble modification.
@@ -82,7 +83,9 @@ def set_ens_pointer():
 
 
 def set_iparam(int  idval, int  value, int  flag):
-    """Set integer parameters for PDAF.
+    """set_iparam(idval: int, value: int, flag: int) -> int
+
+    Set integer parameters for PDAF.
 
     The integer parameters specific to a DA method can be set in the array
     `filter_param_i` that is an argument of :func:`pyPDAF.PDAF.init`
@@ -125,7 +128,9 @@ def set_iparam(int  idval, int  value, int  flag):
 
 
 def set_memberid(int  memberid):
-    """Set the ensemble member index to given value.
+    """set_memberid(int  memberid) -> int
+
+    Set the ensemble member index to given value.
 
     Parameters
     ----------
@@ -144,15 +149,15 @@ def set_memberid(int  memberid):
 
 
 def set_offline_mode(int  screen):
-    """Activate offline mode of PDAF.
+    """set_offline_mode(screen: int) -> None
+
+    Activate offline mode of PDAF.
 
     Parameters
     ----------
     screen : int
         Verbosity flag
 
-    Returns
-    -------
     """
     with nogil:
         c__pdaf_set_offline_mode(&screen)
@@ -160,7 +165,9 @@ def set_offline_mode(int  screen):
 
 
 def set_rparam(int  idval, double  value, int  flag):
-    """Set floating-point parameters for PDAF.
+    """set_rparam(idval: int, value: float, flag: int) -> int
+
+    Set floating-point parameters for PDAF.
 
     The floating-point parameters specific to a DA method can be set in the array
     `filter_param_r` that is an argument of :func:`pyPDAF.PDAF.init`
@@ -203,15 +210,15 @@ def set_rparam(int  idval, double  value, int  flag):
 
 
 def set_seedset(int  seedset_in):
-    """Choose a seedset for the random number generator used in PDAF.
+    """set_seedset(seedset_in: int) -> None
+
+    Choose a seedset for the random number generator used in PDAF.
 
     Parameters
     ----------
     seedset_in : int
         Seedset index (1-20)
 
-    Returns
-    -------
     """
     with nogil:
         c__pdaf_set_seedset(&seedset_in)
@@ -219,7 +226,9 @@ def set_seedset(int  seedset_in):
 
 
 def set_smoother_ens(int  maxlag):
-    """Get a pointer to smoother ensemble.
+    """set_smoother_ens(maxlag: int) -> Tuple[np.ndarray, int]
+
+    Get a pointer to smoother ensemble.
 
     When smoother is used, the smoothed ensemble states
     at earlier times are stored in an internal array of PDAF.

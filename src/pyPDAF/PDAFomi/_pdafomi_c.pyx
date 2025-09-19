@@ -7,7 +7,9 @@ from pyPDAF.cfi_binding cimport CFI_attribute_other, CFI_type_double, CFI_type_i
 from pyPDAF.cfi_binding cimport CFI_cdesc_rank1, CFI_cdesc_rank2, CFI_cdesc_rank3
 
 def init(int  n_obs):
-    r"""Allocating an array of `obs_f` derived types instances.
+    r"""init(n_obs:int) -> None
+
+    Allocating an array of `obs_f` derived types instances.
 
     This function initialises the number of observation types,
     which should be called at the start of the DA system
@@ -24,7 +26,9 @@ def init(int  n_obs):
 
 
 def init_local():
-    r"""Allocating an array of `obs_l` derived types instances.
+    r"""init_local() -> None
+
+    Allocating an array of `obs_l` derived types instances.
 
     This function initialises the number of observation types
     for each local analysis domain,
@@ -38,7 +42,9 @@ def init_local():
 
 
 def check_error(int  flag):
-    r"""This function returns the value of the PDAF-OMI internal error flag.
+    r"""check_error(flag: int) -> int
+
+    This function returns the value of the PDAF-OMI internal error flag.
 
     Since PDAF-OMI executes internal routines in which errors could occur due to
     an inconsistent configuration of the observations. Directly returning
@@ -71,7 +77,9 @@ def check_error(int  flag):
 def gather_obs(int  i_obs, int  dim_obs_p, double[::1] obs_p,
     double[::1] ivar_obs_p, double[::1,:] ocoord_p, int  ncoord,
     double  lradius):
-    r"""Gather the dimension of a given type of observation across
+    r"""gather_obs(i_obs: int, dim_obs_p: int, obs_p: np.ndarray, ivar_obs_p: np.ndarray, ocoord_p: np.ndarray, ncoord: int, lradius: float) -> int
+
+    Gather the dimension of a given type of observation across
     multiple local domains/filter processors.
 
     This function can be used in the user-supplied function of
@@ -147,7 +155,9 @@ def gather_obs(int  i_obs, int  dim_obs_p, double[::1] obs_p,
 
 def gather_obsstate(int  i_obs, double [::1] obsstate_p,
     double [::1] obsstate_f):
-    r"""This function is used to implement custom observation operators.
+    r"""gather_obsstate(i_obs: int, obsstate_p: np.ndarray, obsstate_f: np.ndarray) -> np.ndarray
+
+    This function is used to implement custom observation operators.
 
     This function is used inside a custom observation operator.
     See also `relevant PDAF wiki page <https://pdaf.awi.de/trac/wiki/OMI_observation_operators#Implementingyourownobservationoperator>`_
@@ -194,7 +204,9 @@ def gather_obsstate(int  i_obs, double [::1] obsstate_p,
 
 def get_interp_coeff_tri(double [::1,:] gpc, double [::1] oc,
     double [::1] icoeff):
-    r"""The coefficient for linear interpolation in 2D on unstructure triangular grid.
+    r"""get_interp_coeff_tri(gpc: np.ndarray, oc: np.ndarray, icoeff: np.ndarray) -> np.ndarray
+
+    The coefficient for linear interpolation in 2D on unstructure triangular grid.
 
     The resulting coefficient is used in :func:`pyPDAF.PDAFomi.obs_op_interp_lin`.
 
@@ -253,7 +265,9 @@ def get_interp_coeff_tri(double [::1,:] gpc, double [::1] oc,
 
 
 def get_interp_coeff_lin1d(double [::1] gpc, double  oc, double [::1] icoeff):
-    r"""The coefficient for linear interpolation in 1D.
+    r"""get_interp_coeff_lin1d(gpc: np.ndarray, oc: float, icoeff: np.ndarray) -> np.ndarray
+
+    The coefficient for linear interpolation in 1D.
 
     The resulting coefficient is used in :func:`pyPDAF.PDAFomi.obs_op_interp_lin`.
 
@@ -297,7 +311,9 @@ def get_interp_coeff_lin1d(double [::1] gpc, double  oc, double [::1] icoeff):
 
 def get_interp_coeff_lin(int  num_gp, int  n_dim, double [::1,:] gpc,
     double [::1] oc, double [::1] icoeff):
-    r"""The coefficient for linear interpolation up to 3D.
+    r"""get_interp_coeff_lin(num_gp: int, n_dim: int, gpc: np.ndarray, oc: np.ndarray, icoeff: np.ndarray) -> np.ndarray
+
+    The coefficient for linear interpolation up to 3D.
 
     The resulting coefficient is used in :func:`pyPDAF.PDAFomi.obs_op_interp_lin`.
 
@@ -362,7 +378,9 @@ def get_interp_coeff_lin(int  num_gp, int  n_dim, double [::1,:] gpc,
 
 def init_dim_obs_l_iso(int  i_obs, double [::1] coords_l, int  locweight,
     double  cradius, double  sradius, int  cnt_obs_l_all):
-    r"""Initialize the observation information corresponding to an isotropic local analysis domain.
+    r"""init_dim_obs_l_iso(i_obs: int, coords_l: np.ndarray, locweight: int, cradius: float, sradius: float, cnt_obs_l_all: int) -> int
+
+    Initialize the observation information corresponding to an isotropic local analysis domain.
 
     One can set localization parameters, like the localization radius, for each observation type.
 
@@ -420,7 +438,9 @@ def init_dim_obs_l_iso(int  i_obs, double [::1] coords_l, int  locweight,
 def init_dim_obs_l_noniso(int  i_obs, double [::1] coords_l,
     int  locweight, double [::1] cradius, double [::1] sradius,
     int  cnt_obs_l_all):
-    r"""Initialize the observation information corresponding to a non-isotropic local analysis domain.
+    r"""init_dim_obs_l_noniso(i_obs: int, coords_l: np.ndarray, locweight: int, cradius: np.ndarray, sradius: np.ndarray, cnt_obs_l_all: int) -> int
+
+    Initialize the observation information corresponding to a non-isotropic local analysis domain.
 
     One can set localization parameters, like the localization radius, for each observation type.
 
@@ -500,7 +520,9 @@ def init_dim_obs_l_noniso(int  i_obs, double [::1] coords_l,
 def init_dim_obs_l_noniso_locweights(int  i_obs, double [::1] coords_l,
     int [::1] locweights, double [::1] cradius, double [::1] sradius,
     int  cnt_obs_l):
-    r"""Initialize the observation information corresponding to a non-isotropic local analysis domain.
+    r"""init_dim_obs_l_noniso_locweights(i_obs: int, coords_l: np.ndarray, locweights: np.ndarray, cradius: np.ndarray, sradius: np.ndarray, cnt_obs_l: int) -> int
+
+    Initialize the observation information corresponding to a non-isotropic local analysis domain.
 
     One can set localization parameters, like the localization radius, for each observation type.
 
@@ -589,7 +611,9 @@ def init_dim_obs_l_noniso_locweights(int  i_obs, double [::1] coords_l,
 
 
 def obs_op_gridpoint(int  i_obs, double [::1] state_p, double [::1] obs_f_all):
-    r"""A (partial) identity observation operator
+    r"""obs_op_gridpoint(i_obs: int, state_p: np.ndarray, obs_f_all: np.ndarray) -> np.ndarray
+
+    A (partial) identity observation operator
 
     This observation operator is used
     when observations and model use the same grid.
@@ -644,7 +668,9 @@ def obs_op_gridpoint(int  i_obs, double [::1] state_p, double [::1] obs_f_all):
 
 def obs_op_gridavg(int  i_obs, int  nrows, double [::1] state_p,
     double [::1] obs_f_all):
-    r"""Observation operator that average values on given model grid points.
+    r"""obs_op_gridavg(i_obs: int, nrows: int, state_p: np.ndarray, obs_f_all: np.ndarray) -> np.ndarray
+
+    Observation operator that average values on given model grid points.
 
     The averaged model grid points are specified in `id_obs_p` property of `obs_f`,
     which can be set in :func:`pyPDAF.PDAF.omi_set_id_obs_p`.
@@ -695,7 +721,9 @@ def obs_op_gridavg(int  i_obs, int  nrows, double [::1] state_p,
 
 def obs_op_extern(int  i_obs, double [::1] ostate_p,
     double [::1] obs_f_all):
-    """Observation operator for given observed model state.
+    """obs_op_extern(i_obs: int, ostate_p: np.ndarray, obs_f_all: np.ndarray) -> np.ndarray
+
+    Observation operator for given observed model state.
 
     Application of observation operator for the case that
     a user performs the actual observation operator elsewhere,
@@ -748,7 +776,9 @@ def obs_op_extern(int  i_obs, double [::1] ostate_p,
 
 def obs_op_interp_lin(int  i_obs, int  nrows, double [::1] state_p,
     double [::1] obs_f_all):
-    r"""Observation operator that linearly interpolates model grid values to observation location.
+    r"""obs_op_interp_lin(i_obs: int, nrows: int, state_p: np.ndarray, obs_f_all: np.ndarray) -> np.ndarray
+
+    Observation operator that linearly interpolates model grid values to observation location.
 
     The grid points used by linear interpolation is specified in `id_obs_p` of `obs_f`,
     which can be set by :func:`pyPDAF.PDAFomi.set_id_obs_p`.
@@ -810,7 +840,9 @@ def obs_op_interp_lin(int  i_obs, int  nrows, double [::1] state_p,
 
 def obs_op_adj_gridpoint(int  i_obs, double [::1] obs_f_all,
     double [::1] state_p):
-    r"""The adjoint observation operator of :func:`pyPDAF.PDAFomi.obs_op_gridpoint`.
+    r"""obs_op_adj_gridpoint(i_obs: int, obs_f_all: np.ndarray, state_p: np.ndarray) -> np.ndarray
+
+    The adjoint observation operator of :func:`pyPDAF.PDAFomi.obs_op_gridpoint`.
 
     This function performs :math:`\mathbf{H}^\mathrm{T}\mathbf{y}`,
     where :math:`\mathbf{H}` is the observation operator and
@@ -861,7 +893,9 @@ def obs_op_adj_gridpoint(int  i_obs, double [::1] obs_f_all,
 
 def obs_op_adj_gridavg(int  i_obs, int  nrows, double [::1] obs_f_all,
     double [::1] state_p):
-    r"""The adjoint observation operator of :func:`pyPDAF.PDAFomi.obs_op_gridavg`.
+    r"""obs_op_adj_gridavg(i_obs: int, nrows: int, obs_f_all: np.ndarray, state_p: np.ndarray) -> np.ndarray
+
+    The adjoint observation operator of :func:`pyPDAF.PDAFomi.obs_op_gridavg`.
 
     This function performs :math:`\mathbf{H}^\mathrm{T}\mathbf{y}`,
     where :math:`\mathbf{H}` is the observation operator and
@@ -915,7 +949,9 @@ def obs_op_adj_gridavg(int  i_obs, int  nrows, double [::1] obs_f_all,
 
 def obs_op_adj_interp_lin(int  i_obs, int  nrows, double [::1] obs_f_all,
     double [::1] state_p):
-    r"""The adjoint observation operator of :func:`pyPDAF.PDAFomi.obs_op_interp_lin`.
+    r"""obs_op_adj_interp_lin(i_obs: int, nrows: int, obs_f_all: np.ndarray, state_p: np.ndarray) -> np.ndarray
+
+    The adjoint observation operator of :func:`pyPDAF.PDAFomi.obs_op_interp_lin`.
 
     This function performs :math:`\mathbf{H}^\mathrm{T}\mathbf{y}`,
     where :math:`\mathbf{H}` is the observation operator and
@@ -969,7 +1005,9 @@ def obs_op_adj_interp_lin(int  i_obs, int  nrows, double [::1] obs_f_all,
 
 def observation_localization_weights(int  i_obs, int  ncols,
     double [::1,:] a_l, int dim_obs_l, int  verbose):
-    r"""Returns a vector of observation localisation weights.
+    r"""observation_localization_weights(i_obs: int, ncols: int, a_l: np.ndarray, dim_obs_l: int, verbose: int) -> np.ndarray
+
+    Returns a vector of observation localisation weights.
 
     The weights are based on specifications given by localisation setups and
     observation coordinates in OMI. This function is used in the case of
@@ -1019,7 +1057,9 @@ def observation_localization_weights(int  i_obs, int  ncols,
 
 
 def set_debug_flag(int  debugval):
-    """Activate the debug output of the PDAFomi.
+    """set_debug_flag(debugval: int) -> None
+
+    Activate the debug output of the PDAFomi.
 
     Starting from the use of this function,
     the debug infomation is sent to screen output.
@@ -1039,7 +1079,9 @@ def set_debug_flag(int  debugval):
 
 
 def set_dim_obs_l(int  i_obs, int  cnt_obs_l_all, int  cnt_obs_l):
-    """Stores the local number of observations for OMI-internal initialisations.
+    """set_dim_obs_l(i_obs: int, cnt_obs_l_all: int, cnt_obs_l: int) -> Tuple[int, int]
+
+    Stores the local number of observations for OMI-internal initialisations.
 
     This is used for alternative to :func:`pyPDF.PDAFomi.init_dim_obs_l`.
 
@@ -1069,7 +1111,9 @@ def set_dim_obs_l(int  i_obs, int  cnt_obs_l_all, int  cnt_obs_l):
 
 def set_localization(int  i_obs, double  cradius, double  sradius,
     int  locweight):
-    r"""Stores the isotropic localization parameters (cradius, sradius, locweight) in OMI.
+    r"""set_localization(i_obs: int, cradius: float, sradius: float, locweight: int) -> None
+
+    Stores the isotropic localization parameters (cradius, sradius, locweight) in OMI.
 
     This is used for alternative to :func:`pyPDF.PDAFomi.init_dim_obs_l`.
 
@@ -1094,7 +1138,9 @@ def set_localization(int  i_obs, double  cradius, double  sradius,
 
 def set_localization_noniso(int  i_obs, int  nradii, double [::1] cradius,
     double [::1] sradius, int  locweight, int  locweight_v):
-    r"""Stores the non-isotropic localization parameters (cradius, sradius, locweight) in OMI.
+    r"""set_localization_noniso(i_obs: int, nradii: int, cradius: np.ndarray, sradius: np.ndarray, locweight: int, locweight_v: int) -> None
+
+    Stores the non-isotropic localization parameters (cradius, sradius, locweight) in OMI.
 
     This is used for alternative to :func:`pyPDF.PDAFomi.init_dim_obs_l`.
 
@@ -1131,7 +1177,9 @@ def set_localization_noniso(int  i_obs, int  nradii, double [::1] cradius,
 
 def set_localize_covar_iso(int  i_obs, int  dim, int  ncoords,
     double [::1,:] coords, int  locweight, double  cradius, double  sradius):
-    r"""Initialise local observation information for isotropic covariance localisation.
+    r"""set_localize_covar_iso(i_obs: int, dim: int, ncoords: int, coords: np.ndarray, locweight: int, cradius: float, sradius: float) -> None
+
+    Initialise local observation information for isotropic covariance localisation.
 
     This is used in stochastic EnKF/EAKF/EnSRF. This is called in user-supplied functions
     :func:`pyPDAF.c__init_dim_obs_pdaf`.
@@ -1173,7 +1221,9 @@ def set_localize_covar_iso(int  i_obs, int  dim, int  ncoords,
 def set_localize_covar_noniso(int  i_obs, int  dim, int  ncoords,
     double [::1,:] coords, int  locweight, double [::1] cradius,
     double [::1] sradius):
-    r"""Initialise local observation information for non-isotropic covariance localisation.
+    r"""set_localize_covar_noniso(i_obs: int, dim: int, ncoords: int, coords: np.ndarray, locweight: int, cradius: np.ndarray, sradius: np.ndarray) -> None
+
+    Initialise local observation information for non-isotropic covariance localisation.
 
     This is used in stochastic EnKF/EAKF/EnSRF. This is called in user-supplied functions
     :func:`pyPDAF.c__init_dim_obs_pdaf`.
@@ -1235,7 +1285,9 @@ def set_localize_covar_noniso(int  i_obs, int  dim, int  ncoords,
 def set_localize_covar_noniso_locweights(int  i_obs, int  dim,
     int  ncoords, double [::1,:] coords, int [::1] locweights,
     double [::1] cradius, double [::1] sradius):
-    r"""Initialise local observation information for non-isotropic covariance localisation.
+    r"""set_localize_covar_noniso_locweights(i_obs: int, dim: int, ncoords: int, coords: np.ndarray, locweights: np.ndarray, cradius: np.ndarray, sradius: np.ndarray) -> None
+
+    Initialise local observation information for non-isotropic covariance localisation.
 
     This is used in stochastic EnKF/EAKF/EnSRF. This is called in user-supplied functions
     :func:`pyPDAF.c__init_dim_obs_pdaf`.
@@ -1307,7 +1359,9 @@ def set_localize_covar_noniso_locweights(int  i_obs, int  dim,
 
 
 def set_obs_diag(int  diag):
-    """Activate or deactivate the observation diagnostics.
+    """set_obs_diag(diag: int) -> None
+
+    Activate or deactivate the observation diagnostics.
 
     By default, observation diagnostics are activated that stores
     additional information for diagnostics.
@@ -1337,7 +1391,9 @@ def set_obs_diag(int  diag):
 
 
 def set_domain_limits(double [::1,:] lim_coords):
-    r"""Set the domain limits for domain decomposed local domain.
+    r"""set_domain_limits(lim_coords: np.ndarray) -> None
+
+    Set the domain limits for domain decomposed local domain.
 
     This is for the use of :func:`pyPDAF.PDAFomi.set_use_global_obs`.
     Currently, it only supports 2D limitations.
@@ -1356,7 +1412,9 @@ def set_domain_limits(double [::1,:] lim_coords):
 
 
 def get_domain_limits_unstr(int  npoints_p, double [::1,:] coords_p):
-    r"""Set the domain limits for unstructured domain decomposed local domain.
+    r"""get_domain_limits_unstr(npoints_p: int, coords_p: np.ndarray) -> None
+
+    Set the domain limits for unstructured domain decomposed local domain.
 
     This is for the use of :func:`pyPDAF.PDAFomi.set_use_global_obs`.
     Currently, it only supports 2D limitations.
@@ -1389,7 +1447,9 @@ def get_domain_limits_unstr(int  npoints_p, double [::1,:] coords_p):
 
 def store_obs_l_index(int  i_obs, int  idx, int  id_obs_l,
     double  distance, double  cradius_l, double  sradius_l):
-    r"""Save local observation information in PDAF.
+    r"""store_obs_l_index(i_obs: int, idx: int, id_obs_l: int, distance: float, cradius_l: float, sradius_l: float) -> None
+
+    Save local observation information in PDAF.
 
     One should check `relevant PDAF wiki page <https://pdaf.awi.de/trac/wiki/OMI_search_local_observations>`_
     before using this function.
@@ -1417,7 +1477,9 @@ def store_obs_l_index(int  i_obs, int  idx, int  id_obs_l,
 
 def store_obs_l_index_vdist(int  i_obs, int  idx, int  id_obs_l,
     double  distance, double  cradius_l, double  sradius_l, double  vdist):
-    r"""Save local observation information for 2+1D factorized localization in the vertical direction in PDAF.
+    r"""store_obs_l_index_vdist(i_obs: int, idx: int, id_obs_l: int, distance: float, cradius_l: float, sradius_l: float, vdist: float) -> None
+
+    Save local observation information for 2+1D factorized localization in the vertical direction in PDAF.
 
     One should check `relevant PDAF wiki page <https://pdaf.awi.de/trac/wiki/OMI_search_local_observations>`_
     before using this function.

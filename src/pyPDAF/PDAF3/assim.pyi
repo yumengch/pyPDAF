@@ -1409,7 +1409,7 @@ def assim_offline_global_nondiagr(py__init_dim_obs_pdaf:Callable, py__obs_op_pda
 def assim_offline_lnetf_nondiagr(py__init_dim_obs_pdaf:Callable, py__obs_op_pdaf:Callable,
     py__init_n_domains_p_pdaf:Callable, py__init_dim_l_pdaf:Callable,
     py__init_dim_obs_l_pdaf:Callable, py__likelihood_l_pdaf:Callable, py__prepoststep_pdaf:Callable) -> int:
-     r"""Offline assimilation of LNETF for a single DA step using
+    r"""Offline assimilation of LNETF for a single DA step using
     non-diagnoal observation error covariance matrix.
 
     See :func:`pyPDAF.PDAF3.assim_offline` for
@@ -2168,8 +2168,8 @@ def generate_obs(py__collect_state_pdaf:Callable, py__distribute_state_pdaf:Call
         Status flag
     """
 
-def generate_obs_offline(py__init_dim_obs_pdaf, py__obs_op_pdaf,
-    py__get_obs_f_pdaf, py__prepoststep_pdaf):
+def generate_obs_offline(py__init_dim_obs_pdaf:Callable, py__obs_op_pdaf:Callable,
+    py__get_obs_f_pdaf:Callable, py__prepoststep_pdaf:Callable) -> int:
     """Generation of synthetic observations based on
     given error statistics and observation operator in offline setup.
 

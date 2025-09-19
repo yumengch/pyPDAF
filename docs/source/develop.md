@@ -24,7 +24,7 @@ or submitting pull requests with code enhancements.
 
 ### Fortran Subroutines and Wrappers
 The Fortran subroutine wrappers that are interoperable with C functions are
-given in [src/fortran](src/fortran).
+given in [src/fortran](https://github.com/yumengch/pyPDAF/tree/main/src/fortran).
 
 #### Interoperability with `bind(c)`
 Fortran subroutines use the `bind(c)` keyword for compatibility with C.
@@ -32,9 +32,9 @@ Fortran subroutines use the `bind(c)` keyword for compatibility with C.
 Since PDAF does not use this keyword, `pyPDAF` provides its own wrapper subroutines that:
 1. Subroutine names begin with the prefix `c__` to denote compatibility.
 2. Arguments use corresponding C types.
-3. User-supplied functions must be declared with [specified interface](src/fortran/pdaf_c_cb_interface.f90)
+3. User-supplied functions must be declared with [specified interface](https://github.com/yumengch/pyPDAF/tree/main/src/fortran/pdaf_c_cb_interface.f90)
 4. Bind(c) user-supplied functions must be converted to Fortran subroutines by
-   pointers and wrapper subroutines in [src/fortran/pdaf_c_f_interface.f90](src/fortran/pdaf_c_f_interface.f90).
+   pointers and wrapper subroutines in [src/fortran/pdaf_c_f_interface.f90](https://github.com/yumengch/pyPDAF/tree/main/src/fortran/pdaf_c_f_interface.f90).
    This is a requirement in `flang`.
 5. We do not use features that interoperable with derived types. This is because
    current standard does not support allocatable arrays in derived types.
@@ -175,7 +175,7 @@ def eofcovar(int  dim, int  nstates, int  nfields, int [::1] dim_fields,
 Callback functions allow users to provide information for data assimilation.
 However, Fortran expects these routines to follow specific interfaces.
 These are handled in `src/pyPDAF/pdaf_c_cb_interface.pxd` and corresponding
-``src/pyPDAF/pdaf_c_cb_interface.pyx`.
+`src/pyPDAF/pdaf_c_cb_interface.pyx`.
 
 Example:
 ```cython

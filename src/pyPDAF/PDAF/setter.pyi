@@ -16,9 +16,6 @@ def set_comm_pdaf(in_comm_pdaf: int) -> None:
     ----------
     in_comm_pdaf : int
         MPI communicator for PDAF
-
-    Returns
-    -------
     """
 
 def set_debug_flag(debugval: int) -> None:
@@ -38,9 +35,6 @@ def set_debug_flag(debugval: int) -> None:
     ----------
     debugval : int
         Value for debugging flag
-
-    Returns
-    -------
     """
 
 def set_ens_pointer() -> typing.Tuple[np.ndarray, int]:
@@ -117,9 +111,6 @@ def set_offline_mode(screen: int) -> None:
     ----------
     screen : int
         Verbosity flag
-
-    Returns
-    -------
     """
 
 def set_rparam(idval: int, value: float, flag: int) -> int:
@@ -168,9 +159,6 @@ def set_seedset(seedset_in: int) -> None:
     ----------
     seedset_in : int
         Seedset index (1-20)
-
-    Returns
-    -------
     """
 
 def set_smoother_ens(maxlag: int) -> typing.Tuple[np.ndarray, int]:

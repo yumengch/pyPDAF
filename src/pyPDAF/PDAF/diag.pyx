@@ -8,7 +8,9 @@ from pyPDAF.cfi_binding cimport CFI_cdesc_rank1, CFI_cdesc_rank2, CFI_cdesc_rank
 
 def diag_ensmean(int  dim, int  dim_ens, double [::1] state,
     double [::1,:] ens):
-    r"""Compute the ensemble mean of the state ensemble.
+    r"""diag_ensmean(dim: int, dim_ens: int,state: np.ndarray,ens: np.ndarray) -> Tuple[np.ndarray, int]
+
+    Compute the ensemble mean of the state ensemble.
 
     Parameters
     ----------
@@ -38,7 +40,9 @@ def diag_ensmean(int  dim, int  dim_ens, double [::1] state,
 
 def diag_stddev_nompi(int  dim, int  dim_ens, double [::1] state,
     double [::1,:] ens, int  do_mean):
-    r"""Compute ensemble standard deviation and ensemble mean without MPI.
+    r"""diag_stddev_nompi(dim: int,dim_ens: int,state: np.ndarray,ens: np.ndarray,do_mean: int) -> Tuple[np.ndarray, float, int]
+
+    Compute ensemble standard deviation and ensemble mean without MPI.
 
     Parameters
     ----------
@@ -77,7 +81,9 @@ def diag_stddev_nompi(int  dim, int  dim_ens, double [::1] state,
 
 def diag_stddev(int  dim_p, int  dim_ens, double [::1] state_p,
     double [::1,:] ens_p, int  do_mean, int  comm_filter):
-    r"""Compute ensemble standard deviation and ensemble mean.
+    r"""diag_stddev(dim_p: int, dim_ens: int, state_p: np.ndarray, ens_p: np.ndarray, do_mean: int,comm_filter: int) -> Tuple[np.ndarray, float, int]
+
+    Compute ensemble standard deviation and ensemble mean.
 
     Parameters
     ----------
@@ -118,7 +124,9 @@ def diag_stddev(int  dim_p, int  dim_ens, double [::1] state_p,
 
 def diag_variance_nompi(int  dim, int  dim_ens, double [::1] state,
     double [::1,:] ens, int  do_mean, int  do_stddev):
-    r"""Compute ensemble variance/standard deviation and mean without MPI.
+    r"""diag_variance_nompi(dim: int, dim_ens: int, state: np.ndarray, ens: np.ndarray, do_mean: int, do_stddev: int) -> Tuple[np.ndarray, np.ndarray, float, int]
+
+    Compute ensemble variance/standard deviation and mean without MPI.
 
     Parameters
     ----------
@@ -165,7 +173,9 @@ def diag_variance_nompi(int  dim, int  dim_ens, double [::1] state,
 
 def diag_variance(int  dim_p, int  dim_ens, double [::1] state_p,
     double [::1,:] ens_p, int  do_mean, int  do_stddev, int  comm_filter):
-    r"""Compute ensemble variance/standard deviation and mean.
+    r"""diag_variance(dim_p: int, dim_ens: int, state_p: np.ndarray, ens_p: np.ndarray, do_mean: int, do_stddev: int, comm_filter: int) -> Tuple[np.ndarray, np.ndarray, float, int]
+
+    Compute ensemble variance/standard deviation and mean.
 
     Parameters
     ----------
@@ -213,7 +223,9 @@ def diag_variance(int  dim_p, int  dim_ens, double [::1] state_p,
 
 
 def diag_rmsd_nompi(int  dim_p, double [::1] statea_p, double [::1] stateb_p):
-    r"""Compute the root mean squared distance between two vectors without MPI.
+    r"""diag_rmsd_nompi(dim_p: int, statea_p: np.ndarray, stateb_p: np.ndarray) -> Tuple[float, int]
+
+    Compute the root mean squared distance between two vectors without MPI.
 
     Parameters
     ----------
@@ -244,7 +256,9 @@ def diag_rmsd_nompi(int  dim_p, double [::1] statea_p, double [::1] stateb_p):
 
 def diag_rmsd(int  dim_p, double [::1] statea_p, double [::1] stateb_p,
     int  comm_filter):
-    r"""Compute the root mean squared distance between two vectors.
+    r"""diag_rmsd(dim_p: int, statea_p: np.ndarray, stateb_p: np.ndarray, comm_filter: int) -> Tuple[float, int]
+
+    Compute the root mean squared distance between two vectors.
 
     Parameters
     ----------
@@ -277,7 +291,9 @@ def diag_rmsd(int  dim_p, double [::1] statea_p, double [::1] stateb_p,
 def diag_crps_mpi(int  dim_p, int  dim_ens, int  element,
     double [::1,:] oens, double [::1] obs, int  comm_filter,
     int  mype_filter, int  npes_filter):
-    r"""Obtain a continuous rank probability score for an ensemble.
+    r"""diag_crps_mpi(dim_p: int, dim_ens: int, element: int, oens: np.ndarray, obs: np.ndarray, comm_filter: int, mype_filter:int, npes_filter:int) -> Tuple[float, float, float, float, int]
+
+    Obtain a continuous rank probability score for an ensemble.
 
     The implementation is based on [1]_.
 
@@ -337,7 +353,9 @@ def diag_crps_mpi(int  dim_p, int  dim_ens, int  element,
 
 def diag_crps_nompi(int  dim, int  dim_ens, int  element,
     double [::1,:] oens, double [::1] obs):
-    r"""Obtain a continuous rank probability score for an ensemble without MPI.
+    r"""diag_crps_nompi(dim: int, dim_ens: int, element: int, oens: np.ndarray, obs: np.ndarray) -> Tuple[float, float, float, float, int]
+
+    Obtain a continuous rank probability score for an ensemble without MPI.
 
     The implementation is based on [1]_.
 
@@ -389,7 +407,9 @@ def diag_crps_nompi(int  dim, int  dim_ens, int  element,
 
 
 def diag_effsample(int  dim_sample, double [::1] weights):
-    r"""Calculating the effective sample size of a particle filter.
+    r"""diag_effsample(dim_sample: int, weights: np.ndarray) -> float
+
+    Calculating the effective sample size of a particle filter.
 
     Based on [1]_, it is defined as the
     inverse of the sum of the squared particle filter weights:
@@ -437,7 +457,9 @@ def diag_effsample(int  dim_sample, double [::1] weights):
 
 def diag_ensstats(int  dim, int  dim_ens, int  element, double [::1] state,
     double [::1,:] ens):
-    r"""Computing the skewness and kurtosis of
+    r"""diag_ensstats(dim: int, dim_ens: int, element: int, state: np.ndarray, ens: np.ndarray) -> Tuple[float, float, int]
+
+    Computing the skewness and kurtosis of
     the ensemble of a given element of the state vector.
 
     The definition used for kurtosis follows that used by [1]_.
@@ -487,7 +509,9 @@ def diag_ensstats(int  dim, int  dim_ens, int  element, double [::1] state,
 
 def diag_compute_moments(int  dim_p, int  dim_ens, double [::1,:] ens,
     int  kmax, int  bias):
-    r"""Computes the mean, the unbiased variance, the unbiased skewness,
+    r"""diag_compute_moments(dim_p: int, dim_ens: int, ens: np.ndarray, kmax: int, bias: int) -> np.ndarray
+
+    Computes the mean, the unbiased variance, the unbiased skewness,
     and the unbiased excess kurtosis from an ensemble.
 
     Parameters
@@ -526,7 +550,9 @@ def diag_compute_moments(int  dim_p, int  dim_ens, double [::1,:] ens,
 
 def diag_histogram(int  ncall, int  dim, int  dim_ens, int  element,
     double [::1] state, double [::1,:] ens, int [::1] hist):
-    r"""Computing the rank histogram of an ensemble.
+    r"""diag_histogram(ncall: int, dim: int, dim_ens: int, element: int, state: np.ndarray, ens: np.ndarray, hist: np.ndarray) -> Tuple[np.ndarray, float, int]
+
+    Computing the rank histogram of an ensemble.
 
     A rank histogram is used to diagnose
     the reliability of the ensemble [1]_.
@@ -587,7 +613,9 @@ def diag_histogram(int  ncall, int  dim, int  dim_ens, int  element,
 
 def diag_reliability_budget(int  n_times, int  dim_ens, int  dim_p,
     double [::1,:,:] ens_p, double [::1,:,:] obsvar, double [::1,:] obs_p):
-    r"""Compute ensemble reliability budget
+    r"""diag_reliability_budget(n_times: int, dim_ens: int, dim_p: int, ens_p: np.ndarray, obsvar: np.ndarray, obs_p: np.ndarray) -> Tuple[np.ndarray, np.ndarray]
+
+    Compute ensemble reliability budget
 
     The diagnostics derives a balance relationship that decomposes the
     departure between the ensemble mean and observations:

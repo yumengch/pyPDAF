@@ -9,7 +9,9 @@ from pyPDAF.cfi_binding cimport CFI_cdesc_rank1, CFI_cdesc_rank2, CFI_cdesc_rank
 
 def get_state(int  steps, int  doexit, py__next_observation_pdaf,
     py__distribute_state_pdaf, py__prepoststep_pdaf, int  outflag):
-    """Distribute analysis state vector to an array.
+    """get_state(steps:int, doexit:int, py__next_observation_pdaf:Callable, py__distribute_state_pdaf:Callable, py__prepoststep_pdaf:Callable, outflag:int) -> tuple[int, float, int, int]
+
+    Distribute analysis state vector to an array.
 
     The primary purpose of this function is to distribute
     the analysis state vector to the model.
