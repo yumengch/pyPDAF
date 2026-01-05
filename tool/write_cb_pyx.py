@@ -129,7 +129,7 @@ def write_memory_view(arg_list, decl_map, indent="    "):
             s = f'cdef size_t {arg}_dim[{n_dim}]'
             lines.append(indent + s)
             for i in range(n_dim):
-                s = f'{arg}_subscripts[{i}] = 0'
+                s = f'{arg}_subscripts[{i}] = {arg}.dim[{i}].lower_bound'
                 lines.append(indent + s)
                 s = f'{arg}_dim[{i}] = {arg}.dim[{i}].extent'
                 lines.append(indent + s)

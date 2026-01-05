@@ -384,7 +384,7 @@ def write_return(arg_list, decl_map, indent="    "):
             s = f'cdef CFI_index_t {arg}_subscripts[{n_dim}]'
             lines.append(indent + s)
             for i in range(n_dim):
-                s = f'{arg}_subscripts[{i}] = 0'
+                s = f'{arg}_subscripts[{i}] = {arg}_ptr.dim[{i}].lower_bound'
                 lines.append(indent + s)
             base_type = re.match(r'(integer|real|logical|character)', code).group(1).lower()
             s = f'cdef {TYPE_MAP[base_type]}* {arg}_ptr_np'
