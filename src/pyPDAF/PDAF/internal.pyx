@@ -9641,12 +9641,12 @@ def get_ensstats():
         c__pdaf_get_ensstats(skew_ptr_ptr, kurt_ptr_ptr, &status)
 
     cdef CFI_index_t skew_ptr_subscripts[1]
-    skew_ptr_subscripts[0] = 0
+    skew_ptr_subscripts[0] = skew_ptr_ptr.dim[0].lower_bound
     cdef double * skew_ptr_ptr_np
     skew_ptr_ptr_np = <double *>CFI_address(skew_ptr_ptr, skew_ptr_subscripts)
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] skew_ptr_np = np.asarray(<double [:skew_ptr_ptr.dim[0].extent:1]> skew_ptr_ptr_np, order="F")
     cdef CFI_index_t kurt_ptr_subscripts[1]
-    kurt_ptr_subscripts[0] = 0
+    kurt_ptr_subscripts[0] = kurt_ptr_ptr.dim[0].lower_bound
     cdef double * kurt_ptr_ptr_np
     kurt_ptr_ptr_np = <double *>CFI_address(kurt_ptr_ptr, kurt_ptr_subscripts)
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] kurt_ptr_np = np.asarray(<double [:kurt_ptr_ptr.dim[0].extent:1]> kurt_ptr_ptr_np, order="F")

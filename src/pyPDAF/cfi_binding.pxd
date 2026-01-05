@@ -14,6 +14,7 @@ cdef extern from "ISO_Fortran_binding.h":
 
     ctypedef struct CFI_dim_t:
         CFI_index_t extent;
+        CFI_index_t lower_bound;
 
     ctypedef struct CFI_cdesc_t:
         void *base_addr;

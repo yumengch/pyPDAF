@@ -74,8 +74,8 @@ def set_ens_pointer():
         c__pdaf_set_ens_pointer(ens_ptr_ptr, &status)
 
     cdef CFI_index_t ens_ptr_subscripts[2]
-    ens_ptr_subscripts[0] = 0
-    ens_ptr_subscripts[1] = 0
+    ens_ptr_subscripts[0] = ens_ptr_ptr.dim[0].lower_bound
+    ens_ptr_subscripts[1] = ens_ptr_ptr.dim[1].lower_bound
     cdef double * ens_ptr_ptr_np
     ens_ptr_ptr_np = <double *>CFI_address(ens_ptr_ptr, ens_ptr_subscripts)
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_ptr_np = np.asarray(<double [:ens_ptr_ptr.dim[0].extent:1,:ens_ptr_ptr.dim[1].extent]> ens_ptr_ptr_np, order="F")
@@ -270,9 +270,9 @@ def set_smoother_ens(int  maxlag):
         c__pdaf_set_smootherens(sens_point_ptr, &maxlag, &status)
 
     cdef CFI_index_t sens_point_subscripts[3]
-    sens_point_subscripts[0] = 0
-    sens_point_subscripts[1] = 0
-    sens_point_subscripts[2] = 0
+    sens_point_subscripts[0] = sens_point_ptr.dim[0].lower_bound
+    sens_point_subscripts[1] = sens_point_ptr.dim[1].lower_bound
+    sens_point_subscripts[2] = sens_point_ptr.dim[2].lower_bound
     cdef double * sens_point_ptr_np
     sens_point_ptr_np = <double *>CFI_address(sens_point_ptr, sens_point_subscripts)
     cdef cnp.ndarray[cnp.float64_t, ndim=3, mode="fortran", negative_indices=False, cast=False] sens_point_np = np.asarray(<double [:sens_point_ptr.dim[0].extent:1,:sens_point_ptr.dim[1].extent,:sens_point_ptr.dim[2].extent]> sens_point_ptr_np, order="F")
