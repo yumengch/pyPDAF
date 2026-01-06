@@ -139,17 +139,16 @@ def iau_set_pointer():
         Status flag
     """
     cdef CFI_cdesc_rank2 iau_ptr_cfi
-    cdef CFI_cdesc_t *iau_ptr_ptr = <CFI_cdesc_t *> &iau_ptr_cfi
     cdef int  flag
     with nogil:
-        c__pdaf_iau_set_pointer(iau_ptr_ptr, &flag)
+        c__pdaf_iau_set_pointer(<CFI_cdesc_t *> &iau_ptr_cfi, &flag)
 
     cdef CFI_index_t iau_ptr_subscripts[2]
-    iau_ptr_subscripts[0] = iau_ptr_ptr.dim[0].lower_bound
-    iau_ptr_subscripts[1] = iau_ptr_ptr.dim[1].lower_bound
+    iau_ptr_subscripts[0] = iau_ptr_cfi.dim[0].lower_bound
+    iau_ptr_subscripts[1] = iau_ptr_cfi.dim[1].lower_bound
     cdef double * iau_ptr_ptr_np
-    iau_ptr_ptr_np = <double *>CFI_address(iau_ptr_ptr, iau_ptr_subscripts)
-    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] iau_ptr_np = np.asarray(<double [:iau_ptr_ptr.dim[0].extent:1,:iau_ptr_ptr.dim[1].extent]> iau_ptr_ptr_np, order="F")
+    iau_ptr_ptr_np = <double *>CFI_address(<CFI_cdesc_t *> &iau_ptr_cfi, iau_ptr_subscripts)
+    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] iau_ptr_np = np.asarray(<double [:iau_ptr_cfi.dim[0].extent:1,:iau_ptr_cfi.dim[1].extent]> iau_ptr_ptr_np, order="F")
     return iau_ptr_np, flag
 
 
@@ -244,17 +243,16 @@ def iau_set_ens_pointer():
         Status flag
     """
     cdef CFI_cdesc_rank2 iau_ptr_cfi
-    cdef CFI_cdesc_t *iau_ptr_ptr = <CFI_cdesc_t *> &iau_ptr_cfi
     cdef int  flag
     with nogil:
-        c__pdaf_iau_set_ens_pointer(iau_ptr_ptr, &flag)
+        c__pdaf_iau_set_ens_pointer(<CFI_cdesc_t *> &iau_ptr_cfi, &flag)
 
     cdef CFI_index_t iau_ptr_subscripts[2]
-    iau_ptr_subscripts[0] = iau_ptr_ptr.dim[0].lower_bound
-    iau_ptr_subscripts[1] = iau_ptr_ptr.dim[1].lower_bound
+    iau_ptr_subscripts[0] = iau_ptr_cfi.dim[0].lower_bound
+    iau_ptr_subscripts[1] = iau_ptr_cfi.dim[1].lower_bound
     cdef double * iau_ptr_ptr_np
-    iau_ptr_ptr_np = <double *>CFI_address(iau_ptr_ptr, iau_ptr_subscripts)
-    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] iau_ptr_np = np.asarray(<double [:iau_ptr_ptr.dim[0].extent:1,:iau_ptr_ptr.dim[1].extent]> iau_ptr_ptr_np, order="F")
+    iau_ptr_ptr_np = <double *>CFI_address(<CFI_cdesc_t *> &iau_ptr_cfi, iau_ptr_subscripts)
+    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] iau_ptr_np = np.asarray(<double [:iau_ptr_cfi.dim[0].extent:1,:iau_ptr_cfi.dim[1].extent]> iau_ptr_ptr_np, order="F")
     return iau_ptr_np, flag
 
 def iau_set_state_pointer():
@@ -283,14 +281,13 @@ def iau_set_state_pointer():
         Status flag
     """
     cdef CFI_cdesc_rank1 iau_x_ptr_cfi
-    cdef CFI_cdesc_t *iau_x_ptr_ptr = <CFI_cdesc_t *> &iau_x_ptr_cfi
     cdef int  flag
     with nogil:
-        c__pdaf_iau_set_state_pointer(iau_x_ptr_ptr, &flag)
+        c__pdaf_iau_set_state_pointer(<CFI_cdesc_t *> &iau_x_ptr_cfi, &flag)
 
     cdef CFI_index_t iau_x_ptr_subscripts[1]
-    iau_x_ptr_subscripts[0] = iau_x_ptr_ptr.dim[0].lower_bound
+    iau_x_ptr_subscripts[0] = iau_x_ptr_cfi.dim[0].lower_bound
     cdef double * iau_x_ptr_ptr_np
-    iau_x_ptr_ptr_np = <double *>CFI_address(iau_x_ptr_ptr, iau_x_ptr_subscripts)
-    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] iau_x_ptr_np = np.asarray(<double [:iau_x_ptr_ptr.dim[0].extent:1]> iau_x_ptr_ptr_np, order="F")
+    iau_x_ptr_ptr_np = <double *>CFI_address(<CFI_cdesc_t *> &iau_x_ptr_cfi, iau_x_ptr_subscripts)
+    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] iau_x_ptr_np = np.asarray(<double [:iau_x_ptr_cfi.dim[0].extent:1]> iau_x_ptr_ptr_np, order="F")
     return iau_x_ptr_np, flag

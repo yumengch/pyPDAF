@@ -78,7 +78,6 @@ def iau_update_inc(double [::1,:] ens_ana, double [::1] state_ana):
         Array shape: (:, :)
     """
     cdef CFI_cdesc_rank2 ens_ana_cfi
-    cdef CFI_cdesc_t *ens_ana_ptr = <CFI_cdesc_t *> &ens_ana_cfi
     cdef size_t ens_ana_nbytes = ens_ana.nbytes
     cdef CFI_index_t ens_ana_extent[2]
     ens_ana_extent[0] = ens_ana.shape[0]
@@ -86,7 +85,6 @@ def iau_update_inc(double [::1,:] ens_ana, double [::1] state_ana):
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_ana_np = np.asarray(ens_ana, dtype=np.float64, order="F")
 
     cdef CFI_cdesc_rank1 state_ana_cfi
-    cdef CFI_cdesc_t *state_ana_ptr = <CFI_cdesc_t *> &state_ana_cfi
     cdef size_t state_ana_nbytes = state_ana.nbytes
     cdef CFI_index_t state_ana_extent[1]
     state_ana_extent[0] = state_ana.shape[0]
@@ -94,13 +92,13 @@ def iau_update_inc(double [::1,:] ens_ana, double [::1] state_ana):
 
 
     with nogil:
-        CFI_establish(ens_ana_ptr, &ens_ana[0,0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &ens_ana_cfi, &ens_ana[0,0], CFI_attribute_other,
                       CFI_type_double , ens_ana_nbytes, 2, ens_ana_extent)
 
-        CFI_establish(state_ana_ptr, &state_ana[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &state_ana_cfi, &state_ana[0], CFI_attribute_other,
                       CFI_type_double , state_ana_nbytes, 1, state_ana_extent)
 
-        c__pdaf_iau_update_inc(ens_ana_ptr, state_ana_ptr)
+        c__pdaf_iau_update_inc(<CFI_cdesc_t *> &ens_ana_cfi, <CFI_cdesc_t *> &state_ana_cfi)
 
     return ens_ana_np, state_ana_np
 
@@ -166,7 +164,6 @@ def iau_add_inc_ens(int  step, int  dim_p, int  dim_ens_task,
         Array shape: (:, :)
     """
     cdef CFI_cdesc_rank2 ens_cfi
-    cdef CFI_cdesc_t *ens_ptr = <CFI_cdesc_t *> &ens_cfi
     cdef size_t ens_nbytes = ens.nbytes
     cdef CFI_index_t ens_extent[2]
     ens_extent[0] = ens.shape[0]
@@ -174,7 +171,6 @@ def iau_add_inc_ens(int  step, int  dim_p, int  dim_ens_task,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_np = np.asarray(ens, dtype=np.float64, order="F")
 
     cdef CFI_cdesc_rank1 state_cfi
-    cdef CFI_cdesc_t *state_ptr = <CFI_cdesc_t *> &state_cfi
     cdef size_t state_nbytes = state.nbytes
     cdef CFI_index_t state_extent[1]
     state_extent[0] = state.shape[0]
@@ -183,13 +179,13 @@ def iau_add_inc_ens(int  step, int  dim_p, int  dim_ens_task,
     pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
     pdaf_cb.distribute_state_pdaf = <void*>py__distribute_state_pdaf
     with nogil:
-        CFI_establish(ens_ptr, &ens[0,0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &ens_cfi, &ens[0,0], CFI_attribute_other,
                       CFI_type_double , ens_nbytes, 2, ens_extent)
 
-        CFI_establish(state_ptr, &state[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &state_cfi, &state[0], CFI_attribute_other,
                       CFI_type_double , state_nbytes, 1, state_extent)
 
-        c__pdaf_iau_add_inc_ens(&step, &dim_p, &dim_ens_task, ens_ptr, state_ptr,
+        c__pdaf_iau_add_inc_ens(&step, &dim_p, &dim_ens_task, <CFI_cdesc_t *> &ens_cfi, <CFI_cdesc_t *> &state_cfi,
                                 pdaf_cb.c__collect_state_pdaf,
                                 pdaf_cb.c__distribute_state_pdaf)
 

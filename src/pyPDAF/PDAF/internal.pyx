@@ -6076,7 +6076,6 @@ def gather_ens(int  dim_p, int  dim_ens_p, double [::1,:] ens,
         Array shape: (:, :)
     """
     cdef CFI_cdesc_rank2 ens_cfi
-    cdef CFI_cdesc_t *ens_ptr = <CFI_cdesc_t *> &ens_cfi
     cdef size_t ens_nbytes = ens.nbytes
     cdef CFI_index_t ens_extent[2]
     ens_extent[0] = ens.shape[0]
@@ -6084,20 +6083,19 @@ def gather_ens(int  dim_p, int  dim_ens_p, double [::1,:] ens,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_np = np.asarray(ens, dtype=np.float64, order="F")
 
     cdef CFI_cdesc_rank1 state_cfi
-    cdef CFI_cdesc_t *state_ptr = <CFI_cdesc_t *> &state_cfi
     cdef size_t state_nbytes = state.nbytes
     cdef CFI_index_t state_extent[1]
     state_extent[0] = state.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_np = np.asarray(state, dtype=np.float64, order="F")
 
     with nogil:
-        CFI_establish(ens_ptr, &ens[0,0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &ens_cfi, &ens[0,0], CFI_attribute_other,
                       CFI_type_double , ens_nbytes, 2, ens_extent)
 
-        CFI_establish(state_ptr, &state[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &state_cfi, &state[0], CFI_attribute_other,
                       CFI_type_double , state_nbytes, 1, state_extent)
 
-        c__pdaf_gather_ens(&dim_p, &dim_ens_p, ens_ptr, state_ptr, &screen)
+        c__pdaf_gather_ens(&dim_p, &dim_ens_p, <CFI_cdesc_t *> &ens_cfi, <CFI_cdesc_t *> &state_cfi, &screen)
 
     return ens_np, state_np
 
@@ -6132,26 +6130,25 @@ def scatter_ens(int  dim_p, int  dim_ens_p, double [::1,:] ens,
         Array shape: (:)
     """
     cdef CFI_cdesc_rank2 ens_cfi
-    cdef CFI_cdesc_t *ens_ptr = <CFI_cdesc_t *> &ens_cfi
     cdef size_t ens_nbytes = ens.nbytes
     cdef CFI_index_t ens_extent[2]
     ens_extent[0] = ens.shape[0]
     ens_extent[1] = ens.shape[1]
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_np = np.asarray(ens, dtype=np.float64, order="F")
+
     cdef CFI_cdesc_rank1 state_cfi
-    cdef CFI_cdesc_t *state_ptr = <CFI_cdesc_t *> &state_cfi
     cdef size_t state_nbytes = state.nbytes
     cdef CFI_index_t state_extent[1]
     state_extent[0] = state.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_np = np.asarray(state, dtype=np.float64, order="F")
     with nogil:
-        CFI_establish(ens_ptr, &ens[0,0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &ens_cfi, &ens[0,0], CFI_attribute_other,
                       CFI_type_double , ens_nbytes, 2, ens_extent)
 
-        CFI_establish(state_ptr, &state[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &state_cfi, &state[0], CFI_attribute_other,
                       CFI_type_double , state_nbytes, 1, state_extent)
 
-        c__pdaf_scatter_ens(&dim_p, &dim_ens_p, ens_ptr, state_ptr, &screen)
+        c__pdaf_scatter_ens(&dim_p, &dim_ens_p, <CFI_cdesc_t *> &ens_cfi, <CFI_cdesc_t *> &state_cfi, &screen)
 
     return ens_np, state_np
 
@@ -9633,23 +9630,22 @@ def get_ensstats():
     For internal subroutines checking corresponding PDAF comments.
     """
     cdef CFI_cdesc_rank1 skew_ptr_cfi
-    cdef CFI_cdesc_t *skew_ptr_ptr = <CFI_cdesc_t *> &skew_ptr_cfi
     cdef CFI_cdesc_rank1 kurt_ptr_cfi
-    cdef CFI_cdesc_t *kurt_ptr_ptr = <CFI_cdesc_t *> &kurt_ptr_cfi
     cdef int  status
     with nogil:
-        c__pdaf_get_ensstats(skew_ptr_ptr, kurt_ptr_ptr, &status)
+        c__pdaf_get_ensstats(<CFI_cdesc_t *> &skew_ptr_cfi, <CFI_cdesc_t *> &kurt_ptr_cfi, &status)
 
     cdef CFI_index_t skew_ptr_subscripts[1]
-    skew_ptr_subscripts[0] = skew_ptr_ptr.dim[0].lower_bound
+    skew_ptr_subscripts[0] = skew_ptr_cfi.dim[0].lower_bound
     cdef double * skew_ptr_ptr_np
-    skew_ptr_ptr_np = <double *>CFI_address(skew_ptr_ptr, skew_ptr_subscripts)
-    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] skew_ptr_np = np.asarray(<double [:skew_ptr_ptr.dim[0].extent:1]> skew_ptr_ptr_np, order="F")
+    skew_ptr_ptr_np = <double *>CFI_address(<CFI_cdesc_t *> &skew_ptr_cfi, skew_ptr_subscripts)
+    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] skew_ptr_np = np.asarray(<double [:skew_ptr_cfi.dim[0].extent:1]> skew_ptr_ptr_np, order="F")
+
     cdef CFI_index_t kurt_ptr_subscripts[1]
-    kurt_ptr_subscripts[0] = kurt_ptr_ptr.dim[0].lower_bound
+    kurt_ptr_subscripts[0] = kurt_ptr_cfi.dim[0].lower_bound
     cdef double * kurt_ptr_ptr_np
-    kurt_ptr_ptr_np = <double *>CFI_address(kurt_ptr_ptr, kurt_ptr_subscripts)
-    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] kurt_ptr_np = np.asarray(<double [:kurt_ptr_ptr.dim[0].extent:1]> kurt_ptr_ptr_np, order="F")
+    kurt_ptr_ptr_np = <double *>CFI_address(<CFI_cdesc_t *> &kurt_ptr_cfi, kurt_ptr_subscripts)
+    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] kurt_ptr_np = np.asarray(<double [:kurt_ptr_cfi.dim[0].extent:1]> kurt_ptr_ptr_np, order="F")
     return skew_ptr_np, kurt_ptr_np, status
 
 

@@ -141,19 +141,18 @@ def get_smoother_ens():
         Status flag
     """
     cdef CFI_cdesc_rank3 sens_point_cfi
-    cdef CFI_cdesc_t *sens_point_ptr = <CFI_cdesc_t *> &sens_point_cfi
     cdef int  maxlag
     cdef int  status
     with nogil:
-        c__pdaf_get_smootherens(sens_point_ptr, &maxlag, &status)
+        c__pdaf_get_smootherens(<CFI_cdesc_t *> &sens_point_cfi, &maxlag, &status)
 
     cdef CFI_index_t sens_point_subscripts[3]
-    sens_point_subscripts[0] = sens_point_ptr.dim[0].lower_bound
-    sens_point_subscripts[1] = sens_point_ptr.dim[1].lower_bound
-    sens_point_subscripts[2] = sens_point_ptr.dim[2].lower_bound
+    sens_point_subscripts[0] = sens_point_cfi.dim[0].lower_bound
+    sens_point_subscripts[1] = sens_point_cfi.dim[1].lower_bound
+    sens_point_subscripts[2] = sens_point_cfi.dim[2].lower_bound
     cdef double * sens_point_ptr_np
-    sens_point_ptr_np = <double *>CFI_address(sens_point_ptr, sens_point_subscripts)
-    cdef cnp.ndarray[cnp.float64_t, ndim=3, mode="fortran", negative_indices=False, cast=False] sens_point_np = np.asarray(<double [:sens_point_ptr.dim[0].extent:1,:sens_point_ptr.dim[1].extent,:sens_point_ptr.dim[2].extent]> sens_point_ptr_np, order="F")
+    sens_point_ptr_np = <double *>CFI_address(<CFI_cdesc_t *> &sens_point_cfi, sens_point_subscripts)
+    cdef cnp.ndarray[cnp.float64_t, ndim=3, mode="fortran", negative_indices=False, cast=False] sens_point_np = np.asarray(<double [:sens_point_cfi.dim[0].extent:1,:sens_point_cfi.dim[1].extent,:sens_point_cfi.dim[2].extent]> sens_point_ptr_np, order="F")
     return sens_point_np, maxlag, status
 
 

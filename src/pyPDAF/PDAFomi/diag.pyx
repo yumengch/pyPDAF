@@ -17,15 +17,14 @@ def diag_dimobs():
         Observation dimension for each observation type. shape: (n_obs,)
     """
     cdef CFI_cdesc_rank1 dim_obs_ptr_cfi
-    cdef CFI_cdesc_t *dim_obs_ptr_ptr = <CFI_cdesc_t *> &dim_obs_ptr_cfi
     with nogil:
-        c__pdafomi_diag_dimobs(dim_obs_ptr_ptr)
+        c__pdafomi_diag_dimobs(<CFI_cdesc_t *> &dim_obs_ptr_cfi)
 
     cdef CFI_index_t dim_obs_ptr_subscripts[1]
-    dim_obs_ptr_subscripts[0] = dim_obs_ptr_ptr.dim[0].lower_bound
+    dim_obs_ptr_subscripts[0] = dim_obs_ptr_cfi.dim[0].lower_bound
     cdef int * dim_obs_ptr_ptr_np
-    dim_obs_ptr_ptr_np = <int *>CFI_address(dim_obs_ptr_ptr, dim_obs_ptr_subscripts)
-    cdef cnp.ndarray[cnp.int32_t, ndim=1, mode="fortran", negative_indices=False, cast=False] dim_obs_ptr_np = np.asarray(<int [:dim_obs_ptr_ptr.dim[0].extent:1]> dim_obs_ptr_ptr_np, order="F")
+    dim_obs_ptr_ptr_np = <int *>CFI_address(<CFI_cdesc_t *> &dim_obs_ptr_cfi, dim_obs_ptr_subscripts)
+    cdef cnp.ndarray[cnp.int32_t, ndim=1, mode="fortran", negative_indices=False, cast=False] dim_obs_ptr_np = np.asarray(<int [:dim_obs_ptr_cfi.dim[0].extent:1]> dim_obs_ptr_ptr_np, order="F")
     return dim_obs_ptr_np
 
 
@@ -48,17 +47,16 @@ def diag_get_hx(int  id_obs):
         Array shape: (dim_obs_p_diag, dim_ens)
     """
     cdef CFI_cdesc_rank2 hx_p_ptr_cfi
-    cdef CFI_cdesc_t *hx_p_ptr_ptr = <CFI_cdesc_t *> &hx_p_ptr_cfi
     cdef int  dim_obs_diag
     with nogil:
-        c__pdafomi_diag_get_hx(&id_obs, &dim_obs_diag, hx_p_ptr_ptr)
+        c__pdafomi_diag_get_hx(&id_obs, &dim_obs_diag, <CFI_cdesc_t *> &hx_p_ptr_cfi)
 
     cdef CFI_index_t hx_p_ptr_subscripts[2]
-    hx_p_ptr_subscripts[0] = hx_p_ptr_ptr.dim[0].lower_bound
-    hx_p_ptr_subscripts[1] = hx_p_ptr_ptr.dim[1].lower_bound
+    hx_p_ptr_subscripts[0] = hx_p_ptr_cfi.dim[0].lower_bound
+    hx_p_ptr_subscripts[1] = hx_p_ptr_cfi.dim[1].lower_bound
     cdef double * hx_p_ptr_ptr_np
-    hx_p_ptr_ptr_np = <double *>CFI_address(hx_p_ptr_ptr, hx_p_ptr_subscripts)
-    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hx_p_ptr_np = np.asarray(<double [:hx_p_ptr_ptr.dim[0].extent:1,:hx_p_ptr_ptr.dim[1].extent]> hx_p_ptr_ptr_np, order="F")
+    hx_p_ptr_ptr_np = <double *>CFI_address(<CFI_cdesc_t *> &hx_p_ptr_cfi, hx_p_ptr_subscripts)
+    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hx_p_ptr_np = np.asarray(<double [:hx_p_ptr_cfi.dim[0].extent:1,:hx_p_ptr_cfi.dim[1].extent]> hx_p_ptr_ptr_np, order="F")
     return dim_obs_diag, hx_p_ptr_np
 
 
@@ -81,16 +79,15 @@ def diag_get_hxmean(int  id_obs):
         Array shape: (:)
     """
     cdef CFI_cdesc_rank1 hxmean_p_ptr_cfi
-    cdef CFI_cdesc_t *hxmean_p_ptr_ptr = <CFI_cdesc_t *> &hxmean_p_ptr_cfi
     cdef int  dim_obs_diag
     with nogil:
-        c__pdafomi_diag_get_hxmean(&id_obs, &dim_obs_diag, hxmean_p_ptr_ptr)
+        c__pdafomi_diag_get_hxmean(&id_obs, &dim_obs_diag, <CFI_cdesc_t *> &hxmean_p_ptr_cfi)
 
     cdef CFI_index_t hxmean_p_ptr_subscripts[1]
-    hxmean_p_ptr_subscripts[0] = hxmean_p_ptr_ptr.dim[0].lower_bound
+    hxmean_p_ptr_subscripts[0] = hxmean_p_ptr_cfi.dim[0].lower_bound
     cdef double * hxmean_p_ptr_ptr_np
-    hxmean_p_ptr_ptr_np = <double *>CFI_address(hxmean_p_ptr_ptr, hxmean_p_ptr_subscripts)
-    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] hxmean_p_ptr_np = np.asarray(<double [:hxmean_p_ptr_ptr.dim[0].extent:1]> hxmean_p_ptr_ptr_np, order="F")
+    hxmean_p_ptr_ptr_np = <double *>CFI_address(<CFI_cdesc_t *> &hxmean_p_ptr_cfi, hxmean_p_ptr_subscripts)
+    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] hxmean_p_ptr_np = np.asarray(<double [:hxmean_p_ptr_cfi.dim[0].extent:1]> hxmean_p_ptr_ptr_np, order="F")
     return dim_obs_diag, hxmean_p_ptr_np
 
 
@@ -113,16 +110,15 @@ def diag_get_ivar(int  id_obs):
         Array shape: (:)
     """
     cdef CFI_cdesc_rank1 ivar_ptr_cfi
-    cdef CFI_cdesc_t *ivar_ptr_ptr = <CFI_cdesc_t *> &ivar_ptr_cfi
     cdef int  dim_obs_diag
     with nogil:
-        c__pdafomi_diag_get_ivar(&id_obs, &dim_obs_diag, ivar_ptr_ptr)
+        c__pdafomi_diag_get_ivar(&id_obs, &dim_obs_diag, <CFI_cdesc_t *> &ivar_ptr_cfi)
 
     cdef CFI_index_t ivar_ptr_subscripts[1]
-    ivar_ptr_subscripts[0] = ivar_ptr_ptr.dim[0].lower_bound
+    ivar_ptr_subscripts[0] = ivar_ptr_cfi.dim[0].lower_bound
     cdef double * ivar_ptr_ptr_np
-    ivar_ptr_ptr_np = <double *>CFI_address(ivar_ptr_ptr, ivar_ptr_subscripts)
-    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] ivar_ptr_np = np.asarray(<double [:ivar_ptr_ptr.dim[0].extent:1]> ivar_ptr_ptr_np, order="F")
+    ivar_ptr_ptr_np = <double *>CFI_address(<CFI_cdesc_t *> &ivar_ptr_cfi, ivar_ptr_subscripts)
+    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] ivar_ptr_np = np.asarray(<double [:ivar_ptr_cfi.dim[0].extent:1]> ivar_ptr_ptr_np, order="F")
     return dim_obs_diag, ivar_ptr_np
 
 
@@ -150,26 +146,24 @@ def diag_get_obs(int  id_obs):
         Array shape: (:,:)
     """
     cdef CFI_cdesc_rank1 obs_p_ptr_cfi
-    cdef CFI_cdesc_t *obs_p_ptr_ptr = <CFI_cdesc_t *> &obs_p_ptr_cfi
     cdef CFI_cdesc_rank2 ocoord_p_ptr_cfi
-    cdef CFI_cdesc_t *ocoord_p_ptr_ptr = <CFI_cdesc_t *> &ocoord_p_ptr_cfi
     cdef int  dim_obs_diag
     cdef int  ncoord
     with nogil:
         c__pdafomi_diag_get_obs(&id_obs, &dim_obs_diag, &ncoord,
-                                obs_p_ptr_ptr, ocoord_p_ptr_ptr)
+                                <CFI_cdesc_t *> &obs_p_ptr_cfi, <CFI_cdesc_t *> &ocoord_p_ptr_cfi)
 
     cdef CFI_index_t obs_p_ptr_subscripts[1]
-    obs_p_ptr_subscripts[0] = obs_p_ptr_ptr.dim[0].lower_bound
+    obs_p_ptr_subscripts[0] = obs_p_ptr_cfi.dim[0].lower_bound
     cdef double * obs_p_ptr_ptr_np
-    obs_p_ptr_ptr_np = <double *>CFI_address(obs_p_ptr_ptr, obs_p_ptr_subscripts)
-    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obs_p_ptr_np = np.asarray(<double [:obs_p_ptr_ptr.dim[0].extent:1]> obs_p_ptr_ptr_np, order="F")
+    obs_p_ptr_ptr_np = <double *>CFI_address(<CFI_cdesc_t *> &obs_p_ptr_cfi, obs_p_ptr_subscripts)
+    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obs_p_ptr_np = np.asarray(<double [:obs_p_ptr_cfi.dim[0].extent:1]> obs_p_ptr_ptr_np, order="F")
     cdef CFI_index_t ocoord_p_ptr_subscripts[2]
-    ocoord_p_ptr_subscripts[0] = ocoord_p_ptr_ptr.dim[0].lower_bound
-    ocoord_p_ptr_subscripts[1] = ocoord_p_ptr_ptr.dim[1].lower_bound
+    ocoord_p_ptr_subscripts[0] = ocoord_p_ptr_cfi.dim[0].lower_bound
+    ocoord_p_ptr_subscripts[1] = ocoord_p_ptr_cfi.dim[1].lower_bound
     cdef double * ocoord_p_ptr_ptr_np
-    ocoord_p_ptr_ptr_np = <double *>CFI_address(ocoord_p_ptr_ptr, ocoord_p_ptr_subscripts)
-    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ocoord_p_ptr_np = np.asarray(<double [:ocoord_p_ptr_ptr.dim[0].extent:1,:ocoord_p_ptr_ptr.dim[1].extent]> ocoord_p_ptr_ptr_np, order="F")
+    ocoord_p_ptr_ptr_np = <double *>CFI_address(<CFI_cdesc_t *> &ocoord_p_ptr_cfi, ocoord_p_ptr_subscripts)
+    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ocoord_p_ptr_np = np.asarray(<double [:ocoord_p_ptr_cfi.dim[0].extent:1,:ocoord_p_ptr_cfi.dim[1].extent]> ocoord_p_ptr_ptr_np, order="F")
     return dim_obs_diag, ncoord, obs_p_ptr_np, ocoord_p_ptr_np
 
 
@@ -216,15 +210,14 @@ def diag_obs_rmsd(int  nobs, int  verbose):
         Array shape: (:)
     """
     cdef CFI_cdesc_rank1 rmsd_pointer_cfi
-    cdef CFI_cdesc_t *rmsd_pointer_ptr = <CFI_cdesc_t *> &rmsd_pointer_cfi
     with nogil:
-        c__pdafomi_diag_obs_rmsd(&nobs, rmsd_pointer_ptr, &verbose)
+        c__pdafomi_diag_obs_rmsd(&nobs, <CFI_cdesc_t *> &rmsd_pointer_cfi, &verbose)
 
     cdef CFI_index_t rmsd_pointer_subscripts[1]
-    rmsd_pointer_subscripts[0] = rmsd_pointer_ptr.dim[0].lower_bound
+    rmsd_pointer_subscripts[0] = rmsd_pointer_cfi.dim[0].lower_bound
     cdef double * rmsd_pointer_ptr_np
-    rmsd_pointer_ptr_np = <double *>CFI_address(rmsd_pointer_ptr, rmsd_pointer_subscripts)
-    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] rmsd_pointer_np = np.asarray(<double [:rmsd_pointer_ptr.dim[0].extent:1]> rmsd_pointer_ptr_np, order="F")
+    rmsd_pointer_ptr_np = <double *>CFI_address(<CFI_cdesc_t *> &rmsd_pointer_cfi, rmsd_pointer_subscripts)
+    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] rmsd_pointer_np = np.asarray(<double [:rmsd_pointer_cfi.dim[0].extent:1]> rmsd_pointer_ptr_np, order="F")
     return nobs, rmsd_pointer_np
 
 
@@ -257,16 +250,15 @@ def diag_stats(int  nobs, int  verbose):
         Array shape: (:,:)
     """
     cdef CFI_cdesc_rank2 obsstats_ptr_cfi
-    cdef CFI_cdesc_t *obsstats_ptr_ptr = <CFI_cdesc_t *> &obsstats_ptr_cfi
     with nogil:
-        c__pdafomi_diag_stats(&nobs, obsstats_ptr_ptr, &verbose)
+        c__pdafomi_diag_stats(&nobs, <CFI_cdesc_t *> &obsstats_ptr_cfi, &verbose)
 
     cdef CFI_index_t obsstats_ptr_subscripts[2]
-    obsstats_ptr_subscripts[0] = obsstats_ptr_ptr.dim[0].lower_bound
-    obsstats_ptr_subscripts[1] = obsstats_ptr_ptr.dim[1].lower_bound
+    obsstats_ptr_subscripts[0] = obsstats_ptr_cfi.dim[0].lower_bound
+    obsstats_ptr_subscripts[1] = obsstats_ptr_cfi.dim[1].lower_bound
     cdef double * obsstats_ptr_ptr_np
-    obsstats_ptr_ptr_np = <double *>CFI_address(obsstats_ptr_ptr, obsstats_ptr_subscripts)
-    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] obsstats_ptr_np = np.asarray(<double [:obsstats_ptr_ptr.dim[0].extent:1,:obsstats_ptr_ptr.dim[1].extent]> obsstats_ptr_ptr_np, order="F")
+    obsstats_ptr_ptr_np = <double *>CFI_address(<CFI_cdesc_t *> &obsstats_ptr_cfi, obsstats_ptr_subscripts)
+    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] obsstats_ptr_np = np.asarray(<double [:obsstats_ptr_cfi.dim[0].extent:1,:obsstats_ptr_cfi.dim[1].extent]> obsstats_ptr_ptr_np, order="F")
     return nobs, obsstats_ptr_np
 
 

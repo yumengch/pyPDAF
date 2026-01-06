@@ -81,15 +81,14 @@ def cnt_dim_obs_l(int  i_obs, double [::1] coords_l):
     -------
     """
     cdef CFI_cdesc_rank1 coords_l_cfi
-    cdef CFI_cdesc_t *coords_l_ptr = <CFI_cdesc_t *> &coords_l_cfi
     cdef size_t coords_l_nbytes = coords_l.nbytes
     cdef CFI_index_t coords_l_extent[1]
     coords_l_extent[0] = coords_l.shape[0]
     with nogil:
-        CFI_establish(coords_l_ptr, &coords_l[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &coords_l_cfi, &coords_l[0], CFI_attribute_other,
                       CFI_type_double , coords_l_nbytes, 1, coords_l_extent)
 
-        c__pdafomi_cnt_dim_obs_l(&i_obs, coords_l_ptr)
+        c__pdafomi_cnt_dim_obs_l(&i_obs, <CFI_cdesc_t *> &coords_l_cfi)
 
 
 
@@ -109,15 +108,14 @@ def cnt_dim_obs_l_noniso(int  i_obs, double [::1] coords_l):
     -------
     """
     cdef CFI_cdesc_rank1 coords_l_cfi
-    cdef CFI_cdesc_t *coords_l_ptr = <CFI_cdesc_t *> &coords_l_cfi
     cdef size_t coords_l_nbytes = coords_l.nbytes
     cdef CFI_index_t coords_l_extent[1]
     coords_l_extent[0] = coords_l.shape[0]
     with nogil:
-        CFI_establish(coords_l_ptr, &coords_l[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &coords_l_cfi, &coords_l[0], CFI_attribute_other,
                       CFI_type_double , coords_l_nbytes, 1, coords_l_extent)
 
-        c__pdafomi_cnt_dim_obs_l_noniso(&i_obs, coords_l_ptr)
+        c__pdafomi_cnt_dim_obs_l_noniso(&i_obs, <CFI_cdesc_t *> &coords_l_cfi)
 
 
 
@@ -141,15 +139,14 @@ def init_obsarrays_l(int  i_obs, double [::1] coords_l, int  off_obs_l_all):
         input: offset of current obs. in local obs. vector
     """
     cdef CFI_cdesc_rank1 coords_l_cfi
-    cdef CFI_cdesc_t *coords_l_ptr = <CFI_cdesc_t *> &coords_l_cfi
     cdef size_t coords_l_nbytes = coords_l.nbytes
     cdef CFI_index_t coords_l_extent[1]
     coords_l_extent[0] = coords_l.shape[0]
     with nogil:
-        CFI_establish(coords_l_ptr, &coords_l[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &coords_l_cfi, &coords_l[0], CFI_attribute_other,
                       CFI_type_double , coords_l_nbytes, 1, coords_l_extent)
 
-        c__pdafomi_init_obsarrays_l(&i_obs, coords_l_ptr, &off_obs_l_all)
+        c__pdafomi_init_obsarrays_l(&i_obs, <CFI_cdesc_t *> &coords_l_cfi, &off_obs_l_all)
 
     return off_obs_l_all
 
@@ -175,15 +172,14 @@ def init_obsarrays_l_noniso(int  i_obs, double [::1] coords_l,
         input: offset of current obs. in local obs. vector
     """
     cdef CFI_cdesc_rank1 coords_l_cfi
-    cdef CFI_cdesc_t *coords_l_ptr = <CFI_cdesc_t *> &coords_l_cfi
     cdef size_t coords_l_nbytes = coords_l.nbytes
     cdef CFI_index_t coords_l_extent[1]
     coords_l_extent[0] = coords_l.shape[0]
     with nogil:
-        CFI_establish(coords_l_ptr, &coords_l[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &coords_l_cfi, &coords_l[0], CFI_attribute_other,
                       CFI_type_double , coords_l_nbytes, 1, coords_l_extent)
 
-        c__pdafomi_init_obsarrays_l_noniso(&i_obs, coords_l_ptr, &off_obs_l_all)
+        c__pdafomi_init_obsarrays_l_noniso(&i_obs, <CFI_cdesc_t *> &coords_l_cfi, &off_obs_l_all)
 
     return off_obs_l_all
 
@@ -210,24 +206,22 @@ def g2l_obs(int  i_obs, double [::1] obs_f_all, double [::1] obs_l_all):
         Array shape: (:)
     """
     cdef CFI_cdesc_rank1 obs_l_all_cfi
-    cdef CFI_cdesc_t *obs_l_all_ptr = <CFI_cdesc_t *> &obs_l_all_cfi
     cdef size_t obs_l_all_nbytes = obs_l_all.nbytes
     cdef CFI_index_t obs_l_all_extent[1]
     obs_l_all_extent[0] = obs_l_all.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obs_l_all_np = np.asarray(obs_l_all, dtype=np.float64, order="F")
     cdef CFI_cdesc_rank1 obs_f_all_cfi
-    cdef CFI_cdesc_t *obs_f_all_ptr = <CFI_cdesc_t *> &obs_f_all_cfi
     cdef size_t obs_f_all_nbytes = obs_f_all.nbytes
     cdef CFI_index_t obs_f_all_extent[1]
     obs_f_all_extent[0] = obs_f_all.shape[0]
     with nogil:
-        CFI_establish(obs_f_all_ptr, &obs_f_all[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &obs_f_all_cfi, &obs_f_all[0], CFI_attribute_other,
                       CFI_type_double , obs_f_all_nbytes, 1, obs_f_all_extent)
 
-        CFI_establish(obs_l_all_ptr, &obs_l_all[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &obs_l_all_cfi, &obs_l_all[0], CFI_attribute_other,
                       CFI_type_double , obs_l_all_nbytes, 1, obs_l_all_extent)
 
-        c__pdafomi_g2l_obs(&i_obs, obs_f_all_ptr, obs_l_all_ptr)
+        c__pdafomi_g2l_obs(&i_obs, <CFI_cdesc_t *> &obs_f_all_cfi, <CFI_cdesc_t *> &obs_l_all_cfi)
 
     return obs_l_all_np
 
@@ -251,16 +245,15 @@ def init_obs_l(int  i_obs, double [::1] obs_l_all):
         Array shape: (:)
     """
     cdef CFI_cdesc_rank1 obs_l_all_cfi
-    cdef CFI_cdesc_t *obs_l_all_ptr = <CFI_cdesc_t *> &obs_l_all_cfi
     cdef size_t obs_l_all_nbytes = obs_l_all.nbytes
     cdef CFI_index_t obs_l_all_extent[1]
     obs_l_all_extent[0] = obs_l_all.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obs_l_all_np = np.asarray(obs_l_all, dtype=np.float64, order="F")
     with nogil:
-        CFI_establish(obs_l_all_ptr, &obs_l_all[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &obs_l_all_cfi, &obs_l_all[0], CFI_attribute_other,
                       CFI_type_double , obs_l_all_nbytes, 1, obs_l_all_extent)
 
-        c__pdafomi_init_obs_l(&i_obs, obs_l_all_ptr)
+        c__pdafomi_init_obs_l(&i_obs, <CFI_cdesc_t *> &obs_l_all_cfi)
 
     return obs_l_all_np
 
@@ -323,27 +316,26 @@ def prodrinva_l(int  i_obs, int  nobs_all, int  ncols, double [::1,:] a_l,
         Array shape: (:, :)
     """
     cdef CFI_cdesc_rank2 a_l_cfi
-    cdef CFI_cdesc_t *a_l_ptr = <CFI_cdesc_t *> &a_l_cfi
     cdef size_t a_l_nbytes = a_l.nbytes
     cdef CFI_index_t a_l_extent[2]
     a_l_extent[0] = a_l.shape[0]
     a_l_extent[1] = a_l.shape[1]
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] a_l_np = np.asarray(a_l, dtype=np.float64, order="F")
+
     cdef CFI_cdesc_rank2 c_l_cfi
-    cdef CFI_cdesc_t *c_l_ptr = <CFI_cdesc_t *> &c_l_cfi
     cdef size_t c_l_nbytes = c_l.nbytes
     cdef CFI_index_t c_l_extent[2]
     c_l_extent[0] = c_l.shape[0]
     c_l_extent[1] = c_l.shape[1]
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] c_l_np = np.asarray(c_l, dtype=np.float64, order="F")
     with nogil:
-        CFI_establish(a_l_ptr, &a_l[0,0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &a_l_cfi, &a_l[0,0], CFI_attribute_other,
                       CFI_type_double , a_l_nbytes, 2, a_l_extent)
 
-        CFI_establish(c_l_ptr, &c_l[0,0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &c_l_cfi, &c_l[0,0], CFI_attribute_other,
                       CFI_type_double , c_l_nbytes, 2, c_l_extent)
 
-        c__pdafomi_prodrinva_l(&i_obs, &nobs_all, &ncols, a_l_ptr, c_l_ptr,
+        c__pdafomi_prodrinva_l(&i_obs, &nobs_all, &ncols, <CFI_cdesc_t *> &a_l_cfi, <CFI_cdesc_t *> &c_l_cfi,
                                &verbose)
 
     return a_l_np, c_l_np
@@ -383,28 +375,27 @@ def prodrinva_hyb_l(int  i_obs, int  nobs_all, int  ncols, double  gamma,
         Array shape: (:, :)
     """
     cdef CFI_cdesc_rank2 a_l_cfi
-    cdef CFI_cdesc_t *a_l_ptr = <CFI_cdesc_t *> &a_l_cfi
     cdef size_t a_l_nbytes = a_l.nbytes
     cdef CFI_index_t a_l_extent[2]
     a_l_extent[0] = a_l.shape[0]
     a_l_extent[1] = a_l.shape[1]
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] a_l_np = np.asarray(a_l, dtype=np.float64, order="F")
+
     cdef CFI_cdesc_rank2 c_l_cfi
-    cdef CFI_cdesc_t *c_l_ptr = <CFI_cdesc_t *> &c_l_cfi
     cdef size_t c_l_nbytes = c_l.nbytes
     cdef CFI_index_t c_l_extent[2]
     c_l_extent[0] = c_l.shape[0]
     c_l_extent[1] = c_l.shape[1]
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] c_l_np = np.asarray(c_l, dtype=np.float64, order="F")
     with nogil:
-        CFI_establish(a_l_ptr, &a_l[0,0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &a_l_cfi, &a_l[0,0], CFI_attribute_other,
                       CFI_type_double , a_l_nbytes, 2, a_l_extent)
 
-        CFI_establish(c_l_ptr, &c_l[0,0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &c_l_cfi, &c_l[0,0], CFI_attribute_other,
                       CFI_type_double , c_l_nbytes, 2, c_l_extent)
 
         c__pdafomi_prodrinva_hyb_l(&i_obs, &nobs_all, &ncols, &gamma,
-                                   a_l_ptr, c_l_ptr, &verbose)
+                                   <CFI_cdesc_t *> &a_l_cfi, <CFI_cdesc_t *> &c_l_cfi, &verbose)
 
     return a_l_np, c_l_np
 
@@ -435,16 +426,15 @@ def likelihood_l(int  i_obs, double [::1] resid_l_all, double  lhood_l,
         Output vector - log likelihood
     """
     cdef CFI_cdesc_rank1 resid_l_all_cfi
-    cdef CFI_cdesc_t *resid_l_all_ptr = <CFI_cdesc_t *> &resid_l_all_cfi
     cdef size_t resid_l_all_nbytes = resid_l_all.nbytes
     cdef CFI_index_t resid_l_all_extent[1]
     resid_l_all_extent[0] = resid_l_all.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] resid_l_all_np = np.asarray(resid_l_all, dtype=np.float64, order="F")
     with nogil:
-        CFI_establish(resid_l_all_ptr, &resid_l_all[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &resid_l_all_cfi, &resid_l_all[0], CFI_attribute_other,
                       CFI_type_double , resid_l_all_nbytes, 1, resid_l_all_extent)
 
-        c__pdafomi_likelihood_l(&i_obs, resid_l_all_ptr, &lhood_l, &verbose)
+        c__pdafomi_likelihood_l(&i_obs, <CFI_cdesc_t *> &resid_l_all_cfi, &lhood_l, &verbose)
 
     return resid_l_all_np, lhood_l
 
@@ -477,16 +467,15 @@ def likelihood_hyb_l(int  i_obs, double [::1] resid_l_all, double  gamma,
         Output vector - log likelihood
     """
     cdef CFI_cdesc_rank1 resid_l_all_cfi
-    cdef CFI_cdesc_t *resid_l_all_ptr = <CFI_cdesc_t *> &resid_l_all_cfi
     cdef size_t resid_l_all_nbytes = resid_l_all.nbytes
     cdef CFI_index_t resid_l_all_extent[1]
     resid_l_all_extent[0] = resid_l_all.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] resid_l_all_np = np.asarray(resid_l_all, dtype=np.float64, order="F")
     with nogil:
-        CFI_establish(resid_l_all_ptr, &resid_l_all[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &resid_l_all_cfi, &resid_l_all[0], CFI_attribute_other,
                       CFI_type_double , resid_l_all_nbytes, 1, resid_l_all_extent)
 
-        c__pdafomi_likelihood_hyb_l(&i_obs, resid_l_all_ptr, &gamma,
+        c__pdafomi_likelihood_hyb_l(&i_obs, <CFI_cdesc_t *> &resid_l_all_cfi, &gamma,
                                     &lhood_l, &verbose)
 
     return resid_l_all_np, lhood_l
@@ -517,25 +506,23 @@ def g2l_obs_internal(int  i_obs, double [::1] obs_f_one,
         Array shape: (:)
     """
     cdef CFI_cdesc_rank1 obs_l_all_cfi
-    cdef CFI_cdesc_t *obs_l_all_ptr = <CFI_cdesc_t *> &obs_l_all_cfi
     cdef size_t obs_l_all_nbytes = obs_l_all.nbytes
     cdef CFI_index_t obs_l_all_extent[1]
     obs_l_all_extent[0] = obs_l_all.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obs_l_all_np = np.asarray(obs_l_all, dtype=np.float64, order="F")
     cdef CFI_cdesc_rank1 obs_f_one_cfi
-    cdef CFI_cdesc_t *obs_f_one_ptr = <CFI_cdesc_t *> &obs_f_one_cfi
     cdef size_t obs_f_one_nbytes = obs_f_one.nbytes
     cdef CFI_index_t obs_f_one_extent[1]
     obs_f_one_extent[0] = obs_f_one.shape[0]
     with nogil:
-        CFI_establish(obs_f_one_ptr, &obs_f_one[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &obs_f_one_cfi, &obs_f_one[0], CFI_attribute_other,
                       CFI_type_double , obs_f_one_nbytes, 1, obs_f_one_extent)
 
-        CFI_establish(obs_l_all_ptr, &obs_l_all[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &obs_l_all_cfi, &obs_l_all[0], CFI_attribute_other,
                       CFI_type_double , obs_l_all_nbytes, 1, obs_l_all_extent)
 
-        c__pdafomi_g2l_obs_internal(&i_obs, obs_f_one_ptr,
-                                    &offset_obs_l_all, obs_l_all_ptr)
+        c__pdafomi_g2l_obs_internal(&i_obs, <CFI_cdesc_t *> &obs_f_one_cfi,
+                                    &offset_obs_l_all, <CFI_cdesc_t *> &obs_l_all_cfi)
 
     return obs_l_all_np
 
@@ -564,24 +551,22 @@ def comp_dist2(int  i_obs, double [::1] coordsa, double [::1] coordsb,
         Squared distance
     """
     cdef CFI_cdesc_rank1 coordsa_cfi
-    cdef CFI_cdesc_t *coordsa_ptr = <CFI_cdesc_t *> &coordsa_cfi
     cdef size_t coordsa_nbytes = coordsa.nbytes
     cdef CFI_index_t coordsa_extent[1]
     coordsa_extent[0] = coordsa.shape[0]
     cdef CFI_cdesc_rank1 coordsb_cfi
-    cdef CFI_cdesc_t *coordsb_ptr = <CFI_cdesc_t *> &coordsb_cfi
     cdef size_t coordsb_nbytes = coordsb.nbytes
     cdef CFI_index_t coordsb_extent[1]
     coordsb_extent[0] = coordsb.shape[0]
     cdef double  distance2
     with nogil:
-        CFI_establish(coordsa_ptr, &coordsa[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &coordsa_cfi, &coordsa[0], CFI_attribute_other,
                       CFI_type_double , coordsa_nbytes, 1, coordsa_extent)
 
-        CFI_establish(coordsb_ptr, &coordsb[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &coordsb_cfi, &coordsb[0], CFI_attribute_other,
                       CFI_type_double , coordsb_nbytes, 1, coordsb_extent)
 
-        c__pdafomi_comp_dist2(&i_obs, coordsa_ptr, coordsb_ptr, &distance2,
+        c__pdafomi_comp_dist2(&i_obs, <CFI_cdesc_t *> &coordsa_cfi, <CFI_cdesc_t *> &coordsb_cfi, &distance2,
                               &verbose)
 
     return distance2
@@ -617,25 +602,23 @@ def check_dist2(int  i_obs, double [::1] coordsa, double [::1] coordsb,
         Count number of local observations
     """
     cdef CFI_cdesc_rank1 coordsa_cfi
-    cdef CFI_cdesc_t *coordsa_ptr = <CFI_cdesc_t *> &coordsa_cfi
     cdef size_t coordsa_nbytes = coordsa.nbytes
     cdef CFI_index_t coordsa_extent[1]
     coordsa_extent[0] = coordsa.shape[0]
     cdef CFI_cdesc_rank1 coordsb_cfi
-    cdef CFI_cdesc_t *coordsb_ptr = <CFI_cdesc_t *> &coordsb_cfi
     cdef size_t coordsb_nbytes = coordsb.nbytes
     cdef CFI_index_t coordsb_extent[1]
     coordsb_extent[0] = coordsb.shape[0]
     cdef double  distance2
     cdef bint  checkdist
     with nogil:
-        CFI_establish(coordsa_ptr, &coordsa[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &coordsa_cfi, &coordsa[0], CFI_attribute_other,
                       CFI_type_double , coordsa_nbytes, 1, coordsa_extent)
 
-        CFI_establish(coordsb_ptr, &coordsb[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &coordsb_cfi, &coordsb[0], CFI_attribute_other,
                       CFI_type_double , coordsb_nbytes, 1, coordsb_extent)
 
-        c__pdafomi_check_dist2(&i_obs, coordsa_ptr, coordsb_ptr,
+        c__pdafomi_check_dist2(&i_obs, <CFI_cdesc_t *> &coordsa_cfi, <CFI_cdesc_t *> &coordsb_cfi,
                                &distance2, &checkdist, &verbose, &cnt_obs)
 
     return distance2, checkdist, cnt_obs
@@ -684,18 +667,15 @@ def check_dist2_noniso(int  i_obs, double [::1] coordsa,
         Count number of local observations
     """
     cdef CFI_cdesc_rank1 dists_cfi
-    cdef CFI_cdesc_t *dists_ptr = <CFI_cdesc_t *> &dists_cfi
     cdef size_t dists_nbytes = dists.nbytes
     cdef CFI_index_t dists_extent[1]
     dists_extent[0] = dists.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] dists_np = np.asarray(dists, dtype=np.float64, order="F")
     cdef CFI_cdesc_rank1 coordsa_cfi
-    cdef CFI_cdesc_t *coordsa_ptr = <CFI_cdesc_t *> &coordsa_cfi
     cdef size_t coordsa_nbytes = coordsa.nbytes
     cdef CFI_index_t coordsa_extent[1]
     coordsa_extent[0] = coordsa.shape[0]
     cdef CFI_cdesc_rank1 coordsb_cfi
-    cdef CFI_cdesc_t *coordsb_ptr = <CFI_cdesc_t *> &coordsb_cfi
     cdef size_t coordsb_nbytes = coordsb.nbytes
     cdef CFI_index_t coordsb_extent[1]
     coordsb_extent[0] = coordsb.shape[0]
@@ -703,17 +683,17 @@ def check_dist2_noniso(int  i_obs, double [::1] coordsa,
     cdef double  cradius
     cdef bint  checkdist
     with nogil:
-        CFI_establish(coordsa_ptr, &coordsa[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &coordsa_cfi, &coordsa[0], CFI_attribute_other,
                       CFI_type_double , coordsa_nbytes, 1, coordsa_extent)
 
-        CFI_establish(coordsb_ptr, &coordsb[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &coordsb_cfi, &coordsb[0], CFI_attribute_other,
                       CFI_type_double , coordsb_nbytes, 1, coordsb_extent)
 
-        CFI_establish(dists_ptr, &dists[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &dists_cfi, &dists[0], CFI_attribute_other,
                       CFI_type_double , dists_nbytes, 1, dists_extent)
 
-        c__pdafomi_check_dist2_noniso(&i_obs, coordsa_ptr, coordsb_ptr,
-                                      &distance2, dists_ptr, &cradius,
+        c__pdafomi_check_dist2_noniso(&i_obs, <CFI_cdesc_t *> &coordsa_cfi, <CFI_cdesc_t *> &coordsb_cfi,
+                                      &distance2, <CFI_cdesc_t *> &dists_cfi, &cradius,
                                       &sradius, &checkdist, &verbose, &cnt_obs)
 
     return distance2, dists_np, cradius, sradius, checkdist, cnt_obs
@@ -761,59 +741,56 @@ def weights_l(int  verbose, int  nobs_l, int  ncols, int  locweight,
         Array shape: (:)
     """
     cdef CFI_cdesc_rank1 weight_l_cfi
-    cdef CFI_cdesc_t *weight_l_ptr = <CFI_cdesc_t *> &weight_l_cfi
     cdef size_t weight_l_nbytes = weight_l.nbytes
     cdef CFI_index_t weight_l_extent[1]
     weight_l_extent[0] = weight_l.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] weight_l_np = np.asarray(weight_l, dtype=np.float64, order="F")
     cdef CFI_cdesc_rank1 cradius_cfi
-    cdef CFI_cdesc_t *cradius_ptr = <CFI_cdesc_t *> &cradius_cfi
     cdef size_t cradius_nbytes = cradius.nbytes
     cdef CFI_index_t cradius_extent[1]
     cradius_extent[0] = cradius.shape[0]
     cdef CFI_cdesc_rank1 sradius_cfi
-    cdef CFI_cdesc_t *sradius_ptr = <CFI_cdesc_t *> &sradius_cfi
     cdef size_t sradius_nbytes = sradius.nbytes
     cdef CFI_index_t sradius_extent[1]
     sradius_extent[0] = sradius.shape[0]
     cdef CFI_cdesc_rank2 mata_cfi
-    cdef CFI_cdesc_t *mata_ptr = <CFI_cdesc_t *> &mata_cfi
     cdef size_t mata_nbytes = mata.nbytes
     cdef CFI_index_t mata_extent[2]
     mata_extent[0] = mata.shape[0]
     mata_extent[1] = mata.shape[1]
     cdef CFI_cdesc_rank1 ivar_obs_l_cfi
-    cdef CFI_cdesc_t *ivar_obs_l_ptr = <CFI_cdesc_t *> &ivar_obs_l_cfi
     cdef size_t ivar_obs_l_nbytes = ivar_obs_l.nbytes
     cdef CFI_index_t ivar_obs_l_extent[1]
     ivar_obs_l_extent[0] = ivar_obs_l.shape[0]
     cdef CFI_cdesc_rank1 dist_l_cfi
-    cdef CFI_cdesc_t *dist_l_ptr = <CFI_cdesc_t *> &dist_l_cfi
     cdef size_t dist_l_nbytes = dist_l.nbytes
     cdef CFI_index_t dist_l_extent[1]
     dist_l_extent[0] = dist_l.shape[0]
     with nogil:
-        CFI_establish(cradius_ptr, &cradius[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &cradius_cfi, &cradius[0], CFI_attribute_other,
                       CFI_type_double , cradius_nbytes, 1, cradius_extent)
 
-        CFI_establish(sradius_ptr, &sradius[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &sradius_cfi, &sradius[0], CFI_attribute_other,
                       CFI_type_double , sradius_nbytes, 1, sradius_extent)
 
-        CFI_establish(mata_ptr, &mata[0,0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &mata_cfi, &mata[0,0], CFI_attribute_other,
                       CFI_type_double , mata_nbytes, 2, mata_extent)
 
-        CFI_establish(ivar_obs_l_ptr, &ivar_obs_l[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &ivar_obs_l_cfi, &ivar_obs_l[0], CFI_attribute_other,
                       CFI_type_double , ivar_obs_l_nbytes, 1, ivar_obs_l_extent)
 
-        CFI_establish(dist_l_ptr, &dist_l[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &dist_l_cfi, &dist_l[0], CFI_attribute_other,
                       CFI_type_double , dist_l_nbytes, 1, dist_l_extent)
 
-        CFI_establish(weight_l_ptr, &weight_l[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &weight_l_cfi, &weight_l[0], CFI_attribute_other,
                       CFI_type_double , weight_l_nbytes, 1, weight_l_extent)
 
         c__pdafomi_weights_l(&verbose, &nobs_l, &ncols, &locweight,
-                             cradius_ptr, sradius_ptr, mata_ptr,
-                             ivar_obs_l_ptr, dist_l_ptr, weight_l_ptr)
+                             <CFI_cdesc_t *> &cradius_cfi, <CFI_cdesc_t *> &sradius_cfi,
+                             <CFI_cdesc_t *> &mata_cfi,
+                             <CFI_cdesc_t *> &ivar_obs_l_cfi,
+                             <CFI_cdesc_t *> &dist_l_cfi,
+                             <CFI_cdesc_t *> &weight_l_cfi)
 
     return weight_l_np
 
@@ -858,43 +835,40 @@ def weights_l_sgnl(int  verbose, int  nobs_l, int  ncols, int  locweight,
         Array shape: (:)
     """
     cdef CFI_cdesc_rank1 weight_l_cfi
-    cdef CFI_cdesc_t *weight_l_ptr = <CFI_cdesc_t *> &weight_l_cfi
     cdef size_t weight_l_nbytes = weight_l.nbytes
     cdef CFI_index_t weight_l_extent[1]
     weight_l_extent[0] = weight_l.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] weight_l_np = np.asarray(weight_l, dtype=np.float64, order="F")
     cdef CFI_cdesc_rank2 mata_cfi
-    cdef CFI_cdesc_t *mata_ptr = <CFI_cdesc_t *> &mata_cfi
     cdef size_t mata_nbytes = mata.nbytes
     cdef CFI_index_t mata_extent[2]
     mata_extent[0] = mata.shape[0]
     mata_extent[1] = mata.shape[1]
     cdef CFI_cdesc_rank1 ivar_obs_l_cfi
-    cdef CFI_cdesc_t *ivar_obs_l_ptr = <CFI_cdesc_t *> &ivar_obs_l_cfi
     cdef size_t ivar_obs_l_nbytes = ivar_obs_l.nbytes
     cdef CFI_index_t ivar_obs_l_extent[1]
     ivar_obs_l_extent[0] = ivar_obs_l.shape[0]
     cdef CFI_cdesc_rank1 dist_l_cfi
-    cdef CFI_cdesc_t *dist_l_ptr = <CFI_cdesc_t *> &dist_l_cfi
     cdef size_t dist_l_nbytes = dist_l.nbytes
     cdef CFI_index_t dist_l_extent[1]
     dist_l_extent[0] = dist_l.shape[0]
     with nogil:
-        CFI_establish(mata_ptr, &mata[0,0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &mata_cfi, &mata[0,0], CFI_attribute_other,
                       CFI_type_double , mata_nbytes, 2, mata_extent)
 
-        CFI_establish(ivar_obs_l_ptr, &ivar_obs_l[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &ivar_obs_l_cfi, &ivar_obs_l[0], CFI_attribute_other,
                       CFI_type_double , ivar_obs_l_nbytes, 1, ivar_obs_l_extent)
 
-        CFI_establish(dist_l_ptr, &dist_l[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &dist_l_cfi, &dist_l[0], CFI_attribute_other,
                       CFI_type_double , dist_l_nbytes, 1, dist_l_extent)
 
-        CFI_establish(weight_l_ptr, &weight_l[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &weight_l_cfi, &weight_l[0], CFI_attribute_other,
                       CFI_type_double , weight_l_nbytes, 1, weight_l_extent)
 
         c__pdafomi_weights_l_sgnl(&verbose, &nobs_l, &ncols, &locweight,
-                                  &cradius, &sradius, mata_ptr,
-                                  ivar_obs_l_ptr, dist_l_ptr, weight_l_ptr)
+                                  &cradius, &sradius, <CFI_cdesc_t *> &mata_cfi,
+                                  <CFI_cdesc_t *> &ivar_obs_l_cfi,
+                                  <CFI_cdesc_t *> &dist_l_cfi, <CFI_cdesc_t *> &weight_l_cfi)
 
     return weight_l_np
 
@@ -927,23 +901,21 @@ def omit_by_inno_l(int  i_obs, double [::1] inno_l,
         Count of omitted observation over all types
     """
     cdef CFI_cdesc_rank1 inno_l_cfi
-    cdef CFI_cdesc_t *inno_l_ptr = <CFI_cdesc_t *> &inno_l_cfi
     cdef size_t inno_l_nbytes = inno_l.nbytes
     cdef CFI_index_t inno_l_extent[1]
     inno_l_extent[0] = inno_l.shape[0]
     cdef CFI_cdesc_rank1 obs_l_all_cfi
-    cdef CFI_cdesc_t *obs_l_all_ptr = <CFI_cdesc_t *> &obs_l_all_cfi
     cdef size_t obs_l_all_nbytes = obs_l_all.nbytes
     cdef CFI_index_t obs_l_all_extent[1]
     obs_l_all_extent[0] = obs_l_all.shape[0]
     with nogil:
-        CFI_establish(inno_l_ptr, &inno_l[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &inno_l_cfi, &inno_l[0], CFI_attribute_other,
                       CFI_type_double , inno_l_nbytes, 1, inno_l_extent)
 
-        CFI_establish(obs_l_all_ptr, &obs_l_all[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &obs_l_all_cfi, &obs_l_all[0], CFI_attribute_other,
                       CFI_type_double , obs_l_all_nbytes, 1, obs_l_all_extent)
 
-        c__pdafomi_omit_by_inno_l(&i_obs, inno_l_ptr, obs_l_all_ptr,
+        c__pdafomi_omit_by_inno_l(&i_obs, <CFI_cdesc_t *> &inno_l_cfi, <CFI_cdesc_t *> &obs_l_all_cfi,
                                   &obsid, &cnt_all, &verbose)
 
     return cnt_all
@@ -994,17 +966,16 @@ def ocoord_all(int  ncoord, double [::1,:] oc_all):
         Array shape: (:,:)
     """
     cdef CFI_cdesc_rank2 oc_all_cfi
-    cdef CFI_cdesc_t *oc_all_ptr = <CFI_cdesc_t *> &oc_all_cfi
     cdef size_t oc_all_nbytes = oc_all.nbytes
     cdef CFI_index_t oc_all_extent[2]
     oc_all_extent[0] = oc_all.shape[0]
     oc_all_extent[1] = oc_all.shape[1]
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] oc_all_np = np.asarray(oc_all, dtype=np.float64, order="F")
     with nogil:
-        CFI_establish(oc_all_ptr, &oc_all[0,0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &oc_all_cfi, &oc_all[0,0], CFI_attribute_other,
                       CFI_type_double , oc_all_nbytes, 2, oc_all_extent)
 
-        c__pdafomi_ocoord_all(&ncoord, oc_all_ptr)
+        c__pdafomi_ocoord_all(&ncoord, <CFI_cdesc_t *> &oc_all_cfi)
 
     return oc_all_np
 
@@ -1076,15 +1047,14 @@ def check_dist2_loop(int  i_obs, double [::1] coordsa, int  cnt_obs,
         Count number of local observations
     """
     cdef CFI_cdesc_rank1 coordsa_cfi
-    cdef CFI_cdesc_t *coordsa_ptr = <CFI_cdesc_t *> &coordsa_cfi
     cdef size_t coordsa_nbytes = coordsa.nbytes
     cdef CFI_index_t coordsa_extent[1]
     coordsa_extent[0] = coordsa.shape[0]
     with nogil:
-        CFI_establish(coordsa_ptr, &coordsa[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &coordsa_cfi, &coordsa[0], CFI_attribute_other,
                       CFI_type_double , coordsa_nbytes, 1, coordsa_extent)
 
-        c__pdafomi_check_dist2_loop(&i_obs, coordsa_ptr, &cnt_obs, &mode)
+        c__pdafomi_check_dist2_loop(&i_obs, <CFI_cdesc_t *> &coordsa_cfi, &cnt_obs, &mode)
 
     return cnt_obs
 
@@ -1112,15 +1082,14 @@ def check_dist2_noniso_loop(int  i_obs, double [::1] coordsa,
         Count number of local observations
     """
     cdef CFI_cdesc_rank1 coordsa_cfi
-    cdef CFI_cdesc_t *coordsa_ptr = <CFI_cdesc_t *> &coordsa_cfi
     cdef size_t coordsa_nbytes = coordsa.nbytes
     cdef CFI_index_t coordsa_extent[1]
     coordsa_extent[0] = coordsa.shape[0]
     with nogil:
-        CFI_establish(coordsa_ptr, &coordsa[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &coordsa_cfi, &coordsa[0], CFI_attribute_other,
                       CFI_type_double , coordsa_nbytes, 1, coordsa_extent)
 
-        c__pdafomi_check_dist2_noniso_loop(&i_obs, coordsa_ptr, &cnt_obs, &mode)
+        c__pdafomi_check_dist2_noniso_loop(&i_obs, <CFI_cdesc_t *> &coordsa_cfi, &cnt_obs, &mode)
 
     return cnt_obs
 
@@ -1148,24 +1117,23 @@ def obs_op_gatheronly(int  i_obs, double [::1] state_p,
         Array shape: (:)
     """
     cdef CFI_cdesc_rank1 obs_f_all_cfi
-    cdef CFI_cdesc_t *obs_f_all_ptr = <CFI_cdesc_t *> &obs_f_all_cfi
     cdef size_t obs_f_all_nbytes = obs_f_all.nbytes
     cdef CFI_index_t obs_f_all_extent[1]
     obs_f_all_extent[0] = obs_f_all.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obs_f_all_np = np.asarray(obs_f_all, dtype=np.float64, order="F")
     cdef CFI_cdesc_rank1 state_p_cfi
-    cdef CFI_cdesc_t *state_p_ptr = <CFI_cdesc_t *> &state_p_cfi
     cdef size_t state_p_nbytes = state_p.nbytes
     cdef CFI_index_t state_p_extent[1]
     state_p_extent[0] = state_p.shape[0]
     with nogil:
-        CFI_establish(state_p_ptr, &state_p[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &state_p_cfi, &state_p[0], CFI_attribute_other,
                       CFI_type_double , state_p_nbytes, 1, state_p_extent)
 
-        CFI_establish(obs_f_all_ptr, &obs_f_all[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &obs_f_all_cfi, &obs_f_all[0], CFI_attribute_other,
                       CFI_type_double , obs_f_all_nbytes, 1, obs_f_all_extent)
 
-        c__pdafomi_obs_op_gatheronly(&i_obs, state_p_ptr, obs_f_all_ptr)
+        c__pdafomi_obs_op_gatheronly(&i_obs, <CFI_cdesc_t *> &state_p_cfi,
+                                     <CFI_cdesc_t *> &obs_f_all_cfi)
 
     return obs_f_all_np
 
@@ -1193,24 +1161,23 @@ def obs_op_adj_gatheronly(int  i_obs, double [::1] obs_f_all,
         Array shape: (:)
     """
     cdef CFI_cdesc_rank1 obs_f_all_cfi
-    cdef CFI_cdesc_t *obs_f_all_ptr = <CFI_cdesc_t *> &obs_f_all_cfi
     cdef size_t obs_f_all_nbytes = obs_f_all.nbytes
     cdef CFI_index_t obs_f_all_extent[1]
     obs_f_all_extent[0] = obs_f_all.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obs_f_all_np = np.asarray(obs_f_all, dtype=np.float64, order="F")
     cdef CFI_cdesc_rank1 state_p_cfi
-    cdef CFI_cdesc_t *state_p_ptr = <CFI_cdesc_t *> &state_p_cfi
     cdef size_t state_p_nbytes = state_p.nbytes
     cdef CFI_index_t state_p_extent[1]
     state_p_extent[0] = state_p.shape[0]
     with nogil:
-        CFI_establish(obs_f_all_ptr, &obs_f_all[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &obs_f_all_cfi, &obs_f_all[0], CFI_attribute_other,
                       CFI_type_double , obs_f_all_nbytes, 1, obs_f_all_extent)
 
-        CFI_establish(state_p_ptr, &state_p[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &state_p_cfi, &state_p[0], CFI_attribute_other,
                       CFI_type_double , state_p_nbytes, 1, state_p_extent)
 
-        c__pdafomi_obs_op_adj_gatheronly(&i_obs, obs_f_all_ptr, state_p_ptr)
+        c__pdafomi_obs_op_adj_gatheronly(&i_obs, <CFI_cdesc_t *> &obs_f_all_cfi,
+                                         <CFI_cdesc_t *> &state_p_cfi)
 
     return obs_f_all_np
 
@@ -1241,16 +1208,15 @@ def init_obs_f(int  i_obs, int  dim_obs_f, double [::1] obsstate_f,
         input: offset of module-type observations in obsstate_f
     """
     cdef CFI_cdesc_rank1 obsstate_f_cfi
-    cdef CFI_cdesc_t *obsstate_f_ptr = <CFI_cdesc_t *> &obsstate_f_cfi
     cdef size_t obsstate_f_nbytes = obsstate_f.nbytes
     cdef CFI_index_t obsstate_f_extent[1]
     obsstate_f_extent[0] = obsstate_f.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obsstate_f_np = np.asarray(obsstate_f, dtype=np.float64, order="F")
     with nogil:
-        CFI_establish(obsstate_f_ptr, &obsstate_f[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &obsstate_f_cfi, &obsstate_f[0], CFI_attribute_other,
                       CFI_type_double , obsstate_f_nbytes, 1, obsstate_f_extent)
 
-        c__pdafomi_init_obs_f(&i_obs, &dim_obs_f, obsstate_f_ptr, &offset)
+        c__pdafomi_init_obs_f(&i_obs, &dim_obs_f, <CFI_cdesc_t *> &obsstate_f_cfi, &offset)
 
     return obsstate_f_np, offset
 
@@ -1281,16 +1247,15 @@ def init_obsvars_f(int  i_obs, int  dim_obs_f, double [::1] var_f,
         input: offset of module-type observations in obsstate_f
     """
     cdef CFI_cdesc_rank1 var_f_cfi
-    cdef CFI_cdesc_t *var_f_ptr = <CFI_cdesc_t *> &var_f_cfi
     cdef size_t var_f_nbytes = var_f.nbytes
     cdef CFI_index_t var_f_extent[1]
     var_f_extent[0] = var_f.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] var_f_np = np.asarray(var_f, dtype=np.float64, order="F")
     with nogil:
-        CFI_establish(var_f_ptr, &var_f[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &var_f_cfi, &var_f[0], CFI_attribute_other,
                       CFI_type_double , var_f_nbytes, 1, var_f_extent)
 
-        c__pdafomi_init_obsvars_f(&i_obs, &dim_obs_f, var_f_ptr, &offset)
+        c__pdafomi_init_obsvars_f(&i_obs, &dim_obs_f, <CFI_cdesc_t *> &var_f_cfi, &offset)
 
     return var_f_np, offset
 
@@ -1345,26 +1310,24 @@ def prodrinva(int  i_obs, int  ncols, double [::1,:] a_p, double [::1,:] c_p):
         Array shape: (:, :)
     """
     cdef CFI_cdesc_rank2 c_p_cfi
-    cdef CFI_cdesc_t *c_p_ptr = <CFI_cdesc_t *> &c_p_cfi
     cdef size_t c_p_nbytes = c_p.nbytes
     cdef CFI_index_t c_p_extent[2]
     c_p_extent[0] = c_p.shape[0]
     c_p_extent[1] = c_p.shape[1]
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] c_p_np = np.asarray(c_p, dtype=np.float64, order="F")
     cdef CFI_cdesc_rank2 a_p_cfi
-    cdef CFI_cdesc_t *a_p_ptr = <CFI_cdesc_t *> &a_p_cfi
     cdef size_t a_p_nbytes = a_p.nbytes
     cdef CFI_index_t a_p_extent[2]
     a_p_extent[0] = a_p.shape[0]
     a_p_extent[1] = a_p.shape[1]
     with nogil:
-        CFI_establish(a_p_ptr, &a_p[0,0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &a_p_cfi, &a_p[0,0], CFI_attribute_other,
                       CFI_type_double , a_p_nbytes, 2, a_p_extent)
 
-        CFI_establish(c_p_ptr, &c_p[0,0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &c_p_cfi, &c_p[0,0], CFI_attribute_other,
                       CFI_type_double , c_p_nbytes, 2, c_p_extent)
 
-        c__pdafomi_prodrinva(&i_obs, &ncols, a_p_ptr, c_p_ptr)
+        c__pdafomi_prodrinva(&i_obs, &ncols, <CFI_cdesc_t *> &a_p_cfi, <CFI_cdesc_t *> &c_p_cfi)
 
     return c_p_np
 
@@ -1389,15 +1352,14 @@ def likelihood(int  i_obs, double [::1] resid, double  lhood):
         Output vector - log likelihood
     """
     cdef CFI_cdesc_rank1 resid_cfi
-    cdef CFI_cdesc_t *resid_ptr = <CFI_cdesc_t *> &resid_cfi
     cdef size_t resid_nbytes = resid.nbytes
     cdef CFI_index_t resid_extent[1]
     resid_extent[0] = resid.shape[0]
     with nogil:
-        CFI_establish(resid_ptr, &resid[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &resid_cfi, &resid[0], CFI_attribute_other,
                       CFI_type_double , resid_nbytes, 1, resid_extent)
 
-        c__pdafomi_likelihood(&i_obs, resid_ptr, &lhood)
+        c__pdafomi_likelihood(&i_obs, <CFI_cdesc_t *> &resid_cfi, &lhood)
 
     return lhood
 
@@ -1423,17 +1385,16 @@ def add_obs_error(int  i_obs, int  nobs_all, double [::1,:] matc):
         Array shape: (:, :)
     """
     cdef CFI_cdesc_rank2 matc_cfi
-    cdef CFI_cdesc_t *matc_ptr = <CFI_cdesc_t *> &matc_cfi
     cdef size_t matc_nbytes = matc.nbytes
     cdef CFI_index_t matc_extent[2]
     matc_extent[0] = matc.shape[0]
     matc_extent[1] = matc.shape[1]
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] matc_np = np.asarray(matc, dtype=np.float64, order="F")
     with nogil:
-        CFI_establish(matc_ptr, &matc[0,0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &matc_cfi, &matc[0,0], CFI_attribute_other,
                       CFI_type_double , matc_nbytes, 2, matc_extent)
 
-        c__pdafomi_add_obs_error(&i_obs, &nobs_all, matc_ptr)
+        c__pdafomi_add_obs_error(&i_obs, &nobs_all, <CFI_cdesc_t *> &matc_cfi)
 
     return matc_np
 
@@ -1461,7 +1422,6 @@ def init_obscovar(int  i_obs, int  nobs_all, double [::1,:] covar):
         Whether matrix R is diagonal
     """
     cdef CFI_cdesc_rank2 covar_cfi
-    cdef CFI_cdesc_t *covar_ptr = <CFI_cdesc_t *> &covar_cfi
     cdef size_t covar_nbytes = covar.nbytes
     cdef CFI_index_t covar_extent[2]
     covar_extent[0] = covar.shape[0]
@@ -1469,10 +1429,10 @@ def init_obscovar(int  i_obs, int  nobs_all, double [::1,:] covar):
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] covar_np = np.asarray(covar, dtype=np.float64, order="F")
     cdef bint  isdiag
     with nogil:
-        CFI_establish(covar_ptr, &covar[0,0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &covar_cfi, &covar[0,0], CFI_attribute_other,
                       CFI_type_double , covar_nbytes, 2, covar_extent)
 
-        c__pdafomi_init_obscovar(&i_obs, &nobs_all, covar_ptr, &isdiag)
+        c__pdafomi_init_obscovar(&i_obs, &nobs_all, <CFI_cdesc_t *> &covar_cfi, &isdiag)
 
     return covar_np, isdiag
 
@@ -1496,16 +1456,15 @@ def init_obserr_f(int  i_obs, double [::1] obserr_f):
         Array shape: (:)
     """
     cdef CFI_cdesc_rank1 obserr_f_cfi
-    cdef CFI_cdesc_t *obserr_f_ptr = <CFI_cdesc_t *> &obserr_f_cfi
     cdef size_t obserr_f_nbytes = obserr_f.nbytes
     cdef CFI_index_t obserr_f_extent[1]
     obserr_f_extent[0] = obserr_f.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obserr_f_np = np.asarray(obserr_f, dtype=np.float64, order="F")
     with nogil:
-        CFI_establish(obserr_f_ptr, &obserr_f[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &obserr_f_cfi, &obserr_f[0], CFI_attribute_other,
                       CFI_type_double , obserr_f_nbytes, 1, obserr_f_extent)
 
-        c__pdafomi_init_obserr_f(&i_obs, obserr_f_ptr)
+        c__pdafomi_init_obserr_f(&i_obs, <CFI_cdesc_t *> &obserr_f_cfi)
 
     return obserr_f_np
 
@@ -1543,36 +1502,33 @@ def get_local_ids_obs_f(int  dim_obs_g, double  lradius,
         Array shape: (:)
     """
     cdef CFI_cdesc_rank1 id_lim_cfi
-    cdef CFI_cdesc_t *id_lim_ptr = <CFI_cdesc_t *> &id_lim_cfi
     cdef size_t id_lim_nbytes = id_lim.nbytes
     cdef CFI_index_t id_lim_extent[1]
     id_lim_extent[0] = id_lim.shape[0]
     cdef cnp.ndarray[cnp.int32_t, ndim=1, mode="fortran", negative_indices=False, cast=False] id_lim_np = np.asarray(id_lim, dtype=np.intc, order="F")
     cdef CFI_cdesc_rank2 oc_f_cfi
-    cdef CFI_cdesc_t *oc_f_ptr = <CFI_cdesc_t *> &oc_f_cfi
     cdef size_t oc_f_nbytes = oc_f.nbytes
     cdef CFI_index_t oc_f_extent[2]
     oc_f_extent[0] = oc_f.shape[0]
     oc_f_extent[1] = oc_f.shape[1]
     cdef CFI_cdesc_rank1 domainsize_cfi
-    cdef CFI_cdesc_t *domainsize_ptr = <CFI_cdesc_t *> &domainsize_cfi
     cdef size_t domainsize_nbytes = domainsize.nbytes
     cdef CFI_index_t domainsize_extent[1]
     domainsize_extent[0] = domainsize.shape[0]
     cdef int  cnt_lim
     with nogil:
-        CFI_establish(oc_f_ptr, &oc_f[0,0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &oc_f_cfi, &oc_f[0,0], CFI_attribute_other,
                       CFI_type_double , oc_f_nbytes, 2, oc_f_extent)
 
-        CFI_establish(id_lim_ptr, &id_lim[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &id_lim_cfi, &id_lim[0], CFI_attribute_other,
                       CFI_type_int , id_lim_nbytes, 1, id_lim_extent)
 
-        CFI_establish(domainsize_ptr, &domainsize[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &domainsize_cfi, &domainsize[0], CFI_attribute_other,
                       CFI_type_double , domainsize_nbytes, 1, domainsize_extent)
 
-        c__pdafomi_get_local_ids_obs_f(&dim_obs_g, &lradius, oc_f_ptr,
-                                       &cnt_lim, id_lim_ptr, &disttype,
-                                       domainsize_ptr)
+        c__pdafomi_get_local_ids_obs_f(&dim_obs_g, &lradius, <CFI_cdesc_t *> &oc_f_cfi,
+                                       &cnt_lim, <CFI_cdesc_t *> &id_lim_cfi, &disttype,
+                                       <CFI_cdesc_t *> &domainsize_cfi)
 
     return cnt_lim, id_lim_np
 
@@ -1602,24 +1558,22 @@ def limit_obs_f(int  i_obs, int  offset, double [::1] obs_f_one,
         Array shape: (:)
     """
     cdef CFI_cdesc_rank1 obs_f_lim_cfi
-    cdef CFI_cdesc_t *obs_f_lim_ptr = <CFI_cdesc_t *> &obs_f_lim_cfi
     cdef size_t obs_f_lim_nbytes = obs_f_lim.nbytes
     cdef CFI_index_t obs_f_lim_extent[1]
     obs_f_lim_extent[0] = obs_f_lim.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obs_f_lim_np = np.asarray(obs_f_lim, dtype=np.float64, order="F")
     cdef CFI_cdesc_rank1 obs_f_one_cfi
-    cdef CFI_cdesc_t *obs_f_one_ptr = <CFI_cdesc_t *> &obs_f_one_cfi
     cdef size_t obs_f_one_nbytes = obs_f_one.nbytes
     cdef CFI_index_t obs_f_one_extent[1]
     obs_f_one_extent[0] = obs_f_one.shape[0]
     with nogil:
-        CFI_establish(obs_f_one_ptr, &obs_f_one[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &obs_f_one_cfi, &obs_f_one[0], CFI_attribute_other,
                       CFI_type_double , obs_f_one_nbytes, 1, obs_f_one_extent)
 
-        CFI_establish(obs_f_lim_ptr, &obs_f_lim[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &obs_f_lim_cfi, &obs_f_lim[0], CFI_attribute_other,
                       CFI_type_double , obs_f_lim_nbytes, 1, obs_f_lim_extent)
 
-        c__pdafomi_limit_obs_f(&i_obs, &offset, obs_f_one_ptr, obs_f_lim_ptr)
+        c__pdafomi_limit_obs_f(&i_obs, &offset, <CFI_cdesc_t *> &obs_f_one_cfi, <CFI_cdesc_t *> &obs_f_lim_cfi)
 
     return obs_f_lim_np
 
@@ -1669,25 +1623,23 @@ def gather_obs_f_flex(int  dim_obs_p, double [::1] obs_p, double [::1] obs_f):
         Status flag: (0) no error
     """
     cdef CFI_cdesc_rank1 obs_f_cfi
-    cdef CFI_cdesc_t *obs_f_ptr = <CFI_cdesc_t *> &obs_f_cfi
     cdef size_t obs_f_nbytes = obs_f.nbytes
     cdef CFI_index_t obs_f_extent[1]
     obs_f_extent[0] = obs_f.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obs_f_np = np.asarray(obs_f, dtype=np.float64, order="F")
     cdef CFI_cdesc_rank1 obs_p_cfi
-    cdef CFI_cdesc_t *obs_p_ptr = <CFI_cdesc_t *> &obs_p_cfi
     cdef size_t obs_p_nbytes = obs_p.nbytes
     cdef CFI_index_t obs_p_extent[1]
     obs_p_extent[0] = obs_p.shape[0]
     cdef int  status
     with nogil:
-        CFI_establish(obs_p_ptr, &obs_p[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &obs_p_cfi, &obs_p[0], CFI_attribute_other,
                       CFI_type_double , obs_p_nbytes, 1, obs_p_extent)
 
-        CFI_establish(obs_f_ptr, &obs_f[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &obs_f_cfi, &obs_f[0], CFI_attribute_other,
                       CFI_type_double , obs_f_nbytes, 1, obs_f_extent)
 
-        c__pdafomi_gather_obs_f_flex(&dim_obs_p, obs_p_ptr, obs_f_ptr, &status)
+        c__pdafomi_gather_obs_f_flex(&dim_obs_p, <CFI_cdesc_t *> &obs_p_cfi, <CFI_cdesc_t *> &obs_f_cfi, &status)
 
     return obs_f_np, status
 
@@ -1719,29 +1671,26 @@ def gather_obs_f2_flex(int  dim_obs_p, double [::1,:] coords_p,
         Status flag: (0) no error
     """
     cdef CFI_cdesc_rank2 coords_f_cfi
-    cdef CFI_cdesc_t *coords_f_ptr = <CFI_cdesc_t *> &coords_f_cfi
     cdef size_t coords_f_nbytes = coords_f.nbytes
     cdef CFI_index_t coords_f_extent[2]
     coords_f_extent[0] = coords_f.shape[0]
     coords_f_extent[1] = coords_f.shape[1]
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] coords_f_np = np.asarray(coords_f, dtype=np.float64, order="F")
     cdef CFI_cdesc_rank2 coords_p_cfi
-    cdef CFI_cdesc_t *coords_p_ptr = <CFI_cdesc_t *> &coords_p_cfi
     cdef size_t coords_p_nbytes = coords_p.nbytes
     cdef CFI_index_t coords_p_extent[2]
     coords_p_extent[0] = coords_p.shape[0]
     coords_p_extent[1] = coords_p.shape[1]
     cdef int  status
     with nogil:
-        CFI_establish(coords_p_ptr, &coords_p[0,0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &coords_p_cfi, &coords_p[0,0], CFI_attribute_other,
                       CFI_type_double , coords_p_nbytes, 2, coords_p_extent)
 
-        CFI_establish(coords_f_ptr, &coords_f[0,0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &coords_f_cfi, &coords_f[0,0], CFI_attribute_other,
                       CFI_type_double , coords_f_nbytes, 2, coords_f_extent)
 
-        c__pdafomi_gather_obs_f2_flex(&dim_obs_p, coords_p_ptr,
-                                      coords_f_ptr, &nrows, &status)
-
+        c__pdafomi_gather_obs_f2_flex(&dim_obs_p, <CFI_cdesc_t *> &coords_p_cfi,
+                                      <CFI_cdesc_t *> &coords_f_cfi, &nrows, &status)
     return coords_f_np, status
 
 
@@ -1771,23 +1720,22 @@ def omit_by_inno(int  i_obs, double [::1] inno_f, double [::1] obs_f_all,
         Count of omitted observation over all types
     """
     cdef CFI_cdesc_rank1 inno_f_cfi
-    cdef CFI_cdesc_t *inno_f_ptr = <CFI_cdesc_t *> &inno_f_cfi
     cdef size_t inno_f_nbytes = inno_f.nbytes
     cdef CFI_index_t inno_f_extent[1]
     inno_f_extent[0] = inno_f.shape[0]
     cdef CFI_cdesc_rank1 obs_f_all_cfi
-    cdef CFI_cdesc_t *obs_f_all_ptr = <CFI_cdesc_t *> &obs_f_all_cfi
     cdef size_t obs_f_all_nbytes = obs_f_all.nbytes
     cdef CFI_index_t obs_f_all_extent[1]
     obs_f_all_extent[0] = obs_f_all.shape[0]
     with nogil:
-        CFI_establish(inno_f_ptr, &inno_f[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &inno_f_cfi, &inno_f[0], CFI_attribute_other,
                       CFI_type_double , inno_f_nbytes, 1, inno_f_extent)
 
-        CFI_establish(obs_f_all_ptr, &obs_f_all[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &obs_f_all_cfi, &obs_f_all[0], CFI_attribute_other,
                       CFI_type_double , obs_f_all_nbytes, 1, obs_f_all_extent)
 
-        c__pdafomi_omit_by_inno(&i_obs, inno_f_ptr, obs_f_all_ptr, &obsid,
+        c__pdafomi_omit_by_inno(&i_obs, <CFI_cdesc_t *> &inno_f_cfi,
+                                <CFI_cdesc_t *> &obs_f_all_cfi, &obsid,
                                 &cnt_all)
 
     return cnt_all
