@@ -212,7 +212,6 @@ def iau_update_ens(double [::1,:] ens, double [::1] state):
         Array shape: (:, :)
     """
     cdef CFI_cdesc_rank2 ens_cfi
-    cdef CFI_cdesc_t *ens_ptr = <CFI_cdesc_t *> &ens_cfi
     cdef size_t ens_nbytes = ens.nbytes
     cdef CFI_index_t ens_extent[2]
     ens_extent[0] = ens.shape[0]
@@ -220,20 +219,19 @@ def iau_update_ens(double [::1,:] ens, double [::1] state):
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_np = np.asarray(ens, dtype=np.float64, order="F")
 
     cdef CFI_cdesc_rank1 state_cfi
-    cdef CFI_cdesc_t *state_ptr = <CFI_cdesc_t *> &state_cfi
     cdef size_t state_nbytes = state.nbytes
     cdef CFI_index_t state_extent[1]
     state_extent[0] = state.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_np = np.asarray(state, dtype=np.float64, order="F")
 
     with nogil:
-        CFI_establish(ens_ptr, &ens[0,0], CFI_attribute_other,
+        CFI_establish(ens_<CFI_cdesc_t *> &ens_cfiptr, &ens[0,0], CFI_attribute_other,
                       CFI_type_double , ens_nbytes, 2, ens_extent)
 
-        CFI_establish(state_ptr, &state[0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &state_cfi, &state[0], CFI_attribute_other,
                       CFI_type_double , state_nbytes, 1, state_extent)
 
-        c__pdaf_iau_update_ens(ens_ptr, state_ptr)
+        c__pdaf_iau_update_ens(<CFI_cdesc_t *> &ens_cfi, <CFI_cdesc_t *> &state_cfi)
 
     return ens_np, state_np
 

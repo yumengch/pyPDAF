@@ -229,8 +229,6 @@ def write_memory_view(arg_list, decl_map, indent="    "):
             n_dim = len(shape.split(','))
             s = f'cdef CFI_cdesc_rank{n_dim} {arg}_cfi'
             lines.append(indent + s)
-            s = f'cdef CFI_cdesc_t *{arg}_ptr = <CFI_cdesc_t *> &{arg}_cfi'
-            lines.append(indent + s)
             if 'pointer' in code.lower():
                 continue
 
@@ -278,8 +276,6 @@ def write_input_cfi(arg_list, decl_map, indent="    "):
         if 'dimension(:' in code.lower():
             n_dim = len(shape.split(','))
             s = f'cdef CFI_cdesc_rank{n_dim} {arg}_cfi'
-            lines.append(indent + s)
-            s = f'cdef CFI_cdesc_t *{arg}_ptr = <CFI_cdesc_t *> &{arg}_cfi'
             lines.append(indent + s)
             if 'pointer' in code.lower():
                 continue
@@ -339,7 +335,7 @@ def write_func_call(name, arg_list, decl_map, indent="    "):
             s_zeros = '0,' * n_dim
             s_zeros = s_zeros[:-1]
             base_type = re.match(r'(integer|real|logical|character)', code).group(1).lower()
-            s = f'CFI_establish({arg}_ptr, &{arg}[{s_zeros}], CFI_attribute_other,'
+            s = f'CFI_establish(<CFI_cdesc_t *> &{arg}_cfi, &{arg}[{s_zeros}], CFI_attribute_other,'
             lines.append(2*indent + s)
             s = f'CFI_type_{TYPE_MAP[base_type]}, {arg}_nbytes, {n_dim}, {arg}_extent)'
             lines.append(2*indent + len('CFI_establish(')*' ' + s)
@@ -350,7 +346,7 @@ def write_func_call(name, arg_list, decl_map, indent="    "):
     for arg in arg_list:
         code, shape = decl_map.get(arg, ("", ""))
         if 'dimension(:' in code.lower():
-            c_args.append(f'{arg}_ptr')
+            c_args.append(f'<CFI_cdesc_t *> &{arg}_cfi')
         elif 'dimension' in code.lower():
             n_zeros = len(shape.split(','))
             s_zeros = '0,' * n_zeros
@@ -384,17 +380,17 @@ def write_return(arg_list, decl_map, indent="    "):
             s = f'cdef CFI_index_t {arg}_subscripts[{n_dim}]'
             lines.append(indent + s)
             for i in range(n_dim):
-                s = f'{arg}_subscripts[{i}] = {arg}_ptr.dim[{i}].lower_bound'
+                s = f'{arg}_subscripts[{i}] = {arg}_cfi.dim[{i}].lower_bound'
                 lines.append(indent + s)
             base_type = re.match(r'(integer|real|logical|character)', code).group(1).lower()
             s = f'cdef {TYPE_MAP[base_type]}* {arg}_ptr_np'
             lines.append(indent + s)
-            s = f'{arg}_ptr_np = <{TYPE_MAP[base_type]}*>CFI_address({arg}_ptr, {arg}_subscripts)'
+            s = f'{arg}_ptr_np = <{TYPE_MAP[base_type]}*>CFI_address(<CFI_cdesc_t *> &{arg}_cfi, {arg}_subscripts)'
             lines.append(indent + s)
             s = f'cdef cnp.ndarray[{TYPE_MAP_CNP[base_type]}, ndim={n_dim}, mode="fortran", negative_indices=False, cast=False] '
-            s_colons = f':{arg}_ptr.dim[0].extent:1'
+            s_colons = f':{arg}_cfi.dim[0].extent:1'
             s_colons += ',' if n_dim > 1 else ''
-            s_colons += ','.join([f':{arg}_ptr.dim[{i}].extent' for i in range(1, n_dim)])
+            s_colons += ','.join([f':{arg}_cfi.dim[{i}].extent' for i in range(1, n_dim)])
             s += f'{arg}_np = np.asarray(<{TYPE_MAP[base_type]}[{s_colons}]> {arg}_ptr_np, order="F")'
             lines.append(indent + s)
 
