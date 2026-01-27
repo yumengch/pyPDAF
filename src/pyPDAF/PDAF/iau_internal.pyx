@@ -225,7 +225,7 @@ def iau_update_ens(double [::1,:] ens, double [::1] state):
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_np = np.asarray(state, dtype=np.float64, order="F")
 
     with nogil:
-        CFI_establish(ens_<CFI_cdesc_t *> &ens_cfiptr, &ens[0,0], CFI_attribute_other,
+        CFI_establish(<CFI_cdesc_t *> &ens_cfi, &ens[0,0], CFI_attribute_other,
                       CFI_type_double , ens_nbytes, 2, ens_extent)
 
         CFI_establish(<CFI_cdesc_t *> &state_cfi, &state[0], CFI_attribute_other,
