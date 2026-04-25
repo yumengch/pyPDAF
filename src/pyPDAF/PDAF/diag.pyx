@@ -32,8 +32,7 @@ def diag_ensmean(int  dim, int  dim_ens, double [::1] state,
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_np = np.asarray(state, dtype=np.float64, order="F")
     cdef int  status
-    with nogil:
-        c__pdaf_diag_ensmean(&dim, &dim_ens, &state[0], &ens[0,0], &status)
+    c__pdaf_diag_ensmean(&dim, &dim_ens, &state[0], &ens[0,0], &status)
 
     return state_np, status
 
@@ -72,8 +71,7 @@ def diag_stddev_nompi(int  dim, int  dim_ens, double [::1] state,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_np = np.asarray(state, dtype=np.float64, order="F")
     cdef double  stddev
     cdef int  status
-    with nogil:
-        c__pdaf_diag_stddev_nompi(&dim, &dim_ens, &state[0], &ens[0,0],
+    c__pdaf_diag_stddev_nompi(&dim, &dim_ens, &state[0], &ens[0,0],
                                   &stddev, &do_mean, &status)
 
     return state_np, stddev, status
@@ -115,8 +113,7 @@ def diag_stddev(int  dim_p, int  dim_ens, double [::1] state_p,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_p_np = np.asarray(state_p, dtype=np.float64, order="F")
     cdef double  stddev_g
     cdef int  status
-    with nogil:
-        c__pdaf_diag_stddev(&dim_p, &dim_ens, &state_p[0], &ens_p[0,0],
+    c__pdaf_diag_stddev(&dim_p, &dim_ens, &state_p[0], &ens_p[0,0],
                             &stddev_g, &do_mean, &comm_filter, &status)
 
     return state_p_np, stddev_g, status
@@ -163,8 +160,7 @@ def diag_variance_nompi(int  dim, int  dim_ens, double [::1] state,
     cdef double [::1] variance = variance_np
     cdef double  stddev
     cdef int  status
-    with nogil:
-        c__pdaf_diag_variance_nompi(&dim, &dim_ens, &state[0], &ens[0,0],
+    c__pdaf_diag_variance_nompi(&dim, &dim_ens, &state[0], &ens[0,0],
                                     &variance[0], &stddev, &do_mean,
                                     &do_stddev, &status)
 
@@ -214,8 +210,7 @@ def diag_variance(int  dim_p, int  dim_ens, double [::1] state_p,
     cdef double [::1] variance_p = variance_p_np
     cdef double  stddev_g
     cdef int  status
-    with nogil:
-        c__pdaf_diag_variance(&dim_p, &dim_ens, &state_p[0], &ens_p[0,0],
+    c__pdaf_diag_variance(&dim_p, &dim_ens, &state_p[0], &ens_p[0,0],
                               &variance_p[0], &stddev_g, &do_mean,
                               &do_stddev, &comm_filter, &status)
 
@@ -247,8 +242,7 @@ def diag_rmsd_nompi(int  dim_p, double [::1] statea_p, double [::1] stateb_p):
     """
     cdef double  rmsd_p
     cdef int  status
-    with nogil:
-        c__pdaf_diag_rmsd_nompi(&dim_p, &statea_p[0], &stateb_p[0],
+    c__pdaf_diag_rmsd_nompi(&dim_p, &statea_p[0], &stateb_p[0],
                                 &rmsd_p, &status)
 
     return rmsd_p, status
@@ -282,8 +276,7 @@ def diag_rmsd(int  dim_p, double [::1] statea_p, double [::1] stateb_p,
     """
     cdef double  rmsd_g
     cdef int  status
-    with nogil:
-        c__pdaf_diag_rmsd(&dim_p, &statea_p[0], &stateb_p[0], &rmsd_g,
+    c__pdaf_diag_rmsd(&dim_p, &statea_p[0], &stateb_p[0], &rmsd_g,
                           &comm_filter, &status)
 
     return rmsd_g, status
@@ -343,8 +336,7 @@ def diag_crps_mpi(int  dim_p, int  dim_ens, int  element,
     cdef double  pot_crps
     cdef double  uncert
     cdef int  status
-    with nogil:
-        c__pdaf_diag_crps_mpi(&dim_p, &dim_ens, &element, &oens[0,0],
+    c__pdaf_diag_crps_mpi(&dim_p, &dim_ens, &element, &oens[0,0],
                               &obs[0], &comm_filter, &mype_filter,
                               &npes_filter, &crps, &reli, &pot_crps,
                               &uncert, &status)
@@ -399,8 +391,7 @@ def diag_crps_nompi(int  dim, int  dim_ens, int  element,
     cdef double  resol
     cdef double  uncert
     cdef int  status
-    with nogil:
-        c__pdaf_diag_crps_nompi(&dim, &dim_ens, &element, &oens[0,0],
+    c__pdaf_diag_crps_nompi(&dim, &dim_ens, &element, &oens[0,0],
                                 &obs[0], &crps, &reli, &resol, &uncert, &status)
 
     return crps, reli, resol, uncert, status
@@ -449,8 +440,7 @@ def diag_effsample(int  dim_sample, double [::1] weights):
         Effecfive sample size
     """
     cdef double  n_eff
-    with nogil:
-        c__pdaf_diag_effsample(&dim_sample, &weights[0], &n_eff)
+    c__pdaf_diag_effsample(&dim_sample, &weights[0], &n_eff)
 
     return n_eff
 
@@ -500,8 +490,7 @@ def diag_ensstats(int  dim, int  dim_ens, int  element, double [::1] state,
     cdef double  skewness
     cdef double  kurtosis
     cdef int  status
-    with nogil:
-        c__pdaf_diag_ensstats(&dim, &dim_ens, &element, &state[0],
+    c__pdaf_diag_ensstats(&dim, &dim_ens, &element, &state[0],
                               &ens[0,0], &skewness, &kurtosis, &status)
 
     return skewness, kurtosis, status
@@ -541,8 +530,7 @@ def diag_compute_moments(int  dim_p, int  dim_ens, double [::1,:] ens,
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] moments_np = np.zeros((dim_p, kmax), dtype=np.float64, order="F")
     cdef double [::1,:] moments = moments_np
-    with nogil:
-        c__pdaf_diag_compute_moments(&dim_p, &dim_ens, &ens[0,0], &kmax,
+    c__pdaf_diag_compute_moments(&dim_p, &dim_ens, &ens[0,0], &kmax,
                                      &moments[0,0], &bias)
 
     return moments_np
@@ -604,8 +592,7 @@ def diag_histogram(int  ncall, int  dim, int  dim_ens, int  element,
     cdef cnp.ndarray[cnp.int32_t, ndim=1, mode="fortran", negative_indices=False, cast=False] hist_np = np.asarray(hist, dtype=np.intc, order="F")
     cdef double  delta
     cdef int  status
-    with nogil:
-        c__pdaf_diag_histogram(&ncall, &dim, &dim_ens, &element, &state[0],
+    c__pdaf_diag_histogram(&ncall, &dim, &dim_ens, &element, &state[0],
                                &ens[0,0], &hist[0], &delta, &status)
 
     return hist_np, delta, status
@@ -688,8 +675,7 @@ def diag_reliability_budget(int  n_times, int  dim_ens, int  dim_p,
     cdef double [::1,:,:] budget = budget_np
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] bias_2_np = np.zeros((dim_p), dtype=np.float64, order="F")
     cdef double [::1] bias_2 = bias_2_np
-    with nogil:
-        c__pdaf_diag_reliability_budget(&n_times, &dim_ens, &dim_p,
+    c__pdaf_diag_reliability_budget(&n_times, &dim_ens, &dim_p,
                                         &ens_p[0,0,0], &obsvar[0,0,0],
                                         &obs_p[0,0], &budget[0,0,0], &bias_2[0])
 

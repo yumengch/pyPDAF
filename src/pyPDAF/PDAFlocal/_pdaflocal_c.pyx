@@ -27,8 +27,7 @@ def set_indices(int  dim_l, int [::1] map):
         Index array for mapping between local and global state vector
         shape: (dim_l,)
     """
-    with nogil:
-        c__pdaflocal_set_indices(&dim_l, &map[0])
+    c__pdaflocal_set_indices(&dim_l, &map[0])
 
 
 
@@ -58,8 +57,7 @@ def set_increment_weights(int  dim_l, double [::1] weights):
     weights : ndarray[np.float64, dim=1]
         Weights array. Shape: (dim_l,)
     """
-    with nogil:
-        c__pdaflocal_set_increment_weights(&dim_l, &weights[0])
+    c__pdaflocal_set_increment_weights(&dim_l, &weights[0])
 
 
 
@@ -68,8 +66,7 @@ def clear_increment_weights():
 
     Deallocates the local increment weight vector in :func:`pyPDAF.PDAFlocal.set_increment_weights`.
     """
-    with nogil:
-        c__pdaflocal_clear_increment_weights()
+    c__pdaflocal_clear_increment_weights()
 
 
 

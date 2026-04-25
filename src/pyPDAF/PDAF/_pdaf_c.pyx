@@ -39,8 +39,7 @@ def get_fcst_info(int  steps, double  time, int  doexit):
     doexit : int
         Whether to exit from forecasts
     """
-    with nogil:
-        c__pdaf_get_fcst_info(&steps, &time, &doexit)
+    c__pdaf_get_fcst_info(&steps, &time, &doexit)
 
     return steps, time, doexit
 
@@ -70,8 +69,7 @@ def correlation_function(int  ctype, double  length, double  distance):
         Value of the function
     """
     cdef double  value
-    with nogil:
-        c__pdaf_correlation_function(&ctype, &length, &distance, &value)
+    c__pdaf_correlation_function(&ctype, &length, &distance, &value)
 
     return value
 
@@ -84,8 +82,7 @@ def deallocate():
     This function cannot be used to free all allocated PDAF memory.
     Therefore, one should not use :func:`pyPDAF.PDAF.init` afterwards.
     """
-    with nogil:
-        c__pdaf_deallocate()
+    c__pdaf_deallocate()
 
 
 def eofcovar(int  dim, int  nstates, int  nfields, int [::1] dim_fields,
@@ -174,8 +171,7 @@ def eofcovar(int  dim, int  nstates, int  nfields, int [::1] dim_fields,
     cdef double [::1,:] svec = svec_np
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] meanstate_np = np.asarray(meanstate, dtype=np.float64, order="F")
     cdef int  status
-    with nogil:
-        c__pdaf_eofcovar(&dim, &nstates, &nfields, &dim_fields[0],
+    c__pdaf_eofcovar(&dim, &nstates, &nfields, &dim_fields[0],
                          &offsets[0], &remove_mstate, &do_mv, &states[0,0],
                          &stddev[0], &svals[0], &svec[0,0], &meanstate[0],
                          &verbose, &status)
@@ -195,8 +191,7 @@ def force_analysis():
     This forces that the analysis step is executed at
     the next call to PDAF assimilation functions.
     """
-    with nogil:
-        c__pdaf_force_analysis()
+    c__pdaf_force_analysis()
 
 
 
@@ -235,8 +230,7 @@ def gather_dim_obs_f(int  dim_obs_p):
         Full observation dimension
     """
     cdef int  dim_obs_f
-    with nogil:
-        c__pdaf_gather_dim_obs_f(&dim_obs_p, &dim_obs_f)
+    c__pdaf_gather_dim_obs_f(&dim_obs_p, &dim_obs_f)
 
     return dim_obs_f
 
@@ -270,8 +264,7 @@ def gather_obs_f(double [::1] obs_p, int  dimobs_f):
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obs_f_np = np.zeros((dimobs_f), dtype=np.float64, order="F")
     cdef double [::1] obs_f = obs_f_np
     cdef int  status
-    with nogil:
-        c__pdaf_gather_obs_f(&obs_p[0], &obs_f[0], &status)
+    c__pdaf_gather_obs_f(&obs_p[0], &obs_f[0], &status)
 
     return obs_f_np, status
 
@@ -311,8 +304,7 @@ def gather_obs_f2(double [::1,:] coords_p, int  nrows, int  dimobs_f):
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] coords_f_np = np.zeros((nrows, dimobs_f), dtype=np.float64, order="F")
     cdef double [::1,:] coords_f = coords_f_np
     cdef int  status
-    with nogil:
-        c__pdaf_gather_obs_f2(&coords_p[0,0], &coords_f[0,0], &nrows, &status)
+    c__pdaf_gather_obs_f2(&coords_p[0,0], &coords_f[0,0], &nrows, &status)
 
     return coords_f_np, status
 
@@ -358,8 +350,7 @@ def gather_obs_f_flex(int  dim_obs_p, int  dim_obs_f, double [::1] obs_p):
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obs_f_np = np.zeros((dim_obs_f), dtype=np.float64, order="F")
     cdef double [::1] obs_f = obs_f_np
     cdef int  status
-    with nogil:
-        c__pdaf_gather_obs_f_flex(&dim_obs_p, &dim_obs_f, &obs_p[0],
+    c__pdaf_gather_obs_f_flex(&dim_obs_p, &dim_obs_f, &obs_p[0],
                                   &obs_f[0], &status)
 
     return obs_f_np, status
@@ -409,8 +400,7 @@ def gather_obs_f2_flex(int  dim_obs_p, int  dim_obs_f,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] coords_f_np = np.zeros((nrows, dim_obs_f), dtype=np.float64, order="F")
     cdef double [::1,:] coords_f = coords_f_np
     cdef int  status
-    with nogil:
-        c__pdaf_gather_obs_f2_flex(&dim_obs_p, &dim_obs_f, &coords_p[0,0],
+    c__pdaf_gather_obs_f2_flex(&dim_obs_p, &dim_obs_f, &coords_p[0,0],
                                    &coords_f[0,0], &nrows, &status)
 
     return coords_f_np, status
@@ -506,10 +496,9 @@ def init(int  filtertype, int  subtype, int  stepnull, int [::1] param_int,
     """
     cdef cnp.ndarray[cnp.int32_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_int_np = np.asarray(param_int, dtype=np.intc, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
-    pdaf_cb.init_ens_pdaf = <void*>py__init_ens_pdaf
+    pdaf_cb.init_ens_pdaf = py__init_ens_pdaf
     cdef int  outflag
-    with nogil:
-        c__pdaf_init(&filtertype, &subtype, &stepnull, &param_int[0],
+    c__pdaf_init(&filtertype, &subtype, &stepnull, &param_int[0],
                      &dim_pint, &param_real[0], &dim_preal, &comm_model,
                      &comm_filter, &comm_couple, &task_id, &n_modeltasks,
                      &in_filterpe, pdaf_cb.c__init_ens_pdaf, &in_screen,
@@ -552,11 +541,10 @@ def init_forecast(py__next_observation_pdaf, py__distribute_state_pdaf,
     outflag : int
         Status flag
     """
-    pdaf_cb.next_observation_pdaf = <void*>py__next_observation_pdaf
-    pdaf_cb.distribute_state_pdaf = <void*>py__distribute_state_pdaf
-    pdaf_cb.prepoststep_pdaf = <void*>py__prepoststep_pdaf
-    with nogil:
-        c__pdaf_init_forecast(pdaf_cb.c__next_observation_pdaf,
+    pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
+    pdaf_cb.distribute_state_pdaf = py__distribute_state_pdaf
+    pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
+    c__pdaf_init_forecast(pdaf_cb.c__next_observation_pdaf,
                               pdaf_cb.c__distribute_state_pdaf,
                               pdaf_cb.c__prepoststep_pdaf, &outflag)
 
@@ -630,8 +618,7 @@ def local_weight(int  wtype, int  rtype, double  cradius, double  sradius,
         localisation weights
     """
     cdef double  weight
-    with nogil:
-        c__pdaf_local_weight(&wtype, &rtype, &cradius, &sradius, &distance,
+    c__pdaf_local_weight(&wtype, &rtype, &cradius, &sradius, &distance,
                              &nrows, &ncols, &a[0,0], &var_obs, &weight,
                              &verbose)
 
@@ -699,8 +686,7 @@ def local_weights(int  wtype, double  cradius, double  sradius, int  dim,
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] weight_np = np.zeros((dim), dtype=np.float64, order="F")
     cdef double [::1] weight = weight_np
-    with nogil:
-        c__pdaf_local_weights(&wtype, &cradius, &sradius, &dim,
+    c__pdaf_local_weights(&wtype, &cradius, &sradius, &dim,
                               &distance[0], &weight[0], &verbose)
 
     return weight_np
@@ -745,8 +731,7 @@ def print_filter_types(int  verbose):
     -------
     None
     """
-    with nogil:
-        c__pdaf_print_filter_types(&verbose)
+    c__pdaf_print_filter_types(&verbose)
 
 
 
@@ -788,8 +773,7 @@ def print_da_types(int  verbose):
     -------
     None
     """
-    with nogil:
-        c__pdaf_print_da_types(&verbose)
+    c__pdaf_print_da_types(&verbose)
 
 
 
@@ -813,8 +797,7 @@ def print_info(int  printtype):
         - 10: allocated memory of the calling MPI task
         - 11: globally used memory (call from all processes)
     """
-    with nogil:
-        c__pdaf_print_info(&printtype)
+    c__pdaf_print_info(&printtype)
 
 
 
@@ -844,8 +827,7 @@ def reset_forget(double  forget_in):
         New value of forgetting factor
 
     """
-    with nogil:
-        c__pdaf_reset_forget(&forget_in)
+    c__pdaf_reset_forget(&forget_in)
 
 
 
@@ -900,8 +882,7 @@ def sample_ens(int  dim, int  dim_ens, double [::1,:] modes,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_np = np.asarray(state, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_np = np.zeros((dim, dim_ens), dtype=np.float64, order="F")
     cdef double [::1,:] ens = ens_np
-    with nogil:
-        c__pdaf_sampleens(&dim, &dim_ens, &modes[0,0], &svals[0],
+    c__pdaf_sampleens(&dim, &dim_ens, &modes[0,0], &svals[0],
                           &state[0], &ens[0,0], &verbose, &flag)
 
     return modes_np, state_np, ens_np, flag

@@ -16,7 +16,7 @@ foreach file :pypdaf_sources
     fs.stem(file),
     file,
     link_with: pdafc_lib,
-    dependencies : [mpi, dep_py, blas_dep, fruntime_dep],
+    dependencies : [mpi, dep_py, blas_dep, fruntime_dep, openmp_dep],
     include_directories: include_directories([incdir_numpy]),
     c_args: c_cython_args,
     link_args: link_args,

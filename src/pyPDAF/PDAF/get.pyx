@@ -20,8 +20,7 @@ def get_assim_flag():
         flag: (1) for assimilation; (0) else
     """
     cdef int  did_assim
-    with nogil:
-        c__pdaf_get_assim_flag(&did_assim)
+    c__pdaf_get_assim_flag(&did_assim)
 
     return did_assim
 
@@ -40,8 +39,7 @@ def get_localfilter():
         * 0 for global filters (including LEnKF, which performs covariance localization)
     """
     cdef int  localfilter_out
-    with nogil:
-        c__pdaf_get_localfilter(&localfilter_out)
+    c__pdaf_get_localfilter(&localfilter_out)
 
     return localfilter_out
 
@@ -66,8 +64,7 @@ def get_local_type():
         * (3) covariance loc. but observation handling like domain localization (ENSRF)
     """
     cdef int  localtype
-    with nogil:
-        c__pdaf_get_local_type(&localtype)
+    c__pdaf_get_local_type(&localtype)
 
     return localtype
 
@@ -93,8 +90,7 @@ def get_memberid(int  memberid):
     memberid : int
         Index in the local ensemble
     """
-    with nogil:
-        c__pdaf_get_memberid(&memberid)
+    c__pdaf_get_memberid(&memberid)
 
     return memberid
 
@@ -118,8 +114,7 @@ def get_obsmemberid(int  memberid):
     memberid : int
         Index in the local ensemble
     """
-    with nogil:
-        c__pdaf_get_obsmemberid(&memberid)
+    c__pdaf_get_obsmemberid(&memberid)
 
     return memberid
 
@@ -143,8 +138,7 @@ def get_smoother_ens():
     cdef CFI_cdesc_rank3 sens_point_cfi
     cdef int  maxlag
     cdef int  status
-    with nogil:
-        c__pdaf_get_smootherens(<CFI_cdesc_t *> &sens_point_cfi, &maxlag, &status)
+    c__pdaf_get_smootherens(<CFI_cdesc_t *> &sens_point_cfi, &maxlag, &status)
 
     cdef CFI_index_t sens_point_subscripts[3]
     sens_point_subscripts[0] = sens_point_cfi.dim[0].lower_bound

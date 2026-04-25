@@ -58,8 +58,7 @@ def init_obs_f_cb(int  step, int  dim_obs_f):
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] observation_f_np = np.zeros((dim_obs_f), dtype=np.float64, order="F")
     cdef double [::1] observation_f = observation_f_np
-    with nogil:
-        c__pdafomi_init_obs_f_cb(&step, &dim_obs_f, &observation_f[0])
+    c__pdafomi_init_obs_f_cb(&step, &dim_obs_f, &observation_f[0])
 
     return observation_f_np
 
@@ -84,8 +83,7 @@ def init_obsvar_cb(int  step, int  dim_obs_p, double [::1] obs_p):
         Mean observation error variance
     """
     cdef double  meanvar
-    with nogil:
-        c__pdafomi_init_obsvar_cb(&step, &dim_obs_p, &obs_p[0], &meanvar)
+    c__pdafomi_init_obsvar_cb(&step, &dim_obs_p, &obs_p[0], &meanvar)
 
     return meanvar
 
@@ -109,8 +107,7 @@ def init_obsvars_f_cb(int  step, int  dim_obs_f):
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] var_f_np = np.zeros((dim_obs_f), dtype=np.float64, order="F")
     cdef double [::1] var_f = var_f_np
-    with nogil:
-        c__pdafomi_init_obsvars_f_cb(&step, &dim_obs_f, &var_f[0])
+    c__pdafomi_init_obsvars_f_cb(&step, &dim_obs_f, &var_f[0])
 
     return var_f_np
 
@@ -142,9 +139,8 @@ def g2l_obs_cb(int  domain_p, int  step, int  dim_obs_f, int  dim_obs_l,
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] ostate_l_np = np.zeros((dim_obs_l), dtype=np.float64, order="F")
     cdef double [::1] ostate_l = ostate_l_np
-    with nogil:
-        c__pdafomi_g2l_obs_cb(&domain_p, &step, &dim_obs_f, &dim_obs_l,
-                              &ostate_f[0], &ostate_l[0])
+    c__pdafomi_g2l_obs_cb(&domain_p, &step, &dim_obs_f, &dim_obs_l,
+                          &ostate_f[0], &ostate_l[0])
 
     return ostate_l_np
 
@@ -170,9 +166,8 @@ def init_obs_l_cb(int  domain_p, int  step, int  dim_obs_l):
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] observation_l_np = np.zeros((dim_obs_l), dtype=np.float64, order="F")
     cdef double [::1] observation_l = observation_l_np
-    with nogil:
-        c__pdafomi_init_obs_l_cb(&domain_p, &step, &dim_obs_l,
-                                 &observation_l[0])
+    c__pdafomi_init_obs_l_cb(&domain_p, &step, &dim_obs_l,
+                             &observation_l[0])
 
     return observation_l_np
 
@@ -200,8 +195,7 @@ def init_obsvar_l_cb(int  domain_p, int  step, int  dim_obs_l,
         Mean local observation error variance
     """
     cdef double  meanvar_l
-    with nogil:
-        c__pdafomi_init_obsvar_l_cb(&domain_p, &step, &dim_obs_l,
+    c__pdafomi_init_obsvar_l_cb(&domain_p, &step, &dim_obs_l,
                                     &obs_l[0], &meanvar_l)
 
     return meanvar_l
@@ -278,8 +272,7 @@ def likelihood_l_cb(int  domain_p, int  step, int  dim_obs_l,
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] resid_l_np = np.asarray(resid_l, dtype=np.float64, order="F")
     cdef double  lhood_l
-    with nogil:
-        c__pdafomi_likelihood_l_cb(&domain_p, &step, &dim_obs_l, &obs_l[0],
+    c__pdafomi_likelihood_l_cb(&domain_p, &step, &dim_obs_l, &obs_l[0],
                                    &resid_l[0], &lhood_l)
 
     return resid_l_np, lhood_l
@@ -321,9 +314,8 @@ def prodrinva_hyb_l_cb(int  domain_p, int  step, int  dim_obs_l, int  rank,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] a_l_np = np.asarray(a_l, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] c_l_np = np.zeros((dim_obs_l, rank), dtype=np.float64, order="F")
     cdef double [::1,:] c_l = c_l_np
-    with nogil:
-        c__pdafomi_prodrinva_hyb_l_cb(&domain_p, &step, &dim_obs_l, &rank,
-                                      &obs_l[0], &alpha, &a_l[0,0], &c_l[0,0])
+    c__pdafomi_prodrinva_hyb_l_cb(&domain_p, &step, &dim_obs_l, &rank,
+                                    &obs_l[0], &alpha, &a_l[0,0], &c_l[0,0])
 
     return a_l_np, c_l_np
 
@@ -360,8 +352,7 @@ def likelihood_hyb_l_cb(int  domain_p, int  step, int  dim_obs_l,
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] resid_l_np = np.asarray(resid_l, dtype=np.float64, order="F")
     cdef double  lhood_l
-    with nogil:
-        c__pdafomi_likelihood_hyb_l_cb(&domain_p, &step, &dim_obs_l,
+    c__pdafomi_likelihood_hyb_l_cb(&domain_p, &step, &dim_obs_l,
                                        &obs_l[0], &resid_l[0], &alpha, &lhood_l)
 
     return resid_l_np, lhood_l
@@ -395,9 +386,8 @@ def prodrinva_cb(int  step, int  dim_obs_p, int  ncol, double [::1] obs_p,
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] c_p_np = np.zeros((dim_obs_p, ncol), dtype=np.float64, order="F")
     cdef double [::1,:] c_p = c_p_np
-    with nogil:
-        c__pdafomi_prodrinva_cb(&step, &dim_obs_p, &ncol, &obs_p[0],
-                                &a_p[0,0], &c_p[0,0])
+    c__pdafomi_prodrinva_cb(&step, &dim_obs_p, &ncol, &obs_p[0],
+                            &a_p[0,0], &c_p[0,0])
 
     return c_p_np
 
@@ -426,8 +416,7 @@ def likelihood_cb(int  step, int  dim_obs, double [::1] obs,
         Output vector - log likelihood
     """
     cdef double  lhood
-    with nogil:
-        c__pdafomi_likelihood_cb(&step, &dim_obs, &obs[0], &resid[0], &lhood)
+    c__pdafomi_likelihood_cb(&step, &dim_obs, &obs[0], &resid[0], &lhood)
 
     return lhood
 
@@ -453,8 +442,7 @@ def add_obs_error_cb(int  step, int  dim_obs_p, double [::1,:] c_p):
         Array shape: (dim_obs_p,dim_obs_p)
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] c_p_np = np.asarray(c_p, dtype=np.float64, order="F")
-    with nogil:
-        c__pdafomi_add_obs_error_cb(&step, &dim_obs_p, &c_p[0,0])
+    c__pdafomi_add_obs_error_cb(&step, &dim_obs_p, &c_p[0,0])
 
     return c_p_np
 
@@ -487,8 +475,7 @@ def init_obscovar_cb(int  step, int  dim_obs, int  dim_obs_p,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] covar_np = np.zeros((dim_obs,dim_obs), dtype=np.float64, order="F")
     cdef double [::1,:] covar = covar_np
     cdef bint  isdiag
-    with nogil:
-        c__pdafomi_init_obscovar_cb(&step, &dim_obs, &dim_obs_p,
+    c__pdafomi_init_obscovar_cb(&step, &dim_obs, &dim_obs_p,
                                     &covar[0,0], &m_state_p[0], &isdiag)
 
     return covar_np, isdiag
@@ -516,8 +503,7 @@ def init_obserr_f_cb(int  step, int  dim_obs_f, double [::1] obs_f):
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obserr_f_np = np.zeros((dim_obs_f), dtype=np.float64, order="F")
     cdef double [::1] obserr_f = obserr_f_np
-    with nogil:
-        c__pdafomi_init_obserr_f_cb(&step, &dim_obs_f, &obs_f[0], &obserr_f[0])
+    c__pdafomi_init_obserr_f_cb(&step, &dim_obs_f, &obs_f[0], &obserr_f[0])
 
     return obserr_f_np
 
@@ -551,8 +537,7 @@ def localize_covar_cb(int  dim_p, int  dim_obs, double [::1,:] hp_p,
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hp_p_np = np.asarray(hp_p, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hph_np = np.asarray(hph, dtype=np.float64, order="F")
-    with nogil:
-        c__pdafomi_localize_covar_cb(&dim_p, &dim_obs, &hp_p[0,0], &hph[0,0])
+    c__pdafomi_localize_covar_cb(&dim_p, &dim_obs, &hp_p[0,0], &hph[0,0])
 
     return hp_p_np, hph_np
 
@@ -588,8 +573,7 @@ def localize_covar_serial_cb(int  iobs, int  dim_p, int  dim_obs,
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] hp_p_np = np.asarray(hp_p, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] hxy_p_np = np.asarray(hxy_p, dtype=np.float64, order="F")
-    with nogil:
-        c__pdafomi_localize_covar_serial_cb(&iobs, &dim_p, &dim_obs,
+    c__pdafomi_localize_covar_serial_cb(&iobs, &dim_p, &dim_obs,
                                             &hp_p[0], &hxy_p[0])
 
     return hp_p_np, hxy_p_np
@@ -624,8 +608,7 @@ def omit_by_inno_l_cb(int  domain_p, int  dim_obs_l, double [::1] resid_l,
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] resid_l_np = np.asarray(resid_l, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obs_l_np = np.asarray(obs_l, dtype=np.float64, order="F")
-    with nogil:
-        c__pdafomi_omit_by_inno_l_cb(&domain_p, &dim_obs_l, &resid_l[0],
+    c__pdafomi_omit_by_inno_l_cb(&domain_p, &dim_obs_l, &resid_l[0],
                                      &obs_l[0])
 
     return resid_l_np, obs_l_np
@@ -657,7 +640,6 @@ def omit_by_inno_cb(int  dim_obs_f, double [::1] resid_f, double [::1] obs_f):
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] resid_f_np = np.asarray(resid_f, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] obs_f_np = np.asarray(obs_f, dtype=np.float64, order="F")
-    with nogil:
-        c__pdafomi_omit_by_inno_cb(&dim_obs_f, &resid_f[0], &obs_f[0])
+    c__pdafomi_omit_by_inno_cb(&dim_obs_f, &resid_f[0], &obs_f[0])
 
     return resid_f_np, obs_f_np

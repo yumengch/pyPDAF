@@ -7,6 +7,8 @@ type(obs_f), allocatable, target :: thisobs(:)
 type(obs_l), allocatable, target :: thisobs_l(:)
 integer :: n_obs_omi
 
+!$OMP THREADPRIVATE(thisobs_l)
+
 contains
    subroutine c__PDAFomi_init(n_obs) bind(c)
       ! number of observations

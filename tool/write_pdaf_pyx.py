@@ -296,7 +296,7 @@ def write_user_cython(arg_list, decl_map, indent='    '):
     for arg in arg_list:
         code, _ = decl_map.get(arg, ("", ""))
         if 'procedure' in code.lower():
-            lines.append(indent+ f'pdaf_cb.{arg.replace("py__", "")} = <void*>{arg}')
+            lines.append(indent+ f'pdaf_cb.{arg.replace("py__", "")} = {arg}')
     return lines
 
 
@@ -319,7 +319,7 @@ def write_return_def(arg_list, decl_map, indent='    '):
 def write_func_call(name, arg_list, decl_map, indent="    "):
     """write the C function call in Cython"""
     # special treatment for init subroutine
-    lines = [indent + 'with nogil:']
+    lines = [indent + 'with nogil(USE_NOGIL):']
     # establish CFI for assumed shape arrays
     for arg in arg_list:
         code, shape = decl_map.get(arg, ("", ""))
