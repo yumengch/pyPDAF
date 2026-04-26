@@ -2871,7 +2871,7 @@ def init_filters(int  type_filter, int  subtype, int [::1] param_int,
     """
     cdef cnp.ndarray[cnp.int32_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_int_np = np.asarray(param_int, dtype=np.intc, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
-    cdef char* filterstr_ptr
+    cdef char* filterstr_ptr = NULL
     cdef str  filterstr
     cdef bint ensemblefilter
     cdef bint fixedbasis

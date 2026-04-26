@@ -1,110 +1,70 @@
 project('pyPDAF', 'cython', 'fortran', 'c', version: '1.0.4',
   meson_version: '>=1.5.0', default_options: ['b_asneeded=false'])
 
+# get file system handling module
 fs = import('fs')
-
+# required for Python extension module
 py_mod = import('python')
 python = py_mod.find_installation(pure: false)
 dep_py = python.dependency()
-
+# C and Fortran compilers
 cc = meson.get_compiler('c')
 ff = meson.get_compiler('fortran')
 is_flang = ff.get_id() in ['llvm-flang', 'flang', 'flang-new']
-
+# get MPI dependency
 mpimod = get_option('mpi_mod')
-
 if host_machine.system() == 'windows'
   mpi = dependency('mpi', language : 'fortran', required: true)
 else
   mpi = dependency('', language : 'fortran', required: false)
 endif
-
-blas_lib = get_option('blas_lib')
-incdirs = get_option('incdirs')
-libdirs = get_option('libdirs')
-
-if host_machine.system() == 'windows'
-
-  blas_link_args = []
-  foreach lib : blas_lib
-    foreach libdir : libdirs
-      candidate = libdir / (lib + '.lib')
-      found = false
-      if fs.exists(candidate)
-        blas_link_args += candidate
-        found = true
-        break
-      endif
-    endforeach
-  endforeach
-  blas_dep = declare_dependency(
-      link_args : blas_link_args,
-      include_directories : include_directories(incdirs),
-    )
-  openmp_dep = declare_dependency(
-              compile_args: ['-fopenmp'],
-              link_args : ['-fopenmp'])
-else
-  blas_lib_dep = []
-  foreach lib : blas_lib
-    blas_lib_dep += cc.find_library(lib, dirs:libdirs, required : true)
-  endforeach
-
-  blas_dep = declare_dependency(
-    dependencies: blas_lib_dep,
-    include_directories: incdirs,
+# get blas and lapack dependency
+incdir_blas = get_option('incdir_blas')
+link_args_blas = get_option('link_args_blas')
+blas_dep = declare_dependency(
+  link_args: link_args_blas,
+  include_directories: include_directories(incdir_blas),
+)
+# get openmp dependency
+openmp_compile_c = get_option('openmp_compile_c')
+openmp_compile_f = get_option('openmp_compile_f')
+openmp_lib = get_option('openmp_lib')
+openmp_dep_c = declare_dependency()
+openmp_dep = declare_dependency()
+is_openmp = get_option('openmp')
+if is_openmp
+  openmp_dep_c = declare_dependency(
+    compile_args: openmp_compile_c,
+    link_args: openmp_lib,
   )
-  openmp_dep = dependency('openmp', language: 'fortran', required: true)
+  openmp_dep = declare_dependency(
+    compile_args: openmp_compile_f,
+    link_args: openmp_lib,
+  )
 endif
-
 
 c_cython_args = cc.get_supported_arguments(['/O2', '/GL', '-O3',
                                             '-DCYTHON_CLINE_IN_TRACEBACK=0'], checked: 'warn')
 cython_args = ['-Xboundscheck=False', '-Xbinding=False', '-Xwraparound=False',
                '-Xinitializedcheck=False', '-Xfreethreading_compatible=True']
-
-
-# todo: if -fopenmp USE_NOGIL=False otherwise no need to release GIL
-# todo: test callback function without using "with gil".
-# We may not need this without openmp because GIL is never released.
-# One would wonder what could happen with openmp without free-threading Python build.
-
-fruntime_dep = dependency('', required : false)
-if is_flang
-  fortran_ext_args = ['-O2']
-  fortran_args = ['-O2', '-fdefault-real-8', '-DUSE_PDAF']  # no probe
-  fruntime_link_args = ['-fopenmp']
-  foreach lib : ['FortranRuntime', 'FortranDecimal']
-    foreach libdir : libdirs
-      candidate = libdir / (lib + '.lib')
-      found = false
-      if fs.exists(candidate)
-        fruntime_link_args += candidate
-        found = true
-        break
-      endif
-    endforeach
-  endforeach
-  fruntime_dep = declare_dependency(
-      link_args : fruntime_link_args,
-      include_directories : include_directories(incdirs),
-    )
-  # fortran_runtime_lib = ff.find_library('FortranRuntime', dirs: libdirs, required : true)
-  # fortran_decimal_lib = ff.find_library('FortranDecimal', dirs: libdirs, required : true)
-  # fruntime_dep = declare_dependency(
-  #   dependencies: [fortran_runtime_lib, fortran_decimal_lib],
-  # )
-else
-  fortran_args = ff.get_supported_arguments(
-    ['-O3', '-fdefault-real-8', '-DUSE_PDAF'], checked: 'warn')
-  fortran_ext_args = ff.get_supported_arguments(
-    ['-O3'], checked: 'warn')
-  # fortran_args = ff.get_supported_arguments([
-  #   '-O0','-g','-fcheck=all','-fbacktrace','-Wall','-Wextra',
-  #   '-fdefault-real-8','-DUSE_PDAF'
-  # ], checked: 'warn')
+if is_openmp
+  cython_args += ['-Xfreethreading_compatible=True']
 endif
 
+fortran_args = ff.get_supported_arguments(
+  ['-O3', '-fdefault-real-8', '-DUSE_PDAF'], checked: 'warn')
+fortran_ext_args = ff.get_supported_arguments(
+  ['-O3'], checked: 'warn')
+# fortran_args = ff.get_supported_arguments([
+#   '-O0','-g','-fcheck=all','-fbacktrace','-Wall','-Wextra',
+#   '-fdefault-real-8','-DUSE_PDAF'
+# ], checked: 'warn')
+if is_flang
+  fortran_args = ff.get_supported_arguments(
+    ['-O2', '-fdefault-real-8', '-DUSE_PDAF'], checked: 'warn')
+  fortran_ext_args = ff.get_supported_arguments(
+    ['-O2'], checked: 'warn')
+endif
 incdir_numpy = run_command(python,
   ['-c', 'import os; os.chdir(".."); import numpy; print(numpy.get_include())'],
   check : true
@@ -115,6 +75,8 @@ incdir_numpy = run_command(python,
 # which are different from those provided by gfortran.
 # So we copy ISO_Fortran_binding.h to the source tree.
 # This is a workaround.
+# including the header path in the include directory can lead to 
+# errors because it can make the compiler uses wrong header files.
 # If you have a better solution, please let me know.
 incdir_f_header = '.'
 if host_machine.system() == 'darwin'
@@ -367,7 +329,7 @@ cython_ext = python.extension_module(
   'pdaf_c_cb_interface',
   'src/pyPDAF/pdaf_c_cb_interface.pyx',
   link_with: [pdafc_lib],
-  dependencies : [mpi, dep_py, blas_dep, fruntime_dep, openmp_dep],
+  dependencies : [mpi, dep_py, blas_dep, openmp_dep_c],
   include_directories: include_directories([incdir_numpy]),
   c_args: c_cython_args,
   fortran_args: fortran_args,
