@@ -60,10 +60,8 @@ fortran_ext_args = ff.get_supported_arguments(
 #   '-fdefault-real-8','-DUSE_PDAF'
 # ], checked: 'warn')
 if is_flang
-  fortran_args = ff.get_supported_arguments(
-    ['-O2', '-fdefault-real-8', '-DUSE_PDAF'], checked: 'warn')
-  fortran_ext_args = ff.get_supported_arguments(
-    ['-O2'], checked: 'warn')
+  fortran_args = ['-O2', '-fdefault-real-8', '-DUSE_PDAF']
+  fortran_ext_args = ['-O2']
 endif
 incdir_numpy = run_command(python,
   ['-c', 'import os; os.chdir(".."); import numpy; print(numpy.get_include())'],
@@ -75,7 +73,7 @@ incdir_numpy = run_command(python,
 # which are different from those provided by gfortran.
 # So we copy ISO_Fortran_binding.h to the source tree.
 # This is a workaround.
-# including the header path in the include directory can lead to 
+# including the header path in the include directory can lead to
 # errors because it can make the compiler uses wrong header files.
 # If you have a better solution, please let me know.
 incdir_f_header = '.'
