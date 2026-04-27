@@ -1,7 +1,7 @@
 option('incdir_blas', type : 'array', value : ['/usr/include'], description : 'Include directories for BLAS and LAPACK')
 option('link_args_blas', type : 'array', value : ['-L/usr/lib', '-lblas'], description : 'Linking arguments for BLAS and LAPACK libraries')
 option('mpi_mod', type : 'string', value : '/usr/include/msmpi.f90', description : 'Path to mpi.f90 for MSMPI only')
-option('openmp', type : 'boolean', value : true, description : 'Whether to use OpenMP')
+option('openmp', type : 'boolean', value : false, description : 'Whether to use OpenMP')
 option('openmp_lib', type : 'string', value : '-fopenmp', description : 'OpenMP linking flag')
 option('openmp_compile_c', type : 'string', value : '-fopenmp', description : 'OpenMP compiling flag for C')
 option('openmp_compile_f', type : 'string', value : '-fopenmp', description : 'OpenMP compiling flag for Fortran')
