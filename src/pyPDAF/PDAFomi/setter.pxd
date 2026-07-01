@@ -30,3 +30,6 @@ cdef extern void c__pdafomi_set_domainsize(int* i_obs, int* ncoord,
     double* domainsize) noexcept nogil;
 
 cdef extern void c__pdafomi_set_name(int* i_obs, char* obsname) noexcept nogil;
+
+cdef extern void c__pdafomi_set_searchtype(int* stype,
+    int* sortdir) noexcept nogil;

@@ -29,19 +29,6 @@ cdef extern void c__pdafomi_localize_covar_serial_noniso(int* i_obs,
     CFI_cdesc_t* cradius, CFI_cdesc_t* sradius, CFI_cdesc_t* coords,
     CFI_cdesc_t* hp, CFI_cdesc_t* hxy) noexcept nogil;
 
-cdef extern void c__pdafomi_init_dim_obs_l_iso_old(int* i_obs,
-    CFI_cdesc_t* coords_l, int* locweight, double* cradius,
-    double* sradius, int* cnt_obs_l) noexcept nogil;
-
-cdef extern void c__pdafomi_init_dim_obs_l_noniso_old(int* i_obs,
-    CFI_cdesc_t* coords_l, int* locweight, CFI_cdesc_t* cradius,
-    CFI_cdesc_t* sradius, int* cnt_obs_l) noexcept nogil;
-
-cdef extern void c__pdafomi_init_dim_obs_l_noniso_locweights_old(
-    int* i_obs, CFI_cdesc_t* coords_l, CFI_cdesc_t* locweights,
-    CFI_cdesc_t* cradius, CFI_cdesc_t* sradius,
-    int* cnt_obs_l) noexcept nogil;
-
 cdef extern void c__pdafomi_deallocate_obs(
     int* i_obs) noexcept nogil;
 

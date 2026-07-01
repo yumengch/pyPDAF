@@ -775,3 +775,15 @@ cdef extern void c__pdaf3_generate_obs_offline(
                                 double* , double* , double* , int* ),
     int* outflag) noexcept nogil;
 
+cdef extern void c__pdaf3_prepost(
+    void (*c__collect_state_pdaf)(int* , double* ),
+    void (*c__distribute_state_pdaf)(int* , double* ),
+    void (*c__prepoststep_pdaf)(int* , int* , int* , int* , int* ,
+                                double* , double* , double* , int* ),
+    void (*c__next_observation_pdaf)(int* , int* , int* , double* ),
+    int* outflag) noexcept nogil;
+
+cdef extern void c__pdaf3_prepost_offline(
+    void (*c__prepoststep_pdaf)(int* , int* , int* , int* , int* ,
+                                double* , double* , double* , int* ),
+    int* outflag) noexcept nogil;

@@ -22,59 +22,9 @@ contains
 
    END SUBROUTINE c__PDAFomi_diag_omit_by_inno
 
-   SUBROUTINE c__PDAFomi_cnt_dim_obs_l(i_obs, coords_l) bind(c)
-      ! index into observation arrays
-      INTEGER(c_int), INTENT(in) :: i_obs
-
-      ! Coordinates of current analysis domain (thisobs%ncoord)
-      REAL(c_double), DIMENSION(:), INTENT(in) :: coords_l
-
-
-      call PDAFomi_cnt_dim_obs_l(thisobs_l(i_obs), thisobs(i_obs), coords_l)
-
-   END SUBROUTINE c__PDAFomi_cnt_dim_obs_l
-
-   SUBROUTINE c__PDAFomi_cnt_dim_obs_l_noniso(i_obs, coords_l) bind(c)
-      ! index into observation arrays
-      INTEGER(c_int), INTENT(in) :: i_obs
-
-      ! Coordinates of current analysis domain (thisobs%ncoord)
-      REAL(c_double), DIMENSION(:), INTENT(in) :: coords_l
-
-
-      call PDAFomi_cnt_dim_obs_l_noniso(thisobs_l(i_obs), thisobs(i_obs), coords_l)
-
-   END SUBROUTINE c__PDAFomi_cnt_dim_obs_l_noniso
-
-   SUBROUTINE c__PDAFomi_init_obsarrays_l(i_obs, coords_l, off_obs_l_all) bind(c)
-      ! index into observation arrays
-      INTEGER(c_int), INTENT(in) :: i_obs
-
-      ! Coordinates of current water column (thisobs%ncoord)
-      REAL(c_double), DIMENSION(:), INTENT(in) :: coords_l
-      ! input: offset of current obs. in local obs. vector
-      INTEGER(c_int), INTENT(inout) :: off_obs_l_all
-
-
-      call PDAFomi_init_obsarrays_l(thisobs_l(i_obs), thisobs(i_obs), coords_l,  &
-         off_obs_l_all)
-
-   END SUBROUTINE c__PDAFomi_init_obsarrays_l
-
-   SUBROUTINE c__PDAFomi_init_obsarrays_l_noniso(i_obs, coords_l, off_obs_l_all) bind(c)
-      ! index into observation arrays
-      INTEGER(c_int), INTENT(in) :: i_obs
-
-      ! Coordinates of current water column (thisobs%ncoord)
-      REAL(c_double), DIMENSION(:), INTENT(in) :: coords_l
-      ! input: offset of current obs. in local obs. vector
-      INTEGER(c_int), INTENT(inout) :: off_obs_l_all
-
-
-      call PDAFomi_init_obsarrays_l_noniso(thisobs_l(i_obs), thisobs(i_obs),  &
-         coords_l, off_obs_l_all)
-
-   END SUBROUTINE c__PDAFomi_init_obsarrays_l_noniso
+   subroutine c__PDAFomi_dealloc_local() bind(c)
+      call PDAFomi_dealloc_local()
+   end subroutine c__PDAFomi_dealloc_local
 
    SUBROUTINE c__PDAFomi_g2l_obs(i_obs, obs_f_all, obs_l_all) bind(c)
       ! index into observation arrays
@@ -428,29 +378,76 @@ contains
 
    END SUBROUTINE c__PDAFomi_local_weight
 
-   SUBROUTINE c__PDAFomi_check_dist2_loop(i_obs, coordsa, cnt_obs, mode) bind(c)
+   SUBROUTINE c__PDAFomi_check_dist2_loop(i_obs, coordsx, cnt_obs, mode) bind(c)
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
       ! Coordinates of current analysis domain (ncoord)
-      REAL(c_double), DIMENSION(:), INTENT(in) :: coordsa
+      REAL(c_double), DIMENSION(:), INTENT(in) :: coordsx
       ! Count number of local observations
       INTEGER(c_int), INTENT(inout) :: cnt_obs
       ! 1: count local observations
       INTEGER(c_int), INTENT(in) :: mode
 
 
-      call PDAFomi_check_dist2_loop(thisobs_l(i_obs), thisobs(i_obs), coordsa,  &
+      call PDAFomi_check_dist2_loop(thisobs_l(i_obs), thisobs(i_obs), coordsx,  &
          cnt_obs, mode)
 
    END SUBROUTINE c__PDAFomi_check_dist2_loop
 
-   SUBROUTINE c__PDAFomi_check_dist2_noniso_loop(i_obs, coordsa, cnt_obs, mode) bind(c)
+   SUBROUTINE c__PDAFomi_check_dist2_loop_opt(i_obs, coordsx, cnt_obs, mode) bind(c)
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
       ! Coordinates of current analysis domain (ncoord)
-      REAL(c_double), DIMENSION(:), INTENT(in) :: coordsa
+      REAL(c_double), DIMENSION(:), INTENT(in) :: coordsx
+      ! Count number of local observations
+      INTEGER(c_int), INTENT(inout) :: cnt_obs
+      ! 1: count local observations
+      INTEGER(c_int), INTENT(in) :: mode
+
+      call PDAFomi_check_dist2_loop_opt(thisobs_l(i_obs), thisobs(i_obs),  &
+         coordsx, cnt_obs, mode)
+
+   END SUBROUTINE c__PDAFomi_check_dist2_loop_opt
+
+   SUBROUTINE c__PDAFomi_check_dist2_loop_sort(i_obs, coordsx, cnt_obs, mode) bind(c)
+      INTEGER(c_int), INTENT(in) :: i_obs
+      REAL(c_double), DIMENSION(:), INTENT(in) :: coordsx
+      INTEGER(c_int), INTENT(inout) :: cnt_obs
+      INTEGER(c_int), INTENT(in) :: mode
+
+      call PDAFomi_check_dist2_loop_sort(thisobs_l(i_obs), thisobs(i_obs),  &
+         coordsx, cnt_obs, mode)
+
+   END SUBROUTINE c__PDAFomi_check_dist2_loop_sort
+
+   SUBROUTINE c__PDAFomi_check_dist2_loop_sort2(i_obs, coordsx, cnt_obs, mode) bind(c)
+      INTEGER(c_int), INTENT(in) :: i_obs
+      REAL(c_double), DIMENSION(:), INTENT(in) :: coordsx
+      INTEGER(c_int), INTENT(inout) :: cnt_obs
+      INTEGER(c_int), INTENT(in) :: mode
+
+      call PDAFomi_check_dist2_loop_sort2(thisobs_l(i_obs), thisobs(i_obs),  &
+         coordsx, cnt_obs, mode)
+
+   END SUBROUTINE c__PDAFomi_check_dist2_loop_sort2
+
+   SUBROUTINE c__PDAFomi_set_thisobs_l(i_obs, coordsx, n_obs) bind(c)
+      INTEGER(c_int), INTENT(in) :: i_obs
+      REAL(c_double), DIMENSION(:), INTENT(in) :: coordsx
+      INTEGER(c_int), INTENT(inout) :: n_obs
+
+      call PDAFomi_set_thisobs_l(thisobs_l(i_obs), thisobs(i_obs), coordsx, n_obs)
+
+   END SUBROUTINE c__PDAFomi_set_thisobs_l
+
+   SUBROUTINE c__PDAFomi_check_dist2_noniso_loop(i_obs, coordsx, cnt_obs, mode) bind(c)
+      ! index into observation arrays
+      INTEGER(c_int), INTENT(in) :: i_obs
+
+      ! Coordinates of current analysis domain (ncoord)
+      REAL(c_double), DIMENSION(:), INTENT(in) :: coordsx
       ! Count number of local observations
       INTEGER(c_int), INTENT(inout) :: cnt_obs
       ! 1: count local observations
@@ -458,9 +455,83 @@ contains
 
 
       call PDAFomi_check_dist2_noniso_loop(thisobs_l(i_obs), thisobs(i_obs),  &
-         coordsa, cnt_obs, mode)
+         coordsx, cnt_obs, mode)
 
    END SUBROUTINE c__PDAFomi_check_dist2_noniso_loop
+
+   SUBROUTINE c__PDAFomi_check_dist2_noniso_loop_opt(i_obs, coordsx, cnt_obs, mode) bind(c)
+      INTEGER(c_int), INTENT(in) :: i_obs
+      REAL(c_double), DIMENSION(:), INTENT(in) :: coordsx
+      INTEGER(c_int), INTENT(inout) :: cnt_obs
+      INTEGER(c_int), INTENT(in) :: mode
+
+      call PDAFomi_check_dist2_noniso_loop_opt(thisobs_l(i_obs), thisobs(i_obs),  &
+         coordsx, cnt_obs, mode)
+
+   END SUBROUTINE c__PDAFomi_check_dist2_noniso_loop_opt
+
+   SUBROUTINE c__PDAFomi_check_dist2_noniso_loop_sort(i_obs, coordsx, cnt_obs, mode) bind(c)
+      INTEGER(c_int), INTENT(in) :: i_obs
+      REAL(c_double), DIMENSION(:), INTENT(in) :: coordsx
+      INTEGER(c_int), INTENT(inout) :: cnt_obs
+      INTEGER(c_int), INTENT(in) :: mode
+
+      call PDAFomi_check_dist2_noniso_loop_sort(thisobs_l(i_obs), thisobs(i_obs),  &
+         coordsx, cnt_obs, mode)
+
+   END SUBROUTINE c__PDAFomi_check_dist2_noniso_loop_sort
+
+   SUBROUTINE c__PDAFomi_check_dist2_noniso_loop_sort2(i_obs, coordsx, cnt_obs, mode) bind(c)
+      INTEGER(c_int), INTENT(in) :: i_obs
+      REAL(c_double), DIMENSION(:), INTENT(in) :: coordsx
+      INTEGER(c_int), INTENT(inout) :: cnt_obs
+      INTEGER(c_int), INTENT(in) :: mode
+
+      call PDAFomi_check_dist2_noniso_loop_sort2(thisobs_l(i_obs), thisobs(i_obs),  &
+         coordsx, cnt_obs, mode)
+
+   END SUBROUTINE c__PDAFomi_check_dist2_noniso_loop_sort2
+
+   SUBROUTINE c__PDAFomi_check_noniso(i_obs, idx, cnt_obs, dists, distance2, mode) bind(c)
+      INTEGER(c_int), INTENT(in) :: i_obs
+      INTEGER(c_int), INTENT(in) :: idx
+      INTEGER(c_int), INTENT(inout) :: cnt_obs
+      REAL(c_double), DIMENSION(:), INTENT(inout) :: dists
+      REAL(c_double), INTENT(in) :: distance2
+      INTEGER(c_int), INTENT(in) :: mode
+
+      call PDAFomi_check_noniso(thisobs_l(i_obs), thisobs(i_obs), idx,  &
+         cnt_obs, dists, distance2, mode)
+
+   END SUBROUTINE c__PDAFomi_check_noniso
+
+   RECURSIVE SUBROUTINE c__PDAFomi_tree_idx_lower(row, tst, points, npts,  &
+      ilower, offset, level) bind(c)
+      INTEGER(c_int), INTENT(in) :: row
+      REAL(c_double), INTENT(in) :: tst
+      REAL(c_double), DIMENSION(:,:), INTENT(in) :: points
+      INTEGER(c_int), INTENT(in) :: npts
+      INTEGER(c_int), INTENT(inout) :: ilower
+      REAL(c_double), INTENT(inout) :: offset
+      INTEGER(c_int), INTENT(inout) :: level
+
+      call PDAFomi_tree_idx_lower(row, tst, points, npts, ilower, offset, level)
+
+   END SUBROUTINE c__PDAFomi_tree_idx_lower
+
+   RECURSIVE SUBROUTINE c__PDAFomi_tree_idx_upper(row, tst, points, npts,  &
+      iupper, offset, level) bind(c)
+      INTEGER(c_int), INTENT(in) :: row
+      REAL(c_double), INTENT(in) :: tst
+      REAL(c_double), DIMENSION(:,:), INTENT(in) :: points
+      INTEGER(c_int), INTENT(in) :: npts
+      INTEGER(c_int), INTENT(inout) :: iupper
+      REAL(c_double), INTENT(inout) :: offset
+      INTEGER(c_int), INTENT(inout) :: level
+
+      call PDAFomi_tree_idx_upper(row, tst, points, npts, iupper, offset, level)
+
+   END SUBROUTINE c__PDAFomi_tree_idx_upper
 
    SUBROUTINE c__PDAFomi_obs_op_gatheronly(i_obs, state_p, obs_f_all) bind(c)
       ! index into observation arrays

@@ -4,18 +4,6 @@ cdef extern void c__pdafomi_set_globalobs(
 
 cdef extern void c__pdafomi_diag_omit_by_inno() noexcept nogil;
 
-cdef extern void c__pdafomi_cnt_dim_obs_l(int* i_obs,
-    CFI_cdesc_t* coords_l) noexcept nogil;
-
-cdef extern void c__pdafomi_cnt_dim_obs_l_noniso(int* i_obs,
-    CFI_cdesc_t* coords_l) noexcept nogil;
-
-cdef extern void c__pdafomi_init_obsarrays_l(int* i_obs,
-    CFI_cdesc_t* coords_l, int* off_obs_l_all) noexcept nogil;
-
-cdef extern void c__pdafomi_init_obsarrays_l_noniso(int* i_obs,
-    CFI_cdesc_t* coords_l, int* off_obs_l_all) noexcept nogil;
-
 cdef extern void c__pdafomi_g2l_obs(int* i_obs, CFI_cdesc_t* obs_f_all,
     CFI_cdesc_t* obs_l_all) noexcept nogil;
 
@@ -89,9 +77,48 @@ cdef extern void c__pdafomi_check_dist2_loop(int* i_obs,
     CFI_cdesc_t* coordsa, int* cnt_obs,
     int* mode) noexcept nogil;
 
+cdef extern void c__pdafomi_check_dist2_loop_opt(int* i_obs,
+    CFI_cdesc_t* coordsa, int* cnt_obs,
+    int* mode) noexcept nogil;
+
+cdef extern void c__pdafomi_check_dist2_loop_sort(int* i_obs,
+    CFI_cdesc_t* coordsa, int* cnt_obs,
+    int* mode) noexcept nogil;
+
+cdef extern void c__pdafomi_check_dist2_loop_sort2(int* i_obs,
+    CFI_cdesc_t* coordsa, int* cnt_obs,
+    int* mode) noexcept nogil;
+
+cdef extern void c__pdafomi_set_thisobs_l(int* i_obs,
+    CFI_cdesc_t* coordsx, int* n_obs) noexcept nogil;
+
 cdef extern void c__pdafomi_check_dist2_noniso_loop(int* i_obs,
     CFI_cdesc_t* coordsa, int* cnt_obs,
     int* mode) noexcept nogil;
+
+cdef extern void c__pdafomi_check_dist2_noniso_loop_opt(int* i_obs,
+    CFI_cdesc_t* coordsa, int* cnt_obs,
+    int* mode) noexcept nogil;
+
+cdef extern void c__pdafomi_check_dist2_noniso_loop_sort(int* i_obs,
+    CFI_cdesc_t* coordsa, int* cnt_obs,
+    int* mode) noexcept nogil;
+
+cdef extern void c__pdafomi_check_dist2_noniso_loop_sort2(int* i_obs,
+    CFI_cdesc_t* coordsa, int* cnt_obs,
+    int* mode) noexcept nogil;
+
+cdef extern void c__pdafomi_check_noniso(int* i_obs, int* idx,
+    int* cnt_obs, CFI_cdesc_t* dists, double* distance2,
+    int* mode) noexcept nogil;
+
+cdef extern void c__pdafomi_tree_idx_lower(int* row, double* tst,
+    CFI_cdesc_t* points, int* npts, int* ilower, double* offset,
+    int* level) noexcept nogil;
+
+cdef extern void c__pdafomi_tree_idx_upper(int* row, double* tst,
+    CFI_cdesc_t* points, int* npts, int* iupper, double* offset,
+    int* level) noexcept nogil;
 
 cdef extern void c__pdafomi_obs_op_gatheronly(int* i_obs,
     CFI_cdesc_t* state_p,
@@ -153,3 +180,4 @@ cdef extern void c__pdafomi_obsstats(
 
 cdef extern void c__pdafomi_gather_obsdims() noexcept nogil;
 
+cdef extern void c__pdafomi_dealloc_local() noexcept nogil;

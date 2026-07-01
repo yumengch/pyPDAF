@@ -56,6 +56,45 @@ contains
 
    END SUBROUTINE c__PDAF3_init
 
+   SUBROUTINE c__PDAF3_init_parallel(screen, type_parallel, online_coupling, &
+      dim_ens, n_modeltasks, COMM_model, mype_model, npes_model, COMM_assim, &
+      mype_assim, npes_assim, task_id) bind(c)
+
+      ! *** Arguments ***
+      ! Whether screen information is shown
+      INTEGER(c_int), INTENT(in)    :: screen
+      ! Model variables for parallelization
+      ! Type of parallelization
+      ! 0: common setup using task 1 for assimilation
+      ! 1: setup using separate task 0 for assimilation
+      INTEGER(c_int), INTENT(in) :: type_parallel
+      ! 1: online DA coupling, 0: offline DA coupling
+      INTEGER(c_int), INTENT(in) :: online_coupling
+      ! Ensemble size / number of model tasks
+      INTEGER(c_int), INTENT(in) :: dim_ens
+      ! Number of model tasks
+      INTEGER(c_int), INTENT(inout) :: n_modeltasks
+      ! Model MPI communicator for model tasks
+      INTEGER(c_int), INTENT(inout) :: COMM_model
+      ! Number of Processs in COMM_model
+      INTEGER(c_int), INTENT(out) :: npes_model
+      ! Process rank in COMM_model
+      INTEGER(c_int), INTENT(out) :: mype_model
+      ! MPI communicator for assimilation processes
+      INTEGER(c_int), INTENT(out) :: COMM_assim
+      ! Number of processes in COMM_assim
+      INTEGER(c_int), INTENT(out) :: npes_assim
+      ! Process rank in COMM_assim
+      INTEGER(c_int), INTENT(out) :: mype_assim
+      ! Index of my model task (1,...,n_modeltasks)
+      INTEGER(c_int), INTENT(out) :: task_id
+
+      call PDAF3_init_parallel(screen, type_parallel, online_coupling, dim_ens, &
+         n_modeltasks, COMM_model, mype_model, npes_model, COMM_assim, &
+         mype_assim, npes_assim, task_id)
+
+   END SUBROUTINE c__PDAF3_init_parallel
+
    SUBROUTINE c__PDAF3_init_forecast(U_next_observation, U_distribute_state, &
        U_prepoststep, outflag) bind(c)
       use pdaf_c_f_interface, only: next_observation_pdaf_c_ptr, &

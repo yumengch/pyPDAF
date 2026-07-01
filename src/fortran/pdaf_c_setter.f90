@@ -77,6 +77,19 @@ contains
 
    END SUBROUTINE c__PDAF_set_rparam
 
+   SUBROUTINE c__PDAF_genobs_set_rparam(id, value, flag) bind(c)
+      use PDAF_genobs, only: PDAF_genobs_set_rparam
+      ! Index of parameter
+      INTEGER(c_int), INTENT(in) :: id
+      ! Parameter value
+      REAL(c_double), INTENT(in) :: value
+      ! Status flag: 0 for no error
+      INTEGER(c_int), INTENT(out) :: flag
+
+      call PDAF_genobs_set_rparam(id, value, flag)
+
+   END SUBROUTINE c__PDAF_genobs_set_rparam
+
    SUBROUTINE c__PDAF_set_seedset(seedset_in) bind(c)
       ! Seedset index (1-20)
       INTEGER(c_int), INTENT(in) :: seedset_in
@@ -85,6 +98,22 @@ contains
       call PDAF_set_seedset(seedset_in)
 
    END SUBROUTINE c__PDAF_set_seedset
+
+   SUBROUTINE c__PDAF_set_seed(seedvec) bind(c)
+      ! Random seed vector
+      INTEGER(c_int), DIMENSION(4), INTENT(in) :: seedvec
+
+      call PDAF_set_seed(seedvec)
+
+   END SUBROUTINE c__PDAF_set_seed
+
+   SUBROUTINE c__PDAF_set_seedvec(seedvec) bind(c)
+      ! Random seed vector
+      INTEGER(c_int), DIMENSION(4), INTENT(in) :: seedvec
+
+      call PDAF_set_seedvec(seedvec)
+
+   END SUBROUTINE c__PDAF_set_seedvec
 
    SUBROUTINE c__PDAF_set_smootherens(sens_point, maxlag, status) bind(c)
       ! Pointer to smoother array

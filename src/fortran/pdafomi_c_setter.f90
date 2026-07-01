@@ -160,4 +160,16 @@ contains
 
    END SUBROUTINE c__PDAFomi_set_name
 
+   SUBROUTINE c__PDAFomi_set_searchtype(stype, sortdir) bind(c)
+      use PDAFOMI_obs_f, only: PDAFomi_set_searchtype
+      IMPLICIT NONE
+      ! Search algorithm type
+      INTEGER(c_int), INTENT(in) :: stype
+      ! Coordinate direction used for sorting
+      INTEGER(c_int), INTENT(in) :: sortdir
+
+      call PDAFomi_set_searchtype(stype, sortdir)
+
+   END SUBROUTINE c__PDAFomi_set_searchtype
+
 END MODULE pdafomi_c_setter

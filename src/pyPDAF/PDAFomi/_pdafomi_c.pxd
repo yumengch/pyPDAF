@@ -73,7 +73,7 @@ cdef extern void c__pdafomi_set_debug_flag(
     int* debugval) noexcept nogil;
 
 cdef extern void c__pdafomi_set_dim_obs_l(int* i_obs, int* cnt_obs_l_all,
-    int* cnt_obs_l) noexcept nogil;
+    int* cnt_obs_l, int* mode) noexcept nogil;
 
 cdef extern void c__pdafomi_set_localization(int* i_obs, double* cradius,
     double* sradius, int* locweight) noexcept nogil;

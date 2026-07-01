@@ -16,8 +16,10 @@ from ._pdafomi_c import init, init_local, check_error, gather_obs, \
                         store_obs_l_index_vdist
 from .diag import diag_dimobs, diag_get_hx, diag_get_hxmean, \
                   diag_get_ivar, diag_get_obs, diag_nobstypes, \
-                  diag_obs_rmsd, diag_stats
+                  diag_obs_rmsd, diag_stats, diag_rmsd, \
+                  diag_diffstats, diag_crps
 from .setter import set_doassim, set_disttype, set_ncoord, \
                     set_obs_err_type, set_use_global_obs, \
                     set_inno_omit, set_inno_omit_ivar, \
-                    set_id_obs_p, set_icoeff_p, set_domainsize, set_name
+                    set_id_obs_p, set_icoeff_p, set_domainsize, set_name, \
+                    set_searchtype

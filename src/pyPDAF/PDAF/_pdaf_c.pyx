@@ -84,6 +84,47 @@ def deallocate():
     """
     c__pdaf_deallocate()
 
+def finalize():
+    """finalize() -> None
+
+    Finalize PDAF and release PDAF-internal resources.
+
+    This is a thin wrapper around the upstream ``PDAF_finalize`` routine.
+    Call it at the end of an assimilation application when no further PDAF
+    routines will be used. It releases PDAF-internal arrays and performs the
+    upstream finalization work associated with the active PDAF instance.
+
+    Returns
+    -------
+    None
+
+    See Also
+    --------
+    deallocate : Older PDAF deallocation helper.
+    """
+    c__pdaf_finalize()
+
+def abort(int err):
+    """abort(err: int) -> None
+
+    Abort the parallel program through PDAF/MPI.
+
+    This wrapper forwards ``err`` to the upstream ``PDAF_abort`` routine.
+    It is intended for unrecoverable errors in MPI-enabled PDAF programs, for
+    example when one process detects an inconsistent setup and the whole
+    coupled application should stop with the same error code.
+
+    Parameters
+    ----------
+    err : int
+        Error code passed to PDAF/MPI.
+
+    Returns
+    -------
+    None
+    """
+    c__pdaf_abort(&err)
+
 
 def eofcovar(int  dim, int  nstates, int  nfields, int [::1] dim_fields,
     int [::1] offsets, int  remove_mstate, int  do_mv,
@@ -193,6 +234,51 @@ def force_analysis():
     """
     c__pdaf_force_analysis()
 
+
+def generate_rndvec(int len, double [::1] vec, double stddev, int dist,
+    int [::1] iseed):
+    """generate_rndvec(len: int, vec: np.ndarray, stddev: float, dist: int, iseed: np.ndarray) -> Tuple[np.ndarray, np.ndarray]
+
+    Generate random perturbations with PDAF's random-vector helper.
+
+    The values in ``vec`` are used as the base vector and are modified by the
+    selected random perturbation. The returned ``vec`` and ``iseed`` arrays are
+    Fortran-contiguous NumPy arrays containing the updated vector and seed
+    state.
+
+    Parameters
+    ----------
+    len : int
+        Number of entries in ``vec`` to update.
+    vec : ndarray[np.float64, ndim=1]
+        Input/output vector. The array shape is ``(len,)``.
+    stddev : float
+        Scale of the random perturbation.
+    dist : int
+        Distribution selector. ``1`` draws normal perturbations, ``2`` draws
+        log-normal perturbations, ``3`` draws uniform values on ``[0, 1]``,
+        ``4`` draws uniform values on ``[-1, 1]``, and ``5`` draws Laplace
+        perturbations.
+    iseed : ndarray[np.intc, ndim=1]
+        Four-integer seed vector. The fourth entry must be odd, following the
+        LAPACK random-number seed convention used by PDAF.
+
+    Returns
+    -------
+    vec : ndarray[np.float64, ndim=1]
+        Updated random vector.
+    iseed : ndarray[np.intc, ndim=1]
+        Updated seed vector that can be reused for reproducible continuation.
+
+    See Also
+    --------
+    pyPDAF.PDAF.set_seedvec : Store a PDAF seed vector.
+    pyPDAF.PDAF.get_seedvec : Retrieve the current PDAF seed vector.
+    """
+    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] vec_np = np.asarray(vec, dtype=np.float64, order="F")
+    cdef cnp.ndarray[cnp.int32_t, ndim=1, mode="fortran", negative_indices=False, cast=False] iseed_np = np.asarray(iseed, dtype=np.intc, order="F")
+    c__pdaf_generate_rndvec(&len, &vec[0], &stddev, &dist, &iseed[0])
+    return vec_np, iseed_np
 
 
 def gather_dim_obs_f(int  dim_obs_p):
@@ -790,12 +876,12 @@ def print_info(int  printtype):
     ----------
     printtype : int
         Type of screen output:
-        - 1: general timings
-        - 3: timers focused on call-back routines (recommended)
-        - 4: detailed timers (analyze filters)
-        - 5: very detailed timers (deep filter analysis)
-        - 10: allocated memory of the calling MPI task
-        - 11: globally used memory (call from all processes)
+            - 1: general timings
+            - 3: timers focused on call-back routines (recommended)
+            - 4: detailed timers (analyze filters)
+            - 5: very detailed timers (deep filter analysis)
+            - 10: allocated memory of the calling MPI task
+            - 11: globally used memory (call from all processes)
     """
     c__pdaf_print_info(&printtype)
 

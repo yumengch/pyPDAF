@@ -396,6 +396,73 @@ def diag_crps_nompi(int  dim, int  dim_ens, int  element,
 
     return crps, reli, resol, uncert, status
 
+def diag_crps(int dim_p, int dim_ens, int element, double [::1,:] oens,
+    double [::1] obs):
+    r"""diag_crps(dim_p: int, dim_ens: int, element: int, oens: np.ndarray, obs: np.ndarray) -> Tuple[float, float, float, float, int]
+
+    Compute the continuous ranked probability score (CRPS).
+
+    CRPS measures how well the ensemble distribution represented by ``oens``
+    predicts the verifying value in ``obs``. Smaller values indicate a better
+    probabilistic forecast. The routine also returns the Hersbach (2000)
+    decomposition into reliability, potential CRPS, and uncertainty. An
+    informative ensemble has low potential CRPS relative to uncertainty, while
+    the reliability term measures miscalibration of ensemble probabilities.
+
+    This wrapper uses PDAF's internal filter communicator for the required
+    global reductions. Use :func:`pyPDAF.PDAF.diag_crps_nompi` when all data
+    are already available on one process.
+
+    Parameters
+    ----------
+    dim_p : int
+        Size of the process-local state or observation vector.
+    dim_ens : int
+        Ensemble size.
+    element : int
+        Full-vector element index for which CRPS is evaluated. If
+        ``element=0``, PDAF computes the mean CRPS over all ``dim_p`` local
+        entries and over all filter processes. Positive values select one
+        element of the global vector.
+    oens : ndarray[np.float64, ndim=2]
+        Ensemble values for the observed or state quantity. The array shape is
+        ``(dim_p, dim_ens)``; columns are ensemble members.
+    obs : ndarray[np.float64, ndim=1]
+        Verifying values, e.g. observations or truth. The array shape is
+        ``(dim_p,)``.
+
+    Returns
+    -------
+    crps : float
+        Continuous ranked probability score.
+    reli : float
+        Reliability contribution. This term is small when the observed
+        frequencies are consistent with the ensemble probabilities.
+    pot_crps : float
+        Potential CRPS, the CRPS remaining after removing the reliability
+        penalty.
+    uncert : float
+        Uncertainty of the verifying values. This is only meaningful when
+        averaging over multiple cases, i.e. with ``element=0``.
+    status : int
+        PDAF status flag. ``0`` indicates success; ``100`` indicates an
+        invalid ``element`` index.
+
+    References
+    ----------
+    Hersbach, H. (2000). Decomposition of the continuous ranked probability
+    score for ensemble prediction systems. Weather and Forecasting, 15,
+    559-570.
+    """
+    cdef double crps
+    cdef double reli
+    cdef double pot_crps
+    cdef double uncert
+    cdef int status
+    c__pdaf_diag_crps(&dim_p, &dim_ens, &element, &oens[0,0],
+                          &obs[0], &crps, &reli, &pot_crps, &uncert, &status)
+    return crps, reli, pot_crps, uncert, status
+
 
 def diag_effsample(int  dim_sample, double [::1] weights):
     r"""diag_effsample(dim_sample: int, weights: np.ndarray) -> float
@@ -680,3 +747,59 @@ def diag_reliability_budget(int  n_times, int  dim_ens, int  dim_p,
                                         &obs_p[0,0], &budget[0,0,0], &bias_2[0])
 
     return budget_np, bias_2_np
+
+def diag_diffstats(int dim_p, double [::1] vec1, double [::1] vec2,
+    int verbose):
+    r"""diag_diffstats(dim_p: int, vec1: np.ndarray, vec2: np.ndarray, verbose: int) -> np.ndarray
+
+    Compare two vectors with Taylor-diagram style statistics.
+
+    The routine compares two fields on the filter communicator. A common use
+    is comparing observations with the corresponding observed model or
+    ensemble-mean values. The returned statistics separate pattern agreement
+    from mean offset: correlation and standard deviations describe centered
+    variability, centered RMSD describes shape mismatch after removing the
+    means, while bias and mean absolute deviation measure non-centered
+    differences ``vec1 - vec2``.
+
+    Parameters
+    ----------
+    dim_p : int
+        Number of process-local vector entries to compare. PDAF combines the
+        local contributions over the filter communicator.
+    vec1 : ndarray[np.float64, ndim=1]
+        First vector. In observation diagnostics this is typically the
+        observation vector ``y``. The array shape is ``(dim_p,)``.
+    vec2 : ndarray[np.float64, ndim=1]
+        Second vector. In observation diagnostics this is typically the
+        observed ensemble mean ``Hx``. The array shape is ``(dim_p,)``.
+    verbose : int
+        Verbosity flag. If greater than zero, PDAF prints the statistics.
+
+    Returns
+    -------
+    stats : ndarray[np.float64, ndim=1]
+        Six-element statistics vector:
+
+        ``stats[0]``
+            Pearson correlation between anomalies of ``vec1`` and ``vec2``.
+            This is the Taylor-diagram correlation.
+        ``stats[1]``
+            Centered RMS deviation, i.e. RMS of
+            ``(vec1 - mean(vec1)) - (vec2 - mean(vec2))``.
+        ``stats[2]``
+            Bias ``mean(vec1) - mean(vec2)``.
+        ``stats[3]``
+            Mean absolute deviation ``mean(abs(vec1 - vec2))``.
+        ``stats[4]``
+            Standard deviation of ``vec1``.
+        ``stats[5]``
+            Standard deviation of ``vec2``.
+
+        The correlation and the two standard deviations are the usual
+        quantities shown in Taylor diagrams.
+    """
+    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] stats_np = np.zeros((6), dtype=np.float64, order="F")
+    cdef double [::1] stats = stats_np
+    c__pdaf_diag_diffstats(&dim_p, &vec1[0], &vec2[0], &stats[0], &verbose)
+    return stats_np

@@ -1,5 +1,6 @@
 """Namespace for PDAF3 module."""
-from ._pdaf3_c import init, init_forecast, set_parallel
+from ._pdaf3_c import init, init_forecast, set_parallel, \
+                      init_parallel
 from .assim import assimilate, assim_offline, \
                    assimilate_3dvar_all, assim_offline_3dvar_all, \
                    assimilate_local_nondiagr, assimilate_global_nondiagr, \
@@ -21,5 +22,5 @@ from .assim import assimilate, assim_offline, \
                    assim_offline_en3dvar_lestkf_nondiagr, \
                    assim_offline_hyb3dvar_estkf_nondiagr, \
                    assim_offline_hyb3dvar_lestkf_nondiagr, \
-                   generate_obs, generate_obs_offline
+                   generate_obs, generate_obs_offline, prepost, prepost_offline
 

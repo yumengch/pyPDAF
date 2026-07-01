@@ -118,6 +118,88 @@ def get_obsmemberid(int  memberid):
 
     return memberid
 
+def get_seed():
+    """get_seed() -> np.ndarray
+
+    Return PDAF's current four-integer random seed vector.
+
+    This is an alias of :func:`get_seedvec`. The returned seed can be stored
+    and later passed to :func:`pyPDAF.PDAF.set_seed` or
+    :func:`pyPDAF.PDAF.set_seedvec` to continue a reproducible PDAF random
+    sequence.
+
+    Returns
+    -------
+    seedvec : ndarray[np.intc, ndim=1]
+        Four-integer PDAF random seed vector.
+    """
+    cdef cnp.ndarray[cnp.int32_t, ndim=1, mode="fortran", negative_indices=False, cast=False] seedvec_np = np.zeros((4), dtype=np.intc, order="F")
+    cdef int [::1] seedvec = seedvec_np
+    c__pdaf_get_seed(&seedvec[0])
+    return seedvec_np
+
+def get_seedvec():
+    """get_seedvec() -> np.ndarray
+
+    Return PDAF's current four-integer random seed vector.
+
+    The seed vector follows the LAPACK random-number convention used by PDAF.
+    In particular, the fourth entry is expected to be odd when the vector is
+    supplied back to PDAF.
+
+    Returns
+    -------
+    seedvec : ndarray[np.intc, ndim=1]
+        Four-integer PDAF random seed vector.
+
+    See Also
+    --------
+    pyPDAF.PDAF.set_seedvec : Store a seed vector for PDAF random numbers.
+    """
+    cdef cnp.ndarray[cnp.int32_t, ndim=1, mode="fortran", negative_indices=False, cast=False] seedvec_np = np.zeros((4), dtype=np.intc, order="F")
+    cdef int [::1] seedvec = seedvec_np
+    c__pdaf_get_seedvec(&seedvec[0])
+    return seedvec_np
+
+def get_rndcount():
+    """get_rndcount() -> int
+
+    Return PDAF's random-number generation counter.
+
+    PDAF increments this internal counter when its random-number helper
+    routines are used. It is mainly useful for diagnostics and for checking
+    that a reproducible run consumed the expected number of random draws.
+
+    Returns
+    -------
+    rndcount : int
+        Number of PDAF random-number generation calls counted so far.
+    """
+    cdef int rndcount
+    c__pdaf_get_rndcount(&rndcount)
+    return rndcount
+
+
+def reset_fcst_flag():
+    """reset_fcst_flag() -> int
+
+    Return PDAF's forecast-time reset flag.
+
+    PDAF uses this flag in the flexible parallelization mode when an
+    assimilation routine ``PDAF_assimilate_*`` is used instead of a
+    ``PDAF_put_state_*`` routine. A nonzero value tells the user-side model
+    integration to reset its model time before continuing the forecast.
+
+    Returns
+    -------
+    reset_fcst_flag : int
+        Internal PDAF flag indicating whether the user-side model time should
+        be reset.
+    """
+    cdef int reset_fcst_flag_value
+    c__pdaf_reset_fcst_flag(&reset_fcst_flag_value)
+    return reset_fcst_flag_value
+
 
 def get_smoother_ens():
     """get_smoother_ens() -> typing.Tuple[np.ndarray, int, int]

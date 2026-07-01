@@ -64,7 +64,7 @@ sys.excepthook = global_except_hook
 
 _append_to_sharedlib_load_path()
 
-from pyPDAF.PDAF3 import init, init_forecast, set_parallel
+from pyPDAF.PDAF3 import init, init_forecast, set_parallel, init_parallel
 from pyPDAF.PDAF3 import assimilate, assim_offline
 from pyPDAF.PDAF3 import assimilate_local_nondiagr, assimilate_global_nondiagr, \
                          assimilate_lnetf_nondiagr, assimilate_lknetf_nondiagr, \
@@ -85,7 +85,7 @@ from pyPDAF.PDAF3 import assim_offline_3dvar_nondiagr, assim_offline_en3dvar_est
                          assim_offline_en3dvar_lestkf_nondiagr, \
                          assim_offline_hyb3dvar_estkf_nondiagr, \
                          assim_offline_hyb3dvar_lestkf_nondiagr
-from pyPDAF.PDAF3 import generate_obs, generate_obs_offline
+from pyPDAF.PDAF3 import generate_obs, generate_obs_offline, prepost, prepost_offline
 from pyPDAF.PDAF import get_fcst_info, deallocate
 
 from . import PDAF

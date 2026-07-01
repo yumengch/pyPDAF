@@ -229,6 +229,34 @@ contains
 
    END SUBROUTINE c__PDAF_diag_CRPS_nompi
 
+   SUBROUTINE c__PDAF_diag_crps(dim_p, dim_ens, element, oens, obs, crps, reli,  &
+      pot_crps, uncert, status) bind(c)
+      ! PE-local state dimension
+      INTEGER(c_int), INTENT(in) :: dim_p
+      ! Ensemble size
+      INTEGER(c_int), INTENT(in) :: dim_ens
+      ! index of element in full state vector
+      INTEGER(c_int), INTENT(in) :: element
+      ! State ensemble
+      REAL(c_double), DIMENSION(dim_p, dim_ens), INTENT(in) :: oens
+      ! Observation / truth
+      REAL(c_double), DIMENSION(dim_p), INTENT(in) :: obs
+      ! CRPS
+      REAL(c_double), INTENT(out) :: crps
+      ! Reliability
+      REAL(c_double), INTENT(out) :: reli
+      ! potential CRPS
+      REAL(c_double), INTENT(out) :: pot_crps
+      ! uncertainty
+      REAL(c_double), INTENT(out) :: uncert
+      ! Status flag (0=success)
+      INTEGER(c_int), INTENT(out) :: status
+
+      call PDAF_diag_crps(dim_p, dim_ens, element, oens, obs, crps, reli,  &
+         pot_crps, uncert, status)
+
+   END SUBROUTINE c__PDAF_diag_crps
+
    SUBROUTINE c__PDAF_diag_effsample(dim_sample, weights, n_eff) bind(c)
       ! Sample size
       INTEGER(c_int), INTENT(in) :: dim_sample
@@ -338,4 +366,20 @@ contains
          obs_p, budget, bias_2)
 
    END SUBROUTINE c__PDAF_diag_reliability_budget
+
+   SUBROUTINE c__PDAF_diag_diffstats(dim_p, vec1, vec2, stats, verbose) bind(c)
+      ! Size of vector
+      INTEGER(c_int), INTENT(in) :: dim_p
+      ! First vector
+      REAL(c_double), DIMENSION(dim_p), INTENT(inout) :: vec1
+      ! Second vector
+      REAL(c_double), DIMENSION(dim_p), INTENT(inout) :: vec2
+      ! Statistics vector
+      REAL(c_double), DIMENSION(6), INTENT(inout) :: stats
+      ! Verbosity flag
+      INTEGER(c_int), INTENT(in) :: verbose
+
+      call PDAF_diag_diffstats(dim_p, vec1, vec2, stats, verbose)
+
+   END SUBROUTINE c__PDAF_diag_diffstats
 END MODULE pdaf_c_diag

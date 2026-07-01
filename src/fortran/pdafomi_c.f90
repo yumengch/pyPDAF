@@ -6,6 +6,7 @@ implicit none
 type(obs_f), allocatable, target :: thisobs(:)
 type(obs_l), allocatable, target :: thisobs_l(:)
 integer :: n_obs_omi
+integer(c_int), volatile :: pdafomi_c_keep
 
 !$OMP THREADPRIVATE(thisobs_l)
 
@@ -15,13 +16,12 @@ contains
       integer(c_int), intent(in) :: n_obs
       n_obs_omi = n_obs
       if (.not. allocated(thisobs)) allocate(thisobs(n_obs))
-      if (.not. allocated(thisobs_l)) allocate(thisobs_l(n_obs))
    end subroutine c__PDAFomi_init
 
    subroutine c__PDAFomi_init_local() bind(c)
       if (.not. allocated(thisobs_l)) allocate(thisobs_l(n_obs_omi))
+      pdafomi_c_keep = n_obs_omi
    end subroutine c__PDAFomi_init_local
-
 
    SUBROUTINE c__PDAFomi_check_error(flag) bind(c)
       ! Error flag
@@ -314,7 +314,7 @@ contains
 
    END SUBROUTINE c__PDAFomi_set_debug_flag
 
-   SUBROUTINE c__PDAFomi_set_dim_obs_l(i_obs, cnt_obs_l_all, cnt_obs_l) bind(c)
+   SUBROUTINE c__PDAFomi_set_dim_obs_l(i_obs, cnt_obs_l_all, cnt_obs_l, mode) bind(c)
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -322,10 +322,12 @@ contains
       INTEGER(c_int), INTENT(inout) :: cnt_obs_l_all
       ! Local dimension of single observation type vector
       INTEGER(c_int), INTENT(inout) :: cnt_obs_l
+      ! 1: count local observations; 2: store local observation indices
+      INTEGER(c_int), INTENT(in) :: mode
 
 
       call PDAFomi_set_dim_obs_l(thisobs_l(i_obs), thisobs(i_obs),  &
-         cnt_obs_l_all, cnt_obs_l)
+         cnt_obs_l_all, cnt_obs_l, mode)
 
    END SUBROUTINE c__PDAFomi_set_dim_obs_l
 

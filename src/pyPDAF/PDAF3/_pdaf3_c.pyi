@@ -114,6 +114,70 @@ def init_forecast(
         Status flag
     """
 
+def init_parallel(
+    screen: int,
+    type_parallel: int,
+    online_coupling: int,
+    dim_ens: int,
+    n_modeltasks: int,
+    COMM_model: int
+) -> Tuple[int, int, int, int, int, int, int, int]:
+    """Initialize PDAF3's flexible parallelization layout.
+
+    This helper delegates communicator setup to PDAF3. It is intended for
+    applications that use the PDAF3 interface and want PDAF to derive the model
+    and assimilation communicators from the selected parallelization strategy.
+    Call it during PDAF3 setup before routines that rely on PDAF's internal
+    parallel configuration.
+
+    The configuration of the parallelization is what we found to be
+    'typically working'. If one has a particular case, e.g., the ensemble
+    parallelization is readily prepared by the model, one can do the
+    communicator configuration in the user code and then call
+    :func:`pyPDAF.set_parallel` to provide PDAF with the configuration.
+
+
+
+    Parameters
+    ----------
+    screen : int
+        Verbosity flag for PDAF screen output.
+    type_parallel : int
+        PDAF3 parallelization strategy selector. (currently not used)
+    online_coupling : int
+        Coupling mode flag. Use the value expected by PDAF for online or
+        offline coupling.
+        1: online DA coupling, 0: offline DA coupling
+    dim_ens : int
+        Ensemble size.
+    n_modeltasks : int
+        Number of parallel model tasks supplied to PDAF3.
+        If online coupling is used, this value must match the number of model tasks
+        that are running the model code. If offline coupling is used, this value
+        is always 1 regardless of the input.
+    COMM_model : int
+        MPI communicator handle for the model side.
+
+    Returns
+    -------
+    n_modeltasks : int
+        Number of parallel model tasks supplied to PDAF3.
+    COMM_model : int
+        MPI communicator handle for the model side
+    mype_model : int
+        Rank of the current process in ``COMM_model``.
+    npes_model : int
+        Number of processes in ``COMM_model``.
+    COMM_assim : int
+        MPI communicator handle for the assimilation side
+    mype_assim : int
+        Rank of the current process in ``COMM_assim``.
+    npes_assim : int
+        Number of processes in ``COMM_assim``.
+    task_id : int
+        Ensemble task identifier of the current process.
+    """
+
 def set_parallel(
     in_comm_pdaf: int,
     in_comm_model: int,

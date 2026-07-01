@@ -11,6 +11,11 @@ cdef extern void c__pdaf3_init_forecast(
                                 double* , double* , double* , int* ),
     int* outflag) noexcept nogil;
 
+cdef extern void c__pdaf3_init_parallel(int* screen, int* type_parallel,
+    int* online_coupling, int* dim_ens, int* n_modeltasks, int* COMM_model,
+    int* mype_model, int* npes_model, int* COMM_assim, int* mype_assim,
+    int* npes_assim, int* task_id) noexcept nogil;
+
 
 cdef extern void c__pdaf3_set_parallel(int* in_comm_pdaf,
     int* in_comm_model, int* in_comm_filter, int* in_comm_couple, int* in_task_id,

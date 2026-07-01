@@ -58,6 +58,49 @@ def timeit(int timerid, str operation):
     cdef char* operation_ptr = operation_byte
     c__pdaf_timeit(&timerid, operation_ptr)
 
+def time_temp(int timerid):
+    """Return the last elapsed interval for a PDAF timer.
+
+    The value is the duration, in seconds, of the most recent completed timing
+    interval for ``timerid``. Timing intervals are controlled with
+    :func:`timeit`, typically by starting a timer with ``operation="new"`` and
+    stopping it with ``operation="old"``.
+
+    Parameters
+    ----------
+    timerid : int
+        PDAF timer identifier.
+
+    Returns
+    -------
+    time_temp : float
+        Elapsed time in seconds for the last completed interval of this timer.
+    """
+    cdef double time_temp_value
+    c__pdaf_time_temp(&timerid, &time_temp_value)
+    return time_temp_value
+
+def time_tot(int timerid):
+    """Return the accumulated elapsed time for a PDAF timer.
+
+    The value is the total time, in seconds, accumulated over all completed
+    timing intervals for ``timerid`` since the timer arrays were initialized.
+    Timing intervals are controlled with :func:`timeit`.
+
+    Parameters
+    ----------
+    timerid : int
+        PDAF timer identifier.
+
+    Returns
+    -------
+    time_tot : float
+        Accumulated elapsed time in seconds for this timer.
+    """
+    cdef double time_tot_value
+    c__pdaf_time_tot(&timerid, &time_tot_value)
+    return time_tot_value
+
 def set_forget(int  step, int  localfilter, int  dim_obs_p, int  dim_ens,
     double [::1,:] mens_p, double [::1] mstate_p, double [::1] obs_p,
     py__init_obsvar_pdaf, double  forget_in, int  screen):
@@ -2534,7 +2577,8 @@ def lnetf_ana(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
 def lnetf_smoothert(int  domain_p, int  step, int  dim_obs_f,
     int  dim_obs_l, int  dim_ens, double [::1,:] hx_f,
     double [::1,:] rndmat, py__g2l_obs_pdaf, py__init_obs_l_pdaf,
-    py__likelihood_l_pdaf, int  screen, double [::1,:] t, int  flag):
+    py__likelihood_l_pdaf, int  screen, double [::1,:] t, int  flag,
+    int first):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -2652,7 +2696,7 @@ def lnetf_smoothert(int  domain_p, int  step, int  dim_obs_f,
                                 pdaf_cb.c__g2l_obs_pdaf,
                                 pdaf_cb.c__init_obs_l_pdaf,
                                 pdaf_cb.c__likelihood_l_pdaf, &screen,
-                                &t[0,0], &flag)
+                                &t[0,0], &flag, &first)
 
     return t_np, flag
 
@@ -2660,7 +2704,7 @@ def lnetf_smoothert(int  domain_p, int  step, int  dim_obs_f,
 def smoother_lnetf(int  domain_p, int  step, int  dim_p, int  dim_l,
     int  dim_ens, int  dim_lag, double [::1,:] ainv, double [::1,:] ens_l,
     double [::1,:,:] sens_p, int  cnt_maxlag, py__g2l_state_pdaf,
-    py__l2g_state_pdaf, int  screen):
+    py__l2g_state_pdaf, int  screen, int first):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -2760,7 +2804,7 @@ def smoother_lnetf(int  domain_p, int  step, int  dim_p, int  dim_l,
                                &dim_lag, &ainv[0,0], &ens_l[0,0],
                                &sens_p[0,0,0], &cnt_maxlag,
                                pdaf_cb.c__g2l_state_pdaf,
-                               pdaf_cb.c__l2g_state_pdaf, &screen)
+                               pdaf_cb.c__l2g_state_pdaf, &screen, &first)
 
     return ens_l_np, sens_p_np, cnt_maxlag
 
@@ -2820,6 +2864,68 @@ def memcount(int  id, str stortype, int  dim):
     stortype_byte = stortype.encode('UTF-8')
     cdef char*  stortype_ptr = stortype_byte
     c__pdaf_memcount(&id, stortype_ptr, &dim)
+
+
+def memcount_get(int id, str munit):
+    """Read a process-local PDAF memory counter.
+
+    The counter value is returned in the requested memory unit. PDAF supports
+    four one-character unit codes: ``"B"`` for bytes, ``"K"`` for kibibytes,
+    ``"M"`` for mebibytes, and ``"G"`` for gibibytes. Lowercase unit codes are
+    also accepted by PDAF.
+
+    Parameters
+    ----------
+    id : int
+        Identifier of the memory counter to read.
+    munit : str
+        Unit code for the returned value. Supported values are ``"B"``,
+        ``"K"``, ``"M"``, and ``"G"``.
+
+    Returns
+    -------
+    memcount_value : float
+        Process-local memory count converted to the requested unit. PDAF
+        returns ``0.0`` for unsupported unit codes.
+    """
+    cdef double memcount_value
+    munit_byte = munit.encode('UTF-8')
+    cdef char* munit_ptr = munit_byte
+    c__pdaf_memcount_get(&id, munit_ptr, &memcount_value)
+    return memcount_value
+
+
+def memcount_get_global(int id, str munit, int comm):
+    """Read a globally reduced PDAF memory counter.
+
+    This function first reads the process-local memory counter and then uses
+    ``comm`` to compute the global value with MPI. The counter value is
+    returned in the requested memory unit. PDAF supports four one-character
+    unit codes: ``"B"`` for bytes, ``"K"`` for kibibytes, ``"M"`` for
+    mebibytes, and ``"G"`` for gibibytes. Lowercase unit codes are also
+    accepted by PDAF.
+
+    Parameters
+    ----------
+    id : int
+        Identifier of the memory counter to read.
+    munit : str
+        Unit code for the returned value. Supported values are ``"B"``,
+        ``"K"``, ``"M"``, and ``"G"``.
+    comm : int
+        Fortran MPI communicator used for the global reduction.
+
+    Returns
+    -------
+    memcount_value : float
+        Globally reduced memory count converted to the requested unit. PDAF
+        returns ``0.0`` for unsupported unit codes.
+    """
+    cdef double memcount_value
+    munit_byte = munit.encode('UTF-8')
+    cdef char* munit_ptr = munit_byte
+    c__pdaf_memcount_get_global(&id, munit_ptr, &comm, &memcount_value)
+    return memcount_value
 
 
 
@@ -13060,6 +13166,37 @@ def prepost(py__collect_state_pdaf, py__distribute_state_pdaf,
 
     return outflag
 
+def prepost_offline(py__prepoststep_pdaf):
+    """prepost_offline(py__prepoststep_pdaf: Callable) -> int
+
+    Run PDAF's internal offline pre/post helper.
+
+    This is an internal wrapper around ``PDAF_prepost_offline``. It is used by
+    offline PDAF workflows that need the pre/poststep callback without the
+    state collection, state distribution, or next-observation callbacks used by
+    online model loops.
+
+    Parameters
+    ----------
+    py__prepoststep_pdaf : Callable
+        Callback executed before or after PDAF processing.
+        See :func:`pyPDAF.pdaf_c_cb_interface.c__prepoststep_pdaf`.
+
+    Returns
+    -------
+    outflag : int
+        PDAF status flag returned by the internal routine.
+
+    Notes
+    -----
+    This routine is not exported from :mod:`pyPDAF.PDAF`; it is intended for
+    internal PDAF bindings that mirror upstream Fortran entry points.
+    """
+    pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
+    cdef int outflag
+    c__pdaf_prepost_offline(pdaf_cb.c__prepoststep_pdaf, &outflag)
+    return outflag
+
 
 def enkf_update(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
     double [::1,:] ens_p, py__init_dim_obs_pdaf, py__obs_op_pdaf,
@@ -15730,7 +15867,7 @@ def smoothing(int  dim_p, int  dim_ens, int  dim_lag, double [::1,:] ainv,
 def smoothing_local(int  domain_p, int  step, int  dim_p, int  dim_l,
     int  dim_ens, int  dim_lag, double [::1,:] ainv, double [::1,:] ens_l,
     double [::1,:,:] sens_p, int  cnt_maxlag, py__g2l_state_pdaf,
-    py__l2g_state_pdaf, double  forget, int  screen):
+    py__l2g_state_pdaf, double  forget, int  screen, int first):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
 
@@ -15832,7 +15969,8 @@ def smoothing_local(int  domain_p, int  step, int  dim_p, int  dim_l,
                                 &dim_lag, &ainv[0,0], &ens_l[0,0],
                                 &sens_p[0,0,0], &cnt_maxlag,
                                 pdaf_cb.c__g2l_state_pdaf,
-                                pdaf_cb.c__l2g_state_pdaf, &forget, &screen)
+                                pdaf_cb.c__l2g_state_pdaf, &forget, &screen,
+                                &first)
 
     return ens_l_np, sens_p_np, cnt_maxlag
 

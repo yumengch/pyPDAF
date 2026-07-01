@@ -63,121 +63,6 @@ def diag_omit_by_inno():
 
 
 
-def cnt_dim_obs_l(int  i_obs, double [::1] coords_l):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
-
-    Parameters
-    ----------
-    i_obs : int
-        index into observation arrays
-    coords_l : ndarray[np.float64, ndim=1]
-        Coordinates of current analysis domain (thisobs%ncoord)
-        Array shape: (:)
-
-    Returns
-    -------
-    """
-    cdef CFI_cdesc_rank1 coords_l_cfi
-    cdef size_t coords_l_nbytes = coords_l.nbytes
-    cdef CFI_index_t coords_l_extent[1]
-    coords_l_extent[0] = coords_l.shape[0]
-    CFI_establish(<CFI_cdesc_t *> &coords_l_cfi, &coords_l[0], CFI_attribute_other,
-                      CFI_type_double , coords_l_nbytes, 1, coords_l_extent)
-
-    c__pdafomi_cnt_dim_obs_l(&i_obs, <CFI_cdesc_t *> &coords_l_cfi)
-
-
-
-def cnt_dim_obs_l_noniso(int  i_obs, double [::1] coords_l):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
-
-    Parameters
-    ----------
-    i_obs : int
-        index into observation arrays
-    coords_l : ndarray[np.float64, ndim=1]
-        Coordinates of current analysis domain (thisobs%ncoord)
-        Array shape: (:)
-
-    Returns
-    -------
-    """
-    cdef CFI_cdesc_rank1 coords_l_cfi
-    cdef size_t coords_l_nbytes = coords_l.nbytes
-    cdef CFI_index_t coords_l_extent[1]
-    coords_l_extent[0] = coords_l.shape[0]
-    CFI_establish(<CFI_cdesc_t *> &coords_l_cfi, &coords_l[0], CFI_attribute_other,
-                      CFI_type_double , coords_l_nbytes, 1, coords_l_extent)
-
-    c__pdafomi_cnt_dim_obs_l_noniso(&i_obs, <CFI_cdesc_t *> &coords_l_cfi)
-
-
-
-def init_obsarrays_l(int  i_obs, double [::1] coords_l, int  off_obs_l_all):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
-
-    Parameters
-    ----------
-    i_obs : int
-        index into observation arrays
-    coords_l : ndarray[np.float64, ndim=1]
-        Coordinates of current water column (thisobs%ncoord)
-        Array shape: (:)
-    off_obs_l_all : int
-        input: offset of current obs. in local obs. vector
-
-    Returns
-    -------
-    off_obs_l_all : int
-        input: offset of current obs. in local obs. vector
-    """
-    cdef CFI_cdesc_rank1 coords_l_cfi
-    cdef size_t coords_l_nbytes = coords_l.nbytes
-    cdef CFI_index_t coords_l_extent[1]
-    coords_l_extent[0] = coords_l.shape[0]
-    CFI_establish(<CFI_cdesc_t *> &coords_l_cfi, &coords_l[0], CFI_attribute_other,
-                      CFI_type_double , coords_l_nbytes, 1, coords_l_extent)
-
-    c__pdafomi_init_obsarrays_l(&i_obs, <CFI_cdesc_t *> &coords_l_cfi, &off_obs_l_all)
-
-    return off_obs_l_all
-
-
-def init_obsarrays_l_noniso(int  i_obs, double [::1] coords_l,
-    int  off_obs_l_all):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
-
-    Parameters
-    ----------
-    i_obs : int
-        index into observation arrays
-    coords_l : ndarray[np.float64, ndim=1]
-        Coordinates of current water column (thisobs%ncoord)
-        Array shape: (:)
-    off_obs_l_all : int
-        input: offset of current obs. in local obs. vector
-
-    Returns
-    -------
-    off_obs_l_all : int
-        input: offset of current obs. in local obs. vector
-    """
-    cdef CFI_cdesc_rank1 coords_l_cfi
-    cdef size_t coords_l_nbytes = coords_l.nbytes
-    cdef CFI_index_t coords_l_extent[1]
-    coords_l_extent[0] = coords_l.shape[0]
-    CFI_establish(<CFI_cdesc_t *> &coords_l_cfi, &coords_l[0], CFI_attribute_other,
-                      CFI_type_double , coords_l_nbytes, 1, coords_l_extent)
-
-    c__pdafomi_init_obsarrays_l_noniso(&i_obs, <CFI_cdesc_t *> &coords_l_cfi, &off_obs_l_all)
-
-    return off_obs_l_all
-
-
 def g2l_obs(int  i_obs, double [::1] obs_f_all, double [::1] obs_l_all):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
@@ -1034,6 +919,107 @@ def check_dist2_loop(int  i_obs, double [::1] coordsa, int  cnt_obs,
     return cnt_obs
 
 
+def check_dist2_loop_opt(int  i_obs, double [::1] coordsa, int  cnt_obs,
+    int  mode):
+    """check_dist2_loop_opt(i_obs: int, coordsa: np.ndarray, cnt_obs: int, mode: int) -> int
+
+    Optimized variant of :func:`check_dist2_loop`.
+
+    Parameters
+    ----------
+    i_obs : int
+        Index into observation arrays.
+    coordsa : ndarray[np.float64, ndim=1]
+        Coordinates of the current analysis domain.
+    cnt_obs : int
+        Count of local observations.
+    mode : int
+        Local-observation processing mode.
+
+    Returns
+    -------
+    cnt_obs : int
+        Updated count of local observations.
+    """
+    cdef CFI_cdesc_rank1 coordsa_cfi
+    cdef size_t coordsa_nbytes = coordsa.nbytes
+    cdef CFI_index_t coordsa_extent[1]
+    coordsa_extent[0] = coordsa.shape[0]
+    CFI_establish(<CFI_cdesc_t *> &coordsa_cfi, &coordsa[0], CFI_attribute_other,
+                      CFI_type_double , coordsa_nbytes, 1, coordsa_extent)
+
+    c__pdafomi_check_dist2_loop_opt(&i_obs, <CFI_cdesc_t *> &coordsa_cfi, &cnt_obs, &mode)
+
+    return cnt_obs
+
+
+def check_dist2_loop_sort(int  i_obs, double [::1] coordsa, int  cnt_obs,
+    int  mode):
+    """check_dist2_loop_sort(i_obs: int, coordsa: np.ndarray, cnt_obs: int, mode: int) -> int
+
+    Sorted-observation variant of :func:`check_dist2_loop`.
+    """
+    cdef CFI_cdesc_rank1 coordsa_cfi
+    cdef size_t coordsa_nbytes = coordsa.nbytes
+    cdef CFI_index_t coordsa_extent[1]
+    coordsa_extent[0] = coordsa.shape[0]
+    CFI_establish(<CFI_cdesc_t *> &coordsa_cfi, &coordsa[0], CFI_attribute_other,
+                      CFI_type_double , coordsa_nbytes, 1, coordsa_extent)
+
+    c__pdafomi_check_dist2_loop_sort(&i_obs, <CFI_cdesc_t *> &coordsa_cfi, &cnt_obs, &mode)
+
+    return cnt_obs
+
+
+def check_dist2_loop_sort2(int  i_obs, double [::1] coordsa, int  cnt_obs,
+    int  mode):
+    """check_dist2_loop_sort2(i_obs: int, coordsa: np.ndarray, cnt_obs: int, mode: int) -> int
+
+    Upper-loop sorted-observation variant of :func:`check_dist2_loop`.
+    """
+    cdef CFI_cdesc_rank1 coordsa_cfi
+    cdef size_t coordsa_nbytes = coordsa.nbytes
+    cdef CFI_index_t coordsa_extent[1]
+    coordsa_extent[0] = coordsa.shape[0]
+    CFI_establish(<CFI_cdesc_t *> &coordsa_cfi, &coordsa[0], CFI_attribute_other,
+                      CFI_type_double , coordsa_nbytes, 1, coordsa_extent)
+
+    c__pdafomi_check_dist2_loop_sort2(&i_obs, <CFI_cdesc_t *> &coordsa_cfi, &cnt_obs, &mode)
+
+    return cnt_obs
+
+
+def set_thisobs_l(int  i_obs, double [::1] coordsx, int  n_obs):
+    """set_thisobs_l(i_obs: int, coordsx: np.ndarray, n_obs: int) -> int
+
+    Store local observation metadata for one OMI observation type.
+
+    Parameters
+    ----------
+    i_obs : int
+        Index into observation arrays.
+    coordsx : ndarray[np.float64, ndim=1]
+        Coordinates of the current local analysis domain.
+    n_obs : int
+        Number of local observations.
+
+    Returns
+    -------
+    n_obs : int
+        Updated number of local observations.
+    """
+    cdef CFI_cdesc_rank1 coordsx_cfi
+    cdef size_t coordsx_nbytes = coordsx.nbytes
+    cdef CFI_index_t coordsx_extent[1]
+    coordsx_extent[0] = coordsx.shape[0]
+    CFI_establish(<CFI_cdesc_t *> &coordsx_cfi, &coordsx[0], CFI_attribute_other,
+                      CFI_type_double , coordsx_nbytes, 1, coordsx_extent)
+
+    c__pdafomi_set_thisobs_l(&i_obs, <CFI_cdesc_t *> &coordsx_cfi, &n_obs)
+
+    return n_obs
+
+
 def check_dist2_noniso_loop(int  i_obs, double [::1] coordsa,
     int  cnt_obs, int  mode):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
@@ -1066,6 +1052,122 @@ def check_dist2_noniso_loop(int  i_obs, double [::1] coordsa,
     c__pdafomi_check_dist2_noniso_loop(&i_obs, <CFI_cdesc_t *> &coordsa_cfi, &cnt_obs, &mode)
 
     return cnt_obs
+
+
+def check_dist2_noniso_loop_opt(int  i_obs, double [::1] coordsa,
+    int  cnt_obs, int  mode):
+    """check_dist2_noniso_loop_opt(i_obs: int, coordsa: np.ndarray, cnt_obs: int, mode: int) -> int
+
+    Optimized non-isotropic variant of :func:`check_dist2_noniso_loop`.
+    """
+    cdef CFI_cdesc_rank1 coordsa_cfi
+    cdef size_t coordsa_nbytes = coordsa.nbytes
+    cdef CFI_index_t coordsa_extent[1]
+    coordsa_extent[0] = coordsa.shape[0]
+    CFI_establish(<CFI_cdesc_t *> &coordsa_cfi, &coordsa[0], CFI_attribute_other,
+                      CFI_type_double , coordsa_nbytes, 1, coordsa_extent)
+
+    c__pdafomi_check_dist2_noniso_loop_opt(&i_obs, <CFI_cdesc_t *> &coordsa_cfi, &cnt_obs, &mode)
+
+    return cnt_obs
+
+
+def check_dist2_noniso_loop_sort(int  i_obs, double [::1] coordsa,
+    int  cnt_obs, int  mode):
+    """check_dist2_noniso_loop_sort(i_obs: int, coordsa: np.ndarray, cnt_obs: int, mode: int) -> int
+
+    Sorted-observation non-isotropic variant of
+    :func:`check_dist2_noniso_loop`.
+    """
+    cdef CFI_cdesc_rank1 coordsa_cfi
+    cdef size_t coordsa_nbytes = coordsa.nbytes
+    cdef CFI_index_t coordsa_extent[1]
+    coordsa_extent[0] = coordsa.shape[0]
+    CFI_establish(<CFI_cdesc_t *> &coordsa_cfi, &coordsa[0], CFI_attribute_other,
+                      CFI_type_double , coordsa_nbytes, 1, coordsa_extent)
+
+    c__pdafomi_check_dist2_noniso_loop_sort(&i_obs, <CFI_cdesc_t *> &coordsa_cfi, &cnt_obs, &mode)
+
+    return cnt_obs
+
+
+def check_dist2_noniso_loop_sort2(int  i_obs, double [::1] coordsa,
+    int  cnt_obs, int  mode):
+    """check_dist2_noniso_loop_sort2(i_obs: int, coordsa: np.ndarray, cnt_obs: int, mode: int) -> int
+
+    Upper-loop sorted-observation non-isotropic variant of
+    :func:`check_dist2_noniso_loop`.
+    """
+    cdef CFI_cdesc_rank1 coordsa_cfi
+    cdef size_t coordsa_nbytes = coordsa.nbytes
+    cdef CFI_index_t coordsa_extent[1]
+    coordsa_extent[0] = coordsa.shape[0]
+    CFI_establish(<CFI_cdesc_t *> &coordsa_cfi, &coordsa[0], CFI_attribute_other,
+                      CFI_type_double , coordsa_nbytes, 1, coordsa_extent)
+
+    c__pdafomi_check_dist2_noniso_loop_sort2(&i_obs, <CFI_cdesc_t *> &coordsa_cfi, &cnt_obs, &mode)
+
+    return cnt_obs
+
+
+def check_noniso(int  i_obs, int  idx, int  cnt_obs,
+    double [::1] dists, double  distance2, int  mode):
+    """check_noniso(i_obs: int, idx: int, cnt_obs: int, dists: np.ndarray, distance2: float, mode: int) -> Tuple[int, np.ndarray]
+
+    Check one observation against non-isotropic OMI localization.
+    """
+    cdef CFI_cdesc_rank1 dists_cfi
+    cdef size_t dists_nbytes = dists.nbytes
+    cdef CFI_index_t dists_extent[1]
+    dists_extent[0] = dists.shape[0]
+    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] dists_np = np.asarray(dists, dtype=np.float64, order="F")
+    CFI_establish(<CFI_cdesc_t *> &dists_cfi, &dists[0], CFI_attribute_other,
+                      CFI_type_double , dists_nbytes, 1, dists_extent)
+
+    c__pdafomi_check_noniso(&i_obs, &idx, &cnt_obs, <CFI_cdesc_t *> &dists_cfi,
+                                &distance2, &mode)
+
+    return cnt_obs, dists_np
+
+
+def tree_idx_lower(int  row, double  tst, double [::1,:] points,
+    int  npts, int  ilower, double  offset, int  level):
+    """tree_idx_lower(row: int, tst: float, points: np.ndarray, npts: int, ilower: int, offset: float, level: int) -> Tuple[int, float, int]
+
+    Return the lower index bound for sorted OMI coordinate searches.
+    """
+    cdef CFI_cdesc_rank2 points_cfi
+    cdef size_t points_nbytes = points.nbytes
+    cdef CFI_index_t points_extent[2]
+    points_extent[0] = points.shape[0]
+    points_extent[1] = points.shape[1]
+    CFI_establish(<CFI_cdesc_t *> &points_cfi, &points[0,0], CFI_attribute_other,
+                      CFI_type_double , points_nbytes, 2, points_extent)
+
+    c__pdafomi_tree_idx_lower(&row, &tst, <CFI_cdesc_t *> &points_cfi,
+                                  &npts, &ilower, &offset, &level)
+
+    return ilower, offset, level
+
+
+def tree_idx_upper(int  row, double  tst, double [::1,:] points,
+    int  npts, int  iupper, double  offset, int  level):
+    """tree_idx_upper(row: int, tst: float, points: np.ndarray, npts: int, iupper: int, offset: float, level: int) -> Tuple[int, float, int]
+
+    Return the upper index bound for sorted OMI coordinate searches.
+    """
+    cdef CFI_cdesc_rank2 points_cfi
+    cdef size_t points_nbytes = points.nbytes
+    cdef CFI_index_t points_extent[2]
+    points_extent[0] = points.shape[0]
+    points_extent[1] = points.shape[1]
+    CFI_establish(<CFI_cdesc_t *> &points_cfi, &points[0,0], CFI_attribute_other,
+                      CFI_type_double , points_nbytes, 2, points_extent)
+
+    c__pdafomi_tree_idx_upper(&row, &tst, <CFI_cdesc_t *> &points_cfi,
+                                  &npts, &iupper, &offset, &level)
+
+    return iupper, offset, level
 
 
 def obs_op_gatheronly(int  i_obs, double [::1] state_p,
@@ -1722,4 +1824,17 @@ def gather_obsdims():
     c__pdafomi_gather_obsdims()
 
 
+def dealloc_local():
+    r"""dealloc_local() -> None
 
+    Deallocate PDAF-OMI local-observation storage.
+
+    This releases the local ``obs_l`` array allocated by
+    :func:`init_local`. It is useful when local-domain observation state should
+    be reset between local analysis phases.
+
+    Returns
+    -------
+    None
+    """
+    c__pdafomi_dealloc_local()

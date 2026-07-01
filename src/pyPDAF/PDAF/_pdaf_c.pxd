@@ -8,6 +8,10 @@ cdef extern void c__pdaf_correlation_function(int* ctype, double* length,
 
 cdef extern void c__pdaf_deallocate() noexcept nogil;
 
+cdef extern void c__pdaf_finalize() noexcept nogil;
+
+cdef extern void c__pdaf_abort(int* err) noexcept nogil;
+
 cdef extern void c__pdaf_eofcovar(int* dim, int* nstates, int* nfields,
     int* dim_fields, int* offsets, int* remove_mstate, int* do_mv,
     double* states, double* stddev, double* svals, double* svec,
@@ -15,6 +19,9 @@ cdef extern void c__pdaf_eofcovar(int* dim, int* nstates, int* nfields,
     int* status) noexcept nogil;
 
 cdef extern void c__pdaf_force_analysis() noexcept nogil;
+
+cdef extern void c__pdaf_generate_rndvec(int* len, double* vec,
+    double* stddev, int* dist, int* iseed) noexcept nogil;
 
 cdef extern void c__pdaf_gather_dim_obs_f(int* dim_obs_p,
     int* dim_obs_f) noexcept nogil;

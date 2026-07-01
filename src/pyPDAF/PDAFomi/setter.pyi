@@ -332,3 +332,35 @@ def set_name(i_obs: int, obsname: str) -> None:
     obsname : str
         name of observation type
     """
+
+def set_searchtype(stype: int, sortdir: int) -> None:
+    """Select the OMI local-observation search algorithm and sort direction.
+
+    This affects the search for local observations used by OMI routines.
+    This mainly affects :func:`pyPDAF.PDAFomi.init_dim_obs_l_iso`,
+    :func:`pyPDAF.PDAFomi.init_dim_obs_l_noniso`, and
+    :func:`pyPDAF.PDAFomi.init_dim_obs_l_noniso_locweights`.
+    The search type selects the
+    algorithmic variant, while ``sortdir`` selects the coordinate direction
+    used by sorted-observation searches.
+
+    Parameters
+    ----------
+    stype : int
+        Search type (option 2, 12 and 22 need more memory):
+            - 0: Search routine of PDAF 3.0
+            - 1: Re-organized search code
+            - 2: Re-organized and optimized search code with only one search loop
+            - 11: Search type using sorted observations
+            - 12: Search type using sorted observations with only one search loop
+            - 21: Search type using sorted observations with a computed upper loop limit
+            - 22: Search type using sorted observations with a computed upper loop limit and only one search loop
+
+
+    sortdir : int
+        Coordinate direction used for sorted search variants.
+
+    Returns
+    -------
+    None
+    """

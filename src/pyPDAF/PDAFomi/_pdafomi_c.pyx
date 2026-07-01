@@ -23,20 +23,20 @@ def init(int  n_obs):
     c__pdafomi_init(&n_obs)
 
 
-
 def init_local():
     r"""init_local() -> None
 
-    Allocating an array of `obs_l` derived types instances.
+    Allocate PDAF-OMI local-observation storage.
 
-    This function initialises the number of observation types
-    for each local analysis domain,
-    which should be called at the start of the local analysis loop
-    in :func:`py__init_dim_obs_l_pdaf`.
+    This initializes the ``obs_l`` derived-type array used for local analysis
+    domains. It should be called before local OMI observation initialization
+    routines that access local observation metadata.
 
+    Returns
+    -------
+    None
     """
     c__pdafomi_init_local()
-
 
 
 def check_error(int  flag):
@@ -1028,32 +1028,38 @@ def set_debug_flag(int  debugval):
 
 
 
-def set_dim_obs_l(int  i_obs, int  cnt_obs_l_all, int  cnt_obs_l):
-    """set_dim_obs_l(i_obs: int, cnt_obs_l_all: int, cnt_obs_l: int) -> Tuple[int, int]
+def set_dim_obs_l(int  i_obs, int  cnt_obs_l_all, int  cnt_obs_l, int mode):
+    """set_dim_obs_l(i_obs: int, cnt_obs_l_all: int, cnt_obs_l: int, mode: int) -> Tuple[int, int]
 
-    Stores the local number of observations for OMI-internal initialisations.
+    Store local observation counts for OMI local-initialization workflows.
 
-    This is used for alternative to :func:`pyPDF.PDAFomi.init_dim_obs_l`.
+    This routine is an alternative entry point for workflows that compute the
+    number of local observations outside the standard
+    :func:`pyPDAF.PDAFomi.init_dim_obs_l` call. It stores both the count for a
+    single observation type and the accumulated count over all local
+    observation types in PDAF-OMI.
 
     See more details in `relevant PDAF wiki page <https://pdaf.awi.de/trac/wiki/OMI_search_local_observations>`_
 
     Parameters
     ----------
     i_obs : int
-        index into observation arrays
+        Index of the observation type.
     cnt_obs_l_all : int
-        Local dimension of observation vector over all obs. types
+        Local observation count accumulated over all observation types.
     cnt_obs_l : int
-        Local dimension of single observation type vector
+        Local observation count for the observation type ``i_obs``.
+    mode : int
+        Local-observation processing mode passed to PDAF-OMI.
 
     Returns
     -------
     cnt_obs_l_all : int
-        Local dimension of observation vector over all obs. types
+        Updated local observation count accumulated over all observation types.
     cnt_obs_l : int
-        Local dimension of single observation type vector
+        Updated local observation count for observation type ``i_obs``.
     """
-    c__pdafomi_set_dim_obs_l(&i_obs, &cnt_obs_l_all, &cnt_obs_l)
+    c__pdafomi_set_dim_obs_l(&i_obs, &cnt_obs_l_all, &cnt_obs_l, &mode)
 
     return cnt_obs_l_all, cnt_obs_l
 

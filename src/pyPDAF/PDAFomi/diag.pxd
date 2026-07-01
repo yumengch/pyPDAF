@@ -21,6 +21,14 @@ cdef extern void c__pdafomi_diag_nobstypes(
 cdef extern void c__pdafomi_diag_obs_rmsd(int* nobs,
     CFI_cdesc_t* rmsd_pointer, int* verbose) noexcept nogil;
 
+cdef extern void c__pdafomi_diag_rmsd(int* nobs,
+    CFI_cdesc_t* rmsd_pointer, int* verbose) noexcept nogil;
+
 cdef extern void c__pdafomi_diag_stats(int* nobs,
     CFI_cdesc_t* obsstats_ptr, int* verbose) noexcept nogil;
 
+cdef extern void c__pdafomi_diag_diffstats(int* nobs,
+    CFI_cdesc_t* obsstats_ptr, int* verbose) noexcept nogil;
+
+cdef extern void c__pdafomi_diag_crps(int* nobs,
+    CFI_cdesc_t* crps_pointer, int* perturb, int* verbose) noexcept nogil;

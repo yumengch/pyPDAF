@@ -4,6 +4,12 @@ cdef extern void c__pdaf_mpi_init() noexcept nogil;
 
 cdef extern void c__pdaf_timeit(int* timerid, char* operation) noexcept nogil;
 
+cdef extern void c__pdaf_time_temp(int* timerid,
+    double* time_temp) noexcept nogil;
+
+cdef extern void c__pdaf_time_tot(int* timerid,
+    double* time_tot) noexcept nogil;
+
 
 cdef extern void c__pdaf_set_forget(int* step, int* localfilter,
     int* dim_obs_p, int* dim_ens, double* mens_p, double* mstate_p,
@@ -171,7 +177,7 @@ cdef extern void c__pdaf_lnetf_smoothert(int* domain_p, int* step,
     void (*c__init_obs_l_pdaf)(int* , int* , int* , double* ),
     void (*c__likelihood_l_pdaf)(int* , int* , int* , double* , double* ,
                                  double* ),
-    int* screen, double* t, int* flag) noexcept nogil;
+    int* screen, double* t, int* flag, int* first) noexcept nogil;
 
 cdef extern void c__pdaf_smoother_lnetf(int* domain_p, int* step,
     int* dim_p, int* dim_l, int* dim_ens, int* dim_lag, double* ainv,
@@ -180,7 +186,7 @@ cdef extern void c__pdaf_smoother_lnetf(int* domain_p, int* step,
                               double* ),
     void (*c__l2g_state_pdaf)(int* , int* , int* , double* , int* ,
                               double* ),
-    int* screen) noexcept nogil;
+    int* screen, int* first) noexcept nogil;
 
 cdef extern void c__pdaf_memcount_ini(
     int* ncounters) noexcept nogil;
@@ -190,6 +196,12 @@ cdef extern void c__pdaf_memcount_define(char* stortype,
 
 cdef extern void c__pdaf_memcount(int* id, char* stortype,
     int* dim) noexcept nogil;
+
+cdef extern void c__pdaf_memcount_get(int* id, char* munit,
+    double* memcount_value) noexcept nogil;
+
+cdef extern void c__pdaf_memcount_get_global(int* id, char* munit,
+    int* comm, double* memcount_value) noexcept nogil;
 
 cdef extern void c__pdaf_init_filters(int* type_filter, int* subtype,
     int* param_int, int* dim_pint, double* param_real, int* dim_preal,
@@ -998,6 +1010,11 @@ cdef extern void c__pdaf_prepost(
     void (*c__next_observation_pdaf)(int* , int* , int* , double* ),
     int* outflag) noexcept nogil;
 
+cdef extern void c__pdaf_prepost_offline(
+    void (*c__prepoststep_pdaf)(int* , int* , int* , int* , int* ,
+                                double* , double* , double* , int* ),
+    int* outflag) noexcept nogil;
+
 cdef extern void c__pdafenkf_update(int* step, int* dim_p, int* dim_obs_p,
     int* dim_ens, double* state_p, double* ens_p,
     void (*c__init_dim_obs_pdaf)(int* , int* ),
@@ -1241,7 +1258,7 @@ cdef extern void c__pdaf_smoothing_local(int* domain_p, int* step,
                               double* ),
     void (*c__l2g_state_pdaf)(int* , int* , int* , double* , int* ,
                               double* ),
-    double* forget, int* screen) noexcept nogil;
+    double* forget, int* screen, int* first) noexcept nogil;
 
 cdef extern void c__pdaf_smoother_shift(int* dim_p, int* dim_ens,
     int* dim_lag, double* ens_p, double* sens_p, int* cnt_maxlag,
