@@ -7,7 +7,10 @@ set MSMPI_INC=%LIBRARY_INC%
 set MSMPI_LIB64=%LIBRARY_LIB%
 
 "%PYTHON%" -m pip install . -v --no-build-isolation^
-    -Cbuild-dir=build --config-settings=setup-args="-Dblas_lib=openblas"^
+    -Cbuild-dir=build --config-settings=setup-args=^
+    "-Dlink_args_blas=-l"%LIBRARY_LIB%"\openblas.lib,"^
+    "-Dlink_args_blas=-l"%LIBRARY_LIB%"\FortranRuntime.lib,"^
+    "-Dlink_args_blas=-l"%LIBRARY_LIB%"\FortranDecimal.lib"^
     --config-settings=setup-args="-Dincdirs="%LIBRARY_INC%^
     --config-settings=setup-args="-Dlibdirs="%LIBRARY_LIB%^
     --config-settings=setup-args="-Dmpi_mod="%LIBRARY_INC%"\mpi.f90"^

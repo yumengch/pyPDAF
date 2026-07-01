@@ -1,14 +1,8 @@
 module pdafomi_c
 use iso_c_binding, only: c_int, c_double, c_bool
 use PDAFomi
+use pdafomi_c_type, only: thisobs, thisobs_l, n_obs_omi
 implicit none
-
-type(obs_f), allocatable, target :: thisobs(:)
-type(obs_l), allocatable, target :: thisobs_l(:)
-integer :: n_obs_omi
-integer(c_int), volatile :: pdafomi_c_keep
-
-!$OMP THREADPRIVATE(thisobs_l)
 
 contains
    subroutine c__PDAFomi_init(n_obs) bind(c)
@@ -17,11 +11,6 @@ contains
       n_obs_omi = n_obs
       if (.not. allocated(thisobs)) allocate(thisobs(n_obs))
    end subroutine c__PDAFomi_init
-
-   subroutine c__PDAFomi_init_local() bind(c)
-      if (.not. allocated(thisobs_l)) allocate(thisobs_l(n_obs_omi))
-      pdafomi_c_keep = n_obs_omi
-   end subroutine c__PDAFomi_init_local
 
    SUBROUTINE c__PDAFomi_check_error(flag) bind(c)
       ! Error flag

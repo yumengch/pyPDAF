@@ -20,7 +20,6 @@ EXPORTS
     c__pdaf3_init_parallel
     c__pdaf3_prepost
     c__pdaf3_prepost_offline
-    c__pdafomi_init_local
     c__pdafomi_dealloc_local
     c__pdafomi_diag_rmsd
     c__pdafomi_diag_diffstats

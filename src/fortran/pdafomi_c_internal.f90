@@ -1,6 +1,6 @@
 module pdafomi_c_internal
 use iso_c_binding, only: c_int, c_double, c_bool
-use pdafomi_c, only: n_obs_omi, thisobs, thisobs_l
+use pdafomi_c_type, only: thisobs, thisobs_l
 use pdafomi_obs_f
 use pdafomi_obs_l
 use PDAFomi_obs_op

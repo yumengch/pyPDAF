@@ -5,6 +5,7 @@ import sys
 from traceback import print_exception
 
 import mpi4py
+import mpi4py.MPI
 mpi4py.rc.initialize = False
 
 def _append_to_sharedlib_load_path():

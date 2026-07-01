@@ -156,20 +156,26 @@ def init_parallel(
         that are running the model code. If offline coupling is used, this value
         is always 1 regardless of the input.
     COMM_model : int
-        MPI communicator handle for the model side.
+        MPI communicator handle. This should be the communicator that contains
+        all processors used to run the entire ensemble. This can be MPI_COMM_WORLD.
+        In some cases, e.g., NEMO, the processors are split into model and XIOS
+        communicators. In that case, this should be model communicator.
 
     Returns
     -------
     n_modeltasks : int
         Number of parallel model tasks supplied to PDAF3.
     COMM_model : int
-        MPI communicator handle for the model side
+        This will be the model communicator after splitting by the number
+        of model tasks. This communicator contains processors that run a single
+        model task instead of the entire ensemble. This is different from the input
+        argument ``COMM_model``.
     mype_model : int
         Rank of the current process in ``COMM_model``.
     npes_model : int
         Number of processes in ``COMM_model``.
     COMM_assim : int
-        MPI communicator handle for the assimilation side
+        MPI communicator contains all processors that run actual DA filters.
     mype_assim : int
         Rank of the current process in ``COMM_assim``.
     npes_assim : int

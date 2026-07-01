@@ -23,22 +23,6 @@ def init(int  n_obs):
     c__pdafomi_init(&n_obs)
 
 
-def init_local():
-    r"""init_local() -> None
-
-    Allocate PDAF-OMI local-observation storage.
-
-    This initializes the ``obs_l`` derived-type array used for local analysis
-    domains. It should be called before local OMI observation initialization
-    routines that access local observation metadata.
-
-    Returns
-    -------
-    None
-    """
-    c__pdafomi_init_local()
-
-
 def check_error(int  flag):
     r"""check_error(flag: int) -> int
 

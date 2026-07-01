@@ -2,7 +2,7 @@ MODULE pdafomi_c_setter
 use iso_c_binding, only: c_int, c_double, c_bool, c_null_char, c_char
 use PDAF
 use pdaf_c_cb_interface
-use pdafomi_c, only: n_obs_omi, thisobs, thisobs_l
+use pdafomi_c_type, only: thisobs
 implicit none
 
 contains

@@ -1,8 +1,6 @@
 from pyPDAF.cfi_binding cimport CFI_cdesc_t
 cdef extern void c__pdafomi_init(int* n_obs) noexcept nogil;
 
-cdef extern void c__pdafomi_init_local() noexcept nogil;
-
 cdef extern void c__pdafomi_check_error(
     int* flag) noexcept nogil;
 

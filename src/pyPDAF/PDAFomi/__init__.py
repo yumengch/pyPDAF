@@ -1,5 +1,5 @@
 """PDAFomi module"""
-from ._pdafomi_c import init, init_local, check_error, gather_obs, \
+from ._pdafomi_c import init, check_error, gather_obs, \
                         gather_obsstate, get_interp_coeff_tri, \
                         get_interp_coeff_lin1d, get_interp_coeff_lin, \
                         init_dim_obs_l_iso, init_dim_obs_l_noniso, \

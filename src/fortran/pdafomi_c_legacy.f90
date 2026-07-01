@@ -1,6 +1,6 @@
 module pdafomi_c_legacy
 use iso_c_binding, only: c_int, c_double, c_bool
-use pdafomi_c, only: n_obs_omi, thisobs, thisobs_l
+use pdafomi_c_type, only: thisobs
 use pdafomi_obs_l
 implicit none
 contains

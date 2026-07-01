@@ -16,6 +16,8 @@ mpimod = get_option('mpi_mod')
 if host_machine.system() == 'windows'
   mpi = dependency('mpi', language : 'fortran', required: true)
 else
+  # we expect the users will use the MPI wrapper compiler to compile the Fortran code
+  # so we don't need to link with MPI library.
   mpi = dependency('', language : 'fortran', required: false)
 endif
 # get blas and lapack dependency
@@ -46,7 +48,7 @@ endif
 c_cython_args = cc.get_supported_arguments(['/O2', '/GL', '-O3',
                                             '-DCYTHON_CLINE_IN_TRACEBACK=0'], checked: 'warn')
 cython_args = ['-Xboundscheck=False', '-Xbinding=False', '-Xwraparound=False',
-               '-Xinitializedcheck=False', '-Xfreethreading_compatible=True']
+               '-Xinitializedcheck=False']
 if is_openmp
   cython_args += ['-Xfreethreading_compatible=True']
 endif
@@ -80,18 +82,23 @@ incdir_f_header = '.'
 if host_machine.system() == 'darwin'
   incdir_f_header = run_command(ff.cmd_array() + ['-print-file-name=include'],
                             check: true).stdout().strip()
-  run_command('cp', incdir_f_header / 'ISO_Fortran_binding.h', meson.source_root()/'src/pyPDAF/PDAFomi/ISO_Fortran_binding.h')
-  run_command('cp', incdir_f_header / 'ISO_Fortran_binding.h', meson.source_root()/'src/pyPDAF/PDAF/ISO_Fortran_binding.h')
-  run_command('cp', incdir_f_header / 'ISO_Fortran_binding.h', meson.source_root()/'src/pyPDAF/PDAF3/ISO_Fortran_binding.h')
-  run_command('cp', incdir_f_header / 'ISO_Fortran_binding.h', meson.source_root()/'src/pyPDAF/PDAFlocal/ISO_Fortran_binding.h')
-  run_command('cp', incdir_f_header / 'ISO_Fortran_binding.h', meson.source_root()/'src/pyPDAF/PDAFlocalomi/ISO_Fortran_binding.h')
+  # run_command('cp', incdir_f_header / 'ISO_Fortran_binding.h', meson.project_source_root()/'src/pyPDAF/PDAFomi/ISO_Fortran_binding.h')
+  # run_command('cp', incdir_f_header / 'ISO_Fortran_binding.h', meson.project_source_root()/'src/pyPDAF/PDAF/ISO_Fortran_binding.h')
+  # run_command('cp', incdir_f_header / 'ISO_Fortran_binding.h', meson.project_source_root()/'src/pyPDAF/PDAF3/ISO_Fortran_binding.h')
+  # run_command('cp', incdir_f_header / 'ISO_Fortran_binding.h', meson.project_source_root()/'src/pyPDAF/PDAFlocal/ISO_Fortran_binding.h')
+  # run_command('cp', incdir_f_header / 'ISO_Fortran_binding.h', meson.project_source_root()/'src/pyPDAF/PDAFlocalomi/ISO_Fortran_binding.h')
 endif
 
 # due to a bug in install_rpath, we need to put rpath to link args
 # $ORIGIN for Linux, @loader_path for MacOS
-link_args = [
-  '-Wl,-rpath,$ORIGIN/../', '-Wl,-rpath,@loader_path/../',
-]
+if host_machine.system() == 'windows'
+  link_args = []
+else
+  link_args = [
+    '-Wl,-rpath,$ORIGIN/../', '-Wl,-rpath,@loader_path/../',
+  ]
+endif
+
 
 fortran_sources = files('PDAF/src/PDAF3_init.F90',
                         'PDAF/src/PDAF3_assimilate_3dvars.F90',
@@ -208,7 +215,7 @@ fortran_sources = files('PDAF/src/PDAF3_init.F90',
                         'PDAF/src/PDAF_netf_analysis.F90',
                         'PDAF/src/PDAF_netf.F90',
                         'PDAF/src/PDAF_netf_update.F90',
-                        'PDAF/src/PDAFobs.F90',
+                        'src/patch/PDAFobs.F90',
                         'PDAF/src/PDAF_parser.F90',
                         'PDAF/src/PDAFomi_assimilate_3dvars.F90',
                         'PDAF/src/PDAFomi_assimilate_ens.F90',
@@ -291,6 +298,7 @@ pdafc_sources = files('src/fortran/pdaf3_c_assim.f90',
                       'src/fortran/pdaflocalomi_c_put.f90',
                       'src/fortran/pdafomi_c_assim.f90',
                       'src/fortran/pdafomi_c_diag.f90',
+                      'src/fortran/pdafomi_c_type.f90',
                       'src/fortran/pdafomi_c.f90',
                       'src/fortran/pdafomi_c_internal.f90',
                       'src/fortran/pdafomi_c_legacy.f90',
