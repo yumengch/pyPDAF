@@ -14,7 +14,7 @@ foreach file :pypdaf_sources
     file,
     link_with: [pdafc_lib],
     dependencies : [mpi, dep_py, blas_dep, openmp_dep_c],
-    include_directories: include_directories([incdir_numpy, incdir_f_header]),
+    include_directories: [incdir_numpy, fallback_inc],
     c_args: c_cython_args,
     link_args: link_args,
     cython_args : cython_args,
