@@ -797,32 +797,6 @@ def set_localize_covar_noniso_locweights(i_obs: int, dim: int, ncoords: int,
         Array shape: (:)
     """
 
-def set_obs_diag(diag: int) -> None:
-    """Activate or deactivate the observation diagnostics.
-
-    By default, observation diagnostics are activated that stores
-    additional information for diagnostics.
-    However, as this functionality increases the required memory,
-    it might be desirable to deactivate this functionality.
-
-    This function is used deactivate the observation diagnostics.
-    Once deactivated, one cannot use diagnostics in :mod:`pyPDAF.PDAFomi.diag`.
-    It is also possible to re-activate the observation diagnostics at a later time.
-
-    The function can be called by all processes, but it is sufficient to call it
-    for those processes that handle observations, which usually are the filter processes.
-
-    This function can be called after the initialization of PDAF in `pyPDAF.PDAF.init`.
-
-
-    Parameters
-    ----------
-    diag : int
-        Value for observation diagnostics mode
-        - > 0: activates observation diagnostics
-        - 0: deactivates observation diagnostics
-    """
-
 def set_domain_limits(lim_coords: np.ndarray) -> None:
     r"""Set the domain limits for domain decomposed local domain.
 

@@ -5,8 +5,36 @@ from typing import Tuple
 import numpy as np
 
 
+def set_obs_diag(diag: int) -> None:
+    """Activate or deactivate the observation diagnostics.
+
+    By default, observation diagnostics are activated that stores
+    additional information for diagnostics.
+    However, as this functionality increases the required memory,
+    it might be desirable to deactivate this functionality.
+
+    This function is used deactivate the observation diagnostics.
+    Once deactivated, one cannot use diagnostics in :mod:`pyPDAF.PDAFomi.diag`.
+    It is also possible to re-activate the observation diagnostics at a later time.
+
+    The function can be called by all processes, but it is sufficient to call it
+    for those processes that handle observations, which usually are the filter processes.
+
+    This function can be called after the initialization of PDAF in `pyPDAF.PDAF.init`.
+
+
+    Parameters
+    ----------
+    diag : int
+        Value for observation diagnostics mode
+        - > 0: activates observation diagnostics
+        - 0: deactivates observation diagnostics
+    """
+
 def diag_dimobs() -> np.ndarray:
     """Observation dimension for each observation type.
+
+    This function is only useful after observation operators are performed.
 
     Returns
     -------
@@ -16,6 +44,8 @@ def diag_dimobs() -> np.ndarray:
 
 def diag_get_hx(id_obs: int) -> Tuple[int, np.ndarray]:
     """Observed ensemble for given observation type.
+
+    This function is only useful after observation operators are performed.
 
     Parameters
     ----------
@@ -34,6 +64,8 @@ def diag_get_hx(id_obs: int) -> Tuple[int, np.ndarray]:
 def diag_get_hxmean(id_obs: int) -> Tuple[int, np.ndarray]:
     """Observed ensemble mean for given observation type.
 
+    This function is only useful after observation operators are performed.
+
     Parameters
     ----------
     id_obs : int
@@ -51,6 +83,8 @@ def diag_get_hxmean(id_obs: int) -> Tuple[int, np.ndarray]:
 def diag_get_ivar(id_obs: int) -> Tuple[int, np.ndarray]:
     """Inverse of observation error variance for given observation type.
 
+    This function is only useful after observation operators are performed.
+
     Parameters
     ----------
     id_obs : int
@@ -67,6 +101,8 @@ def diag_get_ivar(id_obs: int) -> Tuple[int, np.ndarray]:
 
 def diag_get_obs(id_obs: int) -> Tuple[int, int, np.ndarray, np.ndarray]:
     """Observation vector and corresponding coordinates for specified observation type.
+
+    This function is only useful after observation operators are performed.
 
     Parameters
     ----------
@@ -90,6 +126,8 @@ def diag_get_obs(id_obs: int) -> Tuple[int, int, np.ndarray, np.ndarray]:
 def diag_nobstypes(nobs: int) -> int:
     """The number of observation types that are active in an assimilation run.
 
+    This function is only useful after observation operators are performed.
+
     Parameters
     ----------
     nobs : int
@@ -104,6 +142,8 @@ def diag_nobstypes(nobs: int) -> int:
 def diag_obs_rmsd(nobs: int, verbose: int) -> Tuple[int, np.ndarray]:
     """Root mean squared distance between observation and obseved model state
     for each observation type.
+
+    This function is only useful after observation operators are performed.
 
     Parameters
     ----------
@@ -124,6 +164,8 @@ def diag_obs_rmsd(nobs: int, verbose: int) -> Tuple[int, np.ndarray]:
 def diag_stats(nobs: int, verbose: int) -> Tuple[int, np.ndarray]:
     """A selection of 6 statistics comparing the observations and the
     observed ensemble mean for each observation type.
+
+    This function is only useful after observation operators are performed.
 
     Parameters
     ----------
@@ -156,11 +198,9 @@ def diag_rmsd(nobs: int, verbose: int) -> Tuple[int, np.ndarray]:
     mean squared deviation
     ``sqrt(mean((y - Hx)**2))`` over all observations of that type. If only
     the observed ensemble ``H(X_i)`` was stored for diagnostics, PDAF-OMI first
-    computes ``Hx`` from that ensemble.
+    computes ensemble mean.
 
-    The routine only returns diagnostics when OMI diagnostic observation data
-    are available. If no observation diagnostics are active, ``nobs`` is set
-    to ``0``.
+    This function is only useful after observation operators are performed.
 
     Parameters
     ----------
@@ -183,17 +223,9 @@ def diag_rmsd(nobs: int, verbose: int) -> Tuple[int, np.ndarray]:
 def diag_diffstats(nobs: int, verbose: int) -> Tuple[int, np.ndarray]:
     """Compare observations with observed ensemble means by observation type.
 
-    This is the OMI observation-diagnostic counterpart of
-    :func:`pyPDAF.PDAF.diag_diffstats`. For each active observation type it
-    compares the observation vector ``y`` with the observed ensemble mean
-    ``Hx``. The returned matrix is organized as ``stats[statistic, obs_type]``:
-    rows select the statistic and columns select the observation type.
+    This function is the same as :func:`diag_stats`.
 
-    These diagnostics are useful for Taylor diagrams and for separating a
-    mean offset from pattern or variability errors. Correlation and standard
-    deviations describe the centered variability of ``y`` and ``Hx``; centered
-    RMSD describes the RMS mismatch after removing the means; bias and mean
-    absolute deviation describe the raw difference ``y - Hx``.
+    This function is only useful after observation operators are performed.
 
     Parameters
     ----------
@@ -241,6 +273,8 @@ def diag_crps(nobs: int, perturb: int, verbose: int) -> Tuple[int, np.ndarray]:
     noise with variance from the stored inverse observation variance and adds
     it to the observations before computing CRPS.
 
+    This function is only useful after observation operators are performed.
+
     Parameters
     ----------
     nobs : int
@@ -269,3 +303,13 @@ def diag_crps(nobs: int, perturb: int, verbose: int) -> Tuple[int, np.ndarray]:
     score for ensemble prediction systems. Weather and Forecasting, 15,
     559-570.
     """
+
+def diag_omit_by_inno():
+    """Set omitted observations with high observation error for diagnostics only.
+
+    The high observation errors are only used for observation diagnostics in
+    :func:`diag_get_ivar` and :func:`diag_crps`.
+
+    This function is only useful after observation operators are performed.
+    """
+    c__pdafomi_diag_omit_by_inno()

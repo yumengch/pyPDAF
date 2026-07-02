@@ -430,15 +430,6 @@ contains
 
    END SUBROUTINE c__PDAFomi_set_localize_covar_noniso_locweights
 
-   SUBROUTINE c__PDAFomi_set_obs_diag(diag) bind(c)
-      ! Value for observation diagnostics mode
-      INTEGER(c_int), INTENT(in) :: diag
-
-
-      call PDAFomi_set_obs_diag(diag)
-
-   END SUBROUTINE c__PDAFomi_set_obs_diag
-
    SUBROUTINE c__PDAFomi_set_domain_limits(lim_coords) bind(c)
       ! geographic coordinate array (1: longitude, 2: latitude)
       REAL(c_double), DIMENSION(2,2), INTENT(in) :: lim_coords

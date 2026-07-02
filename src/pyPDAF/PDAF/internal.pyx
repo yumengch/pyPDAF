@@ -2977,13 +2977,13 @@ def init_filters(int  type_filter, int  subtype, int [::1] param_int,
     """
     cdef cnp.ndarray[cnp.int32_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_int_np = np.asarray(param_int, dtype=np.intc, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
-    cdef char* filterstr_ptr = NULL
+    cdef char filterstr_ptr[11]
     cdef str  filterstr
     cdef bint ensemblefilter
     cdef bint fixedbasis
     c__pdaf_init_filters(&type_filter, &subtype, &param_int[0],
                              &dim_pint, &param_real[0], &dim_preal,
-                             filterstr_ptr, &ensemblefilter, &fixedbasis,
+                             &filterstr_ptr[0], &ensemblefilter, &fixedbasis,
                              &screen, &flag)
     filterstr = filterstr_ptr.decode('UTF-8')
     return subtype, param_int_np, param_real_np, filterstr, ensemblefilter, fixedbasis, flag
@@ -3012,43 +3012,6 @@ def alloc_filters(str  filterstr, int  subtype, int  flag):
     c__pdaf_alloc_filters(filterstr_ptr, &subtype, &flag)
 
     return flag
-
-
-def configinfo_filters(int  subtype, int  verbose):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
-
-    Parameters
-    ----------
-    subtype : int
-        Sub-type of filter
-    verbose : int
-        Control screen output
-
-    Returns
-    -------
-    subtype : int
-        Sub-type of filter
-    """
-    c__pdaf_configinfo_filters(&subtype, &verbose)
-
-    return subtype
-
-
-def options_filters(int  type_filter):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
-
-    Parameters
-    ----------
-    type_filter : int
-        Type of filter
-
-    Returns
-    -------
-    """
-    c__pdaf_options_filters(&type_filter)
-
 
 
 def print_info_filters(int  printtype):
@@ -7553,15 +7516,6 @@ def hyb3dvar_costf_cg_cvt(int  step, int  iter, int  dim_p, int  dim_ens,
                                       &opt_parallel, &beta)
 
     return d_par_p_np, d_ens_p_np, j_tot, gradj_par_np, gradj_ens_np, hessjd_par_np, hessjd_ens_np
-
-
-def print_version():
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
-    """
-    c__pdaf_print_version()
-
-
 
 def en3dvar_analysis_cvt(int  step, int  dim_p, int  dim_obs_p,
     int  dim_ens, int  dim_cvec_ens, double [::1,:] ens_p,

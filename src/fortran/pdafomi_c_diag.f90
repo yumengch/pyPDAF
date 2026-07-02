@@ -4,6 +4,15 @@ use PDAF
 implicit none
 
 contains
+   SUBROUTINE c__PDAFomi_set_obs_diag(diag) bind(c)
+      ! Value for observation diagnostics mode
+      INTEGER(c_int), INTENT(in) :: diag
+
+
+      call PDAFomi_set_obs_diag(diag)
+
+   END SUBROUTINE c__PDAFomi_set_obs_diag
+
    SUBROUTINE c__PDAFomi_diag_dimobs(dim_obs_ptr) bind(c)
       ! Pointer to observation dimensions
       INTEGER(c_int), POINTER, DIMENSION(:), INTENT(inout) :: dim_obs_ptr
@@ -134,4 +143,10 @@ contains
 
       call PDAFomi_diag_crps(nobs, crps_pointer, perturb, verbose)
    END SUBROUTINE c__PDAFomi_diag_crps
+
+   SUBROUTINE c__PDAFomi_diag_omit_by_inno() bind(c)
+      call PDAFomi_diag_omit_by_inno()
+
+   END SUBROUTINE c__PDAFomi_diag_omit_by_inno
+
 end module pdafomi_c_diag

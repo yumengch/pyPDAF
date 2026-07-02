@@ -3,6 +3,39 @@ from typing import Tuple, Callable, Any
 import numpy as np
 from numpy.typing import NDArray
 
+
+def print_version():
+    """Display version information for PDAF
+    """
+
+def configinfo_filters(subtype:int, verbose:int) -> int:
+    """Print configuration info of the active filter given subtype
+
+    Parameters
+    ----------
+    subtype : int
+        Sub-type of filter. This can be found at :func:`pyPDAF.PDAF.options_filters`
+    verbose : int
+        Control screen output
+
+    Returns
+    -------
+    subtype : int
+        Sub-type of filter
+    """
+
+def options_filters(type_filter:int) -> None:
+    """The overview of options for the selected DA method.
+
+    Parameters
+    ----------
+    type_filter : int
+        Type of filter. One can find it out by using :func:`pyPDAF.PDAF.print_filter_types`.
+
+    Returns
+    -------
+    """
+
 def get_fcst_info(steps: int, time : float, doexit:int) -> Tuple[int, float, int]:
     """Return the number of time steps, current model time, and a flag
     whether the forecasting should be exited.

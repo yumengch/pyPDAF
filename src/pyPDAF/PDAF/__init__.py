@@ -1,6 +1,7 @@
 """Namespace for pyPDAF.PDAF package
 """
-from ._pdaf_c import correlation_function, deallocate, finalize, abort, eofcovar, \
+from ._pdaf_c import print_version, configinfo_filters, options_filters,\
+                     correlation_function, deallocate, finalize, abort, eofcovar, \
                      force_analysis, gather_dim_obs_f, gather_obs_f, \
                      gather_obs_f2, gather_obs_f_flex, \
                      gather_obs_f2_flex, init, init_forecast, \

@@ -5,6 +5,37 @@ use pdaf_c_cb_interface
 implicit none
 
 contains
+   SUBROUTINE c__PDAF_print_version() bind(c)
+      use PDAF_info
+      implicit none
+      call PDAF_print_version()
+
+   END SUBROUTINE c__PDAF_print_version
+
+   SUBROUTINE c__PDAF_configinfo_filters(subtype, verbose) bind(c)
+      use PDAF_utils_filters
+      implicit none
+      ! Sub-type of filter
+      INTEGER(c_int), INTENT(inout) :: subtype
+      ! Control screen output
+      INTEGER(c_int), INTENT(in) :: verbose
+
+
+      call PDAF_configinfo_filters(subtype, verbose)
+
+   END SUBROUTINE c__PDAF_configinfo_filters
+
+   SUBROUTINE c__PDAF_options_filters(type_filter) bind(c)
+      use PDAF_utils_filters
+      implicit none
+      ! Type of filter
+      INTEGER(c_int), INTENT(in) :: type_filter
+
+
+      call PDAF_options_filters(type_filter)
+
+   END SUBROUTINE c__PDAF_options_filters
+
    SUBROUTINE c__PDAF_get_fcst_info(steps, time, doexit) bind(c)
       ! Flag and number of time steps
       INTEGER(c_int), INTENT(inout) :: steps

@@ -54,15 +54,6 @@ def set_globalobs(int  globalobs_in):
     c__pdafomi_set_globalobs(&globalobs_in)
 
 
-
-def diag_omit_by_inno():
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
-    """
-    c__pdafomi_diag_omit_by_inno()
-
-
-
 def g2l_obs(int  i_obs, double [::1] obs_f_all, double [::1] obs_l_all):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.

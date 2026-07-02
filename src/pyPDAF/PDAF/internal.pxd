@@ -211,12 +211,6 @@ cdef extern void c__pdaf_init_filters(int* type_filter, int* subtype,
 cdef extern void c__pdaf_alloc_filters(char* filterstr, int* subtype,
     int* flag) noexcept nogil;
 
-cdef extern void c__pdaf_configinfo_filters(int* subtype,
-    int* verbose) noexcept nogil;
-
-cdef extern void c__pdaf_options_filters(
-    int* type_filter) noexcept nogil;
-
 cdef extern void c__pdaf_print_info_filters(
     int* printtype) noexcept nogil;
 
@@ -518,8 +512,6 @@ cdef extern void c__pdaf_hyb3dvar_costf_cg_cvt(int* step, int* iter,
     void (*c__obs_op_lin_pdaf)(int* , int* , int* , double* , double* ),
     void (*c__obs_op_adj_pdaf)(int* , int* , int* , double* , double* ),
     int* opt_parallel, double* beta) noexcept nogil;
-
-cdef extern void c__pdaf_print_version() noexcept nogil;
 
 cdef extern void c__pdafen3dvar_analysis_cvt(int* step, int* dim_p,
     int* dim_obs_p, int* dim_ens, int* dim_cvec_ens, double* state_p,

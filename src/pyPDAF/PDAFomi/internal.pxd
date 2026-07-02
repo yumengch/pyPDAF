@@ -2,8 +2,6 @@ from pyPDAF.cfi_binding cimport CFI_cdesc_t
 cdef extern void c__pdafomi_set_globalobs(
     int* globalobs_in) noexcept nogil;
 
-cdef extern void c__pdafomi_diag_omit_by_inno() noexcept nogil;
-
 cdef extern void c__pdafomi_g2l_obs(int* i_obs, CFI_cdesc_t* obs_f_all,
     CFI_cdesc_t* obs_l_all) noexcept nogil;
 

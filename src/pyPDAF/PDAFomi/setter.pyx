@@ -146,7 +146,8 @@ def set_use_global_obs(int  i_obs, int  use_global_obs):
     By default, `use_global_obs=1`. This means that
     PDAF-OMI gathers the entire observation vector for all processes.
     One can choose to only use process-local observations
-    for global filters, or within localisation radius for by setting `use_global_obs=0`.
+    for global filters, or within localisation radius for filters using domain
+    localisation by setting `use_global_obs=0`.
     This can save computational cost used for
     observation distance calculations.
 

@@ -6,6 +6,50 @@ from pyPDAF.cfi_binding cimport CFI_cdesc_t, CFI_address, CFI_index_t, CFI_estab
 from pyPDAF.cfi_binding cimport CFI_attribute_other, CFI_type_double, CFI_type_int
 from pyPDAF.cfi_binding cimport CFI_cdesc_rank1, CFI_cdesc_rank2, CFI_cdesc_rank3
 
+def print_version():
+    """print_version() -> None
+
+    Display version information for PDAF
+    """
+    c__pdaf_print_version()
+
+
+def configinfo_filters(int  subtype, int  verbose):
+    """configinfo_filters(subtype:int, verbose:int) -> int
+
+    Print configuration info of the active filter given subtype
+
+    Parameters
+    ----------
+    subtype : int
+        Sub-type of filter. This can be found at :func:`pyPDAF.PDAF.options_filters`
+    verbose : int
+        Control screen output
+
+    Returns
+    -------
+    subtype : int
+        Sub-type of filter
+    """
+    c__pdaf_configinfo_filters(&subtype, &verbose)
+
+    return subtype
+
+
+def options_filters(int  type_filter):
+    """options_filters(type_filter:int) -> None
+
+    The overview of options for the selected DA method.
+
+    Parameters
+    ----------
+    type_filter : int
+        Type of filter. One can find it out by using :func:`pyPDAF.PDAF.print_filter_types`.
+
+    Returns
+    -------
+    """
+    c__pdaf_options_filters(&type_filter)
 
 def get_fcst_info(int  steps, double  time, int  doexit):
     """get_fcst_info(steps: int, time : float, doexit:int) -> Tuple[int, float, int]

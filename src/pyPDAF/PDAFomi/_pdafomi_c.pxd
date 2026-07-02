@@ -93,9 +93,6 @@ cdef extern void c__pdafomi_set_localize_covar_noniso_locweights(
     CFI_cdesc_t* locweights, CFI_cdesc_t* cradius,
     CFI_cdesc_t* sradius) noexcept nogil;
 
-cdef extern void c__pdafomi_set_obs_diag(
-    int* diag) noexcept nogil;
-
 cdef extern void c__pdafomi_set_domain_limits(
     double* lim_coords) noexcept nogil;
 

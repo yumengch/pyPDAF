@@ -87,7 +87,7 @@ from pyPDAF.PDAF3 import assim_offline_3dvar_nondiagr, assim_offline_en3dvar_est
                          assim_offline_hyb3dvar_estkf_nondiagr, \
                          assim_offline_hyb3dvar_lestkf_nondiagr
 from pyPDAF.PDAF3 import generate_obs, generate_obs_offline, prepost, prepost_offline
-from pyPDAF.PDAF import get_fcst_info, deallocate
+from pyPDAF.PDAF import get_fcst_info, deallocate, print_version, configinfo_filters, options_filters
 
 from . import PDAF
 from . import PDAFomi

@@ -79,6 +79,7 @@ incdir_numpy = include_directories(run_command(python,
 # errors because it can make the compiler uses wrong header files.
 # If you have a better solution, please let me know.
 incdir_f_header = '.'
+fallback_inc = include_directories('.')
 if host_machine.system() == 'darwin'
   incdir_f_header = run_command(ff.cmd_array() + ['-print-file-name=include'],
                             check: true).stdout().strip()

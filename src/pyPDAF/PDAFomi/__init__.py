@@ -11,10 +11,10 @@ from ._pdafomi_c import init, check_error, gather_obs, \
                         set_localization_noniso, set_localize_covar_iso, \
                         set_localize_covar_noniso, \
                         set_localize_covar_noniso_locweights, \
-                        set_obs_diag, set_domain_limits, \
+                        set_domain_limits, \
                         get_domain_limits_unstr, store_obs_l_index, \
                         store_obs_l_index_vdist
-from .diag import diag_dimobs, diag_get_hx, diag_get_hxmean, \
+from .diag import set_obs_diag, diag_dimobs, diag_get_hx, diag_get_hxmean, \
                   diag_get_ivar, diag_get_obs, diag_nobstypes, \
                   diag_obs_rmsd, diag_stats, diag_rmsd, \
                   diag_diffstats, diag_crps

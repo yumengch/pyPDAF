@@ -17,11 +17,6 @@ contains
 
    END SUBROUTINE c__PDAFomi_set_globalobs
 
-   SUBROUTINE c__PDAFomi_diag_omit_by_inno() bind(c)
-      call PDAFomi_diag_omit_by_inno()
-
-   END SUBROUTINE c__PDAFomi_diag_omit_by_inno
-
    subroutine c__PDAFomi_dealloc_local() bind(c)
       call PDAFomi_dealloc_local()
    end subroutine c__PDAFomi_dealloc_local

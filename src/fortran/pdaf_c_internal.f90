@@ -889,15 +889,18 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       logical :: ensemblefilter_out, fixedbasis_out
+      integer :: i, n
       CHARACTER(len=10) :: local_filterstr  ! Local buffer for the string
 
       call PDAF_init_filters(type_filter, subtype, param_int, dim_pint,  &
          param_real, dim_preal, local_filterstr, ensemblefilter_out, fixedbasis_out, screen,  &
          flag)
-
       ! Copy the string to the output buffer
-      filterstr(1:len_trim(local_filterstr)+1) = trim(local_filterstr) // c_null_char
-
+      n = len_trim(local_filterstr)
+      do i = 1, n
+         filterstr(i) = local_filterstr(i:i)
+      end do
+      filterstr(n + 1) = c_null_char
       ensemblefilter = ensemblefilter_out
       fixedbasis = fixedbasis_out
    END SUBROUTINE c__PDAF_init_filters
@@ -927,30 +930,6 @@ contains
       call PDAF_alloc_filters(clean_filterstr, subtype, flag)
 
    END SUBROUTINE c__PDAF_alloc_filters
-
-   SUBROUTINE c__PDAF_configinfo_filters(subtype, verbose) bind(c)
-      use PDAF_utils_filters
-      implicit none
-      ! Sub-type of filter
-      INTEGER(c_int), INTENT(inout) :: subtype
-      ! Control screen output
-      INTEGER(c_int), INTENT(in) :: verbose
-
-
-      call PDAF_configinfo_filters(subtype, verbose)
-
-   END SUBROUTINE c__PDAF_configinfo_filters
-
-   SUBROUTINE c__PDAF_options_filters(type_filter) bind(c)
-      use PDAF_utils_filters
-      implicit none
-      ! Type of filter
-      INTEGER(c_int), INTENT(in) :: type_filter
-
-
-      call PDAF_options_filters(type_filter)
-
-   END SUBROUTINE c__PDAF_options_filters
 
    SUBROUTINE c__PDAF_print_info_filters(printtype) bind(c)
       use PDAF_utils_filters
@@ -2152,12 +2131,6 @@ contains
 
    END SUBROUTINE c__PDAF_hyb3dvar_costf_cg_cvt
 
-   SUBROUTINE c__PDAF_print_version() bind(c)
-      use PDAF_info
-      implicit none
-      call PDAF_print_version()
-
-   END SUBROUTINE c__PDAF_print_version
 
    SUBROUTINE c__PDAFen3dvar_analysis_cvt(step, dim_p, dim_obs_p, dim_ens,  &
       dim_cvec_ens, state_p, ens_p, state_inc_p, hxbar_p, obs_p, u_prodrinva,  &
