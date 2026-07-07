@@ -2,6 +2,7 @@ python:
     - 3.11
     - 3.12
     - 3.13
+    - 3.14
 
 c_compiler_version:
     - 14 # [linux]
@@ -25,7 +26,5 @@ mpi:
     - mpich    # [not win]
     - msmpi    # [win]
 
-# meson-python 0.18 cannot be installed on Windows
 pymeson:
-    - <0.18  # [win]
-    - '>=0.18'  # [not win]
+    - '==0.19'  # [not win]
