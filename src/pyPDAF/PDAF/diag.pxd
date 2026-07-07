@@ -37,6 +37,10 @@ cdef extern void c__pdaf_diag_crps_nompi(int* dim, int* dim_ens,
     int* element, double* oens, double* obs, double* crps, double* reli,
     double* resol, double* uncert, int* status) noexcept nogil;
 
+cdef extern void c__pdaf_diag_crps(int* dim_p, int* dim_ens,
+    int* element, double* oens, double* obs, double* crps, double* reli,
+    double* pot_crps, double* uncert, int* status) noexcept nogil;
+
 cdef extern void c__pdaf_diag_effsample(int* dim_sample, double* weights,
     double* n_eff) noexcept nogil;
 
@@ -55,4 +59,7 @@ cdef extern void c__pdaf_diag_histogram(int* ncall, int* dim, int* dim_ens,
 cdef extern void c__pdaf_diag_reliability_budget(int* n_times,
     int* dim_ens, int* dim_p, double* ens_p, double* obsvar, double* obs_p,
     double* budget, double* bias_2) noexcept nogil;
+
+cdef extern void c__pdaf_diag_diffstats(int* dim_p, double* vec1,
+    double* vec2, double* stats, int* verbose) noexcept nogil;
 

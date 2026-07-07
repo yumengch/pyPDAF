@@ -5,11 +5,41 @@ from pyPDAF.cfi_binding cimport CFI_cdesc_t, CFI_address, CFI_index_t, CFI_estab
 from pyPDAF.cfi_binding cimport CFI_attribute_other, CFI_type_double, CFI_type_int
 from pyPDAF.cfi_binding cimport CFI_cdesc_rank1, CFI_cdesc_rank2, CFI_cdesc_rank3
 
+def set_obs_diag(int  diag):
+    """set_obs_diag(diag: int) -> None
+
+    Activate or deactivate the observation diagnostics.
+
+    By default, observation diagnostics are activated that stores
+    additional information for diagnostics.
+    However, as this functionality increases the required memory,
+    it might be desirable to deactivate this functionality.
+
+    This function is used deactivate the observation diagnostics.
+    Once deactivated, one cannot use diagnostics in :mod:`pyPDAF.PDAFomi.diag`.
+    It is also possible to re-activate the observation diagnostics at a later time.
+
+    The function can be called by all processes, but it is sufficient to call it
+    for those processes that handle observations, which usually are the filter processes.
+
+    This function can be called after the initialization of PDAF in `pyPDAF.PDAF.init`.
+
+
+    Parameters
+    ----------
+    diag : int
+        Value for observation diagnostics mode
+        - > 0: activates observation diagnostics
+        - 0: deactivates observation diagnostics
+    """
+    c__pdafomi_set_obs_diag(&diag)
 
 def diag_dimobs():
     """diag_dimobs() -> np.ndarray
 
     Observation dimension for each observation type.
+
+    This function is only useful after observation operators are performed.
 
     Returns
     -------
@@ -17,8 +47,7 @@ def diag_dimobs():
         Observation dimension for each observation type. shape: (n_obs,)
     """
     cdef CFI_cdesc_rank1 dim_obs_ptr_cfi
-    with nogil:
-        c__pdafomi_diag_dimobs(<CFI_cdesc_t *> &dim_obs_ptr_cfi)
+    c__pdafomi_diag_dimobs(<CFI_cdesc_t *> &dim_obs_ptr_cfi)
 
     cdef CFI_index_t dim_obs_ptr_subscripts[1]
     dim_obs_ptr_subscripts[0] = dim_obs_ptr_cfi.dim[0].lower_bound
@@ -32,6 +61,8 @@ def diag_get_hx(int  id_obs):
     """diag_get_hx(id_obs: int) -> Tuple[int, np.ndarray]
 
     Observed ensemble for given observation type.
+
+    This function is only useful after observation operators are performed.
 
     Parameters
     ----------
@@ -48,8 +79,7 @@ def diag_get_hx(int  id_obs):
     """
     cdef CFI_cdesc_rank2 hx_p_ptr_cfi
     cdef int  dim_obs_diag
-    with nogil:
-        c__pdafomi_diag_get_hx(&id_obs, &dim_obs_diag, <CFI_cdesc_t *> &hx_p_ptr_cfi)
+    c__pdafomi_diag_get_hx(&id_obs, &dim_obs_diag, <CFI_cdesc_t *> &hx_p_ptr_cfi)
 
     cdef CFI_index_t hx_p_ptr_subscripts[2]
     hx_p_ptr_subscripts[0] = hx_p_ptr_cfi.dim[0].lower_bound
@@ -64,6 +94,8 @@ def diag_get_hxmean(int  id_obs):
     """diag_get_hxmean(id_obs: int) -> Tuple[int, np.ndarray]
 
     Observed ensemble mean for given observation type.
+
+    This function is only useful after observation operators are performed.
 
     Parameters
     ----------
@@ -80,8 +112,7 @@ def diag_get_hxmean(int  id_obs):
     """
     cdef CFI_cdesc_rank1 hxmean_p_ptr_cfi
     cdef int  dim_obs_diag
-    with nogil:
-        c__pdafomi_diag_get_hxmean(&id_obs, &dim_obs_diag, <CFI_cdesc_t *> &hxmean_p_ptr_cfi)
+    c__pdafomi_diag_get_hxmean(&id_obs, &dim_obs_diag, <CFI_cdesc_t *> &hxmean_p_ptr_cfi)
 
     cdef CFI_index_t hxmean_p_ptr_subscripts[1]
     hxmean_p_ptr_subscripts[0] = hxmean_p_ptr_cfi.dim[0].lower_bound
@@ -95,6 +126,8 @@ def diag_get_ivar(int  id_obs):
     """diag_get_ivar(id_obs: int) -> Tuple[int, np.ndarray]
 
     Inverse of observation error variance for given observation type.
+
+    This function is only useful after observation operators are performed.
 
     Parameters
     ----------
@@ -111,8 +144,7 @@ def diag_get_ivar(int  id_obs):
     """
     cdef CFI_cdesc_rank1 ivar_ptr_cfi
     cdef int  dim_obs_diag
-    with nogil:
-        c__pdafomi_diag_get_ivar(&id_obs, &dim_obs_diag, <CFI_cdesc_t *> &ivar_ptr_cfi)
+    c__pdafomi_diag_get_ivar(&id_obs, &dim_obs_diag, <CFI_cdesc_t *> &ivar_ptr_cfi)
 
     cdef CFI_index_t ivar_ptr_subscripts[1]
     ivar_ptr_subscripts[0] = ivar_ptr_cfi.dim[0].lower_bound
@@ -126,6 +158,8 @@ def diag_get_obs(int  id_obs):
     """diag_get_obs(id_obs: int) -> Tuple[int, int, np.ndarray, np.ndarray]
 
     Observation vector and corresponding coordinates for specified observation type.
+
+    This function is only useful after observation operators are performed.
 
     Parameters
     ----------
@@ -149,8 +183,7 @@ def diag_get_obs(int  id_obs):
     cdef CFI_cdesc_rank2 ocoord_p_ptr_cfi
     cdef int  dim_obs_diag
     cdef int  ncoord
-    with nogil:
-        c__pdafomi_diag_get_obs(&id_obs, &dim_obs_diag, &ncoord,
+    c__pdafomi_diag_get_obs(&id_obs, &dim_obs_diag, &ncoord,
                                 <CFI_cdesc_t *> &obs_p_ptr_cfi, <CFI_cdesc_t *> &ocoord_p_ptr_cfi)
 
     cdef CFI_index_t obs_p_ptr_subscripts[1]
@@ -172,6 +205,8 @@ def diag_nobstypes(int  nobs):
 
     The number of observation types that are active in an assimilation run.
 
+    This function is only useful after observation operators are performed.
+
     Parameters
     ----------
     nobs : int
@@ -182,8 +217,7 @@ def diag_nobstypes(int  nobs):
     nobs : int
         Number of observation types
     """
-    with nogil:
-        c__pdafomi_diag_nobstypes(&nobs)
+    c__pdafomi_diag_nobstypes(&nobs)
 
     return nobs
 
@@ -193,6 +227,8 @@ def diag_obs_rmsd(int  nobs, int  verbose):
 
     Root mean squared distance between observation and obseved model state
     for each observation type.
+
+    This function is only useful after observation operators are performed.
 
     Parameters
     ----------
@@ -210,8 +246,7 @@ def diag_obs_rmsd(int  nobs, int  verbose):
         Array shape: (:)
     """
     cdef CFI_cdesc_rank1 rmsd_pointer_cfi
-    with nogil:
-        c__pdafomi_diag_obs_rmsd(&nobs, <CFI_cdesc_t *> &rmsd_pointer_cfi, &verbose)
+    c__pdafomi_diag_obs_rmsd(&nobs, <CFI_cdesc_t *> &rmsd_pointer_cfi, &verbose)
 
     cdef CFI_index_t rmsd_pointer_subscripts[1]
     rmsd_pointer_subscripts[0] = rmsd_pointer_cfi.dim[0].lower_bound
@@ -226,6 +261,8 @@ def diag_stats(int  nobs, int  verbose):
 
     A selection of 6 statistics comparing the observations and the
     observed ensemble mean for each observation type.
+
+    This function is only useful after observation operators are performed.
 
     Parameters
     ----------
@@ -250,8 +287,7 @@ def diag_stats(int  nobs, int  verbose):
         Array shape: (:,:)
     """
     cdef CFI_cdesc_rank2 obsstats_ptr_cfi
-    with nogil:
-        c__pdafomi_diag_stats(&nobs, <CFI_cdesc_t *> &obsstats_ptr_cfi, &verbose)
+    c__pdafomi_diag_stats(&nobs, <CFI_cdesc_t *> &obsstats_ptr_cfi, &verbose)
 
     cdef CFI_index_t obsstats_ptr_subscripts[2]
     obsstats_ptr_subscripts[0] = obsstats_ptr_cfi.dim[0].lower_bound
@@ -261,4 +297,161 @@ def diag_stats(int  nobs, int  verbose):
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] obsstats_ptr_np = np.asarray(<double [:obsstats_ptr_cfi.dim[0].extent:1,:obsstats_ptr_cfi.dim[1].extent]> obsstats_ptr_ptr_np, order="F")
     return nobs, obsstats_ptr_np
 
+def diag_rmsd(int nobs, int verbose):
+    """diag_rmsd(nobs: int, verbose: int) -> Tuple[int, np.ndarray]
 
+    Compute RMSD between observations and observed ensemble means.
+
+    For each active OMI observation type, PDAF-OMI compares the observation
+    vector ``y`` with the observed ensemble mean ``Hx`` and returns the root
+    mean squared deviation
+    ``sqrt(mean((y - Hx)**2))`` over all observations of that type. If only
+    the observed ensemble ``H(X_i)`` was stored for diagnostics, PDAF-OMI first
+    computes ensemble mean.
+
+    This function is only useful after observation operators are performed.
+
+    Parameters
+    ----------
+    nobs : int
+        Input/output number of OMI observation types. The input value can be
+        arbitrary; PDAF-OMI overwrites it with the number of active
+        observation types for which diagnostics are returned.
+    verbose : int
+        Verbosity flag. If greater than zero, PDAF-OMI prints the RMSD table.
+
+    Returns
+    -------
+    nobs : int
+        Number of observation-type entries returned by PDAF-OMI.
+    rmsd : ndarray[np.float64, ndim=1]
+        PDAF-owned RMSD values. ``rmsd[i]`` is the RMSD for observation type
+        ``i + 1``.
+    """
+    cdef CFI_cdesc_rank1 rmsd_pointer_cfi
+    c__pdafomi_diag_rmsd(&nobs, <CFI_cdesc_t *> &rmsd_pointer_cfi, &verbose)
+    cdef CFI_index_t rmsd_pointer_subscripts[1]
+    rmsd_pointer_subscripts[0] = rmsd_pointer_cfi.dim[0].lower_bound
+    cdef double * rmsd_pointer_ptr_np
+    rmsd_pointer_ptr_np = <double *>CFI_address(<CFI_cdesc_t *> &rmsd_pointer_cfi, rmsd_pointer_subscripts)
+    cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] rmsd_pointer_np = np.asarray(<double [:rmsd_pointer_cfi.dim[0].extent:1]> rmsd_pointer_ptr_np, order="F")
+    return nobs, rmsd_pointer_np
+
+def diag_diffstats(int nobs, int verbose):
+    """diag_diffstats(nobs: int, verbose: int) -> Tuple[int, np.ndarray]
+
+    Compare observations with observed ensemble means by observation type.
+
+    This function is the same as :func:`diag_stats`.
+
+    This function is only useful after observation operators are performed.
+
+    Parameters
+    ----------
+    nobs : int
+        Input/output number of OMI observation types. The input value can be
+        arbitrary; PDAF-OMI overwrites it with the number of active
+        observation types for which diagnostics are returned.
+    verbose : int
+        Verbosity flag. If greater than zero, PDAF-OMI prints one row per
+        observation type.
+
+    Returns
+    -------
+    nobs : int
+        Number of observation-type entries returned by PDAF-OMI.
+    stats : ndarray[np.float64, ndim=2]
+        PDAF-owned statistics matrix with shape ``(6, nobs)``. The rows are:
+
+        ``stats[0, :]``
+            Pearson correlation between observation anomalies and observed
+            ensemble-mean anomalies.
+        ``stats[1, :]``
+            Centered RMS deviation between ``y`` and ``Hx``.
+        ``stats[2, :]``
+            Bias ``mean(y) - mean(Hx)``.
+        ``stats[3, :]``
+            Mean absolute deviation ``mean(abs(y - Hx))``.
+        ``stats[4, :]``
+            Standard deviation of the observations ``y``.
+        ``stats[5, :]``
+            Standard deviation of the observed ensemble mean ``Hx``.
+    """
+    cdef CFI_cdesc_rank2 obsstats_ptr_cfi
+    c__pdafomi_diag_diffstats(&nobs, <CFI_cdesc_t *> &obsstats_ptr_cfi, &verbose)
+    cdef CFI_index_t obsstats_ptr_subscripts[2]
+    obsstats_ptr_subscripts[0] = obsstats_ptr_cfi.dim[0].lower_bound
+    obsstats_ptr_subscripts[1] = obsstats_ptr_cfi.dim[1].lower_bound
+    cdef double * obsstats_ptr_ptr_np
+    obsstats_ptr_ptr_np = <double *>CFI_address(<CFI_cdesc_t *> &obsstats_ptr_cfi, obsstats_ptr_subscripts)
+    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] obsstats_ptr_np = np.asarray(<double [:obsstats_ptr_cfi.dim[0].extent:1,:obsstats_ptr_cfi.dim[1].extent]> obsstats_ptr_ptr_np, order="F")
+    return nobs, obsstats_ptr_np
+
+def diag_crps(int nobs, int perturb, int verbose):
+    """diag_crps(nobs: int, perturb: int, verbose: int) -> Tuple[int, np.ndarray]
+
+    Compute CRPS diagnostics between observations and observed ensembles.
+
+    For each active OMI observation type, this routine compares the observed
+    ensemble ``H(X_i)`` with the observation vector. It returns CRPS and the
+    Hersbach (2000) decomposition into reliability, potential CRPS, and
+    uncertainty. CRPS is a probabilistic score: smaller values indicate that
+    the ensemble distribution is closer to the verifying observation.
+
+    If ``perturb=0``, PDAF-OMI uses the stored observations directly. For any
+    nonzero value, PDAF-OMI creates perturbed observations by drawing Gaussian
+    noise with variance from the stored inverse observation variance and adds
+    it to the observations before computing CRPS.
+
+    This function is only useful after observation operators are performed.
+
+    Parameters
+    ----------
+    nobs : int
+        Input/output number of OMI observation types. The input value can be
+        arbitrary; PDAF-OMI overwrites it with the number of active
+        observation types for which diagnostics are returned.
+    perturb : int
+        Perturbation option. ``0`` uses the stored observations. Any nonzero
+        value uses perturbed observations with Gaussian observation-error
+        noise.
+    verbose : int
+        Verbosity flag. If greater than zero, PDAF-OMI prints one row per
+        observation type.
+
+    Returns
+    -------
+    nobs : int
+        Number of observation-type entries returned by PDAF-OMI.
+    crps : ndarray[np.float64, ndim=2]
+        PDAF-owned CRPS diagnostic matrix with shape ``(4, nobs)``. The rows
+        are CRPS, reliability, potential CRPS, and uncertainty.
+
+    References
+    ----------
+    Hersbach, H. (2000). Decomposition of the continuous ranked probability
+    score for ensemble prediction systems. Weather and Forecasting, 15,
+    559-570.
+    """
+    cdef CFI_cdesc_rank2 crps_pointer_cfi
+    c__pdafomi_diag_crps(&nobs, <CFI_cdesc_t *> &crps_pointer_cfi, &perturb, &verbose)
+    cdef CFI_index_t crps_pointer_subscripts[2]
+    crps_pointer_subscripts[0] = crps_pointer_cfi.dim[0].lower_bound
+    crps_pointer_subscripts[1] = crps_pointer_cfi.dim[1].lower_bound
+    cdef double * crps_pointer_ptr_np
+    crps_pointer_ptr_np = <double *>CFI_address(<CFI_cdesc_t *> &crps_pointer_cfi, crps_pointer_subscripts)
+    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] crps_pointer_np = np.asarray(<double [:crps_pointer_cfi.dim[0].extent:1,:crps_pointer_cfi.dim[1].extent]> crps_pointer_ptr_np, order="F")
+    return nobs, crps_pointer_np
+
+
+def diag_omit_by_inno():
+    """diag_omit_by_inno() -> None
+
+    Set omitted observations with high observation error for diagnostics only.
+
+    The high observation errors are only used for observation diagnostics in
+    :func:`diag_get_ivar` and :func:`diag_crps`.
+
+    This function is only useful after observation operators are performed.
+    """
+    c__pdafomi_diag_omit_by_inno()

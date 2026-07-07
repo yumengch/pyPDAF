@@ -136,3 +136,5 @@ dmypy.json
 *.c
 docs/build/
 docs/source/_autosummary
+*.txt
+.vscode/

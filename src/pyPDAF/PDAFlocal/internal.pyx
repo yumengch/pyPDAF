@@ -32,8 +32,7 @@ def g2l_cb(int  step, int  domain_p, int  dim_p, double [::1] state_p,
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_l_np = np.zeros((dim_l), dtype=np.float64, order="F")
     cdef double [::1] state_l = state_l_np
-    with nogil:
-        c__pdaflocal_g2l_cb(&step, &domain_p, &dim_p, &state_p[0], &dim_l,
+    c__pdaflocal_g2l_cb(&step, &domain_p, &dim_p, &state_p[0], &dim_l,
                             &state_l[0])
 
     return state_l_np
@@ -75,8 +74,7 @@ def l2g_cb(int  step, int  domain_p, int  dim_l, double [::1] state_l,
         The array dimension `dim_p` is PE-local full state dimension
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_p_np = np.asarray(state_p, dtype=np.float64, order="F")
-    with nogil:
-        c__pdaflocal_l2g_cb(&step, &domain_p, &dim_l, &state_l[0], &dim_p,
+    c__pdaflocal_l2g_cb(&step, &domain_p, &dim_l, &state_l[0], &dim_p,
                             &state_p[0])
 
     return state_p_np

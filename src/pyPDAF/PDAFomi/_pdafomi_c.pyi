@@ -18,16 +18,6 @@ def init(n_obs:int) -> None:
         number of observations
     """
 
-def init_local() -> None:
-    r"""Allocating an array of `obs_l` derived types instances.
-
-    This function initialises the number of observation types
-    for each local analysis domain,
-    which should be called at the start of the local analysis loop
-    in :func:`py__init_dim_obs_l_pdaf`.
-
-    """
-
 def check_error(flag: int) -> int:
     r"""This function returns the value of the PDAF-OMI internal error flag.
 
@@ -204,6 +194,105 @@ def get_interp_coeff_lin(num_gp: int, n_dim: int, gpc: np.ndarray,
          Interpolation coefficients. shape: (num_gp)
 
         The array dimension `num_gp` is Length of icoeff
+    """
+
+def get_interp_coeff_tri_vec(gpc: np.ndarray, oc: np.ndarray, icoeff: np.ndarray) -> np.ndarray:
+    r"""The coefficient for linear interpolation in 2D on unstructure triangular grid.
+
+    The resulting coefficient is used in :func:`pyPDAF.PDAFomi.obs_op_interp_lin`.
+
+    This function is for triangular model grid interpolation coefficients determined as barycentric coordinates.
+
+    This is similar to :func:`pyPDAF.PDAFomi.get_interp_coeff_tri`,
+    but it embeds the loop in Fortran to avoid loops in Python
+    so that one use a vector of observations.
+
+    Parameters
+    ----------
+    gpc : ndarray[tuple[3, 2, nobs], np.float64]
+        Coordinates of grid points with dimension of (3, 2, nobs).
+        3 grid points surrounding the observation;
+        each containing lon and lat coordinates.
+        The order of the grid points in gcoords has to
+        be consistent with the order of the indices specified in
+        `id_obs_p` of `obs_f`. The last dimension nobs is the number of observations.
+    oc : ndarray[tuple[2, nobs], np.float64]
+        Coordinates of observation (targeted location); dim(2, nobs)
+    icoeff : ndarray[tuple[3, nobs], np.float64]
+        Interpolation coefficients; dim(3, nobs)
+
+    Returns
+    -------
+    icoeff : ndarray[tuple[3, nobs], np.float64]
+         Interpolation coefficients; dim(3, nobs)
+
+    """
+
+
+def get_interp_coeff_lin1d_vec(gpc: np.ndarray, oc: np.ndarray, icoeff: np.ndarray) -> np.ndarray:
+    r"""The coefficient for linear interpolation in 1D.
+
+    The resulting coefficient is used in :func:`pyPDAF.PDAFomi.obs_op_interp_lin`.
+
+    This is similar to :func:`pyPDAF.PDAFomi.get_interp_coeff_lin1d`,
+    but it embeds the loop in Fortran to avoid loops in Python
+    so that one use a vector of observations.
+
+    Parameters
+    ----------
+    gpc : ndarray[tuple[2, nobs], np.float64]
+        Coordinates of grid points surrounding the observations (dim=(2, nobs))
+    oc : ndarray[tuple[nobs], np.float64]
+        Coordinates of observation (targeted location)  (dim=nobs)
+    icoeff : ndarray[tuple[2, nobs], np.float64]
+        Interpolation coefficients (dim=(2, nobs))
+
+    Returns
+    -------
+    icoeff : ndarray[tuple[2, nobs], np.float64]
+         Interpolation coefficients (dim=(2, nobs))
+
+    """
+
+
+def get_interp_coeff_lin_vec(num_gp: int, n_dim: int, gpc: np.ndarray, oc: np.ndarray, icoeff: np.ndarray) -> np.ndarray:
+    r"""The coefficient for linear interpolation up to 3D.
+
+    The resulting coefficient is used in :func:`pyPDAF.PDAFomi.obs_op_interp_lin`.
+
+    See introduction in `relevant PDAF-OMI wiki page
+    <https://pdaf.awi.de/trac/wiki/OMI_observation_operators#PDAFomi_get_interp_coeff_lin>`_
+
+    This is similar to :func:`pyPDAF.PDAFomi.get_interp_coeff_lin`,
+    but it embeds the loop in Fortran to avoid loops in Python
+    so that one use a vector of observations.
+
+    Parameters
+    ----------
+    gpc : ndarray[tuple[num_gp, n_dim, nobs], np.float64]
+        Coordinates of grid points
+        The order of the grid points in gcoords has to
+        be consistent with the order of the indices specified in
+        `id_obs_p` of `obs_f`.
+        The 1st-th dimension num_gp is Length of icoeff
+        The 2nd-th dimension n_dim is Number of dimensions in interpolation
+        The 3rd-th dimension nobs is Number of observations
+    oc : ndarray[tuple[n_dim, nobs], np.float64]
+        Coordinates of observation
+        The array dimension `n_dim` is Number of dimensions in interpolation
+        `nobs` is Number of observations
+    icoeff : ndarray[tuple[num_gp, nobs], np.float64]
+        Interpolation coefficients (num_gp, nobs)
+        The array dimension `num_gp` is Length of icoeff
+        The 2nd-th dimension `nobs` is Number of observations
+
+    Returns
+    -------
+    icoeff : ndarray[tuple[num_gp, nobs], np.float64]
+         Interpolation coefficients (num_gp, nobs)
+
+        The array dimension `num_gp` is Length of icoeff
+        The 2nd-th dimension `nobs` is Number of observations
     """
 
 def init_dim_obs_l_iso(i_obs: int, coords_l: np.ndarray, locweight: int,
@@ -634,10 +723,14 @@ def set_debug_flag(debugval: int) -> None:
         Value for debugging flag
     """
 
-def set_dim_obs_l(i_obs: int, cnt_obs_l_all: int, cnt_obs_l: int) -> Tuple[int, int]:
-    """Stores the local number of observations for OMI-internal initialisations.
+def set_dim_obs_l(i_obs: int, cnt_obs_l_all: int, cnt_obs_l: int, mode: int) -> Tuple[int, int]:
+    """Store local observation counts for OMI local-initialization workflows.
 
-    This is used for alternative to :func:`pyPDF.PDAFomi.init_dim_obs_l`.
+    This routine is an alternative entry point for workflows that compute the
+    number of local observations outside the standard
+    :func:`pyPDAF.PDAFomi.init_dim_obs_l` call. It stores both the count for a
+    single observation type and the accumulated count over all local
+    observation types in PDAF-OMI.
 
     See more details in `relevant PDAF wiki page
     <https://pdaf.awi.de/trac/wiki/OMI_search_local_observations>`_
@@ -645,18 +738,20 @@ def set_dim_obs_l(i_obs: int, cnt_obs_l_all: int, cnt_obs_l: int) -> Tuple[int, 
     Parameters
     ----------
     i_obs : int
-        index into observation arrays
+        Index of the observation type.
     cnt_obs_l_all : int
-        Local dimension of observation vector over all obs. types
+        Local observation count accumulated over all observation types.
     cnt_obs_l : int
-        Local dimension of single observation type vector
+        Local observation count for the observation type ``i_obs``.
+    mode : int
+        Local-observation processing mode passed to PDAFomi.
 
     Returns
     -------
     cnt_obs_l_all : int
-        Local dimension of observation vector over all obs. types
+        Updated local observation count accumulated over all observation types.
     cnt_obs_l : int
-        Local dimension of single observation type vector
+        Updated local observation count for observation type ``i_obs``.
     """
 
 def set_localization(i_obs: int, cradius: float, sradius: float, locweight: int) -> None:
@@ -799,32 +894,6 @@ def set_localize_covar_noniso_locweights(i_obs: int, dim: int, ncoords: int,
     sradius : ndarray[np.float64, ndim=1]
         Vector of support radii of localization function
         Array shape: (:)
-    """
-
-def set_obs_diag(diag: int) -> None:
-    """Activate or deactivate the observation diagnostics.
-
-    By default, observation diagnostics are activated that stores
-    additional information for diagnostics.
-    However, as this functionality increases the required memory,
-    it might be desirable to deactivate this functionality.
-
-    This function is used deactivate the observation diagnostics.
-    Once deactivated, one cannot use diagnostics in :mod:`pyPDAF.PDAFomi.diag`.
-    It is also possible to re-activate the observation diagnostics at a later time.
-
-    The function can be called by all processes, but it is sufficient to call it
-    for those processes that handle observations, which usually are the filter processes.
-
-    This function can be called after the initialization of PDAF in `pyPDAF.PDAF.init`.
-
-
-    Parameters
-    ----------
-    diag : int
-        Value for observation diagnostics mode
-        - > 0: activates observation diagnostics
-        - 0: deactivates observation diagnostics
     """
 
 def set_domain_limits(lim_coords: np.ndarray) -> None:

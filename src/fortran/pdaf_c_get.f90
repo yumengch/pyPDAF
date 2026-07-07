@@ -49,6 +49,38 @@ contains
 
    END SUBROUTINE c__PDAF_get_obsmemberid
 
+   SUBROUTINE c__PDAF_get_seed(seedvec) bind(c)
+      ! Random seed vector
+      INTEGER(c_int), DIMENSION(4), INTENT(out) :: seedvec
+
+      call PDAF_get_seed(seedvec)
+
+   END SUBROUTINE c__PDAF_get_seed
+
+   SUBROUTINE c__PDAF_get_seedvec(seedvec) bind(c)
+      ! Random seed vector
+      INTEGER(c_int), DIMENSION(4), INTENT(out) :: seedvec
+
+      call PDAF_get_seedvec(seedvec)
+
+   END SUBROUTINE c__PDAF_get_seedvec
+
+   SUBROUTINE c__PDAF_get_rndcount(rndcount) bind(c)
+      ! Number of random-number generation calls
+      INTEGER(c_int), INTENT(out) :: rndcount
+
+      call PDAF_get_rndcount(rndcount)
+
+   END SUBROUTINE c__PDAF_get_rndcount
+
+   SUBROUTINE c__PDAF_reset_fcst_flag(reset_fcst_flag) bind(c)
+      ! Whether model time should be reset in the forecast
+      INTEGER(c_int), INTENT(out) :: reset_fcst_flag
+
+      reset_fcst_flag = PDAF_reset_fcst_flag()
+
+   END SUBROUTINE c__PDAF_reset_fcst_flag
+
    SUBROUTINE c__PDAF_get_smootherens(sens_point, maxlag, status) bind(c)
       ! Pointer to smoother array
       REAL(c_double), POINTER, DIMENSION(:,:,:), INTENT(out) :: sens_point

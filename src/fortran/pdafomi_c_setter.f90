@@ -2,7 +2,7 @@ MODULE pdafomi_c_setter
 use iso_c_binding, only: c_int, c_double, c_bool, c_null_char, c_char
 use PDAF
 use pdaf_c_cb_interface
-use pdafomi_c, only: n_obs_omi, thisobs, thisobs_l
+use pdafomi_c_type, only: thisobs
 implicit none
 
 contains
@@ -159,5 +159,17 @@ contains
       call PDAFomi_set_name(thisobs(i_obs), clean_obsname)
 
    END SUBROUTINE c__PDAFomi_set_name
+
+   SUBROUTINE c__PDAFomi_set_searchtype(stype, sortdir) bind(c)
+      use PDAFOMI_obs_f, only: PDAFomi_set_searchtype
+      IMPLICIT NONE
+      ! Search algorithm type
+      INTEGER(c_int), INTENT(in) :: stype
+      ! Coordinate direction used for sorting
+      INTEGER(c_int), INTENT(in) :: sortdir
+
+      call PDAFomi_set_searchtype(stype, sortdir)
+
+   END SUBROUTINE c__PDAFomi_set_searchtype
 
 END MODULE pdafomi_c_setter

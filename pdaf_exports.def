@@ -1,5 +1,41 @@
 LIBRARY PDAFc
 EXPORTS
+    c__pdaf_flush_fortran_stdout
+    c__pdaf_finalize
+    c__pdaf_abort
+    c__pdaf_generate_rndvec
+    c__pdaf_get_seed
+    c__pdaf_get_seedvec
+    c__pdaf_get_rndcount
+    c__pdaf_reset_fcst_flag
+    c__pdaf_memcount_get
+    c__pdaf_memcount_get_global
+    c__pdaf_time_temp
+    c__pdaf_time_tot
+    c__pdaf_genobs_set_rparam
+    c__pdaf_set_seed
+    c__pdaf_set_seedvec
+    c__pdaf_diag_crps
+    c__pdaf_diag_diffstats
+    c__pdaf_prepost_offline
+    c__pdaf3_init_parallel
+    c__pdaf3_prepost
+    c__pdaf3_prepost_offline
+    c__pdafomi_dealloc_local
+    c__pdafomi_diag_rmsd
+    c__pdafomi_diag_diffstats
+    c__pdafomi_diag_crps
+    c__pdafomi_set_searchtype
+    c__pdafomi_check_dist2_loop_opt
+    c__pdafomi_check_dist2_loop_sort
+    c__pdafomi_check_dist2_loop_sort2
+    c__pdafomi_set_thisobs_l
+    c__pdafomi_check_dist2_noniso_loop_opt
+    c__pdafomi_check_dist2_noniso_loop_sort
+    c__pdafomi_check_dist2_noniso_loop_sort2
+    c__pdafomi_check_noniso
+    c__pdafomi_tree_idx_lower
+    c__pdafomi_tree_idx_upper
     c__pdaf3_put_state_local_nondiagr
     c__pdafomi_assimilate_lknetf_nondiagr
     c__pdaf_3dvar_optim_cgplus
@@ -17,7 +53,6 @@ EXPORTS
     c__pdafestkf_update
     c__pdaf3_assim_offline_enkf_nondiagr
     c__pdafomi_dealloc
-    c__pdafomi_init_dim_obs_l_noniso_old
     c__pdaf_set_seedset
     c__pdaf3_put_state_en3dvar
     c__pdafomi_put_state_lknetf_nondiagr
@@ -126,6 +161,7 @@ EXPORTS
     c__pdaf_put_state_hyb3dvar_lestkf
     c__pdaf3_assimilate_lenkf
     c__pdafomi_get_interp_coeff_tri
+    c__pdafomi_get_interp_coeff_tri_vec
     c__pdafpf_update
     c__pdafomi_localize_covar_noniso_locweights
     c__pdaf3_put_state_lnetf_nondiagr
@@ -172,8 +208,6 @@ EXPORTS
     c__pdaf_en3dvar_costf_cg_cvt
     c__pdaf_estkf_init
     c__pdaf_put_state_lestkf
-    c__pdafomi_cnt_dim_obs_l
-    c__pdafomi_init_dim_obs_l_noniso_locweights_old
     c__pdaf_etkf_options
     c__pdaf3_assimilate_lnetf_nondiagr
     c__pdafomi_put_state_generate_obs
@@ -240,10 +274,10 @@ EXPORTS
     c__pdaf_assimilate_estkf
     c__pdafomi_put_state_global
     c__pdaf_correlation_function
-    c__pdafomi_init_obsarrays_l_noniso
     c__pdaf_set_offline_mode
     c__pdaf_seik_omega
     c__pdafomi_get_interp_coeff_lin
+    c__pdafomi_get_interp_coeff_lin_vec
     c__pdaf3_assim_offline_3dvar_nondiagr
     c__pdaf3_put_state_en3dvar_estkf
     c__pdaf_assimilate_lseik
@@ -365,7 +399,6 @@ EXPORTS
     c__pdaf_etkf_memtime
     c__pdafomi_init_dim_obs_l_iso
     c__pdaf_put_state_lseik
-    c__pdafomi_init_dim_obs_l_iso_old
     c__pdafomi_set_obs_err_type
     c__pdaf3_assim_offline
     c__pdaf_lenkf_ana_rsm
@@ -402,7 +435,6 @@ EXPORTS
     c__pdaf3_put_state_hyb3dvar_lestkf_nondiagr
     c__pdaf_diag_reliability_budget
     c__pdaf_get_localfilter
-    c__pdafomi_init_obsarrays_l
     c__pdaf_set_forget
     c__pdaf_get_fcst_info
     c__pdaf_get_obsmemberid
@@ -416,7 +448,6 @@ EXPORTS
     c__pdafomi_diag_dimobs
     c__pdafobs_dealloc
     c__pdaf_assimilate_etkf
-    c__pdafomi_init_local
     c__pdaf_diag_crps_nompi
     c__pdaf_diag_crps_mpi
     c__pdafomi_put_state_lenkf_nondiagr
@@ -536,6 +567,7 @@ EXPORTS
     c__pdaf_ensrf_set_rparam
     c__pdaf_iau_set_pointer
     c__pdafomi_get_interp_coeff_lin1d
+    c__pdafomi_get_interp_coeff_lin1d_vec
     c__pdaf_smoother_enkf
     c__pdaf_3dvar_options
     c__pdaf_seik_set_iparam
@@ -608,7 +640,6 @@ EXPORTS
     c__pdaflocal_l2g_cb
     c__pdaf3_assimilate_global_nondiagr
     c__pdaf_init_filters
-    c__pdafomi_cnt_dim_obs_l_noniso
     c__pdaf_pf_alloc
     c__pdafomi_omit_by_inno_l_cb
     c__pdaf3_assim_offline_lknetf_nondiagr

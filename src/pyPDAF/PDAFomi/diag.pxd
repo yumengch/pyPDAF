@@ -1,4 +1,8 @@
 from pyPDAF.cfi_binding cimport CFI_cdesc_t
+
+cdef extern void c__pdafomi_set_obs_diag(
+    int* diag) noexcept nogil;
+
 cdef extern void c__pdafomi_diag_dimobs(
     CFI_cdesc_t* dim_obs_ptr) noexcept nogil;
 
@@ -21,6 +25,16 @@ cdef extern void c__pdafomi_diag_nobstypes(
 cdef extern void c__pdafomi_diag_obs_rmsd(int* nobs,
     CFI_cdesc_t* rmsd_pointer, int* verbose) noexcept nogil;
 
+cdef extern void c__pdafomi_diag_rmsd(int* nobs,
+    CFI_cdesc_t* rmsd_pointer, int* verbose) noexcept nogil;
+
 cdef extern void c__pdafomi_diag_stats(int* nobs,
     CFI_cdesc_t* obsstats_ptr, int* verbose) noexcept nogil;
 
+cdef extern void c__pdafomi_diag_diffstats(int* nobs,
+    CFI_cdesc_t* obsstats_ptr, int* verbose) noexcept nogil;
+
+cdef extern void c__pdafomi_diag_crps(int* nobs,
+    CFI_cdesc_t* crps_pointer, int* perturb, int* verbose) noexcept nogil;
+
+cdef extern void c__pdafomi_diag_omit_by_inno() noexcept nogil;

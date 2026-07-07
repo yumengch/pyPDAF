@@ -1,8 +1,6 @@
 from pyPDAF.cfi_binding cimport CFI_cdesc_t
 cdef extern void c__pdafomi_init(int* n_obs) noexcept nogil;
 
-cdef extern void c__pdafomi_init_local() noexcept nogil;
-
 cdef extern void c__pdafomi_check_error(
     int* flag) noexcept nogil;
 
@@ -22,6 +20,16 @@ cdef extern void c__pdafomi_get_interp_coeff_lin1d(CFI_cdesc_t* gpc,
     double* oc, CFI_cdesc_t* icoeff) noexcept nogil;
 
 cdef extern void c__pdafomi_get_interp_coeff_lin(int* num_gp, int* n_dim,
+    CFI_cdesc_t* gpc, CFI_cdesc_t* oc,
+    CFI_cdesc_t* icoeff) noexcept nogil;
+
+cdef extern void c__pdafomi_get_interp_coeff_tri_vec(CFI_cdesc_t* gpc,
+    CFI_cdesc_t* oc, CFI_cdesc_t* icoeff) noexcept nogil;
+
+cdef extern void c__pdafomi_get_interp_coeff_lin1d_vec(CFI_cdesc_t* gpc,
+    CFI_cdesc_t* oc, CFI_cdesc_t* icoeff) noexcept nogil;
+
+cdef extern void c__pdafomi_get_interp_coeff_lin_vec(int* num_gp, int* n_dim,
     CFI_cdesc_t* gpc, CFI_cdesc_t* oc,
     CFI_cdesc_t* icoeff) noexcept nogil;
 
@@ -73,7 +81,7 @@ cdef extern void c__pdafomi_set_debug_flag(
     int* debugval) noexcept nogil;
 
 cdef extern void c__pdafomi_set_dim_obs_l(int* i_obs, int* cnt_obs_l_all,
-    int* cnt_obs_l) noexcept nogil;
+    int* cnt_obs_l, int* mode) noexcept nogil;
 
 cdef extern void c__pdafomi_set_localization(int* i_obs, double* cradius,
     double* sradius, int* locweight) noexcept nogil;
@@ -94,9 +102,6 @@ cdef extern void c__pdafomi_set_localize_covar_noniso_locweights(
     int* i_obs, int* dim, int* ncoords, CFI_cdesc_t* coords,
     CFI_cdesc_t* locweights, CFI_cdesc_t* cradius,
     CFI_cdesc_t* sradius) noexcept nogil;
-
-cdef extern void c__pdafomi_set_obs_diag(
-    int* diag) noexcept nogil;
 
 cdef extern void c__pdafomi_set_domain_limits(
     double* lim_coords) noexcept nogil;

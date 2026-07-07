@@ -1,11 +1,8 @@
 module pdafomi_c
 use iso_c_binding, only: c_int, c_double, c_bool
 use PDAFomi
+use pdafomi_c_type, only: thisobs, thisobs_l, n_obs_omi
 implicit none
-
-type(obs_f), allocatable, target :: thisobs(:)
-type(obs_l), allocatable, target :: thisobs_l(:)
-integer :: n_obs_omi
 
 contains
    subroutine c__PDAFomi_init(n_obs) bind(c)
@@ -13,13 +10,7 @@ contains
       integer(c_int), intent(in) :: n_obs
       n_obs_omi = n_obs
       if (.not. allocated(thisobs)) allocate(thisobs(n_obs))
-      if (.not. allocated(thisobs_l)) allocate(thisobs_l(n_obs))
    end subroutine c__PDAFomi_init
-
-   subroutine c__PDAFomi_init_local() bind(c)
-      if (.not. allocated(thisobs_l)) allocate(thisobs_l(n_obs_omi))
-   end subroutine c__PDAFomi_init_local
-
 
    SUBROUTINE c__PDAFomi_check_error(flag) bind(c)
       ! Error flag
@@ -112,6 +103,63 @@ contains
       call PDAFomi_get_interp_coeff_lin(num_gp, n_dim, gpc, oc, icoeff)
 
    END SUBROUTINE c__PDAFomi_get_interp_coeff_lin
+
+
+   SUBROUTINE c__PDAFomi_get_interp_coeff_tri_vec(gpc, oc, icoeff) bind(c)
+      ! Coordinates of grid points; dim(3,2)
+      REAL(c_double), DIMENSION(:,:, :), INTENT(in) :: gpc
+      ! Coordinates of observation; dim(2)
+      REAL(c_double), DIMENSION(:, :), INTENT(in) :: oc
+      ! Interpolation coefficients; dim(3)
+      REAL(c_double), DIMENSION(:, :), INTENT(inout) :: icoeff
+
+      integer :: i, n_obs
+
+      n_obs = size(oc, dim=2)
+      do i = 1, n_obs
+         call PDAFomi_get_interp_coeff_tri(gpc(:, :, i), oc(:, i), icoeff(:, i))
+      end do
+
+   END SUBROUTINE c__PDAFomi_get_interp_coeff_tri_vec
+
+   SUBROUTINE c__PDAFomi_get_interp_coeff_lin1D_vec(gpc, oc, icoeff) bind(c)
+      ! Coordinates of grid points (dim=2)
+      REAL(c_double), DIMENSION(:, :), INTENT(in) :: gpc
+      ! Coordinates of observation
+      REAL(c_double), DIMENSION(:), INTENT(in) :: oc
+      ! Interpolation coefficients (dim=2)
+      REAL(c_double), DIMENSION(:, :), INTENT(inout) :: icoeff
+
+      integer :: i, n_obs
+
+      n_obs = size(oc)
+      do i = 1, n_obs
+         call PDAFomi_get_interp_coeff_lin1D(gpc(:, i), oc(i), icoeff(:, i))
+      end do
+
+   END SUBROUTINE c__PDAFomi_get_interp_coeff_lin1D_vec
+
+   SUBROUTINE c__PDAFomi_get_interp_coeff_lin_vec(num_gp, n_dim, gpc, oc,  &
+      icoeff) bind(c)
+      ! Length of icoeff
+      INTEGER(c_int), INTENT(in) :: num_gp
+      ! Number of dimensions in interpolation
+      INTEGER(c_int), INTENT(in) :: n_dim
+      ! Coordinates of grid points
+      REAL(c_double), DIMENSION(:,:,:), INTENT(in) :: gpc
+      ! Coordinates of observation
+      REAL(c_double), DIMENSION(:,:), INTENT(in) :: oc
+      ! Interpolation coefficients (num_gp)
+      REAL(c_double), DIMENSION(:, :), INTENT(inout) :: icoeff
+
+      integer :: i, n_obs
+
+      n_obs = size(oc, dim=2)
+      do i = 1, n_obs
+         call PDAFomi_get_interp_coeff_lin(num_gp, n_dim, gpc(:, :, i), oc(:, i), icoeff(:, i))
+      end do
+
+   END SUBROUTINE c__PDAFomi_get_interp_coeff_lin_vec
 
    SUBROUTINE c__PDAFomi_init_dim_obs_l_iso(i_obs, coords_l, locweight, cradius,  &
       sradius, cnt_obs_l_all) bind(c)
@@ -312,7 +360,7 @@ contains
 
    END SUBROUTINE c__PDAFomi_set_debug_flag
 
-   SUBROUTINE c__PDAFomi_set_dim_obs_l(i_obs, cnt_obs_l_all, cnt_obs_l) bind(c)
+   SUBROUTINE c__PDAFomi_set_dim_obs_l(i_obs, cnt_obs_l_all, cnt_obs_l, mode) bind(c)
       ! index into observation arrays
       INTEGER(c_int), INTENT(in) :: i_obs
 
@@ -320,10 +368,12 @@ contains
       INTEGER(c_int), INTENT(inout) :: cnt_obs_l_all
       ! Local dimension of single observation type vector
       INTEGER(c_int), INTENT(inout) :: cnt_obs_l
+      ! 1: count local observations; 2: store local observation indices
+      INTEGER(c_int), INTENT(in) :: mode
 
 
       call PDAFomi_set_dim_obs_l(thisobs_l(i_obs), thisobs(i_obs),  &
-         cnt_obs_l_all, cnt_obs_l)
+         cnt_obs_l_all, cnt_obs_l, mode)
 
    END SUBROUTINE c__PDAFomi_set_dim_obs_l
 
@@ -436,15 +486,6 @@ contains
          ncoords, coords, locweights, cradius, sradius)
 
    END SUBROUTINE c__PDAFomi_set_localize_covar_noniso_locweights
-
-   SUBROUTINE c__PDAFomi_set_obs_diag(diag) bind(c)
-      ! Value for observation diagnostics mode
-      INTEGER(c_int), INTENT(in) :: diag
-
-
-      call PDAFomi_set_obs_diag(diag)
-
-   END SUBROUTINE c__PDAFomi_set_obs_diag
 
    SUBROUTINE c__PDAFomi_set_domain_limits(lim_coords) bind(c)
       ! geographic coordinate array (1: longitude, 2: latitude)

@@ -2251,4 +2251,51 @@ contains
          f__get_obs_f_pdaf, f__prepoststep_pdaf, outflag)
 
    END SUBROUTINE c__PDAF3_generate_obs_offline
+
+   SUBROUTINE c__PDAF3_prepost(collect_state_pdaf, distribute_state_pdaf,  &
+      prepoststep_pdaf, next_observation_pdaf, outflag) bind(c)
+      use pdaf_c_f_interface, only: collect_state_pdaf_c_ptr, &
+                                    f__collect_state_pdaf, &
+                                    distribute_state_pdaf_c_ptr, &
+                                    f__distribute_state_pdaf, &
+                                    prepoststep_pdaf_c_ptr, &
+                                    f__prepoststep_pdaf, &
+                                    next_observation_pdaf_c_ptr, &
+                                    f__next_observation_pdaf
+      use pdaf_c_cb_interface, only: c__collect_state_pdaf, &
+                                     c__distribute_state_pdaf, &
+                                     c__prepoststep_pdaf, &
+                                     c__next_observation_pdaf
+      implicit none
+      ! Status flag
+      INTEGER(c_int), INTENT(inout) :: outflag
+
+      procedure(c__collect_state_pdaf) :: collect_state_pdaf
+      procedure(c__distribute_state_pdaf) :: distribute_state_pdaf
+      procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
+      procedure(c__next_observation_pdaf) :: next_observation_pdaf
+
+      collect_state_pdaf_c_ptr => collect_state_pdaf
+      distribute_state_pdaf_c_ptr => distribute_state_pdaf
+      prepoststep_pdaf_c_ptr => prepoststep_pdaf
+      next_observation_pdaf_c_ptr => next_observation_pdaf
+
+      call PDAF3_prepost(f__collect_state_pdaf, f__distribute_state_pdaf,  &
+         f__prepoststep_pdaf, f__next_observation_pdaf, outflag)
+   END SUBROUTINE c__PDAF3_prepost
+
+   SUBROUTINE c__PDAF3_prepost_offline(prepoststep_pdaf, outflag) bind(c)
+      use pdaf_c_f_interface, only: prepoststep_pdaf_c_ptr, &
+                                    f__prepoststep_pdaf
+      use pdaf_c_cb_interface, only: c__prepoststep_pdaf
+      implicit none
+      ! Status flag
+      INTEGER(c_int), INTENT(inout) :: outflag
+
+      procedure(c__prepoststep_pdaf) :: prepoststep_pdaf
+
+      prepoststep_pdaf_c_ptr => prepoststep_pdaf
+
+      call PDAF3_prepost_offline(f__prepoststep_pdaf, outflag)
+   END SUBROUTINE c__PDAF3_prepost_offline
 end MODULE pdaf3_c_assim

@@ -1,5 +1,6 @@
 module pdaf_c_f_interface
 use pdaf_c_cb_interface
+use PDAFomi_c_type, only: thisobs_l, n_obs_omi
 implicit none
 
 procedure(c__init_ens_pdaf), pointer :: init_ens_pdaf_c_ptr => null()
@@ -307,6 +308,8 @@ contains
       integer, intent(in)  :: domain_p
       ! local state dimension
       integer, intent(out) :: dim_l
+
+      if (.not. allocated(thisobs_l)) allocate(thisobs_l(n_obs_omi))
       call init_dim_l_pdaf_c_ptr(step, domain_p, dim_l)
    end subroutine f__init_dim_l_pdaf
 

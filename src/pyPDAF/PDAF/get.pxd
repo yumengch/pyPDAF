@@ -14,6 +14,14 @@ cdef extern void c__pdaf_get_memberid(
 cdef extern void c__pdaf_get_obsmemberid(
     int* memberid) noexcept nogil;
 
+cdef extern void c__pdaf_get_seed(int* seedvec) noexcept nogil;
+
+cdef extern void c__pdaf_get_seedvec(int* seedvec) noexcept nogil;
+
+cdef extern void c__pdaf_get_rndcount(int* rndcount) noexcept nogil;
+
+cdef extern void c__pdaf_reset_fcst_flag(
+    int* reset_fcst_flag) noexcept nogil;
+
 cdef extern void c__pdaf_get_smootherens(CFI_cdesc_t* sens_point,
     int* maxlag, int* status) noexcept nogil;
-

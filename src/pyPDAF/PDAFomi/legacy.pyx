@@ -60,19 +60,18 @@ def localize_covar_iso(int  i_obs, int  dim, int  locweight,
     cdef CFI_index_t coords_extent[2]
     coords_extent[0] = coords.shape[0]
     coords_extent[1] = coords.shape[1]
-    with nogil:
-        CFI_establish(<CFI_cdesc_t *> &coords_cfi, &coords[0,0], CFI_attribute_other,
+    CFI_establish(<CFI_cdesc_t *> &coords_cfi, &coords[0,0], CFI_attribute_other,
                       CFI_type_double , coords_nbytes, 2, coords_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &hp_cfi, &hp[0,0], CFI_attribute_other,
-                      CFI_type_double , hp_nbytes, 2, hp_extent)
+    CFI_establish(<CFI_cdesc_t *> &hp_cfi, &hp[0,0], CFI_attribute_other,
+                    CFI_type_double , hp_nbytes, 2, hp_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &hph_cfi, &hph[0,0], CFI_attribute_other,
-                      CFI_type_double , hph_nbytes, 2, hph_extent)
+    CFI_establish(<CFI_cdesc_t *> &hph_cfi, &hph[0,0], CFI_attribute_other,
+                    CFI_type_double , hph_nbytes, 2, hph_extent)
 
-        c__pdafomi_localize_covar_iso(&i_obs, &dim, &locweight, &cradius,
-                                      &sradius, <CFI_cdesc_t *> &coords_cfi,
-                                      <CFI_cdesc_t *> &hp_cfi, <CFI_cdesc_t *> &hph_cfi)
+    c__pdafomi_localize_covar_iso(&i_obs, &dim, &locweight, &cradius,
+                                    &sradius, <CFI_cdesc_t *> &coords_cfi,
+                                    <CFI_cdesc_t *> &hp_cfi, <CFI_cdesc_t *> &hph_cfi)
 
     return hp_np, hph_np
 
@@ -146,32 +145,31 @@ def localize_covar_noniso_locweights(int  i_obs, int  dim,
     cdef CFI_index_t coords_extent[2]
     coords_extent[0] = coords.shape[0]
     coords_extent[1] = coords.shape[1]
-    with nogil:
-        CFI_establish(<CFI_cdesc_t *> &locweights_cfi, &locweights[0], CFI_attribute_other,
+    CFI_establish(<CFI_cdesc_t *> &locweights_cfi, &locweights[0], CFI_attribute_other,
                       CFI_type_int , locweights_nbytes, 1, locweights_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &cradius_cfi, &cradius[0], CFI_attribute_other,
-                      CFI_type_double , cradius_nbytes, 1, cradius_extent)
+    CFI_establish(<CFI_cdesc_t *> &cradius_cfi, &cradius[0], CFI_attribute_other,
+                    CFI_type_double , cradius_nbytes, 1, cradius_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &sradius_cfi, &sradius[0], CFI_attribute_other,
-                      CFI_type_double , sradius_nbytes, 1, sradius_extent)
+    CFI_establish(<CFI_cdesc_t *> &sradius_cfi, &sradius[0], CFI_attribute_other,
+                    CFI_type_double , sradius_nbytes, 1, sradius_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &coords_cfi, &coords[0,0], CFI_attribute_other,
-                      CFI_type_double , coords_nbytes, 2, coords_extent)
+    CFI_establish(<CFI_cdesc_t *> &coords_cfi, &coords[0,0], CFI_attribute_other,
+                    CFI_type_double , coords_nbytes, 2, coords_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &hp_cfi, &hp[0,0], CFI_attribute_other,
-                      CFI_type_double , hp_nbytes, 2, hp_extent)
+    CFI_establish(<CFI_cdesc_t *> &hp_cfi, &hp[0,0], CFI_attribute_other,
+                    CFI_type_double , hp_nbytes, 2, hp_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &hph_cfi, &hph[0,0], CFI_attribute_other,
-                      CFI_type_double , hph_nbytes, 2, hph_extent)
+    CFI_establish(<CFI_cdesc_t *> &hph_cfi, &hph[0,0], CFI_attribute_other,
+                    CFI_type_double , hph_nbytes, 2, hph_extent)
 
-        c__pdafomi_localize_covar_noniso_locweights(&i_obs, &dim,
-                                                    <CFI_cdesc_t *> &locweights_cfi,
-                                                    <CFI_cdesc_t *> &cradius_cfi,
-                                                    <CFI_cdesc_t *> &sradius_cfi,
-                                                    <CFI_cdesc_t *> &coords_cfi,
-                                                    <CFI_cdesc_t *> &hp_cfi,
-                                                    <CFI_cdesc_t *> &hph_cfi)
+    c__pdafomi_localize_covar_noniso_locweights(&i_obs, &dim,
+                                                <CFI_cdesc_t *> &locweights_cfi,
+                                                <CFI_cdesc_t *> &cradius_cfi,
+                                                <CFI_cdesc_t *> &sradius_cfi,
+                                                <CFI_cdesc_t *> &coords_cfi,
+                                                <CFI_cdesc_t *> &hp_cfi,
+                                                <CFI_cdesc_t *> &hph_cfi)
 
     return hp_np, hph_np
 
@@ -240,28 +238,27 @@ def localize_covar_noniso(int  i_obs, int  dim, int  locweight,
     cdef CFI_index_t coords_extent[2]
     coords_extent[0] = coords.shape[0]
     coords_extent[1] = coords.shape[1]
-    with nogil:
-        CFI_establish(<CFI_cdesc_t *> &cradius_cfi, &cradius[0], CFI_attribute_other,
+    CFI_establish(<CFI_cdesc_t *> &cradius_cfi, &cradius[0], CFI_attribute_other,
                       CFI_type_double , cradius_nbytes, 1, cradius_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &sradius_cfi, &sradius[0], CFI_attribute_other,
-                      CFI_type_double , sradius_nbytes, 1, sradius_extent)
+    CFI_establish(<CFI_cdesc_t *> &sradius_cfi, &sradius[0], CFI_attribute_other,
+                    CFI_type_double , sradius_nbytes, 1, sradius_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &coords_cfi, &coords[0,0], CFI_attribute_other,
-                      CFI_type_double , coords_nbytes, 2, coords_extent)
+    CFI_establish(<CFI_cdesc_t *> &coords_cfi, &coords[0,0], CFI_attribute_other,
+                    CFI_type_double , coords_nbytes, 2, coords_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &hp_cfi, &hp[0,0], CFI_attribute_other,
-                      CFI_type_double , hp_nbytes, 2, hp_extent)
+    CFI_establish(<CFI_cdesc_t *> &hp_cfi, &hp[0,0], CFI_attribute_other,
+                    CFI_type_double , hp_nbytes, 2, hp_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &hph_cfi, &hph[0,0], CFI_attribute_other,
-                      CFI_type_double , hph_nbytes, 2, hph_extent)
+    CFI_establish(<CFI_cdesc_t *> &hph_cfi, &hph[0,0], CFI_attribute_other,
+                    CFI_type_double , hph_nbytes, 2, hph_extent)
 
-        c__pdafomi_localize_covar_noniso(&i_obs, &dim, &locweight,
-                                         <CFI_cdesc_t *> &cradius_cfi,
-                                         <CFI_cdesc_t *> &sradius_cfi,
-                                         <CFI_cdesc_t *> &coords_cfi,
-                                         <CFI_cdesc_t *> &hp_cfi,
-                                         <CFI_cdesc_t *> &hph_cfi)
+    c__pdafomi_localize_covar_noniso(&i_obs, &dim, &locweight,
+                                        <CFI_cdesc_t *> &cradius_cfi,
+                                        <CFI_cdesc_t *> &sradius_cfi,
+                                        <CFI_cdesc_t *> &coords_cfi,
+                                        <CFI_cdesc_t *> &hp_cfi,
+                                        <CFI_cdesc_t *> &hph_cfi)
 
     return hp_np, hph_np
 
@@ -322,22 +319,21 @@ def localize_covar_serial_iso(int  i_obs, int  iobs_all, int  dim,
     cdef CFI_index_t coords_extent[2]
     coords_extent[0] = coords.shape[0]
     coords_extent[1] = coords.shape[1]
-    with nogil:
-        CFI_establish(<CFI_cdesc_t *> &coords_cfi, &coords[0,0], CFI_attribute_other,
+    CFI_establish(<CFI_cdesc_t *> &coords_cfi, &coords[0,0], CFI_attribute_other,
                       CFI_type_double , coords_nbytes, 2, coords_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &hp_cfi, &hp[0], CFI_attribute_other,
-                      CFI_type_double , hp_nbytes, 1, hp_extent)
+    CFI_establish(<CFI_cdesc_t *> &hp_cfi, &hp[0], CFI_attribute_other,
+                    CFI_type_double , hp_nbytes, 1, hp_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &hxy_cfi, &hxy[0], CFI_attribute_other,
-                      CFI_type_double , hxy_nbytes, 1, hxy_extent)
+    CFI_establish(<CFI_cdesc_t *> &hxy_cfi, &hxy[0], CFI_attribute_other,
+                    CFI_type_double , hxy_nbytes, 1, hxy_extent)
 
-        c__pdafomi_localize_covar_serial_iso(&i_obs, &iobs_all, &dim,
-                                             &dim_obs, &locweight,
-                                             &cradius, &sradius,
-                                             <CFI_cdesc_t *> &coords_cfi,
-                                             <CFI_cdesc_t *> &hp_cfi,
-                                             <CFI_cdesc_t *> &hxy_cfi)
+    c__pdafomi_localize_covar_serial_iso(&i_obs, &iobs_all, &dim,
+                                            &dim_obs, &locweight,
+                                            &cradius, &sradius,
+                                            <CFI_cdesc_t *> &coords_cfi,
+                                            <CFI_cdesc_t *> &hp_cfi,
+                                            <CFI_cdesc_t *> &hxy_cfi)
 
     return hp_np, hxy_np
 
@@ -414,34 +410,33 @@ def localize_covar_serial_noniso_locweights(int  i_obs, int  iobs_all,
     cdef CFI_index_t coords_extent[2]
     coords_extent[0] = coords.shape[0]
     coords_extent[1] = coords.shape[1]
-    with nogil:
-        CFI_establish(<CFI_cdesc_t *> &locweights_cfi, &locweights[0], CFI_attribute_other,
+    CFI_establish(<CFI_cdesc_t *> &locweights_cfi, &locweights[0], CFI_attribute_other,
                       CFI_type_int , locweights_nbytes, 1, locweights_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &cradius_cfi, &cradius[0], CFI_attribute_other,
-                      CFI_type_double , cradius_nbytes, 1, cradius_extent)
+    CFI_establish(<CFI_cdesc_t *> &cradius_cfi, &cradius[0], CFI_attribute_other,
+                    CFI_type_double , cradius_nbytes, 1, cradius_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &sradius_cfi, &sradius[0], CFI_attribute_other,
-                      CFI_type_double , sradius_nbytes, 1, sradius_extent)
+    CFI_establish(<CFI_cdesc_t *> &sradius_cfi, &sradius[0], CFI_attribute_other,
+                    CFI_type_double , sradius_nbytes, 1, sradius_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &coords_cfi, &coords[0,0], CFI_attribute_other,
-                      CFI_type_double , coords_nbytes, 2, coords_extent)
+    CFI_establish(<CFI_cdesc_t *> &coords_cfi, &coords[0,0], CFI_attribute_other,
+                    CFI_type_double , coords_nbytes, 2, coords_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &hp_cfi, &hp[0], CFI_attribute_other,
-                      CFI_type_double , hp_nbytes, 1, hp_extent)
+    CFI_establish(<CFI_cdesc_t *> &hp_cfi, &hp[0], CFI_attribute_other,
+                    CFI_type_double , hp_nbytes, 1, hp_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &hxy_cfi, &hxy[0], CFI_attribute_other,
-                      CFI_type_double , hxy_nbytes, 1, hxy_extent)
+    CFI_establish(<CFI_cdesc_t *> &hxy_cfi, &hxy[0], CFI_attribute_other,
+                    CFI_type_double , hxy_nbytes, 1, hxy_extent)
 
-        c__pdafomi_localize_covar_serial_noniso_locweights(&i_obs,
-                                                           &iobs_all, &dim,
-                                                           &dim_obs,
-                                                           <CFI_cdesc_t *> &locweights_cfi,
-                                                           <CFI_cdesc_t *> &cradius_cfi,
-                                                           <CFI_cdesc_t *> &sradius_cfi,
-                                                           <CFI_cdesc_t *> &coords_cfi,
-                                                           <CFI_cdesc_t *> &hp_cfi,
-                                                           <CFI_cdesc_t *> &hxy_cfi)
+    c__pdafomi_localize_covar_serial_noniso_locweights(&i_obs,
+                                                        &iobs_all, &dim,
+                                                        &dim_obs,
+                                                        <CFI_cdesc_t *> &locweights_cfi,
+                                                        <CFI_cdesc_t *> &cradius_cfi,
+                                                        <CFI_cdesc_t *> &sradius_cfi,
+                                                        <CFI_cdesc_t *> &coords_cfi,
+                                                        <CFI_cdesc_t *> &hp_cfi,
+                                                        <CFI_cdesc_t *> &hxy_cfi)
     return hp_np, hxy_np
 
 
@@ -512,197 +507,30 @@ def localize_covar_serial_noniso(int  i_obs, int  iobs_all, int  dim,
     cdef CFI_index_t coords_extent[2]
     coords_extent[0] = coords.shape[0]
     coords_extent[1] = coords.shape[1]
-    with nogil:
-        CFI_establish(<CFI_cdesc_t *> &cradius_cfi, &cradius[0], CFI_attribute_other,
+    CFI_establish(<CFI_cdesc_t *> &cradius_cfi, &cradius[0], CFI_attribute_other,
                       CFI_type_double , cradius_nbytes, 1, cradius_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &sradius_cfi, &sradius[0], CFI_attribute_other,
-                      CFI_type_double , sradius_nbytes, 1, sradius_extent)
+    CFI_establish(<CFI_cdesc_t *> &sradius_cfi, &sradius[0], CFI_attribute_other,
+                    CFI_type_double , sradius_nbytes, 1, sradius_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &coords_cfi, &coords[0,0], CFI_attribute_other,
-                      CFI_type_double , coords_nbytes, 2, coords_extent)
+    CFI_establish(<CFI_cdesc_t *> &coords_cfi, &coords[0,0], CFI_attribute_other,
+                    CFI_type_double , coords_nbytes, 2, coords_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &hp_cfi, &hp[0], CFI_attribute_other,
-                      CFI_type_double , hp_nbytes, 1, hp_extent)
+    CFI_establish(<CFI_cdesc_t *> &hp_cfi, &hp[0], CFI_attribute_other,
+                    CFI_type_double , hp_nbytes, 1, hp_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &hxy_cfi, &hxy[0], CFI_attribute_other,
-                      CFI_type_double , hxy_nbytes, 1, hxy_extent)
+    CFI_establish(<CFI_cdesc_t *> &hxy_cfi, &hxy[0], CFI_attribute_other,
+                    CFI_type_double , hxy_nbytes, 1, hxy_extent)
 
-        c__pdafomi_localize_covar_serial_noniso(&i_obs, &iobs_all, &dim,
-                                                &dim_obs, &locweight,
-                                                <CFI_cdesc_t *> &cradius_cfi,
-                                                <CFI_cdesc_t *> &sradius_cfi,
-                                                <CFI_cdesc_t *> &coords_cfi,
-                                                <CFI_cdesc_t *> &hp_cfi,
-                                                <CFI_cdesc_t *> &hxy_cfi)
+    c__pdafomi_localize_covar_serial_noniso(&i_obs, &iobs_all, &dim,
+                                            &dim_obs, &locweight,
+                                            <CFI_cdesc_t *> &cradius_cfi,
+                                            <CFI_cdesc_t *> &sradius_cfi,
+                                            <CFI_cdesc_t *> &coords_cfi,
+                                            <CFI_cdesc_t *> &hp_cfi,
+                                            <CFI_cdesc_t *> &hxy_cfi)
 
     return hp_np, hxy_np
-
-
-def init_dim_obs_l_iso_old(int  i_obs, double [::1] coords_l,
-    int  locweight, double  cradius, double  sradius, int  cnt_obs_l):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
-
-    Parameters
-    ----------
-    i_obs : int
-        index into observation arrays
-    coords_l : ndarray[np.float64, ndim=1]
-        Coordinates of current analysis domain
-        Array shape: (:)
-    locweight : int
-        Type of localization function
-    cradius : double
-        Localization cut-off radius (single or vector)
-    sradius : double
-        Support radius of localization function (single or vector)
-    cnt_obs_l : int
-        Local dimension of current observation vector
-
-    Returns
-    -------
-    cnt_obs_l : int
-        Local dimension of current observation vector
-    """
-    cdef CFI_cdesc_rank1 coords_l_cfi
-    cdef size_t coords_l_nbytes = coords_l.nbytes
-    cdef CFI_index_t coords_l_extent[1]
-    coords_l_extent[0] = coords_l.shape[0]
-    with nogil:
-        CFI_establish(<CFI_cdesc_t *> &coords_l_cfi, &coords_l[0], CFI_attribute_other,
-                      CFI_type_double , coords_l_nbytes, 1, coords_l_extent)
-
-        c__pdafomi_init_dim_obs_l_iso_old(&i_obs, <CFI_cdesc_t *> &coords_l_cfi, &locweight,
-                                          &cradius, &sradius, &cnt_obs_l)
-
-    return cnt_obs_l
-
-
-def init_dim_obs_l_noniso_old(int  i_obs, double [::1] coords_l,
-    int  locweight, double [::1] cradius, double [::1] sradius, int  cnt_obs_l):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
-
-    Parameters
-    ----------
-    i_obs : int
-        index into observation arrays
-    coords_l : ndarray[np.float64, ndim=1]
-        Coordinates of current analysis domain
-        Array shape: (:)
-    locweight : int
-        Type of localization function
-    cradius : ndarray[np.float64, ndim=1]
-        Vector of localization cut-off radii
-        Array shape: (:)
-    sradius : ndarray[np.float64, ndim=1]
-        Vector of support radii of localization function
-        Array shape: (:)
-    cnt_obs_l : int
-        Local dimension of current observation vector
-
-    Returns
-    -------
-    cnt_obs_l : int
-        Local dimension of current observation vector
-    """
-    cdef CFI_cdesc_rank1 coords_l_cfi
-    cdef size_t coords_l_nbytes = coords_l.nbytes
-    cdef CFI_index_t coords_l_extent[1]
-    coords_l_extent[0] = coords_l.shape[0]
-    cdef CFI_cdesc_rank1 cradius_cfi
-    cdef size_t cradius_nbytes = cradius.nbytes
-    cdef CFI_index_t cradius_extent[1]
-    cradius_extent[0] = cradius.shape[0]
-    cdef CFI_cdesc_rank1 sradius_cfi
-    cdef size_t sradius_nbytes = sradius.nbytes
-    cdef CFI_index_t sradius_extent[1]
-    sradius_extent[0] = sradius.shape[0]
-    with nogil:
-        CFI_establish(<CFI_cdesc_t *> &coords_l_cfi, &coords_l[0], CFI_attribute_other,
-                      CFI_type_double , coords_l_nbytes, 1, coords_l_extent)
-
-        CFI_establish(<CFI_cdesc_t *> &cradius_cfi, &cradius[0], CFI_attribute_other,
-                      CFI_type_double , cradius_nbytes, 1, cradius_extent)
-
-        CFI_establish(<CFI_cdesc_t *> &sradius_cfi, &sradius[0], CFI_attribute_other,
-                      CFI_type_double , sradius_nbytes, 1, sradius_extent)
-
-        c__pdafomi_init_dim_obs_l_noniso_old(&i_obs, <CFI_cdesc_t *> &coords_l_cfi,
-                                             &locweight, <CFI_cdesc_t *> &cradius_cfi,
-                                             <CFI_cdesc_t *> &sradius_cfi, &cnt_obs_l)
-
-    return cnt_obs_l
-
-
-def init_dim_obs_l_noniso_locweights_old(int  i_obs, double [::1] coords_l,
-    int [::1] locweights, double [::1] cradius, double [::1] sradius,
-    int  cnt_obs_l):
-    """Checking the corresponding PDAF documentation in https://pdaf.awi.de
-    For internal subroutines checking corresponding PDAF comments.
-
-    Parameters
-    ----------
-    i_obs : int
-        index into observation arrays
-    coords_l : ndarray[np.float64, ndim=1]
-        Coordinates of current analysis domain
-        Array shape: (:)
-    locweights : ndarray[np.intc, ndim=1]
-        Types of localization function
-        Array shape: (:)
-    cradius : ndarray[np.float64, ndim=1]
-        Vector of localization cut-off radii
-        Array shape: (:)
-    sradius : ndarray[np.float64, ndim=1]
-        Vector of support radii of localization function
-        Array shape: (:)
-    cnt_obs_l : int
-        Local dimension of current observation vector
-
-    Returns
-    -------
-    cnt_obs_l : int
-        Local dimension of current observation vector
-    """
-    cdef CFI_cdesc_rank1 coords_l_cfi
-    cdef size_t coords_l_nbytes = coords_l.nbytes
-    cdef CFI_index_t coords_l_extent[1]
-    coords_l_extent[0] = coords_l.shape[0]
-    cdef CFI_cdesc_rank1 locweights_cfi
-    cdef size_t locweights_nbytes = locweights.nbytes
-    cdef CFI_index_t locweights_extent[1]
-    locweights_extent[0] = locweights.shape[0]
-    cdef CFI_cdesc_rank1 cradius_cfi
-    cdef size_t cradius_nbytes = cradius.nbytes
-    cdef CFI_index_t cradius_extent[1]
-    cradius_extent[0] = cradius.shape[0]
-    cdef CFI_cdesc_rank1 sradius_cfi
-    cdef size_t sradius_nbytes = sradius.nbytes
-    cdef CFI_index_t sradius_extent[1]
-    sradius_extent[0] = sradius.shape[0]
-    with nogil:
-        CFI_establish(<CFI_cdesc_t *> &coords_l_cfi, &coords_l[0], CFI_attribute_other,
-                      CFI_type_double , coords_l_nbytes, 1, coords_l_extent)
-
-        CFI_establish(<CFI_cdesc_t *> &locweights_cfi, &locweights[0], CFI_attribute_other,
-                      CFI_type_int , locweights_nbytes, 1, locweights_extent)
-
-        CFI_establish(<CFI_cdesc_t *> &cradius_cfi, &cradius[0], CFI_attribute_other,
-                      CFI_type_double , cradius_nbytes, 1, cradius_extent)
-
-        CFI_establish(<CFI_cdesc_t *> &sradius_cfi, &sradius[0], CFI_attribute_other,
-                      CFI_type_double , sradius_nbytes, 1, sradius_extent)
-
-        c__pdafomi_init_dim_obs_l_noniso_locweights_old(&i_obs,
-                                                        <CFI_cdesc_t *> &coords_l_cfi,
-                                                        <CFI_cdesc_t *> &locweights_cfi,
-                                                        <CFI_cdesc_t *> &cradius_cfi,
-                                                        <CFI_cdesc_t *> &sradius_cfi,
-                                                        &cnt_obs_l)
-
-    return cnt_obs_l
 
 
 def deallocate_obs(int  i_obs):
@@ -716,8 +544,7 @@ def deallocate_obs(int  i_obs):
     i_obs : int
         index of observations
     """
-    with nogil:
-        c__pdafomi_deallocate_obs(&i_obs)
+    c__pdafomi_deallocate_obs(&i_obs)
 
 
 

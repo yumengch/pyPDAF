@@ -1,10 +1,47 @@
 module pdaf_c
-use iso_c_binding, only: c_int, c_double, c_bool
+use iso_c_binding, only: c_int, c_double, c_bool, c_char, c_null_char
 use pdaf
 use pdaf_c_cb_interface
 implicit none
 
 contains
+   subroutine c__pdaf_flush_fortran_stdout() bind(C)
+      use iso_fortran_env, only: output_unit, error_unit
+      flush(output_unit)
+      flush(error_unit)
+   end subroutine c__pdaf_flush_fortran_stdout
+
+   SUBROUTINE c__PDAF_print_version() bind(c)
+      use PDAF_info
+      implicit none
+      call PDAF_print_version()
+
+   END SUBROUTINE c__PDAF_print_version
+
+   SUBROUTINE c__PDAF_configinfo_filters(subtype, verbose) bind(c)
+      use PDAF_utils_filters
+      implicit none
+      ! Sub-type of filter
+      INTEGER(c_int), INTENT(inout) :: subtype
+      ! Control screen output
+      INTEGER(c_int), INTENT(in) :: verbose
+
+
+      call PDAF_configinfo_filters(subtype, verbose)
+
+   END SUBROUTINE c__PDAF_configinfo_filters
+
+   SUBROUTINE c__PDAF_options_filters(type_filter) bind(c)
+      use PDAF_utils_filters
+      implicit none
+      ! Type of filter
+      INTEGER(c_int), INTENT(in) :: type_filter
+
+
+      call PDAF_options_filters(type_filter)
+
+   END SUBROUTINE c__PDAF_options_filters
+
    SUBROUTINE c__PDAF_get_fcst_info(steps, time, doexit) bind(c)
       ! Flag and number of time steps
       INTEGER(c_int), INTENT(inout) :: steps
@@ -37,6 +74,18 @@ contains
       call PDAF_deallocate()
 
    END SUBROUTINE c__PDAF_deallocate
+
+   SUBROUTINE c__PDAF_finalize() bind(c)
+      call PDAF_finalize()
+
+   END SUBROUTINE c__PDAF_finalize
+
+   SUBROUTINE c__PDAF_abort(err) bind(c)
+      INTEGER(c_int), INTENT(in) :: err
+
+      call PDAF_abort(err)
+
+   END SUBROUTINE c__PDAF_abort
 
    SUBROUTINE c__PDAF_eofcovar(dim, nstates, nfields, dim_fields, offsets,  &
       remove_mstate, do_mv, states, stddev, svals, svec, meanstate, verbose,  &
@@ -81,6 +130,111 @@ contains
       call PDAF_force_analysis()
 
    END SUBROUTINE c__PDAF_force_analysis
+
+   SUBROUTINE c__PDAF_generate_rndvec(len, vec, stddev, dist, iseed) bind(c)
+      ! Length of vector to process
+      INTEGER(c_int), INTENT(in) :: len
+      ! Values to be perturbed
+      REAL(c_double), DIMENSION(len), INTENT(inout) :: vec
+      ! Standard deviation of random perturbation
+      REAL(c_double), INTENT(in) :: stddev
+      ! Distribution type
+      INTEGER(c_int), INTENT(in) :: dist
+      ! Seed vector for LAPACK dlarnv
+      INTEGER(c_int), DIMENSION(4), INTENT(inout) :: iseed
+
+      call PDAF_generate_rndvec(len, vec, stddev, dist, iseed)
+
+   END SUBROUTINE c__PDAF_generate_rndvec
+
+   SUBROUTINE c__PDAF_parse_int(handle, intvalue) bind(c)
+      CHARACTER(kind=c_char), DIMENSION(*), INTENT(in) :: handle
+      INTEGER(c_int), INTENT(inout) :: intvalue
+      CHARACTER(len=32) :: clean_handle
+      INTEGER :: i
+
+      clean_handle = ""
+      i = 1
+      DO WHILE (i <= LEN(clean_handle))
+         IF (handle(i) == c_null_char) EXIT
+         clean_handle(i:i) = handle(i)
+         i = i + 1
+      END DO
+
+      call PDAF_parse(clean_handle, intvalue)
+
+   END SUBROUTINE c__PDAF_parse_int
+
+   SUBROUTINE c__PDAF_parse_real(handle, realvalue) bind(c)
+      CHARACTER(kind=c_char), DIMENSION(*), INTENT(in) :: handle
+      REAL(c_double), INTENT(inout) :: realvalue
+      CHARACTER(len=32) :: clean_handle
+      INTEGER :: i
+
+      clean_handle = ""
+      i = 1
+      DO WHILE (i <= LEN(clean_handle))
+         IF (handle(i) == c_null_char) EXIT
+         clean_handle(i:i) = handle(i)
+         i = i + 1
+      END DO
+
+      call PDAF_parse(clean_handle, realvalue)
+
+   END SUBROUTINE c__PDAF_parse_real
+
+   SUBROUTINE c__PDAF_parse_string(handle, charvalue) bind(c)
+      CHARACTER(kind=c_char), DIMENSION(*), INTENT(in) :: handle
+      CHARACTER(kind=c_char), DIMENSION(*), INTENT(inout) :: charvalue
+      CHARACTER(len=32) :: clean_handle
+      CHARACTER(len=100) :: clean_charvalue
+      INTEGER :: i
+
+      clean_handle = ""
+      i = 1
+      DO WHILE (i <= LEN(clean_handle))
+         IF (handle(i) == c_null_char) EXIT
+         clean_handle(i:i) = handle(i)
+         i = i + 1
+      END DO
+
+      clean_charvalue = ""
+      i = 1
+      DO WHILE (i <= LEN(clean_charvalue))
+         IF (charvalue(i) == c_null_char) EXIT
+         clean_charvalue(i:i) = charvalue(i)
+         i = i + 1
+      END DO
+
+      call PDAF_parse(clean_handle, clean_charvalue)
+
+      DO i = 1, LEN(clean_charvalue)
+         charvalue(i) = clean_charvalue(i:i)
+      END DO
+      charvalue(LEN(clean_charvalue) + 1) = c_null_char
+
+   END SUBROUTINE c__PDAF_parse_string
+
+   SUBROUTINE c__PDAF_parse_logical(handle, logvalue) bind(c)
+      CHARACTER(kind=c_char), DIMENSION(*), INTENT(in) :: handle
+      LOGICAL(c_bool), INTENT(inout) :: logvalue
+      CHARACTER(len=32) :: clean_handle
+      LOGICAL :: f_logvalue
+      INTEGER :: i
+
+      clean_handle = ""
+      i = 1
+      DO WHILE (i <= LEN(clean_handle))
+         IF (handle(i) == c_null_char) EXIT
+         clean_handle(i:i) = handle(i)
+         i = i + 1
+      END DO
+
+      f_logvalue = LOGICAL(logvalue)
+      call PDAF_parse(clean_handle, f_logvalue)
+      logvalue = f_logvalue
+
+   END SUBROUTINE c__PDAF_parse_logical
 
    SUBROUTINE c__PDAF_gather_dim_obs_f(dim_obs_p, dim_obs_f) bind(c)
       ! PE-local observation dimension

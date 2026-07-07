@@ -1,6 +1,6 @@
 module pdafomi_c_legacy
 use iso_c_binding, only: c_int, c_double, c_bool
-use pdafomi_c, only: n_obs_omi, thisobs, thisobs_l
+use pdafomi_c_type, only: thisobs
 use pdafomi_obs_l
 implicit none
 contains
@@ -171,72 +171,6 @@ contains
          dim_obs, locweight, cradius, sradius, coords, hp, hxy)
 
    END SUBROUTINE c__PDAFomi_localize_covar_serial_noniso
-
-   SUBROUTINE c__PDAFomi_init_dim_obs_l_iso_old(i_obs, coords_l, locweight, cradius,  &
-      sradius, cnt_obs_l) bind(c)
-      ! index into observation arrays
-      INTEGER(c_int), INTENT(in) :: i_obs
-
-      ! Coordinates of current analysis domain
-      REAL(c_double), DIMENSION(:), INTENT(in) :: coords_l
-      ! Type of localization function
-      INTEGER(c_int), INTENT(in) :: locweight
-      ! Localization cut-off radius (single or vector)
-      REAL(c_double), INTENT(in) :: cradius
-      ! Support radius of localization function (single or vector)
-      REAL(c_double), INTENT(in) :: sradius
-      ! Local dimension of current observation vector
-      INTEGER(c_int), INTENT(inout) :: cnt_obs_l
-
-
-      call PDAFomi_init_dim_obs_l_iso_old(thisobs_l(i_obs), thisobs(i_obs),  &
-         coords_l, locweight, cradius, sradius, cnt_obs_l)
-
-   END SUBROUTINE c__PDAFomi_init_dim_obs_l_iso_old
-
-   SUBROUTINE c__PDAFomi_init_dim_obs_l_noniso_old(i_obs, coords_l, locweight,  &
-      cradius, sradius, cnt_obs_l) bind(c)
-      ! index into observation arrays
-      INTEGER(c_int), INTENT(in) :: i_obs
-
-      ! Coordinates of current analysis domain
-      REAL(c_double), DIMENSION(:), INTENT(in) :: coords_l
-      ! Type of localization function
-      INTEGER(c_int), INTENT(in) :: locweight
-      ! Vector of localization cut-off radii
-      REAL(c_double), DIMENSION(:), INTENT(in) :: cradius
-      ! Vector of support radii of localization function
-      REAL(c_double), DIMENSION(:), INTENT(in) :: sradius
-      ! Local dimension of current observation vector
-      INTEGER(c_int), INTENT(inout) :: cnt_obs_l
-
-
-      call PDAFomi_init_dim_obs_l_noniso_old(thisobs_l(i_obs), thisobs(i_obs),  &
-         coords_l, locweight, cradius, sradius, cnt_obs_l)
-
-   END SUBROUTINE c__PDAFomi_init_dim_obs_l_noniso_old
-
-   SUBROUTINE c__PDAFomi_init_dim_obs_l_noniso_locweights_old(i_obs, coords_l,  &
-      locweights, cradius, sradius, cnt_obs_l) bind(c)
-      ! index into observation arrays
-      INTEGER(c_int), INTENT(in) :: i_obs
-
-      ! Coordinates of current analysis domain
-      REAL(c_double), DIMENSION(:), INTENT(in) :: coords_l
-      ! Types of localization function
-      INTEGER(c_int), DIMENSION(:), INTENT(in) :: locweights
-      ! Vector of localization cut-off radii
-      REAL(c_double), DIMENSION(:), INTENT(in) :: cradius
-      ! Vector of support radii of localization function
-      REAL(c_double), DIMENSION(:), INTENT(in) :: sradius
-      ! Local dimension of current observation vector
-      INTEGER(c_int), INTENT(inout) :: cnt_obs_l
-
-
-      call PDAFomi_init_dim_obs_l_noniso_locweights_old(thisobs_l(i_obs),  &
-         thisobs(i_obs), coords_l, locweights, cradius, sradius, cnt_obs_l)
-
-   END SUBROUTINE c__PDAFomi_init_dim_obs_l_noniso_locweights_old
 
    SUBROUTINE c__PDAFomi_deallocate_obs(i_obs) bind(c)
       ! index into observation arrays

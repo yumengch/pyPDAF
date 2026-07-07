@@ -21,8 +21,15 @@ cdef extern void c__pdaf_set_offline_mode(
 cdef extern void c__pdaf_set_rparam(int* id, double* value,
     int* flag) noexcept nogil;
 
+cdef extern void c__pdaf_genobs_set_rparam(int* id, double* value,
+    int* flag) noexcept nogil;
+
 cdef extern void c__pdaf_set_seedset(
     int* seedset_in) noexcept nogil;
+
+cdef extern void c__pdaf_set_seed(int* seedvec) noexcept nogil;
+
+cdef extern void c__pdaf_set_seedvec(int* seedvec) noexcept nogil;
 
 cdef extern void c__pdaf_set_smootherens(CFI_cdesc_t* sens_point,
     int* maxlag, int* status) noexcept nogil;

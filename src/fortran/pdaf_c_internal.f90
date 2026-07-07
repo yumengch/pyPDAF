@@ -33,6 +33,28 @@ contains
       call PDAF_timeit(timerID, clean_operation)
    END SUBROUTINE c__PDAF_timeit
 
+   SUBROUTINE c__PDAF_time_temp(timerID, time_temp) bind(c)
+      use PDAF_timer, only: PDAF_time_temp
+      implicit none
+      ! ID of timer
+      INTEGER(c_int), INTENT(in) :: timerID
+      ! Value of last timing interval in seconds
+      REAL(c_double), INTENT(out) :: time_temp
+
+      time_temp = PDAF_time_temp(timerID)
+   END SUBROUTINE c__PDAF_time_temp
+
+   SUBROUTINE c__PDAF_time_tot(timerID, time_tot) bind(c)
+      use PDAF_timer, only: PDAF_time_tot
+      implicit none
+      ! ID of timer
+      INTEGER(c_int), INTENT(in) :: timerID
+      ! Accumulated timer value in seconds
+      REAL(c_double), INTENT(out) :: time_tot
+
+      time_tot = PDAF_time_tot(timerID)
+   END SUBROUTINE c__PDAF_time_tot
+
    SUBROUTINE c__PDAF_set_forget(step, localfilter, dim_obs_p, dim_ens, mens_p,  &
       mstate_p, obs_p, u_init_obsvar, forget_in, forget_out, screen) bind(c)
       use PDAF_analysis_utils
@@ -682,7 +704,7 @@ contains
 
    SUBROUTINE c__PDAF_lnetf_smootherT(domain_p, step, dim_obs_f, dim_obs_l,  &
       dim_ens, hx_f, rndmat, u_g2l_obs, u_init_obs_l, u_likelihood_l, screen,  &
-      t, flag) bind(c)
+      t, flag, first) bind(c)
       use PDAF_lnetf_analysis
       implicit none
       ! Current local analysis domain
@@ -705,6 +727,8 @@ contains
       REAL(c_double), DIMENSION(dim_ens, dim_ens), INTENT(inout) :: t
       ! Status flag
       INTEGER(c_int), INTENT(inout) :: flag
+      ! Whether this is the first smoother call
+      INTEGER(c_int), INTENT(in) :: first
 
       ! Restrict full obs. vector to local analysis domain
       procedure(c__g2l_obs_pdaf) :: u_g2l_obs
@@ -718,13 +742,14 @@ contains
       likelihood_l_pdaf_c_ptr => u_likelihood_l
 
       call PDAF_lnetf_smootherT(domain_p, step, dim_obs_f, dim_obs_l, dim_ens,  &
-         hx_f, rndmat, f__g2l_obs_pdaf, f__init_obs_l_pdaf, f__likelihood_l_pdaf, screen, t, flag)
+         hx_f, rndmat, f__g2l_obs_pdaf, f__init_obs_l_pdaf,  &
+         f__likelihood_l_pdaf, screen, t, flag, first)
 
    END SUBROUTINE c__PDAF_lnetf_smootherT
 
    SUBROUTINE c__PDAF_smoother_lnetf(domain_p, step, dim_p, dim_l, dim_ens,  &
       dim_lag, ainv, ens_l, sens_p, cnt_maxlag, u_g2l_state, u_l2g_state,  &
-      screen) bind(c)
+      screen, first) bind(c)
       use PDAF_lnetf_analysis
       implicit none
       ! Current local analysis domain
@@ -749,6 +774,8 @@ contains
       INTEGER(c_int), INTENT(inout) :: cnt_maxlag
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: screen
+      ! Whether this is the first smoother call
+      INTEGER(c_int), INTENT(in) :: first
 
       ! Get state on local ana. domain from global state
       procedure(c__g2l_state_pdaf) :: u_g2l_state
@@ -759,7 +786,8 @@ contains
       l2g_state_pdaf_c_ptr => u_l2g_state
 
       call PDAF_smoother_lnetf(domain_p, step, dim_p, dim_l, dim_ens, dim_lag,  &
-         ainv, ens_l, sens_p, cnt_maxlag, f__g2l_state_pdaf, f__l2g_state_pdaf, screen)
+         ainv, ens_l, sens_p, cnt_maxlag, f__g2l_state_pdaf,  &
+         f__l2g_state_pdaf, screen, first)
 
    END SUBROUTINE c__PDAF_smoother_lnetf
 
@@ -801,6 +829,37 @@ contains
 
    END SUBROUTINE c__PDAF_memcount
 
+   SUBROUTINE c__PDAF_memcount_get(id, munit, memcount_value) bind(c)
+      use PDAF_memcounting, only: PDAF_memcount_get
+      implicit none
+      ! Id of the counter
+      INTEGER(c_int), INTENT(in) :: id
+      ! Unit of output: B, K, M, or G
+      CHARACTER(kind=c_char), dimension(*), INTENT(in) :: munit
+      ! Memory count in the requested unit
+      REAL(c_double), INTENT(out) :: memcount_value
+
+
+      memcount_value = PDAF_memcount_get(id, munit(1))
+
+   END SUBROUTINE c__PDAF_memcount_get
+
+   SUBROUTINE c__PDAF_memcount_get_global(id, munit, comm, memcount_value) bind(c)
+      use PDAF_memcounting, only: PDAF_memcount_get_global
+      implicit none
+      ! Id of the counter
+      INTEGER(c_int), INTENT(in) :: id
+      ! Unit of output: B, K, M, or G
+      CHARACTER(kind=c_char), dimension(*), INTENT(in) :: munit
+      ! Communicator
+      INTEGER(c_int), INTENT(in) :: comm
+      ! Globally reduced memory count in the requested unit
+      REAL(c_double), INTENT(out) :: memcount_value
+
+      memcount_value = PDAF_memcount_get_global(id, munit(1), comm)
+
+   END SUBROUTINE c__PDAF_memcount_get_global
+
    SUBROUTINE c__PDAF_init_filters(type_filter, subtype, param_int, dim_pint,  &
       param_real, dim_preal, filterstr, ensemblefilter, fixedbasis, screen,  &
       flag) bind(c)
@@ -830,15 +889,18 @@ contains
       INTEGER(c_int), INTENT(inout) :: flag
 
       logical :: ensemblefilter_out, fixedbasis_out
+      integer :: i, n
       CHARACTER(len=10) :: local_filterstr  ! Local buffer for the string
 
       call PDAF_init_filters(type_filter, subtype, param_int, dim_pint,  &
          param_real, dim_preal, local_filterstr, ensemblefilter_out, fixedbasis_out, screen,  &
          flag)
-
       ! Copy the string to the output buffer
-      filterstr(1:len_trim(local_filterstr)+1) = trim(local_filterstr) // c_null_char
-
+      n = len_trim(local_filterstr)
+      do i = 1, n
+         filterstr(i) = local_filterstr(i:i)
+      end do
+      filterstr(n + 1) = c_null_char
       ensemblefilter = ensemblefilter_out
       fixedbasis = fixedbasis_out
    END SUBROUTINE c__PDAF_init_filters
@@ -868,30 +930,6 @@ contains
       call PDAF_alloc_filters(clean_filterstr, subtype, flag)
 
    END SUBROUTINE c__PDAF_alloc_filters
-
-   SUBROUTINE c__PDAF_configinfo_filters(subtype, verbose) bind(c)
-      use PDAF_utils_filters
-      implicit none
-      ! Sub-type of filter
-      INTEGER(c_int), INTENT(inout) :: subtype
-      ! Control screen output
-      INTEGER(c_int), INTENT(in) :: verbose
-
-
-      call PDAF_configinfo_filters(subtype, verbose)
-
-   END SUBROUTINE c__PDAF_configinfo_filters
-
-   SUBROUTINE c__PDAF_options_filters(type_filter) bind(c)
-      use PDAF_utils_filters
-      implicit none
-      ! Type of filter
-      INTEGER(c_int), INTENT(in) :: type_filter
-
-
-      call PDAF_options_filters(type_filter)
-
-   END SUBROUTINE c__PDAF_options_filters
 
    SUBROUTINE c__PDAF_print_info_filters(printtype) bind(c)
       use PDAF_utils_filters
@@ -2093,12 +2131,6 @@ contains
 
    END SUBROUTINE c__PDAF_hyb3dvar_costf_cg_cvt
 
-   SUBROUTINE c__PDAF_print_version() bind(c)
-      use PDAF_info
-      implicit none
-      call PDAF_print_version()
-
-   END SUBROUTINE c__PDAF_print_version
 
    SUBROUTINE c__PDAFen3dvar_analysis_cvt(step, dim_p, dim_obs_p, dim_ens,  &
       dim_cvec_ens, state_p, ens_p, state_inc_p, hxbar_p, obs_p, u_prodrinva,  &
@@ -2165,44 +2197,6 @@ contains
       call PDAF_sisort(n, veca)
 
    END SUBROUTINE c__PDAF_sisort
-
-   ! SUBROUTINE c__PDAF_unbiased_moments_from_summed_residuals(dim_ens, dim_p,  &
-   !    kmax, sum_expo_resid, moments) bind(c)
-   !    ! number of ensemble members/samples
-   !    INTEGER(c_int), INTENT(in) :: dim_ens
-   !    ! local size of the state
-   !    INTEGER(c_int), INTENT(in) :: dim_p
-   !    ! maximum order of central moment that is computed, maximum is 4
-   !    INTEGER(c_int), INTENT(in) :: kmax
-   !    ! sum of exponentiated residulals
-   !    REAL(c_double), DIMENSION(dim_p, kmax), INTENT(in) :: sum_expo_resid
-   !    ! The columns contain the moments of the ensemble
-   !    REAL(c_double), DIMENSION(dim_p, kmax), INTENT(inout) :: moments
-
-
-   !    call PDAF_unbiased_moments_from_summed_residuals(dim_ens, dim_p, kmax,  &
-   !       sum_expo_resid, moments)
-
-   ! END SUBROUTINE c__PDAF_unbiased_moments_from_summed_residuals
-
-   ! SUBROUTINE c__PDAF_biased_moments_from_summed_residuals(dim_ens, dim_p,  &
-   !    kmax, sum_expo_resid, moments) bind(c)
-   !    ! number of ensemble members/samples
-   !    INTEGER(c_int), INTENT(in) :: dim_ens
-   !    ! local size of the state
-   !    INTEGER(c_int), INTENT(in) :: dim_p
-   !    ! maximum order of central moment that is computed, maximum is 4
-   !    INTEGER(c_int), INTENT(in) :: kmax
-   !    ! sum of exponentiated residulals
-   !    REAL(c_double), DIMENSION(dim_p, kmax), INTENT(in) :: sum_expo_resid
-   !    ! The columns contain the moments of the ensemble
-   !    REAL(c_double), DIMENSION(dim_p, kmax), INTENT(inout) :: moments
-
-
-   !    call PDAF_biased_moments_from_summed_residuals(dim_ens, dim_p, kmax,  &
-   !       sum_expo_resid, moments)
-
-   ! END SUBROUTINE c__PDAF_biased_moments_from_summed_residuals
 
    SUBROUTINE c__PDAF_enkf_ana_rlm(step, dim_p, dim_obs_p, dim_obs, dim_ens, rank_ana,  &
       state_p, ens_p, hzb, hx_p, hxbar_p, obs_p, u_add_obs_err,  &
@@ -3132,10 +3126,13 @@ contains
 
    END SUBROUTINE c__PDAFobs_dealloc
 
-   SUBROUTINE c__PDAFobs_dealloc_local() bind(c)
+   SUBROUTINE c__PDAFobs_dealloc_local(mode) bind(c)
       use PDAFobs
       implicit none
-      call PDAFobs_dealloc_local()
+      ! Deallocation mode
+      INTEGER(c_int), INTENT(in) :: mode
+
+      call PDAFobs_dealloc_local(mode)
 
    END SUBROUTINE c__PDAFobs_dealloc_local
 
@@ -4469,6 +4466,21 @@ contains
 
    END SUBROUTINE c__PDAF_prepost
 
+   SUBROUTINE c__PDAF_prepost_offline(u_prepoststep, outflag) bind(c)
+      use PDAFprepost
+      implicit none
+      ! Status flag
+      INTEGER(c_int), INTENT(out) :: outflag
+
+      ! User supplied pre/poststep routine
+      procedure(c__prepoststep_pdaf) :: u_prepoststep
+
+      prepoststep_pdaf_c_ptr => u_prepoststep
+
+      call PDAF_prepost_offline(f__prepoststep_pdaf, outflag)
+
+   END SUBROUTINE c__PDAF_prepost_offline
+
    SUBROUTINE c__PDAFenkf_update(step, dim_p, dim_obs_p, dim_ens, state_p,  &
       ens_p, u_init_dim_obs, u_obs_op, u_add_obs_err, u_init_obs,  &
       u_init_obs_covar, u_prepoststep, screen, subtype, dim_lag, sens_p,  &
@@ -5611,7 +5623,7 @@ contains
 
    SUBROUTINE c__PDAF_smoothing_local(domain_p, step, dim_p, dim_l, dim_ens,  &
       dim_lag, ainv, ens_l, sens_p, cnt_maxlag, u_g2l_state, u_l2g_state,  &
-      forget, screen) bind(c)
+      forget, screen, first) bind(c)
       use PDAF_smoother
       implicit none
       ! Current local analysis domain
@@ -5638,6 +5650,8 @@ contains
       REAL(c_double), INTENT(in) :: forget
       ! Verbosity flag
       INTEGER(c_int), INTENT(in) :: screen
+      ! Whether this is the first smoother call
+      INTEGER(c_int), INTENT(in) :: first
 
       ! Get state on local ana. domain from global state
       procedure(c__g2l_state_pdaf) :: u_g2l_state
@@ -5648,7 +5662,8 @@ contains
       l2g_state_pdaf_c_ptr => u_l2g_state
 
       call PDAF_smoothing_local(domain_p, step, dim_p, dim_l, dim_ens, dim_lag,  &
-         ainv, ens_l, sens_p, cnt_maxlag, f__g2l_state_pdaf, f__l2g_state_pdaf, forget, screen)
+         ainv, ens_l, sens_p, cnt_maxlag, f__g2l_state_pdaf,  &
+         f__l2g_state_pdaf, forget, screen, first)
 
    END SUBROUTINE c__PDAF_smoothing_local
 

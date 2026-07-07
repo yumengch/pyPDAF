@@ -53,8 +53,7 @@ def iau_init_weights(int  type_iau, int  nsteps_iau):
     Returns
     -------
     """
-    with nogil:
-        c__pdaf_iau_init_weights(&type_iau, &nsteps_iau)
+    c__pdaf_iau_init_weights(&type_iau, &nsteps_iau)
 
 
 
@@ -91,14 +90,13 @@ def iau_update_inc(double [::1,:] ens_ana, double [::1] state_ana):
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_ana_np = np.asarray(state_ana, dtype=np.float64, order="F")
 
 
-    with nogil:
-        CFI_establish(<CFI_cdesc_t *> &ens_ana_cfi, &ens_ana[0,0], CFI_attribute_other,
+    CFI_establish(<CFI_cdesc_t *> &ens_ana_cfi, &ens_ana[0,0], CFI_attribute_other,
                       CFI_type_double , ens_ana_nbytes, 2, ens_ana_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &state_ana_cfi, &state_ana[0], CFI_attribute_other,
-                      CFI_type_double , state_ana_nbytes, 1, state_ana_extent)
+    CFI_establish(<CFI_cdesc_t *> &state_ana_cfi, &state_ana[0], CFI_attribute_other,
+                    CFI_type_double , state_ana_nbytes, 1, state_ana_extent)
 
-        c__pdaf_iau_update_inc(<CFI_cdesc_t *> &ens_ana_cfi, <CFI_cdesc_t *> &state_ana_cfi)
+    c__pdaf_iau_update_inc(<CFI_cdesc_t *> &ens_ana_cfi, <CFI_cdesc_t *> &state_ana_cfi)
 
     return ens_ana_np, state_ana_np
 
@@ -176,18 +174,17 @@ def iau_add_inc_ens(int  step, int  dim_p, int  dim_ens_task,
     state_extent[0] = state.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_np = np.asarray(state, dtype=np.float64, order="F")
 
-    pdaf_cb.collect_state_pdaf = <void*>py__collect_state_pdaf
-    pdaf_cb.distribute_state_pdaf = <void*>py__distribute_state_pdaf
-    with nogil:
-        CFI_establish(<CFI_cdesc_t *> &ens_cfi, &ens[0,0], CFI_attribute_other,
+    pdaf_cb.collect_state_pdaf = py__collect_state_pdaf
+    pdaf_cb.distribute_state_pdaf = py__distribute_state_pdaf
+    CFI_establish(<CFI_cdesc_t *> &ens_cfi, &ens[0,0], CFI_attribute_other,
                       CFI_type_double , ens_nbytes, 2, ens_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &state_cfi, &state[0], CFI_attribute_other,
+    CFI_establish(<CFI_cdesc_t *> &state_cfi, &state[0], CFI_attribute_other,
                       CFI_type_double , state_nbytes, 1, state_extent)
 
-        c__pdaf_iau_add_inc_ens(&step, &dim_p, &dim_ens_task, <CFI_cdesc_t *> &ens_cfi, <CFI_cdesc_t *> &state_cfi,
-                                pdaf_cb.c__collect_state_pdaf,
-                                pdaf_cb.c__distribute_state_pdaf)
+    c__pdaf_iau_add_inc_ens(&step, &dim_p, &dim_ens_task, <CFI_cdesc_t *> &ens_cfi, <CFI_cdesc_t *> &state_cfi,
+                            pdaf_cb.c__collect_state_pdaf,
+                            pdaf_cb.c__distribute_state_pdaf)
 
     return ens_np, state_np
 
@@ -224,14 +221,13 @@ def iau_update_ens(double [::1,:] ens, double [::1] state):
     state_extent[0] = state.shape[0]
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_np = np.asarray(state, dtype=np.float64, order="F")
 
-    with nogil:
-        CFI_establish(<CFI_cdesc_t *> &ens_cfi, &ens[0,0], CFI_attribute_other,
+    CFI_establish(<CFI_cdesc_t *> &ens_cfi, &ens[0,0], CFI_attribute_other,
                       CFI_type_double , ens_nbytes, 2, ens_extent)
 
-        CFI_establish(<CFI_cdesc_t *> &state_cfi, &state[0], CFI_attribute_other,
-                      CFI_type_double , state_nbytes, 1, state_extent)
+    CFI_establish(<CFI_cdesc_t *> &state_cfi, &state[0], CFI_attribute_other,
+                  CFI_type_double , state_nbytes, 1, state_extent)
 
-        c__pdaf_iau_update_ens(<CFI_cdesc_t *> &ens_cfi, <CFI_cdesc_t *> &state_cfi)
+    c__pdaf_iau_update_ens(<CFI_cdesc_t *> &ens_cfi, <CFI_cdesc_t *> &state_cfi)
 
     return ens_np, state_np
 
@@ -240,8 +236,7 @@ def iau_dealloc():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    with nogil:
-        c__pdaf_iau_dealloc()
+    c__pdaf_iau_dealloc()
 
 
 

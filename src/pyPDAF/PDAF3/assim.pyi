@@ -2209,3 +2209,63 @@ def generate_obs_offline(py__init_dim_obs_pdaf:Callable, py__obs_op_pdaf:Callabl
     outflag : int
         Status flag
     """
+
+def prepost(
+    py__collect_state_pdaf: Callable,
+    py__distribute_state_pdaf: Callable,
+    py__prepoststep_pdaf: Callable,
+    py__next_observation_pdaf: Callable,
+    outflag: int
+) -> int:
+    """Run PDAF3 pre/post processing in an externally managed model loop.
+
+    This wrapper calls PDAF3's pre/post helper without running a full analysis
+    routine. It is useful when a Python or model-side time loop manages the
+    forecast progression but still wants PDAF to collect the state, distribute
+    state values, run the user pre/post callback, and determine the next
+    observation time.
+
+    Parameters
+    ----------
+    py__collect_state_pdaf : Callable
+        Callback that collects the model state into PDAF's state vector.
+        See :func:`pyPDAF.pdaf_c_cb_interface.c__collect_state_pdaf`.
+    py__distribute_state_pdaf : Callable
+        Callback that distributes a PDAF state vector back to the model.
+        See :func:`pyPDAF.pdaf_c_cb_interface.c__distribute_state_pdaf`.
+    py__prepoststep_pdaf : Callable
+        Callback executed before or after PDAF processing.
+        See :func:`pyPDAF.pdaf_c_cb_interface.c__prepoststep_pdaf`.
+    py__next_observation_pdaf : Callable
+        Callback that returns the number of model steps until the next
+        observation time. See
+        :func:`pyPDAF.pdaf_c_cb_interface.c__next_observation_pdaf`.
+    outflag : int
+        PDAF status flag supplied to the routine.
+
+    Returns
+    -------
+    outflag : int
+        Updated PDAF status flag.
+    """
+
+def prepost_offline(py__prepoststep_pdaf: Callable, outflag: int) -> int:
+    """Run PDAF3 offline pre/post processing.
+
+    This helper is the offline variant of :func:`prepost`. It only requires
+    the pre/post callback because the state collection, distribution, and
+    next-observation callbacks are not needed in the offline workflow.
+
+    Parameters
+    ----------
+    py__prepoststep_pdaf : Callable
+        Callback executed before or after PDAF processing.
+        See :func:`pyPDAF.pdaf_c_cb_interface.c__prepoststep_pdaf`.
+    outflag : int
+        PDAF status flag supplied to the routine.
+
+    Returns
+    -------
+    outflag : int
+        Updated PDAF status flag.
+    """

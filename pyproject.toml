@@ -7,7 +7,7 @@ name = "pyPDAF"
 authors = [
     {name = "Yumeng Chen", email = "yumeng.chen@reading.ac.uk"},
 ]
-version = "1.0.4"
+version = "1.1"
 description = "A Python interface to Parallel Data Assimilation Framework (PDAF)"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -16,3 +16,8 @@ license = {text = "GPL License"}
 dependencies = [
     "numpy", "mpi4py"
 ]
+
+[project.scripts]
+pypdaf-version = "pyPDAF._cli:print_version_main"
+pypdaf-filter-types = "pyPDAF._cli:print_filter_types_main"
+pypdaf-filter-options = "pyPDAF._cli:options_filters_main"

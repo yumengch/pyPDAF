@@ -12,6 +12,7 @@ pyPDAF - A Python interface to Parallel Data Assimilation Framework
    :caption: Contents:
 
    install
+   workflow
    naming_convention
    parallel
    develop

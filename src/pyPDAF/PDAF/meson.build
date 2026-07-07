@@ -16,8 +16,8 @@ foreach file :pypdaf_sources
     fs.stem(file),
     file,
     link_with: pdafc_lib,
-    dependencies : [mpi, dep_py, blas_dep, fruntime_dep],
-    include_directories: include_directories([incdir_numpy]),
+    dependencies : [mpi, dep_py, blas_dep, openmp_dep_c],
+    include_directories: [incdir_numpy, fallback_inc],
     c_args: c_cython_args,
     link_args: link_args,
     cython_args : cython_args,
@@ -28,5 +28,5 @@ foreach file :pypdaf_sources
 endforeach
 
 python.install_sources(['__init__.py', 'py.typed', 'diag.pyi', 'get.pyi',
-                        'iau.pyi', '_pdaf_c.pyi', 'setter.pyi',
+                        'iau.pyi', 'internal.pyi', '_pdaf_c.pyi', 'setter.pyi',
                         'assim.pyi'], subdir: 'pyPDAF/PDAF')

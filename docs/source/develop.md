@@ -159,11 +159,10 @@ def eofcovar(int  dim, int  nstates, int  nfields, int [::1] dim_fields,
     cdef double [::1,:] svec = svec_np
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] meanstate_np = np.asarray(meanstate, dtype=np.float64, order="F")
     cdef int  status
-    with nogil:
-        c__pdaf_eofcovar(&dim, &nstates, &nfields, &dim_fields[0],
-                         &offsets[0], &remove_mstate, &do_mv, &states[0,0],
-                         &stddev[0], &svals[0], &svec[0,0], &meanstate[0],
-                         &verbose, &status)
+    c__pdaf_eofcovar(&dim, &nstates, &nfields, &dim_fields[0],
+                     &offsets[0], &remove_mstate, &do_mv, &states[0,0],
+                     &stddev[0], &svals[0], &svec[0,0], &meanstate[0],
+                     &verbose, &status)
 
     return states_np, stddev_np, svals_np, svec_np, meanstate_np, status
 ```
@@ -294,14 +293,13 @@ where `init_ens_pdaf` is defined in `src/pyPDAF/pdaf_c_cb_interface.pxd` as a po
 The pointer is associated in pyPDAF functions, for example, in `src/pyPDAF/PDAF3/_pdaf3_c.pyx`:
 ```cython
 from pyPDAF cimport pdaf_c_cb_interface as pdaf_cb
-pdaf_cb.init_ens_pdaf = <void*>py__init_ens_pdaf
+pdaf_cb.init_ens_pdaf = py__init_ens_pdaf
 ```
 where `py__init_ens_pdaf` is the Python call-back function. The C function,
 `pdaf_cb.c__init_ens_pdaf`, is
 used for calling Fortran subroutines:
 ```cython
-    with nogil:
-        c__pdaf3_init(&filtertype, &subtype, &stepnull, &param_int[0],
+    c__pdaf3_init(&filtertype, &subtype, &stepnull, &param_int[0],
                      &dim_pint, &param_real[0], &dim_preal,
                      pdaf_cb.c__init_ens_pdaf, &in_screen, &outflag)
 ```

@@ -4,6 +4,15 @@ use PDAF
 implicit none
 
 contains
+   SUBROUTINE c__PDAFomi_set_obs_diag(diag) bind(c)
+      ! Value for observation diagnostics mode
+      INTEGER(c_int), INTENT(in) :: diag
+
+
+      call PDAFomi_set_obs_diag(diag)
+
+   END SUBROUTINE c__PDAFomi_set_obs_diag
+
    SUBROUTINE c__PDAFomi_diag_dimobs(dim_obs_ptr) bind(c)
       ! Pointer to observation dimensions
       INTEGER(c_int), POINTER, DIMENSION(:), INTENT(inout) :: dim_obs_ptr
@@ -88,6 +97,17 @@ contains
       call PDAFomi_diag_obs_rmsd(nobs, rmsd_pointer, verbose)
    END SUBROUTINE c__PDAFomi_diag_obs_rmsd
 
+   SUBROUTINE c__PDAFomi_diag_rmsd(nobs, rmsd_pointer, verbose) bind(c)
+      ! Number of observation types
+      INTEGER(c_int), INTENT(inout) :: nobs
+      ! Vector of RMSD values
+      REAL(c_double), POINTER, DIMENSION(:), INTENT(inout) :: rmsd_pointer
+      ! Verbosity flag
+      INTEGER(c_int), INTENT(in) :: verbose
+
+      call PDAFomi_diag_rmsd(nobs, rmsd_pointer, verbose)
+   END SUBROUTINE c__PDAFomi_diag_rmsd
+
    SUBROUTINE c__PDAFomi_diag_stats(nobs, obsstats_ptr, verbose) bind(c)
       ! Number of observation types
       INTEGER(c_int), INTENT(inout) :: nobs
@@ -99,4 +119,34 @@ contains
 
       call PDAFomi_diag_stats(nobs, obsstats_ptr, verbose)
    END SUBROUTINE c__PDAFomi_diag_stats
+
+   SUBROUTINE c__PDAFomi_diag_diffstats(nobs, obsstats_ptr, verbose) bind(c)
+      ! Number of observation types
+      INTEGER(c_int), INTENT(inout) :: nobs
+      ! Array of observation statistics
+      REAL(c_double), POINTER, DIMENSION(:,:), INTENT(inout) :: obsstats_ptr
+      ! Verbosity flag
+      INTEGER(c_int), INTENT(in) :: verbose
+
+      call PDAFomi_diag_diffstats(nobs, obsstats_ptr, verbose)
+   END SUBROUTINE c__PDAFomi_diag_diffstats
+
+   SUBROUTINE c__PDAFomi_diag_crps(nobs, crps_pointer, perturb, verbose) bind(c)
+      ! Number of observation types
+      INTEGER(c_int), INTENT(inout) :: nobs
+      ! Array of CRPS diagnostics
+      REAL(c_double), POINTER, DIMENSION(:,:), INTENT(inout) :: crps_pointer
+      ! Whether perturbations were used
+      INTEGER(c_int), INTENT(in) :: perturb
+      ! Verbosity flag
+      INTEGER(c_int), INTENT(in) :: verbose
+
+      call PDAFomi_diag_crps(nobs, crps_pointer, perturb, verbose)
+   END SUBROUTINE c__PDAFomi_diag_crps
+
+   SUBROUTINE c__PDAFomi_diag_omit_by_inno() bind(c)
+      call PDAFomi_diag_omit_by_inno()
+
+   END SUBROUTINE c__PDAFomi_diag_omit_by_inno
+
 end module pdafomi_c_diag
