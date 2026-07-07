@@ -1,4 +1,4 @@
-project('pyPDAF', 'cython', 'fortran', 'c', version: '1.0.4',
+project('pyPDAF', 'cython', 'fortran', 'c', version: '1.1',
   meson_version: '>=1.5.0', default_options: ['b_asneeded=false'])
 
 # get file system handling module

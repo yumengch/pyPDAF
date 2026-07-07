@@ -18,26 +18,27 @@ c_compiler:
 fortran_compiler:
     - flang      # [win]
 
-numpy_version:
-    - '>2'
+
+numpy:
+    - 2
 
 mpi:
     - mpich    # [not win]
     - msmpi    # [win]
 
 pymeson:
-    - '==0.19'  # [not win]
+    - '==0.19'
 
 zip_keys:
     - - openmp
-      - python_freethreading
+      - freethreaded
 
 openmp:
     - false
     - true
     - true
 
-python_freethreading:
+freethreaded:
     - false
     - false
     - true

@@ -1,6 +1,4 @@
 {% set version = "1.1" %}
-{% set openmp = openmp|default(false) %}
-{% set python_freethreading = python_freethreading|default(false) %}
 
 package:
   name: pypdaf
@@ -10,52 +8,42 @@ source:
   path: ..
 
 build:
-  number: 0
-  string: py{{ CONDA_PY }}{% if python_freethreading %}t{% endif %}{% if openmp %}_openmp{% endif %}_{{ PKG_BUILDNUM }}
-{% if python_freethreading %}
-  skip: true  # [py<313]
-{% endif %}
+  number: {{ 2 if openmp == "false" and freethreaded == "false" else 0 }}
+  string: py{{ CONDA_PY }}{% if freethreaded == "true" %}t{% endif %}{% if openmp == "true" %}_openmp{% endif %}_{{ PKG_BUILDNUM }}
+  skip: true  # [py<314 and freethreaded]
 
 requirements:
   host:
     - python
-{% if python_freethreading %}
-    - python-freethreading
-{% endif %}
+    - python-freethreading # [freethreaded]
     - meson-python {{ pymeson }}
-    - numpy {{numpy_version}}
+    - numpy
     - mpi=*={{ mpi }}
     - mpi4py
     - blas=*=openblas
-{% if openmp %}
-    - libgomp      # [linux]
-    - llvm-openmp-fortran  # [osx]
-    - llvm-openmp-fortran  # [win]
-{% endif %}
     - flang-rt_win-64 # [win]
     - libflang # [win]
   build:
     - python
     - {{ compiler('c') }}
     - {{ compiler('fortran') }}
+    - libgomp      # [linux and openmp]
+    - llvm-openmp  # [osx and openmp]    
+    - llvm-openmp-fortran  # [win and openmp]
     - vs2022_win-64     # [win]
-    - numpy {{numpy_version}}
+    - numpy
     - cython
   run:
     - flang-rt_win-64 # [win]
     - python
-{% if python_freethreading %}
-    - python-freethreading
-{% endif %}
-    - numpy
+    - python-freethreading # [freethreaded]
+    - numpy>2
     - mpi=*={{ mpi }}
     - mpi4py
     - blas=*=openblas
-{% if openmp %}
-    - libgomp      # [linux]
-    - llvm-openmp-fortran  # [osx]
-    - llvm-openmp-fortran  # [win]
-{% endif %}
+    - {{ pin_compatible('libgomp', exact=True) }} # [linux and openmp]
+    - {{ pin_compatible('llvm-openmp', exact=True) }} # [osx and openmp]
+    - {{ pin_compatible('llvm-openmp-fortran', exact=True) }} # [win and openmp]
 
 pin_run_as_build:
     mpi: x.x

@@ -10,7 +10,7 @@ authors = [
 version = "1.1"
 description = "A Python interface to Parallel Data Assimilation Framework (PDAF)"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 keywords = ["data assimilation", "PDAF"]
 license = {text = "GPL License"}
 dependencies = [
