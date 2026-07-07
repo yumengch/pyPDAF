@@ -1,39 +1,47 @@
-pyPDAF is a Python interface to the `Parallel Data Assimilation Framwork (PDAF) <http://pdaf.awi.de/trac/wiki>`_ written in Fortran.
-The latest pyPDAF supports PDAF-V3.0.
+pyPDAF is a Python interface to the
+`Parallel Data Assimilation Framework (PDAF) <http://pdaf.awi.de/trac/wiki>`_,
+which is written in Fortran. The latest pyPDAF supports PDAF-V3.1.2.
 
-As an interface to PDAF, pyPDAF supports all PDAF functionalities. You can use pyPDAF to construct
-a parallel ensemble data assimilation system purely in Python. The pyPDAF is designed as a framework
-that defines the workflow of given DA algorithms. Considering the versatility of the software,
-information on the model and observations are passed to the DA algorithms through user-supplied
-functions. With pyPDAF, all user-supplied functions can be implemented in Python. We expect that
-the coding of the user-supplied functions will be easier and more flexible than in Fortran due to
-the rich Python ecosystem.
+Data assimilation combines model forecasts with observations to produce an
+improved estimate of the model state, called an analysis. PDAF provides the
+assimilation algorithms. pyPDAF provides Python bindings and callback interfaces
+so that model-specific code, observation handling, and diagnostics can be written
+in Python.
 
-pyPDAF can be used with two modes:
-  - online mode: DA is performed without interrupting the model program. Here, the model code is
-    extended by calling PDAF functions to generate a single program. In online mode,
-    the filtering gets the model state and distributes the analysis to model by in-memory exchange.
-    This is the recommended mode for better efficiency.
-  - offline mode: DA is performed after the model program is finished. Here, a separate program
-    is generated to perform DA. In offline mode,
-    the filtering reads the model state from disk and writes the analysis to disk.
+pyPDAF is designed for workflows where the algorithm is general but the model
+and observations are application-specific. User-supplied Python functions tell
+PDAF how to initialise an ensemble, collect a model state, apply an observation
+operator, provide observation errors, and distribute an analysis back to the
+model or to files.
 
+pyPDAF can be used in two modes:
 
-The potential applications of pyPDAF include:
-  - online DA systems with Python models, e.g., machine-learning models
-  - offline DA systems
+- **Online mode**: data assimilation is part of the model program. The model
+  advances the ensemble, pyPDAF receives the forecast state in memory, computes
+  the analysis, and returns the updated state to the model. This is usually the
+  most efficient mode.
+- **Offline mode**: data assimilation is run by a separate program after the
+  model has written forecast or restart files. pyPDAF reads the state from disk,
+  computes the analysis, and writes updated files for the next model run.
 
-This is a great tool for researchers who want to test and develop new DA systems.
-Compared to Fortran systems, the efficiency is decreased mainly from user-supplied functions
-and overhead for array conversions between Fortran and Python. The core DA algorithms are
-as efficient as in PDAF. Note that, for computational
-intensive user-supplied functions, the efficiency can be improved by using just-in-time compilation
-tools such as `numba`.
+Typical applications include:
 
-To get started, we highly recommend to start from the Jupyter notebook
-example for
+- online data assimilation systems with Python models, including
+  machine-learning models;
+- offline data assimilation systems for existing model workflows;
+- rapid testing of data assimilation ideas, observation operators, and
+  diagnostics in Python.
+
+The core PDAF algorithms remain compiled Fortran routines. The main extra cost
+comes from Python user functions and array conversion between Python and Fortran.
+For computationally intensive callbacks, tools such as `numba` can often reduce
+this overhead.
+
+New users may want to read the :doc:`workflow` page before the API reference. To
+start with code, see the Jupyter notebook example for
 `a serial ensemble DA system using a simple wave model <https://github.com/yumengch/pyPDAF/blob/main/tutorials/tutorial1_serial.ipynb>`_.
 
-We also provide more structured offline and online examples. One can adapt these examples based on their needs
-  - `A parallel online ensemble DA system using a simple wave model <https://github.com/yumengch/pyPDAF/tree/main/example/online>`_
-  - `A parallel offline ensemble DA system using a simple wave model <https://github.com/yumengch/pyPDAF/tree/main/example/offline>`_
+More structured examples are also available:
+
+- `A parallel online ensemble DA system using a simple wave model <https://github.com/yumengch/pyPDAF/tree/main/example/online>`_
+- `A parallel offline ensemble DA system using a simple wave model <https://github.com/yumengch/pyPDAF/tree/main/example/offline>`_

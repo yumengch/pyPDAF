@@ -104,6 +104,63 @@ contains
 
    END SUBROUTINE c__PDAFomi_get_interp_coeff_lin
 
+
+   SUBROUTINE c__PDAFomi_get_interp_coeff_tri_vec(gpc, oc, icoeff) bind(c)
+      ! Coordinates of grid points; dim(3,2)
+      REAL(c_double), DIMENSION(:,:, :), INTENT(in) :: gpc
+      ! Coordinates of observation; dim(2)
+      REAL(c_double), DIMENSION(:, :), INTENT(in) :: oc
+      ! Interpolation coefficients; dim(3)
+      REAL(c_double), DIMENSION(:, :), INTENT(inout) :: icoeff
+
+      integer :: i, n_obs
+
+      n_obs = size(oc, dim=2)
+      do i = 1, n_obs
+         call PDAFomi_get_interp_coeff_tri(gpc(:, :, i), oc(:, i), icoeff(:, i))
+      end do
+
+   END SUBROUTINE c__PDAFomi_get_interp_coeff_tri_vec
+
+   SUBROUTINE c__PDAFomi_get_interp_coeff_lin1D_vec(gpc, oc, icoeff) bind(c)
+      ! Coordinates of grid points (dim=2)
+      REAL(c_double), DIMENSION(:, :), INTENT(in) :: gpc
+      ! Coordinates of observation
+      REAL(c_double), DIMENSION(:), INTENT(in) :: oc
+      ! Interpolation coefficients (dim=2)
+      REAL(c_double), DIMENSION(:, :), INTENT(inout) :: icoeff
+
+      integer :: i, n_obs
+
+      n_obs = size(oc)
+      do i = 1, n_obs
+         call PDAFomi_get_interp_coeff_lin1D(gpc(:, i), oc(i), icoeff(:, i))
+      end do
+
+   END SUBROUTINE c__PDAFomi_get_interp_coeff_lin1D_vec
+
+   SUBROUTINE c__PDAFomi_get_interp_coeff_lin_vec(num_gp, n_dim, gpc, oc,  &
+      icoeff) bind(c)
+      ! Length of icoeff
+      INTEGER(c_int), INTENT(in) :: num_gp
+      ! Number of dimensions in interpolation
+      INTEGER(c_int), INTENT(in) :: n_dim
+      ! Coordinates of grid points
+      REAL(c_double), DIMENSION(:,:,:), INTENT(in) :: gpc
+      ! Coordinates of observation
+      REAL(c_double), DIMENSION(:,:), INTENT(in) :: oc
+      ! Interpolation coefficients (num_gp)
+      REAL(c_double), DIMENSION(:, :), INTENT(inout) :: icoeff
+
+      integer :: i, n_obs
+
+      n_obs = size(oc, dim=2)
+      do i = 1, n_obs
+         call PDAFomi_get_interp_coeff_lin(num_gp, n_dim, gpc(:, :, i), oc(:, i), icoeff(:, i))
+      end do
+
+   END SUBROUTINE c__PDAFomi_get_interp_coeff_lin_vec
+
    SUBROUTINE c__PDAFomi_init_dim_obs_l_iso(i_obs, coords_l, locweight, cradius,  &
       sradius, cnt_obs_l_all) bind(c)
       ! index into observation arrays

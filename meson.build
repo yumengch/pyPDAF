@@ -355,4 +355,7 @@ subdir('src/pyPDAF/PDAFlocal')
 subdir('src/pyPDAF/PDAFlocalomi')
 subdir('src/pyPDAF/PDAFomi')
 
-python.install_sources(['src/pyPDAF/__init__.py', 'src/pyPDAF/py.typed'], subdir: 'pyPDAF')
+python.install_sources(
+  ['src/pyPDAF/__init__.py', 'src/pyPDAF/_cli.py', 'src/pyPDAF/py.typed'],
+  subdir: 'pyPDAF'
+)

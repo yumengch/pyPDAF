@@ -5,6 +5,12 @@ use pdaf_c_cb_interface
 implicit none
 
 contains
+   subroutine c__pdaf_flush_fortran_stdout() bind(C)
+      use iso_fortran_env, only: output_unit, error_unit
+      flush(output_unit)
+      flush(error_unit)
+   end subroutine c__pdaf_flush_fortran_stdout
+
    SUBROUTINE c__PDAF_print_version() bind(c)
       use PDAF_info
       implicit none

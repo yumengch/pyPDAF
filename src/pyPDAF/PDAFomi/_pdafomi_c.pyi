@@ -196,6 +196,105 @@ def get_interp_coeff_lin(num_gp: int, n_dim: int, gpc: np.ndarray,
         The array dimension `num_gp` is Length of icoeff
     """
 
+def get_interp_coeff_tri_vec(gpc: np.ndarray, oc: np.ndarray, icoeff: np.ndarray) -> np.ndarray:
+    r"""The coefficient for linear interpolation in 2D on unstructure triangular grid.
+
+    The resulting coefficient is used in :func:`pyPDAF.PDAFomi.obs_op_interp_lin`.
+
+    This function is for triangular model grid interpolation coefficients determined as barycentric coordinates.
+
+    This is similar to :func:`pyPDAF.PDAFomi.get_interp_coeff_tri`,
+    but it embeds the loop in Fortran to avoid loops in Python
+    so that one use a vector of observations.
+
+    Parameters
+    ----------
+    gpc : ndarray[tuple[3, 2, nobs], np.float64]
+        Coordinates of grid points with dimension of (3, 2, nobs).
+        3 grid points surrounding the observation;
+        each containing lon and lat coordinates.
+        The order of the grid points in gcoords has to
+        be consistent with the order of the indices specified in
+        `id_obs_p` of `obs_f`. The last dimension nobs is the number of observations.
+    oc : ndarray[tuple[2, nobs], np.float64]
+        Coordinates of observation (targeted location); dim(2, nobs)
+    icoeff : ndarray[tuple[3, nobs], np.float64]
+        Interpolation coefficients; dim(3, nobs)
+
+    Returns
+    -------
+    icoeff : ndarray[tuple[3, nobs], np.float64]
+         Interpolation coefficients; dim(3, nobs)
+
+    """
+
+
+def get_interp_coeff_lin1d_vec(gpc: np.ndarray, oc: np.ndarray, icoeff: np.ndarray) -> np.ndarray:
+    r"""The coefficient for linear interpolation in 1D.
+
+    The resulting coefficient is used in :func:`pyPDAF.PDAFomi.obs_op_interp_lin`.
+
+    This is similar to :func:`pyPDAF.PDAFomi.get_interp_coeff_lin1d`,
+    but it embeds the loop in Fortran to avoid loops in Python
+    so that one use a vector of observations.
+
+    Parameters
+    ----------
+    gpc : ndarray[tuple[2, nobs], np.float64]
+        Coordinates of grid points surrounding the observations (dim=(2, nobs))
+    oc : ndarray[tuple[nobs], np.float64]
+        Coordinates of observation (targeted location)  (dim=nobs)
+    icoeff : ndarray[tuple[2, nobs], np.float64]
+        Interpolation coefficients (dim=(2, nobs))
+
+    Returns
+    -------
+    icoeff : ndarray[tuple[2, nobs], np.float64]
+         Interpolation coefficients (dim=(2, nobs))
+
+    """
+
+
+def get_interp_coeff_lin_vec(num_gp: int, n_dim: int, gpc: np.ndarray, oc: np.ndarray, icoeff: np.ndarray) -> np.ndarray:
+    r"""The coefficient for linear interpolation up to 3D.
+
+    The resulting coefficient is used in :func:`pyPDAF.PDAFomi.obs_op_interp_lin`.
+
+    See introduction in `relevant PDAF-OMI wiki page
+    <https://pdaf.awi.de/trac/wiki/OMI_observation_operators#PDAFomi_get_interp_coeff_lin>`_
+
+    This is similar to :func:`pyPDAF.PDAFomi.get_interp_coeff_lin`,
+    but it embeds the loop in Fortran to avoid loops in Python
+    so that one use a vector of observations.
+
+    Parameters
+    ----------
+    gpc : ndarray[tuple[num_gp, n_dim, nobs], np.float64]
+        Coordinates of grid points
+        The order of the grid points in gcoords has to
+        be consistent with the order of the indices specified in
+        `id_obs_p` of `obs_f`.
+        The 1st-th dimension num_gp is Length of icoeff
+        The 2nd-th dimension n_dim is Number of dimensions in interpolation
+        The 3rd-th dimension nobs is Number of observations
+    oc : ndarray[tuple[n_dim, nobs], np.float64]
+        Coordinates of observation
+        The array dimension `n_dim` is Number of dimensions in interpolation
+        `nobs` is Number of observations
+    icoeff : ndarray[tuple[num_gp, nobs], np.float64]
+        Interpolation coefficients (num_gp, nobs)
+        The array dimension `num_gp` is Length of icoeff
+        The 2nd-th dimension `nobs` is Number of observations
+
+    Returns
+    -------
+    icoeff : ndarray[tuple[num_gp, nobs], np.float64]
+         Interpolation coefficients (num_gp, nobs)
+
+        The array dimension `num_gp` is Length of icoeff
+        The 2nd-th dimension `nobs` is Number of observations
+    """
+
 def init_dim_obs_l_iso(i_obs: int, coords_l: np.ndarray, locweight: int,
                        cradius: float, sradius: float, cnt_obs_l_all: int) -> int:
     r"""Initialize the observation information corresponding to an isotropic local analysis domain.

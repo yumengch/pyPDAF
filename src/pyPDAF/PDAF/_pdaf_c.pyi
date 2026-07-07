@@ -4,6 +4,14 @@ import numpy as np
 from numpy.typing import NDArray
 
 
+def flush_fortran_stdout():
+    """Flush the Fortran standard output buffer.
+
+    This function is useful when Fortran code is called from Python
+    and the output is buffered. It ensures that all output is printed
+    to the console immediately.
+    """
+
 def print_version():
     """Display version information for PDAF
     """

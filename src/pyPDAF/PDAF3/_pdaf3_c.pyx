@@ -141,13 +141,16 @@ def init_parallel(int screen, int type_parallel, int online_coupling,
     :func:`pyPDAF.set_parallel` to provide PDAF with the configuration.
 
 
-
     Parameters
     ----------
     screen : int
         Verbosity flag for PDAF screen output.
     type_parallel : int
-        PDAF3 parallelization strategy selector. (currently not used)
+        PDAF3 parallelization strategy selector. (currently not used).
+
+        Type of parallelization:
+            - 0: common setup using task 1 for assimilation
+            - 1: setup using separate task 0 for assimilation
     online_coupling : int
         Coupling mode flag. Use the value expected by PDAF for online or
         offline coupling.

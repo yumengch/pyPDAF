@@ -1,7 +1,7 @@
 
 # Parallelisation Strategy
 PDAF can be run both in serial and parallel.
-In either cases, Message Parsing Interface (MPI) is used.
+In both cases, Message Passing Interface (MPI) is used.
 In (py)PDAF, users need to specify the MPI communicators for the model (`comm_model`),
 the filter(`comm_filter`), and the coupling (`comm_couple`)
 between the model and the filter. These communicators are specified when PDAF is initialised
@@ -26,7 +26,7 @@ by [`pyPDAF.PDAF.set_comm_pdaf`](#pyPDAF.PDAF.set_comm_pdaf).
 
 *Here is an illustration of the parallel strategy for an online DA system.
 The example in this figure uses `npes_ens = 12` with `npes_model = npes_filter = 4`
-where the filtering (filter commnicator) is done on one of the model communicators.
+where the filtering (filter communicator) is done on one of the model communicators.
 The model is decomposed into 4 sub-domains in this figure. Each coupling communicator
 collects state vector from each model process running the same model domain.*
 

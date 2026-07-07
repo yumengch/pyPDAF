@@ -6,6 +6,18 @@ from pyPDAF.cfi_binding cimport CFI_cdesc_t, CFI_address, CFI_index_t, CFI_estab
 from pyPDAF.cfi_binding cimport CFI_attribute_other, CFI_type_double, CFI_type_int
 from pyPDAF.cfi_binding cimport CFI_cdesc_rank1, CFI_cdesc_rank2, CFI_cdesc_rank3
 
+
+def flush_fortran_stdout():
+    """flush_fortran_stdout() -> None
+
+    Flush the Fortran standard output buffer.
+
+    This function is useful when Fortran code is called from Python
+    and the output is buffered. It ensures that all output is printed
+    to the console immediately.
+    """
+    c__pdaf_flush_fortran_stdout()
+
 def print_version():
     """print_version() -> None
 

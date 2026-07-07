@@ -1,5 +1,7 @@
 from pyPDAF.cfi_binding cimport CFI_cdesc_t
 
+cdef extern void c__pdaf_flush_fortran_stdout() noexcept nogil;
+
 cdef extern void c__pdaf_print_version() noexcept nogil;
 
 cdef extern void c__pdaf_configinfo_filters(int* subtype,

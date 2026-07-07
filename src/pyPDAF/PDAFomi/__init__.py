@@ -2,6 +2,8 @@
 from ._pdafomi_c import init, check_error, gather_obs, \
                         gather_obsstate, get_interp_coeff_tri, \
                         get_interp_coeff_lin1d, get_interp_coeff_lin, \
+                        get_interp_coeff_tri_vec, \
+                        get_interp_coeff_lin1d_vec, get_interp_coeff_lin_vec, \
                         init_dim_obs_l_iso, init_dim_obs_l_noniso, \
                         init_dim_obs_l_noniso_locweights, obs_op_gridpoint, \
                         obs_op_gridavg, obs_op_extern, obs_op_interp_lin, \

@@ -528,8 +528,8 @@ CONTAINS
     IF (ALLOCATED(obs_l)) DEALLOCATE(obs_l)
 
     IF (omi_n_obstypes>0 .AND. mode==1) THEN
-       if (ALLOCATED(thisobs_l)) DEALLOCATE(thisobs_l)
-       CALL PDAFomi_dealloc_local()
+      CALL PDAFomi_dealloc_local()
+      if (ALLOCATED(thisobs_l)) DEALLOCATE(thisobs_l)
     END IF
 
   END SUBROUTINE PDAFobs_dealloc_local

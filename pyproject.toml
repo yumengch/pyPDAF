@@ -16,3 +16,8 @@ license = {text = "GPL License"}
 dependencies = [
     "numpy", "mpi4py"
 ]
+
+[project.scripts]
+pypdaf-version = "pyPDAF._cli:print_version_main"
+pypdaf-filter-types = "pyPDAF._cli:print_filter_types_main"
+pypdaf-filter-options = "pyPDAF._cli:options_filters_main"

@@ -1,5 +1,6 @@
 LIBRARY PDAFc
 EXPORTS
+    c__pdaf_flush_fortran_stdout
     c__pdaf_finalize
     c__pdaf_abort
     c__pdaf_generate_rndvec
@@ -160,6 +161,7 @@ EXPORTS
     c__pdaf_put_state_hyb3dvar_lestkf
     c__pdaf3_assimilate_lenkf
     c__pdafomi_get_interp_coeff_tri
+    c__pdafomi_get_interp_coeff_tri_vec
     c__pdafpf_update
     c__pdafomi_localize_covar_noniso_locweights
     c__pdaf3_put_state_lnetf_nondiagr
@@ -275,6 +277,7 @@ EXPORTS
     c__pdaf_set_offline_mode
     c__pdaf_seik_omega
     c__pdafomi_get_interp_coeff_lin
+    c__pdafomi_get_interp_coeff_lin_vec
     c__pdaf3_assim_offline_3dvar_nondiagr
     c__pdaf3_put_state_en3dvar_estkf
     c__pdaf_assimilate_lseik
@@ -564,6 +567,7 @@ EXPORTS
     c__pdaf_ensrf_set_rparam
     c__pdaf_iau_set_pointer
     c__pdafomi_get_interp_coeff_lin1d
+    c__pdafomi_get_interp_coeff_lin1d_vec
     c__pdaf_smoother_enkf
     c__pdaf_3dvar_options
     c__pdaf_seik_set_iparam

@@ -7,7 +7,7 @@ from ._pdaf_c import print_version, configinfo_filters, options_filters,\
                      gather_obs_f2_flex, init, init_forecast, \
                      local_weight, local_weights, print_filter_types, \
                      print_da_types, print_info, reset_forget, sample_ens, \
-                     get_fcst_info, generate_rndvec
+                     get_fcst_info, generate_rndvec, flush_fortran_stdout
 from .setter import set_comm_pdaf, set_debug_flag, set_ens_pointer, \
                                set_iparam, set_memberid, set_offline_mode, \
                                set_rparam, genobs_set_rparam, set_seedset, \

@@ -346,6 +346,208 @@ def get_interp_coeff_lin(int  num_gp, int  n_dim, double [::1,:] gpc,
 
     return icoeff_np
 
+def get_interp_coeff_tri_vec(double [::1,:,:] gpc, double [::1,:] oc,
+    double [::1,:] icoeff):
+    r"""get_interp_coeff_tri(gpc: np.ndarray, oc: np.ndarray, icoeff: np.ndarray) -> np.ndarray
+
+    The coefficient for linear interpolation in 2D on unstructure triangular grid.
+
+    The resulting coefficient is used in :func:`pyPDAF.PDAFomi.obs_op_interp_lin`.
+
+    This function is for triangular model grid interpolation coefficients determined as barycentric coordinates.
+
+    This is similar to :func:`pyPDAF.PDAFomi.get_interp_coeff_tri`,
+    but it embeds the loop in Fortran to avoid loops in Python
+    so that one use a vector of observations.
+
+    Parameters
+    ----------
+    gpc : ndarray[tuple[3, 2, nobs], np.float64]
+        Coordinates of grid points with dimension of (3, 2, nobs).
+        3 grid points surrounding the observation;
+        each containing lon and lat coordinates.
+        The order of the grid points in gcoords has to
+        be consistent with the order of the indices specified in
+        `id_obs_p` of `obs_f`. The last dimension nobs is the number of observations.
+    oc : ndarray[tuple[2, nobs], np.float64]
+        Coordinates of observation (targeted location); dim(2, nobs)
+    icoeff : ndarray[tuple[3, nobs], np.float64]
+        Interpolation coefficients; dim(3, nobs)
+
+    Returns
+    -------
+    icoeff : ndarray[tuple[3, nobs], np.float64]
+         Interpolation coefficients; dim(3, nobs)
+
+    """
+    cdef CFI_cdesc_rank2 icoeff_cfi
+    cdef size_t icoeff_nbytes = icoeff.nbytes
+    cdef CFI_index_t icoeff_extent[2]
+    icoeff_extent[0] = icoeff.shape[0]
+    icoeff_extent[1] = icoeff.shape[1]
+    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] icoeff_np = np.asarray(icoeff, dtype=np.float64, order="F")
+
+    cdef CFI_cdesc_rank3 gpc_cfi
+    cdef size_t gpc_nbytes = gpc.nbytes
+    cdef CFI_index_t gpc_extent[3]
+    gpc_extent[0] = gpc.shape[0]
+    gpc_extent[1] = gpc.shape[1]
+    gpc_extent[2] = gpc.shape[2]
+
+    cdef CFI_cdesc_rank2 oc_cfi
+    cdef size_t oc_nbytes = oc.nbytes
+    cdef CFI_index_t oc_extent[2]
+    oc_extent[0] = oc.shape[0]
+    oc_extent[1] = oc.shape[1]
+    CFI_establish(<CFI_cdesc_t *> &gpc_cfi, &gpc[0,0,0], CFI_attribute_other,
+                      CFI_type_double , gpc_nbytes, 3, gpc_extent)
+
+    CFI_establish(<CFI_cdesc_t *> &oc_cfi, &oc[0,0], CFI_attribute_other,
+                    CFI_type_double , oc_nbytes, 2, oc_extent)
+
+    CFI_establish(<CFI_cdesc_t *> &icoeff_cfi, &icoeff[0,0], CFI_attribute_other,
+                    CFI_type_double , icoeff_nbytes, 2, icoeff_extent)
+
+    c__pdafomi_get_interp_coeff_tri_vec(<CFI_cdesc_t *> &gpc_cfi, <CFI_cdesc_t *> &oc_cfi, <CFI_cdesc_t *> &icoeff_cfi)
+
+    return icoeff_np
+
+
+def get_interp_coeff_lin1d_vec(double [::1,:] gpc, double [::1] oc, double [::1,:] icoeff):
+    r"""get_interp_coeff_lin1d(gpc: np.ndarray, oc: float, icoeff: np.ndarray) -> np.ndarray
+
+    The coefficient for linear interpolation in 1D.
+
+    The resulting coefficient is used in :func:`pyPDAF.PDAFomi.obs_op_interp_lin`.
+
+    This is similar to :func:`pyPDAF.PDAFomi.get_interp_coeff_lin1d`,
+    but it embeds the loop in Fortran to avoid loops in Python
+    so that one use a vector of observations.
+
+    Parameters
+    ----------
+    gpc : ndarray[tuple[2, nobs], np.float64]
+        Coordinates of grid points surrounding the observations (dim=(2, nobs))
+    oc : ndarray[tuple[nobs], np.float64]
+        Coordinates of observation (targeted location)  (dim=nobs)
+    icoeff : ndarray[tuple[2, nobs], np.float64]
+        Interpolation coefficients (dim=(2, nobs))
+
+    Returns
+    -------
+    icoeff : ndarray[tuple[2, nobs], np.float64]
+         Interpolation coefficients (dim=(2, nobs))
+
+    """
+    cdef CFI_cdesc_rank2 icoeff_cfi
+    cdef size_t icoeff_nbytes = icoeff.nbytes
+    cdef CFI_index_t icoeff_extent[2]
+    icoeff_extent[0] = icoeff.shape[0]
+    icoeff_extent[1] = icoeff.shape[1]
+    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] icoeff_np = np.asarray(icoeff, dtype=np.float64, order="F")
+
+    cdef CFI_cdesc_rank2 gpc_cfi
+    cdef size_t gpc_nbytes = gpc.nbytes
+    cdef CFI_index_t gpc_extent[2]
+    gpc_extent[0] = gpc.shape[0]
+    gpc_extent[1] = gpc.shape[1]
+
+    cdef CFI_cdesc_rank1 oc_cfi
+    cdef size_t oc_nbytes = oc.nbytes
+    cdef CFI_index_t oc_extent[1]
+    oc_extent[0] = oc.shape[0]
+
+    CFI_establish(<CFI_cdesc_t *> &gpc_cfi, &gpc[0,0], CFI_attribute_other,
+                      CFI_type_double , gpc_nbytes, 2, gpc_extent)
+
+    CFI_establish(<CFI_cdesc_t *> &oc_cfi, &oc[0], CFI_attribute_other,
+                    CFI_type_double , oc_nbytes, 1, oc_extent)
+
+    CFI_establish(<CFI_cdesc_t *> &icoeff_cfi, &icoeff[0,0], CFI_attribute_other,
+                    CFI_type_double , icoeff_nbytes, 2, icoeff_extent)
+
+    c__pdafomi_get_interp_coeff_lin1d_vec(<CFI_cdesc_t *> &gpc_cfi, <CFI_cdesc_t *> &oc_cfi,
+                                      <CFI_cdesc_t *> &icoeff_cfi)
+
+    return icoeff_np
+
+
+def get_interp_coeff_lin_vec(int  num_gp, int  n_dim, double [::1,:,:] gpc,
+    double [::1,:] oc, double [::1,:] icoeff):
+    r"""get_interp_coeff_lin(num_gp: int, n_dim: int, gpc: np.ndarray, oc: np.ndarray, icoeff: np.ndarray) -> np.ndarray
+
+    The coefficient for linear interpolation up to 3D.
+
+    The resulting coefficient is used in :func:`pyPDAF.PDAFomi.obs_op_interp_lin`.
+
+    See introduction in `relevant PDAF-OMI wiki page
+    <https://pdaf.awi.de/trac/wiki/OMI_observation_operators#PDAFomi_get_interp_coeff_lin>`_
+
+    This is similar to :func:`pyPDAF.PDAFomi.get_interp_coeff_lin`,
+    but it embeds the loop in Fortran to avoid loops in Python
+    so that one use a vector of observations.
+
+    Parameters
+    ----------
+    gpc : ndarray[tuple[num_gp, n_dim, nobs], np.float64]
+        Coordinates of grid points
+        The order of the grid points in gcoords has to
+        be consistent with the order of the indices specified in
+        `id_obs_p` of `obs_f`.
+        The 1st-th dimension num_gp is Length of icoeff
+        The 2nd-th dimension n_dim is Number of dimensions in interpolation
+        The 3rd-th dimension nobs is Number of observations
+    oc : ndarray[tuple[n_dim, nobs], np.float64]
+        Coordinates of observation
+        The array dimension `n_dim` is Number of dimensions in interpolation
+        `nobs` is Number of observations
+    icoeff : ndarray[tuple[num_gp, nobs], np.float64]
+        Interpolation coefficients (num_gp, nobs)
+        The array dimension `num_gp` is Length of icoeff
+        The 2nd-th dimension `nobs` is Number of observations
+
+    Returns
+    -------
+    icoeff : ndarray[tuple[num_gp, nobs], np.float64]
+         Interpolation coefficients (num_gp, nobs)
+
+        The array dimension `num_gp` is Length of icoeff
+        The 2nd-th dimension `nobs` is Number of observations
+    """
+    cdef CFI_cdesc_rank2 icoeff_cfi
+    cdef size_t icoeff_nbytes = icoeff.nbytes
+    cdef CFI_index_t icoeff_extent[2]
+    icoeff_extent[0] = icoeff.shape[0]
+    icoeff_extent[1] = icoeff.shape[1]
+    cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] icoeff_np = np.asarray(icoeff, dtype=np.float64, order="F")
+
+    cdef CFI_cdesc_rank3 gpc_cfi
+    cdef size_t gpc_nbytes = gpc.nbytes
+    cdef CFI_index_t gpc_extent[3]
+    gpc_extent[0] = gpc.shape[0]
+    gpc_extent[1] = gpc.shape[1]
+    gpc_extent[2] = gpc.shape[2]
+
+    cdef CFI_cdesc_rank2 oc_cfi
+    cdef size_t oc_nbytes = oc.nbytes
+    cdef CFI_index_t oc_extent[2]
+    oc_extent[0] = oc.shape[0]
+    oc_extent[1] = oc.shape[1]
+    CFI_establish(<CFI_cdesc_t *> &gpc_cfi, &gpc[0,0,0], CFI_attribute_other,
+                      CFI_type_double , gpc_nbytes, 3, gpc_extent)
+
+    CFI_establish(<CFI_cdesc_t *> &oc_cfi, &oc[0,0], CFI_attribute_other,
+                    CFI_type_double , oc_nbytes, 2, oc_extent)
+
+    CFI_establish(<CFI_cdesc_t *> &icoeff_cfi, &icoeff[0,0], CFI_attribute_other,
+                    CFI_type_double , icoeff_nbytes, 2, icoeff_extent)
+
+    c__pdafomi_get_interp_coeff_lin_vec(&num_gp, &n_dim, <CFI_cdesc_t *> &gpc_cfi,
+                                    <CFI_cdesc_t *> &oc_cfi,
+                                    <CFI_cdesc_t *> &icoeff_cfi)
+
+    return icoeff_np
+
 
 def init_dim_obs_l_iso(int  i_obs, double [::1] coords_l, int  locweight,
     double  cradius, double  sradius, int  cnt_obs_l_all):

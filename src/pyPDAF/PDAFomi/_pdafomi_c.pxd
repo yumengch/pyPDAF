@@ -23,6 +23,16 @@ cdef extern void c__pdafomi_get_interp_coeff_lin(int* num_gp, int* n_dim,
     CFI_cdesc_t* gpc, CFI_cdesc_t* oc,
     CFI_cdesc_t* icoeff) noexcept nogil;
 
+cdef extern void c__pdafomi_get_interp_coeff_tri_vec(CFI_cdesc_t* gpc,
+    CFI_cdesc_t* oc, CFI_cdesc_t* icoeff) noexcept nogil;
+
+cdef extern void c__pdafomi_get_interp_coeff_lin1d_vec(CFI_cdesc_t* gpc,
+    CFI_cdesc_t* oc, CFI_cdesc_t* icoeff) noexcept nogil;
+
+cdef extern void c__pdafomi_get_interp_coeff_lin_vec(int* num_gp, int* n_dim,
+    CFI_cdesc_t* gpc, CFI_cdesc_t* oc,
+    CFI_cdesc_t* icoeff) noexcept nogil;
+
 cdef extern void c__pdafomi_init_dim_obs_l_iso(int* i_obs,
     CFI_cdesc_t* coords_l, int* locweight, double* cradius,
     double* sradius, int* cnt_obs_l_all) noexcept nogil;
