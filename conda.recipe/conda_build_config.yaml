@@ -1,5 +1,4 @@
 python:
-    - 3.11
     - 3.12
     - 3.13
     - 3.14
@@ -28,3 +27,17 @@ mpi:
 
 pymeson:
     - '==0.19'  # [not win]
+
+zip_keys:
+    - - openmp
+      - python_freethreading
+
+openmp:
+    - false
+    - true
+    - true
+
+python_freethreading:
+    - false
+    - false
+    - true
