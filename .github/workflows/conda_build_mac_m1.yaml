@@ -17,7 +17,7 @@ jobs:
       - name: build pyPDAF
         shell: bash -el {0}
         run: |
-          conda install python anaconda-client conda-build conda-verify
+          conda install python anaconda-client conda-build
           anaconda login  --at anaconda.org --username yumengch --password ${{ secrets.ANACONDA }}
           conda  config --set anaconda_upload yes
           conda-build -c conda-forge conda.recipe/

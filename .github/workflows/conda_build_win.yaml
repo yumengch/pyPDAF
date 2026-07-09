@@ -16,7 +16,7 @@ jobs:
       - name: setup anaconda
         shell: cmd /C CALL {0}
         run: |
-          conda install -n base python anaconda-client conda-build conda-verify
+          conda install -n base python anaconda-client conda-build
 
 
       - name: anaconda login
