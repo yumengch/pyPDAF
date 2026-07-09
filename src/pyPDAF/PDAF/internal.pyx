@@ -42,7 +42,8 @@ sys.excepthook = global_except_hook
 def mpi_init():
     """Initialise MPI
     """
-    c__pdaf_mpi_init()
+    with nogil:
+        c__pdaf_mpi_init()
 
 def timeit(int timerid, str operation):
     """PDAF timer
@@ -56,7 +57,8 @@ def timeit(int timerid, str operation):
     """
     operation_byte = operation.encode('UTF-8')
     cdef char* operation_ptr = operation_byte
-    c__pdaf_timeit(&timerid, operation_ptr)
+    with nogil:
+        c__pdaf_timeit(&timerid, operation_ptr)
 
 def time_temp(int timerid):
     """Return the last elapsed interval for a PDAF timer.
@@ -77,7 +79,8 @@ def time_temp(int timerid):
         Elapsed time in seconds for the last completed interval of this timer.
     """
     cdef double time_temp_value
-    c__pdaf_time_temp(&timerid, &time_temp_value)
+    with nogil:
+        c__pdaf_time_temp(&timerid, &time_temp_value)
     return time_temp_value
 
 def time_tot(int timerid):
@@ -98,7 +101,8 @@ def time_tot(int timerid):
         Accumulated elapsed time in seconds for this timer.
     """
     cdef double time_tot_value
-    c__pdaf_time_tot(&timerid, &time_tot_value)
+    with nogil:
+        c__pdaf_time_tot(&timerid, &time_tot_value)
     return time_tot_value
 
 def set_forget(int  step, int  localfilter, int  dim_obs_p, int  dim_ens,
@@ -156,7 +160,8 @@ def set_forget(int  step, int  localfilter, int  dim_obs_p, int  dim_ens,
     """
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     cdef double  forget_out
-    c__pdaf_set_forget(&step, &localfilter, &dim_obs_p, &dim_ens,
+    with nogil:
+        c__pdaf_set_forget(&step, &localfilter, &dim_obs_p, &dim_ens,
                            &mens_p[0,0], &mstate_p[0], &obs_p[0],
                            pdaf_cb.c__init_obsvar_pdaf, &forget_in,
                            &forget_out, &screen)
@@ -180,7 +185,8 @@ def set_iparam_filters(int  id, int  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_set_iparam_filters(&id, &value, &flag)
+    with nogil:
+        c__pdaf_set_iparam_filters(&id, &value, &flag)
 
     return flag
 
@@ -202,7 +208,8 @@ def set_rparam_filters(int  id, double  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_set_rparam_filters(&id, &value, &flag)
+    with nogil:
+        c__pdaf_set_rparam_filters(&id, &value, &flag)
 
     return flag
 
@@ -263,7 +270,8 @@ def set_forget_local(int  domain, int  step, int  dim_obs_l, int  dim_ens,
     """
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     cdef double  aforget
-    c__pdaf_set_forget_local(&domain, &step, &dim_obs_l, &dim_ens,
+    with nogil:
+        c__pdaf_set_forget_local(&domain, &step, &dim_obs_l, &dim_ens,
                                  &hx_l[0,0], &hxbar_l[0], &obs_l[0],
                                  pdaf_cb.c__init_obsvar_l_pdaf, &forget,
                                  &aforget)
@@ -384,7 +392,8 @@ def fcst_operations(int  step, py__collect_state_pdaf,
     pdaf_cb.init_dim_obs_pdaf = py__init_dim_obs_pdaf
     pdaf_cb.obs_op_pdaf = py__obs_op_pdaf
     pdaf_cb.init_obs_pdaf = py__init_obs_pdaf
-    c__pdaf_fcst_operations(&step, pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_fcst_operations(&step, pdaf_cb.c__collect_state_pdaf,
                                 pdaf_cb.c__distribute_state_pdaf,
                                 pdaf_cb.c__init_dim_obs_pdaf,
                                 pdaf_cb.c__obs_op_pdaf,
@@ -501,7 +510,8 @@ def letkf_ana_t(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hz_l_np = np.asarray(hz_l, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] rndmat_np = np.asarray(rndmat, dtype=np.float64, order="F")
     pdaf_cb.prodrinva_l_pdaf = py__prodrinva_l_pdaf
-    c__pdaf_letkf_ana_t(&domain_p, &step, &dim_l, &dim_obs_l, &dim_ens,
+    with nogil:
+        c__pdaf_letkf_ana_t(&domain_p, &step, &dim_l, &dim_obs_l, &dim_ens,
                             &state_l[0], &ainv_l[0,0], &ens_l[0,0],
                             &hz_l[0,0], &hxbar_l[0], &obs_l[0],
                             &rndmat[0,0], &forget,
@@ -724,7 +734,8 @@ def seik_update(int  step, int  dim_p, int  dim_ens, int  rank,
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  dim_obs_p
-    c__pdafseik_update(&step, &dim_p, &dim_obs_p, &dim_ens, &rank,
+    with nogil:
+        c__pdafseik_update(&step, &dim_p, &dim_obs_p, &dim_ens, &rank,
                            &state_p[0], &uinv[0,0], &ens_p[0,0],
                            pdaf_cb.c__init_dim_obs_pdaf,
                            pdaf_cb.c__obs_op_pdaf,
@@ -1032,7 +1043,8 @@ def _3dvar_update(int  step, int  dim_p, int  dim_ens, int  dim_cvec,
     pdaf_cb.obs_op_lin_pdaf = py__obs_op_lin_pdaf
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
     cdef int  dim_obs_p
-    c__pdaf3dvar_update(&step, &dim_p, &dim_obs_p, &dim_ens, &dim_cvec,
+    with nogil:
+        c__pdaf3dvar_update(&step, &dim_p, &dim_obs_p, &dim_ens, &dim_cvec,
                             &state_p[0], &ainv[0,0], &ens_p[0,0],
                             pdaf_cb.c__init_dim_obs_pdaf,
                             pdaf_cb.c__obs_op_pdaf,
@@ -1370,7 +1382,8 @@ def en3dvar_update_estkf(int  step, int  dim_p, int  dim_ens,
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     cdef int  dim_obs_p
-    c__pdafen3dvar_update_estkf(&step, &dim_p, &dim_obs_p, &dim_ens,
+    with nogil:
+        c__pdafen3dvar_update_estkf(&step, &dim_p, &dim_obs_p, &dim_ens,
                                     &dim_cvec_ens, &state_p[0], &ainv[0,0],
                                     &ens_p[0,0],
                                     pdaf_cb.c__init_dim_obs_pdaf,
@@ -1968,7 +1981,8 @@ def en3dvar_update_lestkf(int  step, int  dim_p, int  dim_ens,
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     cdef int  dim_obs_p
-    c__pdafen3dvar_update_lestkf(&step, &dim_p, &dim_obs_p, &dim_ens,
+    with nogil:
+        c__pdafen3dvar_update_lestkf(&step, &dim_p, &dim_obs_p, &dim_ens,
                                      &dim_cvec_ens, &state_p[0],
                                      &ainv[0,0], &ens_p[0,0],
                                      pdaf_cb.c__init_dim_obs_pdaf,
@@ -2222,7 +2236,8 @@ def etkf_update(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  dim_obs_p
-    c__pdafetkf_update(&step, &dim_p, &dim_obs_p, &dim_ens,
+    with nogil:
+        c__pdafetkf_update(&step, &dim_p, &dim_obs_p, &dim_ens,
                            &state_p[0], &ainv[0,0], &ens_p[0,0],
                            pdaf_cb.c__init_dim_obs_pdaf,
                            pdaf_cb.c__obs_op_pdaf,
@@ -2328,7 +2343,8 @@ def netf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_p_np = np.asarray(ens_p, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] t_np = np.asarray(t, dtype=np.float64, order="F")
     pdaf_cb.likelihood_pdaf = py__likelihood_pdaf
-    c__pdaf_netf_ana(&step, &dim_p, &dim_obs_p, &dim_ens, &state_p[0],
+    with nogil:
+        c__pdaf_netf_ana(&step, &dim_p, &dim_obs_p, &dim_ens, &state_p[0],
                          &ens_p[0,0], &rndmat[0,0], &t[0,0], &type_forget,
                          &forget, &type_winf, &limit_winf, &type_noise,
                          &noise_amp, &hz_p[0,0], &obs_p[0],
@@ -2415,7 +2431,8 @@ def netf_smoothert(int  step, int  dim_p, int dim_obs_p, int  dim_ens,
 
     pdaf_cb.likelihood_pdaf = py__likelihood_pdaf
 
-    c__pdaf_netf_smoothert(&step, &dim_p, &dim_obs_p, &dim_ens,
+    with nogil:
+        c__pdaf_netf_smoothert(&step, &dim_p, &dim_obs_p, &dim_ens,
                                &ens_p[0,0], &rndmat[0,0], &ta[0,0],
                                &hx_p[0,0], &obs_p[0],
                                pdaf_cb.c__likelihood_pdaf, &screen, &flag)
@@ -2456,7 +2473,8 @@ def smoother_netf(int  dim_p, int  dim_ens, int  dim_lag,
         Count available number of time steps for smoothing
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=3, mode="fortran", negative_indices=False, cast=False] sens_p_np = np.asarray(sens_p, dtype=np.float64, order="F")
-    c__pdaf_smoother_netf(&dim_p, &dim_ens, &dim_lag, &ainv[0,0],
+    with nogil:
+        c__pdaf_smoother_netf(&dim_p, &dim_ens, &dim_lag, &ainv[0,0],
                               &sens_p[0,0,0], &cnt_maxlag, &screen)
 
     return sens_p_np, cnt_maxlag
@@ -2564,7 +2582,8 @@ def lnetf_ana(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] eff_dimens_np = np.asarray(eff_dimens, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] t_np = np.asarray(t, dtype=np.float64, order="F")
     pdaf_cb.likelihood_l_pdaf = py__likelihood_l_pdaf
-    c__pdaf_lnetf_ana(&domain_p, &step, &dim_l, &dim_obs_l, &dim_ens,
+    with nogil:
+        c__pdaf_lnetf_ana(&domain_p, &step, &dim_l, &dim_obs_l, &dim_ens,
                           &ens_l[0,0], &hx_l[0,0], &obs_l[0], &rndmat[0,0],
                           pdaf_cb.c__likelihood_l_pdaf, &type_forget,
                           &forget, &type_winf, &limit_winf,
@@ -2691,7 +2710,8 @@ def lnetf_smoothert(int  domain_p, int  step, int  dim_obs_f,
     pdaf_cb.g2l_obs_pdaf = py__g2l_obs_pdaf
     pdaf_cb.init_obs_l_pdaf = py__init_obs_l_pdaf
     pdaf_cb.likelihood_l_pdaf = py__likelihood_l_pdaf
-    c__pdaf_lnetf_smoothert(&domain_p, &step, &dim_obs_f, &dim_obs_l,
+    with nogil:
+        c__pdaf_lnetf_smoothert(&domain_p, &step, &dim_obs_f, &dim_obs_l,
                                 &dim_ens, &hx_f[0,0], &rndmat[0,0],
                                 pdaf_cb.c__g2l_obs_pdaf,
                                 pdaf_cb.c__init_obs_l_pdaf,
@@ -2800,7 +2820,8 @@ def smoother_lnetf(int  domain_p, int  step, int  dim_p, int  dim_l,
     cdef cnp.ndarray[cnp.float64_t, ndim=3, mode="fortran", negative_indices=False, cast=False] sens_p_np = np.asarray(sens_p, dtype=np.float64, order="F")
     pdaf_cb.g2l_state_pdaf = py__g2l_state_pdaf
     pdaf_cb.l2g_state_pdaf = py__l2g_state_pdaf
-    c__pdaf_smoother_lnetf(&domain_p, &step, &dim_p, &dim_l, &dim_ens,
+    with nogil:
+        c__pdaf_smoother_lnetf(&domain_p, &step, &dim_p, &dim_l, &dim_ens,
                                &dim_lag, &ainv[0,0], &ens_l[0,0],
                                &sens_p[0,0,0], &cnt_maxlag,
                                pdaf_cb.c__g2l_state_pdaf,
@@ -2821,7 +2842,8 @@ def memcount_ini(int  ncounters):
     Returns
     -------
     """
-    c__pdaf_memcount_ini(&ncounters)
+    with nogil:
+        c__pdaf_memcount_ini(&ncounters)
 
 
 
@@ -2841,7 +2863,8 @@ def memcount_define(str  stortype, int  wordlength):
     """
     stortype_byte = stortype.encode('UTF-8')
     cdef char*  stortype_ptr = stortype_byte
-    c__pdaf_memcount_define(stortype_ptr, &wordlength)
+    with nogil:
+        c__pdaf_memcount_define(stortype_ptr, &wordlength)
 
 
 
@@ -2863,7 +2886,8 @@ def memcount(int  id, str stortype, int  dim):
     """
     stortype_byte = stortype.encode('UTF-8')
     cdef char*  stortype_ptr = stortype_byte
-    c__pdaf_memcount(&id, stortype_ptr, &dim)
+    with nogil:
+        c__pdaf_memcount(&id, stortype_ptr, &dim)
 
 
 def memcount_get(int id, str munit):
@@ -2891,7 +2915,8 @@ def memcount_get(int id, str munit):
     cdef double memcount_value
     munit_byte = munit.encode('UTF-8')
     cdef char* munit_ptr = munit_byte
-    c__pdaf_memcount_get(&id, munit_ptr, &memcount_value)
+    with nogil:
+        c__pdaf_memcount_get(&id, munit_ptr, &memcount_value)
     return memcount_value
 
 
@@ -2924,7 +2949,8 @@ def memcount_get_global(int id, str munit, int comm):
     cdef double memcount_value
     munit_byte = munit.encode('UTF-8')
     cdef char* munit_ptr = munit_byte
-    c__pdaf_memcount_get_global(&id, munit_ptr, &comm, &memcount_value)
+    with nogil:
+        c__pdaf_memcount_get_global(&id, munit_ptr, &comm, &memcount_value)
     return memcount_value
 
 
@@ -2981,7 +3007,8 @@ def init_filters(int  type_filter, int  subtype, int [::1] param_int,
     cdef str  filterstr
     cdef bint ensemblefilter
     cdef bint fixedbasis
-    c__pdaf_init_filters(&type_filter, &subtype, &param_int[0],
+    with nogil:
+        c__pdaf_init_filters(&type_filter, &subtype, &param_int[0],
                              &dim_pint, &param_real[0], &dim_preal,
                              &filterstr_ptr[0], &ensemblefilter, &fixedbasis,
                              &screen, &flag)
@@ -3009,7 +3036,8 @@ def alloc_filters(str  filterstr, int  subtype, int  flag):
     """
     filterstr_byte = filterstr.encode('UTF-8')
     cdef char* filterstr_ptr = filterstr_byte
-    c__pdaf_alloc_filters(filterstr_ptr, &subtype, &flag)
+    with nogil:
+        c__pdaf_alloc_filters(filterstr_ptr, &subtype, &flag)
 
     return flag
 
@@ -3026,7 +3054,8 @@ def print_info_filters(int  printtype):
     Returns
     -------
     """
-    c__pdaf_print_info_filters(&printtype)
+    with nogil:
+        c__pdaf_print_info_filters(&printtype)
 
 def allreduce(int  val_p, int  mpitype, int  mpiop):
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
@@ -3050,7 +3079,8 @@ def allreduce(int  val_p, int  mpitype, int  mpiop):
     """
     cdef int  val_g
     cdef int  status
-    c__pdaf_allreduce(&val_p, &val_g, &mpitype, &mpiop, &status)
+    with nogil:
+        c__pdaf_allreduce(&val_p, &val_g, &mpitype, &mpiop, &status)
 
     return val_g, status
 
@@ -3444,7 +3474,8 @@ def lseik_update(int  step, int  dim_p, int  dim_ens, int  rank,
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  dim_obs_f
-    c__pdaflseik_update(&step, &dim_p, &dim_obs_f, &dim_ens, &rank,
+    with nogil:
+        c__pdaflseik_update(&step, &dim_p, &dim_obs_f, &dim_ens, &rank,
                             &state_p[0], &uinv[0,0], &ens_p[0,0],
                             pdaf_cb.c__init_dim_obs_pdaf,
                             pdaf_cb.c__obs_op_pdaf,
@@ -3510,7 +3541,8 @@ def ensrf_init(int  subtype, int [::1] param_int, int  dim_pint,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
     cdef bint  ensemblefilter
     cdef bint  fixedbasis
-    c__pdaf_ensrf_init(&subtype, &param_int[0], &dim_pint,
+    with nogil:
+        c__pdaf_ensrf_init(&subtype, &param_int[0], &dim_pint,
                            &param_real[0], &dim_preal, &ensemblefilter,
                            &fixedbasis, &verbose, &outflag)
 
@@ -3531,7 +3563,8 @@ def ensrf_alloc(int  outflag):
     outflag : int
         Status flag
     """
-    c__pdaf_ensrf_alloc(&outflag)
+    with nogil:
+        c__pdaf_ensrf_alloc(&outflag)
 
     return outflag
 
@@ -3552,7 +3585,8 @@ def ensrf_config(int  subtype, int  verbose):
     subtype : int
         Sub-type of filter
     """
-    c__pdaf_ensrf_config(&subtype, &verbose)
+    with nogil:
+        c__pdaf_ensrf_config(&subtype, &verbose)
 
     return subtype
 
@@ -3574,7 +3608,8 @@ def ensrf_set_iparam(int  id, int  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_ensrf_set_iparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_ensrf_set_iparam(&id, &value, &flag)
 
     return flag
 
@@ -3596,7 +3631,8 @@ def ensrf_set_rparam(int  id, double  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_ensrf_set_rparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_ensrf_set_rparam(&id, &value, &flag)
 
     return flag
 
@@ -3605,7 +3641,8 @@ def ensrf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    c__pdaf_ensrf_options()
+    with nogil:
+        c__pdaf_ensrf_options()
 
 
 
@@ -3621,7 +3658,8 @@ def ensrf_memtime(int  printtype):
     Returns
     -------
     """
-    c__pdaf_ensrf_memtime(&printtype)
+    with nogil:
+        c__pdaf_ensrf_memtime(&printtype)
 
 
 
@@ -3722,7 +3760,8 @@ def estkf_ana_fixed(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_p_np = np.asarray(ens_p, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hl_p_np = np.asarray(hl_p, dtype=np.float64, order="F")
     pdaf_cb.prodrinva_pdaf = py__prodrinva_pdaf
-    c__pdaf_estkf_ana_fixed(&step, &dim_p, &dim_obs_p, &dim_ens, &rank,
+    with nogil:
+        c__pdaf_estkf_ana_fixed(&step, &dim_p, &dim_obs_p, &dim_ens, &rank,
                                 &state_p[0], &ainv[0,0], &ens_p[0,0],
                                 &hl_p[0,0], &hxbar_p[0], &obs_p[0],
                                 &forget, pdaf_cb.c__prodrinva_pdaf,
@@ -3819,7 +3858,8 @@ def etkf_ana_fixed(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_p_np = np.asarray(ens_p, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hz_p_np = np.asarray(hz_p, dtype=np.float64, order="F")
     pdaf_cb.prodrinva_pdaf = py__prodrinva_pdaf
-    c__pdaf_etkf_ana_fixed(&step, &dim_p, &dim_obs_p, &dim_ens,
+    with nogil:
+        c__pdaf_etkf_ana_fixed(&step, &dim_p, &dim_obs_p, &dim_ens,
                                &state_p[0], &ainv[0,0], &ens_p[0,0],
                                &hz_p[0,0], &hxbar_p[0], &obs_p[0], &forget,
                                pdaf_cb.c__prodrinva_pdaf, &screen, &debug,
@@ -4055,7 +4095,8 @@ def estkf_update(int  step, int  dim_p, int  dim_ens,
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  dim_obs_p
-    c__pdafestkf_update(&step, &dim_p, &dim_obs_p, &dim_ens,
+    with nogil:
+        c__pdafestkf_update(&step, &dim_p, &dim_obs_p, &dim_ens,
                             &state_p[0], &ainv[0,0], &ens_p[0,0],
                             pdaf_cb.c__init_dim_obs_pdaf,
                             pdaf_cb.c__obs_op_pdaf,
@@ -4514,7 +4555,8 @@ def lknetf_update_step(int  step, int  dim_p, int  dim_ens,
     pdaf_cb.likelihood_hyb_l_pdaf = py__likelihood_hyb_l_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  dim_obs_f
-    c__pdaflknetf_update_step(&step, &dim_p, &dim_obs_f, &dim_ens,
+    with nogil:
+        c__pdaflknetf_update_step(&step, &dim_p, &dim_obs_f, &dim_ens,
                                   &state_p[0], &ainv[0,0], &ens_p[0,0],
                                   pdaf_cb.c__init_dim_obs_pdaf,
                                   pdaf_cb.c__obs_op_pdaf,
@@ -4938,7 +4980,8 @@ def letkf_update(int  step, int  dim_p, int  dim_ens,
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  dim_obs_f
-    c__pdafletkf_update(&step, &dim_p, &dim_obs_f, &dim_ens,
+    with nogil:
+        c__pdafletkf_update(&step, &dim_p, &dim_obs_f, &dim_ens,
                             &state_p[0], &ainv[0,0], &ens_p[0,0],
                             pdaf_cb.c__init_dim_obs_pdaf,
                             pdaf_cb.c__obs_op_pdaf,
@@ -5074,7 +5117,8 @@ def lseik_ana_trans(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hl_l_np = np.asarray(hl_l, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] omegat_in_np = np.asarray(omegat_in, dtype=np.float64, order="F")
     pdaf_cb.prodrinva_l_pdaf = py__prodrinva_l_pdaf
-    c__pdaf_lseik_ana_trans(&domain_p, &step, &dim_l, &dim_obs_l,
+    with nogil:
+        c__pdaf_lseik_ana_trans(&domain_p, &step, &dim_l, &dim_obs_l,
                                 &dim_ens, &rank, &state_l[0], &uinv_l[0,0],
                                 &ens_l[0,0], &hl_l[0,0], &hxbar_l[0],
                                 &obs_l[0], &omegat_in[0,0], &forget,
@@ -5265,7 +5309,8 @@ def en3dvar_optim_lbfgs(int  step, int  dim_p, int  dim_ens,
     pdaf_cb.cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
     pdaf_cb.obs_op_lin_pdaf = py__obs_op_lin_pdaf
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    c__pdaf_en3dvar_optim_lbfgs(&step, &dim_p, &dim_ens, &dim_cvec_p,
+    with nogil:
+        c__pdaf_en3dvar_optim_lbfgs(&step, &dim_p, &dim_ens, &dim_cvec_p,
                                     &dim_obs_p, &ens_p[0,0], &obs_p[0],
                                     &dy_p[0], &v_p[0],
                                     pdaf_cb.c__prodrinva_pdaf,
@@ -5459,7 +5504,8 @@ def en3dvar_optim_cgplus(int  step, int  dim_p, int  dim_ens,
     pdaf_cb.cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
     pdaf_cb.obs_op_lin_pdaf = py__obs_op_lin_pdaf
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    c__pdaf_en3dvar_optim_cgplus(&step, &dim_p, &dim_ens, &dim_cvec_p,
+    with nogil:
+        c__pdaf_en3dvar_optim_cgplus(&step, &dim_p, &dim_ens, &dim_cvec_p,
                                      &dim_obs_p, &ens_p[0,0], &obs_p[0],
                                      &dy_p[0], &v_p[0],
                                      pdaf_cb.c__prodrinva_pdaf,
@@ -5653,7 +5699,8 @@ def en3dvar_optim_cg(int  step, int  dim_p, int  dim_ens, int  dim_cvec_p,
     pdaf_cb.cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
     pdaf_cb.obs_op_lin_pdaf = py__obs_op_lin_pdaf
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    c__pdaf_en3dvar_optim_cg(&step, &dim_p, &dim_ens, &dim_cvec_p,
+    with nogil:
+        c__pdaf_en3dvar_optim_cg(&step, &dim_p, &dim_ens, &dim_cvec_p,
                                  &dim_obs_p, &ens_p[0,0], &obs_p[0],
                                  &dy_p[0], &v_p[0],
                                  pdaf_cb.c__prodrinva_pdaf,
@@ -5851,7 +5898,8 @@ def en3dvar_costf_cvt(int  step, int  iter, int  dim_p, int  dim_ens,
     pdaf_cb.obs_op_lin_pdaf = py__obs_op_lin_pdaf
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
     cdef double  j_tot
-    c__pdaf_en3dvar_costf_cvt(&step, &iter, &dim_p, &dim_ens,
+    with nogil:
+        c__pdaf_en3dvar_costf_cvt(&step, &iter, &dim_p, &dim_ens,
                                   &dim_cvec_p, &dim_obs_p, &ens_p[0,0],
                                   &obs_p[0], &dy_p[0], &v_p[0], &j_tot,
                                   &gradj[0], pdaf_cb.c__prodrinva_pdaf,
@@ -6061,7 +6109,8 @@ def en3dvar_costf_cg_cvt(int  step, int  iter, int  dim_p, int  dim_ens,
     pdaf_cb.obs_op_lin_pdaf = py__obs_op_lin_pdaf
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
     cdef double  j_tot
-    c__pdaf_en3dvar_costf_cg_cvt(&step, &iter, &dim_p, &dim_ens,
+    with nogil:
+        c__pdaf_en3dvar_costf_cg_cvt(&step, &iter, &dim_p, &dim_ens,
                                      &dim_cvec_p, &dim_obs_p, &ens_p[0,0],
                                      &obs_p[0], &dy_p[0], &v_p[0], &d_p[0],
                                      &j_tot, &gradj[0], &hessjd[0],
@@ -6116,7 +6165,8 @@ def gather_ens(int  dim_p, int  dim_ens_p, double [::1,:] ens,
     CFI_establish(<CFI_cdesc_t *> &state_cfi, &state[0], CFI_attribute_other,
                     CFI_type_double , state_nbytes, 1, state_extent)
 
-    c__pdaf_gather_ens(&dim_p, &dim_ens_p, <CFI_cdesc_t *> &ens_cfi, <CFI_cdesc_t *> &state_cfi, &screen)
+    with nogil:
+        c__pdaf_gather_ens(&dim_p, &dim_ens_p, <CFI_cdesc_t *> &ens_cfi, <CFI_cdesc_t *> &state_cfi, &screen)
 
     return ens_np, state_np
 
@@ -6168,7 +6218,8 @@ def scatter_ens(int  dim_p, int  dim_ens_p, double [::1,:] ens,
     CFI_establish(<CFI_cdesc_t *> &state_cfi, &state[0], CFI_attribute_other,
                     CFI_type_double , state_nbytes, 1, state_extent)
 
-    c__pdaf_scatter_ens(&dim_p, &dim_ens_p, <CFI_cdesc_t *> &ens_cfi, <CFI_cdesc_t *> &state_cfi, &screen)
+    with nogil:
+        c__pdaf_scatter_ens(&dim_p, &dim_ens_p, <CFI_cdesc_t *> &ens_cfi, <CFI_cdesc_t *> &state_cfi, &screen)
 
     return ens_np, state_np
 
@@ -6417,7 +6468,8 @@ def hyb3dvar_optim_lbfgs(int  step, int  dim_p, int  dim_ens,
     pdaf_cb.cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
     pdaf_cb.obs_op_lin_pdaf = py__obs_op_lin_pdaf
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    c__pdaf_hyb3dvar_optim_lbfgs(&step, &dim_p, &dim_ens,
+    with nogil:
+        c__pdaf_hyb3dvar_optim_lbfgs(&step, &dim_p, &dim_ens,
                                      &dim_cv_par_p, &dim_cv_ens_p,
                                      &dim_obs_p, &ens_p[0,0], &obs_p[0],
                                      &dy_p[0], &v_par_p[0], &v_ens_p[0],
@@ -6677,7 +6729,8 @@ def hyb3dvar_optim_cgplus(int  step, int  dim_p, int  dim_ens,
     pdaf_cb.cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
     pdaf_cb.obs_op_lin_pdaf = py__obs_op_lin_pdaf
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    c__pdaf_hyb3dvar_optim_cgplus(&step, &dim_p, &dim_ens,
+    with nogil:
+        c__pdaf_hyb3dvar_optim_cgplus(&step, &dim_p, &dim_ens,
                                       &dim_cv_par_p, &dim_cv_ens_p,
                                       &dim_obs_p, &ens_p[0,0], &obs_p[0],
                                       &dy_p[0], &v_par_p[0], &v_ens_p[0],
@@ -6937,7 +6990,8 @@ def hyb3dvar_optim_cg(int  step, int  dim_p, int  dim_ens,
     pdaf_cb.cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
     pdaf_cb.obs_op_lin_pdaf = py__obs_op_lin_pdaf
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    c__pdaf_hyb3dvar_optim_cg(&step, &dim_p, &dim_ens, &dim_cv_par_p,
+    with nogil:
+        c__pdaf_hyb3dvar_optim_cg(&step, &dim_p, &dim_ens, &dim_cv_par_p,
                                   &dim_cv_ens_p, &dim_obs_p, &ens_p[0,0],
                                   &obs_p[0], &dy_p[0], &v_par_p[0],
                                   &v_ens_p[0], pdaf_cb.c__prodrinva_pdaf,
@@ -7209,7 +7263,8 @@ def hyb3dvar_costf_cvt(int  step, int  iter, int  dim_p, int  dim_ens,
     pdaf_cb.obs_op_lin_pdaf = py__obs_op_lin_pdaf
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
     cdef double  j_tot
-    c__pdaf_hyb3dvar_costf_cvt(&step, &iter, &dim_p, &dim_ens,
+    with nogil:
+        c__pdaf_hyb3dvar_costf_cvt(&step, &iter, &dim_p, &dim_ens,
                                    &dim_cv_p, &dim_cv_par_p, &dim_cv_ens_p,
                                    &dim_obs_p, &ens_p[0,0], &obs_p[0],
                                    &dy_p[0], &v_par_p[0], &v_ens_p[0],
@@ -7499,7 +7554,8 @@ def hyb3dvar_costf_cg_cvt(int  step, int  iter, int  dim_p, int  dim_ens,
     pdaf_cb.obs_op_lin_pdaf = py__obs_op_lin_pdaf
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
     cdef double  j_tot
-    c__pdaf_hyb3dvar_costf_cg_cvt(&step, &iter, &dim_p, &dim_ens,
+    with nogil:
+        c__pdaf_hyb3dvar_costf_cg_cvt(&step, &iter, &dim_p, &dim_ens,
                                       &dim_cv_par_p, &dim_cv_ens_p,
                                       &dim_obs_p, &ens_p[0,0], &obs_p[0],
                                       &dy_p[0], &v_par_p[0], &v_ens_p[0],
@@ -7714,7 +7770,8 @@ def en3dvar_analysis_cvt(int  step, int  dim_p, int  dim_obs_p,
     pdaf_cb.cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
     pdaf_cb.obs_op_lin_pdaf = py__obs_op_lin_pdaf
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    c__pdafen3dvar_analysis_cvt(&step, &dim_p, &dim_obs_p, &dim_ens,
+    with nogil:
+        c__pdafen3dvar_analysis_cvt(&step, &dim_p, &dim_obs_p, &dim_ens,
                                     &dim_cvec_ens, &state_p[0],
                                     &ens_p[0,0], &state_inc_p[0],
                                     &hxbar_p[0], &obs_p[0],
@@ -7747,7 +7804,8 @@ def sisort(int  n, double [::1] veca):
         Array shape: (n)
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] veca_np = np.asarray(veca, dtype=np.float64, order="F")
-    c__pdaf_sisort(&n, &veca[0])
+    with nogil:
+        c__pdaf_sisort(&n, &veca[0])
 
     return veca_np
 
@@ -7859,7 +7917,8 @@ def enkf_ana_rlm(int  step, int  dim_p, int  dim_obs_p, int dim_obs, int  dim_en
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hzb_np = np.asarray(hzb, dtype=np.float64, order="F")
     pdaf_cb.add_obs_err_pdaf = py__add_obs_err_pdaf
     pdaf_cb.init_obs_covar_pdaf = py__init_obs_covar_pdaf
-    c__pdaf_enkf_ana_rlm(&step, &dim_p, &dim_obs_p, &dim_obs, &dim_ens,
+    with nogil:
+        c__pdaf_enkf_ana_rlm(&step, &dim_p, &dim_obs_p, &dim_obs, &dim_ens,
                              &rank_ana, &state_p[0], &ens_p[0,0],
                              &hzb[0,0], &hx_p[0,0], &hxbar_p[0], &obs_p[0],
                              pdaf_cb.c__add_obs_err_pdaf,
@@ -7905,7 +7964,8 @@ def smoother_enkf(int  dim_p, int  dim_ens, int  dim_lag,
         Count available number of time steps for smoothing
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=3, mode="fortran", negative_indices=False, cast=False] sens_p_np = np.asarray(sens_p, dtype=np.float64, order="F")
-    c__pdaf_smoother_enkf(&dim_p, &dim_ens, &dim_lag, &ainv[0,0],
+    with nogil:
+        c__pdaf_smoother_enkf(&dim_p, &dim_ens, &dim_lag, &ainv[0,0],
                               &sens_p[0,0,0], &cnt_maxlag, &forget, &screen)
 
     return sens_p_np, cnt_maxlag
@@ -8116,7 +8176,8 @@ def ensrf_update(int  step, int  dim_p, int  dim_ens,
     pdaf_cb.localize_covar_serial_pdaf = py__localize_covar_serial_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  dim_obs_p
-    c__pdafensrf_update(&step, &dim_p, &dim_obs_p, &dim_ens,
+    with nogil:
+        c__pdafensrf_update(&step, &dim_p, &dim_obs_p, &dim_ens,
                             &state_p[0], &ens_p[0,0],
                             pdaf_cb.c__init_dim_obs_pdaf,
                             pdaf_cb.c__obs_op_pdaf,
@@ -8211,7 +8272,8 @@ def pf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_p_np = np.asarray(state_p, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_p_np = np.asarray(ens_p, dtype=np.float64, order="F")
     pdaf_cb.likelihood_pdaf = py__likelihood_pdaf
-    c__pdaf_pf_ana(&step, &dim_p, &dim_obs_p, &dim_ens, &state_p[0],
+    with nogil:
+        c__pdaf_pf_ana(&step, &dim_p, &dim_obs_p, &dim_ens, &state_p[0],
                        &ens_p[0,0], &type_resample, &type_winf,
                        &limit_winf, &type_noise, &noise_amp, &hz_p[0,0],
                        &obs_p[0], pdaf_cb.c__likelihood_pdaf, &screen,
@@ -8247,7 +8309,8 @@ def pf_resampling(int  method, int  nin, int  nout, double [::1] weights,
     """
     cdef cnp.ndarray[cnp.int32_t, ndim=1, mode="fortran", negative_indices=False, cast=False] ids_np = np.zeros((nout), dtype=np.intc, order="F")
     cdef int [::1] ids = ids_np
-    c__pdaf_pf_resampling(&method, &nin, &nout, &weights[0], &ids[0],
+    with nogil:
+        c__pdaf_pf_resampling(&method, &nin, &nout, &weights[0], &ids[0],
                               &screen)
 
     return ids_np
@@ -8288,7 +8351,8 @@ def mvnormalize(int  mode, int  dim_state, int  dim_field, int  offset,
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] states_np = np.asarray(states, dtype=np.float64, order="F")
     cdef int  status
-    c__pdaf_mvnormalize(&mode, &dim_state, &dim_field, &offset, &ncol,
+    with nogil:
+        c__pdaf_mvnormalize(&mode, &dim_state, &dim_field, &offset, &ncol,
                             &states[0,0], &stddev, &status)
 
     return states_np, stddev, status
@@ -8339,7 +8403,8 @@ def _3dvar_init(int  subtype, int [::1] param_int, int  dim_pint,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
     cdef bint  ensemblefilter
     cdef bint  fixedbasis
-    c__pdaf_3dvar_init(&subtype, &param_int[0], &dim_pint,
+    with nogil:
+        c__pdaf_3dvar_init(&subtype, &param_int[0], &dim_pint,
                            &param_real[0], &dim_preal, &ensemblefilter,
                            &fixedbasis, &verbose, &outflag)
 
@@ -8362,7 +8427,8 @@ def _3dvar_alloc(int  subtype, int  outflag):
     outflag : int
         Status flag
     """
-    c__pdaf_3dvar_alloc(&subtype, &outflag)
+    with nogil:
+        c__pdaf_3dvar_alloc(&subtype, &outflag)
 
     return outflag
 
@@ -8383,7 +8449,8 @@ def _3dvar_config(int  subtype, int  verbose):
     subtype : int
         Sub-type of filter
     """
-    c__pdaf_3dvar_config(&subtype, &verbose)
+    with nogil:
+        c__pdaf_3dvar_config(&subtype, &verbose)
 
     return subtype
 
@@ -8405,7 +8472,8 @@ def _3dvar_set_iparam(int  id, int  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_3dvar_set_iparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_3dvar_set_iparam(&id, &value, &flag)
 
     return flag
 
@@ -8427,7 +8495,8 @@ def _3dvar_set_rparam(int  id, double  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_3dvar_set_rparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_3dvar_set_rparam(&id, &value, &flag)
 
     return flag
 
@@ -8436,7 +8505,8 @@ def _3dvar_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    c__pdaf_3dvar_options()
+    with nogil:
+        c__pdaf_3dvar_options()
 
 
 
@@ -8452,7 +8522,8 @@ def _3dvar_memtime(int  printtype):
     Returns
     -------
     """
-    c__pdaf_3dvar_memtime(&printtype)
+    with nogil:
+        c__pdaf_3dvar_memtime(&printtype)
 
 
 
@@ -8472,7 +8543,8 @@ def reset_dim_ens(int  dim_ens_in, int  outflag):
     outflag : int
         Status flag
     """
-    c__pdaf_reset_dim_ens(&dim_ens_in, &outflag)
+    with nogil:
+        c__pdaf_reset_dim_ens(&dim_ens_in, &outflag)
 
     return outflag
 
@@ -8493,7 +8565,8 @@ def reset_dim_p(int  dim_p_in, int  outflag):
     outflag : int
         Status flag
     """
-    c__pdaf_reset_dim_p(&dim_p_in, &outflag)
+    with nogil:
+        c__pdaf_reset_dim_p(&dim_p_in, &outflag)
 
     return outflag
 
@@ -8663,7 +8736,8 @@ def _3dvar_optim_lbfgs(int  step, int  dim_p, int  dim_cvec_p,
     pdaf_cb.cvt_adj_pdaf = py__cvt_adj_pdaf
     pdaf_cb.obs_op_lin_pdaf = py__obs_op_lin_pdaf
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    c__pdaf_3dvar_optim_lbfgs(&step, &dim_p, &dim_cvec_p, &dim_obs_p,
+    with nogil:
+        c__pdaf_3dvar_optim_lbfgs(&step, &dim_p, &dim_cvec_p, &dim_obs_p,
                                   &obs_p[0], &dy_p[0], &v_p[0],
                                   pdaf_cb.c__prodrinva_pdaf,
                                   pdaf_cb.c__cvt_pdaf,
@@ -8840,7 +8914,8 @@ def _3dvar_optim_cgplus(int  step, int  dim_p, int  dim_cvec_p,
     pdaf_cb.cvt_adj_pdaf = py__cvt_adj_pdaf
     pdaf_cb.obs_op_lin_pdaf = py__obs_op_lin_pdaf
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    c__pdaf_3dvar_optim_cgplus(&step, &dim_p, &dim_cvec_p, &dim_obs_p,
+    with nogil:
+        c__pdaf_3dvar_optim_cgplus(&step, &dim_p, &dim_cvec_p, &dim_obs_p,
                                    &obs_p[0], &dy_p[0], &v_p[0],
                                    pdaf_cb.c__prodrinva_pdaf,
                                    pdaf_cb.c__cvt_pdaf,
@@ -9017,7 +9092,8 @@ def _3dvar_optim_cg(int  step, int  dim_p, int  dim_cvec_p, int  dim_obs_p,
     pdaf_cb.cvt_adj_pdaf = py__cvt_adj_pdaf
     pdaf_cb.obs_op_lin_pdaf = py__obs_op_lin_pdaf
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    c__pdaf_3dvar_optim_cg(&step, &dim_p, &dim_cvec_p, &dim_obs_p,
+    with nogil:
+        c__pdaf_3dvar_optim_cg(&step, &dim_p, &dim_cvec_p, &dim_obs_p,
                                &obs_p[0], &dy_p[0], &v_p[0],
                                pdaf_cb.c__prodrinva_pdaf,
                                pdaf_cb.c__cvt_pdaf,
@@ -9198,7 +9274,8 @@ def _3dvar_costf_cvt(int  step, int  iter, int  dim_p, int  dim_cvec_p,
     pdaf_cb.obs_op_lin_pdaf = py__obs_op_lin_pdaf
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
     cdef double  j_tot
-    c__pdaf_3dvar_costf_cvt(&step, &iter, &dim_p, &dim_cvec_p,
+    with nogil:
+        c__pdaf_3dvar_costf_cvt(&step, &iter, &dim_p, &dim_cvec_p,
                                 &dim_obs_p, &obs_p[0], &dy_p[0], &v_p[0],
                                 &j_tot, &gradj[0],
                                 pdaf_cb.c__prodrinva_pdaf,
@@ -9392,7 +9469,8 @@ def _3dvar_costf_cg_cvt(int  step, int  iter, int  dim_p, int  dim_cvec_p,
     pdaf_cb.obs_op_lin_pdaf = py__obs_op_lin_pdaf
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
     cdef double  j_tot
-    c__pdaf_3dvar_costf_cg_cvt(&step, &iter, &dim_p, &dim_cvec_p,
+    with nogil:
+        c__pdaf_3dvar_costf_cg_cvt(&step, &iter, &dim_p, &dim_cvec_p,
                                    &dim_obs_p, &obs_p[0], &dy_p[0],
                                    &v_p[0], &d_p[0], &j_tot, &gradj[0],
                                    &hessjd[0], pdaf_cb.c__prodrinva_pdaf,
@@ -9593,7 +9671,8 @@ def lknetf_analysis_t(int  domain_p, int  step, int  dim_l,
     pdaf_cb.prodrinva_l_pdaf = py__prodrinva_l_pdaf
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     pdaf_cb.likelihood_l_pdaf = py__likelihood_l_pdaf
-    c__pdaf_lknetf_analysis_t(&domain_p, &step, &dim_l, &dim_obs_l,
+    with nogil:
+        c__pdaf_lknetf_analysis_t(&domain_p, &step, &dim_l, &dim_obs_l,
                                   &dim_ens, &state_l[0], &ainv_l[0,0],
                                   &ens_l[0,0], &hx_l[0,0], &hxbar_l[0],
                                   &obs_l[0], &rndmat[0,0], &forget,
@@ -9614,7 +9693,8 @@ def get_ensstats():
     cdef CFI_cdesc_rank1 skew_ptr_cfi
     cdef CFI_cdesc_rank1 kurt_ptr_cfi
     cdef int  status
-    c__pdaf_get_ensstats(<CFI_cdesc_t *> &skew_ptr_cfi, <CFI_cdesc_t *> &kurt_ptr_cfi, &status)
+    with nogil:
+        c__pdaf_get_ensstats(<CFI_cdesc_t *> &skew_ptr_cfi, <CFI_cdesc_t *> &kurt_ptr_cfi, &status)
 
     cdef CFI_index_t skew_ptr_subscripts[1]
     skew_ptr_subscripts[0] = skew_ptr_cfi.dim[0].lower_bound
@@ -9675,7 +9755,8 @@ def estkf_init(int  subtype, int [::1] param_int, int  dim_pint,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
     cdef bint  ensemblefilter
     cdef bint  fixedbasis
-    c__pdaf_estkf_init(&subtype, &param_int[0], &dim_pint,
+    with nogil:
+        c__pdaf_estkf_init(&subtype, &param_int[0], &dim_pint,
                            &param_real[0], &dim_preal, &ensemblefilter,
                            &fixedbasis, &verbose, &outflag)
 
@@ -9696,7 +9777,8 @@ def estkf_alloc(int  outflag):
     outflag : int
         Status flag
     """
-    c__pdaf_estkf_alloc(&outflag)
+    with nogil:
+        c__pdaf_estkf_alloc(&outflag)
 
     return outflag
 
@@ -9717,7 +9799,8 @@ def estkf_config(int  subtype, int  verbose):
     subtype : int
         Sub-type of filter
     """
-    c__pdaf_estkf_config(&subtype, &verbose)
+    with nogil:
+        c__pdaf_estkf_config(&subtype, &verbose)
 
     return subtype
 
@@ -9739,7 +9822,8 @@ def estkf_set_iparam(int  id, int  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_estkf_set_iparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_estkf_set_iparam(&id, &value, &flag)
 
     return flag
 
@@ -9761,7 +9845,8 @@ def estkf_set_rparam(int  id, double  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_estkf_set_rparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_estkf_set_rparam(&id, &value, &flag)
 
     return flag
 
@@ -9770,7 +9855,8 @@ def estkf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    c__pdaf_estkf_options()
+    with nogil:
+        c__pdaf_estkf_options()
 
 
 
@@ -9786,7 +9872,8 @@ def estkf_memtime(int  printtype):
     Returns
     -------
     """
-    c__pdaf_estkf_memtime(&printtype)
+    with nogil:
+        c__pdaf_estkf_memtime(&printtype)
 
 
 
@@ -9966,7 +10053,8 @@ def gen_obs(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
     pdaf_cb.init_obserr_f_pdaf = py__init_obserr_f_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  dim_obs_f
-    c__pdaf_gen_obs(&step, &dim_p, &dim_obs_f, &dim_ens, &state_p[0],
+    with nogil:
+        c__pdaf_gen_obs(&step, &dim_p, &dim_obs_f, &dim_ens, &state_p[0],
                         &ainv[0,0], &ens_p[0,0],
                         pdaf_cb.c__init_dim_obs_f_pdaf,
                         pdaf_cb.c__obs_op_f_pdaf,
@@ -10088,7 +10176,8 @@ def obs_init(int  step, int  dim_p, int  dim_ens, int  dim_obs_p,
     pdaf_cb.init_dim_obs_pdaf = py__init_dim_obs_pdaf
     pdaf_cb.obs_op_pdaf = py__obs_op_pdaf
     pdaf_cb.init_obs_pdaf = py__init_obs_pdaf
-    c__pdafobs_init(&step, &dim_p, &dim_ens, &dim_obs_p, &state_p[0],
+    with nogil:
+        c__pdafobs_init(&step, &dim_p, &dim_ens, &dim_obs_p, &state_p[0],
                         &ens_p[0,0], pdaf_cb.c__init_dim_obs_pdaf,
                         pdaf_cb.c__obs_op_pdaf, pdaf_cb.c__init_obs_pdaf,
                         &screen, &debug, &do_ens_mean, &do_init_dim,
@@ -10187,7 +10276,8 @@ def obs_init_local(int  domain_p, int  step, int  dim_ens,
     pdaf_cb.init_obs_l_pdaf = py__init_obs_l_pdaf
     cdef int  dim_obs_l
     cdef int  dim_obs_f
-    c__pdafobs_init_local(&domain_p, &step, &dim_obs_l, &dim_obs_f,
+    with nogil:
+        c__pdafobs_init_local(&domain_p, &step, &dim_obs_l, &dim_obs_f,
                               &dim_ens, pdaf_cb.c__init_dim_obs_l_pdaf,
                               pdaf_cb.c__g2l_obs_pdaf,
                               pdaf_cb.c__init_obs_l_pdaf, &debug)
@@ -10226,7 +10316,8 @@ def obs_init_obsvars(int  step, int  dim_obs_p, py__init_obsvars_pdaf):
     -------
     """
     pdaf_cb.init_obsvars_pdaf = py__init_obsvars_pdaf
-    c__pdafobs_init_obsvars(&step, &dim_obs_p, pdaf_cb.c__init_obsvars_pdaf)
+    with nogil:
+        c__pdafobs_init_obsvars(&step, &dim_obs_p, pdaf_cb.c__init_obsvars_pdaf)
 
 
 
@@ -10234,7 +10325,8 @@ def obs_dealloc():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    c__pdafobs_dealloc()
+    with nogil:
+        c__pdafobs_dealloc()
 
 
 
@@ -10242,7 +10334,8 @@ def obs_dealloc_local():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    c__pdafobs_dealloc_local()
+    with nogil:
+        c__pdafobs_dealloc_local()
 
 
 
@@ -10291,7 +10384,8 @@ def netf_init(int  subtype, int [::1] param_int, int  dim_pint,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
     cdef bint  ensemblefilter
     cdef bint  fixedbasis
-    c__pdaf_netf_init(&subtype, &param_int[0], &dim_pint,
+    with nogil:
+        c__pdaf_netf_init(&subtype, &param_int[0], &dim_pint,
                           &param_real[0], &dim_preal, &ensemblefilter,
                           &fixedbasis, &verbose, &outflag)
 
@@ -10312,7 +10406,8 @@ def netf_alloc(int  outflag):
     outflag : int
         Status flag
     """
-    c__pdaf_netf_alloc(&outflag)
+    with nogil:
+        c__pdaf_netf_alloc(&outflag)
 
     return outflag
 
@@ -10333,7 +10428,8 @@ def netf_config(int  subtype, int  verbose):
     subtype : int
         Sub-type of filter
     """
-    c__pdaf_netf_config(&subtype, &verbose)
+    with nogil:
+        c__pdaf_netf_config(&subtype, &verbose)
 
     return subtype
 
@@ -10355,7 +10451,8 @@ def netf_set_iparam(int  id, int  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_netf_set_iparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_netf_set_iparam(&id, &value, &flag)
 
     return flag
 
@@ -10377,7 +10474,8 @@ def netf_set_rparam(int  id, double  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_netf_set_rparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_netf_set_rparam(&id, &value, &flag)
 
     return flag
 
@@ -10386,7 +10484,8 @@ def netf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    c__pdaf_netf_options()
+    with nogil:
+        c__pdaf_netf_options()
 
 
 
@@ -10402,7 +10501,8 @@ def netf_memtime(int  printtype):
     Returns
     -------
     """
-    c__pdaf_netf_memtime(&printtype)
+    with nogil:
+        c__pdaf_netf_memtime(&printtype)
 
 
 
@@ -10451,7 +10551,8 @@ def lenkf_init(int  subtype, int [::1] param_int, int  dim_pint,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
     cdef bint  ensemblefilter
     cdef bint  fixedbasis
-    c__pdaf_lenkf_init(&subtype, &param_int[0], &dim_pint,
+    with nogil:
+        c__pdaf_lenkf_init(&subtype, &param_int[0], &dim_pint,
                            &param_real[0], &dim_preal, &ensemblefilter,
                            &fixedbasis, &verbose, &outflag)
 
@@ -10472,7 +10573,8 @@ def lenkf_alloc(int  outflag):
     outflag : int
         Status flag
     """
-    c__pdaf_lenkf_alloc(&outflag)
+    with nogil:
+        c__pdaf_lenkf_alloc(&outflag)
 
     return outflag
 
@@ -10493,7 +10595,8 @@ def lenkf_config(int  subtype, int  verbose):
     subtype : int
         Sub-type of filter
     """
-    c__pdaf_lenkf_config(&subtype, &verbose)
+    with nogil:
+        c__pdaf_lenkf_config(&subtype, &verbose)
 
     return subtype
 
@@ -10515,7 +10618,8 @@ def lenkf_set_iparam(int  id, int  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_lenkf_set_iparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_lenkf_set_iparam(&id, &value, &flag)
 
     return flag
 
@@ -10537,7 +10641,8 @@ def lenkf_set_rparam(int  id, double  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_lenkf_set_rparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_lenkf_set_rparam(&id, &value, &flag)
 
     return flag
 
@@ -10546,7 +10651,8 @@ def lenkf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    c__pdaf_lenkf_options()
+    with nogil:
+        c__pdaf_lenkf_options()
 
 
 
@@ -10562,7 +10668,8 @@ def lenkf_memtime(int  printtype):
     Returns
     -------
     """
-    c__pdaf_lenkf_memtime(&printtype)
+    with nogil:
+        c__pdaf_lenkf_memtime(&printtype)
 
 
 
@@ -10611,7 +10718,8 @@ def lseik_init(int  subtype, int [::1] param_int, int  dim_pint,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
     cdef bint  ensemblefilter
     cdef bint  fixedbasis
-    c__pdaf_lseik_init(&subtype, &param_int[0], &dim_pint,
+    with nogil:
+        c__pdaf_lseik_init(&subtype, &param_int[0], &dim_pint,
                            &param_real[0], &dim_preal, &ensemblefilter,
                            &fixedbasis, &verbose, &outflag)
 
@@ -10632,7 +10740,8 @@ def lseik_alloc(int  outflag):
     outflag : int
         Status flag
     """
-    c__pdaf_lseik_alloc(&outflag)
+    with nogil:
+        c__pdaf_lseik_alloc(&outflag)
 
     return outflag
 
@@ -10653,7 +10762,8 @@ def lseik_config(int  subtype, int  verbose):
     subtype : int
         Sub-type of filter
     """
-    c__pdaf_lseik_config(&subtype, &verbose)
+    with nogil:
+        c__pdaf_lseik_config(&subtype, &verbose)
 
     return subtype
 
@@ -10675,7 +10785,8 @@ def lseik_set_iparam(int  id, int  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_lseik_set_iparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_lseik_set_iparam(&id, &value, &flag)
 
     return flag
 
@@ -10697,7 +10808,8 @@ def lseik_set_rparam(int  id, double  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_lseik_set_rparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_lseik_set_rparam(&id, &value, &flag)
 
     return flag
 
@@ -10706,7 +10818,8 @@ def lseik_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    c__pdaf_lseik_options()
+    with nogil:
+        c__pdaf_lseik_options()
 
 
 
@@ -10722,7 +10835,8 @@ def lseik_memtime(int  printtype):
     Returns
     -------
     """
-    c__pdaf_lseik_memtime(&printtype)
+    with nogil:
+        c__pdaf_lseik_memtime(&printtype)
 
 
 
@@ -10771,7 +10885,8 @@ def etkf_init(int  subtype, int [::1] param_int, int  dim_pint,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
     cdef bint  ensemblefilter
     cdef bint  fixedbasis
-    c__pdaf_etkf_init(&subtype, &param_int[0], &dim_pint,
+    with nogil:
+        c__pdaf_etkf_init(&subtype, &param_int[0], &dim_pint,
                           &param_real[0], &dim_preal, &ensemblefilter,
                           &fixedbasis, &verbose, &outflag)
 
@@ -10792,7 +10907,8 @@ def etkf_alloc(int  outflag):
     outflag : int
         Status flag
     """
-    c__pdaf_etkf_alloc(&outflag)
+    with nogil:
+        c__pdaf_etkf_alloc(&outflag)
 
     return outflag
 
@@ -10813,7 +10929,8 @@ def etkf_config(int  subtype, int  verbose):
     subtype : int
         Sub-type of filter
     """
-    c__pdaf_etkf_config(&subtype, &verbose)
+    with nogil:
+        c__pdaf_etkf_config(&subtype, &verbose)
 
     return subtype
 
@@ -10835,7 +10952,8 @@ def etkf_set_iparam(int  id, int  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_etkf_set_iparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_etkf_set_iparam(&id, &value, &flag)
 
     return flag
 
@@ -10857,7 +10975,8 @@ def etkf_set_rparam(int  id, double  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_etkf_set_rparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_etkf_set_rparam(&id, &value, &flag)
 
     return flag
 
@@ -10866,7 +10985,8 @@ def etkf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    c__pdaf_etkf_options()
+    with nogil:
+        c__pdaf_etkf_options()
 
 
 
@@ -10882,7 +11002,8 @@ def etkf_memtime(int  printtype):
     Returns
     -------
     """
-    c__pdaf_etkf_memtime(&printtype)
+    with nogil:
+        c__pdaf_etkf_memtime(&printtype)
 
 
 
@@ -11114,7 +11235,8 @@ def lenkf_update(int  step, int  dim_p, int  dim_ens,
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     pdaf_cb.localize_covar_pdaf = py__localize_covar_pdaf
     cdef int  dim_obs_p
-    c__pdaflenkf_update(&step, &dim_p, &dim_obs_p, &dim_ens,
+    with nogil:
+        c__pdaflenkf_update(&step, &dim_p, &dim_obs_p, &dim_ens,
                             &state_p[0], &ens_p[0,0],
                             pdaf_cb.c__init_dim_obs_pdaf,
                             pdaf_cb.c__obs_op_pdaf,
@@ -11173,7 +11295,8 @@ def pf_init(int  subtype, int [::1] param_int, int  dim_pint,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
     cdef bint  ensemblefilter
     cdef bint  fixedbasis
-    c__pdaf_pf_init(&subtype, &param_int[0], &dim_pint, &param_real[0],
+    with nogil:
+        c__pdaf_pf_init(&subtype, &param_int[0], &dim_pint, &param_real[0],
                         &dim_preal, &ensemblefilter, &fixedbasis, &verbose,
                         &outflag)
 
@@ -11194,7 +11317,8 @@ def pf_alloc(int  outflag):
     outflag : int
         Status flag
     """
-    c__pdaf_pf_alloc(&outflag)
+    with nogil:
+        c__pdaf_pf_alloc(&outflag)
 
     return outflag
 
@@ -11215,7 +11339,8 @@ def pf_config(int  subtype, int  verbose):
     subtype : int
         Sub-type of filter
     """
-    c__pdaf_pf_config(&subtype, &verbose)
+    with nogil:
+        c__pdaf_pf_config(&subtype, &verbose)
 
     return subtype
 
@@ -11237,7 +11362,8 @@ def pf_set_iparam(int  id, int  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_pf_set_iparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_pf_set_iparam(&id, &value, &flag)
 
     return flag
 
@@ -11259,7 +11385,8 @@ def pf_set_rparam(int  id, double  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_pf_set_rparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_pf_set_rparam(&id, &value, &flag)
 
     return flag
 
@@ -11268,7 +11395,8 @@ def pf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    c__pdaf_pf_options()
+    with nogil:
+        c__pdaf_pf_options()
 
 
 
@@ -11284,7 +11412,8 @@ def pf_memtime(int  printtype):
     Returns
     -------
     """
-    c__pdaf_pf_memtime(&printtype)
+    with nogil:
+        c__pdaf_pf_memtime(&printtype)
 
 
 
@@ -11426,7 +11555,8 @@ def lknetf_ana_letkft(int  domain_p, int  step, int  dim_l,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] gamma_np = np.asarray(gamma, dtype=np.float64, order="F")
     pdaf_cb.prodrinva_hyb_l_pdaf = py__prodrinva_hyb_l_pdaf
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
-    c__pdaf_lknetf_ana_letkft(&domain_p, &step, &dim_l, &dim_obs_l,
+    with nogil:
+        c__pdaf_lknetf_ana_letkft(&domain_p, &step, &dim_l, &dim_obs_l,
                                   &dim_ens, &state_l[0], &ainv_l[0,0],
                                   &ens_l[0,0], &hz_l[0,0], &hxbar_l[0],
                                   &obs_l[0], &rndmat[0,0], &forget,
@@ -11530,7 +11660,8 @@ def lknetf_ana_lnetf(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] n_eff_all_np = np.asarray(n_eff_all, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] gamma_np = np.asarray(gamma, dtype=np.float64, order="F")
     pdaf_cb.likelihood_hyb_l_pdaf = py__likelihood_hyb_l_pdaf
-    c__pdaf_lknetf_ana_lnetf(&domain_p, &step, &dim_l, &dim_obs_l,
+    with nogil:
+        c__pdaf_lknetf_ana_lnetf(&domain_p, &step, &dim_l, &dim_obs_l,
                                  &dim_ens, &ens_l[0,0], &hx_l[0,0],
                                  &rndmat[0,0], &obs_l[0],
                                  pdaf_cb.c__likelihood_hyb_l_pdaf,
@@ -11641,7 +11772,8 @@ def enkf_ana_rsm(int  step, int  dim_p, int  dim_obs_p, int dim_obs, int  dim_en
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_p_np = np.asarray(ens_p, dtype=np.float64, order="F")
     pdaf_cb.add_obs_err_pdaf = py__add_obs_err_pdaf
     pdaf_cb.init_obs_covar_pdaf = py__init_obs_covar_pdaf
-    c__pdaf_enkf_ana_rsm(&step, &dim_p, &dim_obs_p, &dim_obs, &dim_ens,
+    with nogil:
+        c__pdaf_enkf_ana_rsm(&step, &dim_p, &dim_obs_p, &dim_obs, &dim_ens,
                              &rank_ana, &state_p[0], &ens_p[0,0],
                              &hx_p[0,0], &hxbar_p[0], &obs_p[0],
                              pdaf_cb.c__add_obs_err_pdaf,
@@ -11696,7 +11828,8 @@ def lknetf_init(int  subtype, int [::1] param_int, int  dim_pint,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
     cdef bint  ensemblefilter
     cdef bint  fixedbasis
-    c__pdaf_lknetf_init(&subtype, &param_int[0], &dim_pint,
+    with nogil:
+        c__pdaf_lknetf_init(&subtype, &param_int[0], &dim_pint,
                             &param_real[0], &dim_preal, &ensemblefilter,
                             &fixedbasis, &verbose, &outflag)
 
@@ -11717,7 +11850,8 @@ def lknetf_alloc(int  outflag):
     outflag : int
         Status flag
     """
-    c__pdaf_lknetf_alloc(&outflag)
+    with nogil:
+        c__pdaf_lknetf_alloc(&outflag)
 
     return outflag
 
@@ -11738,7 +11872,8 @@ def lknetf_config(int  subtype, int  verbose):
     subtype : int
         Sub-type of filter
     """
-    c__pdaf_lknetf_config(&subtype, &verbose)
+    with nogil:
+        c__pdaf_lknetf_config(&subtype, &verbose)
 
     return subtype
 
@@ -11760,7 +11895,8 @@ def lknetf_set_iparam(int  id, int  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_lknetf_set_iparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_lknetf_set_iparam(&id, &value, &flag)
 
     return flag
 
@@ -11782,7 +11918,8 @@ def lknetf_set_rparam(int  id, double  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_lknetf_set_rparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_lknetf_set_rparam(&id, &value, &flag)
 
     return flag
 
@@ -11791,7 +11928,8 @@ def lknetf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    c__pdaf_lknetf_options()
+    with nogil:
+        c__pdaf_lknetf_options()
 
 
 
@@ -11807,7 +11945,8 @@ def lknetf_memtime(int  printtype):
     Returns
     -------
     """
-    c__pdaf_lknetf_memtime(&printtype)
+    with nogil:
+        c__pdaf_lknetf_memtime(&printtype)
 
 
 
@@ -11833,7 +11972,8 @@ def lknetf_alpha_neff(int  dim_ens, double [::1] weights, double  hlimit,
     alpha : double
         hybrid weight
     """
-    c__pdaf_lknetf_alpha_neff(&dim_ens, &weights[0], &hlimit, &alpha)
+    with nogil:
+        c__pdaf_lknetf_alpha_neff(&dim_ens, &weights[0], &hlimit, &alpha)
 
     return alpha
 
@@ -11936,7 +12076,8 @@ def lknetf_compute_gamma(int  domain_p, int  step, int  dim_obs_l,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] skew_mabs_np = np.asarray(skew_mabs, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] kurt_mabs_np = np.asarray(kurt_mabs, dtype=np.float64, order="F")
     pdaf_cb.likelihood_l_pdaf = py__likelihood_l_pdaf
-    c__pdaf_lknetf_compute_gamma(&domain_p, &step, &dim_obs_l,
+    with nogil:
+        c__pdaf_lknetf_compute_gamma(&domain_p, &step, &dim_obs_l,
                                      &dim_ens, &hx_l[0,0], &hxbar_l[0],
                                      &obs_l[0], &type_hyb, &hyb_g, &hyb_k,
                                      &gamma[0], &n_eff_out[0],
@@ -12016,7 +12157,8 @@ def lknetf_set_gamma(int  domain_p, int  dim_obs_l, int  dim_ens,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] n_eff_out_np = np.asarray(n_eff_out, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] maskew_np = np.asarray(maskew, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] makurt_np = np.asarray(makurt, dtype=np.float64, order="F")
-    c__pdaf_lknetf_set_gamma(&domain_p, &dim_obs_l, &dim_ens,
+    with nogil:
+        c__pdaf_lknetf_set_gamma(&domain_p, &dim_obs_l, &dim_ens,
                                  &hx_l[0,0], &hxbar_l[0], &weights[0],
                                  &type_hyb, &hyb_g, &hyb_k, &gamma[0],
                                  &n_eff_out[0], &maskew[0], &makurt[0],
@@ -12037,7 +12179,8 @@ def lknetf_reset_gamma(double  gamma_in):
     Returns
     -------
     """
-    c__pdaf_lknetf_reset_gamma(&gamma_in)
+    with nogil:
+        c__pdaf_lknetf_reset_gamma(&gamma_in)
 
 
 
@@ -12295,7 +12438,8 @@ def hyb3dvar_analysis_cvt(int  step, int  dim_p, int  dim_obs_p,
     pdaf_cb.cvt_adj_ens_pdaf = py__cvt_adj_ens_pdaf
     pdaf_cb.obs_op_lin_pdaf = py__obs_op_lin_pdaf
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    c__pdafhyb3dvar_analysis_cvt(&step, &dim_p, &dim_obs_p, &dim_ens,
+    with nogil:
+        c__pdafhyb3dvar_analysis_cvt(&step, &dim_p, &dim_obs_p, &dim_ens,
                                      &dim_cvec, &dim_cvec_ens, &beta_3dvar,
                                      &state_p[0], &ens_p[0,0],
                                      &state_inc_p[0], &hxbar_p[0],
@@ -12481,7 +12625,8 @@ def _3dvar_analysis_cvt(int  step, int  dim_p, int  dim_obs_p,
     pdaf_cb.cvt_adj_pdaf = py__cvt_adj_pdaf
     pdaf_cb.obs_op_lin_pdaf = py__obs_op_lin_pdaf
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
-    c__pdaf3dvar_analysis_cvt(&step, &dim_p, &dim_obs_p, &dim_cvec,
+    with nogil:
+        c__pdaf3dvar_analysis_cvt(&step, &dim_p, &dim_obs_p, &dim_cvec,
                                   &state_p[0], &hxbar_p[0], &obs_p[0],
                                   pdaf_cb.c__prodrinva_pdaf,
                                   pdaf_cb.c__cvt_pdaf,
@@ -12538,7 +12683,8 @@ def lestkf_init(int  subtype, int [::1] param_int, int  dim_pint,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
     cdef bint  ensemblefilter
     cdef bint  fixedbasis
-    c__pdaf_lestkf_init(&subtype, &param_int[0], &dim_pint,
+    with nogil:
+        c__pdaf_lestkf_init(&subtype, &param_int[0], &dim_pint,
                             &param_real[0], &dim_preal, &ensemblefilter,
                             &fixedbasis, &verbose, &outflag)
 
@@ -12559,7 +12705,8 @@ def lestkf_alloc(int  outflag):
     outflag : int
         Status flag
     """
-    c__pdaf_lestkf_alloc(&outflag)
+    with nogil:
+        c__pdaf_lestkf_alloc(&outflag)
 
     return outflag
 
@@ -12580,7 +12727,8 @@ def lestkf_config(int  subtype, int  verbose):
     subtype : int
         Sub-type of filter
     """
-    c__pdaf_lestkf_config(&subtype, &verbose)
+    with nogil:
+        c__pdaf_lestkf_config(&subtype, &verbose)
 
     return subtype
 
@@ -12602,7 +12750,8 @@ def lestkf_set_iparam(int  id, int  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_lestkf_set_iparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_lestkf_set_iparam(&id, &value, &flag)
 
     return flag
 
@@ -12624,7 +12773,8 @@ def lestkf_set_rparam(int  id, double  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_lestkf_set_rparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_lestkf_set_rparam(&id, &value, &flag)
 
     return flag
 
@@ -12633,7 +12783,8 @@ def lestkf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    c__pdaf_lestkf_options()
+    with nogil:
+        c__pdaf_lestkf_options()
 
 
 
@@ -12649,7 +12800,8 @@ def lestkf_memtime(int  printtype):
     Returns
     -------
     """
-    c__pdaf_lestkf_memtime(&printtype)
+    with nogil:
+        c__pdaf_lestkf_memtime(&printtype)
 
 
 
@@ -12746,7 +12898,8 @@ def seik_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_p_np = np.asarray(ens_p, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hl_p_np = np.asarray(hl_p, dtype=np.float64, order="F")
     pdaf_cb.prodrinva_pdaf = py__prodrinva_pdaf
-    c__pdaf_seik_ana(&step, &dim_p, &dim_obs_p, &dim_ens, &rank,
+    with nogil:
+        c__pdaf_seik_ana(&step, &dim_p, &dim_obs_p, &dim_ens, &rank,
                          &state_p[0], &uinv[0,0], &ens_p[0,0], &hl_p[0,0],
                          &hxbar_p[0], &obs_p[0], &forget,
                          pdaf_cb.c__prodrinva_pdaf, &debug, &flag)
@@ -12807,7 +12960,8 @@ def seik_resample(int  subtype, int  dim_p, int  dim_ens, int  rank,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] uinv_np = np.asarray(uinv, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_p_np = np.asarray(state_p, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] enst_p_np = np.asarray(enst_p, dtype=np.float64, order="F")
-    c__pdaf_seik_resample(&subtype, &dim_p, &dim_ens, &rank,
+    with nogil:
+        c__pdaf_seik_resample(&subtype, &dim_p, &dim_ens, &rank,
                               &uinv[0,0], &state_p[0], &enst_p[0,0],
                               &type_sqrt, &type_trans, &nm1vsn, &screen, &flag)
 
@@ -12913,7 +13067,8 @@ def lseik_ana(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] uinv_l_np = np.asarray(uinv_l, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hl_l_np = np.asarray(hl_l, dtype=np.float64, order="F")
     pdaf_cb.prodrinva_l_pdaf = py__prodrinva_l_pdaf
-    c__pdaf_lseik_ana(&domain_p, &step, &dim_l, &dim_obs_l, &dim_ens,
+    with nogil:
+        c__pdaf_lseik_ana(&domain_p, &step, &dim_l, &dim_obs_l, &dim_ens,
                           &rank, &state_l[0], &uinv_l[0,0], &ens_l[0,0],
                           &hl_l[0,0], &hxbar_l[0], &obs_l[0], &forget,
                           pdaf_cb.c__prodrinva_l_pdaf, &screen, &debug, &flag)
@@ -12980,7 +13135,8 @@ def lseik_resample(int  domain_p, int  subtype, int  dim_l, int  dim_ens,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_l_np = np.asarray(state_l, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_l_np = np.asarray(ens_l, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] omegat_in_np = np.asarray(omegat_in, dtype=np.float64, order="F")
-    c__pdaf_lseik_resample(&domain_p, &subtype, &dim_l, &dim_ens,
+    with nogil:
+        c__pdaf_lseik_resample(&domain_p, &subtype, &dim_l, &dim_ens,
                                &rank, &uinv_l[0,0], &state_l[0],
                                &ens_l[0,0], &omegat_in[0,0], &type_sqrt,
                                &screen, &flag)
@@ -13113,7 +13269,8 @@ def prepost(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_prepost(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_prepost(pdaf_cb.c__collect_state_pdaf,
                         pdaf_cb.c__distribute_state_pdaf,
                         pdaf_cb.c__prepoststep_pdaf,
                         pdaf_cb.c__next_observation_pdaf, &outflag)
@@ -13148,7 +13305,8 @@ def prepost_offline(py__prepoststep_pdaf):
     """
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int outflag
-    c__pdaf_prepost_offline(pdaf_cb.c__prepoststep_pdaf, &outflag)
+    with nogil:
+        c__pdaf_prepost_offline(pdaf_cb.c__prepoststep_pdaf, &outflag)
     return outflag
 
 
@@ -13367,7 +13525,8 @@ def enkf_update(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
     pdaf_cb.init_obs_covar_pdaf = py__init_obs_covar_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  dim_obs_p
-    c__pdafenkf_update(&step, &dim_p, &dim_obs_p, &dim_ens,
+    with nogil:
+        c__pdafenkf_update(&step, &dim_p, &dim_obs_p, &dim_ens,
                            &state_p[0], &ens_p[0,0],
                            pdaf_cb.c__init_dim_obs_pdaf,
                            pdaf_cb.c__obs_op_pdaf,
@@ -13416,7 +13575,8 @@ def init_parallel(int  dim_ens, bint  ensemblefilter, bint  fixedbasis,
     flag : int
         Status flag
     """
-    c__pdaf_init_parallel(&dim_ens, &ensemblefilter, &fixedbasis,
+    with nogil:
+        c__pdaf_init_parallel(&dim_ens, &ensemblefilter, &fixedbasis,
                               &comm_model, &in_comm_filter,
                               &in_comm_couple, &in_n_modeltasks,
                               &in_task_id, &screen, &flag)
@@ -13467,7 +13627,8 @@ def seik_init(int  subtype, int [::1] param_int, int  dim_pint,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
     cdef bint  ensemblefilter
     cdef bint  fixedbasis
-    c__pdaf_seik_init(&subtype, &param_int[0], &dim_pint,
+    with nogil:
+        c__pdaf_seik_init(&subtype, &param_int[0], &dim_pint,
                           &param_real[0], &dim_preal, &ensemblefilter,
                           &fixedbasis, &verbose, &outflag)
 
@@ -13488,7 +13649,8 @@ def seik_alloc(int  outflag):
     outflag : int
         Status flag
     """
-    c__pdaf_seik_alloc(&outflag)
+    with nogil:
+        c__pdaf_seik_alloc(&outflag)
 
     return outflag
 
@@ -13509,7 +13671,8 @@ def seik_config(int  subtype, int  verbose):
     subtype : int
         Sub-type of filter
     """
-    c__pdaf_seik_config(&subtype, &verbose)
+    with nogil:
+        c__pdaf_seik_config(&subtype, &verbose)
 
     return subtype
 
@@ -13531,7 +13694,8 @@ def seik_set_iparam(int  id, int  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_seik_set_iparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_seik_set_iparam(&id, &value, &flag)
 
     return flag
 
@@ -13553,7 +13717,8 @@ def seik_set_rparam(int  id, double  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_seik_set_rparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_seik_set_rparam(&id, &value, &flag)
 
     return flag
 
@@ -13562,7 +13727,8 @@ def seik_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    c__pdaf_seik_options()
+    with nogil:
+        c__pdaf_seik_options()
 
 
 
@@ -13578,7 +13744,8 @@ def seik_memtime(int  printtype):
     Returns
     -------
     """
-    c__pdaf_seik_memtime(&printtype)
+    with nogil:
+        c__pdaf_seik_memtime(&printtype)
 
 
 
@@ -13782,7 +13949,8 @@ def netf_update(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
     pdaf_cb.likelihood_pdaf = py__likelihood_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  dim_obs_p
-    c__pdafnetf_update(&step, &dim_p, &dim_obs_p, &dim_ens,
+    with nogil:
+        c__pdafnetf_update(&step, &dim_p, &dim_obs_p, &dim_ens,
                            &state_p[0], &ainv[0,0], &ens_p[0,0],
                            pdaf_cb.c__init_dim_obs_pdaf,
                            pdaf_cb.c__obs_op_pdaf,
@@ -13889,7 +14057,8 @@ def seik_ana_newt(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_p_np = np.asarray(ens_p, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hl_p_np = np.asarray(hl_p, dtype=np.float64, order="F")
     pdaf_cb.prodrinva_pdaf = py__prodrinva_pdaf
-    c__pdaf_seik_ana_newt(&step, &dim_p, &dim_obs_p, &dim_ens, &rank,
+    with nogil:
+        c__pdaf_seik_ana_newt(&step, &dim_p, &dim_obs_p, &dim_ens, &rank,
                               &state_p[0], &uinv[0,0], &ens_p[0,0],
                               &hl_p[0,0], &hxbar_p[0], &obs_p[0], &forget,
                               pdaf_cb.c__prodrinva_pdaf, &screen, &debug, &flag)
@@ -13950,7 +14119,8 @@ def seik_resample_newt(int  subtype, int  dim_p, int  dim_ens, int  rank,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] uinv_np = np.asarray(uinv, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_p_np = np.asarray(state_p, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_p_np = np.asarray(ens_p, dtype=np.float64, order="F")
-    c__pdaf_seik_resample_newt(&subtype, &dim_p, &dim_ens, &rank,
+    with nogil:
+        c__pdaf_seik_resample_newt(&subtype, &dim_p, &dim_ens, &rank,
                                    &uinv[0,0], &state_p[0], &ens_p[0,0],
                                    &type_sqrt, &type_trans, &nm1vsn,
                                    &screen, &flag)
@@ -14085,7 +14255,8 @@ def lenkf_ana_rsm(int  step, int  dim_p, int  dim_obs_p, int dim_obs, int  dim_e
     pdaf_cb.add_obs_err_pdaf = py__add_obs_err_pdaf
     pdaf_cb.init_obs_covar_pdaf = py__init_obs_covar_pdaf
     pdaf_cb.localize_covar_pdaf = py__localize_covar_pdaf
-    c__pdaf_lenkf_ana_rsm(&step, &dim_p, &dim_obs_p, &dim_obs, &dim_ens,
+    with nogil:
+        c__pdaf_lenkf_ana_rsm(&step, &dim_p, &dim_obs_p, &dim_obs, &dim_ens,
                               &rank_ana, &state_p[0], &ens_p[0,0],
                               &hx_p[0,0], &hxbar_p[0], &obs_p[0],
                               pdaf_cb.c__add_obs_err_pdaf,
@@ -14214,7 +14385,8 @@ def lestkf_ana(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hl_l_np = np.asarray(hl_l, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ta_np = np.asarray(ta, dtype=np.float64, order="F")
     pdaf_cb.prodrinva_l_pdaf = py__prodrinva_l_pdaf
-    c__pdaf_lestkf_ana(&domain_p, &step, &dim_l, &dim_obs_l, &dim_ens,
+    with nogil:
+        c__pdaf_lestkf_ana(&domain_p, &step, &dim_l, &dim_obs_l, &dim_ens,
                            &rank, &state_l[0], &ainv_l[0,0], &ens_l[0,0],
                            &hl_l[0,0], &hxbar_l[0], &obs_l[0],
                            &omegat_in[0,0], &forget,
@@ -14629,7 +14801,8 @@ def lestkf_update(int  step, int  dim_p, int  dim_ens, int  rank,
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  dim_obs_f
-    c__pdaflestkf_update(&step, &dim_p, &dim_obs_f, &dim_ens, &rank,
+    with nogil:
+        c__pdaflestkf_update(&step, &dim_p, &dim_obs_f, &dim_ens, &rank,
                              &state_p[0], &ainv[0,0], &ens_p[0,0],
                              pdaf_cb.c__init_dim_obs_pdaf,
                              pdaf_cb.c__obs_op_pdaf,
@@ -14696,7 +14869,8 @@ def lnetf_init(int  subtype, int [::1] param_int, int  dim_pint,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
     cdef bint  ensemblefilter
     cdef bint  fixedbasis
-    c__pdaf_lnetf_init(&subtype, &param_int[0], &dim_pint,
+    with nogil:
+        c__pdaf_lnetf_init(&subtype, &param_int[0], &dim_pint,
                            &param_real[0], &dim_preal, &ensemblefilter,
                            &fixedbasis, &verbose, &outflag)
 
@@ -14717,7 +14891,8 @@ def lnetf_alloc(int  outflag):
     outflag : int
         Status flag
     """
-    c__pdaf_lnetf_alloc(&outflag)
+    with nogil:
+        c__pdaf_lnetf_alloc(&outflag)
 
     return outflag
 
@@ -14738,7 +14913,8 @@ def lnetf_config(int  subtype, int  verbose):
     subtype : int
         Sub-type of filter
     """
-    c__pdaf_lnetf_config(&subtype, &verbose)
+    with nogil:
+        c__pdaf_lnetf_config(&subtype, &verbose)
 
     return subtype
 
@@ -14760,7 +14936,8 @@ def lnetf_set_iparam(int  id, int  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_lnetf_set_iparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_lnetf_set_iparam(&id, &value, &flag)
 
     return flag
 
@@ -14782,7 +14959,8 @@ def lnetf_set_rparam(int  id, double  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_lnetf_set_rparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_lnetf_set_rparam(&id, &value, &flag)
 
     return flag
 
@@ -14791,7 +14969,8 @@ def lnetf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    c__pdaf_lnetf_options()
+    with nogil:
+        c__pdaf_lnetf_options()
 
 
 
@@ -14807,7 +14986,8 @@ def lnetf_memtime(int  printtype):
     Returns
     -------
     """
-    c__pdaf_lnetf_memtime(&printtype)
+    with nogil:
+        c__pdaf_lnetf_memtime(&printtype)
 
 
 
@@ -14856,7 +15036,8 @@ def enkf_init(int  subtype, int [::1] param_int, int  dim_pint,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
     cdef bint  ensemblefilter
     cdef bint  fixedbasis
-    c__pdaf_enkf_init(&subtype, &param_int[0], &dim_pint,
+    with nogil:
+        c__pdaf_enkf_init(&subtype, &param_int[0], &dim_pint,
                           &param_real[0], &dim_preal, &ensemblefilter,
                           &fixedbasis, &verbose, &outflag)
 
@@ -14877,7 +15058,8 @@ def enkf_alloc(int  outflag):
     outflag : int
         Status flag
     """
-    c__pdaf_enkf_alloc(&outflag)
+    with nogil:
+        c__pdaf_enkf_alloc(&outflag)
 
     return outflag
 
@@ -14898,7 +15080,8 @@ def enkf_config(int  subtype, int  verbose):
     subtype : int
         Sub-type of filter
     """
-    c__pdaf_enkf_config(&subtype, &verbose)
+    with nogil:
+        c__pdaf_enkf_config(&subtype, &verbose)
 
     return subtype
 
@@ -14920,7 +15103,8 @@ def enkf_set_iparam(int  id, int  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_enkf_set_iparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_enkf_set_iparam(&id, &value, &flag)
 
     return flag
 
@@ -14942,7 +15126,8 @@ def enkf_set_rparam(int  id, double  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_enkf_set_rparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_enkf_set_rparam(&id, &value, &flag)
 
     return flag
 
@@ -14951,7 +15136,8 @@ def enkf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    c__pdaf_enkf_options()
+    with nogil:
+        c__pdaf_enkf_options()
 
 
 
@@ -14967,7 +15153,8 @@ def enkf_memtime(int  printtype):
     Returns
     -------
     """
-    c__pdaf_enkf_memtime(&printtype)
+    with nogil:
+        c__pdaf_enkf_memtime(&printtype)
 
 
 
@@ -14996,7 +15183,8 @@ def enkf_gather_resid(int  dim_obs, int  dim_obs_p, int  dim_ens,
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] resid_np = np.zeros((dim_obs, dim_ens), dtype=np.float64, order="F")
     cdef double [::1,:] resid = resid_np
-    c__pdaf_enkf_gather_resid(&dim_obs, &dim_obs_p, &dim_ens,
+    with nogil:
+        c__pdaf_enkf_gather_resid(&dim_obs, &dim_obs_p, &dim_ens,
                                   &resid_p[0,0], &resid[0,0])
 
     return resid_np
@@ -15060,7 +15248,8 @@ def enkf_obs_ensemble(int  step, int  dim_obs_p, int  dim_obs,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] obsens_p_np = np.zeros((dim_obs_p,dim_ens), dtype=np.float64, order="F")
     cdef double [::1,:] obsens_p = obsens_p_np
     pdaf_cb.init_obs_covar_pdaf = py__init_obs_covar_pdaf
-    c__pdaf_enkf_obs_ensemble(&step, &dim_obs_p, &dim_obs, &dim_ens,
+    with nogil:
+        c__pdaf_enkf_obs_ensemble(&step, &dim_obs_p, &dim_obs, &dim_ens,
                                   &obsens_p[0,0], &obs_p[0],
                                   pdaf_cb.c__init_obs_covar_pdaf, &screen,
                                   &flag)
@@ -15254,7 +15443,8 @@ def pf_update(int  step, int  dim_p, int  dim_ens, double [::1] state_p,
     pdaf_cb.likelihood_pdaf = py__likelihood_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  dim_obs_p
-    c__pdafpf_update(&step, &dim_p, &dim_obs_p, &dim_ens, &state_p[0],
+    with nogil:
+        c__pdafpf_update(&step, &dim_p, &dim_obs_p, &dim_ens, &state_p[0],
                          &ainv[0,0], &ens_p[0,0],
                          pdaf_cb.c__init_dim_obs_pdaf,
                          pdaf_cb.c__obs_op_pdaf, pdaf_cb.c__init_obs_pdaf,
@@ -15283,7 +15473,8 @@ def generate_rndmat(int  dim, int  mattype):
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] rndmat_np = np.zeros((dim, dim), dtype=np.float64, order="F")
     cdef double [::1,:] rndmat = rndmat_np
-    c__pdaf_generate_rndmat(&dim, &rndmat[0,0], &mattype)
+    with nogil:
+        c__pdaf_generate_rndmat(&dim, &rndmat[0,0], &mattype)
 
     return rndmat_np
 
@@ -15300,7 +15491,8 @@ def print_domain_stats(int  n_domains_p):
     Returns
     -------
     """
-    c__pdaf_print_domain_stats(&n_domains_p)
+    with nogil:
+        c__pdaf_print_domain_stats(&n_domains_p)
 
 
 
@@ -15308,7 +15500,8 @@ def init_local_obsstats():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    c__pdaf_init_local_obsstats()
+    with nogil:
+        c__pdaf_init_local_obsstats()
 
 
 
@@ -15324,7 +15517,8 @@ def incr_local_obsstats(int  dim_obs_l):
     Returns
     -------
     """
-    c__pdaf_incr_local_obsstats(&dim_obs_l)
+    with nogil:
+        c__pdaf_incr_local_obsstats(&dim_obs_l)
 
 
 
@@ -15343,7 +15537,8 @@ def print_local_obsstats(int  screen):
 
     """
     cdef int  n_domains_with_obs
-    c__pdaf_print_local_obsstats(&screen, &n_domains_with_obs)
+    with nogil:
+        c__pdaf_print_local_obsstats(&screen, &n_domains_with_obs)
 
     return n_domains_with_obs
 
@@ -15369,7 +15564,8 @@ def seik_matrixt(int  dim, int  dim_ens, double [::1,:] a):
         Array shape: (dim, dim_ens)
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] a_np = np.asarray(a, dtype=np.float64, order="F")
-    c__pdaf_seik_matrixt(&dim, &dim_ens, &a[0,0])
+    with nogil:
+        c__pdaf_seik_matrixt(&dim, &dim_ens, &a[0,0])
 
     return a_np
 
@@ -15396,7 +15592,8 @@ def seik_ttimesa(int  rank, int  dim_col, double [::1,:] a):
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] b_np = np.zeros((rank+1, dim_col), dtype=np.float64, order="F")
     cdef double [::1,:] b = b_np
-    c__pdaf_seik_ttimesa(&rank, &dim_col, &a[0,0], &b[0,0])
+    with nogil:
+        c__pdaf_seik_ttimesa(&rank, &dim_col, &a[0,0], &b[0,0])
 
     return b_np
 
@@ -15424,7 +15621,8 @@ def seik_omega(int  rank, double [::1,:] omega, int  omegatype, int  screen):
         Array shape: (rank+1, rank)
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] omega_np = np.asarray(omega, dtype=np.float64, order="F")
-    c__pdaf_seik_omega(&rank, &omega[0,0], &omegatype, &screen)
+    with nogil:
+        c__pdaf_seik_omega(&rank, &omega[0,0], &omegatype, &screen)
 
     return omega_np
 
@@ -15448,7 +15646,8 @@ def seik_uinv(int  rank, double [::1,:] uinv):
         Array shape: (rank, rank)
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] uinv_np = np.asarray(uinv, dtype=np.float64, order="F")
-    c__pdaf_seik_uinv(&rank, &uinv[0,0])
+    with nogil:
+        c__pdaf_seik_uinv(&rank, &uinv[0,0])
 
     return uinv_np
 
@@ -15486,7 +15685,8 @@ def ens_omega(int [::1] seed, int  r, int  dim_ens, double [::1,:] omega,
         Norm for ensemble transformation
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] omega_np = np.asarray(omega, dtype=np.float64, order="F")
-    c__pdaf_ens_omega(&seed[0], &r, &dim_ens, &omega[0,0], &norm,
+    with nogil:
+        c__pdaf_ens_omega(&seed[0], &r, &dim_ens, &omega[0,0], &norm,
                           &otype, &screen)
 
     return omega_np, norm
@@ -15514,7 +15714,8 @@ def estkf_omegaa(int  rank, int  dim_col, double [::1,:] a):
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] b_np = np.zeros((rank+1, dim_col), dtype=np.float64, order="F")
     cdef double [::1,:] b = b_np
-    c__pdaf_estkf_omegaa(&rank, &dim_col, &a[0,0], &b[0,0])
+    with nogil:
+        c__pdaf_estkf_omegaa(&rank, &dim_col, &a[0,0], &b[0,0])
 
     return b_np
 
@@ -15540,7 +15741,8 @@ def estkf_aomega(int  dim, int  dim_ens, double [::1,:] a):
         Array shape: (dim, dim_ens)
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] a_np = np.asarray(a, dtype=np.float64, order="F")
-    c__pdaf_estkf_aomega(&dim, &dim_ens, &a[0,0])
+    with nogil:
+        c__pdaf_estkf_aomega(&dim, &dim_ens, &a[0,0])
 
     return a_np
 
@@ -15566,7 +15768,8 @@ def subtract_rowmean(int  dim, int  dim_ens, double [::1,:] a):
         Array shape: (dim, dim_ens)
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] a_np = np.asarray(a, dtype=np.float64, order="F")
-    c__pdaf_subtract_rowmean(&dim, &dim_ens, &a[0,0])
+    with nogil:
+        c__pdaf_subtract_rowmean(&dim, &dim_ens, &a[0,0])
 
     return a_np
 
@@ -15592,7 +15795,8 @@ def subtract_colmean(int  dim_ens, int  dim, double [::1,:] a):
         Array shape: (dim_ens, dim)
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] a_np = np.asarray(a, dtype=np.float64, order="F")
-    c__pdaf_subtract_colmean(&dim_ens, &dim, &a[0,0])
+    with nogil:
+        c__pdaf_subtract_colmean(&dim_ens, &dim, &a[0,0])
 
     return a_np
 
@@ -15632,7 +15836,8 @@ def add_particle_noise(int  dim_p, int  dim_ens, double [::1] state_p,
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] state_p_np = np.asarray(state_p, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_p_np = np.asarray(ens_p, dtype=np.float64, order="F")
-    c__pdaf_add_particle_noise(&dim_p, &dim_ens, &state_p[0],
+    with nogil:
+        c__pdaf_add_particle_noise(&dim_p, &dim_ens, &state_p[0],
                                    &ens_p[0,0], &type_noise, &noise_amp,
                                    &screen)
 
@@ -15663,7 +15868,8 @@ def inflate_weights(int  screen, int  dim_ens, double  alpha,
         Array shape: (dim_ens)
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] weights_np = np.asarray(weights, dtype=np.float64, order="F")
-    c__pdaf_inflate_weights(&screen, &dim_ens, &alpha, &weights[0])
+    with nogil:
+        c__pdaf_inflate_weights(&screen, &dim_ens, &alpha, &weights[0])
 
     return weights_np
 
@@ -15701,7 +15907,8 @@ def inflate_ens(int  dim, int  dim_ens, double [::1] meanstate,
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] meanstate_np = np.asarray(meanstate, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_np = np.asarray(ens, dtype=np.float64, order="F")
-    c__pdaf_inflate_ens(&dim, &dim_ens, &meanstate[0], &ens[0,0],
+    with nogil:
+        c__pdaf_inflate_ens(&dim, &dim_ens, &meanstate[0], &ens[0,0],
                             &forget, &do_ensmean)
 
     return meanstate_np, ens_np
@@ -15732,7 +15939,8 @@ def alloc(int  dim_p, int  dim_ens, int  dim_ens_task, int  dim_es,
     outflag : int
         Status flag
     """
-    c__pdaf_alloc(&dim_p, &dim_ens, &dim_ens_task, &dim_es,
+    with nogil:
+        c__pdaf_alloc(&dim_p, &dim_ens, &dim_ens_task, &dim_es,
                       &statetask, &outflag)
 
     return outflag
@@ -15756,7 +15964,8 @@ def alloc_sens(int dim_p, int dim_ens, int dim_lag, int outflag):
     outflag: int
         Status flag
     """
-    c__pdaf_alloc_sens(&dim_p, &dim_ens, &dim_lag, &outflag)
+    with nogil:
+        c__pdaf_alloc_sens(&dim_p, &dim_ens, &dim_lag, &outflag)
     return outflag
 
 def alloc_bias(int dim_bias_p, int outflag):
@@ -15774,7 +15983,8 @@ def alloc_bias(int dim_bias_p, int outflag):
     outflag: int
         Status flag
     """
-    c__pdaf_alloc_bias(&dim_bias_p, &outflag)
+    with nogil:
+        c__pdaf_alloc_bias(&dim_bias_p, &outflag)
     return outflag
 
 def smoothing(int  dim_p, int  dim_ens, int  dim_lag, double [::1,:] ainv,
@@ -15812,7 +16022,8 @@ def smoothing(int  dim_p, int  dim_ens, int  dim_lag, double [::1,:] ainv,
         Count available number of time steps for smoothing
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=3, mode="fortran", negative_indices=False, cast=False] sens_p_np = np.asarray(sens_p, dtype=np.float64, order="F")
-    c__pdaf_smoothing(&dim_p, &dim_ens, &dim_lag, &ainv[0,0],
+    with nogil:
+        c__pdaf_smoothing(&dim_p, &dim_ens, &dim_lag, &ainv[0,0],
                           &sens_p[0,0,0], &cnt_maxlag, &forget, &screen)
 
     return sens_p_np, cnt_maxlag
@@ -15919,7 +16130,8 @@ def smoothing_local(int  domain_p, int  step, int  dim_p, int  dim_l,
     cdef cnp.ndarray[cnp.float64_t, ndim=3, mode="fortran", negative_indices=False, cast=False] sens_p_np = np.asarray(sens_p, dtype=np.float64, order="F")
     pdaf_cb.g2l_state_pdaf = py__g2l_state_pdaf
     pdaf_cb.l2g_state_pdaf = py__l2g_state_pdaf
-    c__pdaf_smoothing_local(&domain_p, &step, &dim_p, &dim_l, &dim_ens,
+    with nogil:
+        c__pdaf_smoothing_local(&domain_p, &step, &dim_p, &dim_l, &dim_ens,
                                 &dim_lag, &ainv[0,0], &ens_l[0,0],
                                 &sens_p[0,0,0], &cnt_maxlag,
                                 pdaf_cb.c__g2l_state_pdaf,
@@ -15967,7 +16179,8 @@ def smoother_shift(int  dim_p, int  dim_ens, int  dim_lag,
     """
     cdef cnp.ndarray[cnp.float64_t, ndim=3, mode="fortran", negative_indices=False, cast=False] ens_p_np = np.asarray(ens_p, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=3, mode="fortran", negative_indices=False, cast=False] sens_p_np = np.asarray(sens_p, dtype=np.float64, order="F")
-    c__pdaf_smoother_shift(&dim_p, &dim_ens, &dim_lag, &ens_p[0,0,0],
+    with nogil:
+        c__pdaf_smoother_shift(&dim_p, &dim_ens, &dim_lag, &ens_p[0,0,0],
                                &sens_p[0,0,0], &cnt_maxlag, &screen)
 
     return ens_p_np, sens_p_np, cnt_maxlag
@@ -16387,7 +16600,8 @@ def lknetf_update_sync(int  step, int  dim_p, int  dim_ens,
     pdaf_cb.likelihood_l_pdaf = py__likelihood_l_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  dim_obs_f
-    c__pdaflknetf_update_sync(&step, &dim_p, &dim_obs_f, &dim_ens,
+    with nogil:
+        c__pdaflknetf_update_sync(&step, &dim_p, &dim_obs_f, &dim_ens,
                                   &state_p[0], &ainv[0,0], &ens_p[0,0],
                                   pdaf_cb.c__init_dim_obs_pdaf,
                                   pdaf_cb.c__obs_op_pdaf,
@@ -16499,7 +16713,8 @@ def etkf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_p_np = np.asarray(ens_p, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hz_p_np = np.asarray(hz_p, dtype=np.float64, order="F")
     pdaf_cb.prodrinva_pdaf = py__prodrinva_pdaf
-    c__pdaf_etkf_ana(&step, &dim_p, &dim_obs_p, &dim_ens, &state_p[0],
+    with nogil:
+        c__pdaf_etkf_ana(&step, &dim_p, &dim_obs_p, &dim_ens, &state_p[0],
                          &ainv[0,0], &ens_p[0,0], &hz_p[0,0], &hxbar_p[0],
                          &obs_p[0], &forget, pdaf_cb.c__prodrinva_pdaf,
                          &screen, &type_trans, &debug, &flag)
@@ -16615,7 +16830,8 @@ def letkf_ana(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hz_l_np = np.asarray(hz_l, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] rndmat_np = np.asarray(rndmat, dtype=np.float64, order="F")
     pdaf_cb.prodrinva_l_pdaf = py__prodrinva_l_pdaf
-    c__pdaf_letkf_ana(&domain_p, &step, &dim_l, &dim_obs_l, &dim_ens,
+    with nogil:
+        c__pdaf_letkf_ana(&domain_p, &step, &dim_l, &dim_obs_l, &dim_ens,
                           &state_l[0], &ainv_l[0,0], &ens_l[0,0],
                           &hz_l[0,0], &hxbar_l[0], &obs_l[0], &rndmat[0,0],
                           &forget, pdaf_cb.c__prodrinva_l_pdaf,
@@ -16669,7 +16885,8 @@ def letkf_init(int  subtype, int [::1] param_int, int  dim_pint,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
     cdef bint  ensemblefilter
     cdef bint  fixedbasis
-    c__pdaf_letkf_init(&subtype, &param_int[0], &dim_pint,
+    with nogil:
+        c__pdaf_letkf_init(&subtype, &param_int[0], &dim_pint,
                            &param_real[0], &dim_preal, &ensemblefilter,
                            &fixedbasis, &verbose, &outflag)
 
@@ -16690,7 +16907,8 @@ def letkf_alloc(int  outflag):
     outflag : int
         Status flag
     """
-    c__pdaf_letkf_alloc(&outflag)
+    with nogil:
+        c__pdaf_letkf_alloc(&outflag)
 
     return outflag
 
@@ -16711,7 +16929,8 @@ def letkf_config(int  subtype, int  verbose):
     subtype : int
         Sub-type of filter
     """
-    c__pdaf_letkf_config(&subtype, &verbose)
+    with nogil:
+        c__pdaf_letkf_config(&subtype, &verbose)
 
     return subtype
 
@@ -16733,7 +16952,8 @@ def letkf_set_iparam(int  id, int  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_letkf_set_iparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_letkf_set_iparam(&id, &value, &flag)
 
     return flag
 
@@ -16755,7 +16975,8 @@ def letkf_set_rparam(int  id, double  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_letkf_set_rparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_letkf_set_rparam(&id, &value, &flag)
 
     return flag
 
@@ -16764,7 +16985,8 @@ def letkf_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    c__pdaf_letkf_options()
+    with nogil:
+        c__pdaf_letkf_options()
 
 
 
@@ -16780,7 +17002,8 @@ def letkf_memtime(int  printtype):
     Returns
     -------
     """
-    c__pdaf_letkf_memtime(&printtype)
+    with nogil:
+        c__pdaf_letkf_memtime(&printtype)
 
 
 
@@ -16895,7 +17118,8 @@ def estkf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hl_p_np = np.asarray(hl_p, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ta_np = np.asarray(ta, dtype=np.float64, order="F")
     pdaf_cb.prodrinva_pdaf = py__prodrinva_pdaf
-    c__pdaf_estkf_ana(&step, &dim_p, &dim_obs_p, &dim_ens, &rank,
+    with nogil:
+        c__pdaf_estkf_ana(&step, &dim_p, &dim_obs_p, &dim_ens, &rank,
                           &state_p[0], &ainv[0,0], &ens_p[0,0], &hl_p[0,0],
                           &hxbar_p[0], &obs_p[0], &forget,
                           pdaf_cb.c__prodrinva_pdaf, &screen, &envar_mode,
@@ -16991,7 +17215,8 @@ def ensrf_ana(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hx_p_np = np.asarray(hx_p, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] hxbar_p_np = np.asarray(hxbar_p, dtype=np.float64, order="F")
     pdaf_cb.localize_covar_serial_pdaf = py__localize_covar_serial_pdaf
-    c__pdaf_ensrf_ana(&step, &dim_p, &dim_obs_p, &dim_ens, &state_p[0],
+    with nogil:
+        c__pdaf_ensrf_ana(&step, &dim_p, &dim_obs_p, &dim_ens, &state_p[0],
                           &ens_p[0,0], &hx_p[0,0], &hxbar_p[0], &obs_p[0],
                           &var_obs_p[0],
                           pdaf_cb.c__localize_covar_serial_pdaf, &screen,
@@ -17087,7 +17312,8 @@ def ensrf_ana_2step(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hx_p_np = np.asarray(hx_p, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] hxbar_p_np = np.asarray(hxbar_p, dtype=np.float64, order="F")
     pdaf_cb.localize_covar_serial_pdaf = py__localize_covar_serial_pdaf
-    c__pdaf_ensrf_ana_2step(&step, &dim_p, &dim_obs_p, &dim_ens,
+    with nogil:
+        c__pdaf_ensrf_ana_2step(&step, &dim_p, &dim_obs_p, &dim_ens,
                                 &state_p[0], &ens_p[0,0], &hx_p[0,0],
                                 &hxbar_p[0], &obs_p[0], &var_obs_p[0],
                                 pdaf_cb.c__localize_covar_serial_pdaf,
@@ -17452,7 +17678,8 @@ def lnetf_update(int  step, int  dim_p, int  dim_ens,
     pdaf_cb.g2l_obs_pdaf = py__g2l_obs_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  dim_obs_f
-    c__pdaflnetf_update(&step, &dim_p, &dim_obs_f, &dim_ens,
+    with nogil:
+        c__pdaflnetf_update(&step, &dim_p, &dim_obs_f, &dim_ens,
                             &state_p[0], &ainv[0,0], &ens_p[0,0],
                             pdaf_cb.c__obs_op_pdaf,
                             pdaf_cb.c__init_dim_obs_pdaf,
@@ -17572,7 +17799,8 @@ def seik_ana_trans(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_p_np = np.asarray(ens_p, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hl_p_np = np.asarray(hl_p, dtype=np.float64, order="F")
     pdaf_cb.prodrinva_pdaf = py__prodrinva_pdaf
-    c__pdaf_seik_ana_trans(&step, &dim_p, &dim_obs_p, &dim_ens, &rank,
+    with nogil:
+        c__pdaf_seik_ana_trans(&step, &dim_p, &dim_obs_p, &dim_ens, &rank,
                                &state_p[0], &uinv[0,0], &ens_p[0,0],
                                &hl_p[0,0], &hxbar_p[0], &obs_p[0], &forget,
                                pdaf_cb.c__prodrinva_pdaf, &screen,
@@ -17957,7 +18185,8 @@ def hyb3dvar_update_estkf(int  step, int  dim_p, int  dim_ens,
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     cdef int  dim_obs_p
-    c__pdafhyb3dvar_update_estkf(&step, &dim_p, &dim_obs_p, &dim_ens,
+    with nogil:
+        c__pdafhyb3dvar_update_estkf(&step, &dim_p, &dim_obs_p, &dim_ens,
                                      &dim_cvec, &dim_cvec_ens, &state_p[0],
                                      &ainv[0,0], &ens_p[0,0],
                                      pdaf_cb.c__init_dim_obs_pdaf,
@@ -18610,7 +18839,8 @@ def hyb3dvar_update_lestkf(int  step, int  dim_p, int  dim_ens,
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     cdef int  dim_obs_p
-    c__pdafhyb3dvar_update_lestkf(&step, &dim_p, &dim_obs_p, &dim_ens,
+    with nogil:
+        c__pdafhyb3dvar_update_lestkf(&step, &dim_p, &dim_obs_p, &dim_ens,
                                       &dim_cvec, &dim_cvec_ens,
                                       &state_p[0], &ainv[0,0], &ens_p[0,0],
                                       pdaf_cb.c__init_dim_obs_pdaf,
@@ -18746,7 +18976,8 @@ def lestkf_ana_fixed(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_l_np = np.asarray(ens_l, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hl_l_np = np.asarray(hl_l, dtype=np.float64, order="F")
     pdaf_cb.prodrinva_l_pdaf = py__prodrinva_l_pdaf
-    c__pdaf_lestkf_ana_fixed(&domain_p, &step, &dim_l, &dim_obs_l,
+    with nogil:
+        c__pdaf_lestkf_ana_fixed(&domain_p, &step, &dim_l, &dim_obs_l,
                                  &dim_ens, &rank, &state_l[0],
                                  &ainv_l[0,0], &ens_l[0,0], &hl_l[0,0],
                                  &hxbar_l[0], &obs_l[0], &forget,
@@ -18799,7 +19030,8 @@ def genobs_init(int  subtype, int [::1] param_int, int  dim_pint,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
     cdef bint  ensemblefilter
     cdef bint  fixedbasis
-    c__pdaf_genobs_init(&subtype, &param_int[0], &dim_pint,
+    with nogil:
+        c__pdaf_genobs_init(&subtype, &param_int[0], &dim_pint,
                             &param_real[0], &dim_preal, &ensemblefilter,
                             &fixedbasis, &verbose, &outflag)
 
@@ -18820,7 +19052,8 @@ def genobs_alloc(int  outflag):
     outflag : int
         Status flag
     """
-    c__pdaf_genobs_alloc(&outflag)
+    with nogil:
+        c__pdaf_genobs_alloc(&outflag)
 
     return outflag
 
@@ -18841,7 +19074,8 @@ def genobs_config(int  subtype, int  verbose):
     subtype : int
         Sub-type of filter
     """
-    c__pdaf_genobs_config(&subtype, &verbose)
+    with nogil:
+        c__pdaf_genobs_config(&subtype, &verbose)
 
     return subtype
 
@@ -18863,7 +19097,8 @@ def genobs_set_iparam(int  id, int  value):
         Status flag: 0 for no error
     """
     cdef int  flag
-    c__pdaf_genobs_set_iparam(&id, &value, &flag)
+    with nogil:
+        c__pdaf_genobs_set_iparam(&id, &value, &flag)
 
     return flag
 
@@ -18872,7 +19107,8 @@ def genobs_options():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    c__pdaf_genobs_options()
+    with nogil:
+        c__pdaf_genobs_options()
 
 
 
@@ -18966,7 +19202,8 @@ def etkf_ana_t(int  step, int  dim_p, int  dim_obs_p, int  dim_ens,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_p_np = np.asarray(ens_p, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hz_p_np = np.asarray(hz_p, dtype=np.float64, order="F")
     pdaf_cb.prodrinva_pdaf = py__prodrinva_pdaf
-    c__pdaf_etkf_ana_t(&step, &dim_p, &dim_obs_p, &dim_ens,
+    with nogil:
+        c__pdaf_etkf_ana_t(&step, &dim_p, &dim_obs_p, &dim_ens,
                            &state_p[0], &ainv[0,0], &ens_p[0,0],
                            &hz_p[0,0], &hxbar_p[0], &obs_p[0], &forget,
                            pdaf_cb.c__prodrinva_pdaf, &screen, &type_trans,
@@ -19073,7 +19310,8 @@ def letkf_ana_fixed(int  domain_p, int  step, int  dim_l, int  dim_obs_l,
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] ens_l_np = np.asarray(ens_l, dtype=np.float64, order="F")
     cdef cnp.ndarray[cnp.float64_t, ndim=2, mode="fortran", negative_indices=False, cast=False] hz_l_np = np.asarray(hz_l, dtype=np.float64, order="F")
     pdaf_cb.prodrinva_l_pdaf = py__prodrinva_l_pdaf
-    c__pdaf_letkf_ana_fixed(&domain_p, &step, &dim_l, &dim_obs_l,
+    with nogil:
+        c__pdaf_letkf_ana_fixed(&domain_p, &step, &dim_l, &dim_obs_l,
                                 &dim_ens, &state_l[0], &ainv_l[0,0],
                                 &ens_l[0,0], &hz_l[0,0], &hxbar_l[0],
                                 &obs_l[0], &forget,

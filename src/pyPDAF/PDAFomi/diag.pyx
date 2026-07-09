@@ -32,7 +32,8 @@ def set_obs_diag(int  diag):
         - > 0: activates observation diagnostics
         - 0: deactivates observation diagnostics
     """
-    c__pdafomi_set_obs_diag(&diag)
+    with nogil:
+        c__pdafomi_set_obs_diag(&diag)
 
 def diag_dimobs():
     """diag_dimobs() -> np.ndarray
@@ -47,7 +48,8 @@ def diag_dimobs():
         Observation dimension for each observation type. shape: (n_obs,)
     """
     cdef CFI_cdesc_rank1 dim_obs_ptr_cfi
-    c__pdafomi_diag_dimobs(<CFI_cdesc_t *> &dim_obs_ptr_cfi)
+    with nogil:
+        c__pdafomi_diag_dimobs(<CFI_cdesc_t *> &dim_obs_ptr_cfi)
 
     cdef CFI_index_t dim_obs_ptr_subscripts[1]
     dim_obs_ptr_subscripts[0] = dim_obs_ptr_cfi.dim[0].lower_bound
@@ -79,7 +81,8 @@ def diag_get_hx(int  id_obs):
     """
     cdef CFI_cdesc_rank2 hx_p_ptr_cfi
     cdef int  dim_obs_diag
-    c__pdafomi_diag_get_hx(&id_obs, &dim_obs_diag, <CFI_cdesc_t *> &hx_p_ptr_cfi)
+    with nogil:
+        c__pdafomi_diag_get_hx(&id_obs, &dim_obs_diag, <CFI_cdesc_t *> &hx_p_ptr_cfi)
 
     cdef CFI_index_t hx_p_ptr_subscripts[2]
     hx_p_ptr_subscripts[0] = hx_p_ptr_cfi.dim[0].lower_bound
@@ -112,7 +115,8 @@ def diag_get_hxmean(int  id_obs):
     """
     cdef CFI_cdesc_rank1 hxmean_p_ptr_cfi
     cdef int  dim_obs_diag
-    c__pdafomi_diag_get_hxmean(&id_obs, &dim_obs_diag, <CFI_cdesc_t *> &hxmean_p_ptr_cfi)
+    with nogil:
+        c__pdafomi_diag_get_hxmean(&id_obs, &dim_obs_diag, <CFI_cdesc_t *> &hxmean_p_ptr_cfi)
 
     cdef CFI_index_t hxmean_p_ptr_subscripts[1]
     hxmean_p_ptr_subscripts[0] = hxmean_p_ptr_cfi.dim[0].lower_bound
@@ -144,7 +148,8 @@ def diag_get_ivar(int  id_obs):
     """
     cdef CFI_cdesc_rank1 ivar_ptr_cfi
     cdef int  dim_obs_diag
-    c__pdafomi_diag_get_ivar(&id_obs, &dim_obs_diag, <CFI_cdesc_t *> &ivar_ptr_cfi)
+    with nogil:
+        c__pdafomi_diag_get_ivar(&id_obs, &dim_obs_diag, <CFI_cdesc_t *> &ivar_ptr_cfi)
 
     cdef CFI_index_t ivar_ptr_subscripts[1]
     ivar_ptr_subscripts[0] = ivar_ptr_cfi.dim[0].lower_bound
@@ -183,7 +188,8 @@ def diag_get_obs(int  id_obs):
     cdef CFI_cdesc_rank2 ocoord_p_ptr_cfi
     cdef int  dim_obs_diag
     cdef int  ncoord
-    c__pdafomi_diag_get_obs(&id_obs, &dim_obs_diag, &ncoord,
+    with nogil:
+        c__pdafomi_diag_get_obs(&id_obs, &dim_obs_diag, &ncoord,
                                 <CFI_cdesc_t *> &obs_p_ptr_cfi, <CFI_cdesc_t *> &ocoord_p_ptr_cfi)
 
     cdef CFI_index_t obs_p_ptr_subscripts[1]
@@ -217,7 +223,8 @@ def diag_nobstypes(int  nobs):
     nobs : int
         Number of observation types
     """
-    c__pdafomi_diag_nobstypes(&nobs)
+    with nogil:
+        c__pdafomi_diag_nobstypes(&nobs)
 
     return nobs
 
@@ -246,7 +253,8 @@ def diag_obs_rmsd(int  nobs, int  verbose):
         Array shape: (:)
     """
     cdef CFI_cdesc_rank1 rmsd_pointer_cfi
-    c__pdafomi_diag_obs_rmsd(&nobs, <CFI_cdesc_t *> &rmsd_pointer_cfi, &verbose)
+    with nogil:
+        c__pdafomi_diag_obs_rmsd(&nobs, <CFI_cdesc_t *> &rmsd_pointer_cfi, &verbose)
 
     cdef CFI_index_t rmsd_pointer_subscripts[1]
     rmsd_pointer_subscripts[0] = rmsd_pointer_cfi.dim[0].lower_bound
@@ -287,7 +295,8 @@ def diag_stats(int  nobs, int  verbose):
         Array shape: (:,:)
     """
     cdef CFI_cdesc_rank2 obsstats_ptr_cfi
-    c__pdafomi_diag_stats(&nobs, <CFI_cdesc_t *> &obsstats_ptr_cfi, &verbose)
+    with nogil:
+        c__pdafomi_diag_stats(&nobs, <CFI_cdesc_t *> &obsstats_ptr_cfi, &verbose)
 
     cdef CFI_index_t obsstats_ptr_subscripts[2]
     obsstats_ptr_subscripts[0] = obsstats_ptr_cfi.dim[0].lower_bound
@@ -329,7 +338,8 @@ def diag_rmsd(int nobs, int verbose):
         ``i + 1``.
     """
     cdef CFI_cdesc_rank1 rmsd_pointer_cfi
-    c__pdafomi_diag_rmsd(&nobs, <CFI_cdesc_t *> &rmsd_pointer_cfi, &verbose)
+    with nogil:
+        c__pdafomi_diag_rmsd(&nobs, <CFI_cdesc_t *> &rmsd_pointer_cfi, &verbose)
     cdef CFI_index_t rmsd_pointer_subscripts[1]
     rmsd_pointer_subscripts[0] = rmsd_pointer_cfi.dim[0].lower_bound
     cdef double * rmsd_pointer_ptr_np
@@ -378,7 +388,8 @@ def diag_diffstats(int nobs, int verbose):
             Standard deviation of the observed ensemble mean ``Hx``.
     """
     cdef CFI_cdesc_rank2 obsstats_ptr_cfi
-    c__pdafomi_diag_diffstats(&nobs, <CFI_cdesc_t *> &obsstats_ptr_cfi, &verbose)
+    with nogil:
+        c__pdafomi_diag_diffstats(&nobs, <CFI_cdesc_t *> &obsstats_ptr_cfi, &verbose)
     cdef CFI_index_t obsstats_ptr_subscripts[2]
     obsstats_ptr_subscripts[0] = obsstats_ptr_cfi.dim[0].lower_bound
     obsstats_ptr_subscripts[1] = obsstats_ptr_cfi.dim[1].lower_bound
@@ -434,7 +445,8 @@ def diag_crps(int nobs, int perturb, int verbose):
     559-570.
     """
     cdef CFI_cdesc_rank2 crps_pointer_cfi
-    c__pdafomi_diag_crps(&nobs, <CFI_cdesc_t *> &crps_pointer_cfi, &perturb, &verbose)
+    with nogil:
+        c__pdafomi_diag_crps(&nobs, <CFI_cdesc_t *> &crps_pointer_cfi, &perturb, &verbose)
     cdef CFI_index_t crps_pointer_subscripts[2]
     crps_pointer_subscripts[0] = crps_pointer_cfi.dim[0].lower_bound
     crps_pointer_subscripts[1] = crps_pointer_cfi.dim[1].lower_bound
@@ -454,4 +466,5 @@ def diag_omit_by_inno():
 
     This function is only useful after observation operators are performed.
     """
-    c__pdafomi_diag_omit_by_inno()
+    with nogil:
+        c__pdafomi_diag_omit_by_inno()

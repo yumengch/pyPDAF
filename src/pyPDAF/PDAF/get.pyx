@@ -20,7 +20,8 @@ def get_assim_flag():
         flag: (1) for assimilation; (0) else
     """
     cdef int  did_assim
-    c__pdaf_get_assim_flag(&did_assim)
+    with nogil:
+        c__pdaf_get_assim_flag(&did_assim)
 
     return did_assim
 
@@ -39,7 +40,8 @@ def get_localfilter():
         * 0 for global filters (including LEnKF, which performs covariance localization)
     """
     cdef int  localfilter_out
-    c__pdaf_get_localfilter(&localfilter_out)
+    with nogil:
+        c__pdaf_get_localfilter(&localfilter_out)
 
     return localfilter_out
 
@@ -64,7 +66,8 @@ def get_local_type():
         * (3) covariance loc. but observation handling like domain localization (ENSRF)
     """
     cdef int  localtype
-    c__pdaf_get_local_type(&localtype)
+    with nogil:
+        c__pdaf_get_local_type(&localtype)
 
     return localtype
 
@@ -90,7 +93,8 @@ def get_memberid(int  memberid):
     memberid : int
         Index in the local ensemble
     """
-    c__pdaf_get_memberid(&memberid)
+    with nogil:
+        c__pdaf_get_memberid(&memberid)
 
     return memberid
 
@@ -114,7 +118,8 @@ def get_obsmemberid(int  memberid):
     memberid : int
         Index in the local ensemble
     """
-    c__pdaf_get_obsmemberid(&memberid)
+    with nogil:
+        c__pdaf_get_obsmemberid(&memberid)
 
     return memberid
 
@@ -135,7 +140,8 @@ def get_seed():
     """
     cdef cnp.ndarray[cnp.int32_t, ndim=1, mode="fortran", negative_indices=False, cast=False] seedvec_np = np.zeros((4), dtype=np.intc, order="F")
     cdef int [::1] seedvec = seedvec_np
-    c__pdaf_get_seed(&seedvec[0])
+    with nogil:
+        c__pdaf_get_seed(&seedvec[0])
     return seedvec_np
 
 def get_seedvec():
@@ -158,7 +164,8 @@ def get_seedvec():
     """
     cdef cnp.ndarray[cnp.int32_t, ndim=1, mode="fortran", negative_indices=False, cast=False] seedvec_np = np.zeros((4), dtype=np.intc, order="F")
     cdef int [::1] seedvec = seedvec_np
-    c__pdaf_get_seedvec(&seedvec[0])
+    with nogil:
+        c__pdaf_get_seedvec(&seedvec[0])
     return seedvec_np
 
 def get_rndcount():
@@ -176,7 +183,8 @@ def get_rndcount():
         Number of PDAF random-number generation calls counted so far.
     """
     cdef int rndcount
-    c__pdaf_get_rndcount(&rndcount)
+    with nogil:
+        c__pdaf_get_rndcount(&rndcount)
     return rndcount
 
 
@@ -197,7 +205,8 @@ def reset_fcst_flag():
         be reset.
     """
     cdef int reset_fcst_flag_value
-    c__pdaf_reset_fcst_flag(&reset_fcst_flag_value)
+    with nogil:
+        c__pdaf_reset_fcst_flag(&reset_fcst_flag_value)
     return reset_fcst_flag_value
 
 
@@ -220,7 +229,8 @@ def get_smoother_ens():
     cdef CFI_cdesc_rank3 sens_point_cfi
     cdef int  maxlag
     cdef int  status
-    c__pdaf_get_smootherens(<CFI_cdesc_t *> &sens_point_cfi, &maxlag, &status)
+    with nogil:
+        c__pdaf_get_smootherens(<CFI_cdesc_t *> &sens_point_cfi, &maxlag, &status)
 
     cdef CFI_index_t sens_point_subscripts[3]
     sens_point_subscripts[0] = sens_point_cfi.dim[0].lower_bound

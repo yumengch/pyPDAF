@@ -21,7 +21,8 @@ def set_comm_pdaf(int  in_comm_pdaf):
     in_comm_pdaf : int
         MPI communicator for PDAF
     """
-    c__pdaf_set_comm_pdaf(&in_comm_pdaf)
+    with nogil:
+        c__pdaf_set_comm_pdaf(&in_comm_pdaf)
 
 
 
@@ -46,7 +47,8 @@ def set_debug_flag(int  debugval):
         Value for debugging flag
 
     """
-    c__pdaf_set_debug_flag(&debugval)
+    with nogil:
+        c__pdaf_set_debug_flag(&debugval)
 
 
 
@@ -67,7 +69,8 @@ def set_ens_pointer():
     """
     cdef CFI_cdesc_rank2 ens_ptr_cfi
     cdef int  status
-    c__pdaf_set_ens_pointer(<CFI_cdesc_t *> &ens_ptr_cfi, &status)
+    with nogil:
+        c__pdaf_set_ens_pointer(<CFI_cdesc_t *> &ens_ptr_cfi, &status)
 
     cdef CFI_index_t ens_ptr_subscripts[2]
     ens_ptr_subscripts[0] = ens_ptr_cfi.dim[0].lower_bound
@@ -117,7 +120,8 @@ def set_iparam(int  idval, int  value, int  flag):
     flag : int
         Status flag: 0 for no error
     """
-    c__pdaf_set_iparam(&idval, &value, &flag)
+    with nogil:
+        c__pdaf_set_iparam(&idval, &value, &flag)
 
     return flag
 
@@ -137,7 +141,8 @@ def set_memberid(int  memberid):
     memberid : int
         Index in the local ensemble
     """
-    c__pdaf_set_memberid(&memberid)
+    with nogil:
+        c__pdaf_set_memberid(&memberid)
 
     return memberid
 
@@ -153,7 +158,8 @@ def set_offline_mode(int  screen):
         Verbosity flag
 
     """
-    c__pdaf_set_offline_mode(&screen)
+    with nogil:
+        c__pdaf_set_offline_mode(&screen)
 
 
 
@@ -196,7 +202,8 @@ def set_rparam(int  idval, double  value, int  flag):
     flag : int
         Status flag: 0 for no error
     """
-    c__pdaf_set_rparam(&idval, &value, &flag)
+    with nogil:
+        c__pdaf_set_rparam(&idval, &value, &flag)
 
     return flag
 
@@ -223,7 +230,8 @@ def genobs_set_rparam(int idval, double value):
         PDAF status flag. A value of ``0`` indicates success.
     """
     cdef int flag
-    c__pdaf_genobs_set_rparam(&idval, &value, &flag)
+    with nogil:
+        c__pdaf_genobs_set_rparam(&idval, &value, &flag)
     return flag
 
 
@@ -238,7 +246,8 @@ def set_seedset(int  seedset_in):
         Seedset index (1-20)
 
     """
-    c__pdaf_set_seedset(&seedset_in)
+    with nogil:
+        c__pdaf_set_seedset(&seedset_in)
 
 
 def set_seed(int [::1] seedvec):
@@ -259,7 +268,8 @@ def set_seed(int [::1] seedvec):
     -------
     None
     """
-    c__pdaf_set_seed(&seedvec[0])
+    with nogil:
+        c__pdaf_set_seed(&seedvec[0])
 
 def set_seedvec(int [::1] seedvec):
     """set_seedvec(seedvec: np.ndarray) -> None
@@ -280,7 +290,8 @@ def set_seedvec(int [::1] seedvec):
     -------
     None
     """
-    c__pdaf_set_seedvec(&seedvec[0])
+    with nogil:
+        c__pdaf_set_seedvec(&seedvec[0])
 
 
 def set_smoother_ens(int  maxlag):
@@ -323,7 +334,8 @@ def set_smoother_ens(int  maxlag):
     """
     cdef CFI_cdesc_rank3 sens_point_cfi
     cdef int  status
-    c__pdaf_set_smootherens(<CFI_cdesc_t *> &sens_point_cfi, &maxlag, &status)
+    with nogil:
+        c__pdaf_set_smootherens(<CFI_cdesc_t *> &sens_point_cfi, &maxlag, &status)
 
     cdef CFI_index_t sens_point_subscripts[3]
     sens_point_subscripts[0] = sens_point_cfi.dim[0].lower_bound

@@ -69,7 +69,8 @@ def localize_covar_iso(int  i_obs, int  dim, int  locweight,
     CFI_establish(<CFI_cdesc_t *> &hph_cfi, &hph[0,0], CFI_attribute_other,
                     CFI_type_double , hph_nbytes, 2, hph_extent)
 
-    c__pdafomi_localize_covar_iso(&i_obs, &dim, &locweight, &cradius,
+    with nogil:
+        c__pdafomi_localize_covar_iso(&i_obs, &dim, &locweight, &cradius,
                                     &sradius, <CFI_cdesc_t *> &coords_cfi,
                                     <CFI_cdesc_t *> &hp_cfi, <CFI_cdesc_t *> &hph_cfi)
 
@@ -163,7 +164,8 @@ def localize_covar_noniso_locweights(int  i_obs, int  dim,
     CFI_establish(<CFI_cdesc_t *> &hph_cfi, &hph[0,0], CFI_attribute_other,
                     CFI_type_double , hph_nbytes, 2, hph_extent)
 
-    c__pdafomi_localize_covar_noniso_locweights(&i_obs, &dim,
+    with nogil:
+        c__pdafomi_localize_covar_noniso_locweights(&i_obs, &dim,
                                                 <CFI_cdesc_t *> &locweights_cfi,
                                                 <CFI_cdesc_t *> &cradius_cfi,
                                                 <CFI_cdesc_t *> &sradius_cfi,
@@ -253,7 +255,8 @@ def localize_covar_noniso(int  i_obs, int  dim, int  locweight,
     CFI_establish(<CFI_cdesc_t *> &hph_cfi, &hph[0,0], CFI_attribute_other,
                     CFI_type_double , hph_nbytes, 2, hph_extent)
 
-    c__pdafomi_localize_covar_noniso(&i_obs, &dim, &locweight,
+    with nogil:
+        c__pdafomi_localize_covar_noniso(&i_obs, &dim, &locweight,
                                         <CFI_cdesc_t *> &cradius_cfi,
                                         <CFI_cdesc_t *> &sradius_cfi,
                                         <CFI_cdesc_t *> &coords_cfi,
@@ -328,7 +331,8 @@ def localize_covar_serial_iso(int  i_obs, int  iobs_all, int  dim,
     CFI_establish(<CFI_cdesc_t *> &hxy_cfi, &hxy[0], CFI_attribute_other,
                     CFI_type_double , hxy_nbytes, 1, hxy_extent)
 
-    c__pdafomi_localize_covar_serial_iso(&i_obs, &iobs_all, &dim,
+    with nogil:
+        c__pdafomi_localize_covar_serial_iso(&i_obs, &iobs_all, &dim,
                                             &dim_obs, &locweight,
                                             &cradius, &sradius,
                                             <CFI_cdesc_t *> &coords_cfi,
@@ -428,7 +432,8 @@ def localize_covar_serial_noniso_locweights(int  i_obs, int  iobs_all,
     CFI_establish(<CFI_cdesc_t *> &hxy_cfi, &hxy[0], CFI_attribute_other,
                     CFI_type_double , hxy_nbytes, 1, hxy_extent)
 
-    c__pdafomi_localize_covar_serial_noniso_locweights(&i_obs,
+    with nogil:
+        c__pdafomi_localize_covar_serial_noniso_locweights(&i_obs,
                                                         &iobs_all, &dim,
                                                         &dim_obs,
                                                         <CFI_cdesc_t *> &locweights_cfi,
@@ -522,7 +527,8 @@ def localize_covar_serial_noniso(int  i_obs, int  iobs_all, int  dim,
     CFI_establish(<CFI_cdesc_t *> &hxy_cfi, &hxy[0], CFI_attribute_other,
                     CFI_type_double , hxy_nbytes, 1, hxy_extent)
 
-    c__pdafomi_localize_covar_serial_noniso(&i_obs, &iobs_all, &dim,
+    with nogil:
+        c__pdafomi_localize_covar_serial_noniso(&i_obs, &iobs_all, &dim,
                                             &dim_obs, &locweight,
                                             <CFI_cdesc_t *> &cradius_cfi,
                                             <CFI_cdesc_t *> &sradius_cfi,
@@ -544,7 +550,8 @@ def deallocate_obs(int  i_obs):
     i_obs : int
         index of observations
     """
-    c__pdafomi_deallocate_obs(&i_obs)
+    with nogil:
+        c__pdafomi_deallocate_obs(&i_obs)
 
 
 

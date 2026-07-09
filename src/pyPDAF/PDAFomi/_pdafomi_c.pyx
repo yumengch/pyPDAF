@@ -20,7 +20,8 @@ def init(int  n_obs):
     n_obs : int
         number of observations
     """
-    c__pdafomi_init(&n_obs)
+    with nogil:
+        c__pdafomi_init(&n_obs)
 
 
 def check_error(int  flag):
@@ -50,7 +51,8 @@ def check_error(int  flag):
     flag : int
         Error flag
     """
-    c__pdafomi_check_error(&flag)
+    with nogil:
+        c__pdafomi_check_error(&flag)
 
     return flag
 
@@ -125,7 +127,8 @@ def gather_obs(int  i_obs, int  dim_obs_p, double[::1] obs_p,
     CFI_establish(<CFI_cdesc_t *> &ocoord_p_cfi, &ocoord_p[0,0], CFI_attribute_other,
                     CFI_type_double , ocoord_p_nbytes, 2, ocoord_p_extent)
 
-    c__pdafomi_gather_obs(&i_obs, &dim_obs_p, <CFI_cdesc_t *> &obs_p_cfi,
+    with nogil:
+        c__pdafomi_gather_obs(&i_obs, &dim_obs_p, <CFI_cdesc_t *> &obs_p_cfi,
                             <CFI_cdesc_t *> &ivar_obs_p_cfi, <CFI_cdesc_t *> &ocoord_p_cfi, &ncoord,
                             &lradius, &dim_obs_f)
 
@@ -174,7 +177,8 @@ def gather_obsstate(int  i_obs, double [::1] obsstate_p,
     CFI_establish(<CFI_cdesc_t *> &obsstate_f_cfi, &obsstate_f[0], CFI_attribute_other,
                     CFI_type_double , obsstate_f_nbytes, 1, obsstate_f_extent)
 
-    c__pdafomi_gather_obsstate(&i_obs, <CFI_cdesc_t *> &obsstate_p_cfi, <CFI_cdesc_t *> &obsstate_f_cfi)
+    with nogil:
+        c__pdafomi_gather_obsstate(&i_obs, <CFI_cdesc_t *> &obsstate_p_cfi, <CFI_cdesc_t *> &obsstate_f_cfi)
 
     return obsstate_f_np
 
@@ -234,7 +238,8 @@ def get_interp_coeff_tri(double [::1,:] gpc, double [::1] oc,
     CFI_establish(<CFI_cdesc_t *> &icoeff_cfi, &icoeff[0], CFI_attribute_other,
                     CFI_type_double , icoeff_nbytes, 1, icoeff_extent)
 
-    c__pdafomi_get_interp_coeff_tri(<CFI_cdesc_t *> &gpc_cfi, <CFI_cdesc_t *> &oc_cfi, <CFI_cdesc_t *> &icoeff_cfi)
+    with nogil:
+        c__pdafomi_get_interp_coeff_tri(<CFI_cdesc_t *> &gpc_cfi, <CFI_cdesc_t *> &oc_cfi, <CFI_cdesc_t *> &icoeff_cfi)
 
     return icoeff_np
 
@@ -276,7 +281,8 @@ def get_interp_coeff_lin1d(double [::1] gpc, double  oc, double [::1] icoeff):
     CFI_establish(<CFI_cdesc_t *> &icoeff_cfi, &icoeff[0], CFI_attribute_other,
                     CFI_type_double , icoeff_nbytes, 1, icoeff_extent)
 
-    c__pdafomi_get_interp_coeff_lin1d(<CFI_cdesc_t *> &gpc_cfi, &oc, <CFI_cdesc_t *> &icoeff_cfi)
+    with nogil:
+        c__pdafomi_get_interp_coeff_lin1d(<CFI_cdesc_t *> &gpc_cfi, &oc, <CFI_cdesc_t *> &icoeff_cfi)
 
     return icoeff_np
 
@@ -340,7 +346,8 @@ def get_interp_coeff_lin(int  num_gp, int  n_dim, double [::1,:] gpc,
     CFI_establish(<CFI_cdesc_t *> &icoeff_cfi, &icoeff[0], CFI_attribute_other,
                     CFI_type_double , icoeff_nbytes, 1, icoeff_extent)
 
-    c__pdafomi_get_interp_coeff_lin(&num_gp, &n_dim, <CFI_cdesc_t *> &gpc_cfi,
+    with nogil:
+        c__pdafomi_get_interp_coeff_lin(&num_gp, &n_dim, <CFI_cdesc_t *> &gpc_cfi,
                                     <CFI_cdesc_t *> &oc_cfi,
                                     <CFI_cdesc_t *> &icoeff_cfi)
 
@@ -408,7 +415,8 @@ def get_interp_coeff_tri_vec(double [::1,:,:] gpc, double [::1,:] oc,
     CFI_establish(<CFI_cdesc_t *> &icoeff_cfi, &icoeff[0,0], CFI_attribute_other,
                     CFI_type_double , icoeff_nbytes, 2, icoeff_extent)
 
-    c__pdafomi_get_interp_coeff_tri_vec(<CFI_cdesc_t *> &gpc_cfi, <CFI_cdesc_t *> &oc_cfi, <CFI_cdesc_t *> &icoeff_cfi)
+    with nogil:
+        c__pdafomi_get_interp_coeff_tri_vec(<CFI_cdesc_t *> &gpc_cfi, <CFI_cdesc_t *> &oc_cfi, <CFI_cdesc_t *> &icoeff_cfi)
 
     return icoeff_np
 
@@ -466,7 +474,8 @@ def get_interp_coeff_lin1d_vec(double [::1,:] gpc, double [::1] oc, double [::1,
     CFI_establish(<CFI_cdesc_t *> &icoeff_cfi, &icoeff[0,0], CFI_attribute_other,
                     CFI_type_double , icoeff_nbytes, 2, icoeff_extent)
 
-    c__pdafomi_get_interp_coeff_lin1d_vec(<CFI_cdesc_t *> &gpc_cfi, <CFI_cdesc_t *> &oc_cfi,
+    with nogil:
+        c__pdafomi_get_interp_coeff_lin1d_vec(<CFI_cdesc_t *> &gpc_cfi, <CFI_cdesc_t *> &oc_cfi,
                                       <CFI_cdesc_t *> &icoeff_cfi)
 
     return icoeff_np
@@ -542,7 +551,8 @@ def get_interp_coeff_lin_vec(int  num_gp, int  n_dim, double [::1,:,:] gpc,
     CFI_establish(<CFI_cdesc_t *> &icoeff_cfi, &icoeff[0,0], CFI_attribute_other,
                     CFI_type_double , icoeff_nbytes, 2, icoeff_extent)
 
-    c__pdafomi_get_interp_coeff_lin_vec(&num_gp, &n_dim, <CFI_cdesc_t *> &gpc_cfi,
+    with nogil:
+        c__pdafomi_get_interp_coeff_lin_vec(&num_gp, &n_dim, <CFI_cdesc_t *> &gpc_cfi,
                                     <CFI_cdesc_t *> &oc_cfi,
                                     <CFI_cdesc_t *> &icoeff_cfi)
 
@@ -600,7 +610,8 @@ def init_dim_obs_l_iso(int  i_obs, double [::1] coords_l, int  locweight,
     CFI_establish(<CFI_cdesc_t *> &coords_l_cfi, &coords_l[0], CFI_attribute_other,
                       CFI_type_double , coords_l_nbytes, 1, coords_l_extent)
 
-    c__pdafomi_init_dim_obs_l_iso(&i_obs, <CFI_cdesc_t *> &coords_l_cfi, &locweight,
+    with nogil:
+        c__pdafomi_init_dim_obs_l_iso(&i_obs, <CFI_cdesc_t *> &coords_l_cfi, &locweight,
                                     &cradius, &sradius, &cnt_obs_l_all)
 
     return cnt_obs_l_all
@@ -677,7 +688,8 @@ def init_dim_obs_l_noniso(int  i_obs, double [::1] coords_l,
     CFI_establish(<CFI_cdesc_t *> &sradius_cfi, &sradius[0], CFI_attribute_other,
                     CFI_type_double , sradius_nbytes, 1, sradius_extent)
 
-    c__pdafomi_init_dim_obs_l_noniso(&i_obs, <CFI_cdesc_t *> &coords_l_cfi, &locweight,
+    with nogil:
+        c__pdafomi_init_dim_obs_l_noniso(&i_obs, <CFI_cdesc_t *> &coords_l_cfi, &locweight,
                                         <CFI_cdesc_t *> &cradius_cfi, <CFI_cdesc_t *> &sradius_cfi,
                                         &cnt_obs_l_all)
 
@@ -764,7 +776,8 @@ def init_dim_obs_l_noniso_locweights(int  i_obs, double [::1] coords_l,
     CFI_establish(<CFI_cdesc_t *> &sradius_cfi, &sradius[0], CFI_attribute_other,
                     CFI_type_double , sradius_nbytes, 1, sradius_extent)
 
-    c__pdafomi_init_dim_obs_l_noniso_locweights(&i_obs, <CFI_cdesc_t *> &coords_l_cfi,
+    with nogil:
+        c__pdafomi_init_dim_obs_l_noniso_locweights(&i_obs, <CFI_cdesc_t *> &coords_l_cfi,
                                                 <CFI_cdesc_t *> &locweights_cfi,
                                                 <CFI_cdesc_t *> &cradius_cfi,
                                                 <CFI_cdesc_t *> &sradius_cfi, &cnt_obs_l)
@@ -820,7 +833,8 @@ def obs_op_gridpoint(int  i_obs, double [::1] state_p, double [::1] obs_f_all):
     CFI_establish(<CFI_cdesc_t *> &obs_f_all_cfi, &obs_f_all[0], CFI_attribute_other,
                     CFI_type_double , obs_f_all_nbytes, 1, obs_f_all_extent)
 
-    c__pdafomi_obs_op_gridpoint(&i_obs, <CFI_cdesc_t *> &state_p_cfi,<CFI_cdesc_t *> &obs_f_all_cfi)
+    with nogil:
+        c__pdafomi_obs_op_gridpoint(&i_obs, <CFI_cdesc_t *> &state_p_cfi,<CFI_cdesc_t *> &obs_f_all_cfi)
 
     return obs_f_all_np
 
@@ -871,7 +885,8 @@ def obs_op_gridavg(int  i_obs, int  nrows, double [::1] state_p,
     CFI_establish(<CFI_cdesc_t *> &obs_f_all_cfi, &obs_f_all[0], CFI_attribute_other,
                     CFI_type_double , obs_f_all_nbytes, 1, obs_f_all_extent)
 
-    c__pdafomi_obs_op_gridavg(&i_obs, &nrows, <CFI_cdesc_t *> &state_p_cfi, <CFI_cdesc_t *> &obs_f_all_cfi)
+    with nogil:
+        c__pdafomi_obs_op_gridavg(&i_obs, &nrows, <CFI_cdesc_t *> &state_p_cfi, <CFI_cdesc_t *> &obs_f_all_cfi)
 
     return obs_f_all_np
 
@@ -922,7 +937,8 @@ def obs_op_extern(int  i_obs, double [::1] ostate_p,
     CFI_establish(<CFI_cdesc_t *> &obs_f_all_cfi, &obs_f_all[0], CFI_attribute_other,
                     CFI_type_double , obs_f_all_nbytes, 1, obs_f_all_extent)
 
-    c__pdafomi_obs_op_extern(&i_obs, <CFI_cdesc_t *> &ostate_p_cfi, <CFI_cdesc_t *> &obs_f_all_cfi)
+    with nogil:
+        c__pdafomi_obs_op_extern(&i_obs, <CFI_cdesc_t *> &ostate_p_cfi, <CFI_cdesc_t *> &obs_f_all_cfi)
 
     return obs_f_all_np
 
@@ -983,7 +999,8 @@ def obs_op_interp_lin(int  i_obs, int  nrows, double [::1] state_p,
     CFI_establish(<CFI_cdesc_t *> &obs_f_all_cfi, &obs_f_all[0], CFI_attribute_other,
                     CFI_type_double , obs_f_all_nbytes, 1, obs_f_all_extent)
 
-    c__pdafomi_obs_op_interp_lin(&i_obs, &nrows, <CFI_cdesc_t *> &state_p_cfi, <CFI_cdesc_t *> &obs_f_all_cfi)
+    with nogil:
+        c__pdafomi_obs_op_interp_lin(&i_obs, &nrows, <CFI_cdesc_t *> &state_p_cfi, <CFI_cdesc_t *> &obs_f_all_cfi)
 
     return obs_f_all_np
 
@@ -1033,7 +1050,8 @@ def obs_op_adj_gridpoint(int  i_obs, double [::1] obs_f_all,
     CFI_establish(<CFI_cdesc_t *> &state_p_cfi, &state_p[0], CFI_attribute_other,
                     CFI_type_double , state_p_nbytes, 1, state_p_extent)
 
-    c__pdafomi_obs_op_adj_gridpoint(&i_obs, <CFI_cdesc_t *> &obs_f_all_cfi, <CFI_cdesc_t *> &state_p_cfi)
+    with nogil:
+        c__pdafomi_obs_op_adj_gridpoint(&i_obs, <CFI_cdesc_t *> &obs_f_all_cfi, <CFI_cdesc_t *> &state_p_cfi)
 
     return state_p_np
 
@@ -1085,7 +1103,8 @@ def obs_op_adj_gridavg(int  i_obs, int  nrows, double [::1] obs_f_all,
     CFI_establish(<CFI_cdesc_t *> &state_p_cfi, &state_p[0], CFI_attribute_other,
                     CFI_type_double , state_p_nbytes, 1, state_p_extent)
 
-    c__pdafomi_obs_op_adj_gridavg(&i_obs, &nrows, <CFI_cdesc_t *> &obs_f_all_cfi,
+    with nogil:
+        c__pdafomi_obs_op_adj_gridavg(&i_obs, &nrows, <CFI_cdesc_t *> &obs_f_all_cfi,
                                     <CFI_cdesc_t *> &state_p_cfi)
     return state_p_np
 
@@ -1137,7 +1156,8 @@ def obs_op_adj_interp_lin(int  i_obs, int  nrows, double [::1] obs_f_all,
     CFI_establish(<CFI_cdesc_t *> &state_p_cfi, &state_p[0], CFI_attribute_other,
                     CFI_type_double , state_p_nbytes, 1, state_p_extent)
 
-    c__pdafomi_obs_op_adj_interp_lin(&i_obs, &nrows, <CFI_cdesc_t *> &obs_f_all_cfi,
+    with nogil:
+        c__pdafomi_obs_op_adj_interp_lin(&i_obs, &nrows, <CFI_cdesc_t *> &obs_f_all_cfi,
                                         <CFI_cdesc_t *> &state_p_cfi)
     return state_p_np
 
@@ -1186,7 +1206,8 @@ def observation_localization_weights(int  i_obs, int  ncols,
     CFI_establish(<CFI_cdesc_t *> &a_l_cfi, &a_l[0,0], CFI_attribute_other,
                       CFI_type_double , a_l_nbytes, 2, a_l_extent)
 
-    c__pdafomi_observation_localization_weights(&i_obs, &ncols,
+    with nogil:
+        c__pdafomi_observation_localization_weights(&i_obs, &ncols,
                                                 <CFI_cdesc_t *> &a_l_cfi, &weight[0],
                                                 &verbose)
 
@@ -1210,7 +1231,8 @@ def set_debug_flag(int  debugval):
     debugval : int
         Value for debugging flag
     """
-    c__pdafomi_set_debug_flag(&debugval)
+    with nogil:
+        c__pdafomi_set_debug_flag(&debugval)
 
 
 
@@ -1245,7 +1267,8 @@ def set_dim_obs_l(int  i_obs, int  cnt_obs_l_all, int  cnt_obs_l, int mode):
     cnt_obs_l : int
         Updated local observation count for observation type ``i_obs``.
     """
-    c__pdafomi_set_dim_obs_l(&i_obs, &cnt_obs_l_all, &cnt_obs_l, &mode)
+    with nogil:
+        c__pdafomi_set_dim_obs_l(&i_obs, &cnt_obs_l_all, &cnt_obs_l, &mode)
 
     return cnt_obs_l_all, cnt_obs_l
 
@@ -1272,7 +1295,8 @@ def set_localization(int  i_obs, double  cradius, double  sradius,
     locweight : int
         Type of localization function
     """
-    c__pdafomi_set_localization(&i_obs, &cradius, &sradius, &locweight)
+    with nogil:
+        c__pdafomi_set_localization(&i_obs, &cradius, &sradius, &locweight)
 
 
 
@@ -1308,7 +1332,8 @@ def set_localization_noniso(int  i_obs, int  nradii, double [::1] cradius,
     Returns
     -------
     """
-    c__pdafomi_set_localization_noniso(&i_obs, &nradii, &cradius[0],
+    with nogil:
+        c__pdafomi_set_localization_noniso(&i_obs, &nradii, &cradius[0],
                                            &sradius[0], &locweight,
                                            &locweight_v)
 
@@ -1349,7 +1374,8 @@ def set_localize_covar_iso(int  i_obs, int  dim, int  ncoords,
     CFI_establish(<CFI_cdesc_t *> &coords_cfi, &coords[0,0], CFI_attribute_other,
                       CFI_type_double , coords_nbytes, 2, coords_extent)
 
-    c__pdafomi_set_localize_covar_iso(&i_obs, &dim, &ncoords,
+    with nogil:
+        c__pdafomi_set_localize_covar_iso(&i_obs, &dim, &ncoords,
                                         <CFI_cdesc_t *> &coords_cfi, &locweight, &cradius,
                                         &sradius)
 
@@ -1409,7 +1435,8 @@ def set_localize_covar_noniso(int  i_obs, int  dim, int  ncoords,
     CFI_establish(<CFI_cdesc_t *> &sradius_cfi, &sradius[0], CFI_attribute_other,
                     CFI_type_double , sradius_nbytes, 1, sradius_extent)
 
-    c__pdafomi_set_localize_covar_noniso(&i_obs, &dim, &ncoords,
+    with nogil:
+        c__pdafomi_set_localize_covar_noniso(&i_obs, &dim, &ncoords,
                                             <CFI_cdesc_t *> &coords_cfi, &locweight,
                                             <CFI_cdesc_t *> &cradius_cfi, <CFI_cdesc_t *> &sradius_cfi)
 
@@ -1477,7 +1504,8 @@ def set_localize_covar_noniso_locweights(int  i_obs, int  dim,
     CFI_establish(<CFI_cdesc_t *> &sradius_cfi, &sradius[0], CFI_attribute_other,
                     CFI_type_double , sradius_nbytes, 1, sradius_extent)
 
-    c__pdafomi_set_localize_covar_noniso_locweights(&i_obs, &dim,
+    with nogil:
+        c__pdafomi_set_localize_covar_noniso_locweights(&i_obs, &dim,
                                                     &ncoords,
                                                     <CFI_cdesc_t *> &coords_cfi,
                                                     <CFI_cdesc_t *> &locweights_cfi,
@@ -1501,7 +1529,8 @@ def set_domain_limits(double [::1,:] lim_coords):
     lim_coords : ndarray[tuple[2, 2, ...], np.float64]
         geographic coordinate array (1: longitude, 2: latitude)
     """
-    c__pdafomi_set_domain_limits(&lim_coords[0,0])
+    with nogil:
+        c__pdafomi_set_domain_limits(&lim_coords[0,0])
 
 
 
@@ -1533,7 +1562,8 @@ def get_domain_limits_unstr(int  npoints_p, double [::1,:] coords_p):
     CFI_establish(<CFI_cdesc_t *> &coords_p_cfi, &coords_p[0,0], CFI_attribute_other,
                       CFI_type_double , coords_p_nbytes, 2, coords_p_extent)
 
-    c__pdafomi_get_domain_limits_unstr(&npoints_p, <CFI_cdesc_t *> &coords_p_cfi)
+    with nogil:
+        c__pdafomi_get_domain_limits_unstr(&npoints_p, <CFI_cdesc_t *> &coords_p_cfi)
 
 
 
@@ -1561,7 +1591,8 @@ def store_obs_l_index(int  i_obs, int  idx, int  id_obs_l,
     sradius_l : double
         support radius for this local observation
     """
-    c__pdafomi_store_obs_l_index(&i_obs, &idx, &id_obs_l, &distance,
+    with nogil:
+        c__pdafomi_store_obs_l_index(&i_obs, &idx, &id_obs_l, &distance,
                                      &cradius_l, &sradius_l)
 
 
@@ -1592,7 +1623,8 @@ def store_obs_l_index_vdist(int  i_obs, int  idx, int  id_obs_l,
     vdist : double
         support radius in vertical direction for 2+1D factorized localization
     """
-    c__pdafomi_store_obs_l_index_vdist(&i_obs, &idx, &id_obs_l,
+    with nogil:
+        c__pdafomi_store_obs_l_index_vdist(&i_obs, &idx, &id_obs_l,
                                            &distance, &cradius_l,
                                            &sradius_l, &vdist)
 

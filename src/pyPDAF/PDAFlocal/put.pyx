@@ -619,7 +619,8 @@ def put_state_en3dvar_lestkf(py__collect_state_pdaf, py__init_dim_obs_pdaf,
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdaflocal_put_state_en3dvar_lestkf(
+    with nogil:
+        c__pdaflocal_put_state_en3dvar_lestkf(
                                               pdaf_cb.c__collect_state_pdaf,
                                               pdaf_cb.c__init_dim_obs_pdaf,
                                               pdaf_cb.c__obs_op_pdaf,
@@ -1286,7 +1287,8 @@ def put_state_hyb3dvar_lestkf(py__collect_state_pdaf,
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdaflocal_put_state_hyb3dvar_lestkf(
+    with nogil:
+        c__pdaflocal_put_state_hyb3dvar_lestkf(
                                                pdaf_cb.c__collect_state_pdaf,
                                                pdaf_cb.c__init_dim_obs_pdaf,
                                                pdaf_cb.c__obs_op_pdaf,
@@ -1691,7 +1693,8 @@ def put_state_lseik(py__collect_state_pdaf, py__init_dim_obs_pdaf,
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     cdef int  outflag
-    c__pdaflocal_put_state_lseik(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaflocal_put_state_lseik(pdaf_cb.c__collect_state_pdaf,
                                      pdaf_cb.c__init_dim_obs_pdaf,
                                      pdaf_cb.c__obs_op_pdaf,
                                      pdaf_cb.c__init_obs_pdaf,
@@ -2093,7 +2096,8 @@ def put_state_letkf(py__collect_state_pdaf, py__init_dim_obs_pdaf,
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     cdef int  outflag
-    c__pdaflocal_put_state_letkf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaflocal_put_state_letkf(pdaf_cb.c__collect_state_pdaf,
                                      pdaf_cb.c__init_dim_obs_pdaf,
                                      pdaf_cb.c__obs_op_pdaf,
                                      pdaf_cb.c__init_obs_pdaf,
@@ -2488,7 +2492,8 @@ def put_state_lestkf(py__collect_state_pdaf, py__init_dim_obs_pdaf,
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     cdef int  outflag
-    c__pdaflocal_put_state_lestkf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaflocal_put_state_lestkf(pdaf_cb.c__collect_state_pdaf,
                                       pdaf_cb.c__init_dim_obs_pdaf,
                                       pdaf_cb.c__obs_op_pdaf,
                                       pdaf_cb.c__init_obs_pdaf,
@@ -2829,7 +2834,8 @@ def put_state_lnetf(py__collect_state_pdaf, py__init_dim_obs_pdaf,
     pdaf_cb.init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
     pdaf_cb.g2l_obs_pdaf = py__g2l_obs_pdaf
     cdef int  outflag
-    c__pdaflocal_put_state_lnetf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaflocal_put_state_lnetf(pdaf_cb.c__collect_state_pdaf,
                                      pdaf_cb.c__init_dim_obs_pdaf,
                                      pdaf_cb.c__obs_op_pdaf,
                                      pdaf_cb.c__init_obs_pdaf,
@@ -3325,7 +3331,8 @@ def put_state_lknetf(py__collect_state_pdaf, py__init_dim_obs_pdaf,
     pdaf_cb.likelihood_l_pdaf = py__likelihood_l_pdaf
     pdaf_cb.likelihood_hyb_l_pdaf = py__likelihood_hyb_l_pdaf
     cdef int  outflag
-    c__pdaflocal_put_state_lknetf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaflocal_put_state_lknetf(pdaf_cb.c__collect_state_pdaf,
                                       pdaf_cb.c__init_dim_obs_pdaf,
                                       pdaf_cb.c__obs_op_pdaf,
                                       pdaf_cb.c__init_obs_pdaf,

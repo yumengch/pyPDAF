@@ -73,7 +73,8 @@ def init(int  filtertype, int  subtype, int  stepnull, int [::1] param_int,
     cdef cnp.ndarray[cnp.float64_t, ndim=1, mode="fortran", negative_indices=False, cast=False] param_real_np = np.asarray(param_real, dtype=np.float64, order="F")
     pdaf_cb.init_ens_pdaf = py__init_ens_pdaf
     cdef int  outflag
-    c__pdaf3_init(&filtertype, &subtype, &stepnull, &param_int[0],
+    with nogil:
+        c__pdaf3_init(&filtertype, &subtype, &stepnull, &param_int[0],
                      &dim_pint, &param_real[0], &dim_preal,
                      pdaf_cb.c__init_ens_pdaf, &in_screen, &outflag)
 
@@ -116,7 +117,8 @@ def init_forecast(py__next_observation_pdaf, py__distribute_state_pdaf,
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     pdaf_cb.distribute_state_pdaf = py__distribute_state_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
-    c__pdaf3_init_forecast(pdaf_cb.c__next_observation_pdaf,
+    with nogil:
+        c__pdaf3_init_forecast(pdaf_cb.c__next_observation_pdaf,
                               pdaf_cb.c__distribute_state_pdaf,
                               pdaf_cb.c__prepoststep_pdaf, &outflag)
 
@@ -196,7 +198,8 @@ def init_parallel(int screen, int type_parallel, int online_coupling,
     cdef int mype_assim
     cdef int npes_assim
     cdef int task_id
-    c__pdaf3_init_parallel(&screen, &type_parallel, &online_coupling,
+    with nogil:
+        c__pdaf3_init_parallel(&screen, &type_parallel, &online_coupling,
         &dim_ens, &n_modeltasks, &COMM_model, &mype_model, &npes_model,
         &COMM_assim, &mype_assim, &npes_assim, &task_id)
 
@@ -242,7 +245,8 @@ def set_parallel(int in_comm_pdaf,
     flag : int
         Status flag, 0: no error, error codes:
     """
-    c__pdaf3_set_parallel(&in_comm_pdaf, &in_comm_model, &in_comm_filter,
+    with nogil:
+        c__pdaf3_set_parallel(&in_comm_pdaf, &in_comm_model, &in_comm_filter,
                      &in_comm_couple, &in_task_id, &in_n_modeltasks,
                      &in_filterpe, &flag)
 

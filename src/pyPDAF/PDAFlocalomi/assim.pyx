@@ -251,7 +251,8 @@ def assimilate(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.init_dim_l_pdaf = py__init_dim_l_pdaf
     pdaf_cb.init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
-    c__pdaflocalomi_assimilate(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaflocalomi_assimilate(pdaf_cb.c__collect_state_pdaf,
                                    pdaf_cb.c__distribute_state_pdaf,
                                    pdaf_cb.c__init_dim_obs_f_pdaf,
                                    pdaf_cb.c__obs_op_f_pdaf,
@@ -514,7 +515,8 @@ def assimilate_nondiagr(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
     pdaf_cb.prodrinva_l_pdaf = py__prodrinva_l_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
-    c__pdaflocalomi_assimilate_nondiagr(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaflocalomi_assimilate_nondiagr(pdaf_cb.c__collect_state_pdaf,
                                             pdaf_cb.c__distribute_state_pdaf,
                                             pdaf_cb.c__init_dim_obs_pdaf,
                                             pdaf_cb.c__obs_op_pdaf,
@@ -775,7 +777,8 @@ def assimilate_lnetf_nondiagr(py__collect_state_pdaf,
     pdaf_cb.init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
     pdaf_cb.likelihood_l_pdaf = py__likelihood_l_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
-    c__pdaflocalomi_assimilate_lnetf_nondiagr(
+    with nogil:
+        c__pdaflocalomi_assimilate_lnetf_nondiagr(
                                                   pdaf_cb.c__collect_state_pdaf,
                                                   pdaf_cb.c__distribute_state_pdaf,
                                                   pdaf_cb.c__init_dim_obs_pdaf,
@@ -1130,7 +1133,8 @@ def assimilate_lknetf_nondiagr(py__collect_state_pdaf,
     pdaf_cb.likelihood_l_pdaf = py__likelihood_l_pdaf
     pdaf_cb.likelihood_hyb_l_pdaf = py__likelihood_hyb_l_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
-    c__pdaflocalomi_assimilate_lknetf_nondiagr(
+    with nogil:
+        c__pdaflocalomi_assimilate_lknetf_nondiagr(
                                                    pdaf_cb.c__collect_state_pdaf,
                                                    pdaf_cb.c__distribute_state_pdaf,
                                                    pdaf_cb.c__init_dim_obs_pdaf,
@@ -1541,7 +1545,8 @@ def assimilate_en3dvar_lestkf(py__collect_state_pdaf,
     pdaf_cb.init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
-    c__pdaflocalomi_assimilate_en3dvar_lestkf(
+    with nogil:
+        c__pdaflocalomi_assimilate_en3dvar_lestkf(
                                                   pdaf_cb.c__collect_state_pdaf,
                                                   pdaf_cb.c__distribute_state_pdaf,
                                                   pdaf_cb.c__init_dim_obs_f_pdaf,
@@ -2006,7 +2011,8 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
     pdaf_cb.init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
-    c__pdaflocalomi_assimilate_hyb3dvar_lestkf(
+    with nogil:
+        c__pdaflocalomi_assimilate_hyb3dvar_lestkf(
                                                    pdaf_cb.c__collect_state_pdaf,
                                                    pdaf_cb.c__distribute_state_pdaf,
                                                    pdaf_cb.c__init_dim_obs_f_pdaf,
@@ -2416,7 +2422,8 @@ def assimilate_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
     pdaf_cb.init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
-    c__pdaflocalomi_assimilate_en3dvar_lestkf_nondiagr(
+    with nogil:
+        c__pdaflocalomi_assimilate_en3dvar_lestkf_nondiagr(
                                                            pdaf_cb.c__collect_state_pdaf,
                                                            pdaf_cb.c__distribute_state_pdaf,
                                                            pdaf_cb.c__init_dim_obs_pdaf,
@@ -2876,7 +2883,8 @@ def assimilate_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
     pdaf_cb.init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
-    c__pdaflocalomi_assimilate_hyb3dvar_lestkf_nondiagr(
+    with nogil:
+        c__pdaflocalomi_assimilate_hyb3dvar_lestkf_nondiagr(
                                                             pdaf_cb.c__collect_state_pdaf,
                                                             pdaf_cb.c__distribute_state_pdaf,
                                                             pdaf_cb.c__init_dim_obs_pdaf,

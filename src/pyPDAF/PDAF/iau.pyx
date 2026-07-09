@@ -40,7 +40,8 @@ def iau_init(int  type_iau_in, int  nsteps_iau_in):
         Status flag
     """
     cdef int  flag
-    c__pdaf_iau_init(&type_iau_in, &nsteps_iau_in, &flag)
+    with nogil:
+        c__pdaf_iau_init(&type_iau_in, &nsteps_iau_in, &flag)
 
     return flag
 
@@ -78,7 +79,8 @@ def iau_reset(int  type_iau_in, int  nsteps_iau_in):
         Status flag
     """
     cdef int  flag
-    c__pdaf_iau_reset(&type_iau_in, &nsteps_iau_in, &flag)
+    with nogil:
+        c__pdaf_iau_reset(&type_iau_in, &nsteps_iau_in, &flag)
 
     return flag
 
@@ -107,7 +109,8 @@ def iau_set_weights(int  iweights, double [::1] weights):
         Input weight vector
         Array shape: (iweights)
     """
-    c__pdaf_iau_set_weights(&iweights, &weights[0])
+    with nogil:
+        c__pdaf_iau_set_weights(&iweights, &weights[0])
 
 
 
@@ -137,7 +140,8 @@ def iau_set_pointer():
     """
     cdef CFI_cdesc_rank2 iau_ptr_cfi
     cdef int  flag
-    c__pdaf_iau_set_pointer(<CFI_cdesc_t *> &iau_ptr_cfi, &flag)
+    with nogil:
+        c__pdaf_iau_set_pointer(<CFI_cdesc_t *> &iau_ptr_cfi, &flag)
 
     cdef CFI_index_t iau_ptr_subscripts[2]
     iau_ptr_subscripts[0] = iau_ptr_cfi.dim[0].lower_bound
@@ -182,7 +186,8 @@ def iau_init_inc(int  dim_p, int  dim_ens_l, double [::1,:] ens_inc):
         Status flag
     """
     cdef int  flag
-    c__pdaf_iau_init_inc(&dim_p, &dim_ens_l, &ens_inc[0,0], &flag)
+    with nogil:
+        c__pdaf_iau_init_inc(&dim_p, &dim_ens_l, &ens_inc[0,0], &flag)
 
     return flag
 
@@ -207,7 +212,8 @@ def iau_add_inc(py__collect_state_pdaf, py__distribute_state_pdaf):
     """
     pdaf_cb.collect_state_pdaf = py__collect_state_pdaf
     pdaf_cb.distribute_state_pdaf = py__distribute_state_pdaf
-    c__pdaf_iau_add_inc(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_iau_add_inc(pdaf_cb.c__collect_state_pdaf,
                             pdaf_cb.c__distribute_state_pdaf)
 
 def iau_set_ens_pointer():
@@ -238,7 +244,8 @@ def iau_set_ens_pointer():
     """
     cdef CFI_cdesc_rank2 iau_ptr_cfi
     cdef int  flag
-    c__pdaf_iau_set_ens_pointer(<CFI_cdesc_t *> &iau_ptr_cfi, &flag)
+    with nogil:
+        c__pdaf_iau_set_ens_pointer(<CFI_cdesc_t *> &iau_ptr_cfi, &flag)
 
     cdef CFI_index_t iau_ptr_subscripts[2]
     iau_ptr_subscripts[0] = iau_ptr_cfi.dim[0].lower_bound
@@ -275,7 +282,8 @@ def iau_set_state_pointer():
     """
     cdef CFI_cdesc_rank1 iau_x_ptr_cfi
     cdef int  flag
-    c__pdaf_iau_set_state_pointer(<CFI_cdesc_t *> &iau_x_ptr_cfi, &flag)
+    with nogil:
+        c__pdaf_iau_set_state_pointer(<CFI_cdesc_t *> &iau_x_ptr_cfi, &flag)
 
     cdef CFI_index_t iau_x_ptr_subscripts[1]
     iau_x_ptr_subscripts[0] = iau_x_ptr_cfi.dim[0].lower_bound

@@ -77,7 +77,8 @@ def get_state(int  steps, int  doexit, py__next_observation_pdaf,
     pdaf_cb.distribute_state_pdaf = py__distribute_state_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef double  time
-    c__pdaf_get_state(&steps, &time, &doexit,
+    with nogil:
+        c__pdaf_get_state(&steps, &time, &doexit,
                           pdaf_cb.c__next_observation_pdaf,
                           pdaf_cb.c__distribute_state_pdaf,
                           pdaf_cb.c__prepoststep_pdaf, &outflag)
@@ -359,7 +360,8 @@ def assimilate_estkf(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_assimilate_estkf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_assimilate_estkf(pdaf_cb.c__collect_state_pdaf,
                                  pdaf_cb.c__distribute_state_pdaf,
                                  pdaf_cb.c__init_dim_obs_pdaf,
                                  pdaf_cb.c__obs_op_pdaf,
@@ -546,7 +548,8 @@ def assim_offline_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.prodrinva_pdaf = py__prodrinva_pdaf
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     cdef int  outflag
-    c__pdaf_assim_offline_estkf(pdaf_cb.c__init_dim_obs_pdaf,
+    with nogil:
+        c__pdaf_assim_offline_estkf(pdaf_cb.c__init_dim_obs_pdaf,
                                     pdaf_cb.c__obs_op_pdaf,
                                     pdaf_cb.c__init_obs_pdaf,
                                     pdaf_cb.c__prepoststep_pdaf,
@@ -909,7 +912,8 @@ def assimilate_3dvar(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_assimilate_3dvar(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_assimilate_3dvar(pdaf_cb.c__collect_state_pdaf,
                                  pdaf_cb.c__distribute_state_pdaf,
                                  pdaf_cb.c__init_dim_obs_pdaf,
                                  pdaf_cb.c__obs_op_pdaf,
@@ -1180,7 +1184,8 @@ def assim_offline_3dvar(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdaf_assim_offline_3dvar(pdaf_cb.c__init_dim_obs_pdaf,
+    with nogil:
+        c__pdaf_assim_offline_3dvar(pdaf_cb.c__init_dim_obs_pdaf,
                                     pdaf_cb.c__obs_op_pdaf,
                                     pdaf_cb.c__init_obs_pdaf,
                                     pdaf_cb.c__prodrinva_pdaf,
@@ -1861,7 +1866,8 @@ def assimilate_en3dvar_lestkf(py__collect_state_pdaf,
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_assimilate_en3dvar_lestkf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_assimilate_en3dvar_lestkf(pdaf_cb.c__collect_state_pdaf,
                                           pdaf_cb.c__distribute_state_pdaf,
                                           pdaf_cb.c__init_dim_obs_pdaf,
                                           pdaf_cb.c__obs_op_pdaf,
@@ -2433,7 +2439,8 @@ def assim_offline_en3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdaf_assim_offline_en3dvar_lestkf(pdaf_cb.c__init_dim_obs_pdaf,
+    with nogil:
+        c__pdaf_assim_offline_en3dvar_lestkf(pdaf_cb.c__init_dim_obs_pdaf,
                                              pdaf_cb.c__obs_op_pdaf,
                                              pdaf_cb.c__init_obs_pdaf,
                                              pdaf_cb.c__prodrinva_pdaf,
@@ -2691,7 +2698,8 @@ def assimilate_ensrf(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_assimilate_ensrf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_assimilate_ensrf(pdaf_cb.c__collect_state_pdaf,
                                  pdaf_cb.c__distribute_state_pdaf,
                                  pdaf_cb.c__init_dim_obs_pdaf,
                                  pdaf_cb.c__obs_op_pdaf,
@@ -2877,7 +2885,8 @@ def assim_offline_ensrf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.localize_covar_serial_pdaf = py__localize_covar_serial_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdaf_assim_offline_ensrf(pdaf_cb.c__init_dim_obs_pdaf,
+    with nogil:
+        c__pdaf_assim_offline_ensrf(pdaf_cb.c__init_dim_obs_pdaf,
                                     pdaf_cb.c__obs_op_pdaf,
                                     pdaf_cb.c__init_obs_pdaf,
                                     pdaf_cb.c__init_obsvars_pdaf,
@@ -3454,26 +3463,27 @@ def assimilate_lknetf(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.likelihood_hyb_l_pdaf = py__likelihood_hyb_l_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_assimilate_lknetf(pdaf_cb.c__collect_state_pdaf,
-                                  pdaf_cb.c__distribute_state_pdaf,
-                                  pdaf_cb.c__init_dim_obs_pdaf,
-                                  pdaf_cb.c__obs_op_pdaf,
-                                  pdaf_cb.c__init_obs_pdaf,
-                                  pdaf_cb.c__init_obs_l_pdaf,
-                                  pdaf_cb.c__prepoststep_pdaf,
-                                  pdaf_cb.c__prodrinva_l_pdaf,
-                                  pdaf_cb.c__prodrinva_hyb_l_pdaf,
-                                  pdaf_cb.c__init_n_domains_p_pdaf,
-                                  pdaf_cb.c__init_dim_l_pdaf,
-                                  pdaf_cb.c__init_dim_obs_l_pdaf,
-                                  pdaf_cb.c__g2l_state_pdaf,
-                                  pdaf_cb.c__l2g_state_pdaf,
-                                  pdaf_cb.c__g2l_obs_pdaf,
-                                  pdaf_cb.c__init_obsvar_pdaf,
-                                  pdaf_cb.c__init_obsvar_l_pdaf,
-                                  pdaf_cb.c__likelihood_l_pdaf,
-                                  pdaf_cb.c__likelihood_hyb_l_pdaf,
-                                  pdaf_cb.c__next_observation_pdaf, &outflag)
+    with nogil:
+        c__pdaf_assimilate_lknetf(pdaf_cb.c__collect_state_pdaf,
+                                        pdaf_cb.c__distribute_state_pdaf,
+                                        pdaf_cb.c__init_dim_obs_pdaf,
+                                        pdaf_cb.c__obs_op_pdaf,
+                                        pdaf_cb.c__init_obs_pdaf,
+                                        pdaf_cb.c__init_obs_l_pdaf,
+                                        pdaf_cb.c__prepoststep_pdaf,
+                                        pdaf_cb.c__prodrinva_l_pdaf,
+                                        pdaf_cb.c__prodrinva_hyb_l_pdaf,
+                                        pdaf_cb.c__init_n_domains_p_pdaf,
+                                        pdaf_cb.c__init_dim_l_pdaf,
+                                        pdaf_cb.c__init_dim_obs_l_pdaf,
+                                        pdaf_cb.c__g2l_state_pdaf,
+                                        pdaf_cb.c__l2g_state_pdaf,
+                                        pdaf_cb.c__g2l_obs_pdaf,
+                                        pdaf_cb.c__init_obsvar_pdaf,
+                                        pdaf_cb.c__init_obsvar_l_pdaf,
+                                        pdaf_cb.c__likelihood_l_pdaf,
+                                        pdaf_cb.c__likelihood_hyb_l_pdaf,
+                                        pdaf_cb.c__next_observation_pdaf, &outflag)
 
     return outflag
 
@@ -3917,7 +3927,8 @@ def assim_offline_lknetf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.likelihood_l_pdaf = py__likelihood_l_pdaf
     pdaf_cb.likelihood_hyb_l_pdaf = py__likelihood_hyb_l_pdaf
     cdef int  outflag
-    c__pdaf_assim_offline_lknetf(pdaf_cb.c__init_dim_obs_pdaf,
+    with nogil:
+        c__pdaf_assim_offline_lknetf(pdaf_cb.c__init_dim_obs_pdaf,
                                      pdaf_cb.c__obs_op_pdaf,
                                      pdaf_cb.c__init_obs_pdaf,
                                      pdaf_cb.c__init_obs_l_pdaf,
@@ -4389,7 +4400,8 @@ def assimilate_hyb3dvar_estkf(py__collect_state_pdaf,
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_assimilate_hyb3dvar_estkf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_assimilate_hyb3dvar_estkf(pdaf_cb.c__collect_state_pdaf,
                                           pdaf_cb.c__distribute_state_pdaf,
                                           pdaf_cb.c__init_dim_obs_pdaf,
                                           pdaf_cb.c__obs_op_pdaf,
@@ -4744,7 +4756,8 @@ def assim_offline_hyb3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdaf_assim_offline_hyb3dvar_estkf(pdaf_cb.c__init_dim_obs_pdaf,
+    with nogil:
+        c__pdaf_assim_offline_hyb3dvar_estkf(pdaf_cb.c__init_dim_obs_pdaf,
                                              pdaf_cb.c__obs_op_pdaf,
                                              pdaf_cb.c__init_obs_pdaf,
                                              pdaf_cb.c__prodrinva_pdaf,
@@ -5485,7 +5498,8 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
-    c__pdaf_assimilate_hyb3dvar_lestkf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_assimilate_hyb3dvar_lestkf(pdaf_cb.c__collect_state_pdaf,
                                            pdaf_cb.c__distribute_state_pdaf,
                                            pdaf_cb.c__init_dim_obs_pdaf,
                                            pdaf_cb.c__obs_op_pdaf,
@@ -6110,7 +6124,8 @@ def assim_offline_hyb3dvar_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdaf_assim_offline_hyb3dvar_lestkf(pdaf_cb.c__init_dim_obs_pdaf,
+    with nogil:
+        c__pdaf_assim_offline_hyb3dvar_lestkf(pdaf_cb.c__init_dim_obs_pdaf,
                                               pdaf_cb.c__obs_op_pdaf,
                                               pdaf_cb.c__init_obs_pdaf,
                                               pdaf_cb.c__prodrinva_pdaf,
@@ -6604,7 +6619,8 @@ def assimilate_lestkf(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_assimilate_lestkf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_assimilate_lestkf(pdaf_cb.c__collect_state_pdaf,
                                   pdaf_cb.c__distribute_state_pdaf,
                                   pdaf_cb.c__init_dim_obs_pdaf,
                                   pdaf_cb.c__obs_op_pdaf,
@@ -6974,7 +6990,8 @@ def assim_offline_lestkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     cdef int  outflag
-    c__pdaf_assim_offline_lestkf(pdaf_cb.c__init_dim_obs_pdaf,
+    with nogil:
+        c__pdaf_assim_offline_lestkf(pdaf_cb.c__init_dim_obs_pdaf,
                                      pdaf_cb.c__obs_op_pdaf,
                                      pdaf_cb.c__init_obs_pdaf,
                                      pdaf_cb.c__init_obs_l_pdaf,
@@ -7261,7 +7278,8 @@ def assimilate_enkf(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.init_obs_covar_pdaf = py__init_obs_covar_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_assimilate_enkf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_assimilate_enkf(pdaf_cb.c__collect_state_pdaf,
                                 pdaf_cb.c__distribute_state_pdaf,
                                 pdaf_cb.c__init_dim_obs_pdaf,
                                 pdaf_cb.c__obs_op_pdaf,
@@ -7446,7 +7464,8 @@ def assim_offline_enkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.add_obs_err_pdaf = py__add_obs_err_pdaf
     pdaf_cb.init_obs_covar_pdaf = py__init_obs_covar_pdaf
     cdef int  outflag
-    c__pdaf_assim_offline_enkf(pdaf_cb.c__init_dim_obs_pdaf,
+    with nogil:
+        c__pdaf_assim_offline_enkf(pdaf_cb.c__init_dim_obs_pdaf,
                                    pdaf_cb.c__obs_op_pdaf,
                                    pdaf_cb.c__init_obs_pdaf,
                                    pdaf_cb.c__prepoststep_pdaf,
@@ -7926,7 +7945,8 @@ def assimilate_letkf(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_assimilate_letkf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_assimilate_letkf(pdaf_cb.c__collect_state_pdaf,
                                  pdaf_cb.c__distribute_state_pdaf,
                                  pdaf_cb.c__init_dim_obs_pdaf,
                                  pdaf_cb.c__obs_op_pdaf,
@@ -8296,7 +8316,8 @@ def assim_offline_letkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     cdef int  outflag
-    c__pdaf_assim_offline_letkf(pdaf_cb.c__init_dim_obs_pdaf,
+    with nogil:
+        c__pdaf_assim_offline_letkf(pdaf_cb.c__init_dim_obs_pdaf,
                                     pdaf_cb.c__obs_op_pdaf,
                                     pdaf_cb.c__init_obs_pdaf,
                                     pdaf_cb.c__init_obs_l_pdaf,
@@ -8587,7 +8608,8 @@ def assimilate_seik(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_assimilate_seik(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_assimilate_seik(pdaf_cb.c__collect_state_pdaf,
                                 pdaf_cb.c__distribute_state_pdaf,
                                 pdaf_cb.c__init_dim_obs_pdaf,
                                 pdaf_cb.c__obs_op_pdaf,
@@ -8774,7 +8796,8 @@ def assim_offline_seik(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.prodrinva_pdaf = py__prodrinva_pdaf
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     cdef int  outflag
-    c__pdaf_assim_offline_seik(pdaf_cb.c__init_dim_obs_pdaf,
+    with nogil:
+        c__pdaf_assim_offline_seik(pdaf_cb.c__init_dim_obs_pdaf,
                                    pdaf_cb.c__obs_op_pdaf,
                                    pdaf_cb.c__init_obs_pdaf,
                                    pdaf_cb.c__prepoststep_pdaf,
@@ -9195,7 +9218,8 @@ def assimilate_lnetf(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.g2l_obs_pdaf = py__g2l_obs_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_assimilate_lnetf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_assimilate_lnetf(pdaf_cb.c__collect_state_pdaf,
                                  pdaf_cb.c__distribute_state_pdaf,
                                  pdaf_cb.c__init_dim_obs_pdaf,
                                  pdaf_cb.c__obs_op_pdaf,
@@ -9517,7 +9541,8 @@ def assim_offline_lnetf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.l2g_state_pdaf = py__l2g_state_pdaf
     pdaf_cb.g2l_obs_pdaf = py__g2l_obs_pdaf
     cdef int  outflag
-    c__pdaf_assim_offline_lnetf(pdaf_cb.c__init_dim_obs_pdaf,
+    with nogil:
+        c__pdaf_assim_offline_lnetf(pdaf_cb.c__init_dim_obs_pdaf,
                                     pdaf_cb.c__obs_op_pdaf,
                                     pdaf_cb.c__init_obs_pdaf,
                                     pdaf_cb.c__init_obs_l_pdaf,
@@ -9673,7 +9698,8 @@ def assimilate_prepost(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_assimilate_prepost(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_assimilate_prepost(pdaf_cb.c__collect_state_pdaf,
                                    pdaf_cb.c__distribute_state_pdaf,
                                    pdaf_cb.c__prepoststep_pdaf,
                                    pdaf_cb.c__next_observation_pdaf, &outflag)
@@ -10074,7 +10100,8 @@ def assimilate_en3dvar_estkf(py__collect_state_pdaf,
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_assimilate_en3dvar_estkf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_assimilate_en3dvar_estkf(pdaf_cb.c__collect_state_pdaf,
                                          pdaf_cb.c__distribute_state_pdaf,
                                          pdaf_cb.c__init_dim_obs_pdaf,
                                          pdaf_cb.c__obs_op_pdaf,
@@ -10377,7 +10404,8 @@ def assim_offline_en3dvar_estkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdaf_assim_offline_en3dvar_estkf(pdaf_cb.c__init_dim_obs_pdaf,
+    with nogil:
+        c__pdaf_assim_offline_en3dvar_estkf(pdaf_cb.c__init_dim_obs_pdaf,
                                             pdaf_cb.c__obs_op_pdaf,
                                             pdaf_cb.c__init_obs_pdaf,
                                             pdaf_cb.c__prodrinva_pdaf,
@@ -10642,7 +10670,8 @@ def assimilate_netf(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.likelihood_pdaf = py__likelihood_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_assimilate_netf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_assimilate_netf(pdaf_cb.c__collect_state_pdaf,
                                 pdaf_cb.c__distribute_state_pdaf,
                                 pdaf_cb.c__init_dim_obs_pdaf,
                                 pdaf_cb.c__obs_op_pdaf,
@@ -10803,7 +10832,8 @@ def assim_offline_netf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     pdaf_cb.likelihood_pdaf = py__likelihood_pdaf
     cdef int  outflag
-    c__pdaf_assim_offline_netf(pdaf_cb.c__init_dim_obs_pdaf,
+    with nogil:
+        c__pdaf_assim_offline_netf(pdaf_cb.c__init_dim_obs_pdaf,
                                    pdaf_cb.c__obs_op_pdaf,
                                    pdaf_cb.c__init_obs_pdaf,
                                    pdaf_cb.c__prepoststep_pdaf,
@@ -11060,7 +11090,8 @@ def assimilate_pf(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.likelihood_pdaf = py__likelihood_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_assimilate_pf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_assimilate_pf(pdaf_cb.c__collect_state_pdaf,
                               pdaf_cb.c__distribute_state_pdaf,
                               pdaf_cb.c__init_dim_obs_pdaf,
                               pdaf_cb.c__obs_op_pdaf,
@@ -11221,7 +11252,8 @@ def assim_offline_pf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     pdaf_cb.likelihood_pdaf = py__likelihood_pdaf
     cdef int  outflag
-    c__pdaf_assim_offline_pf(pdaf_cb.c__init_dim_obs_pdaf,
+    with nogil:
+        c__pdaf_assim_offline_pf(pdaf_cb.c__init_dim_obs_pdaf,
                                  pdaf_cb.c__obs_op_pdaf,
                                  pdaf_cb.c__init_obs_pdaf,
                                  pdaf_cb.c__prepoststep_pdaf,
@@ -11530,7 +11562,8 @@ def assimilate_lenkf(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.init_obs_covar_pdaf = py__init_obs_covar_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_assimilate_lenkf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_assimilate_lenkf(pdaf_cb.c__collect_state_pdaf,
                                  pdaf_cb.c__distribute_state_pdaf,
                                  pdaf_cb.c__init_dim_obs_pdaf,
                                  pdaf_cb.c__obs_op_pdaf,
@@ -11742,7 +11775,8 @@ def assim_offline_lenkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.add_obs_err_pdaf = py__add_obs_err_pdaf
     pdaf_cb.init_obs_covar_pdaf = py__init_obs_covar_pdaf
     cdef int  outflag
-    c__pdaf_assim_offline_lenkf(pdaf_cb.c__init_dim_obs_pdaf,
+    with nogil:
+        c__pdaf_assim_offline_lenkf(pdaf_cb.c__init_dim_obs_pdaf,
                                     pdaf_cb.c__obs_op_pdaf,
                                     pdaf_cb.c__init_obs_pdaf,
                                     pdaf_cb.c__prepoststep_pdaf,
@@ -12031,7 +12065,8 @@ def assimilate_etkf(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_assimilate_etkf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_assimilate_etkf(pdaf_cb.c__collect_state_pdaf,
                                 pdaf_cb.c__distribute_state_pdaf,
                                 pdaf_cb.c__init_dim_obs_pdaf,
                                 pdaf_cb.c__obs_op_pdaf,
@@ -12218,7 +12253,8 @@ def assim_offline_etkf(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.prodrinva_pdaf = py__prodrinva_pdaf
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     cdef int  outflag
-    c__pdaf_assim_offline_etkf(pdaf_cb.c__init_dim_obs_pdaf,
+    with nogil:
+        c__pdaf_assim_offline_etkf(pdaf_cb.c__init_dim_obs_pdaf,
                                    pdaf_cb.c__obs_op_pdaf,
                                    pdaf_cb.c__init_obs_pdaf,
                                    pdaf_cb.c__prepoststep_pdaf,
@@ -12691,7 +12727,8 @@ def assimilate_lseik(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_assimilate_lseik(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_assimilate_lseik(pdaf_cb.c__collect_state_pdaf,
                                  pdaf_cb.c__distribute_state_pdaf,
                                  pdaf_cb.c__init_dim_obs_pdaf,
                                  pdaf_cb.c__obs_op_pdaf,
@@ -13061,7 +13098,8 @@ def assim_offline_lseik(py__init_dim_obs_pdaf, py__obs_op_pdaf,
     pdaf_cb.init_obsvar_pdaf = py__init_obsvar_pdaf
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     cdef int  outflag
-    c__pdaf_assim_offline_lseik(pdaf_cb.c__init_dim_obs_pdaf,
+    with nogil:
+        c__pdaf_assim_offline_lseik(pdaf_cb.c__init_dim_obs_pdaf,
                                     pdaf_cb.c__obs_op_pdaf,
                                     pdaf_cb.c__init_obs_pdaf,
                                     pdaf_cb.c__init_obs_l_pdaf,
@@ -13308,7 +13346,8 @@ def generate_obs(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaf_generate_obs(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaf_generate_obs(pdaf_cb.c__collect_state_pdaf,
                              pdaf_cb.c__distribute_state_pdaf,
                              pdaf_cb.c__init_dim_obs_f_pdaf,
                              pdaf_cb.c__obs_op_f_pdaf,
@@ -13461,7 +13500,8 @@ def generate_obs_offline(py__init_dim_obs_f_pdaf, py__obs_op_f_pdaf,
     pdaf_cb.get_obs_f_pdaf = py__get_obs_f_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdaf_generate_obs_offline(pdaf_cb.c__init_dim_obs_f_pdaf,
+    with nogil:
+        c__pdaf_generate_obs_offline(pdaf_cb.c__init_dim_obs_f_pdaf,
                                      pdaf_cb.c__obs_op_f_pdaf,
                                      pdaf_cb.c__init_obserr_f_pdaf,
                                      pdaf_cb.c__get_obs_f_pdaf,

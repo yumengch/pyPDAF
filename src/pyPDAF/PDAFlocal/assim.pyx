@@ -656,7 +656,8 @@ def assimilate_en3dvar_lestkf(py__collect_state_pdaf,
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaflocal_assimilate_en3dvar_lestkf(
+    with nogil:
+        c__pdaflocal_assimilate_en3dvar_lestkf(
                                                pdaf_cb.c__collect_state_pdaf,
                                                pdaf_cb.c__distribute_state_pdaf,
                                                pdaf_cb.c__init_dim_obs_pdaf,
@@ -1356,7 +1357,8 @@ def assimilate_hyb3dvar_lestkf(py__collect_state_pdaf,
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaflocal_assimilate_hyb3dvar_lestkf(
+    with nogil:
+        c__pdaflocal_assimilate_hyb3dvar_lestkf(
                                                 pdaf_cb.c__collect_state_pdaf,
                                                 pdaf_cb.c__distribute_state_pdaf,
                                                 pdaf_cb.c__init_dim_obs_pdaf,
@@ -1798,7 +1800,8 @@ def assimilate_lseik(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaflocal_assimilate_lseik(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaflocal_assimilate_lseik(pdaf_cb.c__collect_state_pdaf,
                                       pdaf_cb.c__distribute_state_pdaf,
                                       pdaf_cb.c__init_dim_obs_pdaf,
                                       pdaf_cb.c__obs_op_pdaf,
@@ -2236,7 +2239,8 @@ def assimilate_letkf(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaflocal_assimilate_letkf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaflocal_assimilate_letkf(pdaf_cb.c__collect_state_pdaf,
                                       pdaf_cb.c__distribute_state_pdaf,
                                       pdaf_cb.c__init_dim_obs_pdaf,
                                       pdaf_cb.c__obs_op_pdaf,
@@ -2669,7 +2673,8 @@ def assimilate_lestkf(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.init_obsvar_l_pdaf = py__init_obsvar_l_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaflocal_assimilate_lestkf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaflocal_assimilate_lestkf(pdaf_cb.c__collect_state_pdaf,
                                        pdaf_cb.c__distribute_state_pdaf,
                                        pdaf_cb.c__init_dim_obs_pdaf,
                                        pdaf_cb.c__obs_op_pdaf,
@@ -3048,7 +3053,8 @@ def assimilate_lnetf(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.g2l_obs_pdaf = py__g2l_obs_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaflocal_assimilate_lnetf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaflocal_assimilate_lnetf(pdaf_cb.c__collect_state_pdaf,
                                       pdaf_cb.c__distribute_state_pdaf,
                                       pdaf_cb.c__init_dim_obs_pdaf,
                                       pdaf_cb.c__obs_op_pdaf,
@@ -3581,7 +3587,8 @@ def assimilate_lknetf(py__collect_state_pdaf, py__distribute_state_pdaf,
     pdaf_cb.likelihood_hyb_l_pdaf = py__likelihood_hyb_l_pdaf
     pdaf_cb.next_observation_pdaf = py__next_observation_pdaf
     cdef int  outflag
-    c__pdaflocal_assimilate_lknetf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdaflocal_assimilate_lknetf(pdaf_cb.c__collect_state_pdaf,
                                        pdaf_cb.c__distribute_state_pdaf,
                                        pdaf_cb.c__init_dim_obs_pdaf,
                                        pdaf_cb.c__obs_op_pdaf,

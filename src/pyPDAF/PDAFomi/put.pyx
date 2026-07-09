@@ -299,7 +299,8 @@ def put_state_local_nondiagr(py__collect_state_pdaf, py__init_dim_obs_pdaf,
     pdaf_cb.g2l_state_pdaf = py__g2l_state_pdaf
     pdaf_cb.l2g_state_pdaf = py__l2g_state_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_local_nondiagr(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdafomi_put_state_local_nondiagr(pdaf_cb.c__collect_state_pdaf,
                                             pdaf_cb.c__init_dim_obs_pdaf,
                                             pdaf_cb.c__obs_op_pdaf,
                                             pdaf_cb.c__prepoststep_pdaf,
@@ -469,7 +470,8 @@ def put_state_global_nondiagr(py__collect_state_pdaf,
     pdaf_cb.prodrinva_pdaf = py__prodrinva_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_global_nondiagr(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdafomi_put_state_global_nondiagr(pdaf_cb.c__collect_state_pdaf,
                                              pdaf_cb.c__init_dim_obs_pdaf,
                                              pdaf_cb.c__obs_op_pdaf,
                                              pdaf_cb.c__prodrinva_pdaf,
@@ -652,7 +654,8 @@ def put_state_enkf_nondiagr(py__collect_state_pdaf, py__init_dim_obs_pdaf,
     pdaf_cb.init_obs_covar_pdaf = py__init_obs_covar_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_enkf_nondiagr(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdafomi_put_state_enkf_nondiagr(pdaf_cb.c__collect_state_pdaf,
                                            pdaf_cb.c__init_dim_obs_pdaf,
                                            pdaf_cb.c__obs_op_pdaf,
                                            pdaf_cb.c__add_obs_err_pdaf,
@@ -862,7 +865,8 @@ def put_state_lenkf_nondiagr(py__collect_state_pdaf, py__init_dim_obs_pdaf,
     pdaf_cb.add_obs_err_pdaf = py__add_obs_err_pdaf
     pdaf_cb.init_obs_covar_pdaf = py__init_obs_covar_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_lenkf_nondiagr(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdafomi_put_state_lenkf_nondiagr(pdaf_cb.c__collect_state_pdaf,
                                             pdaf_cb.c__init_dim_obs_pdaf,
                                             pdaf_cb.c__obs_op_pdaf,
                                             pdaf_cb.c__prepoststep_pdaf,
@@ -1025,7 +1029,8 @@ def put_state_nonlin_nondiagr(py__collect_state_pdaf,
     pdaf_cb.likelihood_pdaf = py__likelihood_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_nonlin_nondiagr(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdafomi_put_state_nonlin_nondiagr(pdaf_cb.c__collect_state_pdaf,
                                              pdaf_cb.c__init_dim_obs_pdaf,
                                              pdaf_cb.c__obs_op_pdaf,
                                              pdaf_cb.c__likelihood_pdaf,
@@ -1291,7 +1296,8 @@ def put_state_lnetf_nondiagr(py__collect_state_pdaf, py__init_dim_obs_pdaf,
     pdaf_cb.g2l_state_pdaf = py__g2l_state_pdaf
     pdaf_cb.l2g_state_pdaf = py__l2g_state_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_lnetf_nondiagr(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdafomi_put_state_lnetf_nondiagr(pdaf_cb.c__collect_state_pdaf,
                                             pdaf_cb.c__init_dim_obs_pdaf,
                                             pdaf_cb.c__obs_op_pdaf,
                                             pdaf_cb.c__prepoststep_pdaf,
@@ -1655,7 +1661,8 @@ def put_state_lknetf_nondiagr(py__collect_state_pdaf,
     pdaf_cb.g2l_state_pdaf = py__g2l_state_pdaf
     pdaf_cb.l2g_state_pdaf = py__l2g_state_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_lknetf_nondiagr(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdafomi_put_state_lknetf_nondiagr(pdaf_cb.c__collect_state_pdaf,
                                              pdaf_cb.c__init_dim_obs_pdaf,
                                              pdaf_cb.c__obs_op_pdaf,
                                              pdaf_cb.c__prepoststep_pdaf,
@@ -1944,7 +1951,8 @@ def put_state_3dvar(py__collect_state_pdaf, py__init_dim_obs_pdaf,
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_3dvar(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdafomi_put_state_3dvar(pdaf_cb.c__collect_state_pdaf,
                                    pdaf_cb.c__init_dim_obs_pdaf,
                                    pdaf_cb.c__obs_op_pdaf,
                                    pdaf_cb.c__cvt_pdaf,
@@ -2250,7 +2258,8 @@ def put_state_en3dvar_estkf(py__collect_state_pdaf, py__init_dim_obs_pdaf,
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_en3dvar_estkf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdafomi_put_state_en3dvar_estkf(pdaf_cb.c__collect_state_pdaf,
                                            pdaf_cb.c__init_dim_obs_pdaf,
                                            pdaf_cb.c__obs_op_pdaf,
                                            pdaf_cb.c__cvt_ens_pdaf,
@@ -2669,7 +2678,8 @@ def put_state_en3dvar_lestkf(py__collect_state_pdaf,
     pdaf_cb.l2g_state_pdaf = py__l2g_state_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_en3dvar_lestkf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdafomi_put_state_en3dvar_lestkf(pdaf_cb.c__collect_state_pdaf,
                                             pdaf_cb.c__init_dim_obs_f_pdaf,
                                             pdaf_cb.c__obs_op_f_pdaf,
                                             pdaf_cb.c__cvt_ens_pdaf,
@@ -3040,7 +3050,8 @@ def put_state_hyb3dvar_estkf(py__collect_state_pdaf, py__init_dim_obs_pdaf,
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_hyb3dvar_estkf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdafomi_put_state_hyb3dvar_estkf(pdaf_cb.c__collect_state_pdaf,
                                             pdaf_cb.c__init_dim_obs_pdaf,
                                             pdaf_cb.c__obs_op_pdaf,
                                             pdaf_cb.c__cvt_ens_pdaf,
@@ -3520,7 +3531,8 @@ def put_state_hyb3dvar_lestkf(py__collect_state_pdaf,
     pdaf_cb.l2g_state_pdaf = py__l2g_state_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_hyb3dvar_lestkf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdafomi_put_state_hyb3dvar_lestkf(pdaf_cb.c__collect_state_pdaf,
                                              pdaf_cb.c__init_dim_obs_f_pdaf,
                                              pdaf_cb.c__obs_op_f_pdaf,
                                              pdaf_cb.c__cvt_ens_pdaf,
@@ -3796,7 +3808,8 @@ def put_state_3dvar_nondiagr(py__collect_state_pdaf, py__init_dim_obs_pdaf,
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_3dvar_nondiagr(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdafomi_put_state_3dvar_nondiagr(pdaf_cb.c__collect_state_pdaf,
                                             pdaf_cb.c__init_dim_obs_pdaf,
                                             pdaf_cb.c__obs_op_pdaf,
                                             pdaf_cb.c__prodrinva_pdaf,
@@ -4077,7 +4090,8 @@ def put_state_en3dvar_estkf_nondiagr(py__collect_state_pdaf,
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_en3dvar_estkf_nondiagr(
+    with nogil:
+        c__pdafomi_put_state_en3dvar_estkf_nondiagr(
                                                     pdaf_cb.c__collect_state_pdaf,
                                                     pdaf_cb.c__init_dim_obs_pdaf,
                                                     pdaf_cb.c__obs_op_pdaf,
@@ -4491,7 +4505,8 @@ def put_state_en3dvar_lestkf_nondiagr(py__collect_state_pdaf,
     pdaf_cb.l2g_state_pdaf = py__l2g_state_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_en3dvar_lestkf_nondiagr(
+    with nogil:
+        c__pdafomi_put_state_en3dvar_lestkf_nondiagr(
                                                      pdaf_cb.c__collect_state_pdaf,
                                                      pdaf_cb.c__init_dim_obs_pdaf,
                                                      pdaf_cb.c__obs_op_pdaf,
@@ -4829,7 +4844,8 @@ def put_state_hyb3dvar_estkf_nondiagr(py__collect_state_pdaf,
     pdaf_cb.obs_op_adj_pdaf = py__obs_op_adj_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_hyb3dvar_estkf_nondiagr(
+    with nogil:
+        c__pdafomi_put_state_hyb3dvar_estkf_nondiagr(
                                                      pdaf_cb.c__collect_state_pdaf,
                                                      pdaf_cb.c__init_dim_obs_pdaf,
                                                      pdaf_cb.c__obs_op_pdaf,
@@ -5296,7 +5312,8 @@ def put_state_hyb3dvar_lestkf_nondiagr(py__collect_state_pdaf,
     pdaf_cb.l2g_state_pdaf = py__l2g_state_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_hyb3dvar_lestkf_nondiagr(
+    with nogil:
+        c__pdafomi_put_state_hyb3dvar_lestkf_nondiagr(
                                                       pdaf_cb.c__collect_state_pdaf,
                                                       pdaf_cb.c__init_dim_obs_pdaf,
                                                       pdaf_cb.c__obs_op_pdaf,
@@ -5543,7 +5560,8 @@ def put_state_local(py__collect_state_pdaf, py__init_dim_obs_f_pdaf,
     pdaf_cb.init_dim_obs_l_pdaf = py__init_dim_obs_l_pdaf
     pdaf_cb.g2l_state_pdaf = py__g2l_state_pdaf
     pdaf_cb.l2g_state_pdaf = py__l2g_state_pdaf
-    c__pdafomi_put_state_local(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdafomi_put_state_local(pdaf_cb.c__collect_state_pdaf,
                                    pdaf_cb.c__init_dim_obs_f_pdaf,
                                    pdaf_cb.c__obs_op_f_pdaf,
                                    pdaf_cb.c__prepoststep_pdaf,
@@ -5685,7 +5703,8 @@ def put_state_global(py__collect_state_pdaf, py__init_dim_obs_pdaf,
     pdaf_cb.init_dim_obs_pdaf = py__init_dim_obs_pdaf
     pdaf_cb.obs_op_pdaf = py__obs_op_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
-    c__pdafomi_put_state_global(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdafomi_put_state_global(pdaf_cb.c__collect_state_pdaf,
                                     pdaf_cb.c__init_dim_obs_pdaf,
                                     pdaf_cb.c__obs_op_pdaf,
                                     pdaf_cb.c__prepoststep_pdaf, &outflag)
@@ -5897,7 +5916,8 @@ def put_state_lenkf(py__collect_state_pdaf, py__init_dim_obs_pdaf,
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     pdaf_cb.localize_covar_pdaf = py__localize_covar_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_lenkf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdafomi_put_state_lenkf(pdaf_cb.c__collect_state_pdaf,
                                    pdaf_cb.c__init_dim_obs_pdaf,
                                    pdaf_cb.c__obs_op_pdaf,
                                    pdaf_cb.c__prepoststep_pdaf,
@@ -6062,7 +6082,8 @@ def put_state_ensrf(py__collect_state_pdaf, py__init_dim_obs_pdaf,
     pdaf_cb.localize_covar_serial_pdaf = py__localize_covar_serial_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_ensrf(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdafomi_put_state_ensrf(pdaf_cb.c__collect_state_pdaf,
                                    pdaf_cb.c__init_dim_obs_pdaf,
                                    pdaf_cb.c__obs_op_pdaf,
                                    pdaf_cb.c__localize_covar_serial_pdaf,
@@ -6246,7 +6267,8 @@ def put_state_generate_obs(py__collect_state_pdaf, py__init_dim_obs_f_pdaf,
     pdaf_cb.get_obs_f_pdaf = py__get_obs_f_pdaf
     pdaf_cb.prepoststep_pdaf = py__prepoststep_pdaf
     cdef int  outflag
-    c__pdafomi_put_state_generate_obs(pdaf_cb.c__collect_state_pdaf,
+    with nogil:
+        c__pdafomi_put_state_generate_obs(pdaf_cb.c__collect_state_pdaf,
                                           pdaf_cb.c__init_dim_obs_f_pdaf,
                                           pdaf_cb.c__obs_op_f_pdaf,
                                           pdaf_cb.c__get_obs_f_pdaf,

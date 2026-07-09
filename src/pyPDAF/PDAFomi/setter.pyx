@@ -27,7 +27,8 @@ def set_doassim(int  i_obs, int  doassim):
         0) do not assimilate;
         1) assimilate the observation type
     """
-    c__pdafomi_set_doassim(&i_obs, &doassim)
+    with nogil:
+        c__pdafomi_set_doassim(&i_obs, &doassim)
 
 def set_disttype(int  i_obs, int  disttype):
     r"""set_disttype(i_obs: int, disttype: int) -> None
@@ -70,7 +71,8 @@ def set_disttype(int  i_obs, int  disttype):
               distance is in units chosen by users where the horizontal
               and vertical distances are treated separately
     """
-    c__pdafomi_set_disttype(&i_obs, &disttype)
+    with nogil:
+        c__pdafomi_set_disttype(&i_obs, &disttype)
 
 
 
@@ -96,7 +98,8 @@ def set_ncoord(int  i_obs, int  ncoord):
     ncoord : int
         Dimension of the observation coordinate
     """
-    c__pdafomi_set_ncoord(&i_obs, &ncoord)
+    with nogil:
+        c__pdafomi_set_ncoord(&i_obs, &ncoord)
 
 
 
@@ -119,7 +122,8 @@ def set_obs_err_type(int  i_obs, int  obs_err_type):
             0) Gaussian (default)
             1) double exponential (Laplacian)
     """
-    c__pdafomi_set_obs_err_type(&i_obs, &obs_err_type)
+    with nogil:
+        c__pdafomi_set_obs_err_type(&i_obs, &obs_err_type)
 
 
 
@@ -171,7 +175,8 @@ def set_use_global_obs(int  i_obs, int  use_global_obs):
             0) Using process-local observations;
             1) using cross-process observations (default)
     """
-    c__pdafomi_set_use_global_obs(&i_obs, &use_global_obs)
+    with nogil:
+        c__pdafomi_set_use_global_obs(&i_obs, &use_global_obs)
 
 
 
@@ -201,7 +206,8 @@ def set_inno_omit(int  i_obs, double  inno_omit):
     inno_omit : float
         Threshold of innovation to be omitted
     """
-    c__pdafomi_set_inno_omit(&i_obs, &inno_omit)
+    with nogil:
+        c__pdafomi_set_inno_omit(&i_obs, &inno_omit)
 
 
 
@@ -224,7 +230,8 @@ def set_inno_omit_ivar(int  i_obs, double  inno_omit_ivar):
     inno_omit_ivar : float
         Inverse of observation variance for omiited observations
     """
-    c__pdafomi_set_inno_omit_ivar(&i_obs, &inno_omit_ivar)
+    with nogil:
+        c__pdafomi_set_inno_omit_ivar(&i_obs, &inno_omit_ivar)
 
 
 
@@ -284,7 +291,8 @@ def set_id_obs_p(int  i_obs, int  nrows, int  dim_obs_p, int [::1,:] id_obs_p):
         The 1st-th dimension nrows is number of values to be averaged or used for interpolation
         The 2nd-th dimension dim_obs_p is dimension of PE local obs
     """
-    c__pdafomi_set_id_obs_p(&i_obs, &nrows, &dim_obs_p, &id_obs_p[0,0])
+    with nogil:
+        c__pdafomi_set_id_obs_p(&i_obs, &nrows, &dim_obs_p, &id_obs_p[0,0])
 
 
 
@@ -334,7 +342,8 @@ def set_icoeff_p(int  i_obs, int  nrows, int  dim_obs_p,
         to one observation location
         The 2nd-th dimension dim_obs_p is dimension of PE local obs
     """
-    c__pdafomi_set_icoeff_p(&i_obs, &nrows, &dim_obs_p, &icoeff_p[0,0])
+    with nogil:
+        c__pdafomi_set_icoeff_p(&i_obs, &nrows, &dim_obs_p, &icoeff_p[0,0])
 
 
 
@@ -366,7 +375,8 @@ def set_domainsize(int  i_obs, int  ncoord, double [::1] domainsize):
         Size of the domain in each dimension
         The array dimension `ncoord` is state dimension
     """
-    c__pdafomi_set_domainsize(&i_obs, &ncoord, &domainsize[0])
+    with nogil:
+        c__pdafomi_set_domainsize(&i_obs, &ncoord, &domainsize[0])
 
 def set_name(int  i_obs, str obsname):
     """set_name(i_obs: int, obsname: str) -> None
@@ -382,7 +392,8 @@ def set_name(int  i_obs, str obsname):
     """
     obsname_byte = obsname.encode('UTF-8')
     cdef char* obsname_ptr = obsname_byte
-    c__pdafomi_set_name(&i_obs, obsname_ptr)
+    with nogil:
+        c__pdafomi_set_name(&i_obs, obsname_ptr)
 
 def set_searchtype(int stype, int sortdir):
     """set_searchtype(stype: int, sortdir: int) -> None
@@ -417,4 +428,5 @@ def set_searchtype(int stype, int sortdir):
     -------
     None
     """
-    c__pdafomi_set_searchtype(&stype, &sortdir)
+    with nogil:
+        c__pdafomi_set_searchtype(&stype, &sortdir)

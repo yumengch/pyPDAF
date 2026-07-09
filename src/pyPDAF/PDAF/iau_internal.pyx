@@ -53,7 +53,8 @@ def iau_init_weights(int  type_iau, int  nsteps_iau):
     Returns
     -------
     """
-    c__pdaf_iau_init_weights(&type_iau, &nsteps_iau)
+    with nogil:
+        c__pdaf_iau_init_weights(&type_iau, &nsteps_iau)
 
 
 
@@ -96,7 +97,8 @@ def iau_update_inc(double [::1,:] ens_ana, double [::1] state_ana):
     CFI_establish(<CFI_cdesc_t *> &state_ana_cfi, &state_ana[0], CFI_attribute_other,
                     CFI_type_double , state_ana_nbytes, 1, state_ana_extent)
 
-    c__pdaf_iau_update_inc(<CFI_cdesc_t *> &ens_ana_cfi, <CFI_cdesc_t *> &state_ana_cfi)
+    with nogil:
+        c__pdaf_iau_update_inc(<CFI_cdesc_t *> &ens_ana_cfi, <CFI_cdesc_t *> &state_ana_cfi)
 
     return ens_ana_np, state_ana_np
 
@@ -182,7 +184,8 @@ def iau_add_inc_ens(int  step, int  dim_p, int  dim_ens_task,
     CFI_establish(<CFI_cdesc_t *> &state_cfi, &state[0], CFI_attribute_other,
                       CFI_type_double , state_nbytes, 1, state_extent)
 
-    c__pdaf_iau_add_inc_ens(&step, &dim_p, &dim_ens_task, <CFI_cdesc_t *> &ens_cfi, <CFI_cdesc_t *> &state_cfi,
+    with nogil:
+        c__pdaf_iau_add_inc_ens(&step, &dim_p, &dim_ens_task, <CFI_cdesc_t *> &ens_cfi, <CFI_cdesc_t *> &state_cfi,
                             pdaf_cb.c__collect_state_pdaf,
                             pdaf_cb.c__distribute_state_pdaf)
 
@@ -227,7 +230,8 @@ def iau_update_ens(double [::1,:] ens, double [::1] state):
     CFI_establish(<CFI_cdesc_t *> &state_cfi, &state[0], CFI_attribute_other,
                   CFI_type_double , state_nbytes, 1, state_extent)
 
-    c__pdaf_iau_update_ens(<CFI_cdesc_t *> &ens_cfi, <CFI_cdesc_t *> &state_cfi)
+    with nogil:
+        c__pdaf_iau_update_ens(<CFI_cdesc_t *> &ens_cfi, <CFI_cdesc_t *> &state_cfi)
 
     return ens_np, state_np
 
@@ -236,7 +240,8 @@ def iau_dealloc():
     """Checking the corresponding PDAF documentation in https://pdaf.awi.de
     For internal subroutines checking corresponding PDAF comments.
     """
-    c__pdaf_iau_dealloc()
+    with nogil:
+        c__pdaf_iau_dealloc()
 
 
 
