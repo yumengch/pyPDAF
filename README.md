@@ -31,6 +31,27 @@ conda create -n pypdaf -c conda-forge yumengch::pypdaf
 conda activate pypdaf
 ```
 
+OpenMP-enabled Fortran builds are available for both standard (GIL-enabled)
+Python 3.14 and free-threaded Python 3.14. Select the standard Python build
+with:
+
+```bash
+conda create -n pypdaf-openmp -c conda-forge \
+    "yumengch::pypdaf=*=py314_openmp_*"
+conda activate pypdaf-openmp
+```
+
+Or select the free-threaded build with:
+
+```bash
+conda create -n pypdaf-free-threaded -c conda-forge \
+    "yumengch::pypdaf=*=py314t_openmp_*"
+conda activate pypdaf-free-threaded
+```
+
+The quoted package specifications select the OpenMP build explicitly; the
+`t` in `py314t` identifies the free-threaded Python variant.
+
 Source builds are also supported with `pip` and `meson-python`. See the
 [installation guide](https://yumengch.github.io/pyPDAF/install.html) for
 compiler, MPI, BLAS, and platform-specific notes.
