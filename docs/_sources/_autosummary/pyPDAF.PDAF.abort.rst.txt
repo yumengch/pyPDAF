@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.abort
+=================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: abort

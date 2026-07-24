@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.diag\_diffstats
+==============================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: diag_diffstats

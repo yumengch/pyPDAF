@@ -1,0 +1,6 @@
+﻿pyPDAF.configinfo\_filters
+==========================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: configinfo_filters

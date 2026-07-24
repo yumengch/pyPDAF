@@ -10,12 +10,12 @@
     <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=8203d6f3" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pyPDAF.PDAFomi.init_local" href="pyPDAF.PDAFomi.init_local.html" />
-    <link rel="prev" title="pyPDAF.init_forecast" href="pyPDAF.init_forecast.html" />
+    <link rel="next" title="pyPDAF.PDAFomi.check_error" href="pyPDAF.PDAFomi.check_error.html" />
+    <link rel="prev" title="pyPDAF.PDAF3.prepost_offline" href="pyPDAF.PDAF3.prepost_offline.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -41,7 +41,7 @@
 <dd><p>Allocating an array of <cite>obs_f</cite> derived types instances.</p>
 <p>This function initialises the number of observation types,
 which should be called at the start of the DA system
-after <code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.init()</span></code>.</p>
+after <a class="reference internal" href="pyPDAF.PDAF.init.html#pyPDAF.PDAF.init" title="pyPDAF.PDAF.init"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyPDAF.PDAF.init()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>n_obs</strong> (<em>int</em>) – number of observations</p>
@@ -89,15 +89,18 @@ after <code class="xref py py-func docutils literal notranslate"><span class="pr
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow.html">Data assimilation workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../naming_convention.html">Variable naming conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallelisation Strategy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">OpenMP benchmarks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../develop.html">Developer Guide</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../API.html">API</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../API.html#initialisation-and-finalisation">Initialisation and finalisation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#da-algorithms">DA algorithms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#omi-functions">OMI functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#localisation-functions">Localisation functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#utilities">Utilities</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../API.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../API.html#top-level-workflow-functions">Top-Level Workflow Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#pypdaf-pdaf-utilities-and-legacy-interface"><code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAF</span></code> Utilities and Legacy Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#pypdaf-pdaf3-assimilation-interface"><code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAF3</span></code> Assimilation Interface</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../API.html#pypdaf-pdafomi-observation-module-interface"><code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi</span></code> Observation Module Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#pypdaf-pdaflocal-localisation-helpers"><code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAFlocal</span></code> Localisation Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#pypdaf-pdaflocalomi"><code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAFlocalomi</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../user_functions.html">User-supplied functions</a></li>
@@ -109,9 +112,9 @@ after <code class="xref py py-func docutils literal notranslate"><span class="pr
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="../API.html">API</a><ul>
-      <li>Previous: <a href="pyPDAF.init_forecast.html" title="previous chapter">pyPDAF.init_forecast</a></li>
-      <li>Next: <a href="pyPDAF.PDAFomi.init_local.html" title="next chapter">pyPDAF.PDAFomi.init_local</a></li>
+  <li><a href="../API.html">API Reference</a><ul>
+      <li>Previous: <a href="pyPDAF.PDAF3.prepost_offline.html" title="previous chapter">pyPDAF.PDAF3.prepost_offline</a></li>
+      <li>Next: <a href="pyPDAF.PDAFomi.check_error.html" title="next chapter">pyPDAF.PDAFomi.check_error</a></li>
   </ul></li>
   </ul></li>
 </ul>
@@ -132,7 +135,7 @@ after <code class="xref py py-func docutils literal notranslate"><span class="pr
       &#169;2025 University of Reading and National Centre for Earth Observation.
       
       |
-      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
       &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
       |

@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF3.assim\_offline\_en3dvar\_estkf\_nondiagr
+=====================================================
+
+.. currentmodule:: pyPDAF.PDAF3
+
+.. autofunction:: assim_offline_en3dvar_estkf_nondiagr

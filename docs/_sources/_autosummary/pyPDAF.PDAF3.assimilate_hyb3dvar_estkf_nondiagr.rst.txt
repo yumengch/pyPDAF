@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF3.assimilate\_hyb3dvar\_estkf\_nondiagr
+==================================================
+
+.. currentmodule:: pyPDAF.PDAF3
+
+.. autofunction:: assimilate_hyb3dvar_estkf_nondiagr

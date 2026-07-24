@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.diag\_stddev\_nompi
+===============================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: diag_stddev_nompi

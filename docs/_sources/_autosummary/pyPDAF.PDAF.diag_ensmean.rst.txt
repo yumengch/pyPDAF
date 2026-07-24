@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.diag\_ensmean
+=========================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: diag_ensmean

@@ -1,0 +1,6 @@
+﻿pyPDAF.options\_filters
+=======================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: options_filters

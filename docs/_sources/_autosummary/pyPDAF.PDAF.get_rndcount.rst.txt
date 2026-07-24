@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.get\_rndcount
+=========================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: get_rndcount

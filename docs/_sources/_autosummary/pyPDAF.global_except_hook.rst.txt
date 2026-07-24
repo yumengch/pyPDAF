@@ -1,0 +1,6 @@
+﻿pyPDAF.global\_except\_hook
+===========================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: global_except_hook

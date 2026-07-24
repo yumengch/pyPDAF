@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.diag\_variance
+==========================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: diag_variance

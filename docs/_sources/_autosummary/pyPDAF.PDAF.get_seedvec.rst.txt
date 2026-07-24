@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.get\_seedvec
+========================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: get_seedvec

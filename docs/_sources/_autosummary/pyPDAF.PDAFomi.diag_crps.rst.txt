@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.diag\_crps
+=========================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: diag_crps

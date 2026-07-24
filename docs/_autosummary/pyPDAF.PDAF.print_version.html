@@ -5,17 +5,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pyPDAF.PDAFomi.init_local &#8212; pyPDAF  documentation</title>
+    <title>pyPDAF.PDAF.print_version &#8212; pyPDAF  documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
     <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=8203d6f3" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pyPDAF.deallocate" href="pyPDAF.deallocate.html" />
-    <link rel="prev" title="pyPDAF.PDAFomi.init" href="pyPDAF.PDAFomi.init.html" />
+    <link rel="next" title="pyPDAF.PDAF.print_filter_types" href="pyPDAF.PDAF.print_filter_types.html" />
+    <link rel="prev" title="pyPDAF.PDAF.force_analysis" href="pyPDAF.PDAF.force_analysis.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -33,16 +33,12 @@
 
           <div class="body" role="main">
             
-  <section id="pypdaf-pdafomi-init-local">
-<h1>pyPDAF.PDAFomi.init_local<a class="headerlink" href="#pypdaf-pdafomi-init-local" title="Link to this heading">¶</a></h1>
+  <section id="pypdaf-pdaf-print-version">
+<h1>pyPDAF.PDAF.print_version<a class="headerlink" href="#pypdaf-pdaf-print-version" title="Link to this heading">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="pyPDAF.PDAFomi.init_local">
-<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAFomi.</span></span><span class="sig-name descname"><span class="pre">init_local</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyPDAF.PDAFomi.init_local" title="Link to this definition">¶</a></dt>
-<dd><p>Allocating an array of <cite>obs_l</cite> derived types instances.</p>
-<p>This function initialises the number of observation types
-for each local analysis domain,
-which should be called at the start of the local analysis loop
-in <a class="reference internal" href="../user_desc/py__init_dim_obs_l_pdaf.html#py__init_dim_obs_l_pdaf" title="py__init_dim_obs_l_pdaf"><code class="xref py py-func docutils literal notranslate"><span class="pre">py__init_dim_obs_l_pdaf()</span></code></a>.</p>
+<dt class="sig sig-object py" id="pyPDAF.PDAF.print_version">
+<span class="sig-prename descclassname"><span class="pre">pyPDAF.PDAF.</span></span><span class="sig-name descname"><span class="pre">print_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyPDAF.PDAF.print_version" title="Link to this definition">¶</a></dt>
+<dd><p>Display version information for PDAF</p>
 </dd></dl>
 
 </section>
@@ -85,15 +81,18 @@ in <a class="reference internal" href="../user_desc/py__init_dim_obs_l_pdaf.html
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow.html">Data assimilation workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../naming_convention.html">Variable naming conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../parallel.html">Parallelisation Strategy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">OpenMP benchmarks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../develop.html">Developer Guide</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../API.html">API</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../API.html#initialisation-and-finalisation">Initialisation and finalisation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#da-algorithms">DA algorithms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#omi-functions">OMI functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#localisation-functions">Localisation functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#utilities">Utilities</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../API.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../API.html#top-level-workflow-functions">Top-Level Workflow Functions</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../API.html#pypdaf-pdaf-utilities-and-legacy-interface"><code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAF</span></code> Utilities and Legacy Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#pypdaf-pdaf3-assimilation-interface"><code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAF3</span></code> Assimilation Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#pypdaf-pdafomi-observation-module-interface"><code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi</span></code> Observation Module Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#pypdaf-pdaflocal-localisation-helpers"><code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAFlocal</span></code> Localisation Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#pypdaf-pdaflocalomi"><code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAFlocalomi</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../user_functions.html">User-supplied functions</a></li>
@@ -105,9 +104,9 @@ in <a class="reference internal" href="../user_desc/py__init_dim_obs_l_pdaf.html
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="../API.html">API</a><ul>
-      <li>Previous: <a href="pyPDAF.PDAFomi.init.html" title="previous chapter">pyPDAF.PDAFomi.init</a></li>
-      <li>Next: <a href="pyPDAF.deallocate.html" title="next chapter">pyPDAF.deallocate</a></li>
+  <li><a href="../API.html">API Reference</a><ul>
+      <li>Previous: <a href="pyPDAF.PDAF.force_analysis.html" title="previous chapter">pyPDAF.PDAF.force_analysis</a></li>
+      <li>Next: <a href="pyPDAF.PDAF.print_filter_types.html" title="next chapter">pyPDAF.PDAF.print_filter_types</a></li>
   </ul></li>
   </ul></li>
 </ul>
@@ -128,11 +127,11 @@ in <a class="reference internal" href="../user_desc/py__init_dim_obs_l_pdaf.html
       &#169;2025 University of Reading and National Centre for Earth Observation.
       
       |
-      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.3.0</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
       &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
       |
-      <a href="../_sources/_autosummary/pyPDAF.PDAFomi.init_local.rst.txt"
+      <a href="../_sources/_autosummary/pyPDAF.PDAF.print_version.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

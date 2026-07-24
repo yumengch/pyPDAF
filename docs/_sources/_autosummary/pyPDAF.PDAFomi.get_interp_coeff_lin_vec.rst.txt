@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.get\_interp\_coeff\_lin\_vec
+===========================================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: get_interp_coeff_lin_vec

@@ -1,0 +1,6 @@
+﻿pyPDAF.print\_version
+=====================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: print_version

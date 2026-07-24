@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF3.assim\_offline\_lenkf\_nondiagr
+============================================
+
+.. currentmodule:: pyPDAF.PDAF3
+
+.. autofunction:: assim_offline_lenkf_nondiagr

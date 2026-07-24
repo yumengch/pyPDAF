@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.set\_searchtype
+==============================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: set_searchtype

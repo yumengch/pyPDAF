@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.genobs\_set\_rparam
+===============================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: genobs_set_rparam

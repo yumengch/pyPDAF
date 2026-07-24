@@ -1,0 +1,6 @@
+﻿pyPDAF.flush\_fortran\_stdout
+=============================
+
+.. currentmodule:: pyPDAF
+
+.. autofunction:: flush_fortran_stdout

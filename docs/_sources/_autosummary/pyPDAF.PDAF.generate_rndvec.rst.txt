@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.generate\_rndvec
+============================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: generate_rndvec

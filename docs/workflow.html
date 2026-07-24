@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Data assimilation workflow &#8212; pyPDAF  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=8203d6f3" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Variable naming conventions" href="naming_convention.html" />
+    <link rel="prev" title="Installation" href="install.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="data-assimilation-workflow">
+<h1>Data assimilation workflow<a class="headerlink" href="#data-assimilation-workflow" title="Link to this heading">¶</a></h1>
+<p>This page gives a conceptual map for readers who are new to data assimilation,
+PDAF, or pyPDAF. It is intentionally practical: the goal is to explain what the
+main objects mean and where user code fits into a pyPDAF program.</p>
+<section id="what-data-assimilation-does">
+<h2>What data assimilation does<a class="headerlink" href="#what-data-assimilation-does" title="Link to this heading">¶</a></h2>
+<p>Data assimilation combines three sources of information:</p>
+<ul class="simple">
+<li><p>a <strong>model forecast</strong>, which predicts the system state;</p></li>
+<li><p><strong>observations</strong>, which measure part of the real system;</p></li>
+<li><p>estimates of <strong>uncertainty</strong>, which decide how strongly the analysis should
+trust the forecast or the observations.</p></li>
+</ul>
+<p>The output is an <strong>analysis</strong>: an improved estimate of the state that can be
+used for diagnostics or as the initial condition for the next forecast.</p>
+<p>In ensemble methods, pyPDAF does this for an ensemble of model states. The spread
+of the ensemble represents forecast uncertainty. Observations then adjust the
+ensemble mean, and often the ensemble perturbations, according to the selected
+PDAF filter.</p>
+</section>
+<section id="the-pypdaf-division-of-responsibilities">
+<h2>The pyPDAF division of responsibilities<a class="headerlink" href="#the-pypdaf-division-of-responsibilities" title="Link to this heading">¶</a></h2>
+<p>PDAF provides the data assimilation algorithms. pyPDAF exposes those algorithms
+to Python and lets user code provide model-specific information through callback
+functions.</p>
+<p>Your application normally supplies:</p>
+<ul class="simple">
+<li><p>how to initialise the model state and ensemble;</p></li>
+<li><p>how to convert model fields to a one-dimensional state vector;</p></li>
+<li><p>how to distribute an analysis state vector back into the model;</p></li>
+<li><p>what observations are available at the current analysis time;</p></li>
+<li><p>how the observation operator maps state variables to observation space;</p></li>
+<li><p>observation error information and, for local filters, localisation metadata.</p></li>
+</ul>
+<p>pyPDAF handles:</p>
+<ul class="simple">
+<li><p>MPI communicator setup and ensemble organisation;</p></li>
+<li><p>calls into the selected PDAF algorithm;</p></li>
+<li><p>the timing of callback calls;</p></li>
+<li><p>observation handling through PDAFomi;</p></li>
+<li><p>analysis update and diagnostic helper routines.</p></li>
+</ul>
+</section>
+<section id="online-and-offline-modes">
+<h2>Online and offline modes<a class="headerlink" href="#online-and-offline-modes" title="Link to this heading">¶</a></h2>
+<p>In <strong>online mode</strong>, the model and the assimilation code are part of the same
+program. The model advances the ensemble, pyPDAF collects the forecast state in
+memory, computes the analysis, and returns the updated state to the model. This
+is usually the most efficient option when the model is written in Python or can
+be controlled directly from Python.</p>
+<p>In <strong>offline mode</strong>, the model run and the assimilation program are separate.
+The model writes forecast states to files, pyPDAF reads those states, computes
+the analysis, and writes updated states back to disk. This is useful when a
+model is difficult to couple directly or when pyPDAF is being added to an
+existing workflow.</p>
+</section>
+<section id="a-typical-online-cycle">
+<h2>A typical online cycle<a class="headerlink" href="#a-typical-online-cycle" title="Link to this heading">¶</a></h2>
+<p>The high-level pattern is:</p>
+<ol class="arabic simple">
+<li><p>Configure MPI communicators with <code class="docutils literal notranslate"><span class="pre">pyPDAF.set_parallel</span></code> or
+<code class="docutils literal notranslate"><span class="pre">pyPDAF.init_parallel</span></code>.</p></li>
+<li><p>Initialise PDAF with <code class="docutils literal notranslate"><span class="pre">pyPDAF.init</span></code>, passing the filter choice, dimensions,
+parameters, and callback functions.</p></li>
+<li><p>Initialise PDAFomi with <code class="docutils literal notranslate"><span class="pre">pyPDAF.PDAFomi.init</span></code> for observation handling.</p></li>
+<li><p>Call <code class="docutils literal notranslate"><span class="pre">pyPDAF.init_forecast</span></code> so PDAF can distribute initial ensemble states to the model tasks.</p></li>
+<li><p>Advance each ensemble member with the model until the next observation time.</p></li>
+<li><p>Call an assimilation driver such as <code class="docutils literal notranslate"><span class="pre">pyPDAF.assimilate</span></code>.</p></li>
+<li><p>Repeat forecast and analysis cycles.</p></li>
+<li><p>Call <code class="docutils literal notranslate"><span class="pre">pyPDAF.deallocate</span></code> before the program exits.</p></li>
+</ol>
+<p>The assimilation driver calls the user-supplied functions at the right time. For
+example, the driver may ask for observations, apply the observation operator,
+compute local observation dimensions, or distribute the analysis state.</p>
+</section>
+<section id="a-typical-offline-cycle">
+<h2>A typical offline cycle<a class="headerlink" href="#a-typical-offline-cycle" title="Link to this heading">¶</a></h2>
+<p>The offline workflow uses the same concepts, but the model state is exchanged
+through files instead of in-memory model variables:</p>
+<ol class="arabic simple">
+<li><p>Run the model ensemble and write forecast restart files.</p></li>
+<li><p>Start the pyPDAF offline assimilation program.</p></li>
+<li><p>Read model states in the callback that collects the forecast state.</p></li>
+<li><p>Provide observations and observation operators through PDAFomi callbacks.</p></li>
+<li><p>Call an offline driver such as <code class="docutils literal notranslate"><span class="pre">pyPDAF.assim_offline</span></code>.</p></li>
+<li><p>Write analysis states or restart files from the callback that distributes the
+analysis state.</p></li>
+<li><p>Run the model ensemble again from the new analysis.</p></li>
+</ol>
+</section>
+<section id="state-vectors-and-observations">
+<h2>State vectors and observations<a class="headerlink" href="#state-vectors-and-observations" title="Link to this heading">¶</a></h2>
+<p>PDAF works with one-dimensional state vectors. A model, however, usually stores
+fields as structured arrays, for example temperature on a grid or variables on
+different vertical levels. The user-supplied functions define the conversion
+between model fields and PDAF state vectors.</p>
+<p>Observations live in observation space. The observation operator maps a model
+state to the quantities that would be observed. For example, it may select a
+grid point, interpolate a gridded field to a station location, or compute a
+derived quantity. PDAFomi provides helper functions for common observation
+operators, interpolation coefficients, and localisation.</p>
+</section>
+<section id="choosing-where-to-start">
+<h2>Choosing where to start<a class="headerlink" href="#choosing-where-to-start" title="Link to this heading">¶</a></h2>
+<p>For a first implementation, keep the system small:</p>
+<ul class="simple">
+<li><p>use a serial or lightly parallel example first;</p></li>
+<li><p>choose one observation type;</p></li>
+<li><p>start with an established ensemble filter such as an ESTKF or LETKF-style
+setup;</p></li>
+<li><p>implement the callback functions with explicit shape checks;</p></li>
+<li><p>add localisation only after the global or simple local case is working;</p></li>
+<li><p>compare diagnostics before and after assimilation to verify that the analysis
+changes in the expected direction.</p></li>
+</ul>
+<p>After the basic cycle works, the API reference and user-function pages become
+the main guides for adding observation types, diagnostics, localisation, and
+parallel decomposition.</p>
+</section>
+<section id="inspecting-pdaf-filter-options">
+<h2>Inspecting PDAF filter options<a class="headerlink" href="#inspecting-pdaf-filter-options" title="Link to this heading">¶</a></h2>
+<p>PDAF uses integer identifiers for filter types and subtypes. pyPDAF exposes the
+PDAF information routines directly:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pyPDAF</span>
+
+<span class="n">pyPDAF</span><span class="o">.</span><span class="n">print_version</span><span class="p">()</span>
+<span class="n">pyPDAF</span><span class="o">.</span><span class="n">print_filter_types</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">pyPDAF</span><span class="o">.</span><span class="n">options_filters</span><span class="p">(</span><span class="n">filtertype</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">pyPDAF.print_version()</span></code> to check the linked PDAF version,
+<code class="docutils literal notranslate"><span class="pre">pyPDAF.print_filter_types(verbose=0)</span></code> to list available filter type numbers,
+and <code class="docutils literal notranslate"><span class="pre">pyPDAF.options_filters(filtertype)</span></code> to inspect the options for one filter.</p>
+<p>These routines are also installed as command-line tools:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pypdaf-version
+pypdaf-filter-types<span class="w"> </span>--verbose<span class="w"> </span><span class="m">0</span>
+pypdaf-filter-options<span class="w"> </span><span class="m">7</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">pyPDAF</a></h1>
+
+
+
+<p class="blurb">A Python interface to Parallel Data Assimilation Framework.</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=yumengch&repo=pyPDAF&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Data assimilation workflow</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-data-assimilation-does">What data assimilation does</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-pypdaf-division-of-responsibilities">The pyPDAF division of responsibilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#online-and-offline-modes">Online and offline modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-typical-online-cycle">A typical online cycle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-typical-offline-cycle">A typical offline cycle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#state-vectors-and-observations">State vectors and observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#choosing-where-to-start">Choosing where to start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#inspecting-pdaf-filter-options">Inspecting PDAF filter options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="naming_convention.html">Variable naming conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Parallelisation Strategy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarks.html">OpenMP benchmarks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_functions.html">User-supplied functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hidden_functions.html">Legacy and internal PDAF functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="links.html">Other useful links</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="install.html" title="previous chapter">Installation</a></li>
+      <li>Next: <a href="naming_convention.html" title="next chapter">Variable naming conventions</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025 University of Reading and National Centre for Earth Observation.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/workflow.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

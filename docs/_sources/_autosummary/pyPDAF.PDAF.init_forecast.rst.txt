@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAF.init\_forecast
+==========================
+
+.. currentmodule:: pyPDAF.PDAF
+
+.. autofunction:: init_forecast

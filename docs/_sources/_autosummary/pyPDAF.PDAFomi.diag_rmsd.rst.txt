@@ -1,0 +1,6 @@
+﻿pyPDAF.PDAFomi.diag\_rmsd
+=========================
+
+.. currentmodule:: pyPDAF.PDAFomi
+
+.. autofunction:: diag_rmsd
